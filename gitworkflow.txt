@@ -31,3 +31,5 @@ und integriere sie in den lokalen master (hoffentlich ohne Konflikte)
 master -> team -> push to upstream
 
 Nach erfolgreichem merge stelle ich meine Änderungen so dem remote master und damit den Anderen zur verfügung.
+
+neue zeile
