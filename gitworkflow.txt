@@ -1,6 +1,6 @@
 master -> pull
 
-Stehe auf lokalem master und hole mir neuste Commits. 
+Stehe auf lokalem master und hole mir neuste Commits! 
 (Bringe mich selbst up to date für sauberen Entwicklungsstand)
 
 master -> team -> switch to -> new banch (name.... okok)
