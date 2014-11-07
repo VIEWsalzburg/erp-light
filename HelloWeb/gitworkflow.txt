@@ -1,0 +1,33 @@
+master -> pull
+
+Stehe auf lokalem master und hole mir neuste Commits. 
+(Bringe mich selbst up to date für sauberen Entwicklungsstand)
+
+master -> team -> switch to -> new banch (name.... okok)
+
+Wechsle auf neuen lokalen Branch um sauberen Master-Stand zu erhalten.
+
+new branch -> happy coding
+
+Codiere auf meinem neunen Branch
+
+new branch -> commit (vernünftige commit message)
+
+Verpacke meine lokalen Änderungen auf dem neune Banch in ein Commit
+
+new branch -> switch to master
+
+Nach dem Commit wechsle ich auf den lokalen master
+
+master -> team -> pull
+
+ich bringe den lokalen master auf den neuesten Stand
+
+master -> team -> merge -> new branch wählen -> merge .....
+
+Vereinige den lokalen master mit dem neu erstellten branch. Das heißt ich nehme die commits des neuen branches 
+und integriere sie in den lokalen master (hoffentlich ohne Konflikte)
+
+master -> team -> push to upstream
+
+Nach erfolgreichem merge stelle ich meine Änderungen so dem remote master und damit den Anderen zur verfügung.
