@@ -13,6 +13,8 @@ public class FooController{
    public Greeting postListener(HttpServletRequest request, 
 	        HttpServletResponse response)
    {
+	   //Hallo miteinander
+	   
 	   System.out.println(request.getSession().getId());
 	   return new Greeting(11,"foo");
    }
