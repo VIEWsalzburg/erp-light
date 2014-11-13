@@ -38,23 +38,40 @@ public class DB_Test {
 			
 			dbTest.listPersons();
 			
-			
-			
-			/*Person mPerson = new Person();
+			Person mPerson = new Person();
 			mPerson.setAnrede("Herr");
 			mPerson.setTitel("");
-			mPerson.setVorname("Matthias");
-			mPerson.setNachname("Schnöll");
-			mPerson.setBemerkung("Cool");
-			mPerson.setAktualisierungsdatum(new Date(System.currentTimeMillis()));*/
+			mPerson.setVorname("Christof");
+			mPerson.setNachname("Haslauer");
+			mPerson.setBemerkung("Copadata");
+			mPerson.setAktualisierungsdatum(new Date(System.currentTimeMillis()));
 			
+			dbTest.addPerson(mPerson);
 			
-			
-			
+			dbTest.listPersons();
 			
 		return;
 		
 
+	}
+	
+	public void addPerson(Person mPerson) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			
+			int personId = (Integer) session.save(mPerson);
+			System.out.println("personId "+personId);
+			tx.commit();
+			
+		} catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 	}
 	
 	
