@@ -4,11 +4,15 @@ package at.erplight.model;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -40,6 +44,8 @@ public class Adresse implements java.io.Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="adresse_seq")
+	@SequenceGenerator(name="adresse_seq", sequenceName="adresse_adresse_id_seq", allocationSize=1)
 	@Column(name = "adresse_id", unique = true, nullable = false)
 	public int getAdresseId() {
 		return this.adresseId;

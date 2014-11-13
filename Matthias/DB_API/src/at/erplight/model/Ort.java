@@ -4,11 +4,15 @@ package at.erplight.model;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -43,6 +47,8 @@ public class Ort implements java.io.Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ort_seq")
+	@SequenceGenerator(name="ort_seq", sequenceName="ort_ort_id_seq", allocationSize=1)
 	@Column(name = "ort_id", unique = true, nullable = false)
 	public int getOrtId() {
 		return this.ortId;
