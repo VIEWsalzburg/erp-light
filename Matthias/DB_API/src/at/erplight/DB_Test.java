@@ -13,9 +13,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import at.erplight.model.Adresse;
-import at.erplight.model.Land;
-import at.erplight.model.Ort;
+import at.erplight.model.Address;
+import at.erplight.model.City;
+import at.erplight.model.Country;
 import at.erplight.model.Person;
 
 
@@ -25,10 +25,12 @@ public class DB_Test {
 	
 	public static void main(String[] args) {
 		
+			Configuration configuration;
+		
 			try {
 				// http://stackoverflow.com/questions/8621906/is-buildsessionfactory-deprecated-in-hibernate-4 - 13.11.2014 22:29
 				// http://www.tutorialspoint.com/hibernate/hibernate_examples.htm - 13.11.2014 22:30
-				Configuration configuration = new Configuration();
+				configuration = new Configuration();
 				configuration.configure("hibernate.cfg.xml");
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 				factory = configuration.buildSessionFactory(serviceRegistry);
@@ -41,38 +43,39 @@ public class DB_Test {
 			
 			dbTest.listPersons();
 			
-			Adresse mAdresse = new Adresse();
-			mAdresse.setAdresse("Alte Landstraße 10A");
+			Address mAdresse = new Address();
+			mAdresse.setAddress("Alte Landstraße 10A");
 			
-			Ort mOrt = new Ort();
-			mOrt.setPlz("5112");
-			mOrt.setOrt("Lamprechtshausen");
+			City mOrt = new City();
+			mOrt.setZip("5112");
+			mOrt.setCity("Lamprechtshausen");
 			
-			Land mLand = new Land();
-			mLand.setLand("Österreich");
+			Country mLand = new Country();
+			mLand.setCountry("Österreich");
 			
 			Person mPerson = new Person();
-			mPerson.setAnrede("Herr");
-			mPerson.setTitel("");
-			mPerson.setVorname("Matthias");
-			mPerson.setNachname("Schnöll");
-			mPerson.setBemerkung("programmiert die Datenbank");
-			mPerson.setAktualisierungsdatum(new Date(System.currentTimeMillis()));
-			mPerson.setAdresse(mAdresse);
-			mPerson.setOrt(mOrt);
-			mPerson.setLand(mLand);
+			mPerson.setSalutation("Herr");
+			mPerson.setTitle("");
+			mPerson.setFirstName("Matthias");
+			mPerson.setLastName("Schnöll");
+			mPerson.setComment("programmiert die Datenbank");
+			mPerson.setUpdateTimestamp(new Date(System.currentTimeMillis()));
+			mPerson.setAddress(mAdresse);
+			mPerson.setCity(mOrt);
+			mPerson.setCountry(mLand);
 			
 			dbTest.addPerson(mPerson);
 			
 			dbTest.listPersons();
 			
+			factory.close();
 			
 		return;
 		
 
 	}
 	
-	public int addLand(Land mLand) {
+	public int addLand(Country mLand) {
 		Session session = factory.openSession();
 		Transaction tx = null;
 		int landId = 0;
@@ -93,7 +96,7 @@ public class DB_Test {
 		return landId;
 	}
 	
-	public int addOrt(Ort mOrt) {
+	public int addOrt(City mOrt) {
 		Session session = factory.openSession();
 		Transaction tx = null;
 		int ortId = 0;
@@ -114,7 +117,7 @@ public class DB_Test {
 		return ortId;
 	}
 	
-	public int addAdresse(Adresse mAdresse) {
+	public int addAdresse(Address mAdresse) {
 		Session session = factory.openSession();
 		Transaction tx = null;
 		int adresseId = 0;
@@ -144,13 +147,13 @@ public class DB_Test {
 			tx = session.beginTransaction();
 			
 			// save Adresse
-			addAdresse(mPerson.getAdresse());
+			addAdresse(mPerson.getAddress());
 			
 			// save Ort
-			addOrt(mPerson.getOrt());
+			addOrt(mPerson.getCity());
 			
 			// save Land
-			addLand(mPerson.getLand());
+			addLand(mPerson.getCountry());
 			
 			personId = (Integer) session.save(mPerson);
 			System.out.println("personId "+personId);
@@ -176,9 +179,9 @@ public class DB_Test {
 			for (Iterator iterator = persons.iterator(); iterator.hasNext();)
 			{
 				Person person = (Person) iterator.next();
-				System.out.println(person.getPersonId()+" "+person.getAnrede()+" "+person.getTitel()+" "+
-						person.getVorname()+" "+person.getNachname()+" "+person.getBemerkung()+" "+person.getAdresse().getAdresse()+" "+
-						person.getOrt().getPlz()+" "+person.getOrt().getOrt()+" "+person.getLand().getLand());
+				System.out.println(person.getPersonId()+" "+person.getSalutation()+" "+person.getTitle()+" "+
+						person.getFirstName()+" "+person.getLastName()+" "+person.getComment()+" "+person.getAddress().getAddress()+" "+
+						person.getCity().getZip()+" "+person.getCity().getCity()+" "+person.getCountry().getCountry());
 			}
 			tx.commit();
 		} catch (HibernateException e) {

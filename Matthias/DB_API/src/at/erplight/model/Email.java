@@ -1,14 +1,13 @@
 package at.erplight.model;
 
-// Generated 14.11.2014 00:05:19 by Hibernate Tools 3.4.0.CR1
+// Generated 21.11.2014 00:35:55 by Hibernate Tools 3.4.0.CR1
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,21 +18,24 @@ import javax.persistence.Table;
 public class Email implements java.io.Serializable {
 
 	private int emailId;
-	private String email;
-	private Set<Person> persons = new HashSet<Person>(0);
+	private Person person;
+	private String loginEmail;
+	private int type;
 
 	public Email() {
 	}
 
-	public Email(int emailId, String email) {
+	public Email(int emailId, String loginEmail, int type) {
 		this.emailId = emailId;
-		this.email = email;
+		this.loginEmail = loginEmail;
+		this.type = type;
 	}
 
-	public Email(int emailId, String email, Set<Person> persons) {
+	public Email(int emailId, Person person, String loginEmail, int type) {
 		this.emailId = emailId;
-		this.email = email;
-		this.persons = persons;
+		this.person = person;
+		this.loginEmail = loginEmail;
+		this.type = type;
 	}
 
 	@Id
@@ -46,22 +48,32 @@ public class Email implements java.io.Serializable {
 		this.emailId = emailId;
 	}
 
-	@Column(name = "email", nullable = false, length = 100)
-	public String getEmail() {
-		return this.email;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "person_id")
+	public Person getPerson() {
+		return this.person;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "emails")
-	public Set<Person> getPersons() {
-		return this.persons;
+	@Column(name = "login_email", nullable = false, length = 50)
+	public String getLoginEmail() {
+		return this.loginEmail;
 	}
 
-	public void setPersons(Set<Person> persons) {
-		this.persons = persons;
+	public void setLoginEmail(String loginEmail) {
+		this.loginEmail = loginEmail;
+	}
+
+	@Column(name = "type", nullable = false)
+	public int getType() {
+		return this.type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 }
