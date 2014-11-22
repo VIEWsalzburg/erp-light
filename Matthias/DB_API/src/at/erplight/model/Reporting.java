@@ -1,6 +1,6 @@
 package at.erplight.model;
 
-// Generated 14.11.2014 00:05:19 by Hibernate Tools 3.4.0.CR1
+// Generated 21.11.2014 00:35:55 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -18,24 +18,24 @@ import javax.persistence.TemporalType;
 public class Reporting implements java.io.Serializable {
 
 	private int reportId;
-	private Date datum;
-	private String beschreibung;
-	private Character reportfile;
+	private Date date;
+	private String description;
+	private Character reportFile;
 
 	public Reporting() {
 	}
 
-	public Reporting(int reportId, Date datum) {
+	public Reporting(int reportId, Date date) {
 		this.reportId = reportId;
-		this.datum = datum;
+		this.date = date;
 	}
 
-	public Reporting(int reportId, Date datum, String beschreibung,
-			Character reportfile) {
+	public Reporting(int reportId, Date date, String description,
+			Character reportFile) {
 		this.reportId = reportId;
-		this.datum = datum;
-		this.beschreibung = beschreibung;
-		this.reportfile = reportfile;
+		this.date = date;
+		this.description = description;
+		this.reportFile = reportFile;
 	}
 
 	@Id
@@ -49,31 +49,31 @@ public class Reporting implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "datum", nullable = false, length = 13)
-	public Date getDatum() {
-		return this.datum;
+	@Column(name = "date", nullable = false, length = 13)
+	public Date getDate() {
+		return this.date;
 	}
 
-	public void setDatum(Date datum) {
-		this.datum = datum;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
-	@Column(name = "beschreibung", length = 1024)
-	public String getBeschreibung() {
-		return this.beschreibung;
+	@Column(name = "description", length = 1024)
+	public String getDescription() {
+		return this.description;
 	}
 
-	public void setBeschreibung(String beschreibung) {
-		this.beschreibung = beschreibung;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	@Column(name = "reportfile", length = 1)
-	public Character getReportfile() {
-		return this.reportfile;
+	@Column(name = "report_file", length = 1)
+	public Character getReportFile() {
+		return this.reportFile;
 	}
 
-	public void setReportfile(Character reportfile) {
-		this.reportfile = reportfile;
+	public void setReportFile(Character reportFile) {
+		this.reportFile = reportFile;
 	}
 
 }

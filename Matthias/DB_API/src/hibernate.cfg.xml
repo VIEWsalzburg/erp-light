@@ -4,7 +4,6 @@
 "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.password">root</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/ERP_light</property>
@@ -12,22 +11,24 @@
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.search.autoregister_listeners">false</property>
         <property name="hibernate.validator.apply_to_ddl">false</property>
-        <mapping class="at.erplight.model.Typ" />
-        <mapping class="at.erplight.model.Warenausgang" />
+        <mapping class="at.erplight.model.City" />
         <mapping class="at.erplight.model.Reporting" />
-        <mapping class="at.erplight.model.Ort" />
-        <mapping class="at.erplight.model.Lieferliste" />
-        <mapping class="at.erplight.model.Rechte" />
+        <mapping class="at.erplight.model.Country" />
+        <mapping class="at.erplight.model.Category" />
+        <mapping class="at.erplight.model.Platformuser" />
         <mapping class="at.erplight.model.Person" />
-        <mapping class="at.erplight.model.Wareneingang" />
-        <mapping class="at.erplight.model.Telefon" />
-        <mapping class="at.erplight.model.EingangsLieferung" />
-        <mapping class="at.erplight.model.Kundenlieferung" />
-        <mapping class="at.erplight.model.Land" />
-        <mapping class="at.erplight.model.Waren" />
+        <mapping class="at.erplight.model.Type" />
+        <mapping class="at.erplight.model.Telefone" />
+        <mapping class="at.erplight.model.Logging" />
+        <mapping class="at.erplight.model.OutgoingArticle" />
+        <mapping class="at.erplight.model.IncomingArticle" />
+        <mapping class="at.erplight.model.Permission" />
+        <mapping class="at.erplight.model.Address" />
+        <mapping class="at.erplight.model.OutgoingDelivery" />
+        <mapping class="at.erplight.model.Article" />
+        <mapping class="at.erplight.model.DeliveryList" />
         <mapping class="at.erplight.model.Email" />
-        <mapping class="at.erplight.model.Kategorie" />
-        <mapping class="at.erplight.model.Adresse" />
+        <mapping class="at.erplight.model.IncomingDelivery" />
         <mapping class="at.erplight.model.Organisation" />
     </session-factory>
 </hibernate-configuration>
