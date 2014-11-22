@@ -1,6 +1,6 @@
 package at.erplight.model;
 
-// Generated 21.11.2014 00:35:55 by Hibernate Tools 3.4.0.CR1
+// Generated 22.11.2014 18:02:50 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -13,10 +13,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -43,16 +43,16 @@ public class Person implements java.io.Serializable {
 	private Date updateTimestamp;
 	private int active;
 	private Set<Organisation> organisations = new HashSet<Organisation>(0);
-	private Set<Email> emails = new HashSet<Email>(0);
+	private Platformuser platformuser;
 	private Set<Type> types = new HashSet<Type>(0);
-	private Set<Person> persons = new HashSet<Person>(0);
-	private Set<Platformuser> platformusers = new HashSet<Platformuser>(0);
+	private Set<Email> emails = new HashSet<Email>(0);
 	private Set<IncomingDelivery> incomingDeliveries = new HashSet<IncomingDelivery>(
 			0);
+	private Set<Telefone> telefones = new HashSet<Telefone>(0);
 	private Set<OutgoingDelivery> outgoingDeliveries = new HashSet<OutgoingDelivery>(
 			0);
 	private Set<DeliveryList> deliveryLists = new HashSet<DeliveryList>(0);
-	private Set<Telefone> telefones = new HashSet<Telefone>(0);
+	private Set<Person> persons = new HashSet<Person>(0);
 
 	public Person() {
 	}
@@ -74,12 +74,11 @@ public class Person implements java.io.Serializable {
 			Organisation organisation, City city, Country country,
 			String salutation, String title, String firstName, String lastName,
 			String comment, Date updateTimestamp, int active,
-			Set<Organisation> organisations, Set<Email> emails,
-			Set<Type> types, Set<Person> persons,
-			Set<Platformuser> platformusers,
-			Set<IncomingDelivery> incomingDeliveries,
+			Set<Organisation> organisations, Platformuser platformuser,
+			Set<Type> types, Set<Email> emails,
+			Set<IncomingDelivery> incomingDeliveries, Set<Telefone> telefones,
 			Set<OutgoingDelivery> outgoingDeliveries,
-			Set<DeliveryList> deliveryLists, Set<Telefone> telefones) {
+			Set<DeliveryList> deliveryLists, Set<Person> persons) {
 		this.personId = personId;
 		this.person = person;
 		this.address = address;
@@ -94,19 +93,19 @@ public class Person implements java.io.Serializable {
 		this.updateTimestamp = updateTimestamp;
 		this.active = active;
 		this.organisations = organisations;
-		this.emails = emails;
+		this.platformuser = platformuser;
 		this.types = types;
-		this.persons = persons;
-		this.platformusers = platformusers;
+		this.emails = emails;
 		this.incomingDeliveries = incomingDeliveries;
+		this.telefones = telefones;
 		this.outgoingDeliveries = outgoingDeliveries;
 		this.deliveryLists = deliveryLists;
-		this.telefones = telefones;
+		this.persons = persons;
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="generator_person_id")
-	@SequenceGenerator(name="generator_person_id", sequenceName="person_person_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="gen_person_id")
+	@SequenceGenerator(name="gen_person_id", sequenceName="person_person_id_seq", allocationSize=1)
 	@Column(name = "person_id", unique = true, nullable = false)
 	public int getPersonId() {
 		return this.personId;
@@ -239,17 +238,16 @@ public class Person implements java.io.Serializable {
 		this.organisations = organisations;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-	public Set<Email> getEmails() {
-		return this.emails;
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "person")
+	public Platformuser getPlatformuser() {
+		return this.platformuser;
 	}
 
-	public void setEmails(Set<Email> emails) {
-		this.emails = emails;
+	public void setPlatformuser(Platformuser platformuser) {
+		this.platformuser = platformuser;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "person_type", schema = "public", joinColumns = { @JoinColumn(name = "person_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "type_id", nullable = false, updatable = false) })
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "persons")
 	public Set<Type> getTypes() {
 		return this.types;
 	}
@@ -259,21 +257,12 @@ public class Person implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-	public Set<Person> getPersons() {
-		return this.persons;
+	public Set<Email> getEmails() {
+		return this.emails;
 	}
 
-	public void setPersons(Set<Person> persons) {
-		this.persons = persons;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-	public Set<Platformuser> getPlatformusers() {
-		return this.platformusers;
-	}
-
-	public void setPlatformusers(Set<Platformuser> platformusers) {
-		this.platformusers = platformusers;
+	public void setEmails(Set<Email> emails) {
+		this.emails = emails;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
@@ -283,6 +272,15 @@ public class Person implements java.io.Serializable {
 
 	public void setIncomingDeliveries(Set<IncomingDelivery> incomingDeliveries) {
 		this.incomingDeliveries = incomingDeliveries;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+	public Set<Telefone> getTelefones() {
+		return this.telefones;
+	}
+
+	public void setTelefones(Set<Telefone> telefones) {
+		this.telefones = telefones;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
@@ -304,12 +302,12 @@ public class Person implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-	public Set<Telefone> getTelefones() {
-		return this.telefones;
+	public Set<Person> getPersons() {
+		return this.persons;
 	}
 
-	public void setTelefones(Set<Telefone> telefones) {
-		this.telefones = telefones;
+	public void setPersons(Set<Person> persons) {
+		this.persons = persons;
 	}
 
 }

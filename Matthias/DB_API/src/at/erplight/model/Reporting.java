@@ -1,6 +1,6 @@
 package at.erplight.model;
 
-// Generated 21.11.2014 00:35:55 by Hibernate Tools 3.4.0.CR1
+// Generated 22.11.2014 18:02:50 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
