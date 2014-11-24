@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Adressverwaltung</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<!-- Stylesheet -->
+	<link href="css/adressverwaltung.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		  <div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="#">ERP-light</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			  <ul class="nav navbar-nav">
+				<li><a href="home.html"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+				<li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Warenverwaltung</a></li>
+				<li class="active"><a href="adressverwaltung_personen.html"><span class="glyphicon glyphicon-list-alt"></span> Adressverwaltung</a></li>
+				<li><a href="#"><span class="glyphicon glyphicon-file"></span> Reporting</a></li>
+			  </ul>			  
+			  <ul class="nav navbar-nav navbar-right">				
+				<li class="dropdown">
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Benutzername <span class="caret"></span></a>
+				  <ul class="dropdown-menu" role="menu">
+					<li><a href="#"><span class="glyphicon glyphicon-user"></span> Meine Daten</a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-lock"></span> Passwort</a></li>					
+					<li class="divider"></li>
+					<li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
+				  </ul>
+				</li>
+			  </ul>
+			</div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>	
+	</header>
+	
+	<div class="container">
+		<div class="row" id="top">
+			<div class="col-md-12">
+				
+			</div>		  
+		</div>
+	
+		<div class="row" id="header">
+			<div class="col-md-12">			
+				<h2>Adressverwaltung</h2>
+				
+				<!-- Tabs -->
+				<ul class="nav nav-tabs">
+					<li role="presentation"><a href="adressverwaltung_personen.html">Personen</a></li>
+					<li role="presentation"><a href="adressverwaltung_organisationen.html">Organisationen</a></li>
+					<li role="presentation" class="active"><a href="adressverwaltung_kategorienverwaltung.html">Kategorienverwaltung</a></li>
+				</ul>
+				
+				<div class="tab-content">		
+					<div class="tab-pane" id="tab1">					
+						Content1
+					</div>								
+					<div class="tab-pane" id="tab2">
+						Content2
+					</div>
+					<div class="tab-pane active" id="tab3">
+						
+						<form role="form" class="form-inline">
+							<div class="form-group">							
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newModal"><span class="glyphicon glyphicon-plus"></span> Neu anlegen</button>							
+								
+									<div class="input-group suchfilter"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> Filter</span>
+										<input id="filter" type="text" class="form-control" placeholder="Filterbegriff eingeben...">
+									</div>													
+							</div>
+						</form>
+						<!-- Table -->
+						<div class="table-responsive">
+						<table class="table table-hover table-striped header-fixed" id="personen">
+						<thead class="personen">
+							<tr>
+								<th style="width: 3%">#</th>								
+								<th style="width: 10%">Name</th>
+								<th style="width: 87%">Beschreibung</th>															
+							</tr>
+						</thead>	
+						<tbody class="searchable">
+							<tr>
+								<td>1</td>
+								<td>Name1</td>
+								<td>Beschreibung1</td>															
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>Name2</td>
+								<td>Beschreibung2</td>															
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>Name3</td>
+								<td>Beschreibung3</td>															
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>Name4</td>
+								<td>Beschreibung4</td>															
+							</tr>
+							<tr>
+								<td>5</td>
+								<td>Name5</td>
+								<td>Beschreibung5</td>															
+							</tr>
+						</tbody>
+						</table>
+						</div>
+						<!-- Table end -->
+						
+						<!-- Modal für Hinzufügen -->
+						<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									  <div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+										<h4 class="modal-title">Neue Person</h4>
+									  </div>
+									  <div class="modal-body">
+											
+											<div class="row modalrow">
+											  <div class="col-md-6">											  
+												<form role="form" class="form-inline">
+													<div class="form-group">
+														<label>Anrede</label>												
+														<input type="text" class="form-control" id="anrede" placeholder="Anrede">																									
+													</div>
+												</form>											  
+											  </div>
+											  <div class="col-md-6">
+												<form role="form" class="form-inline">
+													<div class="form-group">																									
+														<label>Titel</label>
+														<input type="text" class="form-control" id="titel" placeholder="Titel">											
+													</div>
+												</form>											  
+											  </div>
+											</div>
+											
+											<div class="row modalrow">
+											  <div class="col-md-6">											  
+												<form role="form" class="form-inline">
+													<div class="form-group">
+														<label>Vorname</label>												
+														<input type="text" class="form-control" id="vorname" placeholder="Vorname">																									
+													</div>
+												</form>											  
+											  </div>
+											  <div class="col-md-6">
+												<form role="form" class="form-inline">
+													<div class="form-group">																									
+														<label>Nachname</label>
+														<input type="text" class="form-control" id="nachname" placeholder="Nachname">											
+													</div>
+												</form>											  
+											  </div>
+											</div>
+											
+											<div class="row modalrow">
+											  <div class="col-md-6">											  
+												<form role="form" class="form-inline">
+													<div class="form-group">
+														<label>Adresse</label>												
+														<input type="text" class="form-control" id="vorname" placeholder="Adresse">																									
+													</div>
+												</form>											  
+											  </div>
+											  <div class="col-md-6">
+												<form role="form" class="form-inline">
+													<div class="form-group">																									
+														<label>PLZ</label>
+														<input type="text" class="form-control" id="nachname" placeholder="PLZ">											
+													</div>
+												</form>											  
+											  </div>
+											</div>
+											
+											<div class="row modalrow">
+											  <div class="col-md-6">											  
+												<form role="form" class="form-inline">
+													<div class="form-group">
+														<label>Ort</label>												
+														<input type="text" class="form-control" id="vorname" placeholder="Ort">																									
+													</div>
+												</form>											  
+											  </div>
+											  <div class="col-md-6">
+												<form role="form" class="form-inline">
+													<div class="form-group">																									
+														<label>Land</label>
+														<input type="text" class="form-control" id="nachname" placeholder="Land">											
+													</div>
+												</form>											  
+											  </div>
+											</div>
+
+											<div class="row modalrow">
+											  <div class="col-md-6">											  
+												<form role="form" class="form-inline">
+													<div class="form-group">
+														<label>E-Mail</label>												
+														<input type="text" class="form-control" id="vorname" placeholder="E-Mail">																									
+													</div>
+												</form>											  
+											  </div>											  
+											</div>
+											
+											<div class="row modalrow">
+											  <div class="col-md-6">											  
+												<form role="form" class="form-inline">
+													<div class="form-group">
+														<label>Telefonnr.</label>												
+														<input type="text" class="form-control" id="vorname" placeholder="Telefonnr.">																									
+													</div>
+												</form>											  
+											  </div>
+											  <div class="col-md-6">
+												<select class="form-control">
+												  <option>1</option>
+												  <option>2</option>
+												  <option>3</option>
+												  <option>4</option>
+												  <option>5</option>
+												</select>									  
+												</div>
+											</div>
+											
+											<div class="row modalrow">
+											  <div class="col-md-6">											  
+												<button type="button" class="btn btn-default"> Telefonnr. hinzufuegen</button>					  
+											  </div>
+											  <div class="col-md-6">
+												<button type="button" class="btn btn-default"> Loeschen</button>								  
+											  </div>
+											</div>
+										
+									  </div>
+									  <div class="modal-footer">										
+										<button type="button" class="btn btn-default" data-dismiss="modal"> Abbrechen</button>
+										<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Speichern</button>
+									  </div>
+								</div><!-- /.modal-content -->
+							</div><!-- /.modal-dialog -->
+						</div><!-- /.modal -->
+						
+					</div>
+				</div>
+				
+			</div>		  
+		</div>
+		
+		<div class="row" id="body">
+			<div class="col-md-12">				
+				
+			</div>
+		</div>
+		
+		<div class="row" id="footer">
+			<div class="col-md-4">					
+			</div>
+			<div class="col-md-4">
+				<form role="form" class="form-inline">
+							<div class="form-group bottom">
+								<button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Bearbeiten</button>
+								<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Loeschen</button>								
+							</div>							
+				</form>
+			</div>			
+		</div>
+	</div>	
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	<!-- Filterfunktion -->
+	<script>
+		$(document).ready(function () {
+
+		(function ($) {
+			$('#filter').keyup(function () {
+
+				var rex = new RegExp($(this).val(), 'i');
+				$('.searchable tr').hide();
+				$('.searchable tr').filter(function () {
+					return rex.test($(this).text());
+				}).show();
+			})
+		}(jQuery));
+	});
+	</script>
+	
+</body>
+</html>

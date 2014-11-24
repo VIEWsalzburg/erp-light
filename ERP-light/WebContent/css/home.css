@@ -1,0 +1,54 @@
+@CHARSET "UTF-8";
+
+body{		
+	background-color: #45A12B;
+}
+
+.container{
+	background-color: #000;
+}
+
+.navbar-default{
+  
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    background-color: #45A12B;
+    color: #FFF;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {    
+    background-color: #45A12B;
+	color: #FFF;
+}
+
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+	background-color: #45A12B;
+	color: #FFF;
+}
+
+#top
+{
+	height: 60px;
+	background-color: #45A12B;
+}
+
+#header
+{	
+	height: 70px;
+	background-color: #FFF;	
+}
+
+#body
+{	
+	height: 450px;
+	background-color: #FFF;	
+}
+
+#footer
+{	
+	height: 45px;
+	background-color: #333333;
+	color: #FFF;
+}
+
