@@ -2,6 +2,7 @@ package at.erplight;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 
@@ -17,6 +18,8 @@ import at.erplight.model.Address;
 import at.erplight.model.City;
 import at.erplight.model.Country;
 import at.erplight.model.Person;
+import at.erplight.services.DataBaseService;
+import at.erplight.services.IDataBase;
 
 
 public class DB_Test {
@@ -25,20 +28,27 @@ public class DB_Test {
 	
 	public static void main(String[] args) {
 		
-			Configuration configuration;
+			IDataBase mDatabase = DataBaseService.getInstance();
+			mDatabase.openSession();
 		
-			try {
-				// http://stackoverflow.com/questions/8621906/is-buildsessionfactory-deprecated-in-hibernate-4 - 13.11.2014 22:29
-				// http://www.tutorialspoint.com/hibernate/hibernate_examples.htm - 13.11.2014 22:30
-				configuration = new Configuration();
-				configuration.configure("hibernate.cfg.xml");
-				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-				factory = configuration.buildSessionFactory(serviceRegistry);
-				
-			} catch (Throwable ex) {
-				System.err.println("Failed to create sessionFactory object."+ex);
+			List<Person> allPersons = mDatabase.getAllPersons();
+			
+			for (Person person : allPersons)
+			{
+				System.out.println(person.getPersonId()+" "+person.getSalutation()+" "+person.getTitle()+" "+
+						person.getFirstName()+" "+person.getLastName()+" "+person.getComment()+" "+person.getAddress().getAddress()+" "+
+						person.getCity().getZip()+" "+person.getCity().getCity()+" "+person.getCountry().getCountry());
 			}
-		
+			
+			
+			mDatabase.closeSession();
+			mDatabase.closeFactory();
+			
+			
+			
+			
+			
+			/*
 			DB_Test dbTest = new DB_Test();
 			
 			dbTest.listPersons();
@@ -69,6 +79,7 @@ public class DB_Test {
 			dbTest.listPersons();
 			
 			factory.close();
+			*/
 			
 		return;
 		

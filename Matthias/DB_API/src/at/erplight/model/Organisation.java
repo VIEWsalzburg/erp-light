@@ -1,6 +1,6 @@
 package at.erplight.model;
 
-// Generated 21.11.2014 00:35:55 by Hibernate Tools 3.4.0.CR1
+// Generated 22.11.2014 18:02:50 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -25,7 +26,6 @@ import javax.persistence.TemporalType;
 public class Organisation implements java.io.Serializable {
 
 	private int organisationId;
-	private Type type;
 	private Address address;
 	private City city;
 	private Person person;
@@ -38,17 +38,17 @@ public class Organisation implements java.io.Serializable {
 	private Set<Person> persons = new HashSet<Person>(0);
 	private Set<IncomingDelivery> incomingDeliveries = new HashSet<IncomingDelivery>(
 			0);
+	private Set<Type> types = new HashSet<Type>(0);
 	private Set<OutgoingDelivery> outgoingDeliveries = new HashSet<OutgoingDelivery>(
 			0);
 
 	public Organisation() {
 	}
 
-	public Organisation(int organisationId, Type type, Address address,
-			City city, Person person, Country country, String name,
-			String comment, Date updateTimestamp, int active) {
+	public Organisation(int organisationId, Address address, City city,
+			Person person, Country country, String name, String comment,
+			Date updateTimestamp, int active) {
 		this.organisationId = organisationId;
-		this.type = type;
 		this.address = address;
 		this.city = city;
 		this.person = person;
@@ -59,14 +59,12 @@ public class Organisation implements java.io.Serializable {
 		this.active = active;
 	}
 
-	public Organisation(int organisationId, Type type, Address address,
-			City city, Person person, Country country, String name,
-			String comment, Date updateTimestamp, int active,
-			Set<Category> categories, Set<Person> persons,
-			Set<IncomingDelivery> incomingDeliveries,
-			Set<OutgoingDelivery> outgoingDeliveries) {
+	public Organisation(int organisationId, Address address, City city,
+			Person person, Country country, String name, String comment,
+			Date updateTimestamp, int active, Set<Category> categories,
+			Set<Person> persons, Set<IncomingDelivery> incomingDeliveries,
+			Set<Type> types, Set<OutgoingDelivery> outgoingDeliveries) {
 		this.organisationId = organisationId;
-		this.type = type;
 		this.address = address;
 		this.city = city;
 		this.person = person;
@@ -78,6 +76,7 @@ public class Organisation implements java.io.Serializable {
 		this.categories = categories;
 		this.persons = persons;
 		this.incomingDeliveries = incomingDeliveries;
+		this.types = types;
 		this.outgoingDeliveries = outgoingDeliveries;
 	}
 
@@ -89,16 +88,6 @@ public class Organisation implements java.io.Serializable {
 
 	public void setOrganisationId(int organisationId) {
 		this.organisationId = organisationId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "type_id", nullable = false)
-	public Type getType() {
-		return this.type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -178,7 +167,8 @@ public class Organisation implements java.io.Serializable {
 		this.active = active;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "organisations")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "relorgcat", schema = "public", joinColumns = { @JoinColumn(name = "organisation_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "category_id", nullable = false, updatable = false) })
 	public Set<Category> getCategories() {
 		return this.categories;
 	}
@@ -203,6 +193,15 @@ public class Organisation implements java.io.Serializable {
 
 	public void setIncomingDeliveries(Set<IncomingDelivery> incomingDeliveries) {
 		this.incomingDeliveries = incomingDeliveries;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "organisations")
+	public Set<Type> getTypes() {
+		return this.types;
+	}
+
+	public void setTypes(Set<Type> types) {
+		this.types = types;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
