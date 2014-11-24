@@ -2,11 +2,16 @@ package at.erplight.services;
 
 import java.util.List;
 
-import at.erplight.model.Person;
 import at.erplight.model.*;
 
 public interface IDataBase {
-
+	
+	public void openSession();
+	
+	public void closeSession();
+	
+	public void closeFactory();
+	
 	// Persons
 	public Person getPersonById(int id);
 	public List<Person> getPersonsByType(Type type);
