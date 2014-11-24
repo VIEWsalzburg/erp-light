@@ -4,12 +4,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import org.omg.CORBA.OBJ_ADAPTER;
 
 import at.erplight.model.Article;
 import at.erplight.model.Category;
@@ -64,12 +66,26 @@ public class DataBaseService implements IDataBase {
 		if (factory != null)
 			factory.close();
 	}
-	
-	
+		
 	@Override
 	public Person getPersonById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Transaction tx = null;
+		Person person = new Person();
+		
+		try {
+			tx = session.beginTransaction();
+			Query query = session.createQuery("FROM Person p WHERE p.personId = :id");
+			query.setParameter("id", id);
+			person = (Person)query.uniqueResult();
+			tx.commit();
+		} catch (HibernateException e){
+				if (tx!=null) tx.rollback();
+				e.printStackTrace();
+		} finally {
+			
+		}
+		
+		return person;
 	}
 
 	@Override
@@ -106,8 +122,31 @@ public class DataBaseService implements IDataBase {
 
 	@Override
 	public int setPerson(Person person) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		Transaction tx = null;
+		int personId = 0;
+		
+		try {
+			tx = session.beginTransaction();
+			
+			// ask for existing person with the provided personId
+			Person updatePerson = getPersonById(person.getPersonId());
+			if (updatePerson!=null)
+			{
+				updatePerson = person;
+			} else {
+				personId = (Integer) session.save(person);
+			}
+			
+			tx.commit();
+			
+		} catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace();
+		} finally {
+			
+		}
+		return personId;
 	}
 
 	@Override
