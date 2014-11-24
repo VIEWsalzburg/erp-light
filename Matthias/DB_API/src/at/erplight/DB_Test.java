@@ -12,6 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.engine.transaction.jta.platform.internal.TransactionManagerAccess;
 import org.hibernate.service.ServiceRegistry;
 
 import at.erplight.model.Address;
@@ -31,13 +32,37 @@ public class DB_Test {
 			IDataBase mDatabase = DataBaseService.getInstance();
 			mDatabase.openSession();
 		
+			System.out.println("Before insert:");
+			
 			List<Person> allPersons = mDatabase.getAllPersons();
 			
 			for (Person person : allPersons)
 			{
 				System.out.println(person.getPersonId()+" "+person.getSalutation()+" "+person.getTitle()+" "+
-						person.getFirstName()+" "+person.getLastName()+" "+person.getComment()+" "+person.getAddress().getAddress()+" "+
-						person.getCity().getZip()+" "+person.getCity().getCity()+" "+person.getCountry().getCountry());
+						person.getFirstName()+" "+person.getLastName()+" "+person.getComment());
+			}
+
+			
+			Person matthias = new Person();
+			matthias.setActive(1);
+			matthias.setTitle("Dr.");
+			matthias.setSalutation("Herr");
+			matthias.setFirstName("Matthias");
+			matthias.setLastName("Schnöll");
+			matthias.setComment("cool ;-)");
+			matthias.setPersonId(2);
+			matthias.setUpdateTimestamp(new Date(System.currentTimeMillis()));
+			
+			mDatabase.setPerson(matthias);
+			
+			System.out.println("After insert:");
+			
+			allPersons = mDatabase.getAllPersons();
+			
+			for (Person person : allPersons)
+			{
+				System.out.println(person.getPersonId()+" "+person.getSalutation()+" "+person.getTitle()+" "+
+						person.getFirstName()+" "+person.getLastName()+" "+person.getComment());
 			}
 			
 			

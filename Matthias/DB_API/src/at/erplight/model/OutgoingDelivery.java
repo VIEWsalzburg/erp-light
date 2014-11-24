@@ -1,6 +1,6 @@
 package at.erplight.model;
 
-// Generated 22.11.2014 18:02:50 by Hibernate Tools 3.4.0.CR1
+// Generated 24.11.2014 20:09:12 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -36,10 +36,9 @@ public class OutgoingDelivery implements java.io.Serializable {
 	public OutgoingDelivery() {
 	}
 
-	public OutgoingDelivery(int outgoingDeliveryId, DeliveryList deliveryList,
-			Organisation organisation, Person person, Date date, String comment) {
+	public OutgoingDelivery(int outgoingDeliveryId, Organisation organisation,
+			Person person, Date date, String comment) {
 		this.outgoingDeliveryId = outgoingDeliveryId;
-		this.deliveryList = deliveryList;
 		this.organisation = organisation;
 		this.person = person;
 		this.date = date;
@@ -70,7 +69,7 @@ public class OutgoingDelivery implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "delivery_list_id", nullable = false)
+	@JoinColumn(name = "delivery_list_id")
 	public DeliveryList getDeliveryList() {
 		return this.deliveryList;
 	}
