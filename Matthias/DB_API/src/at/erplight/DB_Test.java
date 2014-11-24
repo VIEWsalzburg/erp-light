@@ -21,7 +21,6 @@ import at.erplight.model.Country;
 import at.erplight.model.Person;
 import at.erplight.services.DataBaseService;
 import at.erplight.services.IDataBase;
-import at.erplight.services.NoResultException;
 
 
 public class DB_Test {
