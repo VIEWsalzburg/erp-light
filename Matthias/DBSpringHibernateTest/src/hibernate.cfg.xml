@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory >
+  <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+  
+  
+  
+  
+  <!-- <property name="hibernate.connection.driver_class">org.postgresql.Driver</property> -->
+  <!-- <property name="hibernate.connection.password">root</property> -->
+  <!-- <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/ERP_light</property> -->
+  <!-- <property name="hibernate.connection.username">postgres</property> -->
+  <!-- <property name="hibernate.search.autoregister_listeners">false</property> -->
+  <!-- <property name="hibernate.validator.apply_to_ddl">false</property> -->
+  
+  <mapping class="at.erp.light.view.model.City"/>
+  <mapping class="at.erp.light.view.model.IncomingDelivery"/>
+  <mapping class="at.erp.light.view.model.Permission"/>
+  <mapping class="at.erp.light.view.model.Logging"/>
+  <mapping class="at.erp.light.view.model.DeliveryList"/>
+  <mapping class="at.erp.light.view.model.Platformuser"/>
+  <mapping class="at.erp.light.view.model.OutgoingDelivery"/>
+  <mapping class="at.erp.light.view.model.Telefone"/>
+  <mapping class="at.erp.light.view.model.Email"/>
+  <mapping class="at.erp.light.view.model.Address"/>
+  <mapping class="at.erp.light.view.model.Type"/>
+  <mapping class="at.erp.light.view.model.Article"/>
+  <mapping class="at.erp.light.view.model.IncomingArticle"/>
+  <mapping class="at.erp.light.view.model.Organisation"/>
+  <mapping class="at.erp.light.view.model.Country"/>
+  <mapping class="at.erp.light.view.model.Person"/>
+  <mapping class="at.erp.light.view.model.Category"/>
+  <mapping class="at.erp.light.view.model.OutgoingArticle"/>
+  <mapping class="at.erp.light.view.model.Reporting"/>
+ </session-factory>
+</hibernate-configuration>

@@ -1,6 +1,6 @@
 package at.erplight.model;
 
-// Generated 22.11.2014 18:02:50 by Hibernate Tools 3.4.0.CR1
+// Generated 24.11.2014 20:09:12 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
