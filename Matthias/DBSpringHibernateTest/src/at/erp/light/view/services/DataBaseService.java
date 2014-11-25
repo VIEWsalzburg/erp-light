@@ -3,6 +3,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 
 import at.erp.light.view.model.Article;
@@ -29,15 +30,12 @@ public class DataBaseService implements IDataBase {
 	@Override
 	@Transactional
 	public Person getPersonById(int id) {
-		
-		/*Query query = SessionFactory..createQuery("FROM Person p WHERE p.personId = :id");
+				
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p WHERE p.personId = :id");
 		query.setParameter("id", id);
 		Person person = (Person)query.uniqueResult();
 		
-		
-		
-		return person;*/
-		return null;
+		return person;
 	}
 
 	@Override
