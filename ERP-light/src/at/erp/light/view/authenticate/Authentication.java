@@ -5,6 +5,10 @@ public class Authentication {
 	private String username;
 	private String password;
 
+	public Authentication() {
+		super();
+	}
+
 	public Authentication(int id, String username, String password) {
 		super();
 		this.id = id;

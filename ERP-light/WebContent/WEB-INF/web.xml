@@ -26,7 +26,7 @@
 	
 	<filter-mapping>
 	   <filter-name>SecurityFilter</filter-name>
-	   <url-pattern>/rest/secure/*</url-pattern>
+	   <url-pattern>/secure/*</url-pattern>
 	</filter-mapping>
  
 </web-app>

@@ -26,8 +26,15 @@ public class SecurityFilter implements Filter {
 		HttpServletResponse httpServletResponse = null;
 
 		if (request instanceof HttpServletRequest) {
+			System.out.println("Killing request");
+
+			
 			if (response instanceof HttpServletResponse) {
 				httpServletResponse = (HttpServletResponse) response;
+				
+				httpServletResponse.setHeader("Cache-Control", "no-cache");
+				httpServletResponse.setDateHeader("Expires", 0);
+				httpServletResponse.setHeader("Pragma", "No-cache");
 
 				httpServletRequest = (HttpServletRequest) request;
 
@@ -40,7 +47,9 @@ public class SecurityFilter implements Filter {
 					return;
 				} else {
 					//If authentication unsuccessful
-					httpServletResponse.sendRedirect("http://www.google.com");
+					
+					httpServletResponse.setContentType("text/html");
+					httpServletResponse.sendRedirect("../");
 					return;
 				}
 			}
