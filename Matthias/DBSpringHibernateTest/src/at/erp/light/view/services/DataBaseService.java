@@ -3,6 +3,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 
@@ -17,7 +18,7 @@ import at.erp.light.view.model.OutgoingDelivery;
 import at.erp.light.view.model.Person;
 import at.erp.light.view.model.Type;
 
-
+@Transactional
 public class DataBaseService implements IDataBase {
 
 	private SessionFactory sessionFactory;
@@ -28,12 +29,90 @@ public class DataBaseService implements IDataBase {
 
 		
 	@Override
-	@Transactional
 	public Person getPersonById(int id) {
 				
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p WHERE p.personId = :id");
 		query.setParameter("id", id);
 		Person person = (Person)query.uniqueResult();
+		
+		return person;
+	}
+	
+	@Override
+	public Person getPersonById(int id, int FetchFlags) {
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p WHERE p.personId = :id");
+		query.setParameter("id", id);
+		Person person = (Person)query.uniqueResult();
+		
+		if ( (FetchFlags&Person.FETCH_ADDRESS)!=0)
+		{
+			Hibernate.initialize(person.getAddress());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_CITY)!=0)
+		{
+			Hibernate.initialize(person.getCity());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_COUNTRY)!=0)
+		{
+			Hibernate.initialize(person.getCountry());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_PLATFORMUSER)!=0)
+		{
+			Hibernate.initialize(person.getPlatformuser());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_TYPES)!=0)
+		{
+			Hibernate.initialize(person.getTypes());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_EMAILS)!=0)
+		{
+			Hibernate.initialize(person.getEmails());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_TELEFONES)!=0)
+		{
+			Hibernate.initialize(person.getTelefones());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_UPDATED_BY_PERSON)!=0)
+		{
+			Hibernate.initialize(person.getPerson());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_ORGANISATION_CONTACT)!=0)
+		{
+			Hibernate.initialize(person.getOrganisation());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_ORGANISATIONS_UPDATED)!=0)
+		{
+			Hibernate.initialize(person.getOrganisations());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_OUTGOINGDELIVERIES_UPDATED)!=0)
+		{
+			Hibernate.initialize(person.getOutgoingDeliveries());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_INCOMINGDELIVERIES_UPDATED)!=0)
+		{
+			Hibernate.initialize(person.getIncomingDeliveries());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_PERSONS_UPDATED)!=0)
+		{
+			Hibernate.initialize(person.getPersons());
+		}
+		
+		if ( (FetchFlags&Person.FETCH_DELIVERYLISTS_UPDATED)!=0)
+		{
+			Hibernate.initialize(person.getDeliveryLists());
+		}
 		
 		return person;
 	}
@@ -45,7 +124,6 @@ public class DataBaseService implements IDataBase {
 	}
 
 	@Override
-	@Transactional
 	public List<Person> getAllPersons() {
 		@SuppressWarnings("unchecked")
 		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person").list();
@@ -59,34 +137,24 @@ public class DataBaseService implements IDataBase {
 	}
 
 	@Override
-	@Transactional
 	public int setPerson(Person person) {
 		
-//		Transaction tx = null;
-//		int personId = 0;
-//		
-//		try {
-//			tx = session.beginTransaction();
-//			
-//			// ask for existing person with the provided personId
-//			Person updatePerson = getPersonById(person.getPersonId());
-//			if (updatePerson!=null)
-//			{
-//				updatePerson = person;
-//			} else {
-//				personId = (Integer) session.save(person);
-//			}
-//			
-//			tx.commit();
-//			
-//		} catch (HibernateException e) {
-//			if (tx!=null) tx.rollback();
-//			e.printStackTrace();
-//		} finally {
-//			
-//		}
-//		return personId;
-		return 0;
+		int personId = 0;
+		// ask for existing person with the provided personId
+		Person existingPerson = getPersonById(person.getPersonId());
+		if (existingPerson != null)
+		{
+			existingPerson.setTitle(person.getTitle());
+			existingPerson.setSalutation(person.getSalutation());
+			existingPerson.setFirstName(person.getFirstName());
+			existingPerson.setLastName(person.getLastName());
+			existingPerson.setComment(person.getComment());
+			existingPerson.setActive(person.getActive());
+		} else {
+			personId = (Integer) sessionFactory.getCurrentSession().save(person);
+		}
+		
+		return personId;
 	}
 
 	@Override

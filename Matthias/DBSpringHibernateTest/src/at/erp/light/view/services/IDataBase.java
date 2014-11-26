@@ -17,6 +17,7 @@ public interface IDataBase {
 	
 	// Persons
 	public Person getPersonById(int id);
+	Person getPersonById(int id, int FetchFlags);
 	public List<Person> getPersonsByType(Type type);
 	public List<Person> getAllPersons();
 	public Person getPersonByLoginEmail(String loginEmail);
@@ -73,5 +74,6 @@ public interface IDataBase {
 	
 	public int setDeliveryList(DeliveryList deliveryList);
 	public int setDeliveryLists(List<DeliveryList> deliveryLists);
+	
 
 }

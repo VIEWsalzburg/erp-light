@@ -24,8 +24,6 @@ public class Address implements java.io.Serializable {
 
 	private int addressId;
 	private String address;
-	private Set<Person> persons = new HashSet<Person>(0);
-	private Set<Organisation> organisations = new HashSet<Organisation>(0);
 
 	public Address() {
 	}
@@ -33,14 +31,6 @@ public class Address implements java.io.Serializable {
 	public Address(int addressId, String address) {
 		this.addressId = addressId;
 		this.address = address;
-	}
-
-	public Address(int addressId, String address, Set<Person> persons,
-			Set<Organisation> organisations) {
-		this.addressId = addressId;
-		this.address = address;
-		this.persons = persons;
-		this.organisations = organisations;
 	}
 
 	@Id
@@ -62,24 +52,6 @@ public class Address implements java.io.Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "address")
-	public Set<Person> getPersons() {
-		return this.persons;
-	}
-
-	public void setPersons(Set<Person> persons) {
-		this.persons = persons;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "address")
-	public Set<Organisation> getOrganisations() {
-		return this.organisations;
-	}
-
-	public void setOrganisations(Set<Organisation> organisations) {
-		this.organisations = organisations;
 	}
 
 }
