@@ -21,6 +21,7 @@ public class AuthenticateController{
    {   
 	   log.info("Authenticating user: " + authentication.getUsername() + " with Password: " + authentication.getPassword());
 	   //If submitted password valid: 
+	   request.getSession().setAttribute("username", authentication.getUsername());
 	   request.getSession().setAttribute("authenticated", true);
 	   return new Authentication(11,authentication.getUsername(), authentication.getPassword());
    }

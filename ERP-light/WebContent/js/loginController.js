@@ -1,5 +1,3 @@
-var user;
-
 $("#btn_submit").click(function() {
 	$.ajax({
 		type : "POST",
@@ -11,10 +9,10 @@ $("#btn_submit").click(function() {
 		}
 	}).done(function(data) {
 		if (data != null) {
-			user=data;
 			window.location.replace("secure/home.html");
 		} else {
 			alert("whoops something went wrong");
 		}
 	});
+	return false;
 });

@@ -10,8 +10,6 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 	<!-- Stylesheet -->
 	<link href="../css/home.css" rel="stylesheet">
-	<script src="../js/loginController.js"></script>	
-	
 </head>
 <body>
 	<header>
@@ -38,7 +36,7 @@
 			  </ul>			  
 			  <ul class="nav navbar-nav navbar-right">				
 				<li class="dropdown">
-				  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span><script type="text/javascript">document.write(user.username);</script><span class="caret"></span></a>
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span><span id="username"></span><span class="caret"></span></a>
 				  <ul class="dropdown-menu" role="menu">
 					<li><a href="#" data-toggle="modal" data-target="#meinedatenModal"><span class="glyphicon glyphicon-user"></span> Meine Daten</a></li>
 					<li><a href="#" data-toggle="modal" data-target="#passwortModal"><span class="glyphicon glyphicon-lock"></span> Passwort</a></li>					
@@ -361,7 +359,8 @@
 	</div>	
 	
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../js/jquery-1.11.1.js"></script>
+    <script src="../js/userdataController.js"></script>	
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.min.js"></script>	
 </body>
