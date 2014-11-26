@@ -18,6 +18,7 @@
 	        	<th>FirstName</th>
 	        	<th>LastName</th>
 	        	<th>Kommentar</th>
+	        	<th>active</th>
 	        	
 				<c:forEach var="person" items="${allPersons}" >
 	        	<tr>
@@ -27,10 +28,12 @@
 					<td>${person.firstName}</td>
 					<td>${person.lastName}</td>
 					<td>${person.comment}</td>
+					<td>${person.active}</td>
 							
 	        	</tr>
 				</c:forEach>	        	
         	</table>
+        	<p>localhost:8080/DBSpringHibernateTest/Person/set/?id=2&salutation=Herr&title=&firstname=Matthias&lastname=Schnöll&comment=Geht gerne Biken im Bikepark Leogang und Schladming!&active=1</p>
         </div>
     </body>
 </html>
