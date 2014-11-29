@@ -1,11 +1,11 @@
 package at.erp.light.view.services;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.Category;
@@ -18,7 +18,7 @@ import at.erp.light.view.model.OutgoingDelivery;
 import at.erp.light.view.model.Person;
 import at.erp.light.view.model.Type;
 
-@Transactional
+
 public class DataBaseService implements IDataBase {
 
 	private SessionFactory sessionFactory;
@@ -29,15 +29,15 @@ public class DataBaseService implements IDataBase {
 
 		
 	@Override
-	public Person getPersonById(int id) {
-				
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Person getPersonById(int id) {				
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p WHERE p.personId = :id");
 		query.setParameter("id", id);
 		Person person = (Person)query.uniqueResult();
-		
 		return person;
 	}
 	
+	@Transactional(propagation=Propagation.REQUIRED)
 	@Override
 	public Person getPersonById(int id, int FetchFlags) {
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p WHERE p.personId = :id");
@@ -124,6 +124,7 @@ public class DataBaseService implements IDataBase {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Person> getAllPersons() {
 		@SuppressWarnings("unchecked")
 		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person").list();
@@ -137,24 +138,32 @@ public class DataBaseService implements IDataBase {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public int setPerson(Person person) {
 		
-		int personId = 0;
-		// ask for existing person with the provided personId
-		Person existingPerson = getPersonById(person.getPersonId());
-		if (existingPerson != null)
-		{
-			existingPerson.setTitle(person.getTitle());
-			existingPerson.setSalutation(person.getSalutation());
-			existingPerson.setFirstName(person.getFirstName());
-			existingPerson.setLastName(person.getLastName());
-			existingPerson.setComment(person.getComment());
-			existingPerson.setActive(person.getActive());
-		} else {
-			personId = (Integer) sessionFactory.getCurrentSession().save(person);
-		}
+		// 
 		
-		return personId;
+		sessionFactory.getCurrentSession().saveOrUpdate(person);
+		return person.getPersonId();
+		
+//		int personId = 0;
+//		// ask for existing person with the provided personId
+//		Person existingPerson = getPersonById(person.getPersonId());
+//		if (existingPerson != null)
+//		{
+//			existingPerson.setSalutation(person.getSalutation());
+//			existingPerson.setTitle(person.getTitle());
+//			existingPerson.setFirstName(person.getFirstName());
+//			existingPerson.setLastName(person.getLastName());
+//			existingPerson.setComment(person.getComment());
+//			existingPerson.setUpdateTimestamp(person.getUpdateTimestamp());
+//			existingPerson.setActive(person.getActive());
+//		} else {
+//			personId = (Integer) sessionFactory.getCurrentSession().save(person);
+//		}
+//		
+//		return personId;
+		
 	}
 
 	@Override
@@ -164,9 +173,12 @@ public class DataBaseService implements IDataBase {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public Organisation getOrganisationById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Organisation o WHERE o.organisationId = :id");
+		query.setParameter("id", id);
+		Organisation organisation = (Organisation)query.uniqueResult();
+		return organisation;
 	}
 
 	@Override
