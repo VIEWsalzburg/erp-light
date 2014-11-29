@@ -58,20 +58,52 @@ public class PersonController {
 			@RequestParam(value="id") int id,
 			@RequestParam(value="salutation") String salutation,
 			@RequestParam(value="title") String title,
-			@RequestParam(value="firstname") String firstname,
-			@RequestParam(value="lastname") String lastname,
+			@RequestParam(value="firstname") String firstName,
+			@RequestParam(value="lastname") String lastName,
 			@RequestParam(value="comment") String comment,
 			@RequestParam(value="active") int active
 			){		
 		
-		Person newPerson = new Person(id, salutation, title, firstname, lastname, comment, new Date(System.currentTimeMillis()), active);
+		Person mPerson = dataBaseService.getPersonById(id);
+		if (mPerson == null)
+		{
+			mPerson = new Person(0, salutation, title, firstName, lastName, comment, new Date(System.currentTimeMillis()), active);
+		}
 		
-		dataBaseService.setPerson(newPerson);
+		mPerson.setSalutation(salutation);
+		mPerson.setTitle(title);
+		mPerson.setFirstName(firstName);
+		mPerson.setLastName(lastName);
+		mPerson.setComment(comment);
+		mPerson.setActive(active);
+		mPerson.setUpdateTimestamp(new Date(System.currentTimeMillis()));
+		
+		dataBaseService.setPerson(mPerson);
 		
 		List<Person> personList = dataBaseService.getAllPersons();
 		ModelAndView model = new ModelAndView("PersonList");
 		model.addObject("allPersons", personList);
 		return model;
+	}
+	
+	
+	
+	@RequestMapping(value="/doSomething")
+	public void doSomething() {
+		
+		// Person mPerson = dataBaseService.getPersonById(12);
+		
+		Person mPerson = new Person(0,"Herr","","Stephan","Stadlmair","Student",new Date(System.currentTimeMillis()), 1);
+		
+		System.out.println("mPerson: "+mPerson.toString());
+		
+		// mPerson.setComment("neues Kommentar");
+		
+		dataBaseService.setPerson(mPerson);
+		
+		mPerson = dataBaseService.getPersonById(12);
+		System.out.println("mPerson: "+mPerson.toString());
+		
 	}
 	
 }

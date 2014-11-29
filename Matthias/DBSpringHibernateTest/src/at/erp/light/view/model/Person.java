@@ -348,5 +348,19 @@ public class Person implements java.io.Serializable {
 	public void setPersons(Set<Person> persons) {
 		this.persons = persons;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Id: ").append(personId);
+		sb.append(", Salutation: ").append(salutation);
+		sb.append(", Title: ").append(title);
+		sb.append(", FirstName: ").append(firstName);
+		sb.append(", LastName: ").append(lastName);
+		sb.append(", Comment: ").append(comment);
+		sb.append(", UpdateTimeStamp: ").append(updateTimestamp);
+		sb.append(", active: ").append(active);
+		return sb.toString();
+	}
 
 }
