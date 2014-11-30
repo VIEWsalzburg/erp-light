@@ -27,7 +27,11 @@
 								"&firstname="+$("#firstname").val()+
 								"&lastname="+$("#lastname").val()+
 								"&comment="+$("#comment").val()+
-								"&active="+$("#active").val();
+								"&active="+$("#active").val()+
+								"&address="+$("#address").val()+
+								"&city="+$("#city").val()+
+								"&zip="+$("#zip").val()+
+								"&country="+$("#country").val();
 			
 			$.ajax({
 				type: "GET",
@@ -55,6 +59,13 @@
 	        	<th>LastName</th>
 	        	<th>Kommentar</th>
 	        	<th>active</th>
+	        	<th>Adresse</th>
+	        	<th>addressId</th>
+	        	<th>Ort</th>
+	        	<th>PLZ</th>
+	       		<th>cityId</th>
+	        	<th>Land</th>
+	        	<th>countryId</th>
 	        	
 				<c:forEach var="person" items="${allPersons}" >
 	        	<tr>
@@ -65,12 +76,18 @@
 					<td>${person.lastName}</td>
 					<td>${person.comment}</td>
 					<td>${person.active}</td>
+					<td>${person.address.address}</td>
+					<td>${person.address.addressId}</td>
+					<td>${person.city.city}</td>
+					<td>${person.city.zip}</td>
+					<td>${person.city.cityId}</td>
+					<td>${person.country.country}</td>
+					<td>${person.country.countryId}</td>
 							
 	        	</tr>
 				</c:forEach>	        	
         	</table>
-			<p>localhost:8080/DBSpringHibernateTest/Person/set/?id=2&salutation=Herr&title=&firstname=Matthias&lastname=Schnöll&comment=Geht gerne Biken im Bikepark Leogang und Schladming!&active=1</p>
-        
+        	<br/>
         	<div>
         		<table>
         			<tr>
@@ -101,6 +118,24 @@
         				<td><label>active</label></td>
         				<td><input id="active"></input></td>
         			</tr>
+        			
+        			<tr>
+        				<td><label>address</label></td>
+        				<td><input id="address"></input></td>
+        			</tr>
+        			<tr>
+        				<td><label>city</label></td>
+        				<td><input id="city"></input></td>
+        			</tr>
+        			<tr>
+        				<td><label>zip</label></td>
+        				<td><input id="zip"></input></td>
+        			</tr>
+        			<tr>
+        				<td><label>country</label></td>
+        				<td><input id="country"></input></td>
+        			</tr>
+        			
         		</table>
         		<button onclick="sendData()">Speichern</button>
         	
