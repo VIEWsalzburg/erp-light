@@ -153,7 +153,7 @@ public class Person implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "address_id")
+	@JoinColumn(name = "address_id", nullable = true)
 	public Address getAddress() {
 		return this.address;
 	}
@@ -175,7 +175,7 @@ public class Person implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "city_id")
+	@JoinColumn(name = "city_id", nullable = true)
 	public City getCity() {
 		return this.city;
 	}
@@ -185,7 +185,7 @@ public class Person implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "country_id")
+	@JoinColumn(name = "country_id", nullable = true)
 	public Country getCountry() {
 		return this.country;
 	}
