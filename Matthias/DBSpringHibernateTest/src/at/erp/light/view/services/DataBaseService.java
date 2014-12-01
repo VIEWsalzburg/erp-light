@@ -1,14 +1,18 @@
 package at.erp.light.view.services;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.Category;
+import at.erp.light.view.model.City;
+import at.erp.light.view.model.Country;
 import at.erp.light.view.model.DeliveryList;
 import at.erp.light.view.model.IncomingArticle;
 import at.erp.light.view.model.IncomingDelivery;
@@ -18,7 +22,7 @@ import at.erp.light.view.model.OutgoingDelivery;
 import at.erp.light.view.model.Person;
 import at.erp.light.view.model.Type;
 
-@Transactional
+
 public class DataBaseService implements IDataBase {
 
 	private SessionFactory sessionFactory;
@@ -29,15 +33,22 @@ public class DataBaseService implements IDataBase {
 
 		
 	@Override
-	public Person getPersonById(int id) {
-				
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Person getPersonById(int id) {				
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p WHERE p.personId = :id");
 		query.setParameter("id", id);
 		Person person = (Person)query.uniqueResult();
-		
 		return person;
 	}
 	
+	@Override
+	public int setIncomingDelivery(IncomingDelivery incomingDelivery) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Transactional(propagation=Propagation.REQUIRED)
 	@Override
 	public Person getPersonById(int id, int FetchFlags) {
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p WHERE p.personId = :id");
@@ -124,9 +135,11 @@ public class DataBaseService implements IDataBase {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Person> getAllPersons() {
 		@SuppressWarnings("unchecked")
-		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person").list();
+		List<Person> persons = sessionFactory.getCurrentSession()
+			.createQuery("FROM Person p LEFT JOIN fetch p.address LEFT JOIN fetch p.city LEFT JOIN fetch p.country").list();
 		return persons;
 	}
 
@@ -135,26 +148,104 @@ public class DataBaseService implements IDataBase {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	// setCountry
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Country getCountryByCountry(String country) {
+		Country mCountry = (Country) sessionFactory.getCurrentSession().
+				createQuery("FROM Country c WHERE c.country = :country").
+				setParameter("country", country).uniqueResult();
+		if (mCountry==null)
+		{
+			mCountry = new Country(0, country);
+			setCountry(mCountry);
+		}
+		return mCountry;
+	}
+	
+	// setCountry
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Country setCountry(Country country) {
+		sessionFactory.getCurrentSession().saveOrUpdate(country);
+		return country;
+	}
+	
+	// getAddressByAddress
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Address getAddressByAddress(String address) {
+		Address mAddress = (Address) sessionFactory.getCurrentSession().
+				createQuery("FROM Address a WHERE a.address = :address").
+				setParameter("address", address).uniqueResult();
+		if (mAddress==null)
+		{
+			mAddress = new Address(0, address);
+			setAddress(mAddress);
+		}
+		return mAddress;
+	}
+	
+	// setAddress
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Address setAddress(Address address) {
+		sessionFactory.getCurrentSession().saveOrUpdate(address);
+		return address;
+	}
+	
+	// setCity
+	@Transactional(propagation=Propagation.REQUIRED)
+	public City getCityByCityAndZip(String city, String zip) {
+		City mCity = (City) sessionFactory.getCurrentSession().
+				createQuery("FROM City c WHERE c.city = :city AND c.zip = :zip").
+				setParameter("city", city).setParameter("zip", zip).uniqueResult();
+		if (mCity==null)
+		{
+			mCity = new City(0, city, zip);
+			setCity(mCity);
+		}
+		return mCity;
+	}
+	
+	// setCity
+	@Transactional(propagation=Propagation.REQUIRED)
+	public City setCity(City city) {
+		sessionFactory.getCurrentSession().saveOrUpdate(city);
+		return city;
+	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public int setPerson(Person person) {
 		
-		int personId = 0;
-		// ask for existing person with the provided personId
-		Person existingPerson = getPersonById(person.getPersonId());
-		if (existingPerson != null)
+		// if address == null => delete FK
+		if (person.getAddress() != null)
 		{
-			existingPerson.setTitle(person.getTitle());
-			existingPerson.setSalutation(person.getSalutation());
-			existingPerson.setFirstName(person.getFirstName());
-			existingPerson.setLastName(person.getLastName());
-			existingPerson.setComment(person.getComment());
-			existingPerson.setActive(person.getActive());
-		} else {
-			personId = (Integer) sessionFactory.getCurrentSession().save(person);
+			// checks if Address already exists in database (if yes => retrieve existing one, if no => create new one and get it)
+			Address Address = getAddressByAddress(person.getAddress().getAddress());
+			person.setAddress(Address);
 		}
 		
-		return personId;
+		if (person.getCountry() != null)
+		{
+			// checks if Country already exists in database (if yes => retrieve existing one, if no => create new one and get it)
+			Country country = getCountryByCountry(person.getCountry().getCountry());
+			person.setCountry(country);
+		}
+		
+		if (person.getCity() != null)
+		{
+			// checks if City and Zip already exist in database (if yes => retrieve existing one, if no => create new one and get it)
+			City city = getCityByCityAndZip(person.getCity().getCity(), person.getCity().getZip());
+			person.setCity(city);
+		}
+		
+		sessionFactory.getCurrentSession().saveOrUpdate(person);
+		
+		// rollback test
+		if (1==0)
+			throw(new HibernateException("rollback that shit! ^^"));
+		
+		return person.getPersonId();
+		
 	}
 
 	@Override
@@ -164,9 +255,12 @@ public class DataBaseService implements IDataBase {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public Organisation getOrganisationById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Organisation o WHERE o.organisationId = :id");
+		query.setParameter("id", id);
+		Organisation organisation = (Organisation)query.uniqueResult();
+		return organisation;
 	}
 
 	@Override
@@ -203,12 +297,6 @@ public class DataBaseService implements IDataBase {
 	public List<IncomingDelivery> getAllIncomingDeliveries() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public int setIncomingDelivery(IncomingDelivery incomingDelivery) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override

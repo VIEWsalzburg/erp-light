@@ -31,13 +31,13 @@ public class City implements java.io.Serializable {
 	public City() {
 	}
 
-	public City(int cityId, String zip, String city) {
+	public City(int cityId, String city, String zip) {
 		this.cityId = cityId;
 		this.zip = zip;
 		this.city = city;
 	}
 
-	public City(int cityId, String zip, String city,
+	public City(int cityId, String city, String zip,
 			Set<Organisation> organisations, Set<Person> persons) {
 		this.cityId = cityId;
 		this.zip = zip;

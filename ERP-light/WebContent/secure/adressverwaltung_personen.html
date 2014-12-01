@@ -42,7 +42,7 @@
 					
 						<form role="form" class="form-inline">
 							<div class="form-group">							
-								<button type="button" id="new" class="btn btn-primary" data-toggle="modal" data-target="#newModal"><span class="glyphicon glyphicon-plus"></span> Neu anlegen</button>							
+								<button type="button" id="new" class="btn btn-primary" data-toggle="modal" data-target="#neuanlegenModal"><span class="glyphicon glyphicon-plus"></span> Neu anlegen</button>							
 								
 									<div class="input-group suchfilter"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> Filter</span>
 										<input id="filter" type="text" class="form-control" placeholder="Filterbegriff eingeben...">
@@ -50,7 +50,7 @@
 														
 									<span class="typfilter"><u><strong>Typfilter:</strong></u></span>
 									<label>
-										<input id="mitarbeiter_cbx" type="checkbox" checked>
+										<input id="mitarbeiter_cbx" type="checkbox" value="">
 										Mitarbeiter
 									</label>
 									<label>
@@ -218,140 +218,235 @@
 						</div>
 						<!-- Table end -->
 						
-						<!-- Modal f�r Hinzuf�gen und Bearbeiten -->
-						<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									  <div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-										<h4 class="modal-title">Neue Person</h4>
-									  </div>
-									  <div class="modal-body">
-											
-											<div class="row modalrow">
-											  <div class="col-md-6">											  
-												<form role="form" class="form-inline">
-													<div class="form-group">
-														<label>Anrede</label>												
-														<input type="text" class="form-control" id="anrede" placeholder="Anrede">																									
-													</div>
-												</form>											  
-											  </div>
-											  <div class="col-md-6">
-												<form role="form" class="form-inline">
-													<div class="form-group">																									
-														<label>Titel</label>
-														<input type="text" class="form-control" id="titel" placeholder="Titel">											
-													</div>
-												</form>											  
-											  </div>
+		<!-- Neu anlegen (unfertig!) -->
+		<div class="modal fade" id="neuanlegenModal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title">Meine Daten</h4>
+						</div>
+									  
+						<div class="modal-body">
+							<form class="form-horizontal" role="form"> 
+								<div class="row">
+									<div class="col-md-6">
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Anrede</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="tbx_anrede" placeholder="Anrede">
 											</div>
-											
-											<div class="row modalrow">
-											  <div class="col-md-6">											  
-												<form role="form" class="form-inline">
-													<div class="form-group">
-														<label>Vorname</label>												
-														<input type="text" class="form-control" id="vorname" value="" placeholder="Vorname">																									
-													</div>
-												</form>											  
-											  </div>
-											  <div class="col-md-6">
-												<form role="form" class="form-inline">
-													<div class="form-group">																									
-														<label>Nachname</label>
-														<input type="text" class="form-control" id="nachname" placeholder="Nachname">											
-													</div>
-												</form>											  
-											  </div>
+									</div>
+									</div>
+									<div class="col-md-6">
+									<div class="form-group">
+											<label class="col-sm-4 control-label">Titel</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="tbx_titel" placeholder="Titel">
 											</div>
-											
-											<div class="row modalrow">
-											  <div class="col-md-6">											  
-												<form role="form" class="form-inline">
-													<div class="form-group">
-														<label>Adresse</label>												
-														<input type="text" class="form-control" id="vorname" placeholder="Adresse">																									
-													</div>
-												</form>											  
-											  </div>
-											  <div class="col-md-6">
-												<form role="form" class="form-inline">
-													<div class="form-group">																									
-														<label>PLZ</label>
-														<input type="text" class="form-control" id="nachname" placeholder="PLZ">											
-													</div>
-												</form>											  
-											  </div>
+									</div>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-md-6">
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Vorname</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="tbx_vorname" placeholder="Anrede">
 											</div>
-											
-											<div class="row modalrow">
-											  <div class="col-md-6">											  
-												<form role="form" class="form-inline">
-													<div class="form-group">
-														<label>Ort</label>												
-														<input type="text" class="form-control" id="vorname" placeholder="Ort">																									
-													</div>
-												</form>											  
-											  </div>
-											  <div class="col-md-6">
-												<form role="form" class="form-inline">
-													<div class="form-group">																									
-														<label>Land</label>
-														<input type="text" class="form-control" id="nachname" placeholder="Land">											
-													</div>
-												</form>											  
-											  </div>
+									</div>
+									</div>
+									<div class="col-md-6">
+									<div class="form-group">
+											<label class="col-sm-4 control-label">Nachname</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="tbx_nachname" placeholder="Titel">
 											</div>
+									</div>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-md-6">
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Adresse</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="tbx_adresse" placeholder="Anrede">
+											</div>
+									</div>
+									</div>
+									<div class="col-md-6">
+									<div class="form-group">
+											<label class="col-sm-4 control-label">PLZ</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="tbx_plz" placeholder="Titel">
+											</div>
+									</div>
+									</div>
+								</div>
 
-											<div class="row modalrow">
-											  <div class="col-md-6">											  
-												<form role="form" class="form-inline">
-													<div class="form-group">
-														<label>E-Mail</label>												
-														<input type="text" class="form-control" id="vorname" placeholder="E-Mail">																									
-													</div>
-												</form>											  
-											  </div>											  
+								<div class="row">
+									<div class="col-md-6">
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Ort</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="tbx_ort" placeholder="Anrede">
 											</div>
-											
-											<div class="row modalrow">
-											  <div class="col-md-6">											  
-												<form role="form" class="form-inline">
-													<div class="form-group">
-														<label>Telefonnr.</label>												
-														<input type="text" class="form-control" id="vorname" placeholder="Telefonnr.">																									
-													</div>
-												</form>											  
-											  </div>
-											  <div class="col-md-6">
-												<select class="form-control">
-												  <option>1</option>
-												  <option>2</option>
-												  <option>3</option>
-												  <option>4</option>
-												  <option>5</option>
-												</select>									  
-												</div>
+									</div>
+									</div>
+									<div class="col-md-6">
+									<div class="form-group">
+											<label class="col-sm-4 control-label">Land</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="tbx_land" placeholder="Titel">
 											</div>
-											
-											<div class="row modalrow">
-											  <div class="col-md-6">											  
-												<button type="button" class="btn btn-default"> Telefonnr. hinzufuegen</button>					  
-											  </div>
-											  <div class="col-md-6">
-												<button type="button" class="btn btn-default"> Loeschen</button>								  
-											  </div>
+									</div>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-md-6">
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Telefonnr.</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="tbx_telnr1" placeholder="Telefonnr.">
 											</div>
-										
-									  </div>
-									  <div class="modal-footer">										
-										<button type="button" class="btn btn-default" data-dismiss="modal"> Abbrechen</button>
-										<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Speichern</button>
-									  </div>
-								</div><!-- /.modal-content -->
-							</div><!-- /.modal-dialog -->
-						</div><!-- /.modal -->
+									</div>
+									</div>
+									<div class="col-md-6">
+									<div class="form-group">
+											<div class="col-sm-7">
+											<select class="form-control">
+												<option>Privat</option>
+												<option>Gesch&auml;ftlich</option>																				  
+											</select>
+											</div>
+											<div class="col-sm-5">
+												<button type="button" class="btn btn-default">L&ouml;schen</button>
+											</div>
+									</div>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-md-6">
+									<div class="form-group">
+										<label class="col-sm-4 control-label"></label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="tbx_telnr2" placeholder="Telefonnr.">
+											</div>
+									</div>
+									</div>
+									<div class="col-md-6">
+									<div class="form-group">
+											<div class="col-sm-7">
+											<select class="form-control">
+												<option>Privat</option>
+												<option>Gesch&auml;ftlich</option>											  
+											</select>
+											</div>
+											<div class="col-sm-5">
+												<button type="button" class="btn btn-default" id="btn_delete">L&ouml;schen</button>
+											</div>
+									</div>
+									</div>
+								</div>	
+								
+								<div class="row">
+									<div class="col-md-6">
+									<div class="form-group">
+											<div class="col-md-4">									
+											</div>
+											<div class="col-sm-3">
+												<button type="button" class="btn btn-default">Telefonnr. hinzuf&uuml;gen</button>
+											</div>
+											<div class="col-md-3">									
+											</div>
+											<div class="col-md-2">									
+											</div>
+									</div>
+									</div>
+									<div class="col-md-6">									
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-md-6">
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Mailadressen</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="tbx_mailadresse" placeholder="Telefonnr.">
+											</div>
+									</div>
+									</div>
+									<div class="col-md-6">
+									<div class="form-group">
+											<div class="col-sm-7">
+											<select class="form-control">
+												<option>Privat</option>
+												<option>Gesch&auml;ftlich</option>											  
+											</select>
+											</div>
+											<div class="col-sm-5">
+												<button type="button" class="btn btn-default">L&ouml;schen</button>
+											</div>
+									</div>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-md-6">
+									<div class="form-group">
+										<label class="col-sm-4 control-label"></label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" id="tbx_telnr" placeholder="Telefonnr.">
+											</div>
+									</div>
+									</div>
+									<div class="col-md-6">
+									<div class="form-group">
+											<div class="col-sm-7">
+											<select class="form-control">
+												<option>Privat</option>
+												<option>Gesch&auml;ftlich</option>										  
+											</select>
+											</div>
+											<div class="col-sm-5">
+												<button type="button" class="btn btn-default">L&ouml;schen</button>
+											</div>
+									</div>
+									</div>
+								</div>	
+								
+								<div class="row">
+									<div class="col-md-6">
+									<div class="form-group">
+											<div class="col-md-4">									
+											</div>
+											<div class="col-sm-3">
+												<button type="button" class="btn btn-default">Mailadresse hinzuf&uuml;gen</button>
+											</div>
+											<div class="col-md-3">									
+											</div>
+											<div class="col-md-2">									
+											</div>
+									</div>
+									</div>
+									<div class="col-md-6">									
+									</div>
+								</div>	
+																			
+							</form>
+						</div>
+									  
+						<div class="modal-footer">										
+							<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+							<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Speichern</button>
+						</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 						
 						<!-- Modal L�schen -->
 						<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
