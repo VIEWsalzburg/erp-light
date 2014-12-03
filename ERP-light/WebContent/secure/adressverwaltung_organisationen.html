@@ -1,525 +1,685 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Adressverwaltung</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adressverwaltung</title>
 
-    <!-- Bootstrap -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-	<!-- Stylesheet -->
-	<link href="../css/adressverwaltung.css" rel="stylesheet">
+<!-- Bootstrap -->
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<!-- Stylesheet -->
+<link href="../css/adressverwaltung.css" rel="stylesheet">
 </head>
 <body>
-	<header id="pageheader">
-		
-	</header>
-	
+	<header id="pageheader"> </header>
+
 	<div class="container">
 		<div class="row" id="top">
-			<div class="col-md-12">
-				
-			</div>		  
+			<div class="col-md-12"></div>
 		</div>
-	
+
 		<div class="row" id="header">
-			<div class="col-md-12">			
+			<div class="col-md-12">
 				<h2>Adressverwaltung</h2>
-				
+
 				<!-- Tabs -->
 				<ul class="nav nav-tabs">
-					<li role="presentation"><a href="adressverwaltung_personen.html">Personen</a></li>
-					<li role="presentation" class="active"><a href="adressverwaltung_organisationen.html">Organisationen</a></li>
-					<li role="presentation"><a href="adressverwaltung_kategorienverwaltung.html">Kategorienverwaltung</a></li>
+					<li role="presentation"><a
+						href="adressverwaltung_personen.html">Personen</a></li>
+					<li role="presentation" class="active"><a
+						href="adressverwaltung_organisationen.html">Organisationen</a></li>
+					<li role="presentation"><a
+						href="adressverwaltung_kategorienverwaltung.html">Kategorienverwaltung</a></li>
 				</ul>
-				
-				<div class="tab-content">		
-					<div class="tab-pane" id="tab1">					
-						Content1
-					</div>								
+
+				<div class="tab-content">
+					<div class="tab-pane" id="tab1">Content1</div>
 					<div class="tab-pane active" id="tab2">
-						
+
 						<form role="form" class="form-inline">
-							<div class="form-group">							
-								<button type="button" id="neuanlegen_btn" class="btn btn-primary" data-toggle="modal" data-target="#modal_neuanlegen_org"><span class="glyphicon glyphicon-plus"></span> Neu anlegen</button>							
-								
-									<div class="input-group suchfilter"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> Filter</span>
-										<input id="filter" type="text" class="form-control" placeholder="Filterbegriff eingeben...">
-									</div>
-														
-									<span class="typfilter"><u><strong>Typfilter:</strong></u></span>
-									<label>
-										<input type="checkbox" id="lieferanten_cbx" value="">
-										Lieferanten
-									</label>
-									<label>
-										<input type="checkbox" id="kunden_cbx" value="">
-										Kunden
-									</label>
-									<label>
-										<input type="checkbox" id="sponsoren_cbx" value="">
-										Sponsoren
-									</label>															
+							<div class="form-group">
+								<button type="button" id="neuanlegen_btn"
+									class="btn btn-primary" data-toggle="modal"
+									data-target="#modal_neuanlegen_org">
+									<span class="glyphicon glyphicon-plus"></span> Neu anlegen
+								</button>
+
+								<div class="input-group suchfilter">
+									<span class="input-group-addon"><span
+										class="glyphicon glyphicon-search"></span> Filter</span> <input
+										id="filter" type="text" class="form-control"
+										placeholder="Filterbegriff eingeben...">
+								</div>
+
+								<span class="typfilter"><u><strong>Typfilter:</strong></u></span>
+								<label> <input type="checkbox" id="lieferanten_cbx"
+									value=""> Lieferanten
+								</label> <label> <input type="checkbox" id="kunden_cbx" value="">
+									Kunden
+								</label> <label> <input type="checkbox" id="sponsoren_cbx"
+									value=""> Sponsoren
+								</label>
 							</div>
 						</form>
 						<!-- Table -->
 						<div class="table-responsive">
-						<table class="table table-hover table-striped header-fixed" id="personen">
-						<thead class="personen">
-							<tr>
-								<th style="width: 3%">#</th>								
-								<th style="width: 5%">Typ</th>
-								<th style="width: 5%">Name</th>
-								<th style="width: 15%">Bemerkung</th>
-								<th style="width: 15%">Adresse</th>
-								<th style="width: 15%">PLZ</th>
-								<th style="width: 15%">Ort</th>
-								<th style="width: 15%">Ansprechperson</th>
-								<th style="width: 5%">Kategorien</th>								
-								<th style="width: 2%">Akt. Datum</th>
-								<th style="width: 5%">Geaendert von</th>								
-							</tr>
-						</thead>	
-						<tbody class="searchable">
-							<tr>
-								<td>1</td>
-								<td>Lieferant</td>
-								<td>Muster AG</td>
-								<td>Stellt keine Lieferscheine aus</td>
-								<td>Salzburgerstr. 1</td>
-								<td>5020</td>
-								<td>Salzburg</td>
-								<td>Hr. Josef Huber</td>
-								<td></td>								
-								<td>12.12.2014</td>								
-								<td>Maier</td>								
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>Kunde</td>
-								<td>Muster AG</td>
-								<td>Stellt keine Lieferscheine aus</td>
-								<td>Salzburgerstr. 1</td>
-								<td>5020</td>
-								<td>Salzburg</td>
-								<td>Hr. Josef Huber</td>
-								<td></td>								
-								<td>12.12.2014</td>								
-								<td>Maier</td>									
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>Sponsor</td>
-								<td>Muster AG</td>
-								<td>Stellt keine Lieferscheine aus</td>
-								<td>Salzburgerstr. 1</td>
-								<td>5020</td>
-								<td>Salzburg</td>
-								<td>Hr. Josef Huber</td>
-								<td></td>								
-								<td>12.12.2014</td>								
-								<td>Maier</td>									
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>Kunde</td>
-								<td>Muster AG</td>
-								<td>Stellt keine Lieferscheine aus</td>
-								<td>Salzburgerstr. 1</td>
-								<td>5020</td>
-								<td>Salzburg</td>
-								<td>Hr. Josef Huber</td>
-								<td></td>								
-								<td>12.12.2014</td>								
-								<td>Maier</td>									
-							</tr>
-							<tr>
-								<td>5</td>
-								<td>Lieferant</td>
-								<td>Muster AG</td>
-								<td>Stellt keine Lieferscheine aus</td>
-								<td>Salzburgerstr. 1</td>
-								<td>5020</td>
-								<td>Salzburg</td>
-								<td>Hr. Josef Huber</td>
-								<td></td>								
-								<td>12.12.2014</td>								
-								<td>Maier</td>							
-							</tr>
-							<tr>
-								<td>6</td>
-								<td>Lieferant</td>
-								<td>Muster AG</td>
-								<td>Stellt keine Lieferscheine aus</td>
-								<td>Salzburgerstr. 1</td>
-								<td>5020</td>
-								<td>Salzburg</td>
-								<td>Hr. Josef Huber</td>
-								<td></td>								
-								<td>12.12.2014</td>								
-								<td>Maier</td>								
-							</tr>
-							<tr>
-								<td>7</td>
-								<td>Lieferant</td>
-								<td>Muster AG</td>
-								<td>Stellt keine Lieferscheine aus</td>
-								<td>Salzburgerstr. 1</td>
-								<td>5020</td>
-								<td>Salzburg</td>
-								<td>Hr. Josef Huber</td>
-								<td></td>								
-								<td>12.12.2014</td>								
-								<td>Maier</td>								
-							</tr>
-							<tr>
-								<td>8</td>
-								<td>Lieferant</td>
-								<td>Muster AG</td>
-								<td>Stellt keine Lieferscheine aus</td>
-								<td>Salzburgerstr. 1</td>
-								<td>5020</td>
-								<td>Salzburg</td>
-								<td>Hr. Josef Huber</td>
-								<td></td>								
-								<td>12.12.2014</td>								
-								<td>Maier</td>						
-							</tr>
-							<tr>
-								<td>9</td>
-								<td>Lieferant</td>
-								<td>Muster AG</td>
-								<td>Stellt keine Lieferscheine aus</td>
-								<td>Salzburgerstr. 1</td>
-								<td>5020</td>
-								<td>Salzburg</td>
-								<td>Hr. Josef Huber</td>
-								<td></td>								
-								<td>12.12.2014</td>								
-								<td>Maier</td>							
-							</tr>
-						</tbody>
-						</table>
+							<table class="table table-hover table-striped header-fixed"
+								id="personen">
+								<thead class="personen">
+									<tr>
+										<th style="width: 3%">#</th>
+										<th style="width: 5%">Typ</th>
+										<th style="width: 5%">Name</th>
+										<th style="width: 15%">Bemerkung</th>
+										<th style="width: 15%">Adresse</th>
+										<th style="width: 15%">PLZ</th>
+										<th style="width: 15%">Ort</th>
+										<th style="width: 15%">Ansprechperson</th>
+										<th style="width: 5%">Kategorien</th>
+										<th style="width: 2%">Akt. Datum</th>
+										<th style="width: 5%">Geaendert von</th>
+									</tr>
+								</thead>
+								<tbody class="searchable">
+									<tr>
+										<td>1</td>
+										<td>Lieferant</td>
+										<td>Muster AG</td>
+										<td>Stellt keine Lieferscheine aus</td>
+										<td>Salzburgerstr. 1</td>
+										<td>5020</td>
+										<td>Salzburg</td>
+										<td>Hr. Josef Huber</td>
+										<td></td>
+										<td>12.12.2014</td>
+										<td>Maier</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>Kunde</td>
+										<td>Muster AG</td>
+										<td>Stellt keine Lieferscheine aus</td>
+										<td>Salzburgerstr. 1</td>
+										<td>5020</td>
+										<td>Salzburg</td>
+										<td>Hr. Josef Huber</td>
+										<td></td>
+										<td>12.12.2014</td>
+										<td>Maier</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>Sponsor</td>
+										<td>Muster AG</td>
+										<td>Stellt keine Lieferscheine aus</td>
+										<td>Salzburgerstr. 1</td>
+										<td>5020</td>
+										<td>Salzburg</td>
+										<td>Hr. Josef Huber</td>
+										<td></td>
+										<td>12.12.2014</td>
+										<td>Maier</td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>Kunde</td>
+										<td>Muster AG</td>
+										<td>Stellt keine Lieferscheine aus</td>
+										<td>Salzburgerstr. 1</td>
+										<td>5020</td>
+										<td>Salzburg</td>
+										<td>Hr. Josef Huber</td>
+										<td></td>
+										<td>12.12.2014</td>
+										<td>Maier</td>
+									</tr>
+									<tr>
+										<td>5</td>
+										<td>Lieferant</td>
+										<td>Muster AG</td>
+										<td>Stellt keine Lieferscheine aus</td>
+										<td>Salzburgerstr. 1</td>
+										<td>5020</td>
+										<td>Salzburg</td>
+										<td>Hr. Josef Huber</td>
+										<td></td>
+										<td>12.12.2014</td>
+										<td>Maier</td>
+									</tr>
+									<tr>
+										<td>6</td>
+										<td>Lieferant</td>
+										<td>Muster AG</td>
+										<td>Stellt keine Lieferscheine aus</td>
+										<td>Salzburgerstr. 1</td>
+										<td>5020</td>
+										<td>Salzburg</td>
+										<td>Hr. Josef Huber</td>
+										<td></td>
+										<td>12.12.2014</td>
+										<td>Maier</td>
+									</tr>
+									<tr>
+										<td>7</td>
+										<td>Lieferant</td>
+										<td>Muster AG</td>
+										<td>Stellt keine Lieferscheine aus</td>
+										<td>Salzburgerstr. 1</td>
+										<td>5020</td>
+										<td>Salzburg</td>
+										<td>Hr. Josef Huber</td>
+										<td></td>
+										<td>12.12.2014</td>
+										<td>Maier</td>
+									</tr>
+									<tr>
+										<td>8</td>
+										<td>Lieferant</td>
+										<td>Muster AG</td>
+										<td>Stellt keine Lieferscheine aus</td>
+										<td>Salzburgerstr. 1</td>
+										<td>5020</td>
+										<td>Salzburg</td>
+										<td>Hr. Josef Huber</td>
+										<td></td>
+										<td>12.12.2014</td>
+										<td>Maier</td>
+									</tr>
+									<tr>
+										<td>9</td>
+										<td>Lieferant</td>
+										<td>Muster AG</td>
+										<td>Stellt keine Lieferscheine aus</td>
+										<td>Salzburgerstr. 1</td>
+										<td>5020</td>
+										<td>Salzburg</td>
+										<td>Hr. Josef Huber</td>
+										<td></td>
+										<td>12.12.2014</td>
+										<td>Maier</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 						<!-- Table end -->
-						
-		<!-- Neu anlegen (unfertig!) -->
-		<div class="modal fade" id="modal_neuanlegen_org" tabindex="-1" role="dialog" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-							<h4 class="modal-title" id="modal_title_text">Neue Organisation</h4>
-						</div>
-									  
-						<div class="modal-body">
-							<form class="form-horizontal" role="form">								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-5 control-label">Typ</label>
-											<div class="col-sm-7">
-												<input type="text" class="form-control" id="tbx_typ" placeholder="Typ">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<label class="col-sm-5 control-label">Name</label>
-											<div class="col-sm-7">
-												<input type="text" class="form-control" id="tbx_name" placeholder="Name">
-											</div>
-									</div>
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-5 control-label">Adresse</label>
-											<div class="col-sm-7">
-												<input type="text" class="form-control" id="tbx_adresse" placeholder="Adresse">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<label class="col-sm-5 control-label">PLZ</label>
-											<div class="col-sm-7">
-												<input type="text" class="form-control" id="tbx_plz" placeholder="PLZ">
-											</div>
-									</div>
-									</div>
-								</div>
 
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-5 control-label">Ort</label>
-											<div class="col-sm-7">
-												<input type="text" class="form-control" id="tbx_ort" placeholder="Ort">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<label class="col-sm-5 control-label">Land</label>
-											<div class="col-sm-7">
-												<input type="text" class="form-control" id="tbx_land" placeholder="Land">
-											</div>
-									</div>
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-5 control-label">Ansprechperson</label>
-											<div class="col-sm-7">											
-												<div class="input-group suchfilter_modal"><span class="input-group-addon glyphicon glyphicon-search"></span>
-													<input id="filter" type="text" class="form-control" placeholder="Suche...">
-												</div>
-											</div>									
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">											
-											<div class="col-sm-12">
-												<select id="select" multiple class="form-control">
-												  <option>Ansprechperson 1</option>
-												  <option>Ansprechperson 2</option>
-												  <option>Ansprechperson 3</option>
-												  <option>Ansprechperson 4</option>
-												  <option>Ansprechperson 5</option>
-												</select>
-											</div>
-									</div>
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-5 control-label">Kategorien</label>
-											<div class="col-sm-7">											
-												<div class="input-group suchfilter_modal"><span class="input-group-addon glyphicon glyphicon-search"></span>
-													<input id="filter" type="text" class="form-control" placeholder="Suche...">
-												</div>
-											</div>									
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">											
-											<div class="col-sm-12">
-												<select id="select" multiple class="form-control">
-												  <option>Kategorie 1</option>
-												  <option>Kategorie 2</option>
-												  <option>Kategorie 3</option>
-												  <option>Kategorie 4</option>
-												  <option>Kategorie 5</option>
-												</select>
-											</div>
-									</div>
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-md-12">
-									<div class="form-group">
-										<label class="col-sm-2 control-label">Bemerkung</label>
-										<div class="col-sm-10">											
-												<textarea class="form-control" rows="2" id="beschreibung" placeholder="Bemerkung" style="resize:none"></textarea>
-										</div>																			
-									</div>
-									</div>																	
-								</div>									
-																			
-							</form>
-						</div>
-									  
-						<div class="modal-footer">										
-							<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-							<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Speichern</button>
-						</div>
-				</div><!-- /.modal-content -->
-			</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
-						
-						<!-- Modal L�schen -->
-						<div class="modal fade" id="loeschenModal" tabindex="-1" role="dialog" aria-hidden="true">
+						<!-- Neu anlegen (unfertig!) -->
+						<div class="modal fade" id="modal_neuanlegen_org" tabindex="-1"
+							role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
-									  <div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-										<h4 class="modal-title">Wollen Sie den Eintrag wirklich l&ouml;schen?</h4>
-									  </div>
-									  <div class="modal-body">
-											
-											<div class="row modalrow">
-											  <div class="col-md-6">
-													<label id="index_delete">Index</label>
-													<label id="typ_delete">Anrede</label>
-													<label id="name_delete">Titel</label>
-													<label id="adresse_delete">Vorname</label>													
-											  </div>
-											  <div class="col-md-6">
-																						  
-											  </div>
-											</div>															
-										
-									  </div>
-									  <div class="modal-footer">										
-										<button type="button" class="btn btn-default" data-dismiss="modal"> Abbrechen</button>
-										<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Loeschen</button>								
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title" id="modal_title_text">Neue
+											Organisation</h4>
+									</div>
 
-									  </div>
-								</div><!-- /.modal-content -->
-							</div><!-- /.modal-dialog -->
-						</div><!-- /.modal -->
-						
+									<div class="modal-body">
+										<form class="form-horizontal" role="form">											
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Typ</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_typ"
+																placeholder="Typ">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Name</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_name"
+																placeholder="Name">
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Adresse</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_adresse"
+																placeholder="Adresse">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">PLZ</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_plz"
+																placeholder="PLZ">
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Ort</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_ort"
+																placeholder="Ort">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Land</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_land"
+																placeholder="Land">
+														</div>
+													</div>
+												</div>
+											</div>										
+
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-5 control-label">Ansprechperson</label>
+														<div class="col-sm-7">
+															<div class="input-group suchfilter_modal">
+																<span
+																	class="input-group-addon glyphicon glyphicon-search"></span>
+																<input id="filter_modal1" type="text"
+																	class="form-control" placeholder="Suche...">
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<div class="col-sm-12">
+															<div class="box form-control searchable"
+																style="width: 270px; max-height: 80px; height: auto; overflow-y: auto;">
+																<div class="boxElement_person">
+																	<span>Herr Müller </span><input type="checkbox">
+																</div>
+																<div class="boxElement_person">
+																	<span>Herr Huber </span><input type="checkbox">
+																</div>
+																<div class="boxElement_person">
+																	<span>Herr Test </span><input type="checkbox">
+																</div>
+																<div class="boxElement_person">
+																	<span>Herr Seppi </span><input type="checkbox">
+																</div>
+																<div class="boxElement_person">
+																	<span>Herr Müller </span><input type="checkbox">
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-5 control-label">Kategorien</label>
+														<div class="col-sm-7">
+															<div class="input-group suchfilter_modal">
+																<span
+																	class="input-group-addon glyphicon glyphicon-search"></span>
+																<input id="filter_modal2" type="text"
+																	class="form-control" placeholder="Suche...">
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<div class="col-sm-12">
+															<div class="box form-control searchable"
+																style="width: 270px; max-height: 80px; height: auto; overflow-y: auto;">
+																<div class="boxElement_kategorie">
+																	<span>Kategorie1 </span><input type="checkbox">
+																</div>
+																<div class="boxElement_kategorie">
+																	<span>Kategorie2 </span><input type="checkbox">
+																</div>
+																<div class="boxElement_kategorie">
+																	<span>Kategorie3 </span><input type="checkbox">
+																</div>
+																<div class="boxElement_kategorie">
+																	<span>Kategorie4 </span><input type="checkbox">
+																</div>
+																<div class="boxElement_kategorie">
+																	<span>Kategorie5 </span><input type="checkbox">
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-12">
+													<div class="form-group">
+														<label class="col-sm-2 control-label">Bemerkung</label>
+														<div class="col-sm-10">
+															<textarea class="form-control" rows="2" id="beschreibung"
+																placeholder="Bemerkung" style="resize: none"></textarea>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</form>
+									</div>
+
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Abbrechen</button>
+										<button type="button" class="btn btn-primary">
+											<span class="glyphicon glyphicon-floppy-save"></span>
+											Speichern
+										</button>
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal-dialog -->
+						</div>
+						<!-- /.modal -->
+
+						<!-- Modal L�schen -->
+						<div class="modal fade" id="loeschenModal" tabindex="-1"
+							role="dialog" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title">Wollen Sie den Eintrag wirklich
+											l&ouml;schen?</h4>
+									</div>
+									<div class="modal-body">
+
+										<div class="row modalrow">
+											<div class="col-md-6">
+												<label id="index_delete">Index</label> <label
+													id="typ_delete">Anrede</label> <label id="name_delete">Titel</label>
+												<label id="adresse_delete">Vorname</label>
+											</div>
+											<div class="col-md-6"></div>
+										</div>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Abbrechen</button>
+										<button type="button" class="btn btn-danger">
+											<span class="glyphicon glyphicon-trash"></span> Loeschen
+										</button>
+
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal-dialog -->
+						</div>
+						<!-- /.modal -->
+
 					</div>
-					<div class="tab-pane" id="tab3">
-						Content3
-					</div>
+					<div class="tab-pane" id="tab3">Content3</div>
 				</div>
-				
-			</div>		  
+
+			</div>
 		</div>
-		
+
 		<div class="row" id="body">
-			<div class="col-md-12">				
-				
-			</div>
+			<div class="col-md-12"></div>
 		</div>
-		
+
 		<div class="row" id="footer">
-			<div class="col-md-4">
-					
-			</div>
+			<div class="col-md-4"></div>
 			<div class="col-md-4">
 				<form role="form" class="form-inline">
-							<div class="form-group bottom">
-								<button type="button" id="edit" class="btn btn-warning" data-toggle="modal" data-target="#modal_neuanlegen_org"><span class="glyphicon glyphicon-pencil"></span> Bearbeiten</button>
-								<button type="button" id="delete" class="btn btn-danger" data-toggle="modal" data-target="#loeschenModal"><span class="glyphicon glyphicon-trash"></span> Loeschen</button>								
-							</div>							
+					<div class="form-group bottom">
+						<button type="button" id="edit" class="btn btn-warning"
+							data-toggle="modal" data-target="#modal_neuanlegen_org">
+							<span class="glyphicon glyphicon-pencil"></span> Bearbeiten
+						</button>
+						<button type="button" id="delete" class="btn btn-danger"
+							data-toggle="modal" data-target="#loeschenModal">
+							<span class="glyphicon glyphicon-trash"></span> Loeschen
+						</button>
+					</div>
 				</form>
 			</div>
 			<div class="col-md-4">
-				<button type="button" class="btn btn-primary pull-right centered"><span class="glyphicon glyphicon-share"></span> Exportieren</button>
+				<button type="button" class="btn btn-primary pull-right centered">
+					<span class="glyphicon glyphicon-share"></span> Exportieren
+				</button>
 			</div>
 		</div>
-	</div>	
-	
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- Load Pageheader -->
+	</div>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="../js/bootstrap.min.js"></script>
+	<!-- Load Pageheader -->
 	<script>
 		$("#pageheader").load("../partials/header.html");
-		$("#adressverwaltung_nav").addClass("active");		
+		$("#adressverwaltung_nav").addClass("active");
 	</script>
-	
+
 	<script>
-	$("#neuanlegen_btn").click(function() {   
-		$("#modal_title_text").text("Neue Organisation");
-    });
-	
-	$("#edit").click(function() {   
-		$("#modal_title_text").text("Bearbeite Organisation");
-    });
+		$("#neuanlegen_btn").click(function() {
+			$("#modal_title_text").text("Neue Organisation");
+		});
+
+		$("#edit").click(function() {
+			$("#modal_title_text").text("Bearbeite Organisation");
+		});
 	</script>
-	
+
 	<!-- Filterfunktion -->
 	<script>
-		$(document).ready(function () {
+		$(document).ready(function() {
 
-		(function ($) {
-			$('#filter').keyup(function () {
+			(function($) {
+				$('#filter').keyup(function() {
 
-				var rex = new RegExp($(this).val(), 'i');
-				$('.searchable tr').hide();
-				$('.searchable tr').filter(function () {
-					return rex.test($(this).text());
-				}).show();
-			})
-		}(jQuery));
-	});
+					var rex = new RegExp($(this).val(), 'i');
+					$('.searchable tr').hide();
+					$('.searchable tr').filter(function() {
+						return rex.test($(this).text());
+					}).show();
+				})
+			}(jQuery));
+		});
 	</script>
-	
+
+	<!-- 	Filterfunktion Neu anlegen/Bearbeiten -->
+	<script>
+		$(document).ready(function() {
+
+			(function($) {
+				$('#filter_modal1').keyup(function() {
+
+					var rex = new RegExp($(this).val(), 'i');
+					$('.searchable .boxElement_person').hide();
+					$('.searchable .boxElement_person').filter(function() {
+						return rex.test($(this).text());
+					}).show();
+				})
+			}(jQuery));
+		});
+	</script>
+
+	<script>
+		$(document).ready(function() {
+
+			(function($) {
+				$('#filter_modal2').keyup(function() {
+
+					var rex = new RegExp($(this).val(), 'i');
+					$('.searchable .boxElement_kategorie').hide();
+					$('.searchable .boxElement_kategorie').filter(function() {
+						return rex.test($(this).text());
+					}).show();
+				})
+			}(jQuery));
+		});
+	</script>
+
 	<!-- Typfilter -->
-	<script>	
-		$(document).ready(function () {
-		$('#lieferanten_cbx').prop('checked', true);
-		$('#kunden_cbx').prop('checked', true);
-		$('#sponsoren_cbx').prop('checked', true);		
+	<script>
+		$(document)
+				.ready(
+						function() {
+							$('#lieferanten_cbx').prop('checked', true);
+							$('#kunden_cbx').prop('checked', true);
+							$('#sponsoren_cbx').prop('checked', true);
 
-		(function ($) {			
-			$('#lieferanten_cbx').on('change', function(){				
-				if(this.checked){						
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(1).text() == "Lieferant"
-					}).show();				
-				}else{					
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(1).text() == "Lieferant"
-					}).hide();
-				}			
-			});
-			$('#kunden_cbx').on('change', function(){				
-				if(this.checked){							
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(1).text() == "Kunde"
-					}).show();				
-				}else{					
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(1).text() == "Kunde"
-					}).hide();
-				}				
-			});
-			$('#sponsoren_cbx').on('change', function(){				
-				if(this.checked){						
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(1).text() == "Sponsor"
-					}).show();				
-				}else{					
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(1).text() == "Sponsor"
-					}).hide();
-				}				
-			});			
-			
-		}(jQuery));
-	});
+							(function($) {
+								$('#lieferanten_cbx')
+										.on(
+												'change',
+												function() {
+													if (this.checked) {
+														$('.searchable tr')
+																.filter(
+																		function() {
+																			return $(
+																					this)
+																					.find(
+																							'td')
+																					.eq(
+																							1)
+																					.text() == "Lieferant"
+																		})
+																.show();
+													} else {
+														$('.searchable tr')
+																.filter(
+																		function() {
+																			return $(
+																					this)
+																					.find(
+																							'td')
+																					.eq(
+																							1)
+																					.text() == "Lieferant"
+																		})
+																.hide();
+													}
+												});
+								$('#kunden_cbx')
+										.on(
+												'change',
+												function() {
+													if (this.checked) {
+														$('.searchable tr')
+																.filter(
+																		function() {
+																			return $(
+																					this)
+																					.find(
+																							'td')
+																					.eq(
+																							1)
+																					.text() == "Kunde"
+																		})
+																.show();
+													} else {
+														$('.searchable tr')
+																.filter(
+																		function() {
+																			return $(
+																					this)
+																					.find(
+																							'td')
+																					.eq(
+																							1)
+																					.text() == "Kunde"
+																		})
+																.hide();
+													}
+												});
+								$('#sponsoren_cbx')
+										.on(
+												'change',
+												function() {
+													if (this.checked) {
+														$('.searchable tr')
+																.filter(
+																		function() {
+																			return $(
+																					this)
+																					.find(
+																							'td')
+																					.eq(
+																							1)
+																					.text() == "Sponsor"
+																		})
+																.show();
+													} else {
+														$('.searchable tr')
+																.filter(
+																		function() {
+																			return $(
+																					this)
+																					.find(
+																							'td')
+																					.eq(
+																							1)
+																					.text() == "Sponsor"
+																		})
+																.hide();
+													}
+												});
+
+							}(jQuery));
+						});
 	</script>
-	
+
 	<!-- Tabellenzeile markieren -->
 	<script>
-	$('#edit').prop('disabled', true);
-	$('#delete').prop('disabled', true);
-	var tableData;
-	
-	$('#personen').on('click', 'tbody tr', function(event) {
-		tableData = $(this).children("td").map(function() {
-        	return $(this).text();
-		}).get();
-		
-    $(this).addClass('highlight').siblings().removeClass('highlight');
-		$('#edit').prop('disabled', false);
-		$('#delete').prop('disabled', false);
-	});
+		$('#edit').prop('disabled', true);
+		$('#delete').prop('disabled', true);
+		var tableData;
+
+		$('#personen').on('click', 'tbody tr', function(event) {
+			tableData = $(this).children("td").map(function() {
+				return $(this).text();
+			}).get();
+
+			$(this).addClass('highlight').siblings().removeClass('highlight');
+			$('#edit').prop('disabled', false);
+			$('#delete').prop('disabled', false);
+		});
 	</script>
-	
+
 	<!-- L�schen einer Tabellenzeile -->
 	<script>
-	$('#delete').on('click',function(){		
-		document.getElementById('index_delete').innerHTML = $.trim(tableData[0]);
-		document.getElementById('typ_delete').innerHTML = $.trim(tableData[1]);
-		document.getElementById('name_delete').innerHTML = $.trim(tableData[2]);
-		document.getElementById('adresse_delete').innerHTML = $.trim(tableData[4]);	
-    });
+		$('#delete').on(
+				'click',
+				function() {
+					document.getElementById('index_delete').innerHTML = $
+							.trim(tableData[0]);
+					document.getElementById('typ_delete').innerHTML = $
+							.trim(tableData[1]);
+					document.getElementById('name_delete').innerHTML = $
+							.trim(tableData[2]);
+					document.getElementById('adresse_delete').innerHTML = $
+							.trim(tableData[4]);
+				});
 	</script>
-	
+
 </body>
 </html>
