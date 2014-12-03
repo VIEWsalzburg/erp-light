@@ -56,8 +56,75 @@
 				return false;
 		});
 		
+		//Get all Persons and load into table
+		$(document).ready(function() {
+				$.ajax({
+					type: "POST",
+					url: "../rest/secure/person/getAll"			
+				}).done(function(data){
+									
+					var p = eval(data);					
+					var personsString = "";
+					
+					for (var e in p)
+					{
+						var emailString = "";
+						var phoneString = "";
+						var typeString = "";
+						
+						var types = p[e].types;
+						var emails = p[e].emails;
+						var phoneNumbers = p[e].phoneNumbers;
+						
+						for (var i=0; i<emails.length; i++)
+						{							
+							emailString = emailString + emails[i];
+							if(i < emails.length-1)
+							{
+								emailString = emailString + ", ";
+							}
+						}
+						for (var j=0; j<phoneNumbers.length; j++)
+						{
+							phoneString = phoneString + phoneNumbers[j];
+							if(j < phoneNumbers.length-1)
+							{
+								phoneString = phoneString + ", ";
+							}
+						}
+						for (var k=0; k<types.length; k++)
+						{
+							typeString = typeString + types[k];
+							if(k < types.length-1)
+							{
+								typeString = typeString + ", ";
+							}
+						}
+						
+						var tableRow = "<tr>" +
+						"<td>"+p[e].personId+"</td>" +
+						"<td>"+p[e].salutation+"</td>" +
+						"<td>"+p[e].title+"</td>" +
+						"<td>"+p[e].firstName+"</td>" +
+						"<td>"+p[e].lastName+"</td>" +
+						"<td>"+p[e].address+", "+p[e].zip+" "+p[e].city+", "+p[e].country+"</td>" +
+						"<td>"+emailString +"</td>" +
+						"<td>"+phoneString +"</td>" +
+						"<td>"+p[e].updateTimestamp +"</td>" +
+						"<td>"+p[e].permission +"</td>" +
+						"<td>"+typeString+"</td>" +
+						"<td>"+ "[LastUpdate]" +"</td>" +
+						"</tr>";
+						
+						$("#personTableBody").append(tableRow);
+					}
+				});		
+		});
+			
 		$("#edit").click(function() {
 			$("#modal_title_text").text("Bearbeite Person");
+			
+			document.getElementById('tbx_title').innerHTML = $.trim(tableData[0]);
 		});
 	
 		//Phonenumber handler
