@@ -12,42 +12,8 @@
 	<link href="../css/adressverwaltung.css" rel="stylesheet">
 </head>
 <body>
-	<header>
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-		  <div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			  </button>
-			  <a class="navbar-brand" href="#">ERP-light</a>
-			</div>
-
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			  <ul class="nav navbar-nav">
-				<li><a href="home.html"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-				<li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Warenverwaltung</a></li>
-				<li class="active"><a href="adressverwaltung_personen.html"><span class="glyphicon glyphicon-list-alt"></span> Adressverwaltung</a></li>
-				<li><a href="#"><span class="glyphicon glyphicon-file"></span> Reporting</a></li>
-			  </ul>			  
-			  <ul class="nav navbar-nav navbar-right">				
-				<li class="dropdown">
-				  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Benutzername <span class="caret"></span></a>
-				  <ul class="dropdown-menu" role="menu">
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span> Meine Daten</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-lock"></span> Passwort</a></li>					
-					<li class="divider"></li>
-					<li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
-				  </ul>
-				</li>
-			  </ul>
-			</div><!-- /.navbar-collapse -->
-		  </div><!-- /.container-fluid -->
-		</nav>	
+	<header id="pageheader">
+		
 	</header>
 	
 	<div class="container">
@@ -76,7 +42,7 @@
 						
 						<form role="form" class="form-inline">
 							<div class="form-group">							
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#neuanlegenModal"><span class="glyphicon glyphicon-plus"></span> Neu anlegen</button>							
+								<button type="button" id="neuanlegen_btn" class="btn btn-primary" data-toggle="modal" data-target="#modal_neuanlegen_org"><span class="glyphicon glyphicon-plus"></span> Neu anlegen</button>							
 								
 									<div class="input-group suchfilter"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> Filter</span>
 										<input id="filter" type="text" class="form-control" placeholder="Filterbegriff eingeben...">
@@ -239,30 +205,30 @@
 						<!-- Table end -->
 						
 		<!-- Neu anlegen (unfertig!) -->
-		<div class="modal fade" id="neuanlegenModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal fade" id="modal_neuanlegen_org" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-							<h4 class="modal-title">Meine Daten</h4>
+							<h4 class="modal-title" id="modal_title_text">Neue Organisation</h4>
 						</div>
 									  
 						<div class="modal-body">
-							<form class="form-horizontal" role="form"> 
+							<form class="form-horizontal" role="form">								
 								<div class="row">
 									<div class="col-md-6">
 									<div class="form-group">
-										<label class="col-sm-4 control-label">Anrede</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_anrede" placeholder="Anrede">
+										<label class="col-sm-5 control-label">Typ</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="tbx_typ" placeholder="Typ">
 											</div>
 									</div>
 									</div>
 									<div class="col-md-6">
 									<div class="form-group">
-											<label class="col-sm-4 control-label">Titel</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_titel" placeholder="Titel">
+											<label class="col-sm-5 control-label">Name</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="tbx_name" placeholder="Name">
 											</div>
 									</div>
 									</div>
@@ -271,36 +237,17 @@
 								<div class="row">
 									<div class="col-md-6">
 									<div class="form-group">
-										<label class="col-sm-4 control-label">Vorname</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_vorname" placeholder="Anrede">
+										<label class="col-sm-5 control-label">Adresse</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="tbx_adresse" placeholder="Adresse">
 											</div>
 									</div>
 									</div>
 									<div class="col-md-6">
 									<div class="form-group">
-											<label class="col-sm-4 control-label">Nachname</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_nachname" placeholder="Titel">
-											</div>
-									</div>
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-4 control-label">Adresse</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_adresse" placeholder="Anrede">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<label class="col-sm-4 control-label">PLZ</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_plz" placeholder="Titel">
+											<label class="col-sm-5 control-label">PLZ</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="tbx_plz" placeholder="PLZ">
 											</div>
 									</div>
 									</div>
@@ -309,17 +256,17 @@
 								<div class="row">
 									<div class="col-md-6">
 									<div class="form-group">
-										<label class="col-sm-4 control-label">Ort</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_ort" placeholder="Anrede">
+										<label class="col-sm-5 control-label">Ort</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="tbx_ort" placeholder="Ort">
 											</div>
 									</div>
 									</div>
 									<div class="col-md-6">
 									<div class="form-group">
-											<label class="col-sm-4 control-label">Land</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_land" placeholder="Titel">
+											<label class="col-sm-5 control-label">Land</label>
+											<div class="col-sm-7">
+												<input type="text" class="form-control" id="tbx_land" placeholder="Land">
 											</div>
 									</div>
 									</div>
@@ -328,22 +275,24 @@
 								<div class="row">
 									<div class="col-md-6">
 									<div class="form-group">
-										<label class="col-sm-4 control-label">Telefonnr.</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_telnr1" placeholder="Telefonnr.">
-											</div>
+										<label class="col-sm-5 control-label">Ansprechperson</label>
+											<div class="col-sm-7">											
+												<div class="input-group suchfilter_modal"><span class="input-group-addon glyphicon glyphicon-search"></span>
+													<input id="filter" type="text" class="form-control" placeholder="Suche...">
+												</div>
+											</div>									
 									</div>
 									</div>
 									<div class="col-md-6">
-									<div class="form-group">
-											<div class="col-sm-7">
-											<select class="form-control">
-												<option>Privat</option>
-												<option>Gesch&auml;ftlich</option>																				  
-											</select>
-											</div>
-											<div class="col-sm-5">
-												<button type="button" class="btn btn-default">L&ouml;schen</button>
+									<div class="form-group">											
+											<div class="col-sm-12">
+												<select id="select" multiple class="form-control">
+												  <option>Ansprechperson 1</option>
+												  <option>Ansprechperson 2</option>
+												  <option>Ansprechperson 3</option>
+												  <option>Ansprechperson 4</option>
+												  <option>Ansprechperson 5</option>
+												</select>
 											</div>
 									</div>
 									</div>
@@ -352,110 +301,39 @@
 								<div class="row">
 									<div class="col-md-6">
 									<div class="form-group">
-										<label class="col-sm-4 control-label"></label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_telnr2" placeholder="Telefonnr.">
-											</div>
+										<label class="col-sm-5 control-label">Kategorien</label>
+											<div class="col-sm-7">											
+												<div class="input-group suchfilter_modal"><span class="input-group-addon glyphicon glyphicon-search"></span>
+													<input id="filter" type="text" class="form-control" placeholder="Suche...">
+												</div>
+											</div>									
 									</div>
 									</div>
 									<div class="col-md-6">
-									<div class="form-group">
-											<div class="col-sm-7">
-											<select class="form-control">
-												<option>Privat</option>
-												<option>Gesch&auml;ftlich</option>											  
-											</select>
-											</div>
-											<div class="col-sm-5">
-												<button type="button" class="btn btn-default" id="btn_delete">L&ouml;schen</button>
-											</div>
-									</div>
-									</div>
-								</div>	
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-											<div class="col-md-4">									
-											</div>
-											<div class="col-sm-3">
-												<button type="button" class="btn btn-default">Telefonnr. hinzuf&uuml;gen</button>
-											</div>
-											<div class="col-md-3">									
-											</div>
-											<div class="col-md-2">									
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">									
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-4 control-label">Mailadressen</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_mailadresse" placeholder="Telefonnr.">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<div class="col-sm-7">
-											<select class="form-control">
-												<option>Privat</option>
-												<option>Gesch&auml;ftlich</option>											  
-											</select>
-											</div>
-											<div class="col-sm-5">
-												<button type="button" class="btn btn-default">L&ouml;schen</button>
+									<div class="form-group">											
+											<div class="col-sm-12">
+												<select id="select" multiple class="form-control">
+												  <option>Kategorie 1</option>
+												  <option>Kategorie 2</option>
+												  <option>Kategorie 3</option>
+												  <option>Kategorie 4</option>
+												  <option>Kategorie 5</option>
+												</select>
 											</div>
 									</div>
 									</div>
 								</div>
 								
 								<div class="row">
-									<div class="col-md-6">
+									<div class="col-md-12">
 									<div class="form-group">
-										<label class="col-sm-4 control-label"></label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_telnr" placeholder="Telefonnr.">
-											</div>
+										<label class="col-sm-2 control-label">Bemerkung</label>
+										<div class="col-sm-10">											
+												<textarea class="form-control" rows="2" id="beschreibung" placeholder="Bemerkung" style="resize:none"></textarea>
+										</div>																			
 									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<div class="col-sm-7">
-											<select class="form-control">
-												<option>Privat</option>
-												<option>Gesch&auml;ftlich</option>										  
-											</select>
-											</div>
-											<div class="col-sm-5">
-												<button type="button" class="btn btn-default">L&ouml;schen</button>
-											</div>
-									</div>
-									</div>
-								</div>	
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-											<div class="col-md-4">									
-											</div>
-											<div class="col-sm-3">
-												<button type="button" class="btn btn-default">Mailadresse hinzuf&uuml;gen</button>
-											</div>
-											<div class="col-md-3">									
-											</div>
-											<div class="col-md-2">									
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">									
-									</div>
-								</div>	
+									</div>																	
+								</div>									
 																			
 							</form>
 						</div>
@@ -522,7 +400,7 @@
 			<div class="col-md-4">
 				<form role="form" class="form-inline">
 							<div class="form-group bottom">
-								<button type="button" id="edit" class="btn btn-warning" data-toggle="modal" data-target="#neuanlegenModal"><span class="glyphicon glyphicon-pencil"></span> Bearbeiten</button>
+								<button type="button" id="edit" class="btn btn-warning" data-toggle="modal" data-target="#modal_neuanlegen_org"><span class="glyphicon glyphicon-pencil"></span> Bearbeiten</button>
 								<button type="button" id="delete" class="btn btn-danger" data-toggle="modal" data-target="#loeschenModal"><span class="glyphicon glyphicon-trash"></span> Loeschen</button>								
 							</div>							
 				</form>
@@ -537,6 +415,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.min.js"></script>
+    <!-- Load Pageheader -->
+	<script>
+		$("#pageheader").load("../partials/header.html");
+		$("#adressverwaltung_nav").addClass("active");		
+	</script>
+	
+	<script>
+	$("#neuanlegen_btn").click(function() {   
+		$("#modal_title_text").text("Neue Organisation");
+    });
+	
+	$("#edit").click(function() {   
+		$("#modal_title_text").text("Bearbeite Organisation");
+    });
+	</script>
 	
 	<!-- Filterfunktion -->
 	<script>
@@ -616,13 +509,6 @@
 		$('#edit').prop('disabled', false);
 		$('#delete').prop('disabled', false);
 	});
-	</script>
-	
-	<!-- Bearbeiten einer Tabellenzeile -->
-	<script>
-	$('#edit').on('click',function(){	
-		$('#vorname').val($.trim(tableData[3]));        
-    });
 	</script>
 	
 	<!-- L�schen einer Tabellenzeile -->
