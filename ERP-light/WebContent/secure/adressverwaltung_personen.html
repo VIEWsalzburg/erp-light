@@ -1,657 +1,501 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Adressverwaltung</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adressverwaltung</title>
 
-    <!-- Bootstrap -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-	<!-- Stylesheet -->
-	<link href="../css/adressverwaltung.css" rel="stylesheet">
+<!-- Bootstrap -->
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<!-- Stylesheet -->
+<link href="../css/adressverwaltung.css" rel="stylesheet">
 </head>
-<body>	
-	<header id="pageheader">
-	
-	</header>	
-	
+<body>
+	<header id="pageheader"> </header>
+
 	<div class="container">
 		<div class="row" id="top">
-			<div class="col-md-12">
-				
-			</div>		  
+			<div class="col-md-12"></div>
 		</div>
-	
+
 		<div class="row" id="header">
-			<div class="col-md-12">			
+			<div class="col-md-12">
 				<h2>Adressverwaltung</h2>
-				
+
 				<!-- Tabs -->
 				<ul class="nav nav-tabs">
-					<li role="presentation" class="active"><a href="adressverwaltung_personen.html">Personen</a></li>
-					<li role="presentation"><a href="adressverwaltung_organisationen.html">Organisationen</a></li>
-					<li role="presentation"><a href="adressverwaltung_kategorienverwaltung.html">Kategorienverwaltung</a></li>
+					<li role="presentation" class="active"><a
+						href="adressverwaltung_personen.html">Personen</a></li>
+					<li role="presentation"><a
+						href="adressverwaltung_organisationen.html">Organisationen</a></li>
+					<li role="presentation"><a
+						href="adressverwaltung_kategorienverwaltung.html">Kategorienverwaltung</a></li>
 				</ul>
-				
-				<div class="tab-content">		
-					<div class="tab-pane active" id="tab1">				
-					
+
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab1">
+
 						<form role="form" class="form-inline">
-							<div class="form-group">							
-								<button type="button" id="neuanlegen_btn" class="btn btn-primary" data-toggle="modal" data-target="#neuanlegenModal"><span class="glyphicon glyphicon-plus"></span> Neu anlegen</button>							
-								
-									<div class="input-group suchfilter"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> Filter</span>
-										<input id="filter" type="text" class="form-control" placeholder="Filterbegriff eingeben...">
-									</div>
-														
-									<span class="typfilter"><u><strong>Typfilter:</strong></u></span>
-									<label>
-										<input id="mitarbeiter_cbx" type="checkbox" value="">
-										Mitarbeiter
-									</label>
-									<label>
-										<input id="unterstuetzer_cbx" type="checkbox" value="">
-										Unterst&uuml;tzer
-									</label>
-									<label>
-										<input id="mitglieder_cbx" type="checkbox" value="">
-										Mitglieder
-									</label>
-									<label>
-										<input id="gaeste_cbx" type="checkbox" value="">
-										G&auml;ste
-									</label>							
+							<div class="form-group">
+								<button type="button" id="neuanlegen_btn"
+									class="btn btn-primary" data-toggle="modal"
+									data-target="#neuanlegenModal">
+									<span class="glyphicon glyphicon-plus"></span> Neu anlegen
+								</button>
+
+								<div class="input-group suchfilter">
+									<span class="input-group-addon"><span
+										class="glyphicon glyphicon-search"></span> Filter</span> <input
+										id="filter" type="text" class="form-control"
+										placeholder="Filterbegriff eingeben...">
+								</div>
+
+								<span class="typfilter"><u><strong>Typfilter:</strong></u></span>
+								<label> <input id="mitarbeiter_cbx" type="checkbox"
+									value=""> Mitarbeiter
+								</label> <label> <input id="unterstuetzer_cbx" type="checkbox"
+									value=""> Unterst&uuml;tzer
+								</label> <label> <input id="mitglieder_cbx" type="checkbox"
+									value=""> Mitglieder
+								</label> <label> <input id="gaeste_cbx" type="checkbox" value="">
+									G&auml;ste
+								</label>
 							</div>
 						</form>
 						<!-- Table -->
 						<div class="table-responsive">
-						<table class="table table-hover table-striped header-fixed" id="personen">
-						<thead class="personen">
-							<tr>
-								<th style="width: 3%">#</th>								
-								<th style="width: 5%">Anrede</th>
-								<th style="width: 5%">Titel</th>
-								<th style="width: 15%">Vorname</th>
-								<th style="width: 15%">Nachname</th>
-								<th style="width: 15%">Anschrift</th>
-								<th style="width: 15%">E-Mail Adresse</th>
-								<th style="width: 12%">Telefonnummer</th>
-								<th style="width: 5%">Akt. Datum</th>								
-								<th style="width: 2%">Rechte</th>
-								<th style="width: 3%">Typ</th>		
-								<th style="width: 5%">Letzter Bearbeiter</th>		
-							</tr>
-						</thead>	
-						<tbody class="searchable">
-							<tr>
-								<td>1</td>
-								<td>Herr</td>
-								<td>Dr.</td>
-								<td>Hans</td>
-								<td>Mustermann</td>
-								<td>Musterweg 1, 5020 Salzburg, AUT</td>
-								<td>max.mustermann@gmx.de</td>
-								<td>00431234567</td>
-								<td>12.12.2014</td>								
-								<td>Admin</td>								
-								<td>MA</td>
-								<td>Doris K.</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>Herr</td>
-								<td>Dr.</td>
-								<td>Peter</td>
-								<td>Mustermann</td>
-								<td>Musterweg 1, 5020 Salzburg, AUT</td>
-								<td>max.mustermann@gmx.de</td>
-								<td>00431234567</td>
-								<td>12.12.2014</td>								
-								<td>Admin</td>								
-								<td>MA</td>
-								<td>Doris K.</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>Herr</td>
-								<td>Dr.</td>
-								<td>Hans</td>
-								<td>Maier</td>
-								<td>Musterweg 1, 5020 Salzburg, AUT</td>
-								<td>max.mustermann@gmx.de</td>
-								<td>00431234567</td>
-								<td>12.12.2014</td>								
-								<td>Admin</td>								
-								<td>MA</td>
-								<td>Doris K.</td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>Herr</td>
-								<td>Dr.</td>
-								<td>Sepp</td>
-								<td>Huber</td>
-								<td>Lilienweg 1, 5020 Salzburg, AUT</td>
-								<td>max.mustermann@gmx.de</td>
-								<td>00431234567</td>
-								<td>12.12.2014</td>								
-								<td>Admin</td>								
-								<td>MA</td>
-								<td>Doris K.</td>
-							</tr>
-							<tr>
-								<td>5</td>
-								<td>Herr</td>
-								<td>Dr.</td>
-								<td>Max</td>
-								<td>Mustermann</td>
-								<td>Musterweg 1, 5020 Salzburg, AUT</td>
-								<td>max.mustermann@gmx.de</td>
-								<td>00431234567</td>
-								<td>12.12.2014</td>								
-								<td>Admin</td>								
-								<td>MA</td>
-								<td>Doris K.</td>
-							</tr>
-							<tr>
-								<td>6</td>
-								<td>Herr</td>
-								<td>Dr.</td>
-								<td>Max</td>
-								<td>Mustermann</td>
-								<td>Musterweg 1, 5020 Salzburg, AUT</td>
-								<td>max.mustermann@gmx.de</td>
-								<td>00431234567</td>
-								<td>12.12.2014</td>								
-								<td>Admin</td>								
-								<td>Gast</td>
-								<td>Doris K.</td>
-							</tr>
-							<tr>
-								<td>7</td>
-								<td>Herr</td>
-								<td>Dr.</td>
-								<td>Max</td>
-								<td>Mustermann</td>
-								<td>Musterweg 1, 5020 Salzburg, AUT</td>
-								<td>max.mustermann@gmx.de</td>
-								<td>00431234567</td>
-								<td>12.12.2014</td>								
-								<td>Admin</td>								
-								<td>MG</td>
-								<td>Doris K.</td>
-							</tr>
-							<tr>
-								<td>8</td>
-								<td>Herr</td>
-								<td>Dr.</td>
-								<td>Max</td>
-								<td>Mustermann</td>
-								<td>Musterweg 1, 5020 Salzburg, AUT</td>
-								<td>max.mustermann@gmx.de</td>
-								<td>00431234567</td>
-								<td>12.12.2014</td>								
-								<td>Admin</td>								
-								<td>Unterst.</td>
-								<td>Doris K.</td>
-							</tr>
-							<tr>
-								<td>9</td>
-								<td>Herr</td>
-								<td>Dr.</td>
-								<td>Max</td>
-								<td>Mustermann</td>
-								<td>Musterweg 1, 5020 Salzburg, AUT</td>
-								<td>max.mustermann@gmx.de</td>
-								<td>00431234567</td>
-								<td>12.12.2014</td>								
-								<td>Admin</td>								
-								<td>MA</td>
-								<td>Doris K.</td>
-							</tr>
-						</tbody>
-						</table>
+							<table class="table table-hover table-striped header-fixed"
+								id="personen">
+								<thead class="personen">
+									<tr>
+										<th style="width: 3%">#</th>
+										<th style="width: 5%">Anrede</th>
+										<th style="width: 5%">Titel</th>
+										<th style="width: 15%">Vorname</th>
+										<th style="width: 15%">Nachname</th>
+										<th style="width: 15%">Anschrift</th>
+										<th style="width: 15%">E-Mail Adresse</th>
+										<th style="width: 12%">Telefonnummer</th>
+										<th style="width: 5%">Akt. Datum</th>
+										<th style="width: 2%">Rechte</th>
+										<th style="width: 3%">Typ</th>
+										<th style="width: 5%">Letzter Bearbeiter</th>
+									</tr>
+								</thead>
+								<tbody class="searchable">
+									<tr>
+										<td>1</td>
+										<td>Herr</td>
+										<td>Dr.</td>
+										<td>Hans</td>
+										<td>Mustermann</td>
+										<td>Musterweg 1, 5020 Salzburg, AUT</td>
+										<td>max.mustermann@gmx.de</td>
+										<td>00431234567</td>
+										<td>12.12.2014</td>
+										<td>Admin</td>
+										<td>MA</td>
+										<td>Doris K.</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>Herr</td>
+										<td>Dr.</td>
+										<td>Peter</td>
+										<td>Mustermann</td>
+										<td>Musterweg 1, 5020 Salzburg, AUT</td>
+										<td>max.mustermann@gmx.de</td>
+										<td>00431234567</td>
+										<td>12.12.2014</td>
+										<td>Admin</td>
+										<td>MA</td>
+										<td>Doris K.</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>Herr</td>
+										<td>Dr.</td>
+										<td>Hans</td>
+										<td>Maier</td>
+										<td>Musterweg 1, 5020 Salzburg, AUT</td>
+										<td>max.mustermann@gmx.de</td>
+										<td>00431234567</td>
+										<td>12.12.2014</td>
+										<td>Admin</td>
+										<td>MA</td>
+										<td>Doris K.</td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>Herr</td>
+										<td>Dr.</td>
+										<td>Sepp</td>
+										<td>Huber</td>
+										<td>Lilienweg 1, 5020 Salzburg, AUT</td>
+										<td>max.mustermann@gmx.de</td>
+										<td>00431234567</td>
+										<td>12.12.2014</td>
+										<td>Admin</td>
+										<td>MA</td>
+										<td>Doris K.</td>
+									</tr>
+									<tr>
+										<td>5</td>
+										<td>Herr</td>
+										<td>Dr.</td>
+										<td>Max</td>
+										<td>Mustermann</td>
+										<td>Musterweg 1, 5020 Salzburg, AUT</td>
+										<td>max.mustermann@gmx.de</td>
+										<td>00431234567</td>
+										<td>12.12.2014</td>
+										<td>Admin</td>
+										<td>MA</td>
+										<td>Doris K.</td>
+									</tr>
+									<tr>
+										<td>6</td>
+										<td>Herr</td>
+										<td>Dr.</td>
+										<td>Max</td>
+										<td>Mustermann</td>
+										<td>Musterweg 1, 5020 Salzburg, AUT</td>
+										<td>max.mustermann@gmx.de</td>
+										<td>00431234567</td>
+										<td>12.12.2014</td>
+										<td>Admin</td>
+										<td>Gast</td>
+										<td>Doris K.</td>
+									</tr>
+									<tr>
+										<td>7</td>
+										<td>Herr</td>
+										<td>Dr.</td>
+										<td>Max</td>
+										<td>Mustermann</td>
+										<td>Musterweg 1, 5020 Salzburg, AUT</td>
+										<td>max.mustermann@gmx.de</td>
+										<td>00431234567</td>
+										<td>12.12.2014</td>
+										<td>Admin</td>
+										<td>MG</td>
+										<td>Doris K.</td>
+									</tr>
+									<tr>
+										<td>8</td>
+										<td>Herr</td>
+										<td>Dr.</td>
+										<td>Max</td>
+										<td>Mustermann</td>
+										<td>Musterweg 1, 5020 Salzburg, AUT</td>
+										<td>max.mustermann@gmx.de</td>
+										<td>00431234567</td>
+										<td>12.12.2014</td>
+										<td>Admin</td>
+										<td>Unterst.</td>
+										<td>Doris K.</td>
+									</tr>
+									<tr>
+										<td>9</td>
+										<td>Herr</td>
+										<td>Dr.</td>
+										<td>Max</td>
+										<td>Mustermann</td>
+										<td>Musterweg 1, 5020 Salzburg, AUT</td>
+										<td>max.mustermann@gmx.de</td>
+										<td>00431234567</td>
+										<td>12.12.2014</td>
+										<td>Admin</td>
+										<td>MA</td>
+										<td>Doris K.</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 						<!-- Table end -->
-						
-		<!-- Neu anlegen (unfertig!) -->
-		<div class="modal fade" id="neuanlegenModal" tabindex="-1" role="dialog" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-							<h4 class="modal-title" id="modal_title_text">Bearbeite Person</h4>
-						</div>
-									  
-						<div class="modal-body">
-							<form class="form-horizontal" role="form"> 
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-4 control-label">Anrede</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_anrede" placeholder="Anrede">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<label class="col-sm-4 control-label">Titel</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_titel" placeholder="Titel">
-											</div>
-									</div>
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-4 control-label">Vorname</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_vorname" placeholder="Vorname">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<label class="col-sm-4 control-label">Nachname</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_nachname" placeholder="Nachname">
-											</div>
-									</div>
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-4 control-label">Adresse</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_adresse" placeholder="Adresse">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<label class="col-sm-4 control-label">PLZ</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_plz" placeholder="PLZ">
-											</div>
-									</div>
-									</div>
-								</div>
 
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-4 control-label">Ort</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_ort" placeholder="Ort">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<label class="col-sm-4 control-label">Land</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_land" placeholder="Land">
-											</div>
-									</div>
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-4 control-label">Telefonnr.</label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_telnr1" placeholder="Telefonnr.">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<div class="col-sm-7">
-											<select class="form-control">
-												<option>Privat</option>
-												<option>Gesch&auml;ftlich</option>																				  
-											</select>
-											</div>
-											<div class="col-sm-5">
-												<button type="button" class="btn btn-default">L&ouml;schen</button>
-											</div>
-									</div>
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-sm-4 control-label"></label>
-											<div class="col-sm-8">
-												<input type="text" class="form-control" id="tbx_telnr2" placeholder="Telefonnr.">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<div class="col-sm-7">
-											<select class="form-control">
-												<option>Privat</option>
-												<option>Gesch&auml;ftlich</option>											  
-											</select>
-											</div>
-											<div class="col-sm-5">
-												<button type="button" class="btn btn-default" id="btn_delete">L&ouml;schen</button>
-											</div>
-									</div>
-									</div>
-								</div>	
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group">
-											<div class="col-md-4">									
-											</div>
-											<div class="col-sm-3">
-												<button type="button" class="btn btn-default">Telefonnr. hinzuf&uuml;gen</button>
-											</div>
-											<div class="col-md-3">									
-											</div>
-											<div class="col-md-2">									
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">									
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-md-6 test1">
-									<div class="form-group">
-										<label class="col-sm-4 control-label">Mailadressen</label>
-											<div class="col-sm-8">
-												<input type="text" name="option[]" class="form-control" id="tbx_mailadresse" placeholder="Email">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group">
-											<div class="col-sm-7">
-											<select class="form-control">
-												<option>Privat</option>
-												<option>Gesch&auml;ftlich</option>											  
-											</select>
-											</div>
-											<div class="col-sm-5">
-												<button type="button" id="addButton" class="btn btn-default"><span class="glyphicon glyphicon-plus"></button>
-											</div>
-									</div>
-									</div>
-								</div>
-								
-								<div class="row">
-									<div class="col-md-6">
-									<div class="form-group hide" id="optionTemplate">
-										<label class="col-sm-4 control-label"></label>
-											<div class="col-sm-8">
-												<input type="text" name="option[]" class="form-control" id="tbx_mailadresse" placeholder="Email">
-											</div>
-									</div>
-									</div>
-									<div class="col-md-6">
-									<div class="form-group hide" id="optionTemplate1">
-											<div class="col-sm-7">
-											<select class="form-control" name="option[]">
-												<option>Privat</option>
-												<option>Gesch&auml;ftlich</option>											  
-											</select>
-											</div>
-											<div class="col-sm-5">
-												<button type="button" id="removeButton" class="btn btn-default"><span class="glyphicon glyphicon-minus"></span></button>
-											</div>
-									</div>
-									</div>
-								</div>									
-																			
-							</form>
-						</div>
-									  
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Passwort zur&uuml;cksetzen</button>									
-							<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-							<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Speichern</button>
-						</div>
-				</div><!-- /.modal-content -->
-			</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
-						
-						<!-- Modal L�schen -->
-						<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+						<!-- Neu anlegen (unfertig!) -->
+						<div class="modal fade" id="neuanlegenModal" tabindex="-1"
+							role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
-									  <div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-										<h4 class="modal-title">Wollen Sie den Eintrag wirklich l&ouml;schen?</h4>
-									  </div>
-									  <div class="modal-body">
-											
-											<div class="row modalrow">
-											  <div class="col-md-6">
-													<label id="index_delete">Index</label>
-													<label id="anrede_delete">Anrede</label>
-													<label id="titel_delete">Titel</label>
-													<label id="vorname_delete">Vorname</label>
-													<label id="nachname_delete">Nachname</label>
-											  </div>
-											  <div class="col-md-6">
-																						  
-											  </div>
-											</div>															
-										
-									  </div>
-									  <div class="modal-footer">										
-										<button type="button" class="btn btn-default" data-dismiss="modal"> Abbrechen</button>
-										<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Loeschen</button>								
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title" id="modal_title_text">Bearbeite
+											Person</h4>
+									</div>
 
-									  </div>
-								</div><!-- /.modal-content -->
-							</div><!-- /.modal-dialog -->
-						</div><!-- /.modal -->
-						
-					</div>								
-					<div class="tab-pane" id="tab2">
-						Content2
+									<div class="modal-body">
+										<form class="form-horizontal" role="form">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Anrede</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_anrede"
+																placeholder="Anrede">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Titel</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_titel"
+																placeholder="Titel">
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Vorname</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_vorname"
+																placeholder="Vorname">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Nachname</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_nachname"
+																placeholder="Nachname">
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Adresse</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_adresse"
+																placeholder="Adresse">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">PLZ</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_plz"
+																placeholder="PLZ">
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Ort</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_ort"
+																placeholder="Ort">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Land</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_land"
+																placeholder="Land">
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-sm-2">
+													<label class="control-label">Telefonnr.</label>
+												</div>
+<!-- Tel. num container -->
+												<div id="telnum_container" class="col-sm-10">
+<!--Tel. num element -->
+													
+<!-- /Tel. num element -->
+
+												</div>
+<!-- /Tel. num container -->
+
+											</div>
+
+											<div class="row">
+												<div class="col-sm-10 col-sm-offset-2">
+													<div class="form-group">
+															<button type="button" id="addphonenumber_btn" class="btn btn-default">Telefonnr.
+																hinzuf&uuml;gen</button>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-6 test1">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Mailadressen</label>
+														<div class="col-sm-8">
+															<input type="text" name="option[]" class="form-control"
+																id="tbx_mailadresse" placeholder="Email">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<div class="col-sm-7">
+															<select class="form-control">
+																<option>Privat</option>
+																<option>Gesch&auml;ftlich</option>
+															</select>
+														</div>
+														<div class="col-sm-5">
+															<button type="button" id="addButton"
+																class="btn btn-default">
+																<span class="glyphicon glyphicon-plus">
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group hide" id="optionTemplate">
+														<label class="col-sm-4 control-label"></label>
+														<div class="col-sm-8">
+															<input type="text" name="option[]" class="form-control"
+																id="tbx_mailadresse" placeholder="Email">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group hide" id="optionTemplate1">
+														<div class="col-sm-7">
+															<select class="form-control" name="option[]">
+																<option>Privat</option>
+																<option>Gesch&auml;ftlich</option>
+															</select>
+														</div>
+														<div class="col-sm-5">
+															<button type="button" id="removeButton"
+																class="btn btn-default">
+																<span class="glyphicon glyphicon-minus"></span>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</form>
+									</div>
+
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default pull-left"
+											data-dismiss="modal">Passwort zur&uuml;cksetzen</button>
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Abbrechen</button>
+										<button type="button" class="btn btn-primary">
+											<span class="glyphicon glyphicon-floppy-save"></span>
+											Speichern
+										</button>
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal-dialog -->
+						</div>
+						<!-- /.modal -->
+
+						<!-- Modal L�schen -->
+						<div class="modal fade" id="deleteModal" tabindex="-1"
+							role="dialog" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title">Wollen Sie den Eintrag wirklich
+											l&ouml;schen?</h4>
+									</div>
+									<div class="modal-body">
+
+										<div class="row modalrow">
+											<div class="col-md-6">
+												<label id="index_delete">Index</label> <label
+													id="anrede_delete">Anrede</label> <label id="titel_delete">Titel</label>
+												<label id="vorname_delete">Vorname</label> <label
+													id="nachname_delete">Nachname</label>
+											</div>
+											<div class="col-md-6"></div>
+										</div>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Abbrechen</button>
+										<button type="button" class="btn btn-danger">
+											<span class="glyphicon glyphicon-trash"></span> Loeschen
+										</button>
+
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal-dialog -->
+						</div>
+						<!-- /.modal -->
+
 					</div>
-					<div class="tab-pane" id="tab3">
-						Content3
-					</div>
+					<div class="tab-pane" id="tab2">Content2</div>
+					<div class="tab-pane" id="tab3">Content3</div>
 				</div>
-				
-			</div>		  
+
+			</div>
 		</div>
-		
+
 		<div class="row" id="body">
-			<div class="col-md-12">				
-				
-			</div>
+			<div class="col-md-12"></div>
 		</div>
-		
+
 		<div class="row" id="footer">
-			<div class="col-md-4">
-					
-			</div>
+			<div class="col-md-4"></div>
 			<div class="col-md-4">
 				<form role="form" class="form-inline">
-							<div class="form-group bottom">
-								<button type="button" id="edit" class="btn btn-warning" data-toggle="modal" data-target="#neuanlegenModal"><span class="glyphicon glyphicon-pencil"></span> Bearbeiten</button>
-								<button type="button" id="delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span> Loeschen</button>								
-							</div>							
+					<div class="form-group bottom">
+						<button type="button" id="edit" class="btn btn-warning"
+							data-toggle="modal" data-target="#neuanlegenModal">
+							<span class="glyphicon glyphicon-pencil"></span> Bearbeiten
+						</button>
+						<button type="button" id="delete" class="btn btn-danger"
+							data-toggle="modal" data-target="#deleteModal">
+							<span class="glyphicon glyphicon-trash"></span> Loeschen
+						</button>
+					</div>
 				</form>
 			</div>
 			<div class="col-md-4">
-				<button type="button" class="btn btn-primary pull-right centered"><span class="glyphicon glyphicon-share"></span> Exportieren</button>
+				<button type="button" class="btn btn-primary pull-right centered">
+					<span class="glyphicon glyphicon-share"></span> Exportieren
+				</button>
 			</div>
 		</div>
-	</div>	
-	
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../js/bootstrap.min.js"></script>
+	</div>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="../js/bootstrap.min.js"></script>
 	<!-- Load Pageheader and set nav active -->
-	<script>
-		$("#pageheader").load("../partials/header.html");
-		$("#adressverwaltung_nav").addClass("active");		
-	</script>
-	
-	<script>
-	$("#neuanlegen_btn").click(function() {   
-		$("#modal_title_text").text("Neue Person");
-    });
-	
-	$("#edit").click(function() {   
-		$("#modal_title_text").text("Bearbeite Person");
-    });
-	</script>
-	
-	<script>
-	$(document).ready(function () {
-
-		$("#addButton").click(function() {   	
-        	var $template = $('#optionTemplate'),
-            $clone    = $template
-                            .clone()
-                            .removeClass('hide')
-                            
-                            .insertBefore($template),
-            $option   = $clone.find('[name="option[]"]');
-        	
-        	var $template = $('#optionTemplate1'),
-            $clone    = $template
-                            .clone()
-                            .removeClass('hide')
-                            
-                            .insertBefore($template),
-            $option   = $clone.find('[name="option[]"]');
-        });
-
-		$("#removeButton").click(function() {   
-            alert("kjkj");
-        	var $row    = $(this).parents('.form-group'),
-                $option = $row.find('[name="option[]"]');
-
-            // Remove element containing the option
-            $row.remove();           
-        });
-	});	
-	</script>
-	
-	<!-- Filterfunktion -->
-	<script>
-		$(document).ready(function () {
-
-		(function ($) {
-			$('#filter').keyup(function () {
-
-				var rex = new RegExp($(this).val(), 'i');
-				$('.searchable tr').hide();
-				$('.searchable tr').filter(function () {
-					return rex.test($(this).text());
-				}).show();
-			})
-		}(jQuery));
-	});
-	</script>
-	
-	<!-- Typfilter -->
-	<script>	
-		$(document).ready(function () {
-		$('#mitarbeiter_cbx').prop('checked', true);
-		$('#unterstuetzer_cbx').prop('checked', true);
-		$('#mitglieder_cbx').prop('checked', true);
-		$('#gaeste_cbx').prop('checked', true);
-
-		(function ($) {			
-			$('#mitarbeiter_cbx').on('change', function(){				
-				if(this.checked){						
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(10).text() == "MA"
-					}).show();				
-				}else{					
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(10).text() == "MA"
-					}).hide();
-				}			
-			});
-			$('#unterstuetzer_cbx').on('change', function(){				
-				if(this.checked){							
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(10).text() == "Unterst."
-					}).show();				
-				}else{					
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(10).text() == "Unterst."
-					}).hide();
-				}				
-			});
-			$('#mitglieder_cbx').on('change', function(){				
-				if(this.checked){						
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(10).text() == "MG"
-					}).show();				
-				}else{					
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(10).text() == "MG"
-					}).hide();
-				}				
-			});
-			$('#gaeste_cbx').on('change', function(){				
-				if(this.checked){							
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(10).text() == "Gast"
-					}).show();				
-				}else{					
-					$('.searchable tr').filter(function() {
-						return $(this).find('td').eq(10).text() == "Gast"
-					}).hide();
-				}				
-			});
-			
-		}(jQuery));
-	});
-	</script>
-	
-	<!-- Tabellenzeile markieren -->
-	<script>
-	$('#edit').prop('disabled', true);
-	$('#delete').prop('disabled', true);
-	var tableData;
-	
-	$('#personen').on('click', 'tbody tr', function(event) {
-		tableData = $(this).children("td").map(function() {
-        return $(this).text();
-		}).get();
-		
-    $(this).addClass('highlight').siblings().removeClass('highlight');
-		$('#edit').prop('disabled', false);
-		$('#delete').prop('disabled', false);
-	});
-	</script>
-	
-	<!-- L�schen einer Tabellenzeile -->
-	<script>
-	$('#delete').on('click',function(){		
-		document.getElementById('index_delete').innerHTML = $.trim(tableData[0]);
-		document.getElementById('anrede_delete').innerHTML = $.trim(tableData[1]);
-		document.getElementById('titel_delete').innerHTML = $.trim(tableData[2]);
-		document.getElementById('vorname_delete').innerHTML = $.trim(tableData[3]); 
-		document.getElementById('nachname_delete').innerHTML = $.trim(tableData[4]); 
-    });
-	</script>
-	
-	
+	<script src="../js/adressverwaltung_personen.js" type="text/javascript"></script>
 </body>
 </html>
