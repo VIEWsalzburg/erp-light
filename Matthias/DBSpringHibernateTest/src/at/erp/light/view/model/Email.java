@@ -19,24 +19,24 @@ public class Email implements java.io.Serializable {
 
 	private int emailId;
 	private Type type;
-	private Person person;
-	private String loginEmail;
+	// private Person person;
+	private String email;
 
 	public Email() {
 	}
 
-	public Email(int emailId, Type type, String loginEmail) {
+	public Email(int emailId, Type type, String email) {
 		this.emailId = emailId;
 		this.type = type;
-		this.loginEmail = loginEmail;
+		this.email = email;
 	}
 
-	public Email(int emailId, Type type, Person person, String loginEmail) {
-		this.emailId = emailId;
-		this.type = type;
-		this.person = person;
-		this.loginEmail = loginEmail;
-	}
+//	public Email(int emailId, Type type, Person person, String loginEmail) {
+//		this.emailId = emailId;
+//		this.type = type;
+//		this.person = person;
+//		this.loginEmail = loginEmail;
+//	}
 
 	@Id
 	@Column(name = "email_id", unique = true, nullable = false)
@@ -58,23 +58,23 @@ public class Email implements java.io.Serializable {
 		this.type = type;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "person_id")
-	public Person getPerson() {
-		return this.person;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "person_id")
+//	public Person getPerson() {
+//		return this.person;
+//	}
+//
+//	public void setPerson(Person person) {
+//		this.person = person;
+//	}
+
+	@Column(name = "email", nullable = false, length = 50)
+	public String getEmail() {
+		return this.email;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
-	@Column(name = "login_email", nullable = false, length = 50)
-	public String getLoginEmail() {
-		return this.loginEmail;
-	}
-
-	public void setLoginEmail(String loginEmail) {
-		this.loginEmail = loginEmail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

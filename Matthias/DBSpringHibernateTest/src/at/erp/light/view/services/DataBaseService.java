@@ -1,5 +1,6 @@
 package at.erp.light.view.services;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -14,12 +15,14 @@ import at.erp.light.view.model.Category;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
 import at.erp.light.view.model.DeliveryList;
+import at.erp.light.view.model.Email;
 import at.erp.light.view.model.IncomingArticle;
 import at.erp.light.view.model.IncomingDelivery;
 import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.OutgoingArticle;
 import at.erp.light.view.model.OutgoingDelivery;
 import at.erp.light.view.model.Person;
+import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
 
 
@@ -216,6 +219,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public int setPerson(Person person) {
 		
+		// update Address
 		// if address == null => delete FK
 		if (person.getAddress() != null)
 		{
@@ -224,6 +228,7 @@ public class DataBaseService implements IDataBase {
 			person.setAddress(Address);
 		}
 		
+		// update Country
 		if (person.getCountry() != null)
 		{
 			// checks if Country already exists in database (if yes => retrieve existing one, if no => create new one and get it)
@@ -231,12 +236,15 @@ public class DataBaseService implements IDataBase {
 			person.setCountry(country);
 		}
 		
+		// update City
 		if (person.getCity() != null)
 		{
 			// checks if City and Zip already exist in database (if yes => retrieve existing one, if no => create new one and get it)
 			City city = getCityByCityAndZip(person.getCity().getCity(), person.getCity().getZip());
 			person.setCity(city);
 		}
+		
+		
 		
 		sessionFactory.getCurrentSession().saveOrUpdate(person);
 		
@@ -248,6 +256,34 @@ public class DataBaseService implements IDataBase {
 		
 	}
 
+	@Override
+	@Transactional
+	public int telephoneTest() {
+	
+		Person mPerson = getPersonById(36);
+		
+		mPerson.setActive(1);
+		
+		Telephone tel = new Telephone(0, Type.PRIVAT, "00 43 5678");
+		sessionFactory.getCurrentSession().saveOrUpdate(tel);
+		
+		mPerson.getTelephones().add(tel);
+		// mPerson.getTelephones().remove(mPerson.getTelephones().toArray()[0]);
+		
+		// tel.setPerson(mPerson);
+		
+//		Set<Telephone> telephones = (Set<Telephone>) mPerson.getTelephones();
+//		telephones.add(tel);
+//		mPerson.setTelephones(telephones);
+		
+		// sessionFactory.getCurrentSession().saveOrUpdate(mPerson);
+		
+		return 0;
+		
+	}
+	
+	
+	
 	@Override
 	public int setPersons(List<Person> persons) {
 		// TODO Auto-generated method stub

@@ -21,6 +21,19 @@ import javax.persistence.Table;
 @Table(name = "type", schema = "public")
 public class Type implements java.io.Serializable {
 
+	public static int MITARBEITER = 1;
+	public static int UNTERSTÜTZER = 2;
+	public static int MITGLIED = 3;
+	public static int GAST = 4;
+	public static int LIEFERANT = 5;
+	public static int KUNDE = 6;
+	public static int SPONSOR = 7;
+	
+	public static int PRIVAT = 10;
+	public static int GESCHÄFTLICH = 11;
+	
+	
+	
 	private int typeId;
 	private String name;
 	private Set<Organisation> organisations = new HashSet<Organisation>(0);

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
+import at.erp.light.view.model.Email;
 import at.erp.light.view.model.Person;
 import at.erp.light.view.model.Telephone;
 import at.erp.light.view.services.DataBaseService;
@@ -152,13 +153,22 @@ public class PersonController {
 		// Exception Handling is best done in the calling context
 		try{
 
-			Person mPerson = dataBaseService.getPersonById(36);
+			// System.out.println("telephoneTest: "+dataBaseService.telephoneTest() );
+			
+			
+			
+			Person mPerson = dataBaseService.getPersonById(36, Person.FETCH_TELEPHONES | Person.FETCH_EMAILS);
 			
 			System.out.println("mPerson: "+mPerson.toString());
 			
 			for (Telephone telephone : mPerson.getTelephones())
 			{
 				System.out.println(telephone.getTelephone());
+			}
+			
+			for (Email email : mPerson.getEmails())
+			{
+				System.out.println(email.getEmail());
 			}
 			
 		}

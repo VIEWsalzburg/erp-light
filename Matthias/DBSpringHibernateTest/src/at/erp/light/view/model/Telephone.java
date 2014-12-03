@@ -1,10 +1,16 @@
 package at.erp.light.view.model;
 
-// Generated 03.12.2014 12:48:59 by Hibernate Tools 3.4.0.CR1
+// Generated 03.12.2014 13:09:29 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -15,7 +21,7 @@ import javax.persistence.Table;
 public class Telephone implements java.io.Serializable {
 
 	private int telephoneId;
-	private Integer personId;
+	// private Person person;
 	private int typeId;
 	private String telephone;
 
@@ -28,15 +34,17 @@ public class Telephone implements java.io.Serializable {
 		this.telephone = telephone;
 	}
 
-	public Telephone(int telephoneId, Integer personId, int typeId,
-			String telephone) {
-		this.telephoneId = telephoneId;
-		this.personId = personId;
-		this.typeId = typeId;
-		this.telephone = telephone;
-	}
+//	public Telephone(int telephoneId, Person person, int typeId,
+//			String telephone) {
+//		this.telephoneId = telephoneId;
+//		this.person = person;
+//		this.typeId = typeId;
+//		this.telephone = telephone;
+//	}
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="gen_telephone_id")
+	@SequenceGenerator(name="gen_telephone_id", sequenceName="telephone_telephone_id_seq", allocationSize=1)
 	@Column(name = "telephone_id", unique = true, nullable = false)
 	public int getTelephoneId() {
 		return this.telephoneId;
@@ -46,14 +54,15 @@ public class Telephone implements java.io.Serializable {
 		this.telephoneId = telephoneId;
 	}
 
-	@Column(name = "person_id")
-	public Integer getPersonId() {
-		return this.personId;
-	}
-
-	public void setPersonId(Integer personId) {
-		this.personId = personId;
-	}
+	// @ManyToOne(fetch = FetchType.LAZY)
+	// @JoinColumn(name = "person_id")	// removed this for unidirectional OneToMany
+//	public Person getPerson() {
+//		return this.person;
+//	}
+//
+//	public void setPerson(Person person) {
+//		this.person = person;
+//	}
 
 	@Column(name = "type_id", nullable = false)
 	public int getTypeId() {

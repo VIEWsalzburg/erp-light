@@ -74,6 +74,7 @@ public interface IDataBase {
 	
 	public int setDeliveryList(DeliveryList deliveryList);
 	public int setDeliveryLists(List<DeliveryList> deliveryLists);
+	public int telephoneTest();
 	
 
 }

@@ -425,4 +425,11 @@ public class MockedDataBaseService implements IDataBase {
 		return 0;
 	}
 
+
+	@Override
+	public int telephoneTest() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -287,7 +287,9 @@ public class Person implements java.io.Serializable {
 		this.types = types;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+	@OneToMany
+	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+	@JoinColumn(name="person_id", referencedColumnName="person_id")	// added this for unidirectional OneToMany
 	public Set<Email> getEmails() {
 		return this.emails;
 	}
@@ -307,7 +309,9 @@ public class Person implements java.io.Serializable {
 		this.incomingDeliveries = incomingDeliveries;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+	@OneToMany
+	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+	@JoinColumn(name="person_id", referencedColumnName="person_id")	// added this for unidirectional OneToMany
 	public Set<Telephone> getTelephones() {
 		return this.telephones;
 	}
