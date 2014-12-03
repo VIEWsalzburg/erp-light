@@ -1,4 +1,6 @@
 package at.erp.light.view.services;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Hibernate;
@@ -14,31 +16,99 @@ import at.erp.light.view.model.Category;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
 import at.erp.light.view.model.DeliveryList;
+import at.erp.light.view.model.Email;
 import at.erp.light.view.model.IncomingArticle;
 import at.erp.light.view.model.IncomingDelivery;
 import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.OutgoingArticle;
 import at.erp.light.view.model.OutgoingDelivery;
+import at.erp.light.view.model.Permission;
 import at.erp.light.view.model.Person;
+import at.erp.light.view.model.Platformuser;
+import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
 
 
 public class MockedDataBaseService implements IDataBase {
 
 	private SessionFactory sessionFactory;
+	
+	private List<Person> mockedPersons = new ArrayList<Person>();
+	
+	Type typePrivat = new Type(Type.PRIVAT, "Privat");
+	Permission permissionAdmin = new Permission(1, 1, "Admin");
 		
 	public MockedDataBaseService(SessionFactory sessionFactory) {
+		
 		this.sessionFactory = sessionFactory;
+		
+		// initialize Persons
+		
+		// first Person
+		Person person1 = new Person(1, "Herr", "Dr.", "Seppi", "Huber", "kommt vom Land", new Date(System.currentTimeMillis()), 1); 
+		Address address1 = new Address(1, "Seppis Straﬂe 1");
+		City city1 = new City(1, "Seppis Stadt", "2345");
+		Country country1 = new Country(1, "Seppis Land");
+		
+		Email email1 = new Email(1, typePrivat, "seppi.huber@gmail.com");
+		Telephone telephone1 = new Telephone(1, typePrivat, "0664 1234567");
+		
+		person1.setAddress(address1);
+		person1.setCity(city1);
+		person1.setCountry(country1);
+		person1.getEmails().add(email1);
+		person1.getTelephones().add(telephone1);
+		Platformuser platformUser1 = new Platformuser(permissionAdmin, person1, "admin", "seppi.huber@gmail.com");
+		
+		
+		
+		// second Person
+		Person person2 = new Person(2, "Frau", "Bsc", "Susi", "Mayer", "kommt aus der Stadt", new Date(System.currentTimeMillis()), 1); 
+		Address address2 = new Address(2, "Susis Straﬂe 2");
+		City city2 = new City(2, "Susis Stadt", "3456");
+		Country country2 = new Country(2, "Susis Land");
+		
+		Email email2 = new Email(2, typePrivat, "susi.mayer@gmail.com");
+		Telephone telephone2 = new Telephone(2, typePrivat, "0664 9876543");
+		
+		person2.setAddress(address2);
+		person2.setCity(city2);
+		person2.setCountry(country2);
+		person2.getEmails().add(email2);
+		person2.getTelephones().add(telephone2);
+		Platformuser platformUser2 = new Platformuser(permissionAdmin, person2, "admin", "susi.mayer@gmail.com");
+		
+		
+		
+		
+		
+		// third Person
+		Person person3 = new Person(3, "Herr", "MSc", "Maxi", "Neumann", "unterrichtet an der FH", new Date(System.currentTimeMillis()), 1); 
+		Address address3 = new Address(3, "Maxis Straﬂe 2");
+		City city3 = new City(3, "Maxis Stadt", "4567");
+		Country country3 = new Country(3, "Maxis Land");
+		
+		Email email3 = new Email(3, typePrivat, "maxi.neumann@gmail.com");
+		Telephone telephone3 = new Telephone(1, typePrivat, "0664 5463728");
+		
+		person3.setAddress(address3);
+		person3.setCity(city3);
+		person3.setCountry(country3);
+		person3.getEmails().add(email3);
+		person3.getTelephones().add(telephone3);
+		Platformuser platformUser3 = new Platformuser(permissionAdmin, person3, "admin", "maxi.neumann@gmail.com");
+		
+		mockedPersons.add(person1);
+		mockedPersons.add(person2);
+		mockedPersons.add(person3);
+		
 	}
-
+	
 		
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Person getPersonById(int id) {				
-		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p WHERE p.personId = :id");
-		query.setParameter("id", id);
-		Person person = (Person)query.uniqueResult();
-		return person;
+		return mockedPersons.get(0);
 	}
 	
 	@Override
@@ -51,81 +121,7 @@ public class MockedDataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	@Override
 	public Person getPersonById(int id, int FetchFlags) {
-		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p WHERE p.personId = :id");
-		query.setParameter("id", id);
-		Person person = (Person)query.uniqueResult();
-		
-		if ( (FetchFlags&Person.FETCH_ADDRESS)!=0)
-		{
-			Hibernate.initialize(person.getAddress());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_CITY)!=0)
-		{
-			Hibernate.initialize(person.getCity());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_COUNTRY)!=0)
-		{
-			Hibernate.initialize(person.getCountry());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_PLATFORMUSER)!=0)
-		{
-			Hibernate.initialize(person.getPlatformuser());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_TYPES)!=0)
-		{
-			Hibernate.initialize(person.getTypes());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_EMAILS)!=0)
-		{
-			Hibernate.initialize(person.getEmails());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_TELEPHONES)!=0)
-		{
-			Hibernate.initialize(person.getTelephones());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_UPDATED_BY_PERSON)!=0)
-		{
-			Hibernate.initialize(person.getPerson());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_ORGANISATION_CONTACT)!=0)
-		{
-			Hibernate.initialize(person.getOrganisation());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_ORGANISATIONS_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getOrganisations());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_OUTGOINGDELIVERIES_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getOutgoingDeliveries());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_INCOMINGDELIVERIES_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getIncomingDeliveries());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_PERSONS_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getPersons());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_DELIVERYLISTS_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getDeliveryLists());
-		}
-		
-		return person;
+		return mockedPersons.get(0);
 	}
 
 	@Override
@@ -137,10 +133,7 @@ public class MockedDataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Person> getAllPersons() {
-		@SuppressWarnings("unchecked")
-		List<Person> persons = sessionFactory.getCurrentSession()
-			.createQuery("FROM Person p LEFT JOIN fetch p.address LEFT JOIN fetch p.city LEFT JOIN fetch p.country").list();
-		return persons;
+		return mockedPersons;
 	}
 
 	@Override
@@ -149,101 +142,10 @@ public class MockedDataBaseService implements IDataBase {
 		return null;
 	}
 	
-	// setCountry
-	@Transactional(propagation=Propagation.REQUIRED)
-	public Country getCountryByCountry(String country) {
-		Country mCountry = (Country) sessionFactory.getCurrentSession().
-				createQuery("FROM Country c WHERE c.country = :country").
-				setParameter("country", country).uniqueResult();
-		if (mCountry==null)
-		{
-			mCountry = new Country(0, country);
-			setCountry(mCountry);
-		}
-		return mCountry;
-	}
-	
-	// setCountry
-	@Transactional(propagation=Propagation.REQUIRED)
-	public Country setCountry(Country country) {
-		sessionFactory.getCurrentSession().saveOrUpdate(country);
-		return country;
-	}
-	
-	// getAddressByAddress
-	@Transactional(propagation=Propagation.REQUIRED)
-	public Address getAddressByAddress(String address) {
-		Address mAddress = (Address) sessionFactory.getCurrentSession().
-				createQuery("FROM Address a WHERE a.address = :address").
-				setParameter("address", address).uniqueResult();
-		if (mAddress==null)
-		{
-			mAddress = new Address(0, address);
-			setAddress(mAddress);
-		}
-		return mAddress;
-	}
-	
-	// setAddress
-	@Transactional(propagation=Propagation.REQUIRED)
-	public Address setAddress(Address address) {
-		sessionFactory.getCurrentSession().saveOrUpdate(address);
-		return address;
-	}
-	
-	// setCity
-	@Transactional(propagation=Propagation.REQUIRED)
-	public City getCityByCityAndZip(String city, String zip) {
-		City mCity = (City) sessionFactory.getCurrentSession().
-				createQuery("FROM City c WHERE c.city = :city AND c.zip = :zip").
-				setParameter("city", city).setParameter("zip", zip).uniqueResult();
-		if (mCity==null)
-		{
-			mCity = new City(0, city, zip);
-			setCity(mCity);
-		}
-		return mCity;
-	}
-	
-	// setCity
-	@Transactional(propagation=Propagation.REQUIRED)
-	public City setCity(City city) {
-		sessionFactory.getCurrentSession().saveOrUpdate(city);
-		return city;
-	}
-
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public int setPerson(Person person) {
-		
-		// if address == null => delete FK
-		if (person.getAddress() != null)
-		{
-			// checks if Address already exists in database (if yes => retrieve existing one, if no => create new one and get it)
-			Address Address = getAddressByAddress(person.getAddress().getAddress());
-			person.setAddress(Address);
-		}
-		
-		if (person.getCountry() != null)
-		{
-			// checks if Country already exists in database (if yes => retrieve existing one, if no => create new one and get it)
-			Country country = getCountryByCountry(person.getCountry().getCountry());
-			person.setCountry(country);
-		}
-		
-		if (person.getCity() != null)
-		{
-			// checks if City and Zip already exist in database (if yes => retrieve existing one, if no => create new one and get it)
-			City city = getCityByCityAndZip(person.getCity().getCity(), person.getCity().getZip());
-			person.setCity(city);
-		}
-		
-		sessionFactory.getCurrentSession().saveOrUpdate(person);
-		
-		// rollback test
-		if (1==0)
-			throw(new HibernateException("rollback that shit! ^^"));
-		
+		mockedPersons.add(person);
 		return person.getPersonId();
 		
 	}
@@ -257,10 +159,7 @@ public class MockedDataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Organisation getOrganisationById(int id) {
-		Query query = sessionFactory.getCurrentSession().createQuery("FROM Organisation o WHERE o.organisationId = :id");
-		query.setParameter("id", id);
-		Organisation organisation = (Organisation)query.uniqueResult();
-		return organisation;
+		return null;
 	}
 
 	@Override

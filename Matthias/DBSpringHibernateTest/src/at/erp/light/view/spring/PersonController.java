@@ -153,7 +153,7 @@ public class PersonController {
 		// Exception Handling is best done in the calling context
 		try{
 
-			// System.out.println("telephoneTest: "+dataBaseService.telephoneTest() );
+			System.out.println("telephoneTest: "+dataBaseService.telephoneTest() );
 			
 			
 			

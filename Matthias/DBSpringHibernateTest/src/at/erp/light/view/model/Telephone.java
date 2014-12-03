@@ -22,25 +22,17 @@ public class Telephone implements java.io.Serializable {
 
 	private int telephoneId;
 	// private Person person;
-	private int typeId;
+	private Type type;
 	private String telephone;
 
 	public Telephone() {
 	}
 
-	public Telephone(int telephoneId, int typeId, String telephone) {
+	public Telephone(int telephoneId, Type type, String telephone) {
 		this.telephoneId = telephoneId;
-		this.typeId = typeId;
+		this.type = type;
 		this.telephone = telephone;
 	}
-
-//	public Telephone(int telephoneId, Person person, int typeId,
-//			String telephone) {
-//		this.telephoneId = telephoneId;
-//		this.person = person;
-//		this.typeId = typeId;
-//		this.telephone = telephone;
-//	}
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="gen_telephone_id")
@@ -53,24 +45,15 @@ public class Telephone implements java.io.Serializable {
 	public void setTelephoneId(int telephoneId) {
 		this.telephoneId = telephoneId;
 	}
-
-	// @ManyToOne(fetch = FetchType.LAZY)
-	// @JoinColumn(name = "person_id")	// removed this for unidirectional OneToMany
-//	public Person getPerson() {
-//		return this.person;
-//	}
-//
-//	public void setPerson(Person person) {
-//		this.person = person;
-//	}
-
-	@Column(name = "type_id", nullable = false)
-	public int getTypeId() {
-		return this.typeId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "type_id", nullable = false)
+	public Type getType() {
+		return this.type;
 	}
 
-	public void setTypeId(int typeId) {
-		this.typeId = typeId;
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	@Column(name = "telephone", nullable = false, length = 20)

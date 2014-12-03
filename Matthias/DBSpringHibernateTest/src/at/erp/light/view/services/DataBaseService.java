@@ -256,6 +256,14 @@ public class DataBaseService implements IDataBase {
 		
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Type getTypeById(int id) {
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Type t WHERE t.typeId = :id");
+		query.setParameter("id", id);
+		Type type = (Type)query.uniqueResult();
+		return type;
+	}
+	
 	@Override
 	@Transactional
 	public int telephoneTest() {
@@ -264,10 +272,15 @@ public class DataBaseService implements IDataBase {
 		
 		mPerson.setActive(1);
 		
-		Telephone tel = new Telephone(0, Type.PRIVAT, "00 43 5678");
+		Telephone tel = new Telephone(0, getTypeById(Type.PRIVAT), "00 43 5678");
 		sessionFactory.getCurrentSession().saveOrUpdate(tel);
 		
+		Email email = new Email(0, getTypeById(Type.GESCHÄFTLICH), "mschnoell@hotmail.com");
+		sessionFactory.getCurrentSession().saveOrUpdate(email);
+		
 		mPerson.getTelephones().add(tel);
+		mPerson.getEmails().add(email);
+		
 		// mPerson.getTelephones().remove(mPerson.getTelephones().toArray()[0]);
 		
 		// tel.setPerson(mPerson);
