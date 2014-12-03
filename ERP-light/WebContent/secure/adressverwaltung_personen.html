@@ -83,133 +83,10 @@
 										<th style="width: 5%">Letzter Bearbeiter</th>
 									</tr>
 								</thead>
-								<tbody class="searchable">
-									<tr>
-										<td>1</td>
-										<td>Herr</td>
-										<td>Dr.</td>
-										<td>Hans</td>
-										<td>Mustermann</td>
-										<td>Musterweg 1, 5020 Salzburg, AUT</td>
-										<td>max.mustermann@gmx.de</td>
-										<td>00431234567</td>
-										<td>12.12.2014</td>
-										<td>Admin</td>
-										<td>MA</td>
-										<td>Doris K.</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>Herr</td>
-										<td>Dr.</td>
-										<td>Peter</td>
-										<td>Mustermann</td>
-										<td>Musterweg 1, 5020 Salzburg, AUT</td>
-										<td>max.mustermann@gmx.de</td>
-										<td>00431234567</td>
-										<td>12.12.2014</td>
-										<td>Admin</td>
-										<td>MA</td>
-										<td>Doris K.</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>Herr</td>
-										<td>Dr.</td>
-										<td>Hans</td>
-										<td>Maier</td>
-										<td>Musterweg 1, 5020 Salzburg, AUT</td>
-										<td>max.mustermann@gmx.de</td>
-										<td>00431234567</td>
-										<td>12.12.2014</td>
-										<td>Admin</td>
-										<td>MA</td>
-										<td>Doris K.</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>Herr</td>
-										<td>Dr.</td>
-										<td>Sepp</td>
-										<td>Huber</td>
-										<td>Lilienweg 1, 5020 Salzburg, AUT</td>
-										<td>max.mustermann@gmx.de</td>
-										<td>00431234567</td>
-										<td>12.12.2014</td>
-										<td>Admin</td>
-										<td>MA</td>
-										<td>Doris K.</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>Herr</td>
-										<td>Dr.</td>
-										<td>Max</td>
-										<td>Mustermann</td>
-										<td>Musterweg 1, 5020 Salzburg, AUT</td>
-										<td>max.mustermann@gmx.de</td>
-										<td>00431234567</td>
-										<td>12.12.2014</td>
-										<td>Admin</td>
-										<td>MA</td>
-										<td>Doris K.</td>
-									</tr>
-									<tr>
-										<td>6</td>
-										<td>Herr</td>
-										<td>Dr.</td>
-										<td>Max</td>
-										<td>Mustermann</td>
-										<td>Musterweg 1, 5020 Salzburg, AUT</td>
-										<td>max.mustermann@gmx.de</td>
-										<td>00431234567</td>
-										<td>12.12.2014</td>
-										<td>Admin</td>
-										<td>Gast</td>
-										<td>Doris K.</td>
-									</tr>
-									<tr>
-										<td>7</td>
-										<td>Herr</td>
-										<td>Dr.</td>
-										<td>Max</td>
-										<td>Mustermann</td>
-										<td>Musterweg 1, 5020 Salzburg, AUT</td>
-										<td>max.mustermann@gmx.de</td>
-										<td>00431234567</td>
-										<td>12.12.2014</td>
-										<td>Admin</td>
-										<td>MG</td>
-										<td>Doris K.</td>
-									</tr>
-									<tr>
-										<td>8</td>
-										<td>Herr</td>
-										<td>Dr.</td>
-										<td>Max</td>
-										<td>Mustermann</td>
-										<td>Musterweg 1, 5020 Salzburg, AUT</td>
-										<td>max.mustermann@gmx.de</td>
-										<td>00431234567</td>
-										<td>12.12.2014</td>
-										<td>Admin</td>
-										<td>Unterst.</td>
-										<td>Doris K.</td>
-									</tr>
-									<tr>
-										<td>9</td>
-										<td>Herr</td>
-										<td>Dr.</td>
-										<td>Max</td>
-										<td>Mustermann</td>
-										<td>Musterweg 1, 5020 Salzburg, AUT</td>
-										<td>max.mustermann@gmx.de</td>
-										<td>00431234567</td>
-										<td>12.12.2014</td>
-										<td>Admin</td>
-										<td>MA</td>
-										<td>Doris K.</td>
-									</tr>
+								<tbody id="personTableBody" class="searchable">
+
+<!-- Persons are placed here by Script "fillPersonTable" -->
+
 								</tbody>
 							</table>
 						</div>
@@ -235,7 +112,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Anrede</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_anrede"
+															<input type="text" class="form-control" id="tbx_salutation"
 																placeholder="Anrede">
 														</div>
 													</div>
@@ -244,7 +121,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Titel</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_titel"
+															<input type="text" class="form-control" id="tbx_title"
 																placeholder="Titel">
 														</div>
 													</div>
@@ -256,7 +133,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Vorname</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_vorname"
+															<input type="text" class="form-control" id="tbx_firstName"
 																placeholder="Vorname">
 														</div>
 													</div>
@@ -265,7 +142,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Nachname</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_nachname"
+															<input type="text" class="form-control" id="tbx_lastName"
 																placeholder="Nachname">
 														</div>
 													</div>
@@ -277,7 +154,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Adresse</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_adresse"
+															<input type="text" class="form-control" id="tbx_address"
 																placeholder="Adresse">
 														</div>
 													</div>
@@ -286,7 +163,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">PLZ</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_plz"
+															<input type="text" class="form-control" id="tbx_zip"
 																placeholder="PLZ">
 														</div>
 													</div>
@@ -298,7 +175,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Ort</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_ort"
+															<input type="text" class="form-control" id="tbx_city"
 																placeholder="Ort">
 														</div>
 													</div>
@@ -307,26 +184,26 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Land</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_land"
+															<input type="text" class="form-control" id="tbx_country"
 																placeholder="Land">
 														</div>
 													</div>
 												</div>
 											</div>
+											
+											<div class="row divider-horizontal">
+											</div>											
 
 											<div class="row">
 												<div class="col-sm-2">
 													<label class="control-label">Telefonnr.</label>
 												</div>
-<!-- Tel. num container -->
+												<!-- Tel. num container -->
 												<div id="telnum_container" class="col-sm-10">
-<!--Tel. num element -->
-													
-<!-- /Tel. num element -->
-
+												<!--Tel. num element -->													
+												<!-- /Tel. num element -->
 												</div>
-<!-- /Tel. num container -->
-
+												<!-- /Tel. num container -->
 											</div>
 
 											<div class="row">
@@ -337,59 +214,65 @@
 													</div>
 												</div>
 											</div>
-
+											
 											<div class="row">
-												<div class="col-md-6 test1">
-													<div class="form-group">
-														<label class="col-sm-4 control-label">Mailadressen</label>
-														<div class="col-sm-8">
-															<input type="text" name="option[]" class="form-control"
-																id="tbx_mailadresse" placeholder="Email">
-														</div>
-													</div>
+												<div class="col-sm-2">
+													<label class="control-label">Emailadr.</label>
 												</div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<div class="col-sm-7">
-															<select class="form-control">
-																<option>Privat</option>
-																<option>Gesch&auml;ftlich</option>
-															</select>
-														</div>
-														<div class="col-sm-5">
-															<button type="button" id="addButton"
-																class="btn btn-default">
-																<span class="glyphicon glyphicon-plus">
-															</button>
-														</div>
-													</div>
+												<!-- Tel. num container -->
+												<div id="mailadress_container" class="col-sm-10">
+												<!--Tel. num element -->													
+												<!-- /Tel. num element -->
 												</div>
+												<!-- /Tel. num container -->
 											</div>
 
 											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group hide" id="optionTemplate">
-														<label class="col-sm-4 control-label"></label>
-														<div class="col-sm-8">
-															<input type="text" name="option[]" class="form-control"
-																id="tbx_mailadresse" placeholder="Email">
-														</div>
+												<div class="col-sm-10 col-sm-offset-2">
+													<div class="form-group">
+															<button type="button" id="addmailadress_btn" class="btn btn-default">Mailadresse hinzuf&uuml;gen</button>
 													</div>
 												</div>
-												<div class="col-md-6">
-													<div class="form-group hide" id="optionTemplate1">
-														<div class="col-sm-7">
-															<select class="form-control" name="option[]">
-																<option>Privat</option>
-																<option>Gesch&auml;ftlich</option>
-															</select>
-														</div>
-														<div class="col-sm-5">
-															<button type="button" id="removeButton"
-																class="btn btn-default">
-																<span class="glyphicon glyphicon-minus"></span>
-															</button>
-														</div>
+											</div>
+											
+											<div class="row divider-horizontal">
+											</div>
+											
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-5 control-label">Mailadresse für Login</label>
+													<div class="col-sm-5">
+														<select id="select_loginEmail" class="form-control col-sm-6">
+														  <option>Typ 1</option>
+														  <option>Typ 2</option>
+														  <option>Typ 3</option>														  
+														</select>
+													</div>
+												</div>
+											</div>
+											
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-5 control-label">Typ</label>
+													<div class="col-sm-5">
+														<select id="select_types" class="form-control col-sm-6">
+														  <option>Mitglied</option>
+														  <option>User</option>
+														  <option>Typ 3</option>														  
+														</select>
+													</div>
+												</div>
+											</div>
+											
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-5 control-label">Rechte</label>
+													<div class="col-sm-5">
+														<select id="select_permission" class="form-control col-sm-6">
+														  <option>admin</option>
+														  <option>Typ 2</option>
+														  <option>Typ 3</option>														  
+														</select>
 													</div>
 												</div>
 											</div>
@@ -402,7 +285,7 @@
 											data-dismiss="modal">Passwort zur&uuml;cksetzen</button>
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">Abbrechen</button>
-										<button type="button" class="btn btn-primary">
+										<button type="button" id="saveperson_btn" class="btn btn-primary">
 											<span class="glyphicon glyphicon-floppy-save"></span>
 											Speichern
 										</button>
