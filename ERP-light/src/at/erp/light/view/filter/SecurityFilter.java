@@ -26,12 +26,10 @@ public class SecurityFilter implements Filter {
 		HttpServletResponse httpServletResponse = null;
 
 		if (request instanceof HttpServletRequest) {
-			System.out.println("Killing request");
-
-			
 			if (response instanceof HttpServletResponse) {
 				httpServletResponse = (HttpServletResponse) response;
 				
+				//No page caching
 				httpServletResponse.setHeader("Cache-Control", "no-cache");
 				httpServletResponse.setDateHeader("Expires", 0);
 				httpServletResponse.setHeader("Pragma", "No-cache");
