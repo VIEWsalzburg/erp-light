@@ -5,6 +5,7 @@
 		var mailadress_template = "<div class='row'> 		<div class='form-group'>															 			<div class='col-sm-5'> 				<input type='text' class='form-control tbx_mailadress'					placeholder='Email'> 			</div> 			<div class='col-sm-4'> 				<select class='form-control'> 					<option>Privat</option> 					<option>Gesch&auml;ftlich</option> 				</select> 			</div> 			<div class='col-sm-3'> 				<button type='button' class='btn btn-default removemailadress_btn' 					id='btn_delete' >L&ouml;schen</button> 			</div> 		</div> 	</div>";
 		var mailadressCount=0;
 		
+		//Pageheader laden
 		$("#pageheader").load("../partials/header.html");
 		$("#adressverwaltung_nav").addClass("active");	
 
@@ -20,23 +21,42 @@
 			newperson.salutation = $("#tbx_salutation").val();
 			newperson.title = $("#tbx_title").val();
 			newperson.firstName = $("#tbx_firstName").val();
-			newperson.LastName = $("#tbx_lastName").val();
+			newperson.lastName = $("#tbx_lastName").val();
+			newperson.comment = "";
+			newperson.updateTimestamp = "";
+			newperson.active = 1;
+
+			
 			newperson.address = $("#tbx_address").val();
-			newperson.zip = $("#tbx_zip").val();
 			newperson.city = $("#tbx_city").val();
+			newperson.zip = $("#tbx_zip").val();
 			newperson.country = $("#tbx_country").val();
 			
-			$(".tbx_telnr").each(function() {
-				newperson.phoneNumbers.push($(this).val());
-			});
-			
-			$(".tbx_mailadress").each(function() {
-				newperson.emails.push($(this).val());
-			});
-			
 			newperson.loginEmail = $("#select_loginEmail").val();
-			newperson.types = $("#select_types").val();
+			newperson.password = "";
 			newperson.permission = $("#select_permission").val();
+			newperson.types = $("#select_types").val();
+
+				newperson.emails=[];
+			
+				newperson.phoneNumbers=[];
+			
+			var persondata = JSON.stringify(newperson);
+			$.ajax({
+					headers : {'Accept':'application/json',
+						'Content-Type':'application/json'},
+					type : "POST",
+					url : "../rest/secure/person/setPerson",
+					
+					data : {"personId":1,"salutation":"Frau","title":"BSc","firstName":"Maria","lastName":"Schmidt","comment":"Kommt aus der Stadt","updateTimestamp":"12.9.2013","active":1,"address":"Vogelweiderstraße 7","city":"Obertrum","zip":"5070","country":"Deutschland","loginEmail":"maria@test.com","password":"muhaha","permission":"admin","types":["Mitglied","User"],"emails":["f.sdfhj@doo.com","huber@gmail.at"],"phoneNumbers":["293847239423","032423423432","293427394799"]}
+				}).done(function(data) {
+					if (data) {
+						alert("Speichern erfolgreich! Hurra!");
+					} else {
+						alert("whoops something went wrong");
+					}
+				});
+				return false;
 		});
 		
 		$("#edit").click(function() {
