@@ -25,8 +25,6 @@ public class Type implements java.io.Serializable {
 	private String name;
 	private Set<Organisation> organisations = new HashSet<Organisation>(0);
 	private Set<Person> persons = new HashSet<Person>(0);
-	private Set<Telefone> telefones = new HashSet<Telefone>(0);
-	private Set<Email> emails = new HashSet<Email>(0);
 
 	public Type() {
 	}
@@ -34,16 +32,6 @@ public class Type implements java.io.Serializable {
 	public Type(int typeId, String name) {
 		this.typeId = typeId;
 		this.name = name;
-	}
-
-	public Type(int typeId, String name, Set<Organisation> organisations,
-			Set<Person> persons, Set<Telefone> telefones, Set<Email> emails) {
-		this.typeId = typeId;
-		this.name = name;
-		this.organisations = organisations;
-		this.persons = persons;
-		this.telefones = telefones;
-		this.emails = emails;
 	}
 
 	@Id
@@ -83,24 +71,6 @@ public class Type implements java.io.Serializable {
 
 	public void setPersons(Set<Person> persons) {
 		this.persons = persons;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "type")
-	public Set<Telefone> getTelefones() {
-		return this.telefones;
-	}
-
-	public void setTelefones(Set<Telefone> telefones) {
-		this.telefones = telefones;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "type")
-	public Set<Email> getEmails() {
-		return this.emails;
-	}
-
-	public void setEmails(Set<Email> emails) {
-		this.emails = emails;
 	}
 
 }

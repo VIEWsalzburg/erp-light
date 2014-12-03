@@ -18,6 +18,7 @@ import at.erp.light.view.model.Address;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
 import at.erp.light.view.model.Person;
+import at.erp.light.view.model.Telephone;
 import at.erp.light.view.services.DataBaseService;
 import at.erp.light.view.services.IDataBase;
 
@@ -134,6 +135,32 @@ public class PersonController {
 
 			mPerson = dataBaseService.getPersonById(12);
 			System.out.println("mPerson: "+mPerson.toString());
+		}
+		catch (Exception e)
+		{
+			System.out.println("Problem");
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	@RequestMapping(value="/telephoneTest")
+	public void telephoneTest() {
+		
+		// Exception Handling is best done in the calling context
+		try{
+
+			Person mPerson = dataBaseService.getPersonById(36);
+			
+			System.out.println("mPerson: "+mPerson.toString());
+			
+			for (Telephone telephone : mPerson.getTelephones())
+			{
+				System.out.println(telephone.getTelephone());
+			}
+			
 		}
 		catch (Exception e)
 		{

@@ -22,7 +22,7 @@
   <mapping class="at.erp.light.view.model.DeliveryList"/>
   <mapping class="at.erp.light.view.model.Platformuser"/>
   <mapping class="at.erp.light.view.model.OutgoingDelivery"/>
-  <mapping class="at.erp.light.view.model.Telefone"/>
+  <mapping class="at.erp.light.view.model.Telephone"/>
   <mapping class="at.erp.light.view.model.Email"/>
   <mapping class="at.erp.light.view.model.Address"/>
   <mapping class="at.erp.light.view.model.Type"/>

@@ -23,11 +23,11 @@ import at.erp.light.view.model.Person;
 import at.erp.light.view.model.Type;
 
 
-public class DataBaseService implements IDataBase {
+public class MockedDataBaseService implements IDataBase {
 
 	private SessionFactory sessionFactory;
 		
-	public DataBaseService(SessionFactory sessionFactory) {
+	public MockedDataBaseService(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 

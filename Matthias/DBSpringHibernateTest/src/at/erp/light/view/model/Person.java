@@ -39,7 +39,7 @@ public class Person implements java.io.Serializable {
 	public static int FETCH_PLATFORMUSER = 8;						// 0000 0000 0000 1000
 	public static int FETCH_TYPES = 16;								// 0000 0000 0001 0000
 	public static int FETCH_EMAILS = 32;							// 0000 0000 0010 0000
-	public static int FETCH_TELEFONES = 64;							// 0000 0000 0100 0000
+	public static int FETCH_TELEPHONES = 64;						// 0000 0000 0100 0000
 	
 	public static int FETCH_UPDATED_BY_PERSON = 128;				// 0000 0000 1000 0000
 	public static int FETCH_ORGANISATION_CONTACT = 256;				// 0000 0001 0000 0000
@@ -73,7 +73,7 @@ public class Person implements java.io.Serializable {
 	private Set<Email> emails = new HashSet<Email>(0);
 	private Set<IncomingDelivery> incomingDeliveries = new HashSet<IncomingDelivery>(
 			0);
-	private Set<Telefone> telefones = new HashSet<Telefone>(0);
+	private Set<Telephone> telephones = new HashSet<Telephone>(0);
 	private Set<OutgoingDelivery> outgoingDeliveries = new HashSet<OutgoingDelivery>(
 			0);
 	private Set<DeliveryList> deliveryLists = new HashSet<DeliveryList>(0);
@@ -101,7 +101,7 @@ public class Person implements java.io.Serializable {
 			String comment, Date updateTimestamp, int active,
 			Set<Organisation> organisations, Platformuser platformuser,
 			Set<Type> types, Set<Email> emails,
-			Set<IncomingDelivery> incomingDeliveries, Set<Telefone> telefones,
+			Set<IncomingDelivery> incomingDeliveries, Set<Telephone> telephones,
 			Set<OutgoingDelivery> outgoingDeliveries,
 			Set<DeliveryList> deliveryLists, Set<Person> persons) {
 		this.personId = personId;
@@ -122,7 +122,7 @@ public class Person implements java.io.Serializable {
 		this.types = types;
 		this.emails = emails;
 		this.incomingDeliveries = incomingDeliveries;
-		this.telefones = telefones;
+		this.telephones = telephones;
 		this.outgoingDeliveries = outgoingDeliveries;
 		this.deliveryLists = deliveryLists;
 		this.persons = persons;
@@ -308,12 +308,12 @@ public class Person implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-	public Set<Telefone> getTelefones() {
-		return this.telefones;
+	public Set<Telephone> getTelephones() {
+		return this.telephones;
 	}
 
-	public void setTelefones(Set<Telefone> telefones) {
-		this.telefones = telefones;
+	public void setTelephones(Set<Telephone> telephones) {
+		this.telephones = telephones;
 	}
 
 	@JsonIgnore
