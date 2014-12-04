@@ -3,7 +3,10 @@ package at.erp.light.view.mapper;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.util.Assert;
 
@@ -13,6 +16,7 @@ import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
 import at.erp.light.view.model.Email;
 import at.erp.light.view.model.Person;
+import at.erp.light.view.model.Platformuser;
 import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
 
@@ -73,5 +77,57 @@ public class PersonMapper {
 				types, emails, telephones);
 
 		return mPerson;
+	}
+	
+	public static Person mapToEntity(PersonDTO dto)
+	{
+		Person entity = new Person();
+		
+		entity.setPersonId(dto.getPersonId());
+		entity.setSalutation(dto.getSalutation());
+		entity.setTitle(dto.getTitle());
+		entity.setFirstName(dto.getFirstName());
+		entity.setLastName(dto.getLastName());
+		entity.setComment(dto.getComment());
+		entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
+		entity.setActive(dto.getActive());
+		
+		entity.setAddress(new Address(0,dto.getAddress()));
+		entity.setCity(new City(0, dto.getCity(), dto.getZip()));
+		entity.setCountry(new Country(0, dto.getCountry()));
+		
+		Set<Type> types = new HashSet<Type>();
+		for (String typeStr : dto.getTypes())
+		{
+			types.add(new Type(0, typeStr));
+		}
+		
+		Set<Email> emails = new HashSet<Email>();
+		for (String emailStr : dto.getEmails())
+		{
+			emails.add(new Email(0, new Type(0,"PRIVAT"), emailStr));
+		}
+		
+		Set<Telephone> telephones = new HashSet<Telephone>();
+		for (String telephoneStr : dto.getTelephones())
+		{
+			telephones.add(new Telephone(0, new Type(0, "PRIVAT"), telephoneStr));
+		}
+		
+		entity.setTypes(types);
+		entity.setTelephones(telephones);
+		entity.setEmails(emails);
+		
+		//Platformuser platformuser = new Platformuser(dto.getPermission(), person, dto.getPassword(), dto.getLoginEmail());
+		
+		//entity.setPlatformuser(platformuser);
+		
+		// TODO Password must be removed from dto because it isn't necessary 
+		// TODO get Platformuser from DB and set it
+		// TODO get current Modifier from DB and set it
+		// TODO refactor to set
+		
+		
+		return entity;
 	}
 }
