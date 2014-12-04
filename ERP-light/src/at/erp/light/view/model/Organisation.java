@@ -28,19 +28,15 @@ public class Organisation implements java.io.Serializable {
 	private int organisationId;
 	private Address address;
 	private City city;
-	private Person person;
+	private Person person;			// Person, von der upgedated
 	private Country country;
 	private String name;
 	private String comment;
 	private Date updateTimestamp;
 	private int active;
 	private Set<Category> categories = new HashSet<Category>(0);
-	private Set<Person> persons = new HashSet<Person>(0);
-	private Set<IncomingDelivery> incomingDeliveries = new HashSet<IncomingDelivery>(
-			0);
+	private Set<Person> persons = new HashSet<Person>(0);			// Persons, die Ansprechpersonen sind
 	private Set<Type> types = new HashSet<Type>(0);
-	private Set<OutgoingDelivery> outgoingDeliveries = new HashSet<OutgoingDelivery>(
-			0);
 
 	public Organisation() {
 	}
@@ -75,9 +71,7 @@ public class Organisation implements java.io.Serializable {
 		this.active = active;
 		this.categories = categories;
 		this.persons = persons;
-		this.incomingDeliveries = incomingDeliveries;
 		this.types = types;
-		this.outgoingDeliveries = outgoingDeliveries;
 	}
 
 	@Id
@@ -186,14 +180,14 @@ public class Organisation implements java.io.Serializable {
 		this.persons = persons;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
-	public Set<IncomingDelivery> getIncomingDeliveries() {
-		return this.incomingDeliveries;
-	}
-
-	public void setIncomingDeliveries(Set<IncomingDelivery> incomingDeliveries) {
-		this.incomingDeliveries = incomingDeliveries;
-	}
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
+//	public Set<IncomingDelivery> getIncomingDeliveries() {
+//		return this.incomingDeliveries;
+//	}
+//
+//	public void setIncomingDeliveries(Set<IncomingDelivery> incomingDeliveries) {
+//		this.incomingDeliveries = incomingDeliveries;
+//	}
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "organisations")
 	public Set<Type> getTypes() {
@@ -204,13 +198,13 @@ public class Organisation implements java.io.Serializable {
 		this.types = types;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
-	public Set<OutgoingDelivery> getOutgoingDeliveries() {
-		return this.outgoingDeliveries;
-	}
-
-	public void setOutgoingDeliveries(Set<OutgoingDelivery> outgoingDeliveries) {
-		this.outgoingDeliveries = outgoingDeliveries;
-	}
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
+//	public Set<OutgoingDelivery> getOutgoingDeliveries() {
+//		return this.outgoingDeliveries;
+//	}
+//
+//	public void setOutgoingDeliveries(Set<OutgoingDelivery> outgoingDeliveries) {
+//		this.outgoingDeliveries = outgoingDeliveries;
+//	}
 
 }

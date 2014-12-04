@@ -21,7 +21,9 @@ import at.erp.light.view.model.IncomingDelivery;
 import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.OutgoingArticle;
 import at.erp.light.view.model.OutgoingDelivery;
+import at.erp.light.view.model.Permission;
 import at.erp.light.view.model.Person;
+import at.erp.light.view.model.Platformuser;
 import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
 
@@ -101,31 +103,6 @@ public class DataBaseService implements IDataBase {
 		if ( (FetchFlags&Person.FETCH_ORGANISATION_CONTACT)!=0)
 		{
 			Hibernate.initialize(person.getOrganisation());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_ORGANISATIONS_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getOrganisations());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_OUTGOINGDELIVERIES_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getOutgoingDeliveries());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_INCOMINGDELIVERIES_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getIncomingDeliveries());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_PERSONS_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getPersons());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_DELIVERYLISTS_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getDeliveryLists());
 		}
 		
 		return person;
@@ -267,18 +244,64 @@ public class DataBaseService implements IDataBase {
 	@Transactional
 	public int telephoneTest() {
 	
-		Person mPerson = getPersonById(36);
+		int id = 36;
+		Person mPerson = getPersonById(id);
+		mPerson.setActive(3);
 		
-		mPerson.setActive(1);
+		mPerson.setPlatformuser(null);
 		
-		Telephone tel = new Telephone(0, getTypeById(Type.PRIVAT), "00 43 5678");
-		sessionFactory.getCurrentSession().saveOrUpdate(tel);
+//		Permission adminPermission = new Permission(1, 1, "ADMIN");
+//		sessionFactory.getCurrentSession().saveOrUpdate(adminPermission);
+//		
+//		Platformuser platformuser = new Platformuser();
+//		platformuser.setPerson(mPerson);
+//		platformuser.setLoginEmail("mschnoell@gmx.net");
+//		platformuser.setPassword("hallo");
+//		platformuser.setPermission(adminPermission);
 		
-		Email email = new Email(0, getTypeById(Type.GESCHÄFTLICH), "mschnoell@hotmail.com");
-		sessionFactory.getCurrentSession().saveOrUpdate(email);
+//		sessionFactory.getCurrentSession().saveOrUpdate(platformuser);
 		
-		mPerson.getTelephones().add(tel);
-		mPerson.getEmails().add(email);
+		// mPerson.setPlatformuser(platformuser);
+		
+		// Platformuser new Platformuser(36, person1, "admin", "seppi.huber@gmail.com");
+		
+//		Platformuser platformuser = new Platformuser();
+//		platformuser.setPersonId(id);
+//		platformuser.setLoginEmail("mschnoell@gmx.net");
+//		platformuser.setPassword("hallo");
+//		
+//		
+//		
+//		System.out.println("step 1");
+//		
+//		
+//		platformuser.setPermission(adminPermission);
+//		
+//		System.out.println("step 2");
+//		platformuser.setPerson(mPerson);
+//		sessionFactory.getCurrentSession().saveOrUpdate(platformuser);
+//		// mPerson.setPlatformuser(platformuser);
+//		
+//		System.out.println("step 3");
+		// sessionFactory.getCurrentSession().saveOrUpdate(mPerson);
+		
+		
+		
+		
+		
+		
+//		Person mPerson = getPersonById(36);
+//		
+//		mPerson.setActive(1);
+//		
+//		Telephone tel = new Telephone(0, getTypeById(Type.PRIVAT), "00 43 5678");
+//		sessionFactory.getCurrentSession().saveOrUpdate(tel);
+//		
+//		Email email = new Email(0, getTypeById(Type.GESCHÄFTLICH), "mschnoell@hotmail.com");
+//		sessionFactory.getCurrentSession().saveOrUpdate(email);
+//		
+//		mPerson.getTelephones().add(tel);
+//		mPerson.getEmails().add(email);
 		
 		// mPerson.getTelephones().remove(mPerson.getTelephones().toArray()[0]);
 		

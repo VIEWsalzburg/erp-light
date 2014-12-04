@@ -21,7 +21,9 @@ import at.erp.light.view.model.IncomingDelivery;
 import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.OutgoingArticle;
 import at.erp.light.view.model.OutgoingDelivery;
+import at.erp.light.view.model.Permission;
 import at.erp.light.view.model.Person;
+import at.erp.light.view.model.Platformuser;
 import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
 
@@ -46,7 +48,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	public int setIncomingDelivery(IncomingDelivery incomingDelivery) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
@@ -103,37 +105,12 @@ public class DataBaseService implements IDataBase {
 			Hibernate.initialize(person.getOrganisation());
 		}
 		
-		if ( (FetchFlags&Person.FETCH_ORGANISATIONS_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getOrganisations());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_OUTGOINGDELIVERIES_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getOutgoingDeliveries());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_INCOMINGDELIVERIES_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getIncomingDeliveries());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_PERSONS_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getPersons());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_DELIVERYLISTS_UPDATED)!=0)
-		{
-			Hibernate.initialize(person.getDeliveryLists());
-		}
-		
 		return person;
 	}
 
 	@Override
 	public List<Person> getPersonsByType(Type type) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -141,15 +118,13 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Person> getAllPersons() {
 		@SuppressWarnings("unchecked")
-//		List<Person> persons = sessionFactory.getCurrentSession()
-//			.createQuery("FROM Person p JOIN FETCH p.address JOIN FETCH p.city JOIN FETCH p.country JOIN FETCH p.emails JOIN FETCH p.telephones JOIN FETCH p.types").list();
 		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person").list();
 		return persons;
 	}
 
 	@Override
 	public Person getPersonByLoginEmail(String loginEmail) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	
@@ -269,18 +244,64 @@ public class DataBaseService implements IDataBase {
 	@Transactional
 	public int telephoneTest() {
 	
-		Person mPerson = getPersonById(36);
+		int id = 36;
+		Person mPerson = getPersonById(id);
+		mPerson.setActive(3);
 		
-		mPerson.setActive(1);
+		mPerson.setPlatformuser(null);
 		
-		Telephone tel = new Telephone(0, getTypeById(Type.PRIVAT), "00 43 5678");
-		sessionFactory.getCurrentSession().saveOrUpdate(tel);
+//		Permission adminPermission = new Permission(1, 1, "ADMIN");
+//		sessionFactory.getCurrentSession().saveOrUpdate(adminPermission);
+//		
+//		Platformuser platformuser = new Platformuser();
+//		platformuser.setPerson(mPerson);
+//		platformuser.setLoginEmail("mschnoell@gmx.net");
+//		platformuser.setPassword("hallo");
+//		platformuser.setPermission(adminPermission);
 		
-		Email email = new Email(0, getTypeById(Type.GESCHÄFTLICH), "mschnoell@hotmail.com");
-		sessionFactory.getCurrentSession().saveOrUpdate(email);
+//		sessionFactory.getCurrentSession().saveOrUpdate(platformuser);
 		
-		mPerson.getTelephones().add(tel);
-		mPerson.getEmails().add(email);
+		// mPerson.setPlatformuser(platformuser);
+		
+		// Platformuser new Platformuser(36, person1, "admin", "seppi.huber@gmail.com");
+		
+//		Platformuser platformuser = new Platformuser();
+//		platformuser.setPersonId(id);
+//		platformuser.setLoginEmail("mschnoell@gmx.net");
+//		platformuser.setPassword("hallo");
+//		
+//		
+//		
+//		System.out.println("step 1");
+//		
+//		
+//		platformuser.setPermission(adminPermission);
+//		
+//		System.out.println("step 2");
+//		platformuser.setPerson(mPerson);
+//		sessionFactory.getCurrentSession().saveOrUpdate(platformuser);
+//		// mPerson.setPlatformuser(platformuser);
+//		
+//		System.out.println("step 3");
+		// sessionFactory.getCurrentSession().saveOrUpdate(mPerson);
+		
+		
+		
+		
+		
+		
+//		Person mPerson = getPersonById(36);
+//		
+//		mPerson.setActive(1);
+//		
+//		Telephone tel = new Telephone(0, getTypeById(Type.PRIVAT), "00 43 5678");
+//		sessionFactory.getCurrentSession().saveOrUpdate(tel);
+//		
+//		Email email = new Email(0, getTypeById(Type.GESCHÄFTLICH), "mschnoell@hotmail.com");
+//		sessionFactory.getCurrentSession().saveOrUpdate(email);
+//		
+//		mPerson.getTelephones().add(tel);
+//		mPerson.getEmails().add(email);
 		
 		// mPerson.getTelephones().remove(mPerson.getTelephones().toArray()[0]);
 		
@@ -300,7 +321,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	public int setPersons(List<Person> persons) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
@@ -315,163 +336,163 @@ public class DataBaseService implements IDataBase {
 
 	@Override
 	public List<Organisation> getOrganisationsByCategory(Category category) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<Organisation> getAllOrganisations() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setOrganisation(Organisation organisation) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int setOrganisations(List<Organisation> organisations) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public IncomingDelivery getIncomingDeliveryById(int id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<IncomingDelivery> getAllIncomingDeliveries() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public IncomingArticle getIncomingArticleById(int id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<IncomingArticle> getAllIncomingArticles() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setIncomingArticle(IncomingArticle incomingArticle) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int setIncomingArticles(List<IncomingArticle> incomingArticles) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public Article getArticleById(int id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public Article getAllArticles() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setArticle(Article article) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int setArticles(List<Article> articles) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public OutgoingArticle getOutgoingArticleById(int id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<OutgoingArticle> getAllOutgoingArticles() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setOutgoingArticle(OutgoingArticle outgoingArticle) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int setOutgoingArticles(List<OutgoingArticle> outgoingArticles) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public OutgoingDelivery getOutgoingDeliveryById(int id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<OutgoingDelivery> getAllOutgoingDeliveries() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setOutgoingDelivery(OutgoingDelivery outgoingDelivery) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public DeliveryList getDeliveryListById(int id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<DeliveryList> getAllDeliveryLists() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setDeliveryList(DeliveryList deliveryList) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int setDeliveryLists(List<DeliveryList> deliveryLists) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
