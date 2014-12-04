@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.erp.light.view.dto.PersonDTO;
@@ -72,9 +71,8 @@ public class PersonController {
 			return null;
 	}
 
-	@RequestMapping(value = "/secure/person/setPerson", method=RequestMethod.POST)
+	@RequestMapping(value = "/secure/person/setPerson")
 	boolean setPerson(@RequestBody PersonDTO person) {
-		System.out.println("blabla");
 		
 		if (person.getPersonId() == 0) {
 			person.setPersonId(personList.size());

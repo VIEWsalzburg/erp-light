@@ -112,7 +112,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Anrede</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_salutation"
+															<input name="tbx_salutation" type="text" class="form-control" id="tbx_salutation"
 																placeholder="Anrede">
 														</div>
 													</div>
@@ -121,7 +121,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Titel</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_title"
+															<input type="text" name="tbx_title" class="form-control" id="tbx_title"
 																placeholder="Titel">
 														</div>
 													</div>
@@ -133,7 +133,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Vorname</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_firstName"
+															<input name="tbx_firstName" type="text" class="form-control" id="tbx_firstName"
 																placeholder="Vorname">
 														</div>
 													</div>
@@ -142,7 +142,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Nachname</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_lastName"
+															<input type="text" name="tbx_lastName" class="form-control" id="tbx_lastName"
 																placeholder="Nachname">
 														</div>
 													</div>
@@ -154,7 +154,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Adresse</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_address"
+															<input name="tbx_address" type="text" class="form-control" id="tbx_address"
 																placeholder="Adresse">
 														</div>
 													</div>
@@ -163,7 +163,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">PLZ</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_zip"
+															<input name="tbx_zip" type="text" class="form-control" id="tbx_zip"
 																placeholder="PLZ">
 														</div>
 													</div>
@@ -175,7 +175,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Ort</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_city"
+															<input name="tbx_city" type="text" class="form-control" id="tbx_city"
 																placeholder="Ort">
 														</div>
 													</div>
@@ -184,7 +184,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Land</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_country"
+															<input name="tbx_country" type="text" class="form-control" id="tbx_country"
 																placeholder="Land">
 														</div>
 													</div>
@@ -242,7 +242,7 @@
 												<div class="form-group">
 													<label class="col-sm-5 control-label">Mailadresse für Login</label>
 													<div class="col-sm-5">
-														<select id="select_loginEmail" class="form-control col-sm-6">
+														<select name="select_loginEmail" id="select_loginEmail" class="form-control col-sm-6">
 														  <option>Typ 1</option>
 														  <option>Typ 2</option>
 														  <option>Typ 3</option>														  
@@ -255,7 +255,7 @@
 												<div class="form-group">
 													<label class="col-sm-5 control-label">Typ</label>
 													<div class="col-sm-5">
-														<select id="select_types" class="form-control col-sm-6">
+														<select name="select_types" id="select_types" class="form-control col-sm-6">
 														  <option>Mitglied</option>
 														  <option>User</option>
 														  <option>Typ 3</option>														  
@@ -268,7 +268,7 @@
 												<div class="form-group">
 													<label class="col-sm-5 control-label">Rechte</label>
 													<div class="col-sm-5">
-														<select id="select_permission" class="form-control col-sm-6">
+														<select name="select_permission" id="select_permission" class="form-control col-sm-6">
 														  <option>admin</option>
 														  <option>Typ 2</option>
 														  <option>Typ 3</option>														  
@@ -375,7 +375,7 @@
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		src="../js/jquery-1.11.1.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="../js/bootstrap.min.js"></script>
 	<!-- Load Pageheader and set nav active -->
