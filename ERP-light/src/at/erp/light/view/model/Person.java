@@ -43,15 +43,7 @@ public class Person implements java.io.Serializable {
 	
 	public static int FETCH_UPDATED_BY_PERSON = 128;				// 0000 0000 1000 0000
 	public static int FETCH_ORGANISATION_CONTACT = 256;				// 0000 0001 0000 0000
-
-	// Updated by this Person
-	public static int FETCH_ORGANISATIONS_UPDATED = 512;			// 0000 0010 0000 0000
-	public static int FETCH_INCOMINGDELIVERIES_UPDATED = 1024;		// 0000 0100 0000 0000
-	public static int FETCH_OUTGOINGDELIVERIES_UPDATED = 2048;		// 0000 1000 0000 0000
-	public static int FETCH_DELIVERYLISTS_UPDATED = 4096;			// 0001 0000 0000 0000
-	public static int FETCH_PERSONS_UPDATED = 8192;					// 0010 0000 0000 0000
-	public static int FETCH_ALL = 16383;							// 0011 1111 1111 1111
-	
+	public static int FETCH_ALL = 511;
 	
 	
 	private int personId;
@@ -67,17 +59,10 @@ public class Person implements java.io.Serializable {
 	private String comment;
 	private Date updateTimestamp;
 	private int active;
-	private Set<Organisation> organisations = new HashSet<Organisation>(0);
 	private Platformuser platformuser;
 	private Set<Type> types = new HashSet<Type>(0);
 	private Set<Email> emails = new HashSet<Email>(0);
-	private Set<IncomingDelivery> incomingDeliveries = new HashSet<IncomingDelivery>(
-			0);
 	private Set<Telephone> telephones = new HashSet<Telephone>(0);
-	private Set<OutgoingDelivery> outgoingDeliveries = new HashSet<OutgoingDelivery>(
-			0);
-	private Set<DeliveryList> deliveryLists = new HashSet<DeliveryList>(0);
-	private Set<Person> persons = new HashSet<Person>(0);
 
 	public Person() {
 	}
@@ -105,11 +90,6 @@ public class Person implements java.io.Serializable {
 			Set<OutgoingDelivery> outgoingDeliveries,
 			Set<DeliveryList> deliveryLists, Set<Person> persons) {
 		this.personId = personId;
-		this.person = person;
-		this.address = address;
-		this.organisation = organisation;
-		this.city = city;
-		this.country = country;
 		this.salutation = salutation;
 		this.title = title;
 		this.firstName = firstName;
@@ -117,15 +97,16 @@ public class Person implements java.io.Serializable {
 		this.comment = comment;
 		this.updateTimestamp = updateTimestamp;
 		this.active = active;
-		this.organisations = organisations;
+		this.address = address;
+		this.city = city;
+		this.country = country;
+		this.organisation = organisation;
 		this.platformuser = platformuser;
 		this.types = types;
 		this.emails = emails;
-		this.incomingDeliveries = incomingDeliveries;
 		this.telephones = telephones;
-		this.outgoingDeliveries = outgoingDeliveries;
-		this.deliveryLists = deliveryLists;
-		this.persons = persons;
+		this.person = person;
+		
 	}
 
 	@Id
@@ -140,14 +121,12 @@ public class Person implements java.io.Serializable {
 		this.personId = personId;
 	}
 
-	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "per_person_id")
 	public Person getPerson() {
 		return this.person;
 	}
 
-	@JsonIgnore
 	public void setPerson(Person person) {
 		this.person = person;
 	}
@@ -162,14 +141,12 @@ public class Person implements java.io.Serializable {
 		this.address = address;
 	}
 
-	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "organisation_id")
 	public Organisation getOrganisation() {
 		return this.organisation;
 	}
 
-	@JsonIgnore
 	public void setOrganisation(Organisation organisation) {
 		this.organisation = organisation;
 	}
@@ -258,15 +235,6 @@ public class Person implements java.io.Serializable {
 		this.active = active;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-	public Set<Organisation> getOrganisations() {
-		return this.organisations;
-	}
-
-	public void setOrganisations(Set<Organisation> organisations) {
-		this.organisations = organisations;
-	}
-
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "person")
 	public Platformuser getPlatformuser() {
 		return this.platformuser;
@@ -296,15 +264,6 @@ public class Person implements java.io.Serializable {
 		this.emails = emails;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-	public Set<IncomingDelivery> getIncomingDeliveries() {
-		return this.incomingDeliveries;
-	}
-
-	public void setIncomingDeliveries(Set<IncomingDelivery> incomingDeliveries) {
-		this.incomingDeliveries = incomingDeliveries;
-	}
-
 	@OneToMany(fetch=FetchType.EAGER)
 	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
 	@JoinColumn(name="person_id", referencedColumnName="person_id")	// added this for unidirectional OneToMany
@@ -314,33 +273,6 @@ public class Person implements java.io.Serializable {
 
 	public void setTelephones(Set<Telephone> telephones) {
 		this.telephones = telephones;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-	public Set<OutgoingDelivery> getOutgoingDeliveries() {
-		return this.outgoingDeliveries;
-	}
-
-	public void setOutgoingDeliveries(Set<OutgoingDelivery> outgoingDeliveries) {
-		this.outgoingDeliveries = outgoingDeliveries;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-	public Set<DeliveryList> getDeliveryLists() {
-		return this.deliveryLists;
-	}
-
-	public void setDeliveryLists(Set<DeliveryList> deliveryLists) {
-		this.deliveryLists = deliveryLists;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-	public Set<Person> getPersons() {
-		return this.persons;
-	}
-
-	public void setPersons(Set<Person> persons) {
-		this.persons = persons;
 	}
 	
 	@Override

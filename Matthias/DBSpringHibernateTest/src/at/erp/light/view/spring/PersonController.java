@@ -119,9 +119,9 @@ public class PersonController {
 		// Exception Handling is best done in the calling context
 		try{
 
-			Person mPerson = dataBaseService.getPersonById(33);
+			// Person mPerson = dataBaseService.getPersonById(33);
 
-			// Person mPerson = new Person(0,"Herr","","04 Matthias","Schnöll","Student",new Date(System.currentTimeMillis()), 1);
+			Person mPerson = new Person(0,"Herr","","04 Matthias","Schnöll","Student",new Date(System.currentTimeMillis()), 1);
 
 			mPerson.setAddress(new Address(0, "Alte Landstraße 10B"));
 			mPerson.setCountry(new Country(10, "Irland"));
@@ -153,30 +153,30 @@ public class PersonController {
 		// Exception Handling is best done in the calling context
 		try{
 
-			System.out.println("telephoneTest: "+dataBaseService.telephoneTest() );
+			dataBaseService.telephoneTest();
 			
-			List<Person> allPersons = dataBaseService.getAllPersons();
-			
-			System.out.println("size: "+allPersons.size());
-			
-			for (Person mPerson : allPersons)
-			{
-			
-				// Person mPerson = dataBaseService.getPersonById(36, Person.FETCH_TELEPHONES | Person.FETCH_EMAILS);
-				
-				System.out.println("mPerson: "+mPerson.toString());
-				
-				for (Telephone telephone : mPerson.getTelephones())
-				{
-					System.out.println(telephone.getTelephone());
-				}
-				
-				for (Email email : mPerson.getEmails())
-				{
-					System.out.println(email.getEmail());
-				}
-			
-			}
+//			List<Person> allPersons = dataBaseService.getAllPersons();
+//			
+//			System.out.println("size: "+allPersons.size());
+//			
+//			for (Person mPerson : allPersons)
+//			{
+//			
+//				// Person mPerson = dataBaseService.getPersonById(36, Person.FETCH_TELEPHONES | Person.FETCH_EMAILS);
+//				
+//				System.out.println("mPerson: "+mPerson.toString());
+//				
+//				for (Telephone telephone : mPerson.getTelephones())
+//				{
+//					System.out.println(telephone.getTelephone());
+//				}
+//				
+//				for (Email email : mPerson.getEmails())
+//				{
+//					System.out.println(email.getEmail());
+//				}
+//			
+//			}
 			
 		}
 		catch (Exception e)
