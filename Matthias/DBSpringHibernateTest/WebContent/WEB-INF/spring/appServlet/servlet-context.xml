@@ -15,6 +15,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:mvc="http://www.springframework.org/schema/mvc">
 
+<!-- 	Spring Config -->
 	
 	<mvc:annotation-driven />
 	<mvc:resources location="/resources/" mapping="/resources/**" />
@@ -26,34 +27,40 @@
 	
 	<context:component-scan base-package="at.erp.light.view" />
 	
-	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" >
-		<property name="driverClassName" value="org.postgresql.Driver"></property>
-		<property name="url" value="jdbc:postgresql://localhost:5432/ERP_light"></property>
-		<property name="username" value="postgres"></property>
-		<property name="password" value="root"></property>
-	</bean>
+<!-- 	Database Access Config -->
+	<beans profile="ProdDB">
 	
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
-    </bean>
-
-	<tx:annotation-driven/>
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
+		<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" >
+			<property name="driverClassName" value="org.postgresql.Driver"></property>
+			<property name="url" value="jdbc:postgresql://localhost:5432/ERP_light"></property>
+			<property name="username" value="postgres"></property>
+			<property name="password" value="root"></property>
+		</bean>
+		
+	    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	        <property name="dataSource" ref="dataSource" />
+			<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+	    </bean>
 	
-<!-- 	<bean id="dataBaseService" class="at.erp.light.view.services.DataBaseService"> -->
-<!-- 		<constructor-arg> -->
-<!-- 			<ref bean="sessionFactory" /> -->
-<!-- 		</constructor-arg> -->
-<!-- 	</bean> -->
-	
-		<bean id="dataBaseService" class="at.erp.light.view.services.MockedDataBaseService">
+		<tx:annotation-driven/>
+		<bean id="transactionManager"
+			class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+			<property name="sessionFactory" ref="sessionFactory"></property>
+		</bean>
+		
+		<bean id="dataBaseService" class="at.erp.light.view.services.DataBaseService">
 			<constructor-arg>
 				<ref bean="sessionFactory" />
 			</constructor-arg>
 		</bean>
+		
+	</beans>
+	
+	<beans profile="MockedDB">
+		<bean id="dataBaseService" class="at.erp.light.view.services.MockedDataBaseService">
 
+		</bean>
+	</beans>
+	
+	
 </beans>

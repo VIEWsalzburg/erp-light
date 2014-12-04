@@ -31,16 +31,16 @@ import at.erp.light.view.model.Type;
 
 public class MockedDataBaseService implements IDataBase {
 
-	private SessionFactory sessionFactory;
+	// private SessionFactory sessionFactory;
 	
 	private List<Person> mockedPersons = new ArrayList<Person>();
 	
 	Type typePrivat = new Type(Type.PRIVAT, "Privat");
 	Permission permissionAdmin = new Permission(1, 1, "Admin");
 		
-	public MockedDataBaseService(SessionFactory sessionFactory) {
+	public MockedDataBaseService() {
 		
-		this.sessionFactory = sessionFactory;
+		// this.sessionFactory = sessionFactory;
 		
 		// initialize Persons
 		
