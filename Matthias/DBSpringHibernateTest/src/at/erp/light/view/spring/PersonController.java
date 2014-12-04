@@ -155,20 +155,27 @@ public class PersonController {
 
 			System.out.println("telephoneTest: "+dataBaseService.telephoneTest() );
 			
+			List<Person> allPersons = dataBaseService.getAllPersons();
 			
+			System.out.println("size: "+allPersons.size());
 			
-			Person mPerson = dataBaseService.getPersonById(36, Person.FETCH_TELEPHONES | Person.FETCH_EMAILS);
-			
-			System.out.println("mPerson: "+mPerson.toString());
-			
-			for (Telephone telephone : mPerson.getTelephones())
+			for (Person mPerson : allPersons)
 			{
-				System.out.println(telephone.getTelephone());
-			}
 			
-			for (Email email : mPerson.getEmails())
-			{
-				System.out.println(email.getEmail());
+				// Person mPerson = dataBaseService.getPersonById(36, Person.FETCH_TELEPHONES | Person.FETCH_EMAILS);
+				
+				System.out.println("mPerson: "+mPerson.toString());
+				
+				for (Telephone telephone : mPerson.getTelephones())
+				{
+					System.out.println(telephone.getTelephone());
+				}
+				
+				for (Email email : mPerson.getEmails())
+				{
+					System.out.println(email.getEmail());
+				}
+			
 			}
 			
 		}

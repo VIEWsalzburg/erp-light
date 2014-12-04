@@ -152,7 +152,7 @@ public class Person implements java.io.Serializable {
 		this.person = person;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "address_id", nullable = true)
 	public Address getAddress() {
 		return this.address;
@@ -174,7 +174,7 @@ public class Person implements java.io.Serializable {
 		this.organisation = organisation;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "city_id", nullable = true)
 	public City getCity() {
 		return this.city;
@@ -184,7 +184,7 @@ public class Person implements java.io.Serializable {
 		this.city = city;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "country_id", nullable = true)
 	public Country getCountry() {
 		return this.country;
@@ -258,18 +258,16 @@ public class Person implements java.io.Serializable {
 		this.active = active;
 	}
 
-	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
 	public Set<Organisation> getOrganisations() {
 		return this.organisations;
 	}
 
-	@JsonIgnore
 	public void setOrganisations(Set<Organisation> organisations) {
 		this.organisations = organisations;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "person")
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "person")
 	public Platformuser getPlatformuser() {
 		return this.platformuser;
 	}
@@ -278,7 +276,7 @@ public class Person implements java.io.Serializable {
 		this.platformuser = platformuser;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "persons")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "persons")
 	public Set<Type> getTypes() {
 		return this.types;
 	}
@@ -287,7 +285,7 @@ public class Person implements java.io.Serializable {
 		this.types = types;
 	}
 
-	@OneToMany
+	@OneToMany(fetch=FetchType.EAGER)
 	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
 	@JoinColumn(name="person_id", referencedColumnName="person_id")	// added this for unidirectional OneToMany
 	public Set<Email> getEmails() {
@@ -298,18 +296,16 @@ public class Person implements java.io.Serializable {
 		this.emails = emails;
 	}
 
-	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
 	public Set<IncomingDelivery> getIncomingDeliveries() {
 		return this.incomingDeliveries;
 	}
 
-	@JsonIgnore
 	public void setIncomingDeliveries(Set<IncomingDelivery> incomingDeliveries) {
 		this.incomingDeliveries = incomingDeliveries;
 	}
 
-	@OneToMany
+	@OneToMany(fetch=FetchType.EAGER)
 	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
 	@JoinColumn(name="person_id", referencedColumnName="person_id")	// added this for unidirectional OneToMany
 	public Set<Telephone> getTelephones() {
@@ -320,35 +316,29 @@ public class Person implements java.io.Serializable {
 		this.telephones = telephones;
 	}
 
-	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
 	public Set<OutgoingDelivery> getOutgoingDeliveries() {
 		return this.outgoingDeliveries;
 	}
 
-	@JsonIgnore
 	public void setOutgoingDeliveries(Set<OutgoingDelivery> outgoingDeliveries) {
 		this.outgoingDeliveries = outgoingDeliveries;
 	}
 
-	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
 	public Set<DeliveryList> getDeliveryLists() {
 		return this.deliveryLists;
 	}
 
-	@JsonIgnore
 	public void setDeliveryLists(Set<DeliveryList> deliveryLists) {
 		this.deliveryLists = deliveryLists;
 	}
 
-	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
 	public Set<Person> getPersons() {
 		return this.persons;
 	}
 
-	@JsonIgnore
 	public void setPersons(Set<Person> persons) {
 		this.persons = persons;
 	}

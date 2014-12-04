@@ -141,8 +141,9 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Person> getAllPersons() {
 		@SuppressWarnings("unchecked")
-		List<Person> persons = sessionFactory.getCurrentSession()
-			.createQuery("FROM Person p LEFT JOIN fetch p.address LEFT JOIN fetch p.city LEFT JOIN fetch p.country").list();
+//		List<Person> persons = sessionFactory.getCurrentSession()
+//			.createQuery("FROM Person p JOIN FETCH p.address JOIN FETCH p.city JOIN FETCH p.country JOIN FETCH p.emails JOIN FETCH p.telephones JOIN FETCH p.types").list();
+		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person").list();
 		return persons;
 	}
 
