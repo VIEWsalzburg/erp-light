@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.util.Assert;
 
 import at.erp.light.view.dto.PersonDTO;
+import at.erp.light.view.model.Address;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
 import at.erp.light.view.model.Email;
@@ -37,9 +38,10 @@ public class PersonMapper {
 			types.add(type.getName());
 		}
 
+		Address address = person.getAddress();
 		City city = person.getCity();
 		Country country = person.getCountry();
-		String cityString, zipString, countryString;
+		String cityString, zipString, countryString, addressString;
 
 		if (city == null) {
 			cityString = "";
@@ -54,13 +56,19 @@ public class PersonMapper {
 		} else {
 			countryString = country.getCountry();
 		}
+		
+		if (address == null) {
+			addressString = "";
+		} else {
+			addressString = address.getAddress();
+		}
 
 		// TODO change platform user things to real
 		PersonDTO mPerson = new PersonDTO(person.getPersonId(),
 				person.getSalutation(), person.getTitle(),
 				person.getFirstName(), person.getLastName(),
 				person.getComment(), df.format(person.getUpdateTimestamp()),
-				person.getActive(), person.getAddress().getAddress(),
+				person.getActive(), addressString,
 				cityString, zipString, countryString, "test", "test", "admin",
 				types, emails, telephones);
 
