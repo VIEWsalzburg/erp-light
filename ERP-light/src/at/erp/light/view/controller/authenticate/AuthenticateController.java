@@ -22,7 +22,7 @@ public class AuthenticateController{
 	   log.info("Authenticating user: " + authentication.getUsername() + " with Password: " + authentication.getPassword());
 	   //If submitted password valid: 
 	   
-	   //should be replaced by service call
+	   //TODO should be replaced by service call
 	   
 	   
 	   request.getSession().setAttribute("username", authentication.getUsername());

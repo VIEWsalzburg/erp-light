@@ -41,8 +41,15 @@ public class PersonController {
 	
 	@RequestMapping(value = "secure/person/getPersonById/{id}")
 	public PersonDTO getPersonById(@PathVariable int id) {
+		List<PersonDTO> list = new ArrayList<PersonDTO>();
+		
+		for(Person p : dataBaseService.getAllPersons())
+		{
+			list.add(PersonMapper.mapToDTO(p));
+		}		
+		
 		int found = -1, i = 0;
-		for (PersonDTO element : personList) {
+		for (PersonDTO element : list) {
 			if (element.getPersonId() == id) {
 				found = i;
 			}
@@ -50,11 +57,12 @@ public class PersonController {
 		}
 		
 		if(found!=-1)
-			return personList.get(found);
+			return list.get(found);
 		else
 			return null;
 	}
 
+	//TODO Save person in service
 	@RequestMapping(value = "/secure/person/setPerson")
 	boolean setPerson(@RequestBody PersonDTO person) {
 		

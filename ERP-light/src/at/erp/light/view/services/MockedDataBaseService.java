@@ -109,7 +109,7 @@ public class MockedDataBaseService implements IDataBase {
 	
 	@Override
 	public int setIncomingDelivery(IncomingDelivery incomingDelivery) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
@@ -122,7 +122,7 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public List<Person> getPersonsByType(Type type) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -134,7 +134,7 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public Person getPersonByLoginEmail(String loginEmail) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	
@@ -148,7 +148,7 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public int setPersons(List<Person> persons) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
@@ -160,170 +160,170 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public List<Organisation> getOrganisationsByCategory(Category category) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<Organisation> getAllOrganisations() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setOrganisation(Organisation organisation) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int setOrganisations(List<Organisation> organisations) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public IncomingDelivery getIncomingDeliveryById(int id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<IncomingDelivery> getAllIncomingDeliveries() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public IncomingArticle getIncomingArticleById(int id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<IncomingArticle> getAllIncomingArticles() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setIncomingArticle(IncomingArticle incomingArticle) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int setIncomingArticles(List<IncomingArticle> incomingArticles) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public Article getArticleById(int id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public Article getAllArticles() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setArticle(Article article) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int setArticles(List<Article> articles) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public OutgoingArticle getOutgoingArticleById(int id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<OutgoingArticle> getAllOutgoingArticles() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setOutgoingArticle(OutgoingArticle outgoingArticle) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int setOutgoingArticles(List<OutgoingArticle> outgoingArticles) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public OutgoingDelivery getOutgoingDeliveryById(int id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<OutgoingDelivery> getAllOutgoingDeliveries() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setOutgoingDelivery(OutgoingDelivery outgoingDelivery) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public DeliveryList getDeliveryListById(int id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<DeliveryList> getAllDeliveryLists() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int setDeliveryList(DeliveryList deliveryList) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int setDeliveryLists(List<DeliveryList> deliveryLists) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 
 	@Override
 	public int telephoneTest() {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
