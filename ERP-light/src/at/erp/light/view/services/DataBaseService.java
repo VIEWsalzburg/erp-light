@@ -1,4 +1,5 @@
 package at.erp.light.view.services;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -173,13 +174,13 @@ public class DataBaseService implements IDataBase {
 	// setCity
 	@Transactional(propagation=Propagation.REQUIRED)
 	public City getCityByCityAndZip(String city, String zip) {
-		City mCity = (City) sessionFactory.getCurrentSession().
-				createQuery("FROM City c WHERE c.city = :city AND c.zip = :zip").
-				setParameter("city", city).setParameter("zip", zip).uniqueResult();
+		City mCity = (City) sessionFactory.getCurrentSession()
+				.createQuery("FROM City c WHERE c.city = :city AND c.zip = :zip")
+				.setParameter("city", city).setParameter("zip", zip).uniqueResult();
 		if (mCity==null)
 		{
 			mCity = new City(0, city, zip);
-			setCity(mCity);
+			this.setCity(mCity);
 		}
 		return mCity;
 	}
@@ -220,8 +221,24 @@ public class DataBaseService implements IDataBase {
 			person.setCity(city);
 		}
 		
+		// update Telephones
+		Set<Telephone> telephones = new HashSet<Telephone>();
+		for (Telephone telephone : person.getTelephones())
+		{
+			telephones.add(this.getTelephoneByTelephone(telephone.getTelephone(), telephone.getType().getTypeId()));
+		}
+		person.setTelephones(telephones);
+		
+		// update Emails
+		Set<Email> emails = new HashSet<Email>();
+		for (Email email : person.getEmails())
+		{
+			emails.add(this.getEmailByEmail(email.getEmail(), email.getType().getTypeId()));
+		}
+		person.setEmails(emails);
 		
 		
+		// final update all in DB
 		sessionFactory.getCurrentSession().saveOrUpdate(person);
 		
 		// rollback test
@@ -232,6 +249,7 @@ public class DataBaseService implements IDataBase {
 		
 	}
 
+	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Type getTypeById(int id) {
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Type t WHERE t.typeId = :id");
@@ -239,6 +257,91 @@ public class DataBaseService implements IDataBase {
 		Type type = (Type)query.uniqueResult();
 		return type;
 	}
+	
+	
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Telephone setTelephone(Telephone telephone)
+	{
+		sessionFactory.getCurrentSession().saveOrUpdate(telephone);
+		return telephone;
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Telephone getTelephoneByTelephone(String telephone, int typeId)
+	{
+		Telephone mTelephone = (Telephone) sessionFactory.getCurrentSession().createQuery("FROM Telephone t WHERE t.telephone = :telephone")
+				.setParameter("telephone", telephone).uniqueResult();
+		if (mTelephone == null)
+		{
+			mTelephone = new Telephone();
+			mTelephone.setTelephone(telephone);
+			mTelephone.setType(getTypeById(typeId));
+			this.setTelephone(mTelephone);
+		}
+		mTelephone.setType(getTypeById(typeId));
+		
+		return mTelephone;
+	}
+	
+	
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Email setEmail(Email email)
+	{
+		sessionFactory.getCurrentSession().saveOrUpdate(email);
+		return email;
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Email getEmailByEmail(String email, int typeId)
+	{
+		Email mEmail = (Email) sessionFactory.getCurrentSession().createQuery("FROM Email e WHERE e.email = :email")
+				.setParameter("email", email).uniqueResult();
+		if (mEmail == null)
+		{
+			mEmail = new Email();
+			mEmail.setEmail(email);
+			mEmail.setType(getTypeById(typeId));
+			this.setEmail(mEmail);
+		}
+		mEmail.setType(getTypeById(typeId));
+		
+		return mEmail;
+	}
+	
+	@Override
+	@Transactional
+	public Platformuser getPlatformuserById(int id)
+	{
+		Platformuser platformuser = (Platformuser) sessionFactory.getCurrentSession().createQuery("FROM Platformuser p WHERE p.personId = :id")
+				.setParameter("id", id).uniqueResult();
+		return platformuser;
+	}
+	
+	@Override
+	@Transactional
+	public Platformuser setPlatformuser(Platformuser platformuser)
+	{
+		sessionFactory.getCurrentSession().saveOrUpdate(platformuser);
+		return platformuser;
+	}
+	
+	@Override
+	@Transactional
+	public void removePlatformuserById(int id)
+	{
+		Platformuser platformuser = this.getPlatformuserById(id);
+		sessionFactory.getCurrentSession().delete(platformuser);
+	}
+	
+	@Override
+	@Transactional
+	public Permission getPermissionById(int id)
+	{
+		Permission permission = (Permission) sessionFactory.getCurrentSession().createQuery("From Permission p WHERE p.permissionId = :id")
+				.setParameter("id", id).uniqueResult();
+		return permission;
+	}
+	
 	
 	@Override
 	@Transactional
@@ -250,16 +353,16 @@ public class DataBaseService implements IDataBase {
 		
 		mPerson.setPlatformuser(null);
 		
-//		Permission adminPermission = new Permission(1, 1, "ADMIN");
-//		sessionFactory.getCurrentSession().saveOrUpdate(adminPermission);
-//		
-//		Platformuser platformuser = new Platformuser();
-//		platformuser.setPerson(mPerson);
-//		platformuser.setLoginEmail("mschnoell@gmx.net");
-//		platformuser.setPassword("hallo");
-//		platformuser.setPermission(adminPermission);
+		Permission adminPermission = new Permission(1, 1, "ADMIN");
+		sessionFactory.getCurrentSession().saveOrUpdate(adminPermission);
 		
-//		sessionFactory.getCurrentSession().saveOrUpdate(platformuser);
+		Platformuser platformuser = new Platformuser();
+		platformuser.setPerson(mPerson);
+		platformuser.setLoginEmail("mschnoell@gmx.net");
+		platformuser.setPassword("hallo");
+		platformuser.setPermission(adminPermission);
+		
+		sessionFactory.getCurrentSession().saveOrUpdate(platformuser);
 		
 		// mPerson.setPlatformuser(platformuser);
 		

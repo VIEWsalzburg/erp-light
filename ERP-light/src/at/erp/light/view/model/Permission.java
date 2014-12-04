@@ -18,10 +18,16 @@ import javax.persistence.Table;
 @Table(name = "permission", schema = "public")
 public class Permission implements java.io.Serializable {
 
+	public static int ADMIN = 1;
+	public static int READWRITE = 2;
+	public static int READ = 3;
+	
+	
+	
+	
 	private int permissionId;
 	private int permission;
 	private String description;
-	private Set<Platformuser> platformusers = new HashSet<Platformuser>(0);
 
 	public Permission() {
 	}
@@ -30,14 +36,6 @@ public class Permission implements java.io.Serializable {
 		this.permissionId = permissionId;
 		this.permission = permission;
 		this.description = description;
-	}
-
-	public Permission(int permissionId, int permission, String description,
-			Set<Platformuser> platformusers) {
-		this.permissionId = permissionId;
-		this.permission = permission;
-		this.description = description;
-		this.platformusers = platformusers;
 	}
 
 	@Id
@@ -66,15 +64,6 @@ public class Permission implements java.io.Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "permission")
-	public Set<Platformuser> getPlatformusers() {
-		return this.platformusers;
-	}
-
-	public void setPlatformusers(Set<Platformuser> platformusers) {
-		this.platformusers = platformusers;
 	}
 
 }

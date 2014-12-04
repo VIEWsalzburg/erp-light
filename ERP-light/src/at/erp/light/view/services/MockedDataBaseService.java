@@ -327,4 +327,39 @@ public class MockedDataBaseService implements IDataBase {
 		return 0;
 	}
 
+
+	@Override
+	public Type getTypeById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Platformuser getPlatformuserById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Platformuser setPlatformuser(Platformuser platformuser) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void removePlatformuserById(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Permission getPermissionById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

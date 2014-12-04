@@ -10,7 +10,10 @@ import at.erp.light.view.model.IncomingDelivery;
 import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.OutgoingArticle;
 import at.erp.light.view.model.OutgoingDelivery;
+import at.erp.light.view.model.Permission;
 import at.erp.light.view.model.Person;
+import at.erp.light.view.model.Platformuser;
+import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
 
 public interface IDataBase {
@@ -76,5 +79,16 @@ public interface IDataBase {
 	public int setDeliveryLists(List<DeliveryList> deliveryLists);
 	public int telephoneTest();
 	
+	
+	// Types
+	public Type getTypeById(int id);
+	
+	// Permissions
+	public Permission getPermissionById(int id);
+	
+	// Platformuser
+	public Platformuser getPlatformuserById(int id);
+	public Platformuser setPlatformuser(Platformuser platformuser);
+	public void removePlatformuserById(int id);
 
 }
