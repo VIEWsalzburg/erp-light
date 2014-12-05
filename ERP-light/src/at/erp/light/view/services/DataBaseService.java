@@ -276,6 +276,14 @@ public class DataBaseService implements IDataBase {
 		return mType;
 	}
 	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<Type> getAllTypes() {
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Type t");
+		List<Type> types = (List<Type>)query.list();
+		return types;
+	}
+	
 	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Telephone setTelephone(Telephone telephone)
@@ -551,7 +559,7 @@ public class DataBaseService implements IDataBase {
 	}
 
 	@Override
-	public Article getAllArticles() {
+	public List<Article> getAllArticles() {
 		
 		return null;
 	}
