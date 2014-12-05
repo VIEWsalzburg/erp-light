@@ -30,6 +30,7 @@ public class MockedDataBaseService implements IDataBase {
 	// private SessionFactory sessionFactory;
 	
 	private List<Person> mockedPersons = new ArrayList<Person>();
+	private List<Platformuser> mockedPlatformusers = new ArrayList<Platformuser>();
 	
 	Type typePrivat = new Type(Type.PRIVAT, "Privat");
 	Permission permissionAdmin = new Permission(1, "ADMIN", "Admin Permission");
@@ -97,6 +98,10 @@ public class MockedDataBaseService implements IDataBase {
 		mockedPersons.add(person1);
 		mockedPersons.add(person2);
 		mockedPersons.add(person3);
+		
+		mockedPlatformusers.add(platformUser1);
+		mockedPlatformusers.add(platformUser2);
+		mockedPlatformusers.add(platformUser3);
 		
 	}
 	
@@ -379,7 +384,13 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public Platformuser getPlatformuserbyLoginEmail(String loginEmail) {
-		// TODO Auto-generated method stub
+		
+		for (Platformuser platformuser : mockedPlatformusers)
+		{
+			if (platformuser.getLoginEmail().equals(loginEmail));
+				return platformuser;
+		}
+		
 		return null;
 	}
 
