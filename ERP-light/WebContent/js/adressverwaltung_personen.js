@@ -1,15 +1,16 @@
-
-		var telnumelement_template = "<div class='row'> 		<div class='form-group'>															 			<div class='col-sm-5'> 				<input type='text' class='form-control tbx_telnr' 					placeholder='Telefonnr.'> 			</div> 			<div class='col-sm-4'> 				<select class='form-control'> 					<option>Privat</option> 					<option>Gesch&auml;ftlich</option> 				</select> 			</div> 			<div class='col-sm-3'> 				<button type='button' class='btn btn-default removephonenumber_btn' 					id='btn_delete' >L&ouml;schen</button> 			</div> 		</div> 	</div>";
-		var telnumCount=0;
+		var telnumCount = 0;
+		var telnumelement_template = "<div class='row'> 		<div class='form-group'>															 			<div class='col-sm-5'> 				<input type='text' id='tbx_phoneNumber"+ telnumCount +"' class='form-control tbx_telnr' 					placeholder='Telefonnr.'> 			</div> 			<div class='col-sm-4'> 				<select class='form-control' id='select_phoneNumber'> 					<option>Privat</option> 					<option>Gesch&auml;ftlich</option> 				</select> 			</div> 			<div class='col-sm-3'> 				<button type='button' class='btn btn-default removephonenumber_btn' 					id='btn_delete' >L&ouml;schen</button> 			</div> 		</div> 	</div>";
 		
-		var mailadress_template = "<div class='row'> 		<div class='form-group'>															 			<div class='col-sm-5'> 				<input type='text' class='form-control tbx_mailadress'					placeholder='Email'> 			</div> 			<div class='col-sm-4'> 				<select class='form-control'> 					<option>Privat</option> 					<option>Gesch&auml;ftlich</option> 				</select> 			</div> 			<div class='col-sm-3'> 				<button type='button' class='btn btn-default removemailadress_btn' 					id='btn_delete' >L&ouml;schen</button> 			</div> 		</div> 	</div>";
 		var mailadressCount=0;
+		var mailadress_template = "<div class='row'> 		<div class='form-group'>															 			<div class='col-sm-5'> 				<input type='text'  class='form-control tbx_mailadress'					placeholder='Email'> 			</div> 			<div class='col-sm-4'> 				<select class='form-control' id='select_email'> 					<option>Privat</option> 					<option>Gesch&auml;ftlich</option> 				</select> 			</div> 			<div class='col-sm-3'> 				<button type='button' class='btn btn-default removemailadress_btn' 					id='btn_delete' >L&ouml;schen</button> 			</div> 		</div> 	</div>";
 		
 		//Pageheader laden
-		$("#pageheader").load("../partials/header.html");
-		$("#adressverwaltung_nav").addClass("active");	
-
-	
+		$("#pageheader").load("../partials/header.html", function() {
+			$("#adressverwaltung_nav").addClass("active");
+			});
+		
+		//$('ul.nav a[href="adressverwaltung_personen.html"]').parent().addClass('active');
+        	
 		$("#neuanlegen_btn").click(function() {
 			$("#modal_title_text").text("Neue Person");			
 		});
@@ -120,13 +121,52 @@
 					}
 				});		
 		});
-			
+		
+		//Get one person and load it to modal
 		$("#edit").click(function() {
-			$("#modal_title_text").text("Bearbeite Person");
-			
-			document.getElementById('tbx_title').innerHTML = $.trim(tableData[0]);
+				$("#modal_title_text").text("Bearbeite Person");
+				var id = tableData[0];
+				
+				//Get person with id "id"
+				$.ajax({
+					type: "POST",
+					url: "../rest/secure/person/getPersonById/" + id		
+				}).done(function(data){
+					
+					var p = eval(data);
+					
+					//Load data to modal
+					$("#tbx_salutation").val(p.salutation);
+					$("#tbx_title").val(p.title);
+					$("#tbx_firstName").val(p.firstName);
+					$("#tbx_lastName").val(p.lastName);
+					$("#tbx_address").val(p.address);
+					$("#tbx_zip").val(p.zip);
+					$("#tbx_city").val(p.city);
+					$("#tbx_country").val(p.country);
+					
+					//test
+					for (var i=0; i<p.phoneNumbers.length; i++)
+					{	
+						var newElement = $("<div/>",{id:"telnum-elemt"+telnumCount++, "class":"telnum-element"}).append(telnumelement_template);
+						$("#telnum_container").append(newElement);
+						//$("#tbx_phoneNu").attr("id", "tbx_phoneNumber" + i);
+					}
+					
+					
+					$("#select_phoneNumber").each(function (a, b) {
+			            if ($(this).html() == "gesch&auml;ftlich" ) $(this).attr("selected", "selected");
+			        });
+					
+					for (var i=0; i<p.emails.length; i++)
+					{	
+						var newElement = $("<div/>",{id:"mailadress-element"+mailadressCount++, "class":"mailadress-element"}).append(mailadress_template);
+						$("#mailadress_container").append(newElement);
+					}
+					
+				});
 		});
-	
+			
 		//Phonenumber handler
 		$("body").on('click', '.removephonenumber_btn',function() {
 			$(this).closest('div[class^="telnum-element"]').remove();
@@ -138,6 +178,7 @@
 							$("#addphonenumber_btn")
 									.click(
 											function() {
+												telnumelement_template = "<div class='row'> 		<div class='form-group'>															 			<div class='col-sm-5'> 				<input type='text' id='tbx_phoneNumber"+ telnumCount +"' class='form-control tbx_telnr' 					placeholder='Telefonnr.'> 			</div> 			<div class='col-sm-4'> 				<select class='form-control' id='select_phoneNumber'> 					<option>Privat</option> 					<option>Gesch&auml;ftlich</option> 				</select> 			</div> 			<div class='col-sm-3'> 				<button type='button' class='btn btn-default removephonenumber_btn' 					id='btn_delete' >L&ouml;schen</button> 			</div> 		</div> 	</div>";
 												var newElement = $("<div/>",{id:"telnum-elemt"+telnumCount++, "class":"telnum-element"}).append(telnumelement_template);
 												$("#telnum_container").append(newElement);
 											});
