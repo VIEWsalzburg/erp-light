@@ -337,7 +337,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional
-	public Platformuser getPlatformuserbyLoginMail(String loginEmail)
+	public Platformuser getPlatformuserbyLoginEmail(String loginEmail)
 	{
 		Platformuser platformuser = (Platformuser) sessionFactory.getCurrentSession().createQuery("FROM Platformuser p WHERE p.loginEmail = :loginEmail")
 				.setParameter("loginEmail", loginEmail).uniqueResult();

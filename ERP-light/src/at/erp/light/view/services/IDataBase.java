@@ -90,7 +90,7 @@ public interface IDataBase {
 	
 	// Platformuser
 	public Platformuser getPlatformuserById(int id);
-	public Platformuser getPlatformuserbyLoginMail(String loginEmail);
+	public Platformuser getPlatformuserbyLoginEmail(String loginEmail);
 	public Platformuser setPlatformuser(Platformuser platformuser);
 	public void removePlatformuserById(int id);
 
