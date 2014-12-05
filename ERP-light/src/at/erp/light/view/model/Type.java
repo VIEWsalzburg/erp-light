@@ -36,8 +36,6 @@ public class Type implements java.io.Serializable {
 	
 	private int typeId;
 	private String name;
-	private Set<Organisation> organisations = new HashSet<Organisation>(0);
-	private Set<Person> persons = new HashSet<Person>(0);
 
 	public Type() {
 	}
@@ -66,24 +64,24 @@ public class Type implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "relorgtype", schema = "public", joinColumns = { @JoinColumn(name = "type_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "organisation_id", nullable = false, updatable = false) })
-	public Set<Organisation> getOrganisations() {
-		return this.organisations;
-	}
+//	@ManyToMany(fetch = FetchType.LAZY)
+//	@JoinTable(name = "relorgtype", schema = "public", joinColumns = { @JoinColumn(name = "type_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "organisation_id", nullable = false, updatable = false) })
+//	public Set<Organisation> getOrganisations() {
+//		return this.organisations;
+//	}
+//
+//	public void setOrganisations(Set<Organisation> organisations) {
+//		this.organisations = organisations;
+//	}
 
-	public void setOrganisations(Set<Organisation> organisations) {
-		this.organisations = organisations;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "relpersontype", schema = "public", joinColumns = { @JoinColumn(name = "type_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "person_id", nullable = false, updatable = false) })
-	public Set<Person> getPersons() {
-		return this.persons;
-	}
-
-	public void setPersons(Set<Person> persons) {
-		this.persons = persons;
-	}
+//	@ManyToMany(fetch = FetchType.LAZY)
+//	@JoinTable(name = "relpersontype", schema = "public", joinColumns = { @JoinColumn(name = "type_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "person_id", nullable = false, updatable = false) })
+//	public Set<Person> getPersons() {
+//		return this.persons;
+//	}
+//
+//	public void setPersons(Set<Person> persons) {
+//		this.persons = persons;
+//	}
 
 }

@@ -237,6 +237,7 @@ public class DataBaseService implements IDataBase {
 		}
 		person.setEmails(emails);
 		
+		// Set Types should be set in Controller because Types are "static"
 		
 		// final update all in DB
 		sessionFactory.getCurrentSession().saveOrUpdate(person);
@@ -347,31 +348,36 @@ public class DataBaseService implements IDataBase {
 	@Transactional
 	public int telephoneTest() {
 	
-		int id = 36;
-		Person mPerson = getPersonById(id);
-		mPerson.setActive(3);
 		
-		mPerson.setPlatformuser(null);
+		Person mPerson = getPersonById(36);
+		for (Type type : mPerson.getTypes())
+		{
+			System.out.println(type.getName());
+		}
 		
-		Permission adminPermission = new Permission(1, 1, "ADMIN");
-		sessionFactory.getCurrentSession().saveOrUpdate(adminPermission);
 		
-		Platformuser platformuser = new Platformuser();
-		platformuser.setPerson(mPerson);
-		platformuser.setLoginEmail("mschnoell@gmx.net");
-		platformuser.setPassword("hallo");
-		platformuser.setPermission(adminPermission);
 		
-		sessionFactory.getCurrentSession().saveOrUpdate(platformuser);
 		
-		// mPerson.setPlatformuser(platformuser);
 		
-		// Platformuser new Platformuser(36, person1, "admin", "seppi.huber@gmail.com");
 		
+//		int id = 36;
+//		Person mPerson = getPersonById(id);
+//		mPerson.setActive(3);
+//		
+//		mPerson.setPlatformuser(null);
+//		
+//		Permission adminPermission = new Permission(1, 1, "ADMIN");
+//		sessionFactory.getCurrentSession().saveOrUpdate(adminPermission);
+//		
 //		Platformuser platformuser = new Platformuser();
-//		platformuser.setPersonId(id);
+//		platformuser.setPerson(mPerson);
 //		platformuser.setLoginEmail("mschnoell@gmx.net");
 //		platformuser.setPassword("hallo");
+//		platformuser.setPermission(adminPermission);
+//		
+//		sessionFactory.getCurrentSession().saveOrUpdate(platformuser);
+		
+
 //		
 //		
 //		

@@ -189,7 +189,9 @@ public class Organisation implements java.io.Serializable {
 //		this.incomingDeliveries = incomingDeliveries;
 //	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "organisations")
+	// @ManyToMany(fetch = FetchType.LAZY, mappedBy = "organisations")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "relorgtype", schema = "public", inverseJoinColumns = { @JoinColumn(name = "type_id", nullable = false, updatable = false) }, joinColumns = { @JoinColumn(name = "organisation_id", nullable = false, updatable = false) })
 	public Set<Type> getTypes() {
 		return this.types;
 	}

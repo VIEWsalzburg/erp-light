@@ -31,6 +31,27 @@ public class TestController {
 		
 		// dataBaseService.telephoneTest();
 		
+		Person mPerson = dataBaseService.getPersonById(36);
+		
+		mPerson.getTypes().clear();
+		
+		mPerson.getTypes().add(dataBaseService.getTypeById(Type.KUNDE));
+		mPerson.getTypes().add(dataBaseService.getTypeById(Type.UNTERSTÜTZER));
+		
+		dataBaseService.setPerson(mPerson);
+		
+		for (Type type : mPerson.getTypes())
+		{
+			System.out.println(type.getName());
+		}
+		
+		
+		
+		
+		
+		
+		
+		
 //		***** PlatformTest *****
 //		Person mPerson = dataBaseService.getPersonById(36);
 //		Permission permissionAdmin = dataBaseService.getPermissionById(Permission.ADMIN);

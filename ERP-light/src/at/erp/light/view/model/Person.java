@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -244,7 +245,9 @@ public class Person implements java.io.Serializable {
 		this.platformuser = platformuser;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "persons")
+	// @ManyToMany(fetch = FetchType.EAGER, mappedBy = "persons")	// commented
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "relpersontype", schema = "public", inverseJoinColumns = { @JoinColumn(name = "type_id", nullable = false, updatable = false) }, joinColumns = { @JoinColumn(name = "person_id", nullable = false, updatable = false) })
 	public Set<Type> getTypes() {
 		return this.types;
 	}
