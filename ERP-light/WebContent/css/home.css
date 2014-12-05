@@ -8,10 +8,7 @@ body{
 	background-color: #000;
 }
 
-.navbar-default{
-  
-}
-
+/* Navbar */
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
     background-color: #45A12B;
     color: #FFF;
