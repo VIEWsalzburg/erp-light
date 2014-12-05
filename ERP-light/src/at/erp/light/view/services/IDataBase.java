@@ -82,9 +82,11 @@ public interface IDataBase {
 	
 	// Types
 	public Type getTypeById(int id);
+	public Type getTypeByType(String type);
 	
 	// Permissions
 	public Permission getPermissionById(int id);
+	public Permission getPermissionByPermission(String permission);
 	
 	// Platformuser
 	public Platformuser getPlatformuserById(int id);

@@ -259,6 +259,16 @@ public class DataBaseService implements IDataBase {
 		return type;
 	}
 	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Type getTypeByType(String type)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Type t WHERE t.name = :type");
+		query.setParameter("type", type);
+		Type mType = (Type)query.uniqueResult();
+		return mType;
+	}
+	
 	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Telephone setTelephone(Telephone telephone)
@@ -343,6 +353,15 @@ public class DataBaseService implements IDataBase {
 		return permission;
 	}
 	
+	@Override
+	@Transactional
+	public Permission getPermissionByPermission(String permission)
+	{
+		Permission mPermission = (Permission) sessionFactory.getCurrentSession().createQuery("From Permission p WHERE p.permission = :permission")
+				.setParameter("permission", permission).uniqueResult();
+		return mPermission;
+	}
+	
 	
 	@Override
 	@Transactional
@@ -355,7 +374,7 @@ public class DataBaseService implements IDataBase {
 			System.out.println(type.getName());
 		}
 		
-		
+		System.out.println("Seas");
 		
 		
 		

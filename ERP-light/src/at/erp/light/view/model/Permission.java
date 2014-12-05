@@ -26,13 +26,13 @@ public class Permission implements java.io.Serializable {
 	
 	
 	private int permissionId;
-	private int permission;
+	private String permission;
 	private String description;
 
 	public Permission() {
 	}
 
-	public Permission(int permissionId, int permission, String description) {
+	public Permission(int permissionId, String permission, String description) {
 		this.permissionId = permissionId;
 		this.permission = permission;
 		this.description = description;
@@ -49,11 +49,11 @@ public class Permission implements java.io.Serializable {
 	}
 
 	@Column(name = "permission", nullable = false)
-	public int getPermission() {
+	public String getPermission() {
 		return this.permission;
 	}
 
-	public void setPermission(int permission) {
+	public void setPermission(String permission) {
 		this.permission = permission;
 	}
 

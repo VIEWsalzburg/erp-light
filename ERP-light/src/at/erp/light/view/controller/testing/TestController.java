@@ -2,7 +2,9 @@ package at.erp.light.view.controller.testing;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.erp.light.view.model.Email;
@@ -27,7 +29,7 @@ public class TestController {
 	
 	
 	@RequestMapping(value = "Test1")
-	public void doSomething() {
+	public void doSomething(@RequestParam(value="param") String param) {
 		
 		// dataBaseService.telephoneTest();
 		
@@ -45,11 +47,14 @@ public class TestController {
 			System.out.println(type.getName());
 		}
 		
+		System.out.println("hallo");
 		
+		Permission adminPermission = dataBaseService.getPermissionByPermission("ADMIN");
+		System.out.println(adminPermission.getPermission());
 		
-		
-		
-		
+		Type typeGesch = dataBaseService.getTypeByType(param);
+		System.out.println("param: "+param);
+		System.out.println(typeGesch.getName());
 		
 		
 //		***** PlatformTest *****

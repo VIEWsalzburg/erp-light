@@ -32,7 +32,7 @@ public class MockedDataBaseService implements IDataBase {
 	private List<Person> mockedPersons = new ArrayList<Person>();
 	
 	Type typePrivat = new Type(Type.PRIVAT, "Privat");
-	Permission permissionAdmin = new Permission(1, 1, "Admin");
+	Permission permissionAdmin = new Permission(1, "ADMIN", "Admin Permission");
 		
 	public MockedDataBaseService() {
 		
@@ -358,6 +358,20 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public Permission getPermissionById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Permission getPermissionByPermission(String permission) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Type getTypeByType(String type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
