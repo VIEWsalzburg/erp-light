@@ -231,7 +231,7 @@ public class MockedDataBaseService implements IDataBase {
 	}
 
 	@Override
-	public Article getAllArticles() {
+	public List<Article> getAllArticles() {
 		
 		return null;
 	}
@@ -379,6 +379,13 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public Platformuser getPlatformuserbyLoginEmail(String loginEmail) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Type> getAllTypes() {
 		// TODO Auto-generated method stub
 		return null;
 	}

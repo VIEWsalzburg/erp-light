@@ -1,6 +1,7 @@
 package at.erp.light.view.services;
 
 import java.util.List;
+import java.util.Set;
 
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.Category;
@@ -16,16 +17,63 @@ import at.erp.light.view.model.Platformuser;
 import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
 
+
+/**
+ * Interface IDataBase, used for communication with the database.
+ * @author Matthias
+ *
+ */
 public interface IDataBase {
 	
 	// Persons
+	/**
+	 * This function gets a Person element with the given ID from the DB.
+	 * @param id
+	 * @return Person object / null, if Person does not exist
+	 */
 	public Person getPersonById(int id);
+	
+	/**
+	 * This function gets a Person element with the given ID from the DB and fetches the given Objects.
+	 * @param id
+	 * @param FetchFlags Indicates with relational objects should be fetched
+	 * @return Person object / null, if Person does not exist
+	 */
 	Person getPersonById(int id, int FetchFlags);
+	
+	/**
+	 * unimplemented
+	 * @param type
+	 * @return
+	 */
 	public List<Person> getPersonsByType(Type type);
+	
+	/**
+	 * This function returns all Persons from the DB.
+	 * @return a Set with all Persons. 
+	 */
 	public List<Person> getAllPersons();
+	
+	/**
+	 * unimplemented
+	 * @param loginEmail
+	 * @return
+	 */
 	public Person getPersonByLoginEmail(String loginEmail);
 	
+	/**
+	 * Saves or updates the given Person in the DB. All fields are parsed and reassign depending on the saved entities.
+	 * New Objects are automatically created and assigned (Address, City, Country, Telephones, Emails)
+	 * @param person
+	 * @return
+	 */
 	public int setPerson(Person person);
+	
+	/**
+	 * unimplemented
+	 * @param persons
+	 * @return
+	 */
 	public int setPersons(List<Person> persons);
 	
 	// Organisations
@@ -52,7 +100,7 @@ public interface IDataBase {
 
 	// Articles
 	public Article getArticleById(int id);
-	public Article getAllArticles();
+	public List<Article> getAllArticles();
 	
 	public int setArticle(Article article);
 	public int setArticles(List<Article> articles);
@@ -81,11 +129,39 @@ public interface IDataBase {
 	
 	
 	// Types
+	/**
+	 * Gets the Type object with the given ID from the DB.
+	 * @param id
+	 * @return Type object / null, if given ID does not exist in DB
+	 */
 	public Type getTypeById(int id);
+	
+	/**
+	 * Gets the Type object with the given Name from the DB.
+	 * @param type
+	 * @return Type object / null, if given Name does not exist in DB
+	 */
 	public Type getTypeByType(String type);
 	
+	/**
+	 * Gets a Set with all Type objects from the DB.
+	 * @return
+	 */
+	public List<Type> getAllTypes();
+	
 	// Permissions
+	/**
+	 * Gets the Permission object with the given ID from the DB.
+	 * @param id
+	 * @return Permission object / null, if given ID does not exist in DB
+	 */
 	public Permission getPermissionById(int id);
+	
+	/**
+	 * Gets the Permission object with the given Name from the DB.
+	 * @param permission
+	 * @return Permission object / null, if given Name does not exist in DB
+	 */
 	public Permission getPermissionByPermission(String permission);
 	
 	// Platformuser
