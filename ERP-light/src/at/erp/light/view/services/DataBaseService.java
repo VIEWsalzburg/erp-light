@@ -225,7 +225,7 @@ public class DataBaseService implements IDataBase {
 		Set<Telephone> telephones = new HashSet<Telephone>();
 		for (Telephone telephone : person.getTelephones())
 		{
-			telephones.add(this.getTelephoneByTelephone(telephone.getTelephone(), telephone.getType().getTypeId()));
+			telephones.add(this.getTelephoneByTelephone(telephone.getTelephone(), telephone.getType().getName()));
 		}
 		person.setTelephones(telephones);
 		
@@ -233,9 +233,16 @@ public class DataBaseService implements IDataBase {
 		Set<Email> emails = new HashSet<Email>();
 		for (Email email : person.getEmails())
 		{
-			emails.add(this.getEmailByEmail(email.getEmail(), email.getType().getTypeId()));
+			emails.add(this.getEmailByEmail(email.getEmail(), email.getType().getName()));
 		}
 		person.setEmails(emails);
+		
+		Set<Type> types = new HashSet<Type>();
+		for (Type type : person.getTypes())
+		{
+			types.add(this.getTypeByType(type.getName()));
+		}
+		person.setTypes(types);
 		
 		// Set Types should be set in Controller because Types are "static"
 		
@@ -278,7 +285,7 @@ public class DataBaseService implements IDataBase {
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Telephone getTelephoneByTelephone(String telephone, int typeId)
+	public Telephone getTelephoneByTelephone(String telephone, String type)
 	{
 		Telephone mTelephone = (Telephone) sessionFactory.getCurrentSession().createQuery("FROM Telephone t WHERE t.telephone = :telephone")
 				.setParameter("telephone", telephone).uniqueResult();
@@ -286,10 +293,10 @@ public class DataBaseService implements IDataBase {
 		{
 			mTelephone = new Telephone();
 			mTelephone.setTelephone(telephone);
-			mTelephone.setType(getTypeById(typeId));
+			mTelephone.setType(getTypeByType(type));
 			this.setTelephone(mTelephone);
 		}
-		mTelephone.setType(getTypeById(typeId));
+		mTelephone.setType(getTypeByType(type));
 		
 		return mTelephone;
 	}
@@ -303,7 +310,7 @@ public class DataBaseService implements IDataBase {
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Email getEmailByEmail(String email, int typeId)
+	public Email getEmailByEmail(String email, String type)
 	{
 		Email mEmail = (Email) sessionFactory.getCurrentSession().createQuery("FROM Email e WHERE e.email = :email")
 				.setParameter("email", email).uniqueResult();
@@ -311,10 +318,10 @@ public class DataBaseService implements IDataBase {
 		{
 			mEmail = new Email();
 			mEmail.setEmail(email);
-			mEmail.setType(getTypeById(typeId));
+			mEmail.setType(getTypeByType(type));
 			this.setEmail(mEmail);
 		}
-		mEmail.setType(getTypeById(typeId));
+		mEmail.setType(getTypeByType(type));
 		
 		return mEmail;
 	}
@@ -325,6 +332,15 @@ public class DataBaseService implements IDataBase {
 	{
 		Platformuser platformuser = (Platformuser) sessionFactory.getCurrentSession().createQuery("FROM Platformuser p WHERE p.personId = :id")
 				.setParameter("id", id).uniqueResult();
+		return platformuser;
+	}
+	
+	@Override
+	@Transactional
+	public Platformuser getPlatformuserbyLoginMail(String loginEmail)
+	{
+		Platformuser platformuser = (Platformuser) sessionFactory.getCurrentSession().createQuery("FROM Platformuser p WHERE p.loginEmail = :loginEmail")
+				.setParameter("loginEmail", loginEmail).uniqueResult();
 		return platformuser;
 	}
 	

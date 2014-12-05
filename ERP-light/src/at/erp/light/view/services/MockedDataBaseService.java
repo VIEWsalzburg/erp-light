@@ -376,4 +376,11 @@ public class MockedDataBaseService implements IDataBase {
 		return null;
 	}
 
+
+	@Override
+	public Platformuser getPlatformuserbyLoginMail(String loginEmail) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
