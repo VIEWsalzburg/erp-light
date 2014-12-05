@@ -12,8 +12,8 @@ h2{
    color: #45A12B;
 }
 
-#error-notification{
+#error-notification-message{
 	display: none;
+	padding: 6px;
+	margin-bottom: 0px;
 }
-
-

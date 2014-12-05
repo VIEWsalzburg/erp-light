@@ -15,8 +15,8 @@ $("#btn_submit").click(function() {
 			}
 			else
 			{
-				$("#error-notification").html(response.message);
-				$("#error-notification").show();
+				$("#error-notification-message").html(response.message);
+				$("#error-notification-message").show();
 			}
 		} else {
 			alert("Verbindungsproblem");

@@ -48,7 +48,7 @@ public class LoginController {
 				.getPlatformuserbyLoginEmail(authentication.getLoginEmail());
 
 		if (existingUser == null) {
-			return new ControllerMessage(false, "Anmeldung fehlgeschlagen!");
+			return new ControllerMessage(false, "Falsche Anmeldeinformationen!");
 		}
 
 		if (existingUser.getPassword().equals(authentication.getPassword())) {
@@ -59,7 +59,7 @@ public class LoginController {
 		}
 		else
 		{
-			return new ControllerMessage(false, "Falsche Anmeldeinformationen");
+			return new ControllerMessage(false, "Falsche Anmeldeinformationen!");
 		}
 
 	}
