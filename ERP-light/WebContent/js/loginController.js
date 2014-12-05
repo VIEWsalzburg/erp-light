@@ -7,11 +7,19 @@ $("#btn_submit").click(function() {
 			username : $("#tbx_username").val(),
 			password : $("#tbx_password").val()
 		}
-	}).done(function(data) {
-		if (data != null) {
-			window.location.replace("secure/home.html");
+	}).done(function(response) {
+		if (response != null) {
+			if(response.success)
+			{
+				window.location.replace("secure/home.html");
+			}
+			else
+			{
+				$("#error-notification").html(response.message);
+				$("#error-notification").show();
+			}
 		} else {
-			alert("whoops something went wrong");
+			alert("Verbindungsproblem");
 		}
 	});
 	return false;

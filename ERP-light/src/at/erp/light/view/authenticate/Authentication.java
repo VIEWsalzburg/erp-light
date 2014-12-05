@@ -2,7 +2,7 @@ package at.erp.light.view.authenticate;
 
 public class Authentication {
 	private int id;
-	private String username;
+	private String loginEmail;
 	private String password;
 
 	public Authentication() {
@@ -12,7 +12,7 @@ public class Authentication {
 	public Authentication(int id, String username, String password) {
 		super();
 		this.id = id;
-		this.username = username;
+		this.loginEmail = username;
 		this.password = password;
 	}
 
@@ -24,12 +24,12 @@ public class Authentication {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getLoginEmail() {
+		return loginEmail;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsername(String loginEmail) {
+		this.loginEmail = loginEmail;
 	}
 
 	public String getPassword() {
