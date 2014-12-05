@@ -92,7 +92,7 @@ $(document).ready(
 						
 						var p = eval(data);
 						var personsString = "";
-
+						
 						for ( var e in p) {
 							var emailString = "";
 							var phoneString = "";
@@ -100,7 +100,7 @@ $(document).ready(
 
 							var types = p[e].types;
 							var emails = p[e].emails;
-							var phoneNumbers = p[e].phoneNumbers;
+							var phoneNumbers = p[e].telephones;
 							
 							for (var i = 0; i < emails.length; i++) {
 								emailString = emailString + emails[i];
