@@ -89,7 +89,7 @@ $(document).ready(
 				url : "../rest/secure/person/getAll"
 			}).done(
 					function(data) {
-
+						
 						var p = eval(data);
 						var personsString = "";
 
@@ -101,7 +101,7 @@ $(document).ready(
 							var types = p[e].types;
 							var emails = p[e].emails;
 							var phoneNumbers = p[e].phoneNumbers;
-
+							
 							for (var i = 0; i < emails.length; i++) {
 								emailString = emailString + emails[i];
 								if (i < emails.length - 1) {
@@ -120,7 +120,7 @@ $(document).ready(
 									typeString = typeString + ", ";
 								}
 							}
-
+							
 							var tableRow = "<tr>" + "<td>" + p[e].personId
 									+ "</td>" + "<td>" + p[e].salutation
 									+ "</td>" + "<td>" + p[e].title + "</td>"
@@ -134,8 +134,9 @@ $(document).ready(
 									+ p[e].permission + "</td>" + "<td>"
 									+ typeString + "</td>" + "<td>"
 									+ "[LastUpdate]" + "</td>" + "</tr>";
-
+							
 							$("#personTableBody").append(tableRow);
+							
 						}
 					});
 		});
