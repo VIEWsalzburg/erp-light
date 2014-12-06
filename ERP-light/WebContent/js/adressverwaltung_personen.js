@@ -1,25 +1,29 @@
-var telnumCount = 0;
-var telnumelement_template = "<div class='row'> 		<div class='form-group'>															 			<div class='col-sm-5'> 				<input type='text' id='tbx_phoneNumber"
-		+ telnumCount
-		+ "' class='form-control tbx_telnr' 					placeholder='Telefonnr.'> 			</div> 			<div class='col-sm-4'> 				<select class='form-control' id='select_phoneNumber'> 					<option>Privat</option> 					<option>Gesch&auml;ftlich</option> 				</select> 			</div> 			<div class='col-sm-3'> 				<button type='button' class='btn btn-default removephonenumber_btn' 					id='btn_delete' >L&ouml;schen</button> 			</div> 		</div> 	</div>";
+var phoneCount = 0;
+var phoneelement_template = "";
 
-var mailadressCount = 0;
-var mailadress_template = "<div class='row'> 		<div class='form-group'>															 			<div class='col-sm-5'> 				<input type='text'  class='form-control tbx_mailadress'					placeholder='Email'> 			</div> 			<div class='col-sm-4'> 				<select class='form-control' id='select_email'> 					<option>Privat</option> 					<option>Gesch&auml;ftlich</option> 				</select> 			</div> 			<div class='col-sm-3'> 				<button type='button' class='btn btn-default removemailadress_btn' 					id='btn_delete' >L&ouml;schen</button> 			</div> 		</div> 	</div>";
+var emailCount = 0;
+var emailelement_template = "";
 
 // Load pageheader
 $("#pageheader").load("../partials/header.html", function() {
 	$("#adressverwaltung_nav").addClass("active");
 });
 
-// $('ul.nav
-// a[href="adressverwaltung_personen.html"]').parent().addClass('active');
-
-$("#neuanlegen_btn").click(function() {
+//Modal new
+$("#btn_new").click(function() {
 	$("#modal_title_text").text("Neue Person");
+	
+	//remove all phonenumber divs
+	$(".btn_removephonenumber").closest('div[class^="phone_element"]').remove();
+	phoneCount = 0;
+	
+	//remove all email divs
+	$(".btn_removeemail").closest('div[class^="email_element"]').remove();
+	emailCount = 0;
 });
 
 // Modal Neu anlegen -> speichern
-$("#saveperson_btn").click(function() {
+$("#btn_saveperson").click(function() {
 	var newperson = new Object();
 	newperson.personId = -1;
 	newperson.salutation = $("#tbx_salutation").val();
@@ -89,11 +93,9 @@ $(document).ready(
 				url : "../rest/secure/person/getAll"
 			}).done(
 					function(data) {
-						
 						var p = eval(data);
-						var personsString = "";
 						
-						for ( var e in p) {
+						for (var e in p) {
 							var emailString = "";
 							var phoneString = "";
 							var typeString = "";
@@ -142,8 +144,17 @@ $(document).ready(
 		});
 
 // Get one person and load it to modal
-$("#edit").click(function() {
+$("#btn_edit").click(function() {
 	$("#modal_title_text").text("Bearbeite Person");
+	
+	//remove all phonenumber divs
+	$(".btn_removephonenumber").closest('div[class^="phone_element"]').remove();
+	phoneCount = 0;
+	
+	//remove all email divs
+	$(".btn_removeemail").closest('div[class^="email_element"]').remove();
+	emailCount = 0;
+	
 	var id = tableData[0];
 
 	// Get person with id "id"
@@ -154,7 +165,7 @@ $("#edit").click(function() {
 
 		var p = eval(data);
 
-		// Load data to modal
+		//load data to modal
 		$("#tbx_salutation").val(p.salutation);
 		$("#tbx_title").val(p.title);
 		$("#tbx_firstName").val(p.firstName);
@@ -164,78 +175,132 @@ $("#edit").click(function() {
 		$("#tbx_city").val(p.city);
 		$("#tbx_country").val(p.country);
 
-		// test
-		for (var i = 0; i < p.phoneNumbers.length; i++) {
-			var newElement = $("<div/>", {
-				id : "telnum-elemt" + telnumCount++,
-				"class" : "telnum-element"
-			}).append(telnumelement_template);
-			$("#telnum_container").append(newElement);
-			// $("#tbx_phoneNu").attr("id", "tbx_phoneNumber" + i);
+		//load phoneNumber divs
+		var newElement;
+		var loginEmail_template;
+		var help;
+		var help1;
+		
+		for (var i = 0; i<p.telephones.length; i++) {
+			phoneelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_phoneNumber" 
+				+ phoneCount + "' class='form-control tbx_phoneNumber' placeholder='Telefonnr.'> </div> <div class='col-sm-4'>" +
+				"<select class='form-control' id='select_phoneNumber"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
+				"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber' id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
+				
+				newElement = $(
+					"<div/>",
+					{
+						id : "phone_element" + phoneCount++,
+						"class" : "phone_element"
+					}).append(phoneelement_template);
+					$("#phone_container").append(newElement);
+			
+			help = "#tbx_phoneNumber" + (phoneCount-1);
+			$(help).val(p.telephones);	//not working right
+			
+			help = 'geschäftlich'; //test
+			help1 = "select#select_phoneNumber" + (phoneCount-1) + " option";
+			$(help1).each(function() { 
+				this.selected = (this.text == help);
+			});
 		}
-
-		$("#select_phoneNumber").each(function(a, b) {
-			if ($(this).html() == "gesch&auml;ftlich")
-				$(this).attr("selected", "selected");
+		
+		//load email divs
+		for (var i = 0; i<p.emails.length; i++) {
+			emailelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_email" + emailCount + "' " +
+				"class='form-control tbx_mailadress' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control' id='select_email"+ emailCount +"'>" +
+				"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail'" +
+				"id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
+			
+				newElement = $("<div/>", {
+					id : "email_element" + emailCount++,
+					"class" : "email_element"
+				}).append(emailelement_template);
+				$("#email_container").append(newElement);
+				
+			help = "#tbx_email" + (emailCount-1);
+			$(help).val(p.emails);	//not working right
+			
+			help = 'geschäftlich';	//test
+			help1 = "select#select_email" + (emailCount-1) + " option";
+			$(help1).each(function() { 
+				this.selected = (this.text == help);
+			});
+			
+			//add emails to loginEmail select
+			loginEmail_template = "<option>" + p.emails + "</option>";
+			$("#select_loginEmail").append(loginEmail_template);
+		}
+		
+		//load selects
+		$("select#select_loginEmail option").each(function() { 
+			this.selected = (this.text == p.loginEmail);
 		});
-
-		for (var i = 0; i < p.emails.length; i++) {
-			var newElement = $("<div/>", {
-				id : "mailadress-element" + mailadressCount++,
-				"class" : "mailadress-element"
-			}).append(mailadress_template);
-			$("#mailadress_container").append(newElement);
-		}
-
+		
+		$("select#select_types option").each(function() { 
+			this.selected = (this.text == p.types);
+		});
+		
+		$("select#select_permission option").each(function() { 
+			this.selected = (this.text == p.permission);
+		});
 	});
 });
 
-// Phonenumber handler
-$("body").on('click', '.removephonenumber_btn', function() {
-	$(this).closest('div[class^="telnum-element"]').remove();
-});
-
-$(document)
-		.ready(
-				function() {
-					$("#addphonenumber_btn")
-							.click(
-									function() {
-										telnumelement_template = "<div class='row'> 		<div class='form-group'>															 			<div class='col-sm-5'> 				<input type='text' id='tbx_phoneNumber"
-												+ telnumCount
-												+ "' class='form-control tbx_telnr' 					placeholder='Telefonnr.'> 			</div> 			<div class='col-sm-4'> 				<select class='form-control' id='select_phoneNumber'> 					<option>Privat</option> 					<option>Gesch&auml;ftlich</option> 				</select> 			</div> 			<div class='col-sm-3'> 				<button type='button' class='btn btn-default removephonenumber_btn' 					id='btn_delete' >L&ouml;schen</button> 			</div> 		</div> 	</div>";
-										var newElement = $(
-												"<div/>",
-												{
-													id : "telnum-elemt"
-															+ telnumCount++,
-													"class" : "telnum-element"
-												}).append(
-												telnumelement_template);
-										$("#telnum_container").append(
-												newElement);
-									});
-				});
-
-// Mailadress handler
-$("body").on('click', '.removemailadress_btn', function() {
-	$(this).closest('div[class^="mailadress-element"]').remove();
-});
-
+//add phonenumber div
 $(document).ready(function() {
-	$("#addmailadress_btn").click(function() {
+	$("#btn_addphonenumber").click(function() {
+			phoneelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_phoneNumber" 
+									+ phoneCount + "' class='form-control tbx_phoneNumber' placeholder='Telefonnr.'> </div> <div class='col-sm-4'>" +
+									"<select class='form-control' id='select_phoneNumber"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
+									"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber' id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
+									
+									var newElement = $(
+										"<div/>",
+										{
+											id : "phone_element" + phoneCount++,
+											"class" : "phone_element"
+										}).append(phoneelement_template);
+										$("#phone_container").append(newElement);
+	});
+});
+
+//remove phonenumber div
+$("body").on('click', '.btn_removephonenumber', function() {
+	$(this).closest('div[class^="phone_element"]').remove();
+	phoneCount--;
+});
+
+//add email div
+$(document).ready(function() {
+	$("#btn_addemail").click(function() {
+		emailelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_email" + emailCount + "' " +
+			"class='form-control tbx_mailadress' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control' id='select_email"+ emailCount +"'>" +
+			"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail'" +
+			"id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
+		
 		var newElement = $("<div/>", {
-			id : "mailadress-element" + mailadressCount++,
-			"class" : "mailadress-element"
-		}).append(mailadress_template);
-		$("#mailadress_container").append(newElement);
+			id : "email_element" + emailCount++,
+			"class" : "email_element"
+		}).append(emailelement_template);
+		$("#email_container").append(newElement);
+		
+		//TODO finish select appending
+		var help = $("#tbx_email0").val();
+		//alert(help);
+		loginEmail_template = "<option>" + help + "</option>";
+		$("#select_loginEmail").append(loginEmail_template);
 	});
 });
 
-// <!-- Filterfunktion -->
+//remove email div
+$("body").on('click', '.btn_removeemail', function() {
+	$(this).closest('div[class^="email_element"]').remove();
+	emailCount--;
+});
 
+//search filter
 $(document).ready(function() {
-
 	(function($) {
 		$('#filter').keyup(function() {
 
@@ -248,8 +313,7 @@ $(document).ready(function() {
 	}(jQuery));
 });
 
-// <!-- Typfilter -->
-
+//typfilter
 $(document).ready(function() {
 	$('#mitarbeiter_cbx').prop('checked', true);
 	$('#unterstuetzer_cbx').prop('checked', true);
@@ -301,39 +365,29 @@ $(document).ready(function() {
 				}).hide();
 			}
 		});
-
 	}(jQuery));
 });
 
-// <!-- Tabellenzeile markieren -->
+//select table row
+$('#btn_edit').prop('disabled', true);
+$('#btn_deleteModal').prop('disabled', true);
 
-$('#edit').prop('disabled', true);
-$('#delete').prop('disabled', true);
 var tableData;
-
 $('#personen').on('click', 'tbody tr', function(event) {
 	tableData = $(this).children("td").map(function() {
 		return $(this).text();
 	}).get();
 
 	$(this).addClass('highlight').siblings().removeClass('highlight');
-	$('#edit').prop('disabled', false);
-	$('#delete').prop('disabled', false);
+	$('#btn_edit').prop('disabled', false);
+	$('#btn_deleteModal').prop('disabled', false);
 });
 
-// <!-- L�schen einer Tabellenzeile -->
-
-$('#delete').on(
-		'click',
-		function() {
-			document.getElementById('index_delete').innerHTML = $
-					.trim(tableData[0]);
-			document.getElementById('anrede_delete').innerHTML = $
-					.trim(tableData[1]);
-			document.getElementById('titel_delete').innerHTML = $
-					.trim(tableData[2]);
-			document.getElementById('vorname_delete').innerHTML = $
-					.trim(tableData[3]);
-			document.getElementById('nachname_delete').innerHTML = $
-					.trim(tableData[4]);
-		});
+//remove table row modal
+$("#btn_deleteModal").click(function() {
+			$("#label_id").text(tableData[0]);
+			$("#label_salutation").text(tableData[1]);
+			$("#label_title").text(tableData[2]);
+			$("#label_firstName").text(tableData[3]);
+			$("#label_lastName").text(tableData[4]);
+});

@@ -45,7 +45,7 @@
 						
 						<form role="form" class="form-inline">
 							<div class="form-group">							
-								<button type="button" id="neuanlegen_btn" class="btn btn-primary" data-toggle="modal" data-target="#neuanlegenModal"><span class="glyphicon glyphicon-plus"></span> Neu anlegen</button>							
+								<button type="button" id="btn_new" class="btn btn-primary" data-toggle="modal" data-target="#new"><span class="glyphicon glyphicon-plus"></span> Neu anlegen</button>							
 								
 									<div class="input-group suchfilter"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> Filter</span>
 										<input id="filter" type="text" class="form-control" placeholder="Filterbegriff eingeben...">
@@ -62,39 +62,15 @@
 								<th style="width: 87%">Beschreibung</th>															
 							</tr>
 						</thead>	
-						<tbody class="searchable">
-							<tr>
-								<td>1</td>
-								<td>Name1</td>
-								<td>Beschreibung1</td>															
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>Name2</td>
-								<td>Beschreibung2</td>															
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>Name3</td>
-								<td>Beschreibung3</td>															
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>Name4</td>
-								<td>Beschreibung4</td>															
-							</tr>
-							<tr>
-								<td>5</td>
-								<td>Name5</td>
-								<td>Beschreibung5</td>															
-							</tr>
+						<tbody id="categoryTableBody" class="searchable">
+							<!-- table rows -->
 						</tbody>
 						</table>
 						</div>
 						<!-- Table end -->
 						
-						<!-- Modal Neu anlegen -->
-						<div class="modal fade" id="neuanlegenModal" tabindex="-1" role="dialog" aria-hidden="true">
+						<!-- Neu anlegen und bearbeiten Modal -->
+						<div class="modal fade" id="new" tabindex="-1" role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									  <div class="modal-header">
@@ -107,7 +83,7 @@
 												  	<div class="form-group">
 														<label class="col-sm-4 control-label">Name</label>
 														<div class="col-sm-5">
-															<input type="text" class="form-control" id="name" placeholder="Name">
+															<input type="text" class="form-control" name="tbx_name" id="tbx_name" placeholder="Name">
 														</div>
 													</div>
 												</div>
@@ -116,7 +92,7 @@
 												  	<div class="form-group">
 														<label class="col-sm-4 control-label">Beschreibung</label>
 														<div class="col-sm-5">
-															<textarea class="form-control" rows="3" id="beschreibung" placeholder="Beschreibung" style="resize:none"></textarea>
+															<textarea class="form-control" rows="3" name="tbx_description" id="tbx_description" placeholder="Beschreibung" style="resize:none"></textarea>
 														</div>
 													</div>
 												</div>											
@@ -125,43 +101,51 @@
 									  </div>
 									  <div class="modal-footer">										
 										<button type="button" class="btn btn-default" data-dismiss="modal"> Abbrechen</button>
-										<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Speichern</button>								
+										<button type="button" id="btn_savecategory" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Speichern</button>								
 
 									  </div>
 								</div><!-- /.modal-content -->
 							</div><!-- /.modal-dialog -->
 						</div><!-- /.modal -->
 						
-						<!-- Modal Loeschen -->
-						<div class="modal fade" id="loeschenModal" tabindex="-1" role="dialog" aria-hidden="true">
+						<!-- Modal Delete -->
+						<div class="modal fade" id="deleteModal" tabindex="-1"
+							role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
-									  <div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-										<h4 class="modal-title">Wollen Sie den Eintrag wirklich l&ouml;schen?</h4>
-									  </div>
-									  <div class="modal-body">
-											
-											<div class="row modalrow">
-											  <div class="col-md-6">
-													<label id="index_delete">Index</label>
-													<label id="name_delete">Anrede</label>
-													<label id="beschreibung_delete">Titel</label>													
-											  </div>
-											  <div class="col-md-6">
-																						  
-											  </div>
-											</div>															
-										
-									  </div>
-									  <div class="modal-footer">										
-										<button type="button" class="btn btn-default" data-dismiss="modal"> Abbrechen</button>
-										<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Loeschen</button>								
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title">Wollen Sie den Eintrag wirklich
+											l&ouml;schen?</h4>
+									</div>
+									<div class="modal-body">
 
-									  </div>
-								</div><!-- /.modal-content -->
-							</div><!-- /.modal-dialog -->
-						</div><!-- /.modal -->
+										<div class="row modalrow">
+											<div class="col-md-6">
+												<label id="label_id">dd</label>
+												<label id="label_name">name</label> 
+												<label id="label_description">description</label>
+											</div>
+											<div class="col-md-6"></div>
+										</div>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Abbrechen</button>
+										<button type="button" class="btn btn-danger">
+											<span class="glyphicon glyphicon-trash"></span> Loeschen
+										</button>
+
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal-dialog -->
+						</div>
+						<!-- /.modal -->
 						
 					</div>
 				</div>
@@ -181,8 +165,8 @@
 			<div class="col-md-4">
 				<form role="form" class="form-inline">
 							<div class="form-group bottom">
-								<button type="button" id="edit" class="btn btn-warning" data-toggle="modal" data-target="#neuanlegenModal"><span class="glyphicon glyphicon-pencil"></span> Bearbeiten</button>
-								<button type="button" id="delete" class="btn btn-danger" data-toggle="modal" data-target="#loeschenModal"><span class="glyphicon glyphicon-trash"></span> Loeschen</button>								
+								<button type="button" id="btn_edit" class="btn btn-warning" data-toggle="modal" data-target="#new"><span class="glyphicon glyphicon-pencil"></span> Bearbeiten</button>
+								<button type="button" id="btn_deleteModal" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span> Loeschen</button>								
 							</div>							
 				</form>
 			</div>			
@@ -193,71 +177,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.min.js"></script>
-    <!-- Load Pageheader -->
-	<script>
-		$("#pageheader").load("../partials/header.html");
-		$("#adressverwaltung_nav").addClass("active");		
-	</script>
-	
-	<script>
-	$("#neuanlegen_btn").click(function() {   
-		$("#modal_title_text").text("Neue Kategorie");
-    });
-	
-	$("#edit").click(function() {   
-		$("#modal_title_text").text("Bearbeite Kategorie");
-    });
-	</script>
-	
-	<!-- Filterfunktion -->
-	<script>
-		$(document).ready(function () {
-
-		(function ($) {
-			$('#filter').keyup(function () {
-
-				var rex = new RegExp($(this).val(), 'i');
-				$('.searchable tr').hide();
-				$('.searchable tr').filter(function () {
-					return rex.test($(this).text());
-				}).show();
-			})
-		}(jQuery));
-	});
-	</script>
-	
-	<!-- Tabellenzeile markieren -->
-	<script>
-	$('#edit').prop('disabled', true);
-	$('#delete').prop('disabled', true);
-	var tableData;
-	
-	$('#personen').on('click', 'tbody tr', function(event) {
-		tableData = $(this).children("td").map(function() {
-        return $(this).text();
-		}).get();
-		
-    $(this).addClass('highlight').siblings().removeClass('highlight');
-		$('#edit').prop('disabled', false);
-		$('#delete').prop('disabled', false);
-	});
-	</script>
-	
-	<!-- Bearbeiten einer Tabellenzeile -->
-	<script>
-	$('#edit').on('click',function(){	
-		$('#vorname').val($.trim(tableData[3]));        
-    });
-	</script>
-	
-	<!-- Loeschen einer Tabellenzeile -->
-	<script>
-	$('#delete').on('click',function(){		
-		document.getElementById('index_delete').innerHTML = $.trim(tableData[0]);
-		document.getElementById('name_delete').innerHTML = $.trim(tableData[1]);
-		document.getElementById('beschreibung_delete').innerHTML = $.trim(tableData[2]);		
-    });
-	</script>
-	
+	<!-- Load javascript File -->
+	<script src="../js/adressverwaltung_kategorienverwaltung.js" type="text/javascript"></script>	
 </body>
 </html>

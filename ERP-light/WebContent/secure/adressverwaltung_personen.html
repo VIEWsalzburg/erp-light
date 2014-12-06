@@ -38,9 +38,9 @@
 
 						<form role="form" class="form-inline">
 							<div class="form-group">
-								<button type="button" id="neuanlegen_btn"
+								<button type="button" id="btn_new"
 									class="btn btn-primary" data-toggle="modal"
-									data-target="#neuanlegenModal">
+									data-target="#new">
 									<span class="glyphicon glyphicon-plus"></span> Neu anlegen
 								</button>
 
@@ -85,15 +85,15 @@
 								</thead>
 								<tbody id="personTableBody" class="searchable">
 
-<!-- Persons are placed here by Script "fillPersonTable" -->
+									<!-- Persons are placed here by Script "fillPersonTable" -->
 
 								</tbody>
 							</table>
 						</div>
 						<!-- Table end -->
 
-						<!-- Neu anlegen (unfertig!) -->
-						<div class="modal fade" id="neuanlegenModal" tabindex="-1"
+						<!-- Neu anlegen und bearbeiten Modal -->
+						<div class="modal fade" id="new" tabindex="-1"
 							role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -199,7 +199,7 @@
 													<label class="control-label">Telefonnr.</label>
 												</div>
 												<!-- Tel. num container -->
-												<div id="telnum_container" class="col-sm-10">
+												<div id="phone_container" class="col-sm-10">
 												<!--Tel. num element -->													
 												<!-- /Tel. num element -->
 												</div>
@@ -209,7 +209,7 @@
 											<div class="row">
 												<div class="col-sm-10 col-sm-offset-2">
 													<div class="form-group">
-															<button type="button" id="addphonenumber_btn" class="btn btn-default">Telefonnr.
+															<button type="button" id="btn_addphonenumber" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Telefonnr.
 																hinzuf&uuml;gen</button>
 													</div>
 												</div>
@@ -220,7 +220,7 @@
 													<label class="control-label">Emailadr.</label>
 												</div>
 												<!-- Tel. num container -->
-												<div id="mailadress_container" class="col-sm-10">
+												<div id="email_container" class="col-sm-10">
 												<!--Tel. num element -->													
 												<!-- /Tel. num element -->
 												</div>
@@ -230,7 +230,7 @@
 											<div class="row">
 												<div class="col-sm-10 col-sm-offset-2">
 													<div class="form-group">
-															<button type="button" id="addmailadress_btn" class="btn btn-default">Mailadresse hinzuf&uuml;gen</button>
+															<button type="button" id="btn_addemail" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Email hinzuf&uuml;gen</button>
 													</div>
 												</div>
 											</div>
@@ -243,9 +243,7 @@
 													<label class="col-sm-5 control-label">Mailadresse für Login</label>
 													<div class="col-sm-5">
 														<select name="select_loginEmail" id="select_loginEmail" class="form-control col-sm-6">
-														  <option>Typ 1</option>
-														  <option>Typ 2</option>
-														  <option>Typ 3</option>														  
+														 														  
 														</select>
 													</div>
 												</div>
@@ -269,8 +267,8 @@
 													<label class="col-sm-5 control-label">Rechte</label>
 													<div class="col-sm-5">
 														<select name="select_permission" id="select_permission" class="form-control col-sm-6">
+														  <option>Typ 1</option>
 														  <option>admin</option>
-														  <option>Typ 2</option>
 														  <option>Typ 3</option>														  
 														</select>
 													</div>
@@ -281,11 +279,11 @@
 									</div>
 
 									<div class="modal-footer">
-										<button type="button" class="btn btn-default pull-left"
-											data-dismiss="modal">Passwort zur&uuml;cksetzen</button>
+										<button type="button" class="btn btn-warning pull-left"
+											>Passwort zur&uuml;cksetzen</button>
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">Abbrechen</button>
-										<button type="button" id="saveperson_btn" class="btn btn-primary">
+										<button type="button" id="btn_saveperson" class="btn btn-primary">
 											<span class="glyphicon glyphicon-floppy-save"></span>
 											Speichern
 										</button>
@@ -297,7 +295,7 @@
 						</div>
 						<!-- /.modal -->
 
-						<!-- Modal L�schen -->
+						<!-- Modal Delete -->
 						<div class="modal fade" id="deleteModal" tabindex="-1"
 							role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
@@ -313,10 +311,11 @@
 
 										<div class="row modalrow">
 											<div class="col-md-6">
-												<label id="index_delete">Index</label> <label
-													id="anrede_delete">Anrede</label> <label id="titel_delete">Titel</label>
-												<label id="vorname_delete">Vorname</label> <label
-													id="nachname_delete">Nachname</label>
+												<label id="label_id">Index</label>
+												<label id="label_salutation">Anrede</label> 
+												<label id="label_title">Titel</label>
+												<label id="label_firstName">Vorname</label> 
+												<label id="label_lastName">Nachname</label>
 											</div>
 											<div class="col-md-6"></div>
 										</div>
@@ -354,11 +353,11 @@
 			<div class="col-md-4">
 				<form role="form" class="form-inline">
 					<div class="form-group bottom">
-						<button type="button" id="edit" class="btn btn-warning"
-							data-toggle="modal" data-target="#neuanlegenModal">
+						<button type="button" id="btn_edit" class="btn btn-warning"
+							data-toggle="modal" data-target="#new">
 							<span class="glyphicon glyphicon-pencil"></span> Bearbeiten
 						</button>
-						<button type="button" id="delete" class="btn btn-danger"
+						<button type="button" id="btn_deleteModal" class="btn btn-danger"
 							data-toggle="modal" data-target="#deleteModal">
 							<span class="glyphicon glyphicon-trash"></span> Loeschen
 						</button>
