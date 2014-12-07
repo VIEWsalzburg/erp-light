@@ -4,13 +4,89 @@ var phoneelement_template = "";
 var emailCount = 0;
 var emailelement_template = "";
 
+function loadTableContent() {
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/person/getAll"
+	}).done(
+			function(data) {
+				var p = eval(data);
+				
+				for (var e in p) {
+					var emailString = "";
+					var phoneString = "";
+					var typeString = "";
+
+					var types = p[e].types;
+					var emails = p[e].emails;
+					var phoneNumbers = p[e].telephones;
+					
+					for (var i = 0; i < emails.length; i++) {
+						emailString = emailString + emails[i];
+						if (i < emails.length - 1) {
+							emailString = emailString + ", ";
+						}
+					}
+					for (var j = 0; j < phoneNumbers.length; j++) {
+						phoneString = phoneString + phoneNumbers[j];
+						if (j < phoneNumbers.length - 1) {
+							phoneString = phoneString + ", ";
+						}
+					}
+					for (var k = 0; k < types.length; k++) {
+						typeString = typeString + types[k];
+						if (k < types.length - 1) {
+							typeString = typeString + ", ";
+						}
+					}
+					
+					var tableRow = "<tr>" + "<td>" + p[e].personId
+							+ "</td>" + "<td>" + p[e].salutation
+							+ "</td>" + "<td>" + p[e].title + "</td>"
+							+ "<td>" + p[e].firstName + "</td>"
+							+ "<td>" + p[e].lastName + "</td>" + "<td>"
+							+ p[e].address + ", " + p[e].zip + " "
+							+ p[e].city + ", " + p[e].country + "</td>"
+							+ "<td>" + emailString + "</td>" + "<td>"
+							+ phoneString + "</td>" + "<td>"
+							+ p[e].updateTimestamp + "</td>" + "<td>"
+							+ p[e].permission + "</td>" + "<td>"
+							+ typeString + "</td>" + "<td>"
+							+ "[LastUpdate]" + "</td>" + "</tr>";
+					
+					$("#personTableBody").append(tableRow);
+					
+				}
+			});
+};
+
+
 // Load pageheader
 $("#pageheader").load("../partials/header.html", function() {
 	$("#adressverwaltung_nav").addClass("active");
 });
 
+$("#select_loginEmail").focus(function() {
+	$("#select_loginEmail").find('option')
+    .remove()
+    .end();
+	$(".tbx_mailadress").each(function() {
+		var emailValue = $(this).val();
+		$("#select_loginEmail").append($("<option></option>")
+		         .text(emailValue));
+	});
+});
 //Modal new
 $("#btn_new").click(function() {
+	$("#new").find('input')
+    .val("")
+    .end();
+	
+	$("#select_loginEmail").find('option')
+    .remove()
+    .end();
+	
+	$("#tbx_id").val(0);
 	$("#modal_title_text").text("Neue Person");
 	
 	//remove all phonenumber divs
@@ -25,12 +101,15 @@ $("#btn_new").click(function() {
 // Modal Neu anlegen -> speichern
 $("#btn_saveperson").click(function() {
 	var newperson = new Object();
-	newperson.personId = -1;
+
+	newperson.personId = $("#tbx_id").val();
 	newperson.salutation = $("#tbx_salutation").val();
 	newperson.title = $("#tbx_title").val();
 	newperson.firstName = $("#tbx_firstName").val();
 	newperson.lastName = $("#tbx_lastName").val();
+	//Not used yet
 	newperson.comment = "";
+	//Set by server
 	newperson.updateTimestamp = "";
 	newperson.active = 1;
 
@@ -40,13 +119,20 @@ $("#btn_saveperson").click(function() {
 	newperson.country = $("#tbx_country").val();
 
 	newperson.loginEmail = $("#select_loginEmail").val();
-	newperson.password = "";
 	newperson.permission = $("#select_permission").val();
-	newperson.types = $("#select_types").val();
+	var typesArray = [];
+	typesArray.push($("#select_types").val());
+	newperson.types = typesArray;
 
 	newperson.emails = [];
-	newperson.phoneNumbers = [];
-
+	$(".tbx_mailadress").each(function (){
+		newperson.emails.push($(this).val());
+	});
+	newperson.telephones = [];
+	$(".tbx_phoneNumber").each(function (){
+		newperson.telephones.push($(this).val());
+	});
+	
 	var persondata = JSON.stringify(newperson);
 	$.ajax({
 		headers : {
@@ -55,93 +141,23 @@ $("#btn_saveperson").click(function() {
 		},
 		type : "POST",
 		url : "../rest/secure/person/setPerson",
-		data : {
-			"personId" : "1",
-			"salutation" : "Frau",
-			"title" : "BSc",
-			"firstName" : "Maria",
-			"lastName" : "Schmidt",
-			"comment" : "Kommt aus der Stadt",
-			"updateTimestamp" : "12.9.2013",
-			"active" : "1",
-			"address" : "Vogelweiderstraße 7",
-			"city" : "Obertrum",
-			"zip" : "5070",
-			"country" : "Deutschland",
-			"loginEmail" : "maria@test.com",
-			"password" : "muhaha",
-			"permission" : "admin",
-			"types" : [ "Mitglied", "User" ],
-			"emails" : [ "f.sdfhj@doo.com", "huber@gmail.at" ],
-			"phoneNumbers" : [ "293847239423", "032423423432", "293427394799" ]
-		}
+		contentType: "application/json; charset=utf-8",
+	    dataType: "json",
+		data : JSON.stringify(newperson)
 	}).done(function(data) {
 		if (data) {
-			alert("Speichern erfolgreich! Hurra!");
+			$('#personTableBody').empty();
+			$('#new').modal('hide');
+			loadTableContent();
 		} else {
-			alert("whoops something went wrong");
+			alert("Verbindungsproblem mit dem Server");
 		}
 	});
 	return false;
 });
 
 // Get all Persons and load into table
-$(document).ready(
-		function() {
-			$.ajax({
-				type : "POST",
-				url : "../rest/secure/person/getAll"
-			}).done(
-					function(data) {
-						var p = eval(data);
-						
-						for (var e in p) {
-							var emailString = "";
-							var phoneString = "";
-							var typeString = "";
-
-							var types = p[e].types;
-							var emails = p[e].emails;
-							var phoneNumbers = p[e].telephones;
-							
-							for (var i = 0; i < emails.length; i++) {
-								emailString = emailString + emails[i];
-								if (i < emails.length - 1) {
-									emailString = emailString + ", ";
-								}
-							}
-							for (var j = 0; j < phoneNumbers.length; j++) {
-								phoneString = phoneString + phoneNumbers[j];
-								if (j < phoneNumbers.length - 1) {
-									phoneString = phoneString + ", ";
-								}
-							}
-							for (var k = 0; k < types.length; k++) {
-								typeString = typeString + types[k];
-								if (k < types.length - 1) {
-									typeString = typeString + ", ";
-								}
-							}
-							
-							var tableRow = "<tr>" + "<td>" + p[e].personId
-									+ "</td>" + "<td>" + p[e].salutation
-									+ "</td>" + "<td>" + p[e].title + "</td>"
-									+ "<td>" + p[e].firstName + "</td>"
-									+ "<td>" + p[e].lastName + "</td>" + "<td>"
-									+ p[e].address + ", " + p[e].zip + " "
-									+ p[e].city + ", " + p[e].country + "</td>"
-									+ "<td>" + emailString + "</td>" + "<td>"
-									+ phoneString + "</td>" + "<td>"
-									+ p[e].updateTimestamp + "</td>" + "<td>"
-									+ p[e].permission + "</td>" + "<td>"
-									+ typeString + "</td>" + "<td>"
-									+ "[LastUpdate]" + "</td>" + "</tr>";
-							
-							$("#personTableBody").append(tableRow);
-							
-						}
-					});
-		});
+$(document).ready(loadTableContent());
 
 // Get one person and load it to modal
 $("#btn_edit").click(function() {
@@ -166,6 +182,7 @@ $("#btn_edit").click(function() {
 		var p = eval(data);
 
 		//load data to modal
+		$("#tbx_id").val(p.personId);
 		$("#tbx_salutation").val(p.salutation);
 		$("#tbx_title").val(p.title);
 		$("#tbx_firstName").val(p.firstName);
@@ -180,7 +197,9 @@ $("#btn_edit").click(function() {
 		var loginEmail_template;
 		var help;
 		var help1;
-		
+		$("#select_loginEmail").find('option')
+	    .remove()
+	    .end();
 		for (var i = 0; i<p.telephones.length; i++) {
 			phoneelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_phoneNumber" 
 				+ phoneCount + "' class='form-control tbx_phoneNumber' placeholder='Telefonnr.'> </div> <div class='col-sm-4'>" +
@@ -196,7 +215,7 @@ $("#btn_edit").click(function() {
 					$("#phone_container").append(newElement);
 			
 			help = "#tbx_phoneNumber" + (phoneCount-1);
-			$(help).val(p.telephones);	//not working right
+			$(help).val(p.telephones[i]);
 			
 			help = 'geschäftlich'; //test
 			help1 = "select#select_phoneNumber" + (phoneCount-1) + " option";
@@ -219,7 +238,7 @@ $("#btn_edit").click(function() {
 				$("#email_container").append(newElement);
 				
 			help = "#tbx_email" + (emailCount-1);
-			$(help).val(p.emails);	//not working right
+			$(help).val(p.emails[i]);
 			
 			help = 'geschäftlich';	//test
 			help1 = "select#select_email" + (emailCount-1) + " option";
@@ -228,7 +247,7 @@ $("#btn_edit").click(function() {
 			});
 			
 			//add emails to loginEmail select
-			loginEmail_template = "<option>" + p.emails + "</option>";
+			loginEmail_template = "<option>" + p.emails[i] + "</option>";
 			$("#select_loginEmail").append(loginEmail_template);
 		}
 		
@@ -285,11 +304,6 @@ $(document).ready(function() {
 		}).append(emailelement_template);
 		$("#email_container").append(newElement);
 		
-		//TODO finish select appending
-		var help = $("#tbx_email0").val();
-		//alert(help);
-		loginEmail_template = "<option>" + help + "</option>";
-		$("#select_loginEmail").append(loginEmail_template);
 	});
 });
 

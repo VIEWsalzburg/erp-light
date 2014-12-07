@@ -24,7 +24,6 @@ public class PersonDTO {
 	
 	//Platformuser 
 	private String loginEmail;
-	private String password;
 	private String permission;
 	
 	//Mitglied Sponsor Mitarbeiter Gast
@@ -57,7 +56,6 @@ public class PersonDTO {
 		this.zip = zip;
 		this.country = country;
 		this.loginEmail = loginEmail;
-		this.password = password;
 		this.permission = permission;
 		this.types = types;
 		this.emails = emails;
@@ -160,14 +158,6 @@ public class PersonDTO {
 
 	public void setLoginEmail(String loginEmail) {
 		this.loginEmail = loginEmail;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getPermission() {

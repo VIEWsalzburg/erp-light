@@ -15,10 +15,12 @@ import at.erp.light.view.model.Address;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
 import at.erp.light.view.model.Email;
+import at.erp.light.view.model.Permission;
 import at.erp.light.view.model.Person;
 import at.erp.light.view.model.Platformuser;
 import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
+import at.erp.light.view.services.IDataBase;
 
 public class PersonMapper {
 
@@ -60,11 +62,31 @@ public class PersonMapper {
 		} else {
 			countryString = country.getCountry();
 		}
-		
+
 		if (address == null) {
 			addressString = "";
 		} else {
 			addressString = address.getAddress();
+		}
+
+		String loginMail = "";
+		String password = "";
+		String permission = "";
+
+		Platformuser pUser = person.getPlatformuser();
+		
+		if (pUser != null) {
+			loginMail = pUser.getLoginEmail();
+			password = pUser.getPassword();
+			Permission perm = pUser.getPermission();
+			if(perm !=null)
+			{
+				permission = pUser.getPermission().getPermission();
+			}
+			else
+			{
+				permission="User";
+			}
 		}
 
 		// TODO change platform user things to real
@@ -72,17 +94,14 @@ public class PersonMapper {
 				person.getSalutation(), person.getTitle(),
 				person.getFirstName(), person.getLastName(),
 				person.getComment(), df.format(person.getUpdateTimestamp()),
-				person.getActive(), addressString,
-				cityString, zipString, countryString, "test", "test", "admin",
-				types, emails, telephones);
+				person.getActive(), addressString, cityString, zipString,
+				countryString, loginMail, password, permission, types, emails, telephones);
 
 		return mPerson;
 	}
-	
-	public static Person mapToEntity(PersonDTO dto)
-	{
+
+	public static Person mapToEntity(PersonDTO dto, IDataBase service) {
 		Person entity = new Person();
-		
 		entity.setPersonId(dto.getPersonId());
 		entity.setSalutation(dto.getSalutation());
 		entity.setTitle(dto.getTitle());
@@ -91,43 +110,60 @@ public class PersonMapper {
 		entity.setComment(dto.getComment());
 		entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 		entity.setActive(dto.getActive());
-		
-		entity.setAddress(new Address(0,dto.getAddress()));
+
+		entity.setAddress(new Address(0, dto.getAddress()));
 		entity.setCity(new City(0, dto.getCity(), dto.getZip()));
 		entity.setCountry(new Country(0, dto.getCountry()));
-		
+
+		boolean plattformuser = false;
+
 		Set<Type> types = new HashSet<Type>();
-		for (String typeStr : dto.getTypes())
-		{
+		for (String typeStr : dto.getTypes()) {
+			if (typeStr.contains("Mitarbeiter")) {
+				plattformuser = true;
+			}
 			types.add(new Type(0, typeStr));
 		}
-		
+		// TODO gather EMail types
 		Set<Email> emails = new HashSet<Email>();
-		for (String emailStr : dto.getEmails())
-		{
-			emails.add(new Email(0, new Type(0,"PRIVAT"), emailStr));
+		for (String emailStr : dto.getEmails()) {
+			emails.add(new Email(0, new Type(0, "PRIVAT"), emailStr));
 		}
-		
+
 		Set<Telephone> telephones = new HashSet<Telephone>();
-		for (String telephoneStr : dto.getTelephones())
-		{
-			telephones.add(new Telephone(0, new Type(0, "PRIVAT"), telephoneStr));
+		for (String telephoneStr : dto.getTelephones()) {
+			telephones
+					.add(new Telephone(0, new Type(0, "PRIVAT"), telephoneStr));
 		}
-		
+
 		entity.setTypes(types);
 		entity.setTelephones(telephones);
 		entity.setEmails(emails);
-		
-		//Platformuser platformuser = new Platformuser(dto.getPermission(), person, dto.getPassword(), dto.getLoginEmail());
-		
-		//entity.setPlatformuser(platformuser);
-		
-		// TODO Password must be removed from dto because it isn't necessary 
+
+		if (plattformuser && dto.getLoginEmail() != null && !dto.getLoginEmail().isEmpty()) {
+			Platformuser platformuser = service.getPlatformuserById(dto
+					.getPersonId());
+			if (platformuser != null) {
+				platformuser.setLoginEmail(dto.getLoginEmail());
+
+			} else {
+				Permission adminPermission = service
+						.getPermissionByPermission(dto.getPermission().toUpperCase());
+				platformuser = new Platformuser(adminPermission, entity,
+						"default", dto.getLoginEmail());
+			}
+
+			service.setPlatformuser(platformuser);
+			entity.setPlatformuser(platformuser);
+		}
+		else
+		{
+			service.removePlatformuserById(dto.getPersonId());
+		}
 		// TODO get Platformuser from DB and set it
 		// TODO get current Modifier from DB and set it
 		// TODO refactor to set
-		
-		
+
 		return entity;
 	}
 }

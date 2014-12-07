@@ -109,6 +109,7 @@
 										<form class="form-horizontal" role="form">
 											<div class="row">
 												<div class="col-md-6">
+													<input type="hidden" name="tbx_id" id="tbx_id" >
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Anrede</label>
 														<div class="col-sm-8">
@@ -254,9 +255,10 @@
 													<label class="col-sm-5 control-label">Typ</label>
 													<div class="col-sm-5">
 														<select name="select_types" id="select_types" class="form-control col-sm-6">
+														  <option>Mitarbeiter</option>
 														  <option>Mitglied</option>
-														  <option>User</option>
-														  <option>Typ 3</option>														  
+														  <option>Gast</option>
+														  <option>Unterstützer</option>														  		  
 														</select>
 													</div>
 												</div>
@@ -267,9 +269,9 @@
 													<label class="col-sm-5 control-label">Rechte</label>
 													<div class="col-sm-5">
 														<select name="select_permission" id="select_permission" class="form-control col-sm-6">
-														  <option>Typ 1</option>
-														  <option>admin</option>
-														  <option>Typ 3</option>														  
+														  <option selected="selected">admin</option>
+														  <option>user</option>
+														  <option>leseschreib</option>														  
 														</select>
 													</div>
 												</div>

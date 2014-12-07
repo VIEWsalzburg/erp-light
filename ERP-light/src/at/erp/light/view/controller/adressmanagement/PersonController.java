@@ -17,8 +17,6 @@ import at.erp.light.view.services.IDataBase;
 @RestController
 public class PersonController {
 
-	private List<PersonDTO> personList = new ArrayList<PersonDTO>();
-
 	@Autowired
 	private IDataBase dataBaseService;
 	
@@ -62,27 +60,30 @@ public class PersonController {
 			return null;
 	}
 
-	//TODO Save person in service
+	//TODO Remove operation
 	@RequestMapping(value = "/secure/person/setPerson")
 	boolean setPerson(@RequestBody PersonDTO person) {
+		Person entity = PersonMapper.mapToEntity(person, dataBaseService);
 		
-		if (person.getPersonId() == 0) {
-			person.setPersonId(personList.size());
-			personList.add(person);
-		} else {
-			// exisiting DTO edit person
-			int found = -1, i = 0;
-			for (PersonDTO element : personList) {
-				if (element.getPersonId() == person.getPersonId()) {
-					found = i;
+		if(dataBaseService.getPersonById(person.getPersonId()) == null)
+		{	
+			dataBaseService.setPerson(entity);
+		}
+		else
+		{
+			List<Person> pList = dataBaseService.getAllPersons();
+			int found =0,i=0;
+			for(Person p : pList)
+			{
+				if(p.getPersonId()==person.getPersonId())
+				{
+					found =i;
 				}
 				i++;
 			}
-			if (found != -1) {
-				personList.set(found, person);
-			} else {//Edit id not found adding person
-				personList.add(person);
-			}
+			pList.remove(found);
+			pList.add(found, entity);
+			dataBaseService.setPersons(pList);
 		}
 		return true;
 	}

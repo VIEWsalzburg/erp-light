@@ -47,18 +47,19 @@ public class LoginController {
 		Platformuser existingUser = dataBaseService
 				.getPlatformuserbyLoginEmail(authentication.getLoginEmail());
 
+		
 		if (existingUser == null) {
 			return new ControllerMessage(false, "Falsche Anmeldeinformationen!");
 		}
+		log.info("Found User: " + existingUser.getPerson().getFirstName() + " "
+				+ existingUser.getPerson().getLastName());
 
 		if (existingUser.getPassword().equals(authentication.getPassword())) {
 			request.getSession().setAttribute("username",
-					authentication.getLoginEmail());
+					existingUser.getLoginEmail());
 			request.getSession().setAttribute("authenticated", true);
 			return new ControllerMessage(true, "everything went well");
-		}
-		else
-		{
+		} else {
 			return new ControllerMessage(false, "Falsche Anmeldeinformationen!");
 		}
 
