@@ -42,12 +42,10 @@ $("#btn_saveperson").click(function() {
 	newperson.loginEmail = $("#select_loginEmail").val();
 	newperson.password = "";
 	newperson.permission = $("#select_permission").val();
-	var typesArray=[];
-	typesArray.push($("#select_types").val());
-	newperson.types = typesArray;
+	newperson.types = $("#select_types").val();
 
 	newperson.emails = [];
-	newperson.telephones = [];
+	newperson.phoneNumbers = [];
 
 	var persondata = JSON.stringify(newperson);
 	$.ajax({
@@ -57,9 +55,26 @@ $("#btn_saveperson").click(function() {
 		},
 		type : "POST",
 		url : "../rest/secure/person/setPerson",
-		contentType: "application/json; charset=utf-8",
-	    dataType: "json",
-		data : JSON.stringify(newperson)
+		data : {
+			"personId" : "1",
+			"salutation" : "Frau",
+			"title" : "BSc",
+			"firstName" : "Maria",
+			"lastName" : "Schmidt",
+			"comment" : "Kommt aus der Stadt",
+			"updateTimestamp" : "12.9.2013",
+			"active" : "1",
+			"address" : "Vogelweiderstraße 7",
+			"city" : "Obertrum",
+			"zip" : "5070",
+			"country" : "Deutschland",
+			"loginEmail" : "maria@test.com",
+			"password" : "muhaha",
+			"permission" : "admin",
+			"types" : [ "Mitglied", "User" ],
+			"emails" : [ "f.sdfhj@doo.com", "huber@gmail.at" ],
+			"phoneNumbers" : [ "293847239423", "032423423432", "293427394799" ]
+		}
 	}).done(function(data) {
 		if (data) {
 			alert("Speichern erfolgreich! Hurra!");
