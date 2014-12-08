@@ -114,11 +114,10 @@ public class MockedDataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Person getPersonById(int id) {
-		int i = 0;
 
 		for (Person p : mockedPersons) {
 			if (p.getPersonId() == id) {
-				return mockedPersons.get(i);
+				return p;
 			}
 		}
 		return null;
@@ -151,6 +150,13 @@ public class MockedDataBaseService implements IDataBase {
 	@Override
 	public Person getPersonByLoginEmail(String loginEmail) {
 
+		for (Platformuser p : mockedPlatformusers)
+		{
+			if (p.getLoginEmail().equals(loginEmail))
+				return p.getPerson();
+		}
+		
+		
 		return null;
 	}
 
