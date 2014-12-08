@@ -28,8 +28,8 @@ public class PersonDTO {
 	
 	//Mitglied Sponsor Mitarbeiter Gast
 	private List<String> types;
-	private List<String> emails;
-	private List<String> telephones;
+	private List<EmailDTO> emails;
+	private List<TelephoneDTO> telephones;
 
 	
 	public PersonDTO(){}
@@ -40,8 +40,8 @@ public class PersonDTO {
 			String firstName, String lastName, String comment,
 			String updateTimestamp, int active, String address, String city,
 			String zip, String country, String loginEmail, String password,
-			String permission, List<String> types, List<String> emails,
-			List<String> telephones) {
+			String permission, List<String> types, List<EmailDTO> emails,
+			List<TelephoneDTO> telephones) {
 		super();
 		this.personId = personId;
 		this.salutation = salutation;
@@ -176,19 +176,19 @@ public class PersonDTO {
 		this.types = types;
 	}
 
-	public List<String> getEmails() {
+	public List<EmailDTO> getEmails() {
 		return emails;
 	}
 
-	public void setEmails(List<String> emails) {
+	public void setEmails(List<EmailDTO> emails) {
 		this.emails = emails;
 	}
 
-	public List<String> getTelephones() {
+	public List<TelephoneDTO> getTelephones() {
 		return telephones;
 	}
 
-	public void setTelephones(List<String> telephones) {
+	public void setTelephones(List<TelephoneDTO> telephones) {
 		this.telephones = telephones;
 	}
 
