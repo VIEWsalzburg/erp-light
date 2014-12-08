@@ -21,7 +21,6 @@ public class Category implements java.io.Serializable {
 	private int categoryId;
 	private String category;
 	private String description;
-	private Set<Organisation> organisations = new HashSet<Organisation>(0);
 
 	public Category() {
 	}
@@ -30,14 +29,6 @@ public class Category implements java.io.Serializable {
 		this.categoryId = categoryId;
 		this.category = category;
 		this.description = description;
-	}
-
-	public Category(int categoryId, String category, String description,
-			Set<Organisation> organisations) {
-		this.categoryId = categoryId;
-		this.category = category;
-		this.description = description;
-		this.organisations = organisations;
 	}
 
 	@Id
@@ -66,15 +57,6 @@ public class Category implements java.io.Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
-	public Set<Organisation> getOrganisations() {
-		return this.organisations;
-	}
-
-	public void setOrganisations(Set<Organisation> organisations) {
-		this.organisations = organisations;
 	}
 
 }
