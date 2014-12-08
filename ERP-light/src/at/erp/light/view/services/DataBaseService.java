@@ -648,4 +648,18 @@ public class DataBaseService implements IDataBase {
 		return 0;
 	}
 
+
+	@Override
+	public Category getCategoryById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Category getCategoryByCategory(String category) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

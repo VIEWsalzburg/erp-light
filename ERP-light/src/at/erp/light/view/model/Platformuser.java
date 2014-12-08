@@ -51,7 +51,7 @@ public class Platformuser implements java.io.Serializable {
 		this.personId = personId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "permission_id", nullable = false)
 	public Permission getPermission() {
 		return this.permission;

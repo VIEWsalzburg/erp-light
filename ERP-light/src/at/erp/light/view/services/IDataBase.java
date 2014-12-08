@@ -169,5 +169,10 @@ public interface IDataBase {
 	public Platformuser getPlatformuserbyLoginEmail(String loginEmail);
 	public Platformuser setPlatformuser(Platformuser platformuser);
 	public void removePlatformuserById(int id);
+	
+	
+	// Categories
+	public Category getCategoryById(int id);
+	public Category getCategoryByCategory(String category);
 
 }

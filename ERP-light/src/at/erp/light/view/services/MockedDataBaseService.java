@@ -33,13 +33,19 @@ public class MockedDataBaseService implements IDataBase {
 
 	private List<Person> mockedPersons = new ArrayList<Person>();
 	private List<Platformuser> mockedPlatformusers = new ArrayList<Platformuser>();
-
-	Type typePrivat = new Type(Type.PRIVAT, "Privat");
-	Type typeMitarb = new Type(Type.MITARBEITER, "Mitarbeiter");
+	
+	
+	private List<Organisation> mockedOrganisations = new ArrayList<Organisation>();
+	private List<Category> mockedCategories = new ArrayList<Category>(); 
+	
+	private List<Type> mockedTypes = new ArrayList<Type>();
 
 	Permission permissionAdmin = new Permission(1, "ADMIN", "Admin Permission");
-
+	
 	public MockedDataBaseService() {
+		initCategories();
+		initTypes();
+		
 		Set<Type> pTypes = new HashSet<Type>();
 		// this.sessionFactory = sessionFactory;
 
@@ -52,15 +58,15 @@ public class MockedDataBaseService implements IDataBase {
 		City city1 = new City(1, "Seppis Stadt", "2345");
 		Country country1 = new Country(1, "Seppis Land");
 
-		Email email1 = new Email(1, typePrivat, "seppi.huber@gmail.com");
-		Telephone telephone1 = new Telephone(1, typePrivat, "0664 1234567");
+		Email email1 = new Email(1, getTypeById(10), "seppi.huber@gmail.com");
+		Telephone telephone1 = new Telephone(1, getTypeById(11), "0664 1234567");
 
 		person1.setAddress(address1);
 		person1.setCity(city1);
 		person1.setCountry(country1);
 		person1.getEmails().add(email1);
 		person1.getTelephones().add(telephone1);
-		person1.setTypes(pTypes);
+		person1.getTypes().add(getTypeById(3));
 		Platformuser platformUser1 = new Platformuser(permissionAdmin, person1,
 				"admin", "admin");
 
@@ -71,8 +77,8 @@ public class MockedDataBaseService implements IDataBase {
 		City city2 = new City(2, "Susis Stadt", "3456");
 		Country country2 = new Country(2, "Susis Land");
 
-		Email email2 = new Email(2, typePrivat, "susi.mayer@gmail.com");
-		Telephone telephone2 = new Telephone(2, typePrivat, "0664 9876543");
+		Email email2 = new Email(2, getTypeById(10), "susi.mayer@gmail.com");
+		Telephone telephone2 = new Telephone(2, getTypeById(11), "0664 9876543");
 
 		person2.setAddress(address2);
 		person2.setCity(city2);
@@ -90,8 +96,8 @@ public class MockedDataBaseService implements IDataBase {
 		City city3 = new City(3, "Maxis Stadt", "4567");
 		Country country3 = new Country(3, "Maxis Land");
 
-		Email email3 = new Email(3, typePrivat, "maxi.neumann@gmail.com");
-		Telephone telephone3 = new Telephone(1, typePrivat, "0664 5463728");
+		Email email3 = new Email(3, getTypeById(10), "maxi.neumann@gmail.com");
+		Telephone telephone3 = new Telephone(1, getTypeById(11), "0664 5463728");
 
 		person3.setAddress(address3);
 		person3.setCity(city3);
@@ -108,17 +114,99 @@ public class MockedDataBaseService implements IDataBase {
 		mockedPlatformusers.add(platformUser1);
 		mockedPlatformusers.add(platformUser2);
 		mockedPlatformusers.add(platformUser3);
+		
+		
+		
+		
+		
+		
+		
+		// Organisations
+		Organisation Org1 = new Organisation(0, "eine Organisation", "Lieferscheine Ja", new Date(System.currentTimeMillis()), 1);
+		Org1.setAddress(new Address(0, "Org1 Straße"));
+		Org1.setCity(new City(0, "Org1 City", "Org1 Zip"));
+		Org1.setCountry(new Country(0, "Österreich"));
+		Org1.setPerson(person1);	// updated by
+		
+		Org1.getPersons().add(person2);
+		Org1.getPersons().add(person3);
+		
+		Org1.getCategories().add(mockedCategories.get(0));
+		Org1.getCategories().add(mockedCategories.get(1));
+		
+		Org1.getTypes().add(getTypeById(5));
+		
+		
+		
+		Organisation Org2 = new Organisation(1, "Kunde2 Org", "Lieferung vor 12:00 Uhr", new Date(System.currentTimeMillis()), 1);
+		Org2.setAddress(new Address(1, "Kunde2 Straße"));
+		Org2.setCity(new City(1, "Kunde2 City", "Kunde2 Zip"));
+		Org2.setCountry(new Country(1, "Österreich"));
+		Org2.setPerson(person1);	// updated by
+		
+		Org2.getPersons().add(person2);
+		
+		Org2.getCategories().add(mockedCategories.get(0));
+		Org2.getCategories().add(mockedCategories.get(2));
+		
+		Org2.getTypes().add(getTypeById(6));
+		
 
+		mockedOrganisations.add(Org1);
+		mockedOrganisations.add(Org2);
+		
+		
+		
 	}
+	
+	private void initCategories()
+	{
+		// Categories
+		Category Cat1 = new Category(0, "Fleisch", "Fleischdesc");
+		Category Cat2 = new Category(1, "Fisch", "Fischdesc");
+		Category Cat3 = new Category(2, "Brot", "Brotdesc");
+		Category Cat4 = new Category(3, "Käse", "Käsedesc");
+		
+		mockedCategories.add(Cat1);
+		mockedCategories.add(Cat2);
+		mockedCategories.add(Cat3);
+		mockedCategories.add(Cat4);
+	}
+	
+	private void initTypes()
+	{
+		Type typeMitarbeiter = new Type(1, "Mitarbeiter");
+		Type typeUnterstützer = new Type(2, "Unterstützer");
+		Type typeMitglied = new Type(3, "Mitglied");
+		Type typeGast = new Type(4, "Gast");
+		Type typeLieferant = new Type(5, "Lieferant");
+		Type typeKunde = new Type(6, "Kunde");
+		Type typeSponsor = new Type(7, "Sponsor");
+		
+		Type typePrivat = new Type(10, "Privat");
+		Type typeGeschäftlich = new Type(11, "Geschäftlich");
+		
+		mockedTypes.add(typeMitarbeiter);
+		mockedTypes.add(typeUnterstützer);
+		mockedTypes.add(typeMitglied);
+		mockedTypes.add(typeGast);
+		mockedTypes.add(typeLieferant);
+		mockedTypes.add(typeKunde);
+		mockedTypes.add(typeSponsor);
+		
+		mockedTypes.add(typePrivat);
+		mockedTypes.add(typeGeschäftlich);
+	}
+	
+	
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Person getPersonById(int id) {
-		int i = 0;
 
 		for (Person p : mockedPersons) {
 			if (p.getPersonId() == id) {
-				return mockedPersons.get(i);
+				return p;
 			}
 		}
 		return null;
@@ -151,6 +239,13 @@ public class MockedDataBaseService implements IDataBase {
 	@Override
 	public Person getPersonByLoginEmail(String loginEmail) {
 
+		for (Platformuser p : mockedPlatformusers)
+		{
+			if (p.getLoginEmail().equals(loginEmail))
+				return p.getPerson();
+		}
+		
+		
 		return null;
 	}
 
@@ -173,6 +268,13 @@ public class MockedDataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Organisation getOrganisationById(int id) {
+		
+		for (Organisation organisation : mockedOrganisations)
+		{
+			if (organisation.getOrganisationId()==id)
+				return organisation;
+		}
+		
 		return null;
 	}
 
@@ -184,14 +286,14 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public List<Organisation> getAllOrganisations() {
-
-		return null;
+		return mockedOrganisations;
 	}
 
 	@Override
 	public int setOrganisation(Organisation organisation) {
-
-		return 0;
+		organisation.setOrganisationId(mockedOrganisations.size()+1);
+		mockedOrganisations.add(organisation);
+		return organisation.getOrganisationId();
 	}
 
 	@Override
@@ -346,7 +448,14 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public Type getTypeById(int id) {
-		// TODO Auto-generated method stub
+		
+		for (Type type : mockedTypes)
+		{
+			if (type.getTypeId() == id)
+				return type;
+		}
+		
+		
 		return null;
 	}
 
@@ -401,7 +510,13 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public Type getTypeByType(String type) {
-		// TODO Auto-generated method stub
+		
+		for (Type mType : mockedTypes)
+		{
+			if (mType.getName().equals(type))
+				return mType;
+		}
+		
 		return null;
 	}
 
@@ -423,4 +538,31 @@ public class MockedDataBaseService implements IDataBase {
 		return null;
 	}
 
+	
+	
+	@Override
+	public Category getCategoryById(int id)
+	{
+		for (Category category : mockedCategories)
+		{
+			if (category.getCategoryId() == id)
+				return category;
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public Category getCategoryByCategory(String category)
+	{
+		for (Category mCategory : mockedCategories)
+		{
+			if (mCategory.getCategory().equals(category))
+				return mCategory;
+		}
+		
+		return null;
+	}
+	
+	
 }
