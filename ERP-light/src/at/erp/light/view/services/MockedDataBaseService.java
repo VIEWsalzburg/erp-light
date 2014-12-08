@@ -166,6 +166,7 @@ public class MockedDataBaseService implements IDataBase {
 	@Override
 	public int setPersons(List<Person> persons) {
 
+		mockedPersons=persons;
 		return 0;
 	}
 

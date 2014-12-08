@@ -16,6 +16,7 @@ import at.erp.light.view.dto.PersonDTO;
 import at.erp.light.view.mapper.PersonMapper;
 import at.erp.light.view.model.Person;
 import at.erp.light.view.services.IDataBase;
+import at.erp.light.view.state.ControllerMessage;
 
 @RestController
 public class PersonController {
@@ -108,6 +109,26 @@ public class PersonController {
 			dataBaseService.setPersons(pList);
 		}
 		return true;
+	}
+	
+	@RequestMapping(value = "secure/person/deletePersonById/{id}")
+	public ControllerMessage deletePersonById(@PathVariable int id) {
+		
+		List<Person> pList= dataBaseService.getAllPersons();
+		List<Person> returnList = new ArrayList<Person>();
+		
+		for(Person p : pList)
+		{
+			if(p.getPersonId()!=id)
+			{
+				returnList.add(p);
+			}
+		}
+		
+		dataBaseService.setPersons(returnList);
+		
+		
+		return new ControllerMessage(true, "delete successful");
 	}
 
 }
