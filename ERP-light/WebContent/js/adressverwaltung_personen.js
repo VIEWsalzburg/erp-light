@@ -22,13 +22,13 @@ function loadTableContent() {
 					var phoneNumbers = p[e].telephones;
 					
 					for (var i = 0; i < emails.length; i++) {
-						emailString = emailString + emails[i];
+						emailString = emailString + emails[i].mail;
 						if (i < emails.length - 1) {
 							emailString = emailString + ", ";
 						}
 					}
 					for (var j = 0; j < phoneNumbers.length; j++) {
-						phoneString = phoneString + phoneNumbers[j];
+						phoneString = phoneString + phoneNumbers[j].telephone;
 						if (j < phoneNumbers.length - 1) {
 							phoneString = phoneString + ", ";
 						}
@@ -81,6 +81,7 @@ $("#btn_new").click(function() {
     .remove()
     .end();
 	
+	//Set for DB notification of new User
 	$("#tbx_id").val(0);
 	$("#modal_title_text").text("Neue Person");
 	
@@ -134,12 +135,13 @@ $("#btn_saveperson").click(function() {
 	newperson.types = typesArray;
 
 	newperson.emails = [];
-	$(".tbx_mailadress").each(function (){
-		newperson.emails.push($(this).val());
+	$(".email_element").each(function (){
+		newperson.emails.push({"mail":$(this).find(".tbx_mailadress").val(), "type":$(this).find(".select_email").val()});
+
 	});
 	newperson.telephones = [];
-	$(".tbx_phoneNumber").each(function (){
-		newperson.telephones.push($(this).val());
+	$(".phone_element").each(function (){
+		newperson.telephones.push({"telephone":$(this).find(".tbx_phoneNumber").val(), "type":$(this).find(".select_phoneNumber").val()});
 	});
 	
 	var persondata = JSON.stringify(newperson);
@@ -212,7 +214,7 @@ $("#btn_edit").click(function() {
 		for (var i = 0; i<p.telephones.length; i++) {
 			phoneelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_phoneNumber" 
 				+ phoneCount + "' class='form-control tbx_phoneNumber' placeholder='Telefonnr.'> </div> <div class='col-sm-4'>" +
-				"<select class='form-control' id='select_phoneNumber"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
+				"<select class='form-control select_phoneNumber' id='select_phoneNumber"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
 				"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber' id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
 				
 				newElement = $(
@@ -224,9 +226,9 @@ $("#btn_edit").click(function() {
 					$("#phone_container").append(newElement);
 			
 			help = "#tbx_phoneNumber" + (phoneCount-1);
-			$(help).val(p.telephones[i]);
+			$(help).val(p.telephones[i].telephone);
 			
-			help = 'geschäftlich'; //test
+			help = p.telephones[i].type; //test
 			help1 = "select#select_phoneNumber" + (phoneCount-1) + " option";
 			$(help1).each(function() { 
 				this.selected = (this.text == help);
@@ -236,7 +238,7 @@ $("#btn_edit").click(function() {
 		//load email divs
 		for (var i = 0; i<p.emails.length; i++) {
 			emailelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_email" + emailCount + "' " +
-				"class='form-control tbx_mailadress' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control' id='select_email"+ emailCount +"'>" +
+				"class='form-control tbx_mailadress' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control select_email' id='select_email"+ emailCount +"'>" +
 				"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail'" +
 				"id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
 			
@@ -247,16 +249,16 @@ $("#btn_edit").click(function() {
 				$("#email_container").append(newElement);
 				
 			help = "#tbx_email" + (emailCount-1);
-			$(help).val(p.emails[i]);
+			$(help).val(p.emails[i].mail);
 			
-			help = 'geschäftlich';	//test
+			help = p.emails[i].type;	//test
 			help1 = "select#select_email" + (emailCount-1) + " option";
 			$(help1).each(function() { 
 				this.selected = (this.text == help);
 			});
 			
 			//add emails to loginEmail select
-			loginEmail_template = "<option>" + p.emails[i] + "</option>";
+			loginEmail_template = "<option>" + p.emails[i].mail + "</option>";
 			$("#select_loginEmail").append(loginEmail_template);
 		}
 		
@@ -301,7 +303,7 @@ $(document).ready(function() {
 	$("#btn_addphonenumber").click(function() {
 			phoneelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_phoneNumber" 
 									+ phoneCount + "' class='form-control tbx_phoneNumber' placeholder='Telefonnr.'> </div> <div class='col-sm-4'>" +
-									"<select class='form-control' id='select_phoneNumber"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
+									"<select class='form-control' id='select_phoneNumber"+ phoneCount +"' class='select_phoneNumber'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
 									"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber' id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
 									
 									var newElement = $(
@@ -324,7 +326,7 @@ $("body").on('click', '.btn_removephonenumber', function() {
 $(document).ready(function() {
 	$("#btn_addemail").click(function() {
 		emailelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_email" + emailCount + "' " +
-			"class='form-control tbx_mailadress' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control' id='select_email"+ emailCount +"'>" +
+			"class='form-control tbx_mailadress' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control' id='select_email"+ emailCount +"' class='select_email'>" +
 			"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail'" +
 			"id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
 		

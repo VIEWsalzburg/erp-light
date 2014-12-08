@@ -82,11 +82,12 @@ public class PersonController {
 		return null;
 	}
 
-	// TODO Remove operation
+	// TODO Mapping of letzter bearbeiter
 	@RequestMapping(value = "/secure/person/setPerson")
-	boolean setPerson(@RequestBody PersonDTO person) {
+	boolean setPerson(@RequestBody PersonDTO person, HttpServletRequest request) {
 		Person entity = PersonMapper.mapToEntity(person, dataBaseService);
-
+		entity.setPerson(dataBaseService.getPersonById((int)request.getSession().getAttribute("id")));
+		
 		if (dataBaseService.getPersonById(person.getPersonId()) == null) {
 			dataBaseService.setPerson(entity);
 		} else {

@@ -10,7 +10,9 @@ import java.util.Set;
 
 import org.springframework.util.Assert;
 
+import at.erp.light.view.dto.EmailDTO;
 import at.erp.light.view.dto.PersonDTO;
+import at.erp.light.view.dto.TelephoneDTO;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
@@ -28,16 +30,16 @@ public class PersonMapper {
 
 	public static PersonDTO mapToDTO(Person person) {
 		Assert.notNull(person);
-		List<String> emails = new ArrayList<String>();
-		List<String> telephones = new ArrayList<String>();
+		List<EmailDTO> emails = new ArrayList<EmailDTO>();
+		List<TelephoneDTO> telephones = new ArrayList<TelephoneDTO>();
 		List<String> types = new ArrayList<String>();
 
 		for (Email mail : person.getEmails()) {
-			emails.add(mail.getEmail());
+			emails.add(new EmailDTO(mail.getEmail(), mail.getType().getName()));
 		}
 
 		for (Telephone telephone : person.getTelephones()) {
-			telephones.add(telephone.getTelephone());
+			telephones.add(new TelephoneDTO(telephone.getTelephone(), telephone.getType().getName()));
 		}
 
 		for (Type type : person.getTypes()) {
@@ -126,14 +128,14 @@ public class PersonMapper {
 		}
 		// TODO gather EMail types
 		Set<Email> emails = new HashSet<Email>();
-		for (String emailStr : dto.getEmails()) {
-			emails.add(new Email(0, new Type(0, "PRIVAT"), emailStr));
+		for (EmailDTO emailDTO : dto.getEmails()) {
+			emails.add(new Email(0, new Type(0, emailDTO.getType()), emailDTO.getMail()));
 		}
 
 		Set<Telephone> telephones = new HashSet<Telephone>();
-		for (String telephoneStr : dto.getTelephones()) {
+		for (TelephoneDTO telephoneDTO : dto.getTelephones()) {
 			telephones
-					.add(new Telephone(0, new Type(0, "PRIVAT"), telephoneStr));
+					.add(new Telephone(0, new Type(0, telephoneDTO.getType()), telephoneDTO.getTelephone()));
 		}
 
 		entity.setTypes(types);
@@ -158,7 +160,7 @@ public class PersonMapper {
 		}
 		else
 		{
-			service.removePlatformuserById(dto.getPersonId());
+			//service.removePlatformuserById(dto.getPersonId());
 		}
 		// TODO get Platformuser from DB and set it
 		// TODO get current Modifier from DB and set it
