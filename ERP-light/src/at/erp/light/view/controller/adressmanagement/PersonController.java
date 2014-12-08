@@ -103,7 +103,7 @@ public class PersonController {
 		{
 			System.out.println("is platformuser");
 			Platformuser existingPU = dataBaseService.getPlatformuserById(entity.getPersonId());	// get existing Platformuser
-			Permission mPermission = dataBaseService.getPermissionByPermission(person.getPermission().toUpperCase());
+			Permission mPermission = dataBaseService.getPermissionByPermission(person.getPermission());
 			if (existingPU==null)	// if platformuser does not exist
 			{
 				// create new one
