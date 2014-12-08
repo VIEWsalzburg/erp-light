@@ -53,7 +53,7 @@ public class Email implements java.io.Serializable {
 		this.emailId = emailId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "type_id", nullable = false)
 	public Type getType() {
 		return this.type;

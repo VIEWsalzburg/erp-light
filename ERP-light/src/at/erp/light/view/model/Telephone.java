@@ -46,7 +46,7 @@ public class Telephone implements java.io.Serializable {
 		this.telephoneId = telephoneId;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "type_id", nullable = false)
 	public Type getType() {
 		return this.type;
