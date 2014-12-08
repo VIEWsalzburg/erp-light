@@ -47,6 +47,7 @@ public class MockedDataBaseService implements IDataBase {
 	public MockedDataBaseService() {
 		initCategories();
 		initTypes();
+		initPermissions();
 		
 		Set<Type> pTypes = new HashSet<Type>();
 		// this.sessionFactory = sessionFactory;
@@ -72,7 +73,9 @@ public class MockedDataBaseService implements IDataBase {
 		Platformuser platformUser1 = new Platformuser(getPermissionById(1), person1,
 				"admin", "admin");
 		platformUser1.setPersonId(1);
-
+		person1.setPlatformuser(platformUser1);		// not intended for ProdDB
+		
+		
 		// second Person
 		Person person2 = new Person(2, "Frau", "Bsc", "Susi", "Mayer",
 				"kommt aus der Stadt", new Date(System.currentTimeMillis()), 1);
@@ -91,6 +94,7 @@ public class MockedDataBaseService implements IDataBase {
 		Platformuser platformUser2 = new Platformuser(getPermissionById(2), person2,
 				"admin", "susi.mayer@gmail.com");
 		platformUser2.setPersonId(2);
+		person2.setPlatformuser(platformUser2);		// not intended for ProdDB
 
 		// third Person
 		Person person3 = new Person(3, "Herr", "MSc", "Maxi", "Neumann",
@@ -111,6 +115,7 @@ public class MockedDataBaseService implements IDataBase {
 		Platformuser platformUser3 = new Platformuser(getPermissionById(3), person3,
 				"admin", "maxi.neumann@gmail.com");
 		platformUser3.setPersonId(3);
+		person3.setPlatformuser(platformUser3);		// not intended for ProdDB
 
 		mockedPersons.add(person1);
 		mockedPersons.add(person2);
@@ -312,7 +317,7 @@ public class MockedDataBaseService implements IDataBase {
 	public Platformuser getPlatformuserById(int id) {
 
 		for (Platformuser pUser : mockedPlatformusers) {
-			if (pUser.getPerson().getPersonId() == id) {
+			if (pUser.getPersonId() == id) {
 				return pUser;
 			}
 		}
@@ -334,13 +339,18 @@ public class MockedDataBaseService implements IDataBase {
 	@Override
 	public Platformuser setPlatformuser(Platformuser platformuser) {
 		
+		platformuser.setPersonId(platformuser.getPerson().getPersonId());
+		
 		Platformuser found = null;
 		for (Platformuser p : mockedPlatformusers) {
-			if (p.getPerson().getPersonId() == platformuser.getPerson().getPersonId())
+			if (p.getPersonId() == platformuser.getPersonId())
 				found = p;
 		}
 		mockedPlatformusers.remove(found);
 		mockedPlatformusers.add(platformuser);
+		
+		getPersonById(platformuser.getPersonId()).setPlatformuser(platformuser);	// create loop for MockedDB <==> bidirectional in ProdDB
+		
 		return platformuser;
 	}
 

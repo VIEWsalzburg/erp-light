@@ -114,6 +114,7 @@ public class PersonController {
 				System.out.println("update existing one");
 				existingPU.setPermission(mPermission);				// update permission
 				existingPU.setLoginEmail(person.getLoginEmail());	// update loginEmail
+				existingPU.setPerson(entity);
 			}
 			dataBaseService.setPlatformuser(existingPU);	// persist new/edited platformuser to DB
 		}
