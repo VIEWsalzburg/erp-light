@@ -97,7 +97,7 @@
 
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-				<button type="button" class="btn btn-primary">
+				<button type="button" id="btn_savepassword" class="btn btn-primary">
 					<span class="glyphicon glyphicon-floppy-save"></span> Speichern
 				</button>
 			</div>
@@ -108,7 +108,7 @@
 </div>
 <!-- /.modal -->
 
-<!-- Neu anlegen und bearbeiten Modal -->
+<!-- My data modal -->
 <div class="modal fade" id="mydata" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog">
@@ -124,12 +124,12 @@
 				<form class="form-horizontal" role="form">
 					<div class="row">
 						<div class="col-md-6">
-							<input type="hidden" name="tbx_id" id="tbx_id">
+							<input type="hidden" name="tbx_id" id="tbx_id_mydata">
 							<div class="form-group">
 								<label class="col-sm-4 control-label">Anrede</label>
 								<div class="col-sm-8">
 									<input name="tbx_salutation" type="text" class="form-control"
-										id="tbx_salutation" placeholder="Anrede">
+										id="tbx_salutation_mydata" placeholder="Anrede">
 								</div>
 							</div>
 						</div>
@@ -138,7 +138,7 @@
 								<label class="col-sm-4 control-label">Titel</label>
 								<div class="col-sm-8">
 									<input type="text" name="tbx_title" class="form-control"
-										id="tbx_title" placeholder="Titel">
+										id="tbx_title_mydata" placeholder="Titel">
 								</div>
 							</div>
 						</div>
@@ -150,7 +150,7 @@
 								<label class="col-sm-4 control-label">Vorname</label>
 								<div class="col-sm-8">
 									<input name="tbx_firstName" type="text" class="form-control"
-										id="tbx_firstName" placeholder="Vorname">
+										id="tbx_firstName_mydata" placeholder="Vorname">
 								</div>
 							</div>
 						</div>
@@ -159,7 +159,7 @@
 								<label class="col-sm-4 control-label">Nachname</label>
 								<div class="col-sm-8">
 									<input type="text" name="tbx_lastName" class="form-control"
-										id="tbx_lastName" placeholder="Nachname">
+										id="tbx_lastName_mydata" placeholder="Nachname">
 								</div>
 							</div>
 						</div>
@@ -171,7 +171,7 @@
 								<label class="col-sm-4 control-label">Adresse</label>
 								<div class="col-sm-8">
 									<input name="tbx_address" type="text" class="form-control"
-										id="tbx_address" placeholder="Adresse">
+										id="tbx_address_mydata" placeholder="Adresse">
 								</div>
 							</div>
 						</div>
@@ -180,7 +180,7 @@
 								<label class="col-sm-4 control-label">PLZ</label>
 								<div class="col-sm-8">
 									<input name="tbx_zip" type="text" class="form-control"
-										id="tbx_zip" placeholder="PLZ">
+										id="tbx_zip_mydata" placeholder="PLZ">
 								</div>
 							</div>
 						</div>
@@ -192,7 +192,7 @@
 								<label class="col-sm-4 control-label">Ort</label>
 								<div class="col-sm-8">
 									<input name="tbx_city" type="text" class="form-control"
-										id="tbx_city" placeholder="Ort">
+										id="tbx_city_mydata" placeholder="Ort">
 								</div>
 							</div>
 						</div>
@@ -201,7 +201,7 @@
 								<label class="col-sm-4 control-label">Land</label>
 								<div class="col-sm-8">
 									<input name="tbx_country" type="text" class="form-control"
-										id="tbx_country" placeholder="Land">
+										id="tbx_country_mydata" placeholder="Land">
 								</div>
 							</div>
 						</div>
@@ -214,7 +214,7 @@
 							<label class="control-label">Telefonnr.</label>
 						</div>
 						<!-- Tel. num container -->
-						<div id="phone_container" class="col-sm-10">
+						<div id="phone_container_mydata" class="col-sm-10">
 							<!--Tel. num element -->
 							<!-- /Tel. num element -->
 						</div>
@@ -224,7 +224,7 @@
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-2">
 							<div class="form-group">
-								<button type="button" id="btn_addphonenumber"
+								<button type="button" id="btn_addphonenumber_mydata"
 									class="btn btn-primary">
 									<span class="glyphicon glyphicon-plus"></span> Telefonnr.
 									hinzuf&uuml;gen
@@ -238,7 +238,7 @@
 							<label class="control-label">Emailadr.</label>
 						</div>
 						<!-- Tel. num container -->
-						<div id="email_container" class="col-sm-10">
+						<div id="email_container_mydata" class="col-sm-10">
 							<!--Tel. num element -->
 							<!-- /Tel. num element -->
 						</div>
@@ -248,7 +248,7 @@
 					<div class="row">
 						<div class="col-sm-10 col-sm-offset-2">
 							<div class="form-group">
-								<button type="button" id="btn_addemail" class="btn btn-primary">
+								<button type="button" id="btn_addemail_mydata" class="btn btn-primary">
 									<span class="glyphicon glyphicon-plus"></span> Email
 									hinzuf&uuml;gen
 								</button>
