@@ -563,6 +563,12 @@ public class MockedDataBaseService implements IDataBase {
 		
 		return null;
 	}
+
+	@Override
+	public Category setCategory(Category category) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.erp.light.view.model.Address;
+import at.erp.light.view.model.Category;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
 import at.erp.light.view.model.Email;
@@ -172,5 +173,17 @@ public class TestController {
 		
 		
 	}
+	
+	@RequestMapping(value = "Test2")
+	public void doSomething2(@RequestParam(value="param") String param) {		
+		
+		Category mCategory = new Category(0, "Fleisch", "möchten gerne nur Fleisch");
+		dataBaseService.setCategory(mCategory);
+		
+		
+	}
+	
+	
+	
 
 }
