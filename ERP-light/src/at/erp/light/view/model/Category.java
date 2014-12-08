@@ -4,11 +4,15 @@ package at.erp.light.view.model;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -32,6 +36,8 @@ public class Category implements java.io.Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="gen_category_id")
+	@SequenceGenerator(name="gen_category_id", sequenceName="category_category_id_seq", allocationSize=1)
 	@Column(name = "category_id", unique = true, nullable = false)
 	public int getCategoryId() {
 		return this.categoryId;

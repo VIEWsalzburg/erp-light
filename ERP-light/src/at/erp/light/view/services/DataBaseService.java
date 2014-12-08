@@ -365,7 +365,8 @@ public class DataBaseService implements IDataBase {
 	public void removePlatformuserById(int id)
 	{
 		Platformuser platformuser = this.getPlatformuserById(id);
-		sessionFactory.getCurrentSession().delete(platformuser);
+		if (platformuser != null)
+			sessionFactory.getCurrentSession().delete(platformuser);
 	}
 	
 	@Override
@@ -650,16 +651,35 @@ public class DataBaseService implements IDataBase {
 
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public Category getCategoryById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Category mCategory = (Category)sessionFactory.getCurrentSession().createQuery("FROM Category c WHERE c.categoryId = :id").setParameter("id", id).uniqueResult();
+		return mCategory;
 	}
 
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public Category getCategoryByCategory(String category) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Category mCategory = (Category)sessionFactory.getCurrentSession().createQuery("FROM Category c WHERE c.category = :category").setParameter("category", category).uniqueResult();
+		
+		if (mCategory == null)
+		{
+			mCategory = new Category(0, category, "");
+			setCategory(mCategory);
+		}
+		
+		return mCategory;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Category setCategory(Category category)
+	{
+		sessionFactory.getCurrentSession().saveOrUpdate(category);
+		return category;
 	}
 
 }

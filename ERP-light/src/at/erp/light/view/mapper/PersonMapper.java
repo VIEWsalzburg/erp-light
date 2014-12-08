@@ -102,7 +102,7 @@ public class PersonMapper {
 		return mPerson;
 	}
 
-	public static Person mapToEntity(PersonDTO dto, IDataBase service) {
+	public static Person mapToEntity(PersonDTO dto) {
 		Person entity = new Person();
 		entity.setPersonId(dto.getPersonId());
 		entity.setSalutation(dto.getSalutation());
@@ -117,15 +117,11 @@ public class PersonMapper {
 		entity.setCity(new City(0, dto.getCity(), dto.getZip()));
 		entity.setCountry(new Country(0, dto.getCountry()));
 
-		boolean plattformuser = false;
-
 		Set<Type> types = new HashSet<Type>();
 		for (String typeStr : dto.getTypes()) {
-			if (typeStr.contains("Mitarbeiter")) {
-				plattformuser = true;
-			}
 			types.add(new Type(0, typeStr));
 		}
+		
 		// TODO gather EMail types
 		Set<Email> emails = new HashSet<Email>();
 		for (EmailDTO emailDTO : dto.getEmails()) {
@@ -134,37 +130,12 @@ public class PersonMapper {
 
 		Set<Telephone> telephones = new HashSet<Telephone>();
 		for (TelephoneDTO telephoneDTO : dto.getTelephones()) {
-			telephones
-					.add(new Telephone(0, new Type(0, telephoneDTO.getType()), telephoneDTO.getTelephone()));
+			telephones.add(new Telephone(0, new Type(0, telephoneDTO.getType()), telephoneDTO.getTelephone()));
 		}
 
 		entity.setTypes(types);
 		entity.setTelephones(telephones);
 		entity.setEmails(emails);
-
-		if (plattformuser && dto.getLoginEmail() != null && !dto.getLoginEmail().isEmpty()) {
-			Platformuser platformuser = service.getPlatformuserById(dto
-					.getPersonId());
-			if (platformuser != null) {
-				platformuser.setLoginEmail(dto.getLoginEmail());
-
-			} else {
-				Permission adminPermission = service
-						.getPermissionByPermission(dto.getPermission().toUpperCase());
-				platformuser = new Platformuser(adminPermission, entity,
-						"default", dto.getLoginEmail());
-			}
-
-			service.setPlatformuser(platformuser);
-			entity.setPlatformuser(platformuser);
-		}
-		else
-		{
-			//service.removePlatformuserById(dto.getPersonId());
-		}
-		// TODO get Platformuser from DB and set it
-		// TODO get current Modifier from DB and set it
-		// TODO refactor to set
 
 		return entity;
 	}

@@ -174,5 +174,6 @@ public interface IDataBase {
 	// Categories
 	public Category getCategoryById(int id);
 	public Category getCategoryByCategory(String category);
-
+	public Category setCategory(Category category);
+	
 }

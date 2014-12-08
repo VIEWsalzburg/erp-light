@@ -18,7 +18,9 @@ import org.supercsv.prefs.CsvPreference;
 
 import at.erp.light.view.dto.PersonDTO;
 import at.erp.light.view.mapper.PersonMapper;
+import at.erp.light.view.model.Permission;
 import at.erp.light.view.model.Person;
+import at.erp.light.view.model.Platformuser;
 import at.erp.light.view.services.IDataBase;
 import at.erp.light.view.state.ControllerMessage;
 
@@ -81,24 +83,45 @@ public class PersonController {
 	// TODO Mapping of letzter bearbeiter
 	@RequestMapping(value = "/secure/person/setPerson")
 	boolean setPerson(@RequestBody PersonDTO person, HttpServletRequest request) {
-		Person entity = PersonMapper.mapToEntity(person, dataBaseService);
+		Person entity = PersonMapper.mapToEntity(person);
+		
+		// set current user for updater
 		entity.setPerson(dataBaseService.getPersonById((int)request.getSession().getAttribute("id")));
 		
-		if (dataBaseService.getPersonById(person.getPersonId()) == null) {
-			dataBaseService.setPerson(entity);
-		} else {
-			List<Person> pList = dataBaseService.getAllPersons();
-			int found = 0, i = 0;
-			for (Person p : pList) {
-				if (p.getPersonId() == person.getPersonId()) {
-					found = i;
-				}
-				i++;
+		// persist Person to DB
+		dataBaseService.setPerson(entity);
+		
+		boolean isPlatformuser = false;
+		// TODO Check for Platformuser and include Checkbox in GUI
+		if (!person.getLoginEmail().isEmpty())
+			isPlatformuser = true;
+		
+		
+		
+		
+		if (isPlatformuser)
+		{
+			System.out.println("is platformuser");
+			Platformuser existingPU = dataBaseService.getPlatformuserById(entity.getPersonId());	// get existing Platformuser
+			Permission mPermission = dataBaseService.getPermissionByPermission(person.getPermission());
+			if (existingPU==null)	// if platformuser does not exist
+			{
+				// create new one
+				existingPU = new Platformuser(mPermission, entity, "default", person.getLoginEmail());
+				System.out.println("created new one");
+			} else {				// if platformuser exists
+				System.out.println("update existing one");
+				existingPU.setPermission(mPermission);				// update permission
+				existingPU.setLoginEmail(person.getLoginEmail());	// update loginEmail
 			}
-			pList.remove(found);
-			pList.add(found, entity);
-			dataBaseService.setPersons(pList);
+			dataBaseService.setPlatformuser(existingPU);	// persist new/edited platformuser to DB
 		}
+		else	// else remove platformuser (even call, if no platformuser exists)
+		{
+			System.out.println("removed platformuser");
+			dataBaseService.removePlatformuserById(person.getPersonId());
+		}
+		
 		return true;
 	}
 
