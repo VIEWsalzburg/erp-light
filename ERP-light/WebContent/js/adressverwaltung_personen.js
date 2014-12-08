@@ -303,7 +303,7 @@ $(document).ready(function() {
 	$("#btn_addphonenumber").click(function() {
 			phoneelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_phoneNumber" 
 									+ phoneCount + "' class='form-control tbx_phoneNumber' placeholder='Telefonnr.'> </div> <div class='col-sm-4'>" +
-									"<select class='form-control' id='select_phoneNumber"+ phoneCount +"' class='select_phoneNumber'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
+									"<select class='form-control select_phoneNumber' id='select_phoneNumber"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
 									"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber' id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
 									
 									var newElement = $(

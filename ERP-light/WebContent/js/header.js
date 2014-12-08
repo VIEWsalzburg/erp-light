@@ -37,11 +37,11 @@ $("#pageheader").load("../partials/header.html", function() {
 	// Get one person and load it to modal
 	$(document).ready(function() {
 		//remove all phonenumber divs
-		$(".btn_removephonenumber").closest('div[class^="phone_element"]').remove();
+		$(".btn_removephonenumber_mydata").closest('div[class^="phone_element_mydata"]').remove();
 		phoneCount = 0;
 		
 		//remove all email divs
-		$(".btn_removeemail").closest('div[class^="email_element"]').remove();
+		$(".btn_removeemail_mydata").closest('div[class^="email_element_mydata"]').remove();
 		emailCount = 0;
 		
 		//get current user
@@ -74,21 +74,21 @@ $("#pageheader").load("../partials/header.html", function() {
 			for (var i = 0; i<p.telephones.length; i++) {
 				phoneelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_phoneNumber_mydata" 
 					+ phoneCount + "' class='form-control tbx_phoneNumber_mydata' placeholder='Telefonnr.'> </div> <div class='col-sm-4'>" +
-					"<select class='form-control' id='select_phoneNumber_mydata"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
-					"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber' id='btn_delete_mydata' >L&ouml;schen</button> </div> </div> </div>";
+					"<select class='form-control select_phoneNumber_mydata' id='select_phoneNumber_mydata"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
+					"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber_mydata' id='btn_delete_mydata' >L&ouml;schen</button> </div> </div> </div>";
 					
 					newElement = $(
 						"<div/>",
 						{
-							id : "phone_element" + phoneCount++,
-							"class" : "phone_element"
+							id : "phone_element_mydata" + phoneCount++,
+							"class" : "phone_element_mydata"
 						}).append(phoneelement_template);
 						$("#phone_container_mydata").append(newElement);
 				
 				help = "#tbx_phoneNumber_mydata" + (phoneCount-1);
-				$(help).val(p.telephones[i]);
+				$(help).val(p.telephones[i].telephone);
 				
-				help = 'geschäftlich'; //test
+				help = p.telephones[i].type; //test
 				help1 = "select#select_phoneNumber_mydata" + (phoneCount-1) + " option";
 				$(help1).each(function() { 
 					this.selected = (this.text == help);
@@ -98,20 +98,20 @@ $("#pageheader").load("../partials/header.html", function() {
 			//load email divs
 			for (var i = 0; i<p.emails.length; i++) {
 				emailelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_email_mydata" + emailCount + "' " +
-					"class='form-control tbx_mailadress_mydata' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control' id='select_email_mydata"+ emailCount +"'>" +
-					"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail'" +
+					"class='form-control tbx_mailadress_mydata' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control select_email_mydata' id='select_email_mydata"+ emailCount +"'>" +
+					"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail_mydata'" +
 					"id='btn_delete_mydata' >L&ouml;schen</button> </div> </div> </div>";
 				
 					newElement = $("<div/>", {
-						id : "email_element" + emailCount++,
-						"class" : "email_element"
+						id : "email_element_mydata" + emailCount++,
+						"class" : "email_element_mydata"
 					}).append(emailelement_template);
 					$("#email_container_mydata").append(newElement);
 					
 				help = "#tbx_email_mydata" + (emailCount-1);
-				$(help).val(p.emails[i]);
+				$(help).val(p.emails[i].mail);
 				
-				help = 'geschäftlich';	//test
+				help = p.emails[i].type;	//test
 				help1 = "select#select_email_mydata" + (emailCount-1) + " option";
 				$(help1).each(function() { 
 					this.selected = (this.text == help);
@@ -125,14 +125,14 @@ $("#pageheader").load("../partials/header.html", function() {
 		$("#btn_addphonenumber_mydata").click(function() {
 				phoneelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_phoneNumber_mydata" 
 										+ phoneCount + "' class='form-control tbx_phoneNumber_mydata' placeholder='Telefonnr.'> </div> <div class='col-sm-4'>" +
-										"<select class='form-control' id='select_phoneNumber_mydata"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
-										"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber' id='btn_delete_mydata' >L&ouml;schen</button> </div> </div> </div>";
+										"<select class='form-control select_phoneNumber_mydata' id='select_phoneNumber_mydata"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
+										"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber_mydata' id='btn_delete_mydata' >L&ouml;schen</button> </div> </div> </div>";
 										
 										var newElement = $(
 											"<div/>",
 											{
-												id : "phone_element" + phoneCount++,
-												"class" : "phone_element"
+												id : "phone_element_mydata" + phoneCount++,
+												"class" : "phone_element_mydata"
 											}).append(phoneelement_template);
 											$("#phone_container_mydata").append(newElement);
 		});
@@ -142,13 +142,13 @@ $("#pageheader").load("../partials/header.html", function() {
 	$(document).ready(function() {
 		$("#btn_addemail_mydata").click(function() {
 			emailelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_email_mydata" + emailCount + "' " +
-				"class='form-control tbx_mailadress_mydata' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control' id='select_email_mydata"+ emailCount +"'>" +
-				"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail'" +
+				"class='form-control tbx_mailadress_mydata' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control select_email_mydata' id='select_email_mydata"+ emailCount +"'>" +
+				"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail_mydata'" +
 				"id='btn_delete_mydata' >L&ouml;schen</button> </div> </div> </div>";
 			
 			var newElement = $("<div/>", {
-				id : "email_element" + emailCount++,
-				"class" : "email_element"
+				id : "email_element_mydata" + emailCount++,
+				"class" : "email_element_mydata"
 			}).append(emailelement_template);
 			$("#email_container_mydata").append(newElement);
 			
@@ -180,12 +180,13 @@ $("#pageheader").load("../partials/header.html", function() {
 		newperson.types = typesArray;
 
 		newperson.emails = [];
-		$(".tbx_mailadress_mydata").each(function (){
-			newperson.emails.push($(this).val());
+		$(".email_element_mydata").each(function (){
+			newperson.emails.push({"mail":$(this).find(".tbx_mailadress_mydata").val(), "type":$(this).find(".select_email_mydata").val()});
+
 		});
 		newperson.telephones = [];
-		$(".tbx_phoneNumber_mydata").each(function (){
-			newperson.telephones.push($(this).val());
+		$(".phone_element_mydata").each(function (){
+			newperson.telephones.push({"telephone":$(this).find(".tbx_phoneNumber_mydata").val(), "type":$(this).find(".select_phoneNumber_mydata").val()});
 		});
 		
 		var persondata = JSON.stringify(newperson);
