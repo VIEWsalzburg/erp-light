@@ -3,6 +3,9 @@ package at.erp.light.view.controller.adressmanagement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,6 +61,25 @@ public class PersonController {
 			return list.get(found);
 		else
 			return null;
+	}
+	
+	@RequestMapping(value = "secure/person/getCurrentUser")
+	public PersonDTO getCurrentUser(HttpServletRequest request,
+	HttpServletResponse response) {
+		List<PersonDTO> list = new ArrayList<PersonDTO>();
+		int personId = (int)request.getSession().getAttribute("id");
+		for(Person p : dataBaseService.getAllPersons())
+		{
+			list.add(PersonMapper.mapToDTO(p));
+		}		
+		
+		for (PersonDTO element : list) {
+			if (element.getPersonId() == personId) {
+				return element;
+			}
+		}
+		
+		return null;
 	}
 
 	//TODO Remove operation

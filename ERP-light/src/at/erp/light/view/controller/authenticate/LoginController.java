@@ -57,6 +57,8 @@ public class LoginController {
 		if (existingUser.getPassword().equals(authentication.getPassword())) {
 			request.getSession().setAttribute("username",
 					existingUser.getLoginEmail());
+			request.getSession().setAttribute("id",
+					existingUser.getPerson().getPersonId());
 			request.getSession().setAttribute("authenticated", true);
 			return new ControllerMessage(true, "everything went well");
 		} else {
