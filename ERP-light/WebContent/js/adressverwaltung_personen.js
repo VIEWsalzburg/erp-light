@@ -76,6 +76,7 @@ $("#select_loginEmail").focus(function() {
 		         .text(emailValue));
 	});
 });
+
 //Modal new
 $("#btn_new").click(function() {
 	$("#new").find('input')
@@ -121,7 +122,21 @@ $("#btn_saveperson").click(function() {
 	newperson.loginEmail = $("#select_loginEmail").val();
 	newperson.permission = $("#select_permission").val();
 	var typesArray = [];
-	typesArray.push($("#select_types").val());
+	
+	//checking if type checkboxes checked
+	if($('#cbx_mitarbeiter').prop('checked')){
+		typesArray.push("Mitarbeiter");
+	}
+	if($('#cbx_mitglied').prop('checked')){
+		typesArray.push("Mitglied");
+	}
+	if($('#cbx_gast').prop('checked')){
+		typesArray.push("Gast");
+	}
+	if($('#cbx_unterstuetzer').prop('checked')){
+		typesArray.push("Unterstützer");
+	}
+	
 	newperson.types = typesArray;
 
 	newperson.emails = [];
@@ -256,13 +271,34 @@ $("#btn_edit").click(function() {
 			this.selected = (this.text == p.loginEmail);
 		});
 		
+		$("select#select_permission option").each(function() { 
+			this.selected = (this.text == p.permission);
+		});
+		
 		$("select#select_types option").each(function() { 
 			this.selected = (this.text == p.types);
 		});
 		
-		$("select#select_permission option").each(function() { 
-			this.selected = (this.text == p.permission);
-		});
+		//load type checkboxes
+		$('#cbx_mitarbeiter').prop('checked', false);
+		$('#cbx_mitglied').prop('checked', false);
+		$('#cbx_gast').prop('checked', false);
+		$('#cbx_unterstuetzer').prop('checked', false);
+		
+		for (var i = 0; i<p.types.length; i++) {
+			if(p.types[i] == "Mitarbeiter"){
+				$('#cbx_mitarbeiter').prop('checked', true);
+			}
+			if(p.types[i] == "Mitglied"){
+				$('#cbx_mitglied').prop('checked', true);
+			}
+			if(p.types[i] == "Gast"){
+				$('#cbx_gast').prop('checked', true);
+			}
+			if(p.types[i] == "Unterstützer"){
+				$('#cbx_unterstuetzer').prop('checked', true);
+			}
+		}
 	});
 });
 
@@ -338,33 +374,33 @@ $(document).ready(function() {
 		$('#mitarbeiter_cbx').on('change', function() {
 			if (this.checked) {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "MA"
+					return $(this).find('td').eq(10).text() == "Mitarbeiter"
 				}).show();
 			} else {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "MA"
+					return $(this).find('td').eq(10).text() == "Mitarbeiter"
 				}).hide();
 			}
 		});
 		$('#unterstuetzer_cbx').on('change', function() {
 			if (this.checked) {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "Unterst."
+					return $(this).find('td').eq(10).text() == "Unterstützer"
 				}).show();
 			} else {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "Unterst."
+					return $(this).find('td').eq(10).text() == "Unterstützer"
 				}).hide();
 			}
 		});
 		$('#mitglieder_cbx').on('change', function() {
 			if (this.checked) {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "MG"
+					return $(this).find('td').eq(10).text() == "Mitglied"
 				}).show();
 			} else {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "MG"
+					return $(this).find('td').eq(10).text() == "Mitglied"
 				}).hide();
 			}
 		});

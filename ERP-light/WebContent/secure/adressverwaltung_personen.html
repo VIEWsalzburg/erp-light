@@ -252,20 +252,6 @@
 											
 											<div class="row">
 												<div class="form-group">
-													<label class="col-sm-5 control-label">Typ</label>
-													<div class="col-sm-5">
-														<select name="select_types" id="select_types" class="form-control col-sm-6">
-														  <option>Mitarbeiter</option>
-														  <option>Mitglied</option>
-														  <option>Gast</option>
-														  <option>Unterstützer</option>														  		  
-														</select>
-													</div>
-												</div>
-											</div>
-											
-											<div class="row">
-												<div class="form-group">
 													<label class="col-sm-5 control-label">Rechte</label>
 													<div class="col-sm-5">
 														<select name="select_permission" id="select_permission" class="form-control col-sm-6">
@@ -276,7 +262,34 @@
 													</div>
 												</div>
 											</div>
-
+											
+											
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-3 control-label">Typ(en)</label>
+													<div class="col-sm-8">
+<!-- 														<select name="select_types" id="select_types" class="form-control col-sm-6"> -->
+<!-- 														  <option>Mitarbeiter</option> -->
+<!-- 														  <option>Mitglied</option> -->
+<!-- 														  <option>Gast</option> -->
+<!-- 														  <option>Unterstützer</option>														  		   
+<!-- 														</select> -->
+															<label class="checkbox-inline">
+															  <input type="checkbox" id="cbx_mitarbeiter" value="option1"> Mitarbeiter
+															</label>
+															<label class="checkbox-inline">
+															  <input type="checkbox" id="cbx_mitglied" value="option2"> Mitglied
+															</label>
+															<label class="checkbox-inline">
+															  <input type="checkbox" id="cbx_gast" value="option3"> Gast
+															</label>
+															<label class="checkbox-inline">
+															  <input type="checkbox" id="cbx_unterstuetzer" value="option4"> Unterstützer
+															</label>
+													</div>
+												</div>
+											</div>
+											
 										</form>
 									</div>
 
@@ -381,5 +394,6 @@
 	<script src="../js/bootstrap.min.js"></script>
 	<!-- Load javascript File -->
 	<script src="../js/adressverwaltung_personen.js" type="text/javascript"></script>
+	<script src="../js/header.js" type="text/javascript"></script>
 </body>
 </html>
