@@ -1,5 +1,7 @@
-$("#pageheader").load("../partials/header.html");
-$("#adressverwaltung_nav").addClass("active");
+//Load pageheader
+$("#pageheader").load("../partials/header.html", function() {
+	$("#adressverwaltung_nav").addClass("active");
+});
 
 $("#neuanlegen_btn").click(function() {
 	$("#modal_title_text").text("Neue Organisation");

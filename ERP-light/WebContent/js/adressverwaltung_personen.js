@@ -4,6 +4,11 @@ var phoneelement_template = "";
 var emailCount = 0;
 var emailelement_template = "";
 
+//Load pageheader
+$("#pageheader").load("../partials/header.html", function() {
+	$("#adressverwaltung_nav").addClass("active");
+});
+
 function loadTableContent() {
 	$.ajax({
 		type : "POST",
@@ -59,12 +64,6 @@ function loadTableContent() {
 				}
 			});
 };
-
-
-// Load pageheader
-$("#pageheader").load("../partials/header.html", function() {
-	$("#adressverwaltung_nav").addClass("active");
-});
 
 $("#select_loginEmail").focus(function() {
 	$("#select_loginEmail").find('option')
@@ -435,9 +434,21 @@ $('#personen').on('click', 'tbody tr', function(event) {
 
 //remove table row modal
 $("#btn_deleteModal").click(function() {
-			$("#label_id").text(tableData[0]);
-			$("#label_salutation").text(tableData[1]);
-			$("#label_title").text(tableData[2]);
-			$("#label_firstName").text(tableData[3]);
-			$("#label_lastName").text(tableData[4]);
+	$("#label_id").text(tableData[0]);
+	$("#label_salutation").text(tableData[1]);
+	$("#label_title").text(tableData[2]);
+	$("#label_firstName").text(tableData[3]);
+	$("#label_lastName").text(tableData[4]);
+});
+
+$("#btn_deletePerson").click(function() {
+	var id = tableData[0];
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/person/deletePersonById/" + id
+	}).done(function(data) {
+		$('#personTableBody').empty();
+		$('#deleteModal').modal('hide');
+		loadTableContent();
+	});
 });
