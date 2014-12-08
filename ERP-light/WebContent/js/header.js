@@ -1,13 +1,39 @@
 //load pageheader
 $("#pageheader").load("../partials/header.html", function() {
+	
+	$(document).ready(function() {
+		$.ajax({
+			type : "POST",
+			url : "/ERP-light/rest/secure/userdata"
+		}).done(function(data) {
+		});
+	});
+	
+	if(document.URL.indexOf("adressverwaltung") > -1)
+	{
+		$("#adressverwaltung_nav").addClass("active");
+	}
+	else if(document.URL.indexOf("warenverwaltung") >-1)
+	{
+		$("#warenverwaltung_nav").addClass("active");
+
+	}
+	else if(document.URL.indexOf("reporting") >-1)
+	{
+		$("#reporting_nav").addClass("active");
+
+	}
+	else
+	{
+		$("#home_nav").addClass("active");
+	}
+	
 	var phoneCount = 0;
 	var phoneelement_template = "";
 	
 	var emailCount = 0;
 	var emailelement_template = "";
 
-	alert("ds"); //TODO without alert "mydata" modal not working
-	
 	// Get one person and load it to modal
 	$(document).ready(function() {
 		//remove all phonenumber divs
@@ -25,8 +51,9 @@ $("#pageheader").load("../partials/header.html", function() {
 		}).done(function(data) {
 
 			var p = eval(data);
-
 			//load data to modal
+			$("#username").text(p.firstName +" " + p.lastName);
+
 			$("#tbx_id_mydata").val(p.personId);
 			$("#tbx_salutation_mydata").val(p.salutation);
 			$("#tbx_title_mydata").val(p.title);

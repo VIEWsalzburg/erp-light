@@ -4,11 +4,6 @@ var phoneelement_template = "";
 var emailCount = 0;
 var emailelement_template = "";
 
-//Load pageheader
-$("#pageheader").load("../partials/header.html", function() {
-	$("#adressverwaltung_nav").addClass("active");
-});
-
 function loadTableContent() {
 	$.ajax({
 		type : "POST",

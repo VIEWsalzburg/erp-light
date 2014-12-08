@@ -1,8 +1,3 @@
-// Load pageheader
-$("#pageheader").load("../partials/header.html", function() {
-	$("warenverwaltung_nav").addClass("active");
-});
-
 //Get all categories and load into table
 $(document).ready(
 		function() {
