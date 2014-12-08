@@ -93,7 +93,8 @@ public class PersonController {
 		
 		boolean isPlatformuser = false;
 		// TODO Check for Platformuser and include Checkbox in GUI
-		if (!person.getLoginEmail().isEmpty())
+		if (person.getLoginEmail() != null)
+			if (!person.getLoginEmail().isEmpty())
 			isPlatformuser = true;
 		
 		
