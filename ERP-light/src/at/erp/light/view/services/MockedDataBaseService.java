@@ -39,8 +39,10 @@ public class MockedDataBaseService implements IDataBase {
 	private List<Category> mockedCategories = new ArrayList<Category>(); 
 	
 	private List<Type> mockedTypes = new ArrayList<Type>();
-
-	Permission permissionAdmin = new Permission(1, "ADMIN", "Admin Permission");
+	
+	private List<Permission> mockedPermissions = new ArrayList<Permission>();
+	
+	
 	
 	public MockedDataBaseService() {
 		initCategories();
@@ -67,8 +69,9 @@ public class MockedDataBaseService implements IDataBase {
 		person1.getEmails().add(email1);
 		person1.getTelephones().add(telephone1);
 		person1.getTypes().add(getTypeById(3));
-		Platformuser platformUser1 = new Platformuser(permissionAdmin, person1,
+		Platformuser platformUser1 = new Platformuser(getPermissionById(1), person1,
 				"admin", "admin");
+		platformUser1.setPersonId(1);
 
 		// second Person
 		Person person2 = new Person(2, "Frau", "Bsc", "Susi", "Mayer",
@@ -85,8 +88,9 @@ public class MockedDataBaseService implements IDataBase {
 		person2.setCountry(country2);
 		person2.getEmails().add(email2);
 		person2.getTelephones().add(telephone2);
-		Platformuser platformUser2 = new Platformuser(permissionAdmin, person2,
+		Platformuser platformUser2 = new Platformuser(getPermissionById(2), person2,
 				"admin", "susi.mayer@gmail.com");
+		platformUser2.setPersonId(2);
 
 		// third Person
 		Person person3 = new Person(3, "Herr", "MSc", "Maxi", "Neumann",
@@ -104,8 +108,9 @@ public class MockedDataBaseService implements IDataBase {
 		person3.setCountry(country3);
 		person3.getEmails().add(email3);
 		person3.getTelephones().add(telephone3);
-		Platformuser platformUser3 = new Platformuser(permissionAdmin, person3,
+		Platformuser platformUser3 = new Platformuser(getPermissionById(3), person3,
 				"admin", "maxi.neumann@gmail.com");
+		platformUser3.setPersonId(3);
 
 		mockedPersons.add(person1);
 		mockedPersons.add(person2);
@@ -151,12 +156,20 @@ public class MockedDataBaseService implements IDataBase {
 		
 		Org2.getTypes().add(getTypeById(6));
 		
-
 		mockedOrganisations.add(Org1);
 		mockedOrganisations.add(Org2);
 		
+	}
+	
+	private void initPermissions()
+	{
+		Permission adminPermission = new Permission(1, "Admin", "");
+		Permission readWritePermission = new Permission(2, "ReadWrite", "");
+		Permission readPermission = new Permission(3, "Read", "");
 		
-		
+		mockedPermissions.add(adminPermission);
+		mockedPermissions.add(readWritePermission);
+		mockedPermissions.add(readPermission);
 	}
 	
 	private void initCategories()
@@ -203,7 +216,6 @@ public class MockedDataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Person getPersonById(int id) {
-
 		for (Person p : mockedPersons) {
 			if (p.getPersonId() == id) {
 				return p;
@@ -221,7 +233,12 @@ public class MockedDataBaseService implements IDataBase {
 	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
 	public Person getPersonById(int id, int FetchFlags) {
-		return mockedPersons.get(0);
+		for (Person p : mockedPersons) {
+			if (p.getPersonId() == id) {
+				return p;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -238,26 +255,136 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public Person getPersonByLoginEmail(String loginEmail) {
-
-		for (Platformuser p : mockedPlatformusers)
-		{
-			if (p.getLoginEmail().equals(loginEmail))
-				return p.getPerson();
-		}
-		
-		
 		return null;
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public int setPerson(Person person) {
-		person.setPersonId(mockedPersons.size()+1);
-		mockedPersons.add(person);
+		
+		Person found = null;
+		for (Person p : mockedPersons)
+		{
+			if (p.getPersonId() == person.getPersonId())
+				found = p;
+		}
+		
+		if (found != null)
+			mockedPersons.remove(found);	// remove old existing person
+		
+		mockedPersons.add(person);		// add new person
 		return person.getPersonId();
-
 	}
 
+	
+	@Override
+	public Type getTypeById(int id) {
+		
+		for (Type type : mockedTypes)
+		{
+			if (type.getTypeId() == id)
+				return type;
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public Type getTypeByType(String type) {
+		
+		for (Type mType : mockedTypes)
+		{
+			if (mType.getName().equals(type))
+				return mType;
+		}
+		
+		return null;
+	}
+	
+	
+	@Override
+	public List<Type> getAllTypes() {
+		return mockedTypes;
+	}
+	
+	
+	@Override
+	public Platformuser getPlatformuserById(int id) {
+
+		for (Platformuser pUser : mockedPlatformusers) {
+			if (pUser.getPerson().getPersonId() == id) {
+				return pUser;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Platformuser getPlatformuserbyLoginEmail(String loginEmail) {
+
+		for (Platformuser platformuser : mockedPlatformusers) {
+			if (platformuser.getLoginEmail().equals(loginEmail)) {
+				return platformuser;
+			}
+		}
+
+		return null;
+	}
+	
+	@Override
+	public Platformuser setPlatformuser(Platformuser platformuser) {
+		
+		Platformuser found = null;
+		for (Platformuser p : mockedPlatformusers) {
+			if (p.getPerson().getPersonId() == platformuser.getPerson().getPersonId())
+				found = p;
+		}
+		mockedPlatformusers.remove(found);
+		mockedPlatformusers.add(platformuser);
+		return platformuser;
+	}
+
+	@Override
+	public void removePlatformuserById(int id) {
+		
+		Platformuser found = null;
+		for (Platformuser p : mockedPlatformusers) {
+			if (p.getPerson().getPersonId() == id)
+				found = p;
+		}
+		mockedPlatformusers.remove(found);
+	}
+	
+
+	@Override
+	public Permission getPermissionById(int id) {
+		
+		for (Permission p : mockedPermissions)
+		{
+			if (p.getPermissionId() == id)
+				return p;
+		}
+		
+		return null;
+	}
+
+	@Override
+	public Permission getPermissionByPermission(String permission) {
+		
+		for (Permission p : mockedPermissions)
+		{
+			if (p.getPermission().equals(permission))
+				return p;
+		}
+		
+		return null;
+	}
+
+	
+	
+	
+	
+	
 	@Override
 	public int setPersons(List<Person> persons) {
 
@@ -446,97 +573,15 @@ public class MockedDataBaseService implements IDataBase {
 		return 0;
 	}
 
-	@Override
-	public Type getTypeById(int id) {
-		
-		for (Type type : mockedTypes)
-		{
-			if (type.getTypeId() == id)
-				return type;
-		}
-		
-		
-		return null;
-	}
+	
 
-	@Override
-	public Platformuser getPlatformuserById(int id) {
+	
 
-		for (Platformuser pUser : mockedPlatformusers) {
-			if (pUser.getPerson().getPersonId() == id) {
-				return pUser;
-			}
-		}
-		return null;
-	}
 
-	@Override
-	public Platformuser setPlatformuser(Platformuser platformuser) {
-		int found = 0, i = 0;
-		for (Platformuser p : mockedPlatformusers) {
-			if (p.getPersonId() == platformuser.getPersonId()) {
-				found = i;
-			}
-			i++;
-		}
-		mockedPlatformusers.remove(found);
-		mockedPlatformusers.add(found, platformuser);
-		return null;
-	}
 
-	@Override
-	public void removePlatformuserById(int id) {
-		int found = 0, i = 0;
-		for (Platformuser p : mockedPlatformusers) {
-			if (p.getPersonId() == id) {
-				found = i;
-			}
-			i++;
-		}
-		mockedPlatformusers.remove(found);
-	}
 
-	@Override
-	public Permission getPermissionById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public Permission getPermissionByPermission(String permission) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public Type getTypeByType(String type) {
-		
-		for (Type mType : mockedTypes)
-		{
-			if (mType.getName().equals(type))
-				return mType;
-		}
-		
-		return null;
-	}
-
-	@Override
-	public Platformuser getPlatformuserbyLoginEmail(String loginEmail) {
-
-		for (Platformuser platformuser : mockedPlatformusers) {
-			if (platformuser.getLoginEmail().equals(loginEmail)) {
-				return platformuser;
-			}
-		}
-
-		return null;
-	}
-
-	@Override
-	public List<Type> getAllTypes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	
 	
