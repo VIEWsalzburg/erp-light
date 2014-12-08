@@ -67,19 +67,15 @@ public class PersonController {
 	@RequestMapping(value = "secure/person/getCurrentUser")
 	public PersonDTO getCurrentUser(HttpServletRequest request,
 			HttpServletResponse response) {
-		List<PersonDTO> list = new ArrayList<PersonDTO>();
-		int personId = (int) request.getSession().getAttribute("id");
-		for (Person p : dataBaseService.getAllPersons()) {
-			list.add(PersonMapper.mapToDTO(p));
-		}
+		int personId = (int)request.getSession().getAttribute("id");
+		
+		Person currentPerson = dataBaseService.getPersonById(personId);
+		if (currentPerson == null)
+			return null;
 
-		for (PersonDTO element : list) {
-			if (element.getPersonId() == personId) {
-				return element;
-			}
-		}
-
-		return null;
+		PersonDTO currentPersonDTO = PersonMapper.mapToDTO(currentPerson);
+		return currentPersonDTO;
+		
 	}
 
 	// TODO Mapping of letzter bearbeiter
