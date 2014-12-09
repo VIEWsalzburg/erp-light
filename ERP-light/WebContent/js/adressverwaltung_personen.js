@@ -180,9 +180,11 @@ $("#btn_saveperson").click(function() {
 		if (data) {
 			$('#personTableBody').empty();
 			$('#new').modal('hide');
+			showAlertElement(1, data.message, 5000);
 			loadTableContent();
 		} else {
-			alert("Verbindungsproblem mit dem Server");
+			//alert("Verbindungsproblem mit dem Server");
+			showAlertElement(2, data.message, 5000);
 		}
 	});
 	return false;
