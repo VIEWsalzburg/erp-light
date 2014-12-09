@@ -134,7 +134,7 @@ $("#pageheader").load("../partials/header.html", function() {
 				'Content-Type' : 'application/json'
 			},
 			type : "POST",
-			url : "../rest/secure/person/changeCurrentUserPassword/",
+			url : "../rest/secure/person/changeCurrentUserPassword",
 			contentType: "application/json; charset=utf-8",
 		    dataType: "json",
 			data : JSON.stringify(newpassword)
