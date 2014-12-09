@@ -57,7 +57,7 @@ public class Permission implements java.io.Serializable {
 		this.permission = permission;
 	}
 
-	@Column(name = "description", nullable = false, length = 1024)
+	@Column(name = "description", length = 1024)
 	public String getDescription() {
 		return this.description;
 	}

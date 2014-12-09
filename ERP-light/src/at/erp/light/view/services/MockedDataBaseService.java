@@ -180,10 +180,10 @@ public class MockedDataBaseService implements IDataBase {
 	private void initCategories()
 	{
 		// Categories
-		Category Cat1 = new Category(0, "Fleisch", "Fleischdesc");
-		Category Cat2 = new Category(1, "Fisch", "Fischdesc");
-		Category Cat3 = new Category(2, "Brot", "Brotdesc");
-		Category Cat4 = new Category(3, "Käse", "Käsedesc");
+		Category Cat1 = new Category(1, "Fleisch", "Fleischdesc");
+		Category Cat2 = new Category(2, "Fisch", "Fischdesc");
+		Category Cat3 = new Category(3, "Brot", "Brotdesc");
+		Category Cat4 = new Category(4, "Käse", "Käsedesc");
 		
 		mockedCategories.add(Cat1);
 		mockedCategories.add(Cat2);
@@ -235,16 +235,7 @@ public class MockedDataBaseService implements IDataBase {
 		return 0;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED)
-	@Override
-	public Person getPersonById(int id, int FetchFlags) {
-		for (Person p : mockedPersons) {
-			if (p.getPersonId() == id) {
-				return p;
-			}
-		}
-		return null;
-	}
+
 
 	@Override
 	public List<Person> getPersonsByType(Type type) {
@@ -616,13 +607,36 @@ public class MockedDataBaseService implements IDataBase {
 				return mCategory;
 		}
 		
-		return null;
+		Category mCategory = new Category(0, category, "");
+		this.setCategory(mCategory);
+		return mCategory;
 	}
 
 	@Override
 	public Category setCategory(Category category) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if (category.getCategoryId() == 0)
+		{
+			category.setCategoryId(mockedCategories.size()+1);
+			mockedCategories.add(category);
+			return category;
+		}
+		
+		Category found = null;
+		for (Category c : mockedCategories)
+		{
+			if (c.getCategoryId() == category.getCategoryId())
+				found = c;
+		}
+		mockedCategories.remove(found);
+		mockedCategories.add(category);
+		
+		return category;
+	}
+	
+	public List<Category> getAllCategories()
+	{
+		return mockedCategories;
 	}
 	
 	

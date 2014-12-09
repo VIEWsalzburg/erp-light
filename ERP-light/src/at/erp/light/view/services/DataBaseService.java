@@ -41,7 +41,7 @@ public class DataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Person getPersonById(int id) {				
-		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p WHERE p.personId = :id");
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.person WHERE p.personId = :id");
 		query.setParameter("id", id);
 		Person person = (Person)query.uniqueResult();
 		return person;
@@ -54,60 +54,7 @@ public class DataBaseService implements IDataBase {
 	}
 
 
-	@Transactional(propagation=Propagation.REQUIRED)
-	@Override
-	public Person getPersonById(int id, int FetchFlags) {
-		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p WHERE p.personId = :id");
-		query.setParameter("id", id);
-		Person person = (Person)query.uniqueResult();
-		
-		if ( (FetchFlags&Person.FETCH_ADDRESS)!=0)
-		{
-			Hibernate.initialize(person.getAddress());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_CITY)!=0)
-		{
-			Hibernate.initialize(person.getCity());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_COUNTRY)!=0)
-		{
-			Hibernate.initialize(person.getCountry());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_PLATFORMUSER)!=0)
-		{
-			Hibernate.initialize(person.getPlatformuser());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_TYPES)!=0)
-		{
-			Hibernate.initialize(person.getTypes());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_EMAILS)!=0)
-		{
-			Hibernate.initialize(person.getEmails());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_TELEPHONES)!=0)
-		{
-			Hibernate.initialize(person.getTelephones());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_UPDATED_BY_PERSON)!=0)
-		{
-			Hibernate.initialize(person.getPerson());
-		}
-		
-		if ( (FetchFlags&Person.FETCH_ORGANISATION_CONTACT)!=0)
-		{
-			Hibernate.initialize(person.getOrganisation());
-		}
-		
-		return person;
-	}
+	
 
 	@Override
 	public List<Person> getPersonsByType(Type type) {
@@ -119,7 +66,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Person> getAllPersons() {
 		@SuppressWarnings("unchecked")
-		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person").list();
+		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.person").list();
 		return persons;
 	}
 
@@ -668,7 +615,7 @@ public class DataBaseService implements IDataBase {
 		if (mCategory == null)
 		{
 			mCategory = new Category(0, category, "");
-			setCategory(mCategory);
+			this.setCategory(mCategory);
 		}
 		
 		return mCategory;
@@ -680,6 +627,14 @@ public class DataBaseService implements IDataBase {
 	{
 		sessionFactory.getCurrentSession().saveOrUpdate(category);
 		return category;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<Category> getAllCategories()
+	{
+		List<Category> categories = sessionFactory.getCurrentSession().createQuery("FROM Category").list();
+		return categories;
 	}
 
 }

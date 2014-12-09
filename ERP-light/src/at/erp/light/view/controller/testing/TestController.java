@@ -2,7 +2,9 @@ package at.erp.light.view.controller.testing;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,13 +179,33 @@ public class TestController {
 	@RequestMapping(value = "Test2")
 	public void doSomething2(@RequestParam(value="param") String param) {		
 		
-		Category mCategory = new Category(0, "Fleisch", "möchten gerne nur Fleisch");
-		dataBaseService.setCategory(mCategory);
+		Category catFleisch = new Category(0, "Fleisch", "lecker Fleisch");
+		dataBaseService.setCategory(catFleisch);
+		
+		
+		Category catFisch = new Category(1, "Fisch", "lecker Fisch");
+		dataBaseService.setCategory(catFisch);
+		
+		 Category ks = dataBaseService.getCategoryByCategory("großer Kühlschrank");
+		 ks.setDescription("haben einen großen Kühlschrank");
+		 dataBaseService.setCategory(ks);
+		
 		
 		
 	}
 	
-	
+	@RequestMapping(value = "Test3")
+	public void doSomething3() {		
+		
+		List<Category> categories = dataBaseService.getAllCategories();
+		
+		for (Category c : categories)
+		{
+			System.out.println(c.getCategoryId()+" "+c.getCategory()+" "+c.getDescription());
+		}
+		
+		
+	}
 	
 
 }
