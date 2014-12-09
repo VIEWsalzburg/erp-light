@@ -294,7 +294,7 @@
 									</div>
 
 									<div class="modal-footer">
-										<button type="button" class="btn btn-warning pull-left"
+										<button type="button" id="btn_resetpassword" class="btn btn-warning pull-left" data-toggle="modal" data-target="#resetpasswordModal"
 											>Passwort zur&uuml;cksetzen</button>
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">Abbrechen</button>
@@ -350,6 +350,22 @@
 							<!-- /.modal-dialog -->
 						</div>
 						<!-- /.modal -->
+						
+							<!-- reset password modal -->
+							<div class="modal fade bs-example-modal-sm" id="resetpasswordModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+							  <div class="modal-dialog modal-sm">
+							    <div class="modal-content">
+									      <div class="modal-header">
+									        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+									        <h4 class="modal-title" id="myModalLabel">Passwort zur&uuml;cksetzen?</h4>
+									      </div>
+									      <div class="modal-footer">
+									       		<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+									        	<button type="button" class="btn btn-warning">Zur&uuml;cksetzen</button>
+									      </div>
+								</div>
+							  </div>
+							</div>
 
 					</div>
 					<div class="tab-pane" id="tab2">Content2</div>

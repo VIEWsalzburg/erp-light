@@ -33,9 +33,9 @@ $("#pageheader").load("../partials/header.html", function() {
 	
 	var emailCount = 0;
 	var emailelement_template = "";
-
+	
 	// Get one person and load it to modal
-	$(document).ready(function() {
+	$("#btn_mydata").click(function() {
 		//remove all phonenumber divs
 		$(".btn_removephonenumber_mydata").closest('div[class^="phone_element_mydata"]').remove();
 		phoneCount = 0;
@@ -51,6 +51,7 @@ $("#pageheader").load("../partials/header.html", function() {
 		}).done(function(data) {
 
 			var p = eval(data);
+			
 			//load data to modal
 			$("#username").text(p.firstName +" " + p.lastName);
 
@@ -88,7 +89,7 @@ $("#pageheader").load("../partials/header.html", function() {
 				help = "#tbx_phoneNumber_mydata" + (phoneCount-1);
 				$(help).val(p.telephones[i].telephone);
 				
-				help = p.telephones[i].type; //test
+				help = p.telephones[i].type; 
 				help1 = "select#select_phoneNumber_mydata" + (phoneCount-1) + " option";
 				$(help1).each(function() { 
 					this.selected = (this.text == help);
@@ -111,12 +112,26 @@ $("#pageheader").load("../partials/header.html", function() {
 				help = "#tbx_email_mydata" + (emailCount-1);
 				$(help).val(p.emails[i].mail);
 				
-				help = p.emails[i].type;	//test
+				help = p.emails[i].type;
 				help1 = "select#select_email_mydata" + (emailCount-1) + " option";
 				$(help1).each(function() { 
 					this.selected = (this.text == help);
 				});
 			}
+		});
+	});
+	
+	$(document).ready(function() {
+		//get current user
+		$.ajax({
+			type : "POST",
+			url : "../rest/secure/person/getCurrentUser"
+		}).done(function(data) {
+
+			var p = eval(data);
+			
+			//load data to modal
+			$("#username").text(p.firstName +" " + p.lastName);
 		});
 	});
 
@@ -137,6 +152,12 @@ $("#pageheader").load("../partials/header.html", function() {
 											$("#phone_container_mydata").append(newElement);
 		});
 	});
+	
+	//remove phonenumber div
+	$("body").on('click', '.btn_removephonenumber_mydata', function() {
+		$(this).closest('div[class^="phone_element"]').remove();
+		phoneCount--;
+	});
 
 	//add email div
 	$(document).ready(function() {
@@ -153,6 +174,12 @@ $("#pageheader").load("../partials/header.html", function() {
 			$("#email_container_mydata").append(newElement);
 			
 		});
+	});
+	
+	//remove email div
+	$("body").on('click', '.btn_removeemail_mydata', function() {
+		$(this).closest('div[class^="email_element"]').remove();
+		emailCount--;
 	});
 
 	//Save my data
@@ -202,7 +229,9 @@ $("#pageheader").load("../partials/header.html", function() {
 			data : JSON.stringify(newperson)
 		}).done(function(data) {
 			if (data) {
+				$('#personTableBody').empty();
 				$('#mydata').modal('hide');
+				loadTableContent();
 			} else {
 				alert("Verbindungsproblem mit dem Server");
 			}

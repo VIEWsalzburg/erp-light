@@ -55,7 +55,6 @@ function loadTableContent() {
 							+ "[LastUpdate]" + "</td>" + "</tr>";
 					
 					$("#personTableBody").append(tableRow);
-					
 				}
 			});
 };
@@ -85,6 +84,9 @@ $("#btn_new").click(function() {
 	$("#tbx_id").val(0);
 	$("#modal_title_text").text("Neue Person");
 	
+	//hide reset password button
+	$("#btn_resetpassword").hide();
+	
 	//remove all phonenumber divs
 	$(".btn_removephonenumber").closest('div[class^="phone_element"]').remove();
 	phoneCount = 0;
@@ -92,6 +94,12 @@ $("#btn_new").click(function() {
 	//remove all email divs
 	$(".btn_removeemail").closest('div[class^="email_element"]').remove();
 	emailCount = 0;
+	
+	//uncheck type checkboxes
+	$('#cbx_mitarbeiter').prop('checked', false);
+	$('#cbx_mitglied').prop('checked', false);
+	$('#cbx_gast').prop('checked', false);
+	$('#cbx_unterstuetzer').prop('checked', false);
 });
 
 // Modal Neu anlegen -> speichern
@@ -182,6 +190,9 @@ $("#btn_edit").click(function() {
 	$(".btn_removeemail").closest('div[class^="email_element"]').remove();
 	emailCount = 0;
 	
+	//show reset password button
+	$("#btn_resetpassword").show();
+	
 	var id = tableData[0];
 
 	// Get person with id "id"
@@ -228,7 +239,7 @@ $("#btn_edit").click(function() {
 			help = "#tbx_phoneNumber" + (phoneCount-1);
 			$(help).val(p.telephones[i].telephone);
 			
-			help = p.telephones[i].type; //test
+			help = p.telephones[i].type; 
 			help1 = "select#select_phoneNumber" + (phoneCount-1) + " option";
 			$(help1).each(function() { 
 				this.selected = (this.text == help);
@@ -343,6 +354,11 @@ $(document).ready(function() {
 $("body").on('click', '.btn_removeemail', function() {
 	$(this).closest('div[class^="email_element"]').remove();
 	emailCount--;
+});
+
+//TODO reset password
+$("#btn_resetpassword").click(function() {
+	
 });
 
 //search filter
