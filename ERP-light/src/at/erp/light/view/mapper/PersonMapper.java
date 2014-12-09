@@ -22,7 +22,6 @@ import at.erp.light.view.model.Person;
 import at.erp.light.view.model.Platformuser;
 import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
-import at.erp.light.view.services.IDataBase;
 
 public class PersonMapper {
 
@@ -72,14 +71,12 @@ public class PersonMapper {
 		}
 
 		String loginMail = "";
-		String password = "";
 		String permission = "";
 
 		Platformuser pUser = person.getPlatformuser();
 		
 		if (pUser != null) {
 			loginMail = pUser.getLoginEmail();
-			password = pUser.getPassword();
 			Permission perm = pUser.getPermission();
 			if(perm !=null)
 			{
@@ -97,7 +94,7 @@ public class PersonMapper {
 				person.getFirstName(), person.getLastName(),
 				person.getComment(), df.format(person.getUpdateTimestamp()),
 				person.getActive(), addressString, cityString, zipString,
-				countryString, loginMail, password, permission, types, emails, telephones);
+				countryString, loginMail, permission,person.getFirstName() +" "+person.getLastName(), types, emails, telephones);
 
 		return mPerson;
 	}
@@ -133,6 +130,16 @@ public class PersonMapper {
 			telephones.add(new Telephone(0, new Type(0, telephoneDTO.getType()), telephoneDTO.getTelephone()));
 		}
 
+		Person lastEditor = new Person();
+		String[] nameString =  dto.getLastEditor().split(" ");
+		lastEditor.setFirstName(nameString[0]);
+		if(nameString[1]!=null)
+		{
+			lastEditor.setLastName(nameString[1]);
+		}
+		
+		entity.setPerson(lastEditor);
+		
 		entity.setTypes(types);
 		entity.setTelephones(telephones);
 		entity.setEmails(emails);

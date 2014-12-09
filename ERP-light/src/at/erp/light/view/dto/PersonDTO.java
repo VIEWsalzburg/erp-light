@@ -5,42 +5,42 @@ import java.util.List;
 public class PersonDTO {
 
 	private int personId;
-	
+
 	private String salutation;
 	private String title;
-	
+
 	private String firstName;
 	private String lastName;
-	
+
 	private String comment;
-	
+
 	private String updateTimestamp;
 	private int active;
-	
+
 	private String address;
 	private String city;
 	private String zip;
 	private String country;
-	
-	//Platformuser 
+
+	// Platformuser
 	private String loginEmail;
 	private String permission;
-	
-	//Mitglied Sponsor Mitarbeiter Gast
+
+	private String lastEditor;
+
+	// Mitglied Sponsor Mitarbeiter Gast
 	private List<String> types;
 	private List<EmailDTO> emails;
 	private List<TelephoneDTO> telephones;
 
-	
-	public PersonDTO(){}
-
-	
+	public PersonDTO() {
+	}
 
 	public PersonDTO(int personId, String salutation, String title,
 			String firstName, String lastName, String comment,
 			String updateTimestamp, int active, String address, String city,
-			String zip, String country, String loginEmail, String password,
-			String permission, List<String> types, List<EmailDTO> emails,
+			String zip, String country, String loginEmail, String permission,
+			String lastEditor, List<String> types, List<EmailDTO> emails,
 			List<TelephoneDTO> telephones) {
 		super();
 		this.personId = personId;
@@ -57,12 +57,11 @@ public class PersonDTO {
 		this.country = country;
 		this.loginEmail = loginEmail;
 		this.permission = permission;
+		this.lastEditor = lastEditor;
 		this.types = types;
 		this.emails = emails;
 		this.telephones = telephones;
 	}
-
-
 
 	public int getPersonId() {
 		return personId;
@@ -199,5 +198,13 @@ public class PersonDTO {
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
-	
+
+	public String getLastEditor() {
+		return lastEditor;
+	}
+
+	public void setLastEditor(String lastEditor) {
+		this.lastEditor = lastEditor;
+	}
+
 }
