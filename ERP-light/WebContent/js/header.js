@@ -266,7 +266,6 @@ $("#pageheader").load("../partials/header.html", function() {
 	});
 });
 
-
 //disable warenverwaltung href, if user has not the permission
 var currentUserRights = "";
 $(document).ready(function() {
