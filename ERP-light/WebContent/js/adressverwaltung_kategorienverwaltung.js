@@ -5,6 +5,7 @@ $("#pageheader").load("../partials/header.html", function() {
 
 //Get all categories and load into table
 $(document).ready(
+		
 		function() {
 			$.ajax({
 				type : "POST",
@@ -40,12 +41,12 @@ $("#btn_edit").click(function() {
 		var p = eval(data);
 
 		//load data to modal
-		$("#tbx_name").val("p.name");
-		$("#tbx_description").val("p.description");
+		$('#tbx_name').val(tableData[1]);
+		$('#tbx_description').val(tableData[2]);
 	});
 });
 
-$("#btn_saveperson").click(function() {
+$("#btn_savecategory").click(function() {
 	//TODO unfinished
 });
 
@@ -83,9 +84,44 @@ $('#personen').on('click', 'tbody tr', function(event) {
 	$('#btn_deleteModal').prop('disabled', false);
 });
 
-//edit table row
-$('#btn_edit').on('click', function() {
-	$('#vorname').val($.trim(tableData[3]));
+//disable new, edit and delete buttons
+$('#btn_new').prop('disabled', true);
+$('#btn_edit').prop('disabled', true);
+$('#btn_deleteModal').prop('disabled', true);
+
+//get current user rights
+$(document).ready(function() {
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/person/getCurrentUser"
+	}).done(function(data) {
+		currentUser = eval(data);
+		currentUserRights = currentUser.permission;
+		
+		//only when user has readwrite/admin rights
+		if(currentUserRights != "Read" && currentUserRights != ""){
+			$("#btn_new").prop('disabled', false);
+		}
+	});
+});
+
+var tableData;
+$('#personen').on('click', 'tbody tr', function(event) {
+	tableData = $(this).children("td").map(function() {
+		return $(this).text();
+	}).get();
+
+	$(this).addClass('highlight').siblings().removeClass('highlight');
+	
+		//only when user has readwrite/admin rights
+		if(currentUserRights != "Read" && currentUserRights != ""){
+			$('#btn_edit').prop('disabled', false);
+			$('#btn_deleteModal').prop('disabled', false);
+		}
+		else{
+			$('#btn_edit').prop('disabled', true);
+			$('#btn_deleteModal').prop('disabled', true);
+		}
 });
 
 //remove table row Modal
@@ -93,4 +129,16 @@ $("#btn_deleteModal").click(function() {
 	$("#label_id").text(tableData[0]);
 	$("#label_name").text(tableData[1]);
 	$("#label_description").text(tableData[2]);
+});
+
+$("#btn_deleteCategory").click(function() {
+//	var id = tableData[0];
+//	$.ajax({
+//		type : "POST",
+//		url : "../rest/secure/person/deletePersonById/" + id
+//	}).done(function(data) {
+//		$('#personTableBody').empty();
+//		$('#deleteModal').modal('hide');
+//		loadTableContent();
+//	});
 });

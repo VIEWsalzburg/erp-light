@@ -39,9 +39,9 @@
 
 						<form role="form" class="form-inline">
 							<div class="form-group">
-								<button type="button" id="neuanlegen_btn"
+								<button type="button" id="btn_new"
 									class="btn btn-primary" data-toggle="modal"
-									data-target="#modal_neuanlegen_org">
+									data-target="#new">
 									<span class="glyphicon glyphicon-plus"></span> Neu anlegen
 								</button>
 
@@ -81,131 +81,17 @@
 										<th style="width: 5%">Geaendert von</th>
 									</tr>
 								</thead>
-								<tbody class="searchable">
-									<tr>
-										<td>1</td>
-										<td>Lieferant, Sponsor</td>
-										<td>Muster AGtest</td>
-										<td>Stellt keine Lieferscheine aus</td>
-										<td>Salzburgerstr. 1</td>
-										<td>5020</td>
-										<td>Salzburg</td>
-										<td>Hr. Josef Huber</td>
-										<td></td>
-										<td>12.12.2014</td>
-										<td>Maier</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>Kunde</td>
-										<td>Muster AG</td>
-										<td>Stellt keine Lieferscheine aus</td>
-										<td>Salzburgerstr. 1</td>
-										<td>5020</td>
-										<td>Salzburg</td>
-										<td>Hr. Josef Huber</td>
-										<td></td>
-										<td>12.12.2014</td>
-										<td>Maier</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>Sponsor</td>
-										<td>Muster AG</td>
-										<td>Stellt keine Lieferscheine aus</td>
-										<td>Salzburgerstr. 1</td>
-										<td>5020</td>
-										<td>Salzburg</td>
-										<td>Hr. Josef Huber</td>
-										<td></td>
-										<td>12.12.2014</td>
-										<td>Maier</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>Kunde</td>
-										<td>Muster AG</td>
-										<td>Stellt keine Lieferscheine aus</td>
-										<td>Salzburgerstr. 1</td>
-										<td>5020</td>
-										<td>Salzburg</td>
-										<td>Hr. Josef Huber</td>
-										<td></td>
-										<td>12.12.2014</td>
-										<td>Maier</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>Lieferant</td>
-										<td>Muster AG</td>
-										<td>Stellt keine Lieferscheine aus</td>
-										<td>Salzburgerstr. 1</td>
-										<td>5020</td>
-										<td>Salzburg</td>
-										<td>Hr. Josef Huber</td>
-										<td></td>
-										<td>12.12.2014</td>
-										<td>Maier</td>
-									</tr>
-									<tr>
-										<td>6</td>
-										<td>Lieferant</td>
-										<td>Muster AG</td>
-										<td>Stellt keine Lieferscheine aus</td>
-										<td>Salzburgerstr. 1</td>
-										<td>5020</td>
-										<td>Salzburg</td>
-										<td>Hr. Josef Huber</td>
-										<td></td>
-										<td>12.12.2014</td>
-										<td>Maier</td>
-									</tr>
-									<tr>
-										<td>7</td>
-										<td>Lieferant</td>
-										<td>Muster AG</td>
-										<td>Stellt keine Lieferscheine aus</td>
-										<td>Salzburgerstr. 1</td>
-										<td>5020</td>
-										<td>Salzburg</td>
-										<td>Hr. Josef Huber</td>
-										<td></td>
-										<td>12.12.2014</td>
-										<td>Maier</td>
-									</tr>
-									<tr>
-										<td>8</td>
-										<td>Lieferant</td>
-										<td>Muster AG</td>
-										<td>Stellt keine Lieferscheine aus</td>
-										<td>Salzburgerstr. 1</td>
-										<td>5020</td>
-										<td>Salzburg</td>
-										<td>Hr. Josef Huber</td>
-										<td></td>
-										<td>12.12.2014</td>
-										<td>Maier</td>
-									</tr>
-									<tr>
-										<td>9</td>
-										<td>Lieferant</td>
-										<td>Muster AG</td>
-										<td>Stellt keine Lieferscheine aus</td>
-										<td>Salzburgerstr. 1</td>
-										<td>5020</td>
-										<td>Salzburg</td>
-										<td>Hr. Josef Huber</td>
-										<td></td>
-										<td>12.12.2014</td>
-										<td>Maier</td>
-									</tr>
+								<tbody id="organisationTableBody" class="searchable">
+
+									<!-- Organisations are placed here by Script "fillOrganisationTable" -->
+
 								</tbody>
 							</table>
 						</div>
 						<!-- Table end -->
 
-						<!-- Neu anlegen (unfertig!) -->
-						<div class="modal fade" id="modal_neuanlegen_org" tabindex="-1"
+						<!-- Neu anlegen und bearbeiten -->
+						<div class="modal fade" id="new" tabindex="-1"
 							role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -280,7 +166,10 @@
 														</div>
 													</div>
 												</div>
-											</div>										
+											</div>
+											
+											<div class="row divider-horizontal">
+											</div>									
 
 											<div class="row">
 												<div class="col-md-6">
@@ -361,6 +250,9 @@
 													</div>
 												</div>
 											</div>
+											
+											<div class="row divider-horizontal">
+											</div>
 
 											<div class="row">
 												<div class="col-md-12">
@@ -393,7 +285,7 @@
 						<!-- /.modal -->
 
 						<!-- Modal Loeschen -->
-						<div class="modal fade" id="loeschenModal" tabindex="-1"
+						<div class="modal fade" id="deleteModal" tabindex="-1"
 							role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -408,9 +300,10 @@
 
 										<div class="row modalrow">
 											<div class="col-md-6">
-												<label id="index_delete">Index</label> <label
-													id="typ_delete">Anrede</label> <label id="name_delete">Titel</label>
-												<label id="adresse_delete">Vorname</label>
+												<label id="label_id">id</label>
+												<label id="label_type">type</label>
+												<label id="label_name">title</label>
+												<label id="label_address">address</label>
 											</div>
 											<div class="col-md-6"></div>
 										</div>
@@ -419,7 +312,7 @@
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">Abbrechen</button>
-										<button type="button" class="btn btn-danger">
+										<button type="button" id="btn_deleteOrganisation" class="btn btn-danger">
 											<span class="glyphicon glyphicon-trash"></span> Loeschen
 										</button>
 
@@ -447,12 +340,12 @@
 			<div class="col-md-4">
 				<form role="form" class="form-inline">
 					<div class="form-group bottom">
-						<button type="button" id="edit" class="btn btn-warning"
-							data-toggle="modal" data-target="#modal_neuanlegen_org">
+						<button type="button" id="btn_edit" class="btn btn-warning"
+							data-toggle="modal" data-target="#new">
 							<span class="glyphicon glyphicon-pencil"></span> Bearbeiten
 						</button>
-						<button type="button" id="delete" class="btn btn-danger"
-							data-toggle="modal" data-target="#loeschenModal">
+						<button type="button" id="btn_deleteModal" class="btn btn-danger"
+							data-toggle="modal" data-target="#deleteModal">
 							<span class="glyphicon glyphicon-trash"></span> Loeschen
 						</button>
 					</div>

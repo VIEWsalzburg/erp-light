@@ -4,6 +4,9 @@ var phoneelement_template = "";
 var emailCount = 0;
 var emailelement_template = "";
 
+var currentUser = "";
+var currentUserRights = "";
+
 function loadTableContent() {
 	$.ajax({
 		type : "POST",
@@ -65,8 +68,10 @@ $("#select_loginEmail").focus(function() {
     .end();
 	$(".tbx_mailadress").each(function() {
 		var emailValue = $(this).val();
-		$("#select_loginEmail").append($("<option></option>")
-		         .text(emailValue));
+		if(emailValue != ""){
+			$("#select_loginEmail").append($("<option></option>")
+			         .text(emailValue));
+		}
 	});
 });
 
@@ -86,6 +91,14 @@ $("#btn_new").click(function() {
 	
 	//hide reset password button
 	$("#btn_resetpassword").hide();
+	
+	//hide admin type option, if user is no admin
+	if(currentUserRights != "Admin"){
+		$("#option_admin").remove();
+	}
+	
+	//default select option is first option
+	$("#select_permission").prop("selectedIndex", 0);
 	
 	//remove all phonenumber divs
 	$(".btn_removephonenumber").closest('div[class^="phone_element"]').remove();
@@ -192,6 +205,11 @@ $("#btn_edit").click(function() {
 	
 	//show reset password button
 	$("#btn_resetpassword").show();
+	
+	//hide admin type option, if user is no admin
+	if(currentUserRights != "Admin"){
+		$("#option_admin").remove();
+	}
 	
 	var id = tableData[0];
 
@@ -430,9 +448,26 @@ $(document).ready(function() {
 	}(jQuery));
 });
 
-//select table row
+//disable new, edit and delete buttons
+$('#btn_new').prop('disabled', true);
 $('#btn_edit').prop('disabled', true);
 $('#btn_deleteModal').prop('disabled', true);
+
+//get current user rights
+$(document).ready(function() {
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/person/getCurrentUser"
+	}).done(function(data) {
+		currentUser = eval(data);
+		currentUserRights = currentUser.permission;
+		
+		//only when user has readwrite/admin rights
+		if(currentUserRights != "Read" && currentUserRights != ""){
+			$("#btn_new").prop('disabled', false);
+		}
+	});
+});
 
 var tableData;
 $('#personen').on('click', 'tbody tr', function(event) {
@@ -441,8 +476,24 @@ $('#personen').on('click', 'tbody tr', function(event) {
 	}).get();
 
 	$(this).addClass('highlight').siblings().removeClass('highlight');
-	$('#btn_edit').prop('disabled', false);
-	$('#btn_deleteModal').prop('disabled', false);
+	
+		//only when user has readwrite/admin rights
+		if(currentUserRights != "Read" && currentUserRights != "" && currentUser.personId != tableData[0]){
+			if(currentUserRights == "Admin"){
+				$('#btn_edit').prop('disabled', false);
+				$('#btn_deleteModal').prop('disabled', false);
+			}
+			else{
+				if(tableData[9] != "Admin"){
+					$('#btn_edit').prop('disabled', false);
+					$('#btn_deleteModal').prop('disabled', false);
+				}
+			}
+		}
+		else{
+			$('#btn_edit').prop('disabled', true);
+			$('#btn_deleteModal').prop('disabled', true);
+		}
 });
 
 //remove table row modal
