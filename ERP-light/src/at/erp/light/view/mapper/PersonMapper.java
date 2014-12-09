@@ -88,13 +88,17 @@ public class PersonMapper {
 			}
 		}
 
+		String lastEditor = "kA";
+		if (person.getPerson() != null)
+			lastEditor = person.getPerson().getFirstName() + " " + person.getPerson().getLastName();
+		
 		// TODO change platform user things to real
 		PersonDTO mPerson = new PersonDTO(person.getPersonId(),
 				person.getSalutation(), person.getTitle(),
 				person.getFirstName(), person.getLastName(),
 				person.getComment(), df.format(person.getUpdateTimestamp()),
 				person.getActive(), addressString, cityString, zipString,
-				countryString, loginMail, permission,person.getFirstName() +" "+person.getLastName(), types, emails, telephones);
+				countryString, loginMail, permission, lastEditor, types, emails, telephones);
 
 		return mPerson;
 	}
@@ -129,16 +133,6 @@ public class PersonMapper {
 		for (TelephoneDTO telephoneDTO : dto.getTelephones()) {
 			telephones.add(new Telephone(0, new Type(0, telephoneDTO.getType()), telephoneDTO.getTelephone()));
 		}
-
-		Person lastEditor = new Person();
-		String[] nameString =  dto.getLastEditor().split(" ");
-		lastEditor.setFirstName(nameString[0]);
-		if(nameString[1]!=null)
-		{
-			lastEditor.setLastName(nameString[1]);
-		}
-		
-		entity.setPerson(lastEditor);
 		
 		entity.setTypes(types);
 		entity.setTelephones(telephones);

@@ -17,7 +17,7 @@
 			<ul class="nav navbar-nav">
 				<li id="home_nav"><a href="home.html"><span
 						class="glyphicon glyphicon-home"></span> Home</a></li>
-				<li id="warenverwaltung_nav"><a
+				<li id="warenverwaltung_nav"><a id="warenverwaltung_nav_a"
 					href="warenverwaltung_wareneingang.html"><span
 						class="glyphicon glyphicon-shopping-cart"></span> Warenverwaltung</a></li>
 				<li id="adressverwaltung_nav"><a
@@ -35,7 +35,7 @@
 							data-target="#mydata"><span
 								class="glyphicon glyphicon-user"></span> Meine Daten</a></li>
 						<li><a href="#" data-toggle="modal"
-							data-target="#password"><span
+							data-target="#mypassword"><span
 								class="glyphicon glyphicon-lock"></span> Passwort</a></li>
 						<li class="divider"></li>
 						<li><a href="../rest/logout"><span
@@ -49,7 +49,7 @@
 </nav>
 
 <!-- Modal Passwort -->
-<div class="modal fade" id="password" tabindex="-1" role="dialog"
+<div class="modal fade" id="mypassword" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content mypassword">
@@ -66,7 +66,7 @@
 						<div class="form-group">
 							<label class="col-sm-5 control-label">Altes Passwort</label>
 							<div class="col-sm-5">
-								<input type="password" class="form-control" id="oldpassword"
+								<input type="password" class="form-control" id="tbx_oldpassword"
 									placeholder="Altes Passwort">
 							</div>
 						</div>
@@ -76,7 +76,7 @@
 						<div class="form-group">
 							<label class="col-sm-5 control-label">Neues Passwort</label>
 							<div class="col-sm-5">
-								<input type="password" class="form-control" id="newpassword"
+								<input type="password" class="form-control" id="tbx_newpassword"
 									placeholder="Neues Passwort">
 							</div>
 						</div>
@@ -87,7 +87,7 @@
 							<label class="col-sm-5 control-label">Neues Passwort
 								best&auml;tigen</label>
 							<div class="col-sm-5">
-								<input type="password" class="form-control" id="acknewpassword"
+								<input type="password" class="form-control" id="tbx_acknewpassword"
 									placeholder="Passwort best&auml;tigen">
 							</div>
 						</div>
@@ -97,7 +97,7 @@
 
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-				<button type="button" id="btn_savepassword" class="btn btn-primary">
+				<button type="button" id="btn_savemypassword" class="btn btn-primary">
 					<span class="glyphicon glyphicon-floppy-save"></span> Speichern
 				</button>
 			</div>
