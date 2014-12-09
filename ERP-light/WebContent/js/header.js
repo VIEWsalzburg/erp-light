@@ -123,10 +123,27 @@ $("#pageheader").load("../partials/header.html", function() {
 	
 	//my password modal
 	$("#btn_savemypassword").click(function() {
-		var newpassword = new Object();
 		
-		newpassword.oldPassword = $("#tbx_oldpassword").val();
-		newpassword.newPassword = $("#tbx_newpassword").val();
+		// check if both new passwords are equal
+		var oldPwd = $("#tbx_oldpassword").val();
+		var newPwd = $("#tbx_newpassword").val();
+		var newPwdAck = $("#tbx_acknewpassword").val();
+		
+		if (newPwd != newPwdAck)
+		{
+			var pwdError = "<div id='pwdErrorAlert' class='row'> <div class='col-sm-offset-2 col-sm-8'> <div class='alert alert-danger custom-alert'>Die angegebenen Passwörter stimmen nicht überein.</div> </div>  </div>"
+			$("#passwordForm").append(pwdError);
+			
+			$("#tbx_oldpassword").val("");
+			$("#tbx_newpassword").val("");
+			$("#tbx_acknewpassword").val("");	
+			
+			return;
+		}		
+		
+		var newpassword = new Object();
+		newpassword.oldPassword = oldPwd;
+		newpassword.newPassword = newPwd;
 		
 		$.ajax({
 			headers : {
@@ -141,10 +158,29 @@ $("#pageheader").load("../partials/header.html", function() {
 		}).done(function(data) {
 			if (data) {
 				$('#mypassword').modal('hide');
+				
+				if (data.success == true)
+				{
+					showAlertElement(1, data.message, 5000);
+				}
+				else
+				{
+					showAlertElement(2, data.message, 5000);
+				}				
+				
 			} else {
 				alert("Verbindungsproblem mit dem Server");
 			}
+			
+			
 		});
+		
+		// clear passwords, so they don't show up the next time the user wants to change password
+		$("#tbx_oldpassword").val("");
+		$("#tbx_newpassword").val("");
+		$("#tbx_acknewpassword").val("");
+		$("#pwdErrorAlert").remove();
+		
 		return false;
 	});
 	

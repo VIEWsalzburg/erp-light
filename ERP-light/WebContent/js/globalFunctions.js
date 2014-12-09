@@ -13,7 +13,7 @@ function showAlertElement(success, text, timeOut)
 			alertClass = "alert alert-danger";
 		}
 		
-		successDiv = "	<div id='myAlert' style='position: absolute; width: 100%; z-index: 10; top=100px;'> " +
+		successDiv = "	<div id='myAlert' style='position: absolute; width: 100%; z-index: 10; top: 60px;'> " +
 						 " <div style='width: 220px; margin: auto; text-align: center; padding-top:10px;'>" +
 						 " <div class='row'> " + 
 						 " <div class='"+alertClass+"' role='alert'>"+text+"</div>" +
@@ -21,11 +21,11 @@ function showAlertElement(success, text, timeOut)
 		
 		var domElement = $.parseHTML(successDiv);
 			
-		$(".msg").append(domElement);
+		$("body").append(domElement);
 		
-//		$('#myAlert').fadeIn("slow").delay(timeOut).fadeOut("slow",
-//			function() {
-//				$('#myAlert').remove();
-//			}
-//		);
+		$('#myAlert').fadeIn("slow").delay(timeOut).fadeOut("slow",
+			function() {
+				$('#myAlert').remove();
+			}
+		);
 }
