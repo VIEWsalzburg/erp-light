@@ -159,7 +159,7 @@ public class PersonController {
 	@RequestMapping(value = "secure/person/changeCurrentUserPassword/")
 	public ControllerMessage changeCurrentUserPassword(
 			HttpServletRequest httpServletRequest,
-			@RequestBody String newPassword) throws IOException {
+			@RequestBody ChangePasswordObject changePasswordObject) throws IOException {
 
 		Object currentId = httpServletRequest.getAttribute("id");
 		if (currentId == null) {
@@ -167,7 +167,12 @@ public class PersonController {
 		} else {
 			Platformuser platformuser = dataBaseService
 					.getPlatformuserById((int) currentId);
-			platformuser.setPassword(newPassword);
+			if(!platformuser.getPassword().equals(changePasswordObject.getOldPassword()))
+			{
+				return new ControllerMessage(false, "Altes Passwort falsch");
+			}
+			
+			platformuser.setPassword(changePasswordObject.getNewPassword());
 			dataBaseService.setPlatformuser(platformuser);
 			return new ControllerMessage(true, "Ändern erfolgreich");
 		}
