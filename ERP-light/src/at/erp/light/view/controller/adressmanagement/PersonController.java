@@ -84,6 +84,7 @@ public class PersonController {
 	@RequestMapping(value = "/secure/person/setPerson")
 	boolean setPerson(@RequestBody PersonDTO person, HttpServletRequest request) {
 		Person entity = PersonMapper.mapToEntity(person);
+		
 		// set current user for updater
 		entity.setPerson(dataBaseService.getPersonById((int) request
 				.getSession().getAttribute("id")));
