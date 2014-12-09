@@ -156,7 +156,7 @@ public class PersonController {
 		return new ControllerMessage(true, "Zurücksetzen erfolgreich");
 	}
 
-	@RequestMapping(value = "secure/person/changeCurrentUserPassword/")
+	@RequestMapping(value = "secure/person/changeCurrentUserPassword")
 	public ControllerMessage changeCurrentUserPassword(
 			HttpServletRequest httpServletRequest,
 			@RequestBody ChangePasswordObject changePasswordObject) throws IOException {
