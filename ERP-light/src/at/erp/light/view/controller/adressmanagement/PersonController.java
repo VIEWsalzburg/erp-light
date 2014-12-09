@@ -157,25 +157,30 @@ public class PersonController {
 		return new ControllerMessage(true, "Zurücksetzen erfolgreich");
 	}
 
-	@RequestMapping(value = "secure/person/changeCurrentUserPassword/")
+	@RequestMapping(value = "secure/person/changeCurrentUserPassword")
 	public ControllerMessage changeCurrentUserPassword(
 			HttpServletRequest httpServletRequest,
 			@RequestBody ChangePasswordObject changePasswordObject) throws IOException {
 
-		Object currentId = httpServletRequest.getAttribute("id");
+		Object currentId = httpServletRequest.getSession().getAttribute("id");
 		if (currentId == null) {
 			return new ControllerMessage(false, "Nicht eingeloggt");
 		} else {
 			Platformuser platformuser = dataBaseService
 					.getPlatformuserById((int) currentId);
+			if (platformuser == null)
+			{
+				return new ControllerMessage(false, "User existiert nicht!");
+			}
+			
 			if(!platformuser.getPassword().equals(changePasswordObject.getOldPassword()))
 			{
-				return new ControllerMessage(false, "Altes Passwort falsch");
+				return new ControllerMessage(false, "Altes Passwort falsch!");
 			}
 			
 			platformuser.setPassword(changePasswordObject.getNewPassword());
 			dataBaseService.setPlatformuser(platformuser);
-			return new ControllerMessage(true, "Ändern erfolgreich");
+			return new ControllerMessage(true, "Ändern erfolgreich!");
 		}
 	}
 
