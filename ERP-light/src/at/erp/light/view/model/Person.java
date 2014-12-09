@@ -48,9 +48,7 @@ public class Person implements java.io.Serializable {
 	
 	
 	private int personId;
-	private Person person;
 	private Address address;
-	private Organisation organisation;
 	private City city;
 	private Country country;
 	private String salutation;
@@ -61,6 +59,8 @@ public class Person implements java.io.Serializable {
 	private Date updateTimestamp;
 	private int active;
 	private Platformuser platformuser;
+	private Person person;				// last updated by
+//	private Organisation organisation;	
 	private Set<Type> types = new HashSet<Type>(0);
 	private Set<Email> emails = new HashSet<Email>(0);
 	private Set<Telephone> telephones = new HashSet<Telephone>(0);
@@ -79,35 +79,6 @@ public class Person implements java.io.Serializable {
 		this.comment = comment;
 		this.updateTimestamp = updateTimestamp;
 		this.active = active;
-	}
-
-	public Person(int personId, Person person, Address address,
-			Organisation organisation, City city, Country country,
-			String salutation, String title, String firstName, String lastName,
-			String comment, Date updateTimestamp, int active,
-			Set<Organisation> organisations, Platformuser platformuser,
-			Set<Type> types, Set<Email> emails,
-			Set<IncomingDelivery> incomingDeliveries, Set<Telephone> telephones,
-			Set<OutgoingDelivery> outgoingDeliveries,
-			Set<DeliveryList> deliveryLists, Set<Person> persons) {
-		this.personId = personId;
-		this.salutation = salutation;
-		this.title = title;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.comment = comment;
-		this.updateTimestamp = updateTimestamp;
-		this.active = active;
-		this.address = address;
-		this.city = city;
-		this.country = country;
-		this.organisation = organisation;
-		this.platformuser = platformuser;
-		this.types = types;
-		this.emails = emails;
-		this.telephones = telephones;
-		this.person = person;
-		
 	}
 
 	@Id
@@ -142,15 +113,15 @@ public class Person implements java.io.Serializable {
 		this.address = address;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "organisation_id")
-	public Organisation getOrganisation() {
-		return this.organisation;
-	}
-
-	public void setOrganisation(Organisation organisation) {
-		this.organisation = organisation;
-	}
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "organisation_id")
+//	public Organisation getOrganisation() {
+//		return this.organisation;
+//	}
+//
+//	public void setOrganisation(Organisation organisation) {
+//		this.organisation = organisation;
+//	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "city_id", nullable = true)

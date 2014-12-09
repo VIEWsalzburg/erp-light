@@ -33,13 +33,7 @@ public interface IDataBase {
 	 */
 	public Person getPersonById(int id);
 	
-	/**
-	 * This function gets a Person element with the given ID from the DB and fetches the given Objects.
-	 * @param id
-	 * @param FetchFlags Indicates with relational objects should be fetched
-	 * @return Person object / null, if Person does not exist
-	 */
-	Person getPersonById(int id, int FetchFlags);
+
 	
 	/**
 	 * unimplemented
@@ -175,5 +169,6 @@ public interface IDataBase {
 	public Category getCategoryById(int id);
 	public Category getCategoryByCategory(String category);
 	public Category setCategory(Category category);
+	public List<Category> getAllCategories();
 	
 }

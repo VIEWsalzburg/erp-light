@@ -72,24 +72,24 @@ public class Organisation implements java.io.Serializable {
 
 	
 	
-	public Organisation(int organisationId, Address address, City city,
-			Person person, Country country, String name, String comment,
-			Date updateTimestamp, int active, Set<Category> categories,
-			Set<Person> persons,
-			Set<Type> types) {
-		this.organisationId = organisationId;
-		this.address = address;
-		this.city = city;
-		this.person = person;
-		this.country = country;
-		this.name = name;
-		this.comment = comment;
-		this.updateTimestamp = updateTimestamp;
-		this.active = active;
-		this.categories = categories;
-		this.persons = persons;
-		this.types = types;
-	}
+//	public Organisation(int organisationId, Address address, City city,
+//			Person person, Country country, String name, String comment,
+//			Date updateTimestamp, int active, Set<Category> categories,
+//			Set<Person> persons,
+//			Set<Type> types) {
+//		this.organisationId = organisationId;
+//		this.address = address;
+//		this.city = city;
+//		this.person = person;
+//		this.country = country;
+//		this.name = name;
+//		this.comment = comment;
+//		this.updateTimestamp = updateTimestamp;
+//		this.active = active;
+//		this.categories = categories;
+//		this.persons = persons;
+//		this.types = types;
+//	}
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="gen_organisation_id")
@@ -190,7 +190,8 @@ public class Organisation implements java.io.Serializable {
 		this.categories = categories;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "organisation")
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name="organisation_id")
 	public Set<Person> getPersons() {
 		return this.persons;
 	}
