@@ -374,9 +374,15 @@ $("body").on('click', '.btn_removeemail', function() {
 	emailCount--;
 });
 
-//TODO reset password
+//reset password
 $("#btn_resetpassword").click(function() {
-	
+	var id = tableData[0];
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/person/resetPasswordForId/" + id
+	}).done(function(data) {
+		$('#resetpasswordModal').modal('hide');
+	});
 });
 
 //search filter
@@ -449,9 +455,10 @@ $(document).ready(function() {
 });
 
 //disable new, edit and delete buttons
-$('#btn_new').prop('disabled', true);
-$('#btn_edit').prop('disabled', true);
-$('#btn_deleteModal').prop('disabled', true);
+$('#btn_new').hide();
+$(".suchfilter").css("margin-left", "0px");
+$('#btn_edit').hide();
+$('#btn_deleteModal').hide();
 
 //get current user rights
 $(document).ready(function() {
@@ -462,9 +469,16 @@ $(document).ready(function() {
 		currentUser = eval(data);
 		currentUserRights = currentUser.permission;
 		
-		//only when user has readwrite/admin rights
-		if(currentUserRights != "Read" && currentUserRights != ""){
-			$("#btn_new").prop('disabled', false);
+		//only when user has admin rights
+		if(currentUserRights == "Admin" && currentUserRights != ""){
+			$("#btn_new").show();
+			$(".suchfilter").css("margin-left", "5px");
+			
+			$('#btn_edit').show();
+			$('#btn_deleteModal').show();
+			
+			$('#btn_edit').prop('disabled', true);
+			$('#btn_deleteModal').prop('disabled', true);
 		}
 	});
 });
@@ -477,8 +491,8 @@ $('#personen').on('click', 'tbody tr', function(event) {
 
 	$(this).addClass('highlight').siblings().removeClass('highlight');
 	
-		//only when user has readwrite/admin rights
-		if(currentUserRights != "Read" && currentUserRights != "" && currentUser.personId != tableData[0]){
+		//only when user has admin rights
+		if(currentUserRights == "Admin" && currentUserRights != "" && currentUser.personId != tableData[0]){
 			if(currentUserRights == "Admin"){
 				$('#btn_edit').prop('disabled', false);
 				$('#btn_deleteModal').prop('disabled', false);

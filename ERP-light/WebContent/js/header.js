@@ -121,6 +121,33 @@ $("#pageheader").load("../partials/header.html", function() {
 		});
 	});
 	
+	//my password modal
+	$("#btn_savemypassword").click(function() {
+		var newpassword = new Object();
+		
+		newpassword.oldPassword = $("#tbx_oldpassword").val();
+		newpassword.newPassword = $("#tbx_newpassword").val();
+		
+		$.ajax({
+			headers : {
+				'Accept' : 'application/json',
+				'Content-Type' : 'application/json'
+			},
+			type : "POST",
+			url : "../rest/secure/person/changeCurrentUserPassword",
+			contentType: "application/json; charset=utf-8",
+		    dataType: "json",
+			data : JSON.stringify(newpassword)
+		}).done(function(data) {
+			if (data) {
+				$('#mypassword').modal('hide');
+			} else {
+				alert("Verbindungsproblem mit dem Server");
+			}
+		});
+		return false;
+	});
+	
 	$(document).ready(function() {
 		//get current user
 		$.ajax({
@@ -184,7 +211,6 @@ $("#pageheader").load("../partials/header.html", function() {
 
 	//Save my data
 	$("#btn_savemydata").click(function() {
-		
 		var newperson = new Object();
 
 		newperson.personId = $("#tbx_id_mydata").val();
@@ -238,5 +264,22 @@ $("#pageheader").load("../partials/header.html", function() {
 		});
 		return false;
 	});
+});
 
+
+//disable warenverwaltung href, if user has not the permission
+var currentUserRights = "";
+$(document).ready(function() {
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/person/getCurrentUser"
+	}).done(function(data) {
+		var p = eval(data); 
+		currentUserRights = p.permission;
+		
+		if(currentUserRights == "Read"){
+			$("#warenverwaltung_nav").attr("class", "disabled");
+			$("#warenverwaltung_nav_a").attr("href", "#");
+		}
+	});
 });
