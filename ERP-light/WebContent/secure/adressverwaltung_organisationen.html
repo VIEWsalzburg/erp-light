@@ -70,12 +70,12 @@
 									<tr>
 										<th style="width: 3%">#</th>
 										<th style="width: 5%">Typ</th>
-										<th style="width: 5%">Name</th>
-										<th style="width: 15%">Bemerkung</th>
+										<th style="width: 15%">Name</th>
+										<th style="width: 25%">Bemerkung</th>
 										<th style="width: 15%">Adresse</th>
-										<th style="width: 15%">PLZ</th>
-										<th style="width: 15%">Ort</th>
-										<th style="width: 15%">Ansprechperson</th>
+										<th style="width: 5%">PLZ</th>
+										<th style="width: 10%">Ort</th>
+										<th style="width: 10%">Ansprechperson</th>
 										<th style="width: 5%">Kategorien</th>
 										<th style="width: 2%">Akt. Datum</th>
 										<th style="width: 5%">Geaendert von</th>
@@ -110,7 +110,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Typ</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_typ"
+															<input type="text" class="form-control" id="tbx_type"
 																placeholder="Typ">
 														</div>
 													</div>
@@ -131,7 +131,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Adresse</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_adresse"
+															<input type="text" class="form-control" id="tbx_address"
 																placeholder="Adresse">
 														</div>
 													</div>
@@ -140,7 +140,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">PLZ</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_plz"
+															<input type="text" class="form-control" id="tbx_zip"
 																placeholder="PLZ">
 														</div>
 													</div>
@@ -152,7 +152,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Ort</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_ort"
+															<input type="text" class="form-control" id="tbx_city"
 																placeholder="Ort">
 														</div>
 													</div>
@@ -161,7 +161,7 @@
 													<div class="form-group">
 														<label class="col-sm-4 control-label">Land</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_land"
+															<input type="text" class="form-control" id="tbx_country"
 																placeholder="Land">
 														</div>
 													</div>
@@ -188,23 +188,10 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<div class="col-sm-12">
-															<div class="box form-control searchable"
-																style="width: 270px; max-height: 80px; height: auto; overflow-y: auto;">
-																<div class="boxElement_person">
-																	<span>Herr Müller </span><input type="checkbox">
-																</div>
-																<div class="boxElement_person">
-																	<span>Herr Huber </span><input type="checkbox">
-																</div>
-																<div class="boxElement_person">
-																	<span>Herr Test </span><input type="checkbox">
-																</div>
-																<div class="boxElement_person">
-																	<span>Herr Seppi </span><input type="checkbox">
-																</div>
-																<div class="boxElement_person">
-																	<span>Herr Müller </span><input type="checkbox">
-																</div>
+															<div class="box form-control searchable organisationModalDiv" id="contactPersonDiv">
+															
+																	<!-- contact persons -->
+																
 															</div>
 														</div>
 													</div>
@@ -228,23 +215,10 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<div class="col-sm-12">
-															<div class="box form-control searchable"
-																style="width: 270px; max-height: 80px; height: auto; overflow-y: auto;">
-																<div class="boxElement_kategorie">
-																	<span>Kategorie1 </span><input type="checkbox">
-																</div>
-																<div class="boxElement_kategorie">
-																	<span>Kategorie2 </span><input type="checkbox">
-																</div>
-																<div class="boxElement_kategorie">
-																	<span>Kategorie3 </span><input type="checkbox">
-																</div>
-																<div class="boxElement_kategorie">
-																	<span>Kategorie4 </span><input type="checkbox">
-																</div>
-																<div class="boxElement_kategorie">
-																	<span>Kategorie5 </span><input type="checkbox">
-																</div>
+															<div class="box form-control searchable organisationModalDiv">
+																
+																<!-- categories -->
+																
 															</div>
 														</div>
 													</div>
@@ -259,7 +233,7 @@
 													<div class="form-group">
 														<label class="col-sm-2 control-label">Bemerkung</label>
 														<div class="col-sm-10">
-															<textarea class="form-control" rows="2" id="beschreibung"
+															<textarea class="form-control" rows="2" id="tbx_description"
 																placeholder="Bemerkung" style="resize: none"></textarea>
 														</div>
 													</div>

@@ -107,6 +107,13 @@ body{
 	margin-bottom: 15px;
 }
 
+.organisationModalDiv{
+	width: 270px;
+	height: auto;
+	max-height: 80px;
+	overflow-y: auto;
+}
+
 #top
 {
 	height: 60px;
