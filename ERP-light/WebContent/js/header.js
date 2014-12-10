@@ -285,10 +285,10 @@ $("#pageheader").load("../partials/header.html", function() {
 				'Content-Type' : 'application/json'
 			},
 			type : "POST",
-			url : "../rest/secure/person/setPerson",
+			url : "../rest/secure/person/changeMyData",
 			contentType: "application/json; charset=utf-8",
 		    dataType: "json",
-			data : JSON.stringify(newperson)
+			data : persondata
 		}).done(function(data) {
 			if (data) {
 				$('#personTableBody').empty();
