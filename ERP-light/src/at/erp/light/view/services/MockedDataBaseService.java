@@ -270,6 +270,11 @@ public class MockedDataBaseService implements IDataBase {
 		if (found != null)
 			mockedPersons.remove(found);	// remove old existing person
 		
+		if (person.getPersonId() == 0)
+		{
+			person.setPersonId(mockedPersons.size()+1);
+		}
+		
 		mockedPersons.add(person);		// add new person
 		return person.getPersonId();
 	}
