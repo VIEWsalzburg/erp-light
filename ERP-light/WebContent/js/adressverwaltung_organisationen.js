@@ -35,15 +35,14 @@ function loadAllContactPersons() {
 function loadAllCategories() {
 	$.ajax({
 		type : "POST",
-		url : "../rest/secure/person/getAll"
+		url : "../rest/secure/person/getAllCategories"
 	}).done(
 			function(data) {
 				var p = eval(data);
 				
 				for (var e in p) {
-					
-					var divRow = "<div class='boxElement_category'>" + "<span>" + p[e].personId + " " + p[e].firstName  + " " 
-					+ "</span><input type='checkbox' id='cbx_contactperson" + p[e].personId + "'></div>";
+					var divRow = "<div class='boxElement_category'>" + "<span>" + p[e].categoryId + " " + p[e].category + " "
+					+ "</span><input type='checkbox' id='cbx_contactperson" + p[e].id + "'></div>";
 					
 					$("#categoryDiv").append(divRow);
 				}
@@ -97,7 +96,7 @@ function loadContactPerson(id) {
 
 };
 
-//TODO load organisation table
+//load organisation table
 function loadTableContent() {
 	$.ajax({
 		type : "POST",
