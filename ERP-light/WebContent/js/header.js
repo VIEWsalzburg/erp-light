@@ -293,6 +293,16 @@ $("#pageheader").load("../partials/header.html", function() {
 			if (data) {
 				$('#personTableBody').empty();
 				$('#mydata').modal('hide');
+				
+				if (data.success == true)
+				{
+					showAlertElement(1, data.message, 5000);
+				}
+				else
+				{
+					showAlertElement(2, data.message, 5000);
+				}
+				
 				loadTableContent();
 			} else {
 				alert("Verbindungsproblem mit dem Server");

@@ -92,7 +92,7 @@ $("#btn_new").click(function() {
 	$("#modal_title_text").text("Neue Person");
 	
 	//hide reset password button
-	$("#btn_resetpassword").hide();
+	$("#btn_resetpasswordModal").hide();
 	
 	//hide admin type option, if user is no admin
 	if(currentUserRights != "Admin"){
@@ -216,7 +216,7 @@ $("#btn_edit").click(function() {
 	emailCount = 0;
 	
 	//show reset password button
-	$("#btn_resetpassword").show();
+	$("#btn_resetpasswordModal").show();
 	
 	//hide admin type option, if user is no admin
 	if(currentUserRights != "Admin"){
@@ -539,6 +539,16 @@ $("#btn_deletePerson").click(function() {
 	}).done(function(data) {
 		$('#personTableBody').empty();
 		$('#deleteModal').modal('hide');
+		
+		if (data.success == true)
+		{
+			showAlertElement(1, data.message, 5000);
+		}
+		else
+		{
+			showAlertElement(2, data.message, 5000);
+		}
+		
 		loadTableContent();
 	});
 });
