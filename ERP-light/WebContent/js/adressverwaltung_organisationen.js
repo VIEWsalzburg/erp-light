@@ -35,15 +35,14 @@ function loadAllContactPersons() {
 function loadAllCategories() {
 	$.ajax({
 		type : "POST",
-		url : "../rest/secure/person/getAll"
+		url : "../rest/secure/person/getAllCategories"
 	}).done(
 			function(data) {
 				var p = eval(data);
 				
 				for (var e in p) {
-					
-					var divRow = "<div class='boxElement_category'>" + "<span>" + p[e].personId + " " + p[e].firstName  + " " 
-					+ "</span><input type='checkbox' id='cbx_contactperson" + p[e].personId + "'></div>";
+					var divRow = "<div class='boxElement_category'>" + "<span>" + p[e].categoryId + " " + p[e].category + " "
+					+ "</span><input type='checkbox' id='cbx_contactperson" + p[e].id + "'></div>";
 					
 					$("#categoryDiv").append(divRow);
 				}
@@ -82,19 +81,39 @@ $("#btn_edit").click(function() {
 	//loadAllCategories();
 });
 
-//TODO load organisation table
+//load contact persons for table
+function loadContactPerson(id) {
+	var nameString="";
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/person/getPersonById/" + id
+	}).done(function(data) {
+				var p = eval(data);
+				nameString = p.firstName + " " + p.lastName;
+			});
+	return nameString;
+
+};
+
+//load organisation table
 function loadTableContent() {
 	$.ajax({
 		type : "POST",
-		url : "../rest/secure/person/getAll"
+		url : "../rest/secure/organisation/getAllOrganisations"
 	}).done(
 			function(data) {
+				var o = eval(data);
 				
-				var p = eval(data);
-				
-				for (var e in p) {
-					var types = p[e].types;
+				for (var e in o) {
+					var types = o[e].types;
 					var typeString = "";
+					
+					var categories = o[e].categories;
+					var categoryString = "";
+					
+					var personIds = o[e].personIds;
+					var personIdString = "";
 					
 					for (var k = 0; k < types.length; k++) {
 						typeString = typeString + types[k];
@@ -103,18 +122,33 @@ function loadTableContent() {
 						}
 					}
 					
+					for (var k = 0; k < categories.length; k++) {
+						categoryString = categoryString + categories[k];
+						if (k < categories.length - 1) {
+							categoryString = categoryString + ", ";
+						}
+					}
+					
+					for (var k = 0; k < personIds.length; k++) {
+						var help = loadContactPerson(personIds[k]);
+						personIdString = personIdString + help;
+						if (k < personIds.length - 1) {
+							personIdString = personIdString + ", ";
+						}
+					}
+					
 					var tableRow = "<tr>" + 
-								"<td>" + p[e].personId + "</td>" 
-								+ "<td>" + "Lieferant" + "</td>" 
-								+ "<td>" + "Musterfirma" + "</td>"
-								+ "<td>" + "Nimmt kein Brot ab" + "</td>"
-								+ "<td>" + p[e].address + "</td>" 
-								+ "<td>" + p[e].zip + "</td>"
-								+ "<td>" + p[e].city + "</td>"
-								+ "<td>" + p[e].firstName + " " + p[e].lastName + "</td>" 
-								+ "<td>" + "Kategorie1" + "</td>"
-								+ "<td>" + p[e].updateTimestamp + "</td>"
-								+ "<td>" + p[e].firstName + " " + p[e].lastName + "</td>" +	"</tr>";
+								"<td>" + o[e].id + "</td>"
+								+ "<td>" + typeString + "</td>" 
+								+ "<td>" + o[e].name + "</td>"
+								+ "<td>" + o[e].comment + "</td>"
+								+ "<td>" + o[e].address + "</td>" 
+								+ "<td>" + o[e].zip + "</td>"
+								+ "<td>" + o[e].city + "</td>"
+								+ "<td>" + personIdString + "</td>" 
+								+ "<td>" + categoryString + "</td>"
+								+ "<td>" + o[e].updateTimestamp + "</td>"
+								+ "<td>" + o[e].lastEditor + "</td>" +	"</tr>";
 							
 					$("#organisationTableBody").append(tableRow);
 				}
