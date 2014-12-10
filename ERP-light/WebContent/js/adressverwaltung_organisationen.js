@@ -35,7 +35,7 @@ function loadAllContactPersons() {
 function loadAllCategories() {
 	$.ajax({
 		type : "POST",
-		url : "../rest/secure/person/getAllCategories"
+		url : "../rest/secure/category/getAllCategories"
 	}).done(
 			function(data) {
 				var p = eval(data);
@@ -46,7 +46,7 @@ function loadAllCategories() {
 					
 					$("#categoryDiv").append(divRow);
 				}
-			});
+	});
 };
 
 $("#btn_new").click(function() {
@@ -62,7 +62,7 @@ $("#btn_new").click(function() {
 	$("#tbx_country").val("");
 	
 	loadAllContactPersons();
-	//loadAllCategories();
+	loadAllCategories();
 });
 
 $("#btn_edit").click(function() {
@@ -78,7 +78,7 @@ $("#btn_edit").click(function() {
 	$("#tbx_country").val("Österreich");
 	
 	loadAllContactPersons();
-	//loadAllCategories();
+	loadAllCategories();
 });
 
 //load contact persons for table
