@@ -147,25 +147,48 @@ public class DataBaseService implements IDataBase {
 		// if address == null => delete FK
 		if (person.getAddress() != null)
 		{
-			// checks if Address already exists in database (if yes => retrieve existing one, if no => create new one and get it)
-			Address Address = getAddressByAddress(person.getAddress().getAddress());
-			person.setAddress(Address);
+			// check if Address is not ""
+			if (person.getAddress().getAddress().isEmpty())
+			{
+				person.setAddress(null);
+			}	
+			else
+			{
+				// checks if Address already exists in database (if yes => retrieve existing one, if no => create new one and get it)
+				Address Address = getAddressByAddress(person.getAddress().getAddress());
+				person.setAddress(Address);
+			}
 		}
 		
 		// update Country
 		if (person.getCountry() != null)
 		{
-			// checks if Country already exists in database (if yes => retrieve existing one, if no => create new one and get it)
-			Country country = getCountryByCountry(person.getCountry().getCountry());
-			person.setCountry(country);
+			// check if Country is not ""
+			if (person.getCountry().getCountry().isEmpty())
+			{
+				person.setCountry(null);
+			}	
+			else
+			{
+				// checks if Country already exists in database (if yes => retrieve existing one, if no => create new one and get it)
+				Country country = getCountryByCountry(person.getCountry().getCountry());
+				person.setCountry(country);
+			}
 		}
 		
 		// update City
 		if (person.getCity() != null)
 		{
-			// checks if City and Zip already exist in database (if yes => retrieve existing one, if no => create new one and get it)
-			City city = getCityByCityAndZip(person.getCity().getCity(), person.getCity().getZip());
-			person.setCity(city);
+			if (person.getCity().getCity().isEmpty() && person.getCity().getZip().isEmpty())
+			{
+				person.setCity(null);
+			}
+			else
+			{
+				// checks if City and Zip already exist in database (if yes => retrieve existing one, if no => create new one and get it)
+				City city = getCityByCityAndZip(person.getCity().getCity(), person.getCity().getZip());
+				person.setCity(city);
+			}
 		}
 		
 		// update Telephones

@@ -82,7 +82,7 @@ public class PersonController {
 
 	// TODO Mapping of letzter bearbeiter
 	@RequestMapping(value = "/secure/person/setPerson")
-	boolean setPerson(@RequestBody PersonDTO person, HttpServletRequest request) {
+	ControllerMessage setPerson(@RequestBody PersonDTO person, HttpServletRequest request) {
 		Person entity = PersonMapper.mapToEntity(person);
 		
 		// set current user for updater
@@ -128,12 +128,13 @@ public class PersonController {
 			dataBaseService.removePlatformuserById(person.getPersonId());
 		}
 
-		return true;
+		return new ControllerMessage(true, "Speichern erfolgreich!");
 	}
 
 	@RequestMapping(value = "secure/person/deletePersonById/{id}")
 	public ControllerMessage deletePersonById(@PathVariable int id) {
 
+		/*	not implemented in ProdDB by now */
 		List<Person> pList = dataBaseService.getAllPersons();
 		List<Person> returnList = new ArrayList<Person>();
 
@@ -145,7 +146,7 @@ public class PersonController {
 
 		dataBaseService.setPersons(returnList);
 
-		return new ControllerMessage(true, "Speichern erfolgreich");
+		return new ControllerMessage(true, "Speichern erfolgreich!");
 	}
 
 	@RequestMapping(value = "secure/person/resetPasswordForId/{id}")

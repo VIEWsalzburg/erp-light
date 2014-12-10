@@ -43,19 +43,21 @@ function loadTableContent() {
 						}
 					}
 					
-					var tableRow = "<tr>" + "<td>" + p[e].personId
-							+ "</td>" + "<td>" + p[e].salutation
-							+ "</td>" + "<td>" + p[e].title + "</td>"
-							+ "<td>" + p[e].firstName + "</td>"
-							+ "<td>" + p[e].lastName + "</td>" + "<td>"
-							+ p[e].address + ", " + p[e].zip + " "
-							+ p[e].city + ", " + p[e].country + "</td>"
-							+ "<td>" + emailString + "</td>" + "<td>"
-							+ phoneString + "</td>" + "<td>"
-							+ p[e].updateTimestamp + "</td>" + "<td>"
-							+ p[e].permission + "</td>" + "<td>"
-							+ typeString + "</td>" + "<td>"
-							+ "[LastUpdate]" + "</td>" + "</tr>";
+					var tableRow = "<tr>" +
+							"<td>" + p[e].personId + "</td>" +
+							"<td>" + p[e].salutation + "</td>" +
+							"<td>" + p[e].title + "</td>" +
+							"<td>" + p[e].firstName + "</td>" +
+							"<td>" + p[e].lastName + "</td>" +
+							"<td>" + p[e].address + ", " + p[e].zip + " "
+							+ p[e].city + ", " + p[e].country + "</td>" +
+							"<td>" + emailString + "</td>" +
+							"<td>" + phoneString + "</td>" +
+							"<td>" + p[e].updateTimestamp + "</td>" +
+							"<td>" + p[e].permission + "</td>" +
+							"<td>" + typeString + "</td>" +
+							"<td>" + p[e].lastEditor + "</td>" +
+							"</tr>";
 					
 					$("#personTableBody").append(tableRow);
 				}
@@ -365,7 +367,7 @@ $("body").on('click', '.btn_removephonenumber', function() {
 $(document).ready(function() {
 	$("#btn_addemail").click(function() {
 		emailelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_email" + emailCount + "' " +
-			"class='form-control tbx_mailadress' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control' id='select_email"+ emailCount +"' class='select_email'>" +
+			"class='form-control tbx_mailadress' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control select_email' id='select_email"+ emailCount +"'>" +
 			"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail'" +
 			"id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
 		
