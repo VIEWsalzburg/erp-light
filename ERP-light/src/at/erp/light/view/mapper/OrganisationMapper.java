@@ -22,6 +22,7 @@ public class OrganisationMapper {
 		for (Type t : organisation.getTypes()) {
 			typesString.add(t.getName());
 		}
+		dto.setId(organisation.getOrganisationId());
 		dto.setTypes(typesString);
 		
 		dto.setName(organisation.getName());
