@@ -80,6 +80,32 @@ public class PersonController {
 
 	}
 
+	@RequestMapping(value = "/secure/person/changeMyData")
+	ControllerMessage changeMyData(@RequestBody PersonDTO person, HttpServletRequest request) {
+		
+		Person myNewPerson = PersonMapper.mapToEntity(person);
+		Person myPerson = dataBaseService.getPersonById((int)request.getSession().getAttribute("id"));
+		
+		myPerson.setSalutation(myNewPerson.getSalutation());
+		myPerson.setTitle(myNewPerson.getTitle());
+		myPerson.setFirstName(myNewPerson.getFirstName());
+		myPerson.setLastName(myNewPerson.getLastName());
+		myPerson.setAddress(myNewPerson.getAddress());
+		myPerson.setCity(myNewPerson.getCity());
+		myPerson.setCountry(myNewPerson.getCountry());
+		myPerson.setTelephones(myNewPerson.getTelephones());
+		myPerson.setEmails(myNewPerson.getEmails());
+		
+		myPerson.setPerson(dataBaseService.getPersonById((int) request
+				.getSession().getAttribute("id")));
+		
+		dataBaseService.setPerson(myPerson);
+
+		
+		return new ControllerMessage(true, "Speichern erfolgreich!");
+	}
+	
+	
 	// TODO Mapping of letzter bearbeiter
 	@RequestMapping(value = "/secure/person/setPerson")
 	ControllerMessage setPerson(@RequestBody PersonDTO person, HttpServletRequest request) {

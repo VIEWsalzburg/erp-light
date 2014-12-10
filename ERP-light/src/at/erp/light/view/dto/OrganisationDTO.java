@@ -13,15 +13,17 @@ public class OrganisationDTO {
 	private List<String> categories;
 	private String updateTimestamp;
 	private String lastEditor;
+	private int id;
 
 	
 	public OrganisationDTO(){}
 	
 	
-	public OrganisationDTO(List<String> types, String name, String comment,
+	public OrganisationDTO(int id,List<String> types, String name, String comment,
 			String address, String zip, String city, List<Integer> personIds,
 			List<String> categories, String updateTimestamp, String lastEditor) {
 		super();
+		this.setId(id);
 		this.types = types;
 		this.name = name;
 		this.comment = comment;
@@ -96,6 +98,16 @@ public class OrganisationDTO {
 
 	public void setLastEditor(String lastEditor) {
 		this.lastEditor = lastEditor;
+	}
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

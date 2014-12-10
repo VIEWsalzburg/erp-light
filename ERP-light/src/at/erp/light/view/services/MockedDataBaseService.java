@@ -203,8 +203,8 @@ public class MockedDataBaseService implements IDataBase {
 		Type typeKunde = new Type(6, "Kunde");
 		Type typeSponsor = new Type(7, "Sponsor");
 		
-		Type typePrivat = new Type(10, "Privat");
-		Type typeGeschäftlich = new Type(11, "Geschäftlich");
+		Type typePrivat = new Type(10, "privat");
+		Type typeGeschäftlich = new Type(11, "geschäftlich");
 		
 		mockedTypes.add(typeMitarbeiter);
 		mockedTypes.add(typeUnterstützer);

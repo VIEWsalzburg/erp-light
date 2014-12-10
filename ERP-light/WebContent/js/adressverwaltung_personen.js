@@ -25,13 +25,13 @@ function loadTableContent() {
 					var phoneNumbers = p[e].telephones;
 					
 					for (var i = 0; i < emails.length; i++) {
-						emailString = emailString + emails[i].mail;
+						emailString = emailString + emails[i].type.substring(0,1).toLowerCase()+":"+ emails[i].mail;
 						if (i < emails.length - 1) {
 							emailString = emailString + ", ";
 						}
 					}
 					for (var j = 0; j < phoneNumbers.length; j++) {
-						phoneString = phoneString + phoneNumbers[j].telephone;
+						phoneString = phoneString + phoneNumbers[j].type.substring(0,1).toLowerCase()+":"+phoneNumbers[j].telephone;
 						if (j < phoneNumbers.length - 1) {
 							phoneString = phoneString + ", ";
 						}
