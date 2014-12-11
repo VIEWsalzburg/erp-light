@@ -117,7 +117,7 @@ $("#btn_new").click(function() {
 	$('#cbx_unterstuetzer').prop('checked', false);
 });
 
-// Modal Neu anlegen -> speichern
+//save person
 $("#btn_saveperson").click(function() {
 	var newperson = new Object();
 
@@ -167,7 +167,6 @@ $("#btn_saveperson").click(function() {
 		newperson.telephones.push({"telephone":$(this).find(".tbx_phoneNumber").val(), "type":$(this).find(".select_phoneNumber").val()});
 	});
 	
-	var persondata = JSON.stringify(newperson);
 	$.ajax({
 		headers : {
 			'Accept' : 'application/json',

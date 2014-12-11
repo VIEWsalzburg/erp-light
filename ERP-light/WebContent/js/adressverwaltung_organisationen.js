@@ -4,47 +4,51 @@ $("#pageheader").load("../partials/header.html", function() {
 });
 
 //load contact persons to modal
+var p;
 function loadAllContactPersons() {
 	$.ajax({
 		type : "POST",
+		async : false,
 		url : "../rest/secure/person/getAll"
 	}).done(
 			function(data) {
-				var p = eval(data);
+				p = eval(data);
 				
 				for (var e in p) {
-					var phoneString = "";
-					var phoneNumbers = p[e].telephones;
+					var p_divRow = "<div class='boxElement_person'>" + "<span>" + p[e].lastName + " " + p[e].firstName
+								+ " " + "</span><input class='pull-right' type='checkbox' id='cbx_contactperson" + p[e].personId + "'></div>";
 					
-					for (var j = 0; j < phoneNumbers.length; j++) {
-						phoneString = phoneString + phoneNumbers[j].telephone;
-						if (j < phoneNumbers.length - 1) {
-							phoneString = phoneString + ", ";
-						}
-					}
-					
-					var divRow = "<div class='boxElement_person'>" + "<span>" + p[e].personId + " " + p[e].firstName + " " + p[e].lastName
-								+ " " + phoneString + " " + "</span><input type='checkbox' id='cbx_contactperson" + p[e].personId + "'></div>";
-					
-					$("#contactPersonDiv").append(divRow);
+					$("#contactPersonDiv").append(p_divRow);
 				}
 			});
 };
 
-//load categories to modal (unfinished)
+function clearAndLoadDivContainer(){
+	//clear div container
+	$(".boxElement_person").remove();
+	$(".boxElement_category").remove();
+	
+	//load div container
+	loadAllContactPersons();
+	loadAllCategories();
+};
+
+//load categories to modal
+var c;
 function loadAllCategories() {
 	$.ajax({
 		type : "POST",
+		async : false,
 		url : "../rest/secure/category/getAllCategories"
 	}).done(
 			function(data) {
-				var p = eval(data);
+				c = eval(data);
 				
-				for (var e in p) {
-					var divRow = "<div class='boxElement_category'>" + "<span>" + p[e].categoryId + " " + p[e].category + " "
-					+ "</span><input type='checkbox' id='cbx_contactperson" + p[e].id + "'></div>";
+				for (var e in c) {
+					var c_divRow = "<div class='boxElement_category'>" + "<span>" + c[e].category + " "
+					+ "</span><input class='pull-right' type='checkbox' id='cbx_category" + c[e].categoryId + "'></div>";
 					
-					$("#categoryDiv").append(divRow);
+					$("#categoryDiv").append(c_divRow);
 				}
 	});
 };
@@ -53,6 +57,7 @@ $("#btn_new").click(function() {
 	$("#modal_title_text").text("Neue Organisation");
 	
 	//clear textboxes
+	$("#tbx_id").val("");
 	$("#tbx_type").val("");
 	$("#tbx_name").val("");
 	$("#tbx_description").val("");
@@ -61,24 +66,37 @@ $("#btn_new").click(function() {
 	$("#tbx_city").val("");
 	$("#tbx_country").val("");
 	
-	loadAllContactPersons();
-	loadAllCategories();
+	clearAndLoadDivContainer();
 });
 
 $("#btn_edit").click(function() {
 	$("#modal_title_text").text("Bearbeite Organisation");
+	var id = tableData[0];
 	
 	//load textboxes
-	$("#tbx_type").val(tableData[1]);
-	$("#tbx_name").val(tableData[2]);
-	$("#tbx_description").val(tableData[3]);
-	$("#tbx_address").val(tableData[4]);
-	$("#tbx_zip").val(tableData[5]);
-	$("#tbx_city").val(tableData[6]);
+	$("#tbx_id").val(o[id].id);
+	$("#tbx_name").val(o[id].name);
+	$("#tbx_address").val(o[id].address);
+	$("#tbx_zip").val(o[id].zip);
+	$("#tbx_city").val(o[id].city);
 	$("#tbx_country").val("Österreich");
+	$("#tbx_description").val(o[id].comment);
 	
-	loadAllContactPersons();
-	loadAllCategories();
+	clearAndLoadDivContainer();
+	
+	//set contact person checkboxes
+	var personIds = o[id].personIds
+	for(var i=0; i<personIds.length; i++){
+		var help = "#cbx_contactperson" + personIds[i];
+		$(help).prop('checked', true);
+	}
+	
+	//set category checkboxes	TODO category id
+	var categories = o[id].categories;
+	for(var i=0; i<categories.length; i++){
+		var help = "#cbx_category" + 1;	//categories[i];
+		$(help).prop('checked', true);
+	}
 });
 
 //load contact persons for table
@@ -90,20 +108,20 @@ function loadContactPerson(id) {
 		url : "../rest/secure/person/getPersonById/" + id
 	}).done(function(data) {
 				var p = eval(data);
-				nameString = p.firstName + " " + p.lastName;
+				nameString = p.lastName + " " + p.firstName;
 			});
 	return nameString;
-
 };
 
 //load organisation table
+var o;
 function loadTableContent() {
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/organisation/getAllOrganisations"
 	}).done(
 			function(data) {
-				var o = eval(data);
+				o = eval(data);
 				
 				for (var e in o) {
 					var types = o[e].types;
@@ -125,7 +143,7 @@ function loadTableContent() {
 					for (var k = 0; k < categories.length; k++) {
 						categoryString = categoryString + categories[k];
 						if (k < categories.length - 1) {
-							categoryString = categoryString + ", ";
+							categoryString = categoryString + ", " + "<br/>";
 						}
 					}
 					
@@ -133,23 +151,20 @@ function loadTableContent() {
 						var help = loadContactPerson(personIds[k]);
 						personIdString = personIdString + help;
 						if (k < personIds.length - 1) {
-							personIdString = personIdString + ", ";
+							personIdString = personIdString + ", " + "<br/>";
 						}
 					}
 					
 					var tableRow = "<tr>" + 
 								"<td>" + o[e].id + "</td>"
-								+ "<td>" + typeString + "</td>" 
 								+ "<td>" + o[e].name + "</td>"
-								+ "<td>" + o[e].comment + "</td>"
-								+ "<td>" + o[e].address + "</td>" 
-								+ "<td>" + o[e].zip + "</td>"
-								+ "<td>" + o[e].city + "</td>"
 								+ "<td>" + personIdString + "</td>" 
+								+ "<td>" + "Bundestraßeeeee 102" + ", " + "<br/>" + "5020" + " "
+								+ "Salzburg" + ", " + "<br/>" + "Österreich" + "</td>"	//TOD country missing in json object
+								+ "<td>" + typeString + "</td>" 
 								+ "<td>" + categoryString + "</td>"
-								+ "<td>" + o[e].updateTimestamp + "</td>"
-								+ "<td>" + o[e].lastEditor + "</td>" +	"</tr>";
-							
+								+ "<td>" + o[e].comment + "</td>" +	"</tr>";
+								
 					$("#organisationTableBody").append(tableRow);
 				}
 			});
@@ -157,6 +172,86 @@ function loadTableContent() {
 
 //Get all organisations and load into table
 $(document).ready(loadTableContent());
+
+//save person
+$("#btn_saveorganisation").click(function() {
+	var neworganisation = new Object();
+	
+	neworganisation.id = $("#tbx_id").val();
+	neworganisation.name = $("#tbx_name").val();
+	neworganisation.comment = $("#tbx_comment").val();
+	neworganisation.address = $("#tbx_address").val();
+	neworganisation.zip = $("#tbx_zip").val();
+	neworganisation.city = $("#tbx_city").val();
+	
+	//Set by server
+	neworganisation.updateTimestamp = "";
+	neworganisation.lastEditor = "";
+	
+	//check if contact person checkboxes are checked
+	var contactPersonArray = [];
+	for(var i=1; i<=p.length; i++){
+		var help = "#cbx_contactperson" + i;
+		if($(help).prop('checked')){
+			contactPersonArray.push(i);
+		}
+	}
+	neworganisation.personIds = contactPersonArray;
+	
+	//check if category checkboxes are checked
+	var categoryArray = [];
+	for(var i=1; i<=c.length; i++){
+		var help = "#cbx_category" + i;
+		if($(help).prop('checked')){
+			categoryArray.push(c[i-1].category);
+		}
+	}
+	neworganisation.categories = categoryArray;
+	
+	//checking if type checkboxes checked
+	var typesArray = [];
+//	if($('#cbx_lieferant').prop('checked')){
+//		typesArray.push("Lieferant");
+//	}
+//	if($('#cbx_kunde').prop('checked')){
+//		typesArray.push("Kunde");
+//	}
+//	if($('#cbx_sponsor').prop('checked')){
+//		typesArray.push("Sponsor");
+//	}
+	neworganisation.types = typesArray;
+
+	$.ajax({
+		headers : {
+			'Accept' : 'application/json',
+			'Content-Type' : 'application/json'
+		},
+		type : "POST",
+		url : "../rest/secure/organisation/setOrganisation", //TODO set organisation
+		contentType: "application/json; charset=utf-8",
+	    dataType: "json",
+		data : JSON.stringify(neworganisation)
+	}).done(function(data) {
+		if (data) {
+			$('#organisationTableBody').empty();
+			$('#new').modal('hide');
+			
+			if (data.success == true)
+			{
+				showAlertElement(1, data.message, 5000);
+			}
+			else
+			{
+				showAlertElement(2, data.message, 5000);
+			}
+			
+			loadTableContent();
+		} else {
+			alert("Verbindungsproblem mit dem Server");
+		}
+	});
+	return false;
+});
 
 //search filter
 $(document).ready(function() {
@@ -281,7 +376,7 @@ $('#personen').on('click', 'tbody tr', function(event) {
 	$(this).addClass('highlight').siblings().removeClass('highlight');
 	
 	//only when user has admin rights
-	if(currentUserRights == "Admin" && currentUserRights != "" && currentUser.personId != tableData[0]){
+	if(currentUserRights == "Admin" && currentUserRights != ""){
 		if(currentUserRights == "Admin"){
 			$('#btn_edit').prop('disabled', false);
 			$('#btn_deleteModal').prop('disabled', false);
@@ -309,15 +404,24 @@ $("#btn_deleteModal").click(function() {
 
 //TODO delete organisation
 $("#btn_deleteOrganisation").click(function() {
-	/*
-	var id = tableData[0];
-	$.ajax({
-		type : "POST",
-		url : "../rest/secure/person/deletePersonById/" + id
-	}).done(function(data) {
-		$('#personTableBody').empty();
-		$('#deleteModal').modal('hide');
-		loadTableContent();
-	});
-	*/
+//	var id = tableData[0];
+//	
+//	$.ajax({
+//		type : "POST",
+//		url : "../rest/secure/organisation/deleteOrganisationById/" + id
+//	}).done(function(data) {
+//		$('#personTableBody').empty();
+//		$('#deleteModal').modal('hide');
+//		
+//		if (data.success == true)
+//			{
+//				showAlertElement(1, data.message, 5000);
+//			}
+//		 else
+//			{
+//				showAlertElement(2, data.message, 5000);
+//			}
+//		 
+//		 loadTableContent();
+//	});
 });
