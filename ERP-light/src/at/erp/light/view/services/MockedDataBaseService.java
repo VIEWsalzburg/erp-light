@@ -426,7 +426,23 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public int setOrganisation(Organisation organisation) {
-		organisation.setOrganisationId(mockedOrganisations.size()+1);
+		
+		Organisation found = null;
+		for (Organisation o : mockedOrganisations)
+		{
+			if (o.getOrganisationId() == organisation.getOrganisationId())
+				found = o;
+		}
+		
+		if (found != null)
+			mockedOrganisations.remove(found);	// remove old existing person
+		
+		if (organisation.getOrganisationId() == 0)
+		{
+			organisation.setOrganisationId(mockedOrganisations.size()+1);
+		}		
+		
+		
 		mockedOrganisations.add(organisation);
 		return organisation.getOrganisationId();
 	}
