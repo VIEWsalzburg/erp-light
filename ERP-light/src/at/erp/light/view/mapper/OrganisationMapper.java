@@ -33,17 +33,18 @@ public class OrganisationMapper {
 		for (Type t : organisation.getTypes()) {
 			typesString.add(t.getName());
 		}
-		dto.setId(organisation.getOrganisationId());
 		dto.setTypes(typesString);
 
+		dto.setId(organisation.getOrganisationId());
 		dto.setName(organisation.getName());
 		dto.setComment(organisation.getComment());
 		dto.setAddress(organisation.getAddress().getAddress());
 		dto.setZip(organisation.getCity().getZip());
 		dto.setCity(organisation.getCity().getCity());
-
-		List<Integer> ids = new ArrayList<Integer>();
-		for (Person p : organisation.getPersons()) {
+		
+		List<Integer> ids= new ArrayList<Integer>();
+		for(Person p: organisation.getContactPersons())
+		{
 			ids.add(p.getPersonId());
 		}
 		dto.setPersonIds(ids);
@@ -55,8 +56,8 @@ public class OrganisationMapper {
 		dto.setCategories(categories);
 
 		dto.setUpdateTimestamp(df.format(organisation.getUpdateTimestamp()));
-
-		Person lastEditor = organisation.getPerson();
+				
+		Person lastEditor = organisation.getLastEditor();
 		dto.setLastEditor(lastEditor.getFirstName() + " "
 				+ lastEditor.getLastName());
 		return dto;
@@ -78,7 +79,7 @@ public class OrganisationMapper {
 			pList.add(dataBaseService.getPersonById(id));
 		}
 		
-		entity.setPersons(pList);
+		entity.setContactPersons(pList);
 		
 		Set<Category> categories= new HashSet<Category>();
 		for(String category: dto.getCategories())

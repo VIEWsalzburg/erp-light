@@ -55,11 +55,11 @@ public class MockedDataBaseService implements IDataBase {
 		// initialize Persons
 
 		// first Person
-		Person person1 = new Person(1, "Herr", "Dr.", "Seppi", "Huber",
-				"kommt vom Land", new Date(System.currentTimeMillis()), 1);
-		Address address1 = new Address(1, "Seppis Straﬂe 1");
-		City city1 = new City(1, "Seppis Stadt", "2345");
-		Country country1 = new Country(1, "Seppis Land");
+		Person person1 = new Person(1, "Herr", "", "Josef", "Huber",
+				"f‰hrt of mit dem Bus", new Date(System.currentTimeMillis()), 1);
+		Address address1 = new Address(1, "Bundesstraﬂe 20B");
+		City city1 = new City(1, "Mattsee", "5163");
+		Country country1 = new Country(1, "÷sterreich");
 
 		Email email1 = new Email(1, getTypeById(10), "seppi.huber@gmail.com");
 		Telephone telephone1 = new Telephone(1, getTypeById(11), "0664 1234567");
@@ -70,7 +70,7 @@ public class MockedDataBaseService implements IDataBase {
 		person1.getEmails().add(email1);
 		person1.getTelephones().add(telephone1);
 		person1.getTypes().add(getTypeById(3));
-		person1.setPerson(person1);
+		person1.setLastEditor(person1);
 		Platformuser platformUser1 = new Platformuser(getPermissionById(1), person1,
 				"admin", "admin");
 		platformUser1.setPersonId(1);
@@ -78,11 +78,11 @@ public class MockedDataBaseService implements IDataBase {
 		
 		
 		// second Person
-		Person person2 = new Person(2, "Frau", "Bsc", "Susi", "Mayer",
-				"kommt aus der Stadt", new Date(System.currentTimeMillis()), 1);
-		Address address2 = new Address(2, "Susis Straﬂe 2");
-		City city2 = new City(2, "Susis Stadt", "3456");
-		Country country2 = new Country(2, "Susis Land");
+		Person person2 = new Person(2, "Frau", "", "Susanne", "Mayer",
+				"", new Date(System.currentTimeMillis()), 1);
+		Address address2 = new Address(2, "Karolingerstraﬂe 2");
+		City city2 = new City(2, "Salzburg", "5020");
+		Country country2 = new Country(2, "÷sterreich");
 
 		Email email2 = new Email(2, getTypeById(10), "susi.mayer@gmail.com");
 		Telephone telephone2 = new Telephone(2, getTypeById(11), "0664 9876543");
@@ -92,19 +92,19 @@ public class MockedDataBaseService implements IDataBase {
 		person2.setCountry(country2);
 		person2.getEmails().add(email2);
 		person2.getTelephones().add(telephone2);
-		person2.setPerson(person1);
+		person2.setLastEditor(person1);
 		Platformuser platformUser2 = new Platformuser(getPermissionById(2), person2,
 				"admin", "susi.mayer@gmail.com");
 		platformUser2.setPersonId(2);
 		person2.setPlatformuser(platformUser2);		// not intended for ProdDB
 
 		// third Person
-		Person person3 = new Person(3, "Herr", "MSc", "Maxi", "Neumann",
-				"unterrichtet an der FH", new Date(System.currentTimeMillis()),
+		Person person3 = new Person(3, "Herr", "", "Maximilian", "Neumann",
+				"", new Date(System.currentTimeMillis()),
 				1);
-		Address address3 = new Address(3, "Maxis Straﬂe 2");
-		City city3 = new City(3, "Maxis Stadt", "4567");
-		Country country3 = new Country(3, "Maxis Land");
+		Address address3 = new Address(3, "Dorfstraﬂe 3");
+		City city3 = new City(3, "Bergheim", "5101");
+		Country country3 = new Country(3, "÷sterreich");
 
 		Email email3 = new Email(3, getTypeById(10), "maxi.neumann@gmail.com");
 		Telephone telephone3 = new Telephone(1, getTypeById(11), "0664 5463728");
@@ -138,10 +138,10 @@ public class MockedDataBaseService implements IDataBase {
 		Org1.setAddress(new Address(0, "Org1 Straﬂe"));
 		Org1.setCity(new City(0, "Org1 City", "Org1 Zip"));
 		Org1.setCountry(new Country(0, "÷sterreich"));
-		Org1.setPerson(person1);	// updated by
+		Org1.setLastEditor(person1);	// updated by
 		
-		Org1.getPersons().add(person2);
-		Org1.getPersons().add(person3);
+		Org1.getContactPersons().add(person2);
+		Org1.getContactPersons().add(person3);
 		
 		Org1.getCategories().add(mockedCategories.get(0));
 		Org1.getCategories().add(mockedCategories.get(1));
@@ -154,9 +154,9 @@ public class MockedDataBaseService implements IDataBase {
 		Org2.setAddress(new Address(1, "Kunde2 Straﬂe"));
 		Org2.setCity(new City(1, "Kunde2 City", "Kunde2 Zip"));
 		Org2.setCountry(new Country(1, "÷sterreich"));
-		Org2.setPerson(person1);	// updated by
+		Org2.setLastEditor(person1);	// updated by
 		
-		Org2.getPersons().add(person2);
+		Org2.getContactPersons().add(person2);
 		
 		Org2.getCategories().add(mockedCategories.get(0));
 		Org2.getCategories().add(mockedCategories.get(2));

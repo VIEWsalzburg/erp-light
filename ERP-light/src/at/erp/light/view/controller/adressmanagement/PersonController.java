@@ -96,7 +96,7 @@ public class PersonController {
 		myPerson.setTelephones(myNewPerson.getTelephones());
 		myPerson.setEmails(myNewPerson.getEmails());
 		
-		myPerson.setPerson(dataBaseService.getPersonById((int) request
+		myPerson.setLastEditor(dataBaseService.getPersonById((int) request
 				.getSession().getAttribute("id")));
 		
 		dataBaseService.setPerson(myPerson);
@@ -112,7 +112,7 @@ public class PersonController {
 		Person entity = PersonMapper.mapToEntity(person);
 		
 		// set current user for updater
-		entity.setPerson(dataBaseService.getPersonById((int) request
+		entity.setLastEditor(dataBaseService.getPersonById((int) request
 				.getSession().getAttribute("id")));
 
 		// persist Person to DB

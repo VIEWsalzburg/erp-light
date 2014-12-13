@@ -18,6 +18,7 @@ import at.erp.light.view.model.Category;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
 import at.erp.light.view.model.Email;
+import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.Permission;
 import at.erp.light.view.model.Person;
 import at.erp.light.view.model.Platformuser;
@@ -203,8 +204,33 @@ public class TestController {
 		{
 			System.out.println(c.getCategoryId()+" "+c.getCategory()+" "+c.getDescription());
 		}
+	}
+	
+	@RequestMapping(value = "Test4")
+	public void doSomething4(@RequestParam(value="param") String param) {		
 		
+		Organisation mOrganisation = new Organisation(0, param, param+"comment", new Date(System.currentTimeMillis()), 1);
 		
+		mOrganisation.setAddress(new Address(0, "Alte Landstraße 10A"));
+		mOrganisation.setCity(new City(0, "Lamprechtshausen", "5112"));
+		mOrganisation.setCountry(new Country(0, "Österreich"));
+		
+		mOrganisation.getTypes().add(new Type(0, "Kunde"));
+		mOrganisation.getTypes().add(new Type(0, "Sponsor"));
+		
+		Person contact1 = new Person();
+		contact1.setPersonId(36);
+		Person contact2 = new Person();
+		contact2.setPersonId(42);
+		mOrganisation.getContactPersons().add(contact1);
+		mOrganisation.getContactPersons().add(contact2);
+		
+		mOrganisation.getCategories().add(new Category(0,"großer Kühlschrank",""));
+		mOrganisation.getCategories().add(new Category(0,"Fleisch", ""));
+		
+		mOrganisation.setLastEditor(dataBaseService.getPersonById(36));
+		
+		dataBaseService.setOrganisation(mOrganisation);
 	}
 	
 
