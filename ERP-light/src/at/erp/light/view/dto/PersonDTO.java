@@ -5,6 +5,8 @@ import java.util.List;
 public class PersonDTO {
 
 	private int personId;
+	
+	private boolean systemUser;
 
 	private String salutation;
 	private String title;
@@ -36,14 +38,16 @@ public class PersonDTO {
 	public PersonDTO() {
 	}
 
-	public PersonDTO(int personId, String salutation, String title,
-			String firstName, String lastName, String comment,
+
+	public PersonDTO(int personId, boolean systemUser, String salutation,
+			String title, String firstName, String lastName, String comment,
 			String updateTimestamp, int active, String address, String city,
 			String zip, String country, String loginEmail, String permission,
 			String lastEditor, List<String> types, List<EmailDTO> emails,
 			List<TelephoneDTO> telephones) {
 		super();
 		this.personId = personId;
+		this.systemUser = systemUser;
 		this.salutation = salutation;
 		this.title = title;
 		this.firstName = firstName;
@@ -62,6 +66,7 @@ public class PersonDTO {
 		this.emails = emails;
 		this.telephones = telephones;
 	}
+
 
 	public int getPersonId() {
 		return personId;
@@ -205,6 +210,14 @@ public class PersonDTO {
 
 	public void setLastEditor(String lastEditor) {
 		this.lastEditor = lastEditor;
+	}
+
+	public boolean isSystemUser() {
+		return systemUser;
+	}
+
+	public void setSystemUser(boolean systemUser) {
+		this.systemUser = systemUser;
 	}
 
 }

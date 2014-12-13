@@ -41,50 +41,47 @@ public class OrganisationMapper {
 		dto.setAddress(organisation.getAddress().getAddress());
 		dto.setZip(organisation.getCity().getZip());
 		dto.setCity(organisation.getCity().getCity());
-		
-		List<Integer> ids= new ArrayList<Integer>();
-		for(Person p: organisation.getContactPersons())
-		{
+
+		List<Integer> ids = new ArrayList<Integer>();
+		for (Person p : organisation.getContactPersons()) {
 			ids.add(p.getPersonId());
 		}
 		dto.setPersonIds(ids);
 
-		List<String> categories = new ArrayList<String>();
+		List<Integer> categories = new ArrayList<Integer>();
 		for (Category c : organisation.getCategories()) {
-			categories.add(c.getCategory());
+			categories.add(c.getCategoryId());
 		}
-		dto.setCategories(categories);
+		dto.setCategoryIds(categories);
 
 		dto.setUpdateTimestamp(df.format(organisation.getUpdateTimestamp()));
-				
+
 		Person lastEditor = organisation.getLastEditor();
 		dto.setLastEditor(lastEditor.getFirstName() + " "
 				+ lastEditor.getLastName());
 		return dto;
 	}
 
-	public static Organisation mapToEntity(OrganisationDTO dto)
-	{
+	public static Organisation mapToEntity(OrganisationDTO dto) {
 		Organisation entity = new Organisation();
-		
+
 		entity.setOrganisationId(dto.getId());
 		entity.setName(dto.getName());
 		entity.setComment(dto.getComment());
 		entity.setAddress(new Address(0, dto.getAddress()));
 		entity.setCity(new City(0, dto.getCity(), dto.getZip()));
-		
-		Set<Person> pList= new HashSet<Person>();
-		for(Integer id:dto.getPersonIds())
-		{
+
+		Set<Person> pList = new HashSet<Person>();
+		for (Integer id : dto.getPersonIds()) {
 			pList.add(dataBaseService.getPersonById(id));
 		}
-		
+
 		entity.setContactPersons(pList);
-		
-		Set<Category> categories= new HashSet<Category>();
-		for(String category: dto.getCategories())
-		{
-			categories.add(new Category(0, category, ""));
+
+		Set<Category> categories = new HashSet<Category>();
+		for (int categoryId : dto.getCategoryIds()) {
+			categories.add(new Category(0, dataBaseService.getCategoryById(
+					categoryId).getCategory(), ""));
 		}
 		entity.setCategories(categories);
 		try {
@@ -92,15 +89,14 @@ public class OrganisationMapper {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		Set<Type> types = new HashSet<Type>();
 		for (String typeStr : dto.getTypes()) {
 			types.add(new Type(0, typeStr));
 		}
-		
+
 		entity.setTypes(types);
 
-		
-		return entity; 
+		return entity;
 	}
 }
