@@ -48,7 +48,7 @@ public class OrganisationMapper {
 		dto.setUpdateTimestamp(df.format(organisation.getUpdateTimestamp()));
 		
 		
-		Person lastEditor = organisation.getPerson();
+		Person lastEditor = organisation.getLastEditor();
 		dto.setLastEditor(lastEditor.getFirstName() + " " + lastEditor.getLastName());
 		return dto;
 	}

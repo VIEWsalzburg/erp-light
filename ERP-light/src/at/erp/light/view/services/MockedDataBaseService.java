@@ -138,7 +138,7 @@ public class MockedDataBaseService implements IDataBase {
 		Org1.setAddress(new Address(0, "Org1 Straﬂe"));
 		Org1.setCity(new City(0, "Org1 City", "Org1 Zip"));
 		Org1.setCountry(new Country(0, "÷sterreich"));
-		Org1.setPerson(person1);	// updated by
+		Org1.setLastEditor(person1);	// updated by
 		
 		Org1.getPersons().add(person2);
 		Org1.getPersons().add(person3);
@@ -154,7 +154,7 @@ public class MockedDataBaseService implements IDataBase {
 		Org2.setAddress(new Address(1, "Kunde2 Straﬂe"));
 		Org2.setCity(new City(1, "Kunde2 City", "Kunde2 Zip"));
 		Org2.setCountry(new Country(1, "÷sterreich"));
-		Org2.setPerson(person1);	// updated by
+		Org2.setLastEditor(person1);	// updated by
 		
 		Org2.getPersons().add(person2);
 		
