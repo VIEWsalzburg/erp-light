@@ -24,7 +24,7 @@ import javax.persistence.TemporalType;
 public class DeliveryList implements java.io.Serializable {
 
 	private int deliveryListId;
-	private Person person;
+	private Person lastEditor;
 	private String name;
 	private Date date;
 	private String comment;
@@ -36,10 +36,10 @@ public class DeliveryList implements java.io.Serializable {
 	public DeliveryList() {
 	}
 
-	public DeliveryList(int deliveryListId, Person person, String name,
+	public DeliveryList(int deliveryListId, Person lastEditor, String name,
 			Date date, String comment, String driver, String passenger) {
 		this.deliveryListId = deliveryListId;
-		this.person = person;
+		this.lastEditor = lastEditor;
 		this.name = name;
 		this.date = date;
 		this.comment = comment;
@@ -47,11 +47,11 @@ public class DeliveryList implements java.io.Serializable {
 		this.passenger = passenger;
 	}
 
-	public DeliveryList(int deliveryListId, Person person, String name,
+	public DeliveryList(int deliveryListId, Person lastEditor, String name,
 			Date date, String comment, String driver, String passenger,
 			Set<OutgoingDelivery> outgoingDeliveries) {
 		this.deliveryListId = deliveryListId;
-		this.person = person;
+		this.lastEditor = lastEditor;
 		this.name = name;
 		this.date = date;
 		this.comment = comment;
@@ -72,12 +72,12 @@ public class DeliveryList implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "person_id", nullable = false)
-	public Person getPerson() {
-		return this.person;
+	public Person getLastEditor() {
+		return this.lastEditor;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setLastEditor(Person person) {
+		this.lastEditor = person;
 	}
 
 	@Column(name = "name", nullable = false, length = 100)

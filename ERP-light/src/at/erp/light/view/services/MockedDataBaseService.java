@@ -70,7 +70,7 @@ public class MockedDataBaseService implements IDataBase {
 		person1.getEmails().add(email1);
 		person1.getTelephones().add(telephone1);
 		person1.getTypes().add(getTypeById(3));
-		person1.setPerson(person1);
+		person1.setLastEditor(person1);
 		Platformuser platformUser1 = new Platformuser(getPermissionById(1), person1,
 				"admin", "admin");
 		platformUser1.setPersonId(1);
@@ -92,7 +92,7 @@ public class MockedDataBaseService implements IDataBase {
 		person2.setCountry(country2);
 		person2.getEmails().add(email2);
 		person2.getTelephones().add(telephone2);
-		person2.setPerson(person1);
+		person2.setLastEditor(person1);
 		Platformuser platformUser2 = new Platformuser(getPermissionById(2), person2,
 				"admin", "susi.mayer@gmail.com");
 		platformUser2.setPersonId(2);
@@ -140,8 +140,8 @@ public class MockedDataBaseService implements IDataBase {
 		Org1.setCountry(new Country(0, "Österreich"));
 		Org1.setLastEditor(person1);	// updated by
 		
-		Org1.getPersons().add(person2);
-		Org1.getPersons().add(person3);
+		Org1.getContactPersons().add(person2);
+		Org1.getContactPersons().add(person3);
 		
 		Org1.getCategories().add(mockedCategories.get(0));
 		Org1.getCategories().add(mockedCategories.get(1));
@@ -156,7 +156,7 @@ public class MockedDataBaseService implements IDataBase {
 		Org2.setCountry(new Country(1, "Österreich"));
 		Org2.setLastEditor(person1);	// updated by
 		
-		Org2.getPersons().add(person2);
+		Org2.getContactPersons().add(person2);
 		
 		Org2.getCategories().add(mockedCategories.get(0));
 		Org2.getCategories().add(mockedCategories.get(2));

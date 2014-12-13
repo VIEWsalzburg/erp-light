@@ -222,8 +222,8 @@ public class TestController {
 		contact1.setPersonId(36);
 		Person contact2 = new Person();
 		contact2.setPersonId(42);
-		mOrganisation.getPersons().add(contact1);
-		mOrganisation.getPersons().add(contact2);
+		mOrganisation.getContactPersons().add(contact1);
+		mOrganisation.getContactPersons().add(contact2);
 		
 		mOrganisation.getCategories().add(new Category(0,"großer Kühlschrank",""));
 		mOrganisation.getCategories().add(new Category(0,"Fleisch", ""));

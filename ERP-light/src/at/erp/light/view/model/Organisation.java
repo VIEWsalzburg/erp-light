@@ -42,7 +42,7 @@ public class Organisation implements java.io.Serializable {
 	private Date updateTimestamp;
 	private int active;
 	private Set<Category> categories = new HashSet<Category>(0);
-	private Set<Person> persons = new HashSet<Person>(0);			// Persons, die Ansprechpersonen sind
+	private Set<Person> contactPersons = new HashSet<Person>(0);			// Persons, die Ansprechpersonen sind
 	private Set<Type> types = new HashSet<Type>(0);
 
 	public Organisation() {
@@ -171,12 +171,12 @@ public class Organisation implements java.io.Serializable {
 
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="orgcontactperson", schema = "public", joinColumns = { @JoinColumn(name = "organisation_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "person_id", nullable = false, updatable = false) })
-	public Set<Person> getPersons() {
-		return this.persons;
+	public Set<Person> getContactPersons() {
+		return this.contactPersons;
 	}
 
-	public void setPersons(Set<Person> persons) {
-		this.persons = persons;
+	public void setContactPersons(Set<Person> persons) {
+		this.contactPersons = persons;
 	}
 
 	// @ManyToMany(fetch = FetchType.LAZY, mappedBy = "organisations")

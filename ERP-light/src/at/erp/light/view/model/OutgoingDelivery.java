@@ -26,7 +26,7 @@ public class OutgoingDelivery implements java.io.Serializable {
 	private int outgoingDeliveryId;
 	private DeliveryList deliveryList;
 	private Organisation organisation;
-	private Person person;
+	private Person lastEditor;
 	private Integer deliveryNr;
 	private Date date;
 	private String comment;
@@ -37,21 +37,21 @@ public class OutgoingDelivery implements java.io.Serializable {
 	}
 
 	public OutgoingDelivery(int outgoingDeliveryId, Organisation organisation,
-			Person person, Date date, String comment) {
+			Person lastEditor, Date date, String comment) {
 		this.outgoingDeliveryId = outgoingDeliveryId;
 		this.organisation = organisation;
-		this.person = person;
+		this.lastEditor = lastEditor;
 		this.date = date;
 		this.comment = comment;
 	}
 
 	public OutgoingDelivery(int outgoingDeliveryId, DeliveryList deliveryList,
-			Organisation organisation, Person person, Integer deliveryNr,
+			Organisation organisation, Person lastEditor, Integer deliveryNr,
 			Date date, String comment, Set<OutgoingArticle> outgoingArticles) {
 		this.outgoingDeliveryId = outgoingDeliveryId;
 		this.deliveryList = deliveryList;
 		this.organisation = organisation;
-		this.person = person;
+		this.lastEditor = lastEditor;
 		this.deliveryNr = deliveryNr;
 		this.date = date;
 		this.comment = comment;
@@ -90,12 +90,12 @@ public class OutgoingDelivery implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "person_id", nullable = false)
-	public Person getPerson() {
-		return this.person;
+	public Person getLastEditor() {
+		return this.lastEditor;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setLastEditor(Person person) {
+		this.lastEditor = lastEditor;
 	}
 
 	@Column(name = "delivery_nr")

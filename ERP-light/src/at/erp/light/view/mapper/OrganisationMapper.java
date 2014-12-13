@@ -22,9 +22,9 @@ public class OrganisationMapper {
 		for (Type t : organisation.getTypes()) {
 			typesString.add(t.getName());
 		}
-		dto.setId(organisation.getOrganisationId());
 		dto.setTypes(typesString);
 		
+		dto.setId(organisation.getOrganisationId());
 		dto.setName(organisation.getName());
 		dto.setComment(organisation.getComment());
 		dto.setAddress(organisation.getAddress().getAddress());
@@ -32,7 +32,7 @@ public class OrganisationMapper {
 		dto.setCity(organisation.getCity().getCity());
 		
 		List<Integer> ids= new ArrayList<Integer>();
-		for(Person p: organisation.getPersons())
+		for(Person p: organisation.getContactPersons())
 		{
 			ids.add(p.getPersonId());
 		}
@@ -46,8 +46,7 @@ public class OrganisationMapper {
 		dto.setCategories(categories);
 		
 		dto.setUpdateTimestamp(df.format(organisation.getUpdateTimestamp()));
-		
-		
+				
 		Person lastEditor = organisation.getLastEditor();
 		dto.setLastEditor(lastEditor.getFirstName() + " " + lastEditor.getLastName());
 		return dto;

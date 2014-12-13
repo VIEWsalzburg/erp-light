@@ -59,7 +59,7 @@ public class Person implements java.io.Serializable {
 	private Date updateTimestamp;
 	private int active;
 	private Platformuser platformuser;
-	private Person person;				// last updated by
+	private Person lastEditor;				// last updated by
 //	private Organisation organisation;	
 	private Set<Type> types = new HashSet<Type>(0);
 	private Set<Email> emails = new HashSet<Email>(0);
@@ -95,12 +95,12 @@ public class Person implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "per_person_id")
-	public Person getPerson() {
-		return this.person;
+	public Person getLastEditor() {
+		return this.lastEditor;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setLastEditor(Person person) {
+		this.lastEditor = person;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)

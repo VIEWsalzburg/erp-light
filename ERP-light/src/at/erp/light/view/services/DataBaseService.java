@@ -41,7 +41,7 @@ public class DataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Person getPersonById(int id) {				
-		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.person WHERE p.personId = :id");
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor WHERE p.personId = :id");
 		query.setParameter("id", id);
 		Person person = (Person)query.uniqueResult();
 		return person;
@@ -66,7 +66,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Person> getAllPersons() {
 		@SuppressWarnings("unchecked")
-		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.person ORDER BY p.lastName").list();
+		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor ORDER BY p.lastName").list();
 		return persons;
 	}
 
@@ -460,9 +460,11 @@ public class DataBaseService implements IDataBase {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Organisation> getAllOrganisations() {
 		
-		return null;
+		List<Organisation> organisations = sessionFactory.getCurrentSession().createQuery("FROM Organisation o ORDER BY o.name").list();
+		return organisations;
 	}
 
 	@Override
@@ -537,11 +539,11 @@ public class DataBaseService implements IDataBase {
 
 		// Ansprechpersonen
 		Set<Person> contactPersons = new HashSet<Person>();
-		for (Person p : organisation.getPersons())
+		for (Person p : organisation.getContactPersons())
 		{
 			contactPersons.add(this.getPersonById(p.getPersonId()));
 		}
-		organisation.setPersons(contactPersons);
+		organisation.setContactPersons(contactPersons);
 
 
 		// final update all in DB
