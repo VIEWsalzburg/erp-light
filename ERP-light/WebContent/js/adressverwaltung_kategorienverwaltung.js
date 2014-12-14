@@ -11,8 +11,7 @@ var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-5'> <div class='aler
 function loadTableContent(){
 			$.ajax({
 				type : "POST",
-				url : "../rest/secure/category/getAllCategories" // TODO
-																	// unfinished
+				url : "../rest/secure/category/getAllCategories"
 			}).done(
 					function(data) {
 						var c = eval(data);
@@ -171,24 +170,24 @@ $("#btn_deleteModal").click(function() {
 });
 
 $("#btn_deleteCategory").click(function() { //TODO
-//	 var id = tableData[0];
-//	 
-//	 $.ajax({
-//		 type : "POST",
-//		 url : "../rest/secure/category/deleteCategoryById/" + id
-//	 }).done(function(data) {
-//		 $('#personTableBody').empty();
-//		 $('#deleteModal').modal('hide');
-//		 
-//		 if (data.success == true)
-//			{
-//				showAlertElement(1, data.message, 5000);
-//			}
-//		 else
-//			{
-//				showAlertElement(2, data.message, 5000);
-//			}
-//		 
-//		 loadTableContent();
-//	 });
+	 var id = tableData[0];
+	 
+	 $.ajax({
+		 type : "POST",
+		 url : "../rest/secure/category/deleteCategoryById/" + id
+	 }).done(function(data) {
+		 $('#categoryTableBody').empty();
+		 $('#deleteModal').modal('hide');
+		 
+		 if (data.success == true)
+			{
+				showAlertElement(1, data.message, 5000);
+			}
+		 else
+			{
+				showAlertElement(2, data.message, 5000);
+			}
+		 
+		 loadTableContent();
+	 });
 });

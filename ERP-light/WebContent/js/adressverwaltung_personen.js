@@ -60,7 +60,7 @@ function loadTableContent() {
 							"<td>" + phoneString + "</td>" +
 							"<td>" + emailString + "</td>" +
 							"<td>" + typeString + "</td>" +
-							"<td>" + "Bemerkung" + "</td>" +
+							"<td>" + p[e].comment + "</td>" +
 							"</tr>";
 					
 					$("#personTableBody").append(tableRow);
@@ -263,8 +263,11 @@ $("#btn_edit").click(function() {
 		$("#tbx_country").val(p.country);
 		$("#tbx_comment").val(p.comment);
 
+		//check if systemuser
+		$('#cbx_systemuser').prop('checked', false);
 		$('.divContainer').hide();
-		if(1){		//TODO if systemuser
+		
+		if(p.systemUser){
 			$('#cbx_systemuser').prop('checked', true);
 			$(".divContainer").show();
 			
@@ -507,8 +510,8 @@ $("#btn_details").click(function() {
 		}
 	}
 	
-	//TODO check if systemuser
-	if(1){
+	//check if systemuser
+	if(p[id].systemUser){
 		$("#cbx_systemuser_details").prop("checked", "true");
 		$("#loginEmailPermission_container_details").show();
 		$("#label_loginEmail_details").text(p[id].loginEmail);

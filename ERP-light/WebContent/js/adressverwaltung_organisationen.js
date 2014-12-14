@@ -102,10 +102,10 @@ $("#btn_edit").click(function() {
 		$(help).prop('checked', true);
 	}
 	
-	//set category checkboxes	TODO category id
-	var categories = o[id].categories;
-	for(var i=0; i<categories.length; i++){
-		var help = "#cbx_category" + 1;	//categories[i];
+	//set category checkboxes
+	var categoryIds = o[id].categoryIds;
+	for(var i=0; i<categoryIds.length; i++){
+		var help = "#cbx_category" + categoryIds[i];
 		$(help).prop('checked', true);
 	}
 });
@@ -127,6 +127,16 @@ function loadContactPerson(id) {
 //load organisation table
 var o;
 function loadTableContent() {
+	var category;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/category/getAllCategories"
+	}).done(
+			function(data) {
+				category = eval(data);
+	});
+	
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/organisation/getAllOrganisations"
@@ -138,7 +148,7 @@ function loadTableContent() {
 					var types = o[e].types;
 					var typeString = "";
 					
-					var categories = o[e].categories;
+					var categories = o[e].categoryIds;
 					var categoryString = "";
 					
 					var personIds = o[e].personIds;
@@ -152,7 +162,7 @@ function loadTableContent() {
 					}
 					
 					for (var k = 0; k < categories.length; k++) {
-						categoryString = categoryString + categories[k];
+						categoryString = categoryString + category[categories[k]-1].category;
 						if (k < categories.length - 1) {
 							categoryString = categoryString + "," + "<br/>";
 						}
@@ -170,8 +180,8 @@ function loadTableContent() {
 								"<td>" + o[e].id + "</td>"
 								+ "<td>" + o[e].name + "</td>"
 								+ "<td>" + personIdString + "</td>" 
-								+ "<td>" + "Bundestraßeeeee 102" + "," + "<br/>" + "5020" + " "
-								+ "Salzburg" + "," + "<br/>" + "Österreich" + "</td>"	//TOD country missing in json object
+								+ "<td>" + o[e].address + "," + "<br/>" + o[e].zip + " "
+								+ o[e].city + "," + "<br/>" + "Österreich" + "</td>"	//TODO country missing in json object
 								+ "<td>" + typeString + "</td>" 
 								+ "<td>" + categoryString + "</td>"
 								+ "<td>" + o[e].comment + "</td>" +	"</tr>";
@@ -221,22 +231,22 @@ $("#btn_saveorganisation").click(function() {
 	for(var i=1; i<=c.length; i++){
 		var help = "#cbx_category" + i;
 		if($(help).prop('checked')){
-			categoryArray.push(c[i-1].category);
+			categoryArray.push(c[i-1].categoryId);
 		}
 	}
 	neworganisation.categories = categoryArray;
 	
 	//checking if type checkboxes checked
 	var typesArray = [];
-//	if($('#cbx_lieferant').prop('checked')){
-//		typesArray.push("Lieferant");
-//	}
-//	if($('#cbx_kunde').prop('checked')){
-//		typesArray.push("Kunde");
-//	}
-//	if($('#cbx_sponsor').prop('checked')){
-//		typesArray.push("Sponsor");
-//	}
+	if($('#cbx_lieferant').prop('checked')){
+		typesArray.push("Lieferant");
+	}
+	if($('#cbx_kunde').prop('checked')){
+		typesArray.push("Kunde");
+	}
+	if($('#cbx_sponsor').prop('checked')){
+		typesArray.push("Sponsor");
+	}
 	neworganisation.types = typesArray;
 
 	$.ajax({
@@ -409,29 +419,29 @@ $("#btn_deleteModal").click(function() {
 	var id = tableData[0];
 	
 	$("#label_name").text(o[id].name);
-	$("#label_address").text();
+	$("#label_address").text(o[id].address);
 });
 
 //TODO delete organisation
 $("#btn_deleteOrganisation").click(function() {
-//	var id = tableData[0];
-//	
-//	$.ajax({
-//		type : "POST",
-//		url : "../rest/secure/organisation/deleteOrganisationById/" + id
-//	}).done(function(data) {
-//		$('#personTableBody').empty();
-//		$('#deleteModal').modal('hide');
-//		
-//		if (data.success == true)
-//			{
-//				showAlertElement(1, data.message, 5000);
-//			}
-//		 else
-//			{
-//				showAlertElement(2, data.message, 5000);
-//			}
-//		 
-//		 loadTableContent();
-//	});
+	var id = tableData[0];
+	
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/organisation/deleteOrganisationById/" + id
+	}).done(function(data) {
+		$('#organisationTableBody').empty();
+		$('#deleteModal').modal('hide');
+		
+		if (data.success == true)
+			{
+				showAlertElement(1, data.message, 5000);
+			}
+		 else
+			{
+				showAlertElement(2, data.message, 5000);
+			}
+		 
+		 loadTableContent();
+	});
 });
