@@ -8,6 +8,16 @@ body{
 	background-color: #000;
 }
 
+.modalContentPerson{
+	width: 670px;
+  	margin-left: -35px;
+}
+
+.modalContentOrganisation{
+	width: 710px;
+  	margin-left: -55px;
+}
+
 /* Navbar */
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
     background-color: #45A12B;
@@ -69,7 +79,7 @@ body{
 }
 
 /* Table */
-.personen{	
+.TableHead{	
 	background-color: #999;
 }
 
@@ -111,7 +121,6 @@ body{
 }
 
 .ModalDivContainer{
-	width: 270px;
 	height: auto;
 	max-height: 80px;
 	overflow-y: auto;

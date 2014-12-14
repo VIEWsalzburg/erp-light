@@ -7,13 +7,22 @@ var emailelement_template = "";
 var currentUser = "";
 var currentUserRights = "";
 
+var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>"
+	$("#newAlertForm").append(pwdError);
+
+var template = "<div class='row'><div class='col-md-6'><label>Login Email</label></div><div class='col-md-6'><label id='label_loginEmail_details'>Login Email</label>" +
+	"</div></div><div class='row'><div class='col-md-6'><label>Rechte</label></div><div class='col-md-6'><label id='label_permission_details'>Rechte</label>" +
+	"</div></div>";
+	$("#loginEmailPermission_container_details").append(template);
+
+var p;
 function loadTableContent() {
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/person/getAll"
 	}).done(
 			function(data) {
-				var p = eval(data);
+				p = eval(data);
 				
 				for (var e in p) {
 					var emailString = "";
@@ -27,36 +36,31 @@ function loadTableContent() {
 					for (var i = 0; i < emails.length; i++) {
 						emailString = emailString + emails[i].type.substring(0,1).toLowerCase()+":"+ emails[i].mail;
 						if (i < emails.length - 1) {
-							emailString = emailString + ", ";
+							emailString = emailString + "," + "<br/>";
 						}
 					}
 					for (var j = 0; j < phoneNumbers.length; j++) {
 						phoneString = phoneString + phoneNumbers[j].type.substring(0,1).toLowerCase()+":"+phoneNumbers[j].telephone;
 						if (j < phoneNumbers.length - 1) {
-							phoneString = phoneString + ", ";
+							phoneString = phoneString + ", " + "<br/>";
 						}
 					}
 					for (var k = 0; k < types.length; k++) {
 						typeString = typeString + types[k];
 						if (k < types.length - 1) {
-							typeString = typeString + ", ";
+							typeString = typeString + ", " + "<br/>";
 						}
 					}
 					
 					var tableRow = "<tr>" +
 							"<td>" + p[e].personId + "</td>" +
-							"<td>" + p[e].salutation + "</td>" +
-							"<td>" + p[e].title + "</td>" +
-							"<td>" + p[e].firstName + "</td>" +
-							"<td>" + p[e].lastName + "</td>" +
-							"<td>" + p[e].address + ", " + p[e].zip + " "
-							+ p[e].city + ", " + p[e].country + "</td>" +
-							"<td>" + emailString + "</td>" +
+							"<td>" + p[e].title + " " + p[e].lastName + " " + p[e].firstName + "</td>" +
+							"<td>" + p[e].address + "," + "<br/>" + p[e].zip + " "
+							+ p[e].city + "," + "<br/>" + p[e].country + "</td>" +
 							"<td>" + phoneString + "</td>" +
-							"<td>" + p[e].updateTimestamp + "</td>" +
-							"<td>" + p[e].permission + "</td>" +
+							"<td>" + emailString + "</td>" +
 							"<td>" + typeString + "</td>" +
-							"<td>" + p[e].lastEditor + "</td>" +
+							"<td>" + "Bemerkung" + "</td>" +
 							"</tr>";
 					
 					$("#personTableBody").append(tableRow);
@@ -65,9 +69,7 @@ function loadTableContent() {
 };
 
 $("#select_loginEmail").focus(function() {
-	$("#select_loginEmail").find('option')
-    .remove()
-    .end();
+	$("#select_loginEmail").find('option').remove().end();
 	$(".tbx_mailadress").each(function() {
 		var emailValue = $(this).val();
 		if(emailValue != ""){
@@ -79,6 +81,9 @@ $("#select_loginEmail").focus(function() {
 
 //Modal new
 $("#btn_new").click(function() {
+	//hide alert messsage
+	$("#newAlertForm").hide();
+	
 	$("#new").find('input')
     .val("")
     .end();
@@ -110,6 +115,10 @@ $("#btn_new").click(function() {
 	$(".btn_removeemail").closest('div[class^="email_element"]').remove();
 	emailCount = 0;
 	
+	//systemuser default checked=false
+	$('#cbx_systemuser').prop('checked', false);
+	$('.divContainer').hide();
+	
 	//uncheck type checkboxes
 	$('#cbx_mitarbeiter').prop('checked', false);
 	$('#cbx_mitglied').prop('checked', false);
@@ -119,6 +128,13 @@ $("#btn_new").click(function() {
 
 //save person
 $("#btn_saveperson").click(function() {
+	if($("#tbx_salutation").val() == "" || $("#tbx_firstName").val() == "" || $("#tbx_lastName").val() == "" 
+		|| $("#tbx_address").val() == "" || $("#tbx_city").val() == "" || $("#tbx_zip").val() == "" || $("#tbx_country").val() == "")
+	{
+			$("#newAlertForm").show();
+			return;
+	}
+	
 	var newperson = new Object();
 
 	newperson.personId = $("#tbx_id").val();
@@ -126,8 +142,7 @@ $("#btn_saveperson").click(function() {
 	newperson.title = $("#tbx_title").val();
 	newperson.firstName = $("#tbx_firstName").val();
 	newperson.lastName = $("#tbx_lastName").val();
-	//Not used yet
-	newperson.comment = "";
+	newperson.comment = $("#tbx_comment").val();
 	//Set by server
 	newperson.updateTimestamp = "";
 	newperson.active = 1;
@@ -203,8 +218,12 @@ $("#btn_saveperson").click(function() {
 $(document).ready(loadTableContent());
 
 // Get one person and load it to modal
+var p;
 $("#btn_edit").click(function() {
 	$("#modal_title_text").text("Bearbeite Person");
+	
+	//hide alert messsage
+	$("#newAlertForm").hide();
 	
 	//remove all phonenumber divs
 	$(".btn_removephonenumber").closest('div[class^="phone_element"]').remove();
@@ -230,7 +249,7 @@ $("#btn_edit").click(function() {
 		url : "../rest/secure/person/getPersonById/" + id
 	}).done(function(data) {
 
-		var p = eval(data);
+		p = eval(data);
 
 		//load data to modal
 		$("#tbx_id").val(p.personId);
@@ -242,7 +261,23 @@ $("#btn_edit").click(function() {
 		$("#tbx_zip").val(p.zip);
 		$("#tbx_city").val(p.city);
 		$("#tbx_country").val(p.country);
+		$("#tbx_comment").val(p.comment);
 
+		$('.divContainer').hide();
+		if(1){		//TODO if systemuser
+			$('#cbx_systemuser').prop('checked', true);
+			$(".divContainer").show();
+			
+			//load selects
+			$("select#select_loginEmail option").each(function() { 
+				this.selected = (this.text == p.loginEmail);
+			});
+			
+			$("select#select_permission option").each(function() { 
+				this.selected = (this.text == p.permission);
+			});
+		}
+		
 		//load phoneNumber divs
 		var newElement;
 		var loginEmail_template;
@@ -252,10 +287,12 @@ $("#btn_edit").click(function() {
 	    .remove()
 	    .end();
 		for (var i = 0; i<p.telephones.length; i++) {
-			phoneelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_phoneNumber" 
-				+ phoneCount + "' class='form-control tbx_phoneNumber' placeholder='Telefonnr.'> </div> <div class='col-sm-4'>" +
-				"<select class='form-control select_phoneNumber' id='select_phoneNumber"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
-				"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber' id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
+			phoneelement_template = "<div class='row'><div class='col-md-6'><div class='form-group'><div class='col-sm-4'></div><div class='col-sm-8'>" +
+			"<input type='text' id='tbx_phoneNumber" + phoneCount + "' class='form-control tbx_phoneNumber' placeholder='Telefonnr.' maxlength='20'>" +
+			"</div></div></div><div class='col-md-6'><div class='form-group'><div class='col-sm-6'><select class='form-control select_phoneNumber' id='select_phoneNumber"+ phoneCount +"'>" +
+			"<option>privat</option> <option>gesch&auml;ftlich</option></select></div><div class='col-sm-6'>" + 
+			"<button type='button' class='btn btn-danger btn_removephonenumber' id='btn_delete' ><span class='glyphicon glyphicon-trash'></span> L&ouml;schen</button>" +
+			"</div></div></div></div>";
 				
 				newElement = $(
 					"<div/>",
@@ -277,10 +314,12 @@ $("#btn_edit").click(function() {
 		
 		//load email divs
 		for (var i = 0; i<p.emails.length; i++) {
-			emailelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_email" + emailCount + "' " +
-				"class='form-control tbx_mailadress' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control select_email' id='select_email"+ emailCount +"'>" +
-				"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail'" +
-				"id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
+			emailelement_template = "<div class='row'><div class='col-md-6'><div class='form-group'><div class='col-sm-4'></div><div class='col-sm-8'>" +
+				"<input type='text' id='tbx_email" + emailCount + "' class='form-control tbx_mailadress' placeholder='Email' maxlength='50'>" +
+				"</div></div></div><div class='col-md-6'><div class='form-group'><div class='col-sm-6'><select class='form-control select_email' id='select_email"+ emailCount +"'>" +
+				"<option>privat</option> <option>gesch&auml;ftlich</option></select></div><div class='col-sm-6'>" + 
+				"<button type='button' class='btn btn-danger btn_removeemail' id='btn_delete' ><span class='glyphicon glyphicon-trash'></span> L&ouml;schen</button>" +
+				"</div></div></div></div>";
 			
 				newElement = $("<div/>", {
 					id : "email_element" + emailCount++,
@@ -301,19 +340,6 @@ $("#btn_edit").click(function() {
 			loginEmail_template = "<option>" + p.emails[i].mail + "</option>";
 			$("#select_loginEmail").append(loginEmail_template);
 		}
-		
-		//load selects
-		$("select#select_loginEmail option").each(function() { 
-			this.selected = (this.text == p.loginEmail);
-		});
-		
-		$("select#select_permission option").each(function() { 
-			this.selected = (this.text == p.permission);
-		});
-		
-		$("select#select_types option").each(function() { 
-			this.selected = (this.text == p.types);
-		});
 		
 		//load type checkboxes
 		$('#cbx_mitarbeiter').prop('checked', false);
@@ -341,11 +367,13 @@ $("#btn_edit").click(function() {
 //add phonenumber div
 $(document).ready(function() {
 	$("#btn_addphonenumber").click(function() {
-			phoneelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_phoneNumber" 
-									+ phoneCount + "' class='form-control tbx_phoneNumber' placeholder='Telefonnr.'> </div> <div class='col-sm-4'>" +
-									"<select class='form-control select_phoneNumber' id='select_phoneNumber"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
-									"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber' id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
-									
+			phoneelement_template = "<div class='row'><div class='col-md-6'><div class='form-group'><div class='col-sm-4'></div><div class='col-sm-8'>" +
+									"<input type='text' id='tbx_phoneNumber" + phoneCount + "' class='form-control tbx_phoneNumber' placeholder='Telefonnr.' maxlength='20'>" +
+									"</div></div></div><div class='col-md-6'><div class='form-group'><div class='col-sm-6'><select class='form-control select_phoneNumber' id='select_phoneNumber"+ phoneCount +"'>" +
+									"<option>privat</option> <option>gesch&auml;ftlich</option></select></div><div class='col-sm-6'>" + 
+									"<button type='button' class='btn btn-danger btn_removephonenumber' id='btn_delete' ><span class='glyphicon glyphicon-trash'></span> L&ouml;schen</button>" +
+									"</div></div></div></div>";
+			
 									var newElement = $(
 										"<div/>",
 										{
@@ -365,17 +393,18 @@ $("body").on('click', '.btn_removephonenumber', function() {
 //add email div
 $(document).ready(function() {
 	$("#btn_addemail").click(function() {
-		emailelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_email" + emailCount + "' " +
-			"class='form-control tbx_mailadress' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control select_email' id='select_email"+ emailCount +"'>" +
-			"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail'" +
-			"id='btn_delete' >L&ouml;schen</button> </div> </div> </div>";
+		emailelement_template = "<div class='row'><div class='col-md-6'><div class='form-group'><div class='col-sm-4'></div><div class='col-sm-8'>" +
+			"<input type='text' id='tbx_email" + emailCount + "' class='form-control tbx_mailadress' placeholder='Email' maxlength='50'>" +
+			"</div></div></div><div class='col-md-6'><div class='form-group'><div class='col-sm-6'><select class='form-control select_email' id='select_email"+ emailCount +"'>" +
+			"<option>privat</option> <option>gesch&auml;ftlich</option></select></div><div class='col-sm-6'>" + 
+			"<button type='button' class='btn btn-danger btn_removeemail' id='btn_delete' ><span class='glyphicon glyphicon-trash'></span> L&ouml;schen</button>" +
+			"</div></div></div></div>";
 		
 		var newElement = $("<div/>", {
 			id : "email_element" + emailCount++,
 			"class" : "email_element"
 		}).append(emailelement_template);
 		$("#email_container").append(newElement);
-		
 	});
 });
 
@@ -394,6 +423,100 @@ $("#btn_resetpassword").click(function() {
 	}).done(function(data) {
 		$('#resetpasswordModal').modal('hide');
 	});
+});
+
+//load details modal
+$("#btn_details").click(function() {
+	//remove container
+	$("#phone_container_details").remove();
+	$("#email_container_details").remove();
+	$("#type_container_details").remove();
+	$("#loginEmailPermission_container_details").hide();
+	
+	var id = tableData[0];
+	
+	$("#label_salutation_details").text(p[id].salutation);
+	
+	if(p[id].title == ""){
+		$("#label_title_details").text("-");
+	}
+	else{
+		$("#label_title_details").text(p[id].title);
+	}
+	
+	$("#label_firstName_details").text(p[id].firstName);
+	$("#label_lastName_details").text(p[id].lastName);
+	$("#label_address_details").text(p[id].address);
+	$("#label_zip_details").text(p[id].zip);
+	$("#label_city_details").text(p[id].city);
+	$("#label_country_details").text(p[id].country);
+	$("#label_lastEditor_details").text(p[id].lastEditor);
+	$("#label_updateTimestamp_details").text(p[id].updateTimestamp);
+	
+	if(p[id].comment == ""){
+		$("#label_comment_details").text("-");
+	}
+	else{
+		$("#label_comment_details").text(p[id].comment);
+	}
+	
+	//$("#label_country_details").text(p[id].country);
+	
+	//load phone numbers
+	var phoneNumbers = p[id].telephones;
+	if(phoneNumbers.length == 0){
+		$("#label_phoneNumber_details").text("-");
+	}
+	else{
+		var phoneString = "";
+		$("#label_phoneNumber_details").text(phoneNumbers[0].telephone + " (" + phoneNumbers[0].type.toLowerCase() + ")");
+		for (var j = 1; j < phoneNumbers.length; j++) {
+			phoneString = phoneNumbers[j].telephone + " (" + phoneNumbers[j].type.toLowerCase() + ")";
+			var template = "<div class='row'><div class='col-md-6'></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
+			$("#phone_container_details").append(template);
+		}
+	}
+	
+	//load emails
+	var emails = p[id].emails;
+	if(emails.length == 0){
+		$("#label_email_details").text("-");
+	}
+	else{
+		var emailString = "";
+		$("#label_email_details").text(emails[0].mail + " (" + emails[0].type.toLowerCase() + ")");
+		for (var j = 1; j < emails.length; j++) {
+			emailString = emails[j].mail + " (" + emails[j].type.toLowerCase() + ")";
+			var template = "<div class='row'><div class='col-md-6'></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
+			$("#email_container_details").append(template);
+		}
+	}
+	
+	//load types
+	var types = p[id].types;
+	if(types.length == 0){
+		$("#label_types_details").text("-");
+	}
+	else{
+		var typeString = "";
+		$("#label_types_details").text(types[0]);
+		for (var j = 1; j < types.length; j++) {
+			typeString = types[j];
+			var template = "<div class='row'><div class='col-md-6'></div><div class='col-md-6'><label>" + typeString + "</label></div></div>";
+			$("#type_container_details").append(template);
+		}
+	}
+	
+	//TODO check if systemuser
+	if(1){
+		$("#cbx_systemuser_details").prop("checked", "true");
+		$("#loginEmailPermission_container_details").show();
+		$("#label_loginEmail_details").text(p[id].loginEmail);
+		$("#label_permission_details").text(p[id].permission);
+	}
+	else{
+		$("#cbx_systemuser_details").removeAttr("checked");
+	}
 });
 
 //search filter
@@ -495,7 +618,7 @@ $(document).ready(function() {
 });
 
 var tableData;
-$('#personen').on('click', 'tbody tr', function(event) {
+$('#TableHead').on('click', 'tbody tr', function(event) {
 	tableData = $(this).children("td").map(function() {
 		return $(this).text();
 	}).get();
@@ -523,11 +646,10 @@ $('#personen').on('click', 'tbody tr', function(event) {
 
 //remove table row modal
 $("#btn_deleteModal").click(function() {
-	$("#label_id").text(tableData[0]);
-	$("#label_salutation").text(tableData[1]);
-	$("#label_title").text(tableData[2]);
-	$("#label_firstName").text(tableData[3]);
-	$("#label_lastName").text(tableData[4]);
+	var id = tableData[0];
+	
+	$("#label_name").text(p[id].title + " " + p[id].lastName + " " + p[id].firstName);
+	$("#label_address").text(p[id].address + ", " + p[id].zip + " " + p[id].city + ", " + p[id].country);
 });
 
 $("#btn_deletePerson").click(function() {
@@ -550,4 +672,13 @@ $("#btn_deletePerson").click(function() {
 		
 		loadTableContent();
 	});
+});
+
+$('#cbx_systemuser').on('change', function() {
+	if($("#cbx_systemuser").prop('checked')){
+		$(".divContainer").show();
+	}
+	else{
+		$('.divContainer').hide();
+	}
 });

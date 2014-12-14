@@ -3,6 +3,10 @@ $("#pageheader").load("../partials/header.html", function() {
 	$("#adressverwaltung_nav").addClass("active");
 });
 
+//append alert message to modal
+var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-5'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>"
+	$("#newAlertForm").append(pwdError);
+
 // Get all categories and load into table
 function loadTableContent(){
 			$.ajax({
@@ -31,6 +35,9 @@ $(document).ready(loadTableContent());
 $("#btn_edit").click(function() {
 	$("#modal_title_text").text("Bearbeite Kategorie");
 
+	//hide alert messsage
+	$("#newAlertForm").hide();
+	
 	// load data to modal
 	$('#tbx_categoryId').val(tableData[0]);
 	$('#tbx_category').val(tableData[1]);
@@ -38,6 +45,12 @@ $("#btn_edit").click(function() {
 });
 
 $("#btn_savecategory").click(function() {
+	if($("#tbx_category").val() == "" || $("#tbx_description").val() == "")
+	{
+			$("#newAlertForm").show();
+			return;
+	}
+	
 	var neworganisation = new Object();
 	
 	neworganisation.categoryId = $("#tbx_categoryId").val();
@@ -50,7 +63,7 @@ $("#btn_savecategory").click(function() {
 			'Content-Type' : 'application/json'
 		},
 		type : "POST",
-		url : "../rest/secure/category/setCategory",
+		url : "../rest/secure/category/setCategory",	//TODO setCategory?
 		contentType: "application/json; charset=utf-8",
 	    dataType: "json",
 		data : JSON.stringify(newperson)
@@ -79,6 +92,9 @@ $("#btn_savecategory").click(function() {
 $("#btn_new").click(function() {
 	$("#modal_title_text").text("Neue Kategorie");
 	
+	//hide alert messsage
+	$("#newAlertForm").hide();
+	
 	//clear modal
 	$('#tbx_categoryId').val("");
 	$('#tbx_category').val("");
@@ -97,21 +113,6 @@ $(document).ready(function() {
 			}).show();
 		})
 	}(jQuery));
-});
-
-// select table row
-$('#btn_edit').prop('disabled', true);
-$('#btn_deleteModal').prop('disabled', true);
-
-var tableData;
-$('#personen').on('click', 'tbody tr', function(event) {
-	tableData = $(this).children("td").map(function() {
-		return $(this).text();
-	}).get();
-
-	$(this).addClass('highlight').siblings().removeClass('highlight');
-	$('#btn_edit').prop('disabled', false);
-	$('#btn_deleteModal').prop('disabled', false);
 });
 
 // disable new, edit and delete buttons
@@ -144,10 +145,7 @@ $(document).ready(function() {
 });
 
 var tableData;
-$('#personen').on(
-		'click',
-		'tbody tr',
-		function(event) {
+$('#TableHead').on('click','tbody tr', function(event) {
 			tableData = $(this).children("td").map(function() {
 				return $(this).text();
 			}).get();
@@ -156,20 +154,14 @@ $('#personen').on(
 
 			// only when user has admin rights
 			if (currentUserRights == "Admin" && currentUserRights != "") {
-				if (currentUserRights == "Admin") {
-					$('#btn_edit').prop('disabled', false);
-					$('#btn_deleteModal').prop('disabled', false);
-				} else {
-					if (tableData[9] != "Admin") {
-						$('#btn_edit').prop('disabled', false);
-						$('#btn_deleteModal').prop('disabled', false);
-					}
-				}
-			} else {
+				$('#btn_edit').prop('disabled', false);
+				$('#btn_deleteModal').prop('disabled', false);
+			} 
+			else {
 				$('#btn_edit').prop('disabled', true);
 				$('#btn_deleteModal').prop('disabled', true);
 			}
-		});
+});
 
 // remove table row Modal
 $("#btn_deleteModal").click(function() {

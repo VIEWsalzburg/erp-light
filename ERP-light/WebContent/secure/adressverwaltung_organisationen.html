@@ -65,9 +65,8 @@
 						</form>
 						<!-- Table -->
 						<div class="table-responsive">
-							<table class="table table-hover table-striped header-fixed"
-								id="personen">
-								<thead class="personen">
+							<table class="table table-hover table-striped header-fixed" id="TableHead">
+								<thead class="TableHead">
 									<tr>
 										<th style="width: 3%">#</th>
 										<th style="width: 15%">Name</th>
@@ -91,7 +90,7 @@
 						<div class="modal fade" id="new" tabindex="-1"
 							role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
-								<div class="modal-content">
+								<div class="modal-content modalContentOrganisation">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal">
 											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
@@ -109,7 +108,7 @@
 														<label class="col-sm-4 control-label">Name</label>
 														<div class="col-sm-8">
 															<input type="text" class="form-control" id="tbx_name"
-																placeholder="Typ">
+																placeholder="Typ" maxlength="100">
 														</div>
 													</div>
 												</div>
@@ -118,28 +117,28 @@
 														<label class="col-sm-4 control-label">Adresse</label>
 														<div class="col-sm-8">
 															<input type="text" class="form-control" id="tbx_address"
-																placeholder="Adresse">
+																placeholder="Adresse" maxlength="100">
 														</div>
 													</div>
 												</div>
 											</div>
 											
 											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group">
-														<label class="col-sm-4 control-label">Adresse</label>
-														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_address"
-																placeholder="Adresse">
-														</div>
-													</div>
-												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="col-sm-4 control-label">PLZ</label>
 														<div class="col-sm-8">
 															<input type="text" class="form-control" id="tbx_zip"
-																placeholder="PLZ">
+																placeholder="PLZ" maxlength="5">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-sm-4 control-label">Ort</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="tbx_city"
+																placeholder="Ort" maxlength="100">
 														</div>
 													</div>
 												</div>
@@ -148,21 +147,15 @@
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group">
-														<label class="col-sm-4 control-label">Ort</label>
+														<label class="col-sm-4 control-label">Land</label>
 														<div class="col-sm-8">
-															<input type="text" class="form-control" id="tbx_city"
-																placeholder="Ort">
+															<input type="text" class="form-control" id="tbx_country"
+																placeholder="Land" maxlength="50">
 														</div>
 													</div>
 												</div>
 												<div class="col-md-6">
-<!-- 													<div class="form-group"> -->
-<!-- 														<label class="col-sm-4 control-label">Land</label> -->
-<!-- 														<div class="col-sm-8"> -->
-<!-- 															<input type="text" class="form-control" id="tbx_country" -->
-<!-- 																placeholder="Land"> -->
-<!-- 														</div> -->
-<!-- 													</div> -->
+													
 												</div>
 											</div>
 											
@@ -186,7 +179,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<div class="col-sm-12">
-															<div class="box form-control searchable ModalDivContainer" id="contactPersonDiv">
+															<div class="form-control searchable ModalDivContainer" id="contactPersonDiv">
 															
 																	<!-- contact persons -->
 																
@@ -213,7 +206,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<div class="col-sm-12">
-															<div class="box form-control searchable ModalDivContainer" id="categoryDiv">
+															<div class="form-control searchable ModalDivContainer" id="categoryDiv">
 																
 																<!-- categories -->
 																
@@ -227,21 +220,26 @@
 											</div>
 
 											<div class="row">
-												<div class="col-md-12">
+												<div class="col-sm-12">
 													<div class="form-group">
 														<label class="col-sm-2 control-label">Bemerkung</label>
 														<div class="col-sm-10">
 															<textarea class="form-control" rows="2" id="tbx_description"
-																placeholder="Bemerkung" style="resize: none"></textarea>
+																placeholder="Bemerkung" maxlength="1000" style="resize: none"></textarea>
 														</div>
 													</div>
 												</div>
 											</div>
 											
+											<div class="row divider-horizontal">
+											</div>
+											
 											<div class="row">
-												<div class="form-group">
-													<label class="col-sm-4 control-label">Typ(en)</label>
-													<div class="col-sm-8">
+												<div class="col-md-12">
+													<div class="form-group">
+													<label class="col-sm-2 control-label">Typ(en)</label>
+													<div class="col-sm-10">
+														
 															<label class="checkbox-inline">
 															  <input type="checkbox" id="cbx_mitarbeiter" value="option1"> Lieferant
 															</label>
@@ -251,6 +249,7 @@
 															<label class="checkbox-inline">
 															  <input type="checkbox" id="cbx_gast" value="option3"> Sponsor
 															</label>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -259,6 +258,7 @@
 									</div>
 
 									<div class="modal-footer">
+										<div id="newAlertForm"></div>
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">Abbrechen</button>
 										<button type="button" id="btn_saveorganisation" class="btn btn-primary">
@@ -289,10 +289,9 @@
 
 										<div class="row modalrow">
 											<div class="col-md-6">
-												<label id="label_id">id</label>
-												<label id="label_type">type</label>
 												<label id="label_name">title</label>
 												<label id="label_address">address</label>
+												<label id="label_type">type</label>
 											</div>
 											<div class="col-md-6"></div>
 										</div>
@@ -329,6 +328,10 @@
 			<div class="col-md-4">
 				<form role="form" class="form-inline">
 					<div class="form-group bottom">
+						<button type="button" id="btn_details" class="btn btn-default"
+							data-toggle="modal" data-target="#details">
+							<span class="glyphicon glyphicon-list"></span> Details
+						</button>
 						<button type="button" id="btn_edit" class="btn btn-warning"
 							data-toggle="modal" data-target="#new">
 							<span class="glyphicon glyphicon-pencil"></span> Bearbeiten
