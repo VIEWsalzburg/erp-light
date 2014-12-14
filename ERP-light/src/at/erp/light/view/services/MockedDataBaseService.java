@@ -70,7 +70,7 @@ public class MockedDataBaseService implements IDataBase {
 		person1.getEmails().add(email1);
 		person1.getTelephones().add(telephone1);
 		person1.getTypes().add(getTypeById(3));
-		person1.setPerson(person1);
+		person1.setLastEditor(person1);
 		Platformuser platformUser1 = new Platformuser(getPermissionById(1), person1,
 				"admin", "admin");
 		platformUser1.setPersonId(1);
@@ -92,7 +92,7 @@ public class MockedDataBaseService implements IDataBase {
 		person2.setCountry(country2);
 		person2.getEmails().add(email2);
 		person2.getTelephones().add(telephone2);
-		person2.setPerson(person1);
+		person2.setLastEditor(person1);
 		Platformuser platformUser2 = new Platformuser(getPermissionById(2), person2,
 				"admin", "susi.mayer@gmail.com");
 		platformUser2.setPersonId(2);
@@ -138,10 +138,10 @@ public class MockedDataBaseService implements IDataBase {
 		Org1.setAddress(new Address(0, "Org1 Straﬂe"));
 		Org1.setCity(new City(0, "Org1 City", "Org1 Zip"));
 		Org1.setCountry(new Country(0, "÷sterreich"));
-		Org1.setPerson(person1);	// updated by
+		Org1.setLastEditor(person1);	// updated by
 		
-		Org1.getPersons().add(person2);
-		Org1.getPersons().add(person3);
+		Org1.getContactPersons().add(person2);
+		Org1.getContactPersons().add(person3);
 		
 		Org1.getCategories().add(mockedCategories.get(0));
 		Org1.getCategories().add(mockedCategories.get(1));
@@ -154,9 +154,9 @@ public class MockedDataBaseService implements IDataBase {
 		Org2.setAddress(new Address(1, "Kunde2 Straﬂe"));
 		Org2.setCity(new City(1, "Kunde2 City", "Kunde2 Zip"));
 		Org2.setCountry(new Country(1, "÷sterreich"));
-		Org2.setPerson(person1);	// updated by
+		Org2.setLastEditor(person1);	// updated by
 		
-		Org2.getPersons().add(person2);
+		Org2.getContactPersons().add(person2);
 		
 		Org2.getCategories().add(mockedCategories.get(0));
 		Org2.getCategories().add(mockedCategories.get(2));
@@ -426,7 +426,23 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public int setOrganisation(Organisation organisation) {
-		organisation.setOrganisationId(mockedOrganisations.size()+1);
+		
+		Organisation found = null;
+		for (Organisation o : mockedOrganisations)
+		{
+			if (o.getOrganisationId() == organisation.getOrganisationId())
+				found = o;
+		}
+		
+		if (found != null)
+			mockedOrganisations.remove(found);	// remove old existing person
+		
+		if (organisation.getOrganisationId() == 0)
+		{
+			organisation.setOrganisationId(mockedOrganisations.size()+1);
+		}		
+		
+		
 		mockedOrganisations.add(organisation);
 		return organisation.getOrganisationId();
 	}

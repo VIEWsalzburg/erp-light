@@ -25,7 +25,7 @@ public class IncomingDelivery implements java.io.Serializable {
 
 	private int incomingDeliveryId;
 	private Organisation organisation;
-	private Person person;
+	private Person lastEditor;
 	private Integer deliveryNr;
 	private Date date;
 	private String comment;
@@ -36,20 +36,20 @@ public class IncomingDelivery implements java.io.Serializable {
 	}
 
 	public IncomingDelivery(int incomingDeliveryId, Organisation organisation,
-			Person person, Date date, String comment) {
+			Person lastEditor, Date date, String comment) {
 		this.incomingDeliveryId = incomingDeliveryId;
 		this.organisation = organisation;
-		this.person = person;
+		this.lastEditor = lastEditor;
 		this.date = date;
 		this.comment = comment;
 	}
 
 	public IncomingDelivery(int incomingDeliveryId, Organisation organisation,
-			Person person, Integer deliveryNr, Date date, String comment,
+			Person lastEditor, Integer deliveryNr, Date date, String comment,
 			Set<IncomingArticle> incomingArticles) {
 		this.incomingDeliveryId = incomingDeliveryId;
 		this.organisation = organisation;
-		this.person = person;
+		this.lastEditor = lastEditor;
 		this.deliveryNr = deliveryNr;
 		this.date = date;
 		this.comment = comment;
@@ -78,12 +78,12 @@ public class IncomingDelivery implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "person_id", nullable = false)
-	public Person getPerson() {
-		return this.person;
+	public Person getLastEditor() {
+		return this.lastEditor;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setLastEditor(Person lastEditor) {
+		this.lastEditor = lastEditor;
 	}
 
 	@Column(name = "delivery_nr")

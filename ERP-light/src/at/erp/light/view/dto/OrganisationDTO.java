@@ -10,7 +10,7 @@ public class OrganisationDTO {
 	private String zip;
 	private String city;
 	private List<Integer> personIds;
-	private List<String> categories;
+	private List<Integer> categoryIds;
 	private String updateTimestamp;
 	private String lastEditor;
 	private int id;
@@ -21,7 +21,7 @@ public class OrganisationDTO {
 	
 	public OrganisationDTO(int id,List<String> types, String name, String comment,
 			String address, String zip, String city, List<Integer> personIds,
-			List<String> categories, String updateTimestamp, String lastEditor) {
+			List<Integer> categories, String updateTimestamp, String lastEditor) {
 		super();
 		this.setId(id);
 		this.types = types;
@@ -31,7 +31,7 @@ public class OrganisationDTO {
 		this.zip = zip;
 		this.city = city;
 		this.personIds = personIds;
-		this.categories = categories;
+		this.categoryIds = categories;
 		this.updateTimestamp = updateTimestamp;
 		this.lastEditor = lastEditor;
 	}
@@ -79,11 +79,11 @@ public class OrganisationDTO {
 	public void setPersonIds(List<Integer> personIds) {
 		this.personIds = personIds;
 	}
-	public List<String> getCategories() {
-		return categories;
+	public List<Integer> getCategoryIds() {
+		return categoryIds;
 	}
-	public void setCategories(List<String> categories) {
-		this.categories = categories;
+	public void setCategoryIds(List<Integer> categories) {
+		this.categoryIds = categories;
 	}
 	public String getUpdateTimestamp() {
 		return updateTimestamp;

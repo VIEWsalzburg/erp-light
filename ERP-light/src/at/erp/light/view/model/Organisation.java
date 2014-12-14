@@ -37,12 +37,12 @@ public class Organisation implements java.io.Serializable {
 	private String comment;
 	private Address address;
 	private City city;
-	private Person person;			// Person, von der upgedated
+	private Person lastEditor;											// Person, von der upgedated
 	private Country country;
 	private Date updateTimestamp;
 	private int active;
 	private Set<Category> categories = new HashSet<Category>(0);
-	private Set<Person> persons = new HashSet<Person>(0);			// Persons, die Ansprechpersonen sind
+	private Set<Person> contactPersons = new HashSet<Person>(0);			// Persons, die Ansprechpersonen sind
 	private Set<Type> types = new HashSet<Type>(0);
 
 	public Organisation() {
@@ -57,39 +57,18 @@ public class Organisation implements java.io.Serializable {
 	}
 
 	public Organisation(int organisationId, Address address, City city,
-			Person person, Country country, String name, String comment,
+			Person lastEditor, Country country, String name, String comment,
 			Date updateTimestamp, int active) {
 		this.organisationId = organisationId;
 		this.address = address;
 		this.city = city;
-		this.person = person;
+		this.lastEditor = lastEditor;
 		this.country = country;
 		this.name = name;
 		this.comment = comment;
 		this.updateTimestamp = updateTimestamp;
 		this.active = active;
 	}
-
-	
-	
-//	public Organisation(int organisationId, Address address, City city,
-//			Person person, Country country, String name, String comment,
-//			Date updateTimestamp, int active, Set<Category> categories,
-//			Set<Person> persons,
-//			Set<Type> types) {
-//		this.organisationId = organisationId;
-//		this.address = address;
-//		this.city = city;
-//		this.person = person;
-//		this.country = country;
-//		this.name = name;
-//		this.comment = comment;
-//		this.updateTimestamp = updateTimestamp;
-//		this.active = active;
-//		this.categories = categories;
-//		this.persons = persons;
-//		this.types = types;
-//	}
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="gen_organisation_id")
@@ -125,12 +104,12 @@ public class Organisation implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "person_id", nullable = false)
-	public Person getPerson() {
-		return this.person;
+	public Person getLastEditor() {
+		return this.lastEditor;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setLastEditor(Person person) {
+		this.lastEditor = person;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -181,7 +160,7 @@ public class Organisation implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "relorgcat", schema = "public", inverseJoinColumns = { @JoinColumn(name = "organisation_id", nullable = false, updatable = false) }, joinColumns = { @JoinColumn(name = "category_id", nullable = false, updatable = false) })
+	@JoinTable(name = "relorgcat", schema = "public", joinColumns = { @JoinColumn(name = "organisation_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "category_id", nullable = false, updatable = false) })
 	public Set<Category> getCategories() {
 		return this.categories;
 	}
@@ -191,13 +170,13 @@ public class Organisation implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name="organisation_id")
-	public Set<Person> getPersons() {
-		return this.persons;
+	@JoinTable(name="orgcontactperson", schema = "public", joinColumns = { @JoinColumn(name = "organisation_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "person_id", nullable = false, updatable = false) })
+	public Set<Person> getContactPersons() {
+		return this.contactPersons;
 	}
 
-	public void setPersons(Set<Person> persons) {
-		this.persons = persons;
+	public void setContactPersons(Set<Person> persons) {
+		this.contactPersons = persons;
 	}
 
 	// @ManyToMany(fetch = FetchType.LAZY, mappedBy = "organisations")

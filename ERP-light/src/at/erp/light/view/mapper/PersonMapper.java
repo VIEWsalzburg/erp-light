@@ -89,11 +89,11 @@ public class PersonMapper {
 		}
 
 		String lastEditor = "kA";
-		if (person.getPerson() != null)
-			lastEditor = person.getPerson().getFirstName() + " " + person.getPerson().getLastName();
+		if (person.getLastEditor() != null)
+			lastEditor = person.getLastEditor().getFirstName() + " " + person.getLastEditor().getLastName();
 		
 		// TODO change platform user things to real
-		PersonDTO mPerson = new PersonDTO(person.getPersonId(),
+		PersonDTO mPerson = new PersonDTO(person.getPersonId(), pUser != null,
 				person.getSalutation(), person.getTitle(),
 				person.getFirstName(), person.getLastName(),
 				person.getComment(), df.format(person.getUpdateTimestamp()),

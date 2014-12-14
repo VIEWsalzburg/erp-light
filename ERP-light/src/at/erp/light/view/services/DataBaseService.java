@@ -41,7 +41,7 @@ public class DataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Person getPersonById(int id) {				
-		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.person WHERE p.personId = :id");
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor WHERE p.personId = :id");
 		query.setParameter("id", id);
 		Person person = (Person)query.uniqueResult();
 		return person;
@@ -66,7 +66,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Person> getAllPersons() {
 		@SuppressWarnings("unchecked")
-		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.person").list();
+		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor ORDER BY p.lastName").list();
 		return persons;
 	}
 
@@ -219,10 +219,6 @@ public class DataBaseService implements IDataBase {
 		// final update all in DB
 		sessionFactory.getCurrentSession().saveOrUpdate(person);
 		
-		// rollback test
-		if (1==0)
-			throw(new HibernateException("rollback that shit! ^^"));
-		
 		return person.getPersonId();
 		
 	}
@@ -249,7 +245,7 @@ public class DataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Type> getAllTypes() {
-		Query query = sessionFactory.getCurrentSession().createQuery("FROM Type t");
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Type t ORDER BY t.name");
 		List<Type> types = (List<Type>)query.list();
 		return types;
 	}
@@ -464,15 +460,97 @@ public class DataBaseService implements IDataBase {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Organisation> getAllOrganisations() {
 		
-		return null;
+		List<Organisation> organisations = sessionFactory.getCurrentSession().createQuery("FROM Organisation o ORDER BY o.name").list();
+		return organisations;
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public int setOrganisation(Organisation organisation) {
-		
-		return 0;
+
+
+		// update Address
+		// if address == null => delete FK
+		if (organisation.getAddress() != null)
+		{
+			// check if Address is not ""
+			if (organisation.getAddress().getAddress().isEmpty())
+			{
+				organisation.setAddress(null);
+			}	
+			else
+			{
+				// checks if Address already exists in database (if yes => retrieve existing one, if no => create new one and get it)
+				Address Address = getAddressByAddress(organisation.getAddress().getAddress());
+				organisation.setAddress(Address);
+			}
+		}
+
+		// update Country
+		if (organisation.getCountry() != null)
+		{
+			// check if Country is not ""
+			if (organisation.getCountry().getCountry().isEmpty())
+			{
+				organisation.setCountry(null);
+			}	
+			else
+			{
+				// checks if Country already exists in database (if yes => retrieve existing one, if no => create new one and get it)
+				Country country = getCountryByCountry(organisation.getCountry().getCountry());
+				organisation.setCountry(country);
+			}
+		}
+
+		// update City
+		if (organisation.getCity() != null)
+		{
+			if (organisation.getCity().getCity().isEmpty() && organisation.getCity().getZip().isEmpty())
+			{
+				organisation.setCity(null);
+			}
+			else
+			{
+				// checks if City and Zip already exist in database (if yes => retrieve existing one, if no => create new one and get it)
+				City city = getCityByCityAndZip(organisation.getCity().getCity(), organisation.getCity().getZip());
+				organisation.setCity(city);
+			}
+		}
+
+
+		Set<Type> types = new HashSet<Type>();
+		for (Type type : organisation.getTypes())
+		{
+			types.add(this.getTypeByType(type.getName()));
+		}
+		organisation.setTypes(types);
+
+
+		Set<Category> categories = new HashSet<Category>();
+		for (Category category : organisation.getCategories())
+		{
+			categories.add(this.getCategoryByCategory(category.getCategory()));
+		}
+		organisation.setCategories(categories);
+
+
+		// Ansprechpersonen
+		Set<Person> contactPersons = new HashSet<Person>();
+		for (Person p : organisation.getContactPersons())
+		{
+			contactPersons.add(this.getPersonById(p.getPersonId()));
+		}
+		organisation.setContactPersons(contactPersons);
+
+
+		// final update all in DB
+		sessionFactory.getCurrentSession().saveOrUpdate(organisation);
+
+		return organisation.getOrganisationId();
+
 	}
 
 	@Override
@@ -656,7 +734,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Category> getAllCategories()
 	{
-		List<Category> categories = sessionFactory.getCurrentSession().createQuery("FROM Category").list();
+		List<Category> categories = sessionFactory.getCurrentSession().createQuery("FROM Category c ORDER BY c.category").list();
 		return categories;
 	}
 
