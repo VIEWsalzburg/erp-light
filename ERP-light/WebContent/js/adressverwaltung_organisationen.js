@@ -7,6 +7,11 @@ $("#pageheader").load("../partials/header.html", function() {
 var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>"
 	$("#newAlertForm").append(pwdError);
 
+var template = "<div class='row'><div class='col-md-6'><label>Login Email</label></div><div class='col-md-6'><label id='label_loginEmail_details'>Login Email</label>" +
+	"</div></div><div class='row'><div class='col-md-6'><label>Rechte</label></div><div class='col-md-6'><label id='label_permission_details'>Rechte</label>" +
+	"</div></div>";
+$("#loginEmailPermission_container_details").append(template);
+
 //load contact persons to modal
 var p;
 function loadAllContactPersons() {
@@ -111,6 +116,7 @@ $("#btn_edit").click(function() {
 });
 
 //load contact persons for table
+var contactPerson;
 function loadContactPerson(id) {
 	var nameString="";
 	$.ajax({
@@ -118,14 +124,15 @@ function loadContactPerson(id) {
 		async : false,
 		url : "../rest/secure/person/getPersonById/" + id
 	}).done(function(data) {
-				var p = eval(data);
-				nameString = p.lastName + " " + p.firstName;
+				contactPerson = eval(data);
+				nameString = contactPerson.lastName + " " + contactPerson.firstName;
 			});
 	return nameString;
 };
 
 //load organisation table
 var o;
+var c;
 function loadTableContent() {
 	var category;
 	$.ajax({
@@ -134,7 +141,7 @@ function loadTableContent() {
 		url : "../rest/secure/category/getAllCategories"
 	}).done(
 			function(data) {
-				category = eval(data);
+				c = eval(data);
 	});
 	
 	$.ajax({
@@ -162,7 +169,7 @@ function loadTableContent() {
 					}
 					
 					for (var k = 0; k < categories.length; k++) {
-						categoryString = categoryString + category[categories[k]-1].category;
+						categoryString = categoryString + c[categories[k]-1].category;
 						if (k < categories.length - 1) {
 							categoryString = categoryString + "," + "<br/>";
 						}
@@ -248,7 +255,7 @@ $("#btn_saveorganisation").click(function() {
 		typesArray.push("Sponsor");
 	}
 	neworganisation.types = typesArray;
-
+	
 	$.ajax({
 		headers : {
 			'Accept' : 'application/json',
@@ -279,6 +286,117 @@ $("#btn_saveorganisation").click(function() {
 		}
 	});
 	return false;
+});
+
+//load details modal
+$("#btn_details").click(function() {
+	//remove container
+	$(".details").remove();
+	$(".persondivider").remove();
+	
+	var id = tableData[0];
+	
+	$("#label_name_details").text(o[id].name);
+	$("#label_address_details").text(o[id].address);
+	$("#label_zip_details").text(o[id].zip);
+	$("#label_city_details").text(o[id].city);
+	$("#label_country_details").text(o[id].country);
+	$("#label_lastEditor_details").text(o[id].lastEditor);
+	$("#label_updateTimestamp_details").text(o[id].updateTimestamp);
+	
+	if(o[id].comment == ""){
+		$("#label_comment_details").text("-");
+	}
+	else{
+		$("#label_comment_details").text(o[id].comment);
+	}
+	
+	//load types
+	var types = o[id].types;
+	if(types.length == 0){
+		$("#label_types_details").text("-");
+	}
+	else{
+		var typeString = "";
+		$("#label_types_details").text(types[0]);
+		for (var j = 1; j < types.length; j++) {
+			typeString = types[j];
+			var template = "<div class='row'><div class='col-md-6'></div><div class='col-md-6'><label>" + typeString + "</label></div></div>";
+			$("#type_container_details").append(template);
+		}
+	}
+	
+	//load categories
+	var categories = o[id].categoryIds;
+	if(categories.length == 0){
+		$("#label_categories_details").text("-");
+	}
+	else{
+		var categoryString = "";
+		$("#label_categories_details").text(c[categories[0]-1].category);
+		$("#category_container_details").show();
+		for (var k = 1; k < categories.length; k++) {
+			categoryString = c[categories[k]-1].category;
+			var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + categoryString + "</label></div></div>";
+			$("#category_container_details").append(template);
+		}
+	}
+	
+	//load personIds
+	var persons = o[id].personIds;
+	if(persons.length == 0){
+		$("#label_personIds_details").text("-");
+	}
+	else{
+		var personString = "";
+		for (var j = 0; j < persons.length; j++) {
+			loadContactPerson(persons[j]);
+			
+			//load contact person name
+			personString = contactPerson.lastName + " " + contactPerson.firstName;
+			var template = "<div class='row details'><div class='col-md-6'><label>Name</label></div><div class='col-md-6'><label>" + personString + "</label></div></div>";
+			$("#person_container_details").append(template);
+			
+			//load contact person phone numbers
+			var phoneNumbers = contactPerson.telephones;
+			if(phoneNumbers.length == 0){
+				var template = "<div class='row details'><div class='col-md-6'><label>Telefonnummer</label></div><div class='col-md-6'><label>-</label></div></div>";
+				$("#person_container_details").append(template);
+			}
+			else{
+				var phoneString = phoneNumbers[0].telephone + " (" + phoneNumbers[0].type.toLowerCase() + ")";
+				var template = "<div class='row details'><div class='col-md-6'><label>Telefonnummer</label></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
+				$("#person_container_details").append(template);
+				
+				for (var k = 1; k < phoneNumbers.length; k++) {
+					phoneString = phoneNumbers[k].telephone + " (" + phoneNumbers[k].type.toLowerCase() + ")";
+					var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
+					$("#person_container_details").append(template);
+				}
+			}
+			
+			//load contact person emails
+			var emails = contactPerson.emails;
+			if(emails.length == 0){
+				var template = "<div class='row details'><div class='col-md-6'><label>Email-Adresse</label></div><div class='col-md-6'><label>-</label></div></div>";
+				$("#person_container_details").append(template);
+			}
+			else{
+				var emailString = emails[0].mail + " (" + emails[0].type.toLowerCase() + ")";
+				var template = "<div class='row details'><div class='col-md-6'><label>Email-Adresse</label></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
+				$("#person_container_details").append(template);
+				
+				for (var l = 1; l < emails.length; l++) {
+					emailString = emails[l].mail + " (" + emails[l].type.toLowerCase() + ")";
+					var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
+					$("#person_container_details").append(template);
+				}
+			}
+			
+			//append divider
+			$("#person_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+		}
+	}
 });
 
 //search filter
@@ -333,33 +451,33 @@ $(document).ready(function() {
 		$('#lieferanten_cbx').on('change', function() {
 			if (this.checked) {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(1).text() >= "Lieferant"
+					return $(this).find('td').eq(4).text() >= "Lieferant"
 				}).show();
 			} else {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(1).text() >= "Lieferant"
+					return $(this).find('td').eq(4).text() >= "Lieferant"
 				}).hide();
 			}
 		});
 		$('#kunden_cbx').on('change', function() {
 			if (this.checked) {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(1).text() == "Kunde"
+					return $(this).find('td').eq(4).text() == "Kunde"
 				}).show();
 			} else {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(1).text() == "Kunde"
+					return $(this).find('td').eq(4).text() == "Kunde"
 				}).hide();
 			}
 		});
 		$('#sponsoren_cbx').on('change', function() {
 			if (this.checked) {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(1).text() == "Sponsor"
+					return $(this).find('td').eq(4).text() == "Sponsor"
 				}).show();
 			} else {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(1).text() == "Sponsor"
+					return $(this).find('td').eq(4).text() == "Sponsor"
 				}).hide();
 			}
 		});
@@ -371,6 +489,7 @@ $('#btn_new').hide();
 $(".suchfilter").css("margin-left", "0px");
 $('#btn_edit').hide();
 $('#btn_deleteModal').hide();
+$('#btn_details').prop('disabled', true);
 
 //get current user rights
 $(document).ready(function() {
@@ -412,6 +531,7 @@ $('#TableHead').on('click', 'tbody tr', function(event) {
 		$('#btn_edit').prop('disabled', true);
 		$('#btn_deleteModal').prop('disabled', true);
 	}
+	$('#btn_details').prop('disabled', false);
 });
 
 //remove table row modal

@@ -13,7 +13,7 @@ var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div class='aler
 var template = "<div class='row'><div class='col-md-6'><label>Login Email</label></div><div class='col-md-6'><label id='label_loginEmail_details'>Login Email</label>" +
 	"</div></div><div class='row'><div class='col-md-6'><label>Rechte</label></div><div class='col-md-6'><label id='label_permission_details'>Rechte</label>" +
 	"</div></div>";
-	$("#loginEmailPermission_container_details").append(template);
+$("#loginEmailPermission_container_details").append(template);
 
 var p;
 function loadTableContent() {
@@ -431,9 +431,7 @@ $("#btn_resetpassword").click(function() {
 //load details modal
 $("#btn_details").click(function() {
 	//remove container
-	$("#phone_container_details").remove();
-	$("#email_container_details").remove();
-	$("#type_container_details").remove();
+	$(".details").remove();
 	$("#loginEmailPermission_container_details").hide();
 	
 	var id = tableData[0];
@@ -463,8 +461,6 @@ $("#btn_details").click(function() {
 		$("#label_comment_details").text(p[id].comment);
 	}
 	
-	//$("#label_country_details").text(p[id].country);
-	
 	//load phone numbers
 	var phoneNumbers = p[id].telephones;
 	if(phoneNumbers.length == 0){
@@ -475,7 +471,7 @@ $("#btn_details").click(function() {
 		$("#label_phoneNumber_details").text(phoneNumbers[0].telephone + " (" + phoneNumbers[0].type.toLowerCase() + ")");
 		for (var j = 1; j < phoneNumbers.length; j++) {
 			phoneString = phoneNumbers[j].telephone + " (" + phoneNumbers[j].type.toLowerCase() + ")";
-			var template = "<div class='row'><div class='col-md-6'></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
+			var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
 			$("#phone_container_details").append(template);
 		}
 	}
@@ -490,7 +486,7 @@ $("#btn_details").click(function() {
 		$("#label_email_details").text(emails[0].mail + " (" + emails[0].type.toLowerCase() + ")");
 		for (var j = 1; j < emails.length; j++) {
 			emailString = emails[j].mail + " (" + emails[j].type.toLowerCase() + ")";
-			var template = "<div class='row'><div class='col-md-6'></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
+			var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
 			$("#email_container_details").append(template);
 		}
 	}
@@ -505,7 +501,7 @@ $("#btn_details").click(function() {
 		$("#label_types_details").text(types[0]);
 		for (var j = 1; j < types.length; j++) {
 			typeString = types[j];
-			var template = "<div class='row'><div class='col-md-6'></div><div class='col-md-6'><label>" + typeString + "</label></div></div>";
+			var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + typeString + "</label></div></div>";
 			$("#type_container_details").append(template);
 		}
 	}
@@ -547,55 +543,56 @@ $(document).ready(function() {
 		$('#mitarbeiter_cbx').on('change', function() {
 			if (this.checked) {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "Mitarbeiter"
+					return $(this).find('td').eq(5).text() == "Mitarbeiter"
 				}).show();
 			} else {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "Mitarbeiter"
+					return $(this).find('td').eq(5).text() == "Mitarbeiter"
 				}).hide();
 			}
 		});
 		$('#unterstuetzer_cbx').on('change', function() {
 			if (this.checked) {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "Unterstützer"
+					return $(this).find('td').eq(5).text() == "Unterstützer"
 				}).show();
 			} else {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "Unterstützer"
+					return $(this).find('td').eq(5).text() == "Unterstützer"
 				}).hide();
 			}
 		});
 		$('#mitglieder_cbx').on('change', function() {
 			if (this.checked) {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "Mitglied"
+					return $(this).find('td').eq(5).text() == "Mitglied"
 				}).show();
 			} else {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "Mitglied"
+					return $(this).find('td').eq(5).text() == "Mitglied"
 				}).hide();
 			}
 		});
 		$('#gaeste_cbx').on('change', function() {
 			if (this.checked) {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "Gast"
+					return $(this).find('td').eq(5).text() == "Gast"
 				}).show();
 			} else {
 				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(10).text() == "Gast"
+					return $(this).find('td').eq(5).text() == "Gast"
 				}).hide();
 			}
 		});
 	}(jQuery));
 });
 
-//disable new, edit and delete buttons
+//disable new, edit, delete and details buttons
 $('#btn_new').hide();
 $(".suchfilter").css("margin-left", "0px");
 $('#btn_edit').hide();
 $('#btn_deleteModal').hide();
+$('#btn_details').prop('disabled', true);
 
 //get current user rights
 $(document).ready(function() {
@@ -630,21 +627,14 @@ $('#TableHead').on('click', 'tbody tr', function(event) {
 	
 		//only when user has admin rights
 		if(currentUserRights == "Admin" && currentUserRights != "" && currentUser.personId != tableData[0]){
-			if(currentUserRights == "Admin"){
-				$('#btn_edit').prop('disabled', false);
-				$('#btn_deleteModal').prop('disabled', false);
-			}
-			else{
-				if(tableData[9] != "Admin"){
-					$('#btn_edit').prop('disabled', false);
-					$('#btn_deleteModal').prop('disabled', false);
-				}
-			}
+			$('#btn_edit').prop('disabled', false);
+			$('#btn_deleteModal').prop('disabled', false);
 		}
 		else{
 			$('#btn_edit').prop('disabled', true);
 			$('#btn_deleteModal').prop('disabled', true);
 		}
+		$('#btn_details').prop('disabled', false);
 });
 
 //remove table row modal
