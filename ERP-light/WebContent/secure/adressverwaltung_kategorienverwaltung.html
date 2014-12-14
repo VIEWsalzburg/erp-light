@@ -55,8 +55,8 @@
 						</form>
 						<!-- Table -->
 						<div class="table-responsive">
-						<table class="table table-hover table-striped header-fixed" id="personen">
-						<thead class="personen">
+						<table class="table table-hover table-striped header-fixed" id="TableHead">
+						<thead class="TableHead">
 							<tr>
 								<th style="width: 3%">#</th>								
 								<th style="width: 20%">Name</th>
@@ -85,7 +85,7 @@
 												  	<div class="form-group">
 														<label class="col-sm-4 control-label">Name</label>
 														<div class="col-sm-5">
-															<input type="text" class="form-control" name="tbx_category" id="tbx_category" placeholder="Name">
+															<input type="text" class="form-control" name="tbx_category" id="tbx_category" placeholder="Name" maxlength="100">
 														</div>
 													</div>
 												</div>
@@ -94,14 +94,15 @@
 												  	<div class="form-group">
 														<label class="col-sm-4 control-label">Beschreibung</label>
 														<div class="col-sm-5">
-															<textarea class="form-control" rows="3" name="tbx_description" id="tbx_description" placeholder="Beschreibung" style="resize:none"></textarea>
+															<textarea class="form-control" rows="3" name="tbx_description" id="tbx_description" placeholder="Beschreibung" maxlength="1024" style="resize:none"></textarea>
 														</div>
 													</div>
 												</div>											
 											</form>											  													
 										
 									  </div>
-									  <div class="modal-footer">										
+									  <div class="modal-footer">
+									  	<div id="newAlertForm"></div>										
 										<button type="button" class="btn btn-default" data-dismiss="modal"> Abbrechen</button>
 										<button type="button" id="btn_savecategory" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Speichern</button>								
 

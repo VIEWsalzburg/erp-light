@@ -32,9 +32,9 @@
 						<span id="username"></span> <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="#" data-toggle="modal" id="btn_mydata"
-							data-target="#mydata"><span
-								class="glyphicon glyphicon-user"></span> Meine Daten</a></li>
-						<li><a href="#" data-toggle="modal"
+							data-target="#mydata"><span class="glyphicon glyphicon-user"></span>
+								Meine Daten</a></li>
+						<li><a href="#" data-toggle="modal" id="btn_mypassword"
 							data-target="#mypassword"><span
 								class="glyphicon glyphicon-lock"></span> Passwort</a></li>
 						<li class="divider"></li>
@@ -64,13 +64,13 @@
 			</div>
 
 			<div class="modal-body">
-				<form id="passwordForm" class="form-horizontal" role="form">
+				<form class="form-horizontal" role="form">
 					<div class="row">
 						<div class="form-group">
 							<label class="col-sm-5 control-label">Altes Passwort</label>
 							<div class="col-sm-5">
 								<input type="password" class="form-control" id="tbx_oldpassword"
-									placeholder="Altes Passwort">
+									placeholder="Altes Passwort" maxlength="100">
 							</div>
 						</div>
 					</div>
@@ -80,7 +80,7 @@
 							<label class="col-sm-5 control-label">Neues Passwort</label>
 							<div class="col-sm-5">
 								<input type="password" class="form-control" id="tbx_newpassword"
-									placeholder="Neues Passwort">
+									placeholder="Neues Passwort" maxlength="100">
 							</div>
 						</div>
 					</div>
@@ -90,8 +90,8 @@
 							<label class="col-sm-5 control-label">Neues Passwort
 								best&auml;tigen</label>
 							<div class="col-sm-5">
-								<input type="password" class="form-control" id="tbx_acknewpassword"
-									placeholder="Passwort best&auml;tigen">
+								<input type="password" class="form-control"
+									id="tbx_acknewpassword" placeholder="Passwort best&auml;tigen" maxlength="100">
 							</div>
 						</div>
 					</div>
@@ -99,8 +99,10 @@
 			</div>
 
 			<div class="modal-footer">
+				<div id="passwordAlertForm"></div>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-				<button type="button" id="btn_savemypassword" class="btn btn-primary">
+				<button type="button" id="btn_savemypassword"
+					class="btn btn-primary">
 					<span class="glyphicon glyphicon-floppy-save"></span> Speichern
 				</button>
 			</div>
@@ -115,7 +117,7 @@
 <div class="modal fade" id="mydata" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog">
-		<div class="modal-content">
+		<div class="modal-content" style="width: 670px;	margin-left: -35px;">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
@@ -132,7 +134,7 @@
 								<label class="col-sm-4 control-label">Anrede</label>
 								<div class="col-sm-8">
 									<input name="tbx_salutation" type="text" class="form-control"
-										id="tbx_salutation_mydata" placeholder="Anrede">
+										id="tbx_salutation_mydata" placeholder="Anrede" maxlength="10">
 								</div>
 							</div>
 						</div>
@@ -141,7 +143,7 @@
 								<label class="col-sm-4 control-label">Titel</label>
 								<div class="col-sm-8">
 									<input type="text" name="tbx_title" class="form-control"
-										id="tbx_title_mydata" placeholder="Titel">
+										id="tbx_title_mydata" placeholder="Titel" maxlength="10">
 								</div>
 							</div>
 						</div>
@@ -153,7 +155,7 @@
 								<label class="col-sm-4 control-label">Vorname</label>
 								<div class="col-sm-8">
 									<input name="tbx_firstName" type="text" class="form-control"
-										id="tbx_firstName_mydata" placeholder="Vorname">
+										id="tbx_firstName_mydata" placeholder="Vorname" maxlength="100">
 								</div>
 							</div>
 						</div>
@@ -162,7 +164,7 @@
 								<label class="col-sm-4 control-label">Nachname</label>
 								<div class="col-sm-8">
 									<input type="text" name="tbx_lastName" class="form-control"
-										id="tbx_lastName_mydata" placeholder="Nachname">
+										id="tbx_lastName_mydata" placeholder="Nachname" maxlength="100">
 								</div>
 							</div>
 						</div>
@@ -174,7 +176,7 @@
 								<label class="col-sm-4 control-label">Adresse</label>
 								<div class="col-sm-8">
 									<input name="tbx_address" type="text" class="form-control"
-										id="tbx_address_mydata" placeholder="Adresse">
+										id="tbx_address_mydata" placeholder="Adresse" maxlength="100">
 								</div>
 							</div>
 						</div>
@@ -183,7 +185,7 @@
 								<label class="col-sm-4 control-label">PLZ</label>
 								<div class="col-sm-8">
 									<input name="tbx_zip" type="text" class="form-control"
-										id="tbx_zip_mydata" placeholder="PLZ">
+										id="tbx_zip_mydata" placeholder="PLZ" maxlength="5">
 								</div>
 							</div>
 						</div>
@@ -195,7 +197,7 @@
 								<label class="col-sm-4 control-label">Ort</label>
 								<div class="col-sm-8">
 									<input name="tbx_city" type="text" class="form-control"
-										id="tbx_city_mydata" placeholder="Ort">
+										id="tbx_city_mydata" placeholder="Ort" maxlength="100">
 								</div>
 							</div>
 						</div>
@@ -204,7 +206,20 @@
 								<label class="col-sm-4 control-label">Land</label>
 								<div class="col-sm-8">
 									<input name="tbx_country" type="text" class="form-control"
-										id="tbx_country_mydata" placeholder="Land">
+										id="tbx_country_mydata" placeholder="Land" maxlength="50">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Bemerkung</label>
+								<div class="col-sm-10">
+									<input name="tbx_comment_mydata" type="text"
+										class="form-control" id="tbx_comment_mydata"
+										placeholder="Bemerkung" maxlength="1000">
 								</div>
 							</div>
 						</div>
@@ -213,56 +228,43 @@
 					<div class="row divider-horizontal"></div>
 
 					<div class="row">
-						<div class="col-sm-2">
-							<label class="control-label">Telefonnr.</label>
-						</div>
-						<!-- Tel. num container -->
-						<div id="phone_container_mydata" class="col-sm-10">
-							<!--Tel. num element -->
-							<!-- /Tel. num element -->
-						</div>
-						<!-- /Tel. num container -->
-					</div>
-
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-2">
+						<div class="col-md-6">
 							<div class="form-group">
-								<button type="button" id="btn_addphonenumber_mydata"
-									class="btn btn-primary">
-									<span class="glyphicon glyphicon-plus"></span> Telefonnr.
-									hinzuf&uuml;gen
-								</button>
+								<label class="col-sm-4 control-label">Telnnr.</label>
+								<div class="col-sm-8">
+									<button type="button" id="btn_addphonenumber_mydata"
+										class="btn btn-primary">
+										<span class="glyphicon glyphicon-plus"></span> Telefonnr.
+										hinzuf&uuml;gen
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
 
-					<div class="row">
-						<div class="col-sm-2">
-							<label class="control-label">Emailadr.</label>
-						</div>
-						<!-- Tel. num container -->
-						<div id="email_container_mydata" class="col-sm-10">
-							<!--Tel. num element -->
-							<!-- /Tel. num element -->
-						</div>
-						<!-- /Tel. num container -->
-					</div>
+					<div id="phone_container_mydata"></div>
 
 					<div class="row">
-						<div class="col-sm-10 col-sm-offset-2">
+						<div class="col-md-6">
 							<div class="form-group">
-								<button type="button" id="btn_addemail_mydata" class="btn btn-primary">
-									<span class="glyphicon glyphicon-plus"></span> Email
-									hinzuf&uuml;gen
-								</button>
+								<label class="col-sm-4 control-label">Emailadr.</label>
+								<div class="col-sm-8">
+									<button type="button" id="btn_addemail_mydata" class="btn btn-primary">
+										<span class="glyphicon glyphicon-plus"></span> Email
+										hinzuf&uuml;gen
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
+
+					<div id="email_container_mydata"></div>
 
 				</form>
 			</div>
 
 			<div class="modal-footer">
+				<div id="myDataAlertForm"></div>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
 				<button type="button" id="btn_savemydata" class="btn btn-primary">
 					<span class="glyphicon glyphicon-floppy-save"></span> Speichern

@@ -3,6 +3,10 @@ $("#pageheader").load("../partials/header.html", function() {
 	$("#adressverwaltung_nav").addClass("active");
 });
 
+//append alert message to modal
+var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>"
+	$("#newAlertForm").append(pwdError);
+
 //load contact persons to modal
 var p;
 function loadAllContactPersons() {
@@ -56,6 +60,9 @@ function loadAllCategories() {
 $("#btn_new").click(function() {
 	$("#modal_title_text").text("Neue Organisation");
 	
+	//hide alert messsage
+	$("#newAlertForm").hide();
+	
 	//clear textboxes
 	$("#tbx_id").val("");
 	$("#tbx_type").val("");
@@ -71,6 +78,10 @@ $("#btn_new").click(function() {
 
 $("#btn_edit").click(function() {
 	$("#modal_title_text").text("Bearbeite Organisation");
+	
+	//hide alert messsage
+	$("#newAlertForm").hide();
+	
 	var id = tableData[0];
 	
 	//load textboxes
@@ -143,7 +154,7 @@ function loadTableContent() {
 					for (var k = 0; k < categories.length; k++) {
 						categoryString = categoryString + categories[k];
 						if (k < categories.length - 1) {
-							categoryString = categoryString + ", " + "<br/>";
+							categoryString = categoryString + "," + "<br/>";
 						}
 					}
 					
@@ -151,7 +162,7 @@ function loadTableContent() {
 						var help = loadContactPerson(personIds[k]);
 						personIdString = personIdString + help;
 						if (k < personIds.length - 1) {
-							personIdString = personIdString + ", " + "<br/>";
+							personIdString = personIdString + "," + "<br/>";
 						}
 					}
 					
@@ -159,8 +170,8 @@ function loadTableContent() {
 								"<td>" + o[e].id + "</td>"
 								+ "<td>" + o[e].name + "</td>"
 								+ "<td>" + personIdString + "</td>" 
-								+ "<td>" + "Bundestraßeeeee 102" + ", " + "<br/>" + "5020" + " "
-								+ "Salzburg" + ", " + "<br/>" + "Österreich" + "</td>"	//TOD country missing in json object
+								+ "<td>" + "Bundestraßeeeee 102" + "," + "<br/>" + "5020" + " "
+								+ "Salzburg" + "," + "<br/>" + "Österreich" + "</td>"	//TOD country missing in json object
 								+ "<td>" + typeString + "</td>" 
 								+ "<td>" + categoryString + "</td>"
 								+ "<td>" + o[e].comment + "</td>" +	"</tr>";
@@ -175,6 +186,13 @@ $(document).ready(loadTableContent());
 
 //save person
 $("#btn_saveorganisation").click(function() {
+	if($("#tbx_name").val() == "" || $("#tbx_address").val() == "" || $("#tbx_zip").val() == "" 
+		|| $("#tbx_city").val() == "" || $("#tbx_country").val() == "")
+	{
+			$("#newAlertForm").show();
+			return;
+	}
+	
 	var neworganisation = new Object();
 	
 	neworganisation.id = $("#tbx_id").val();
@@ -368,7 +386,7 @@ $(document).ready(function() {
 });
 
 var tableData;
-$('#personen').on('click', 'tbody tr', function(event) {
+$('#TableHead').on('click', 'tbody tr', function(event) {
 	tableData = $(this).children("td").map(function() {
 		return $(this).text();
 	}).get();
@@ -377,16 +395,8 @@ $('#personen').on('click', 'tbody tr', function(event) {
 	
 	//only when user has admin rights
 	if(currentUserRights == "Admin" && currentUserRights != ""){
-		if(currentUserRights == "Admin"){
-			$('#btn_edit').prop('disabled', false);
-			$('#btn_deleteModal').prop('disabled', false);
-		}
-		else{
-			if(tableData[9] != "Admin"){
-				$('#btn_edit').prop('disabled', false);
-				$('#btn_deleteModal').prop('disabled', false);
-			}
-		}
+		$('#btn_edit').prop('disabled', false);
+		$('#btn_deleteModal').prop('disabled', false);
 	}
 	else{
 		$('#btn_edit').prop('disabled', true);
@@ -396,10 +406,10 @@ $('#personen').on('click', 'tbody tr', function(event) {
 
 //remove table row modal
 $("#btn_deleteModal").click(function() {
-	$("#label_id").text(tableData[0]);
-	$("#label_type").text(tableData[1]);
-	$("#label_name").text(tableData[2]);
-	$("#label_address").text(tableData[4]);
+	var id = tableData[0];
+	
+	$("#label_name").text(o[id].name);
+	$("#label_address").text();
 });
 
 //TODO delete organisation

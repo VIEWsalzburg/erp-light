@@ -36,6 +36,11 @@ $("#pageheader").load("../partials/header.html", function() {
 	
 	// Get one person and load it to modal
 	$("#btn_mydata").click(function() {
+		//load and hide alert messsage
+		var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-7'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Es sind nicht alle Felder ausgefüllt!</div> </div>  </div>"
+			$("#myDataAlertForm").append(pwdError);
+			$("#myDataAlertForm").hide();
+		
 		//remove all phonenumber divs
 		$(".btn_removephonenumber_mydata").closest('div[class^="phone_element_mydata"]').remove();
 		phoneCount = 0;
@@ -64,6 +69,7 @@ $("#pageheader").load("../partials/header.html", function() {
 			$("#tbx_zip_mydata").val(p.zip);
 			$("#tbx_city_mydata").val(p.city);
 			$("#tbx_country_mydata").val(p.country);
+			$("#tbx_comment_mydata").val(p.comment);
 
 			//load phoneNumber divs
 			var newElement;
@@ -73,11 +79,13 @@ $("#pageheader").load("../partials/header.html", function() {
 			$("#select_loginEmail").find('option').remove().end();
 			
 			for (var i = 0; i<p.telephones.length; i++) {
-				phoneelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_phoneNumber_mydata" 
-					+ phoneCount + "' class='form-control tbx_phoneNumber_mydata' placeholder='Telefonnr.'> </div> <div class='col-sm-4'>" +
-					"<select class='form-control select_phoneNumber_mydata' id='select_phoneNumber_mydata"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
-					"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber_mydata' id='btn_delete_mydata' >L&ouml;schen</button> </div> </div> </div>";
-					
+				phoneelement_template = "<div class='row'><div class='col-md-6'><div class='form-group'><div class='col-sm-4'></div><div class='col-sm-8'>" +
+					"<input type='text' id='tbx_phoneNumber_mydata" + phoneCount + "' class='form-control tbx_phoneNumber_mydata' placeholder='Telefonnr.' maxlength='20'>" +
+					"</div></div></div><div class='col-md-6'><div class='form-group'><div class='col-sm-6'><select class='form-control select_phoneNumber_mydata' id='select_phoneNumber_mydata"+ phoneCount +"'>" +
+					"<option>privat</option> <option>gesch&auml;ftlich</option></select></div><div class='col-sm-6'>" + 
+					"<button type='button' class='btn btn-danger btn_removephonenumber_mydata' id='btn_delete_mydata' ><span class='glyphicon glyphicon-trash'></span> L&ouml;schen</button>" +
+					"</div></div></div></div>";
+				
 					newElement = $(
 						"<div/>",
 						{
@@ -98,10 +106,12 @@ $("#pageheader").load("../partials/header.html", function() {
 			
 			//load email divs
 			for (var i = 0; i<p.emails.length; i++) {
-				emailelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_email_mydata" + emailCount + "' " +
-					"class='form-control tbx_mailadress_mydata' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control select_email_mydata' id='select_email_mydata"+ emailCount +"'>" +
-					"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail_mydata'" +
-					"id='btn_delete_mydata' >L&ouml;schen</button> </div> </div> </div>";
+				emailelement_template = "<div class='row'><div class='col-md-6'><div class='form-group'><div class='col-sm-4'></div><div class='col-sm-8'>" +
+					"<input type='text' id='tbx_email_mydata" + emailCount + "' class='form-control tbx_mailadress_mydata' placeholder='Email' maxlength='50'>" +
+					"</div></div></div><div class='col-md-6'><div class='form-group'><div class='col-sm-6'><select class='form-control select_email_mydata' id='select_email_mydata"+ emailCount +"'>" +
+					"<option>privat</option> <option>gesch&auml;ftlich</option></select></div><div class='col-sm-6'>" + 
+					"<button type='button' class='btn btn-danger btn_removeemail_mydata' id='btn_delete_mydata' ><span class='glyphicon glyphicon-trash'></span> L&ouml;schen</button>" +
+					"</div></div></div></div>";
 				
 					newElement = $("<div/>", {
 						id : "email_element_mydata" + emailCount++,
@@ -121,6 +131,12 @@ $("#pageheader").load("../partials/header.html", function() {
 		});
 	});
 	
+	$("#btn_mypassword").click(function() {
+		var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-7'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Passwörter stimmen nicht überein.</div> </div>  </div>"
+			$("#passwordAlertForm").append(pwdError);
+			$("#passwordAlertForm").hide();
+	});
+	
 	//my password modal
 	$("#btn_savemypassword").click(function() {
 		
@@ -131,8 +147,7 @@ $("#pageheader").load("../partials/header.html", function() {
 		
 		if (newPwd != newPwdAck)
 		{
-			var pwdError = "<div id='pwdErrorAlert' class='row'> <div class='col-sm-offset-2 col-sm-8'> <div class='alert alert-danger custom-alert'>Die angegebenen Passwörter stimmen nicht überein.</div> </div>  </div>"
-			$("#passwordForm").append(pwdError);
+			$("#passwordAlertForm").show();
 			
 			$("#tbx_oldpassword").val("");
 			$("#tbx_newpassword").val("");
@@ -201,11 +216,13 @@ $("#pageheader").load("../partials/header.html", function() {
 	//add phonenumber div
 	$(document).ready(function() {
 		$("#btn_addphonenumber_mydata").click(function() {
-				phoneelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_phoneNumber_mydata" 
-										+ phoneCount + "' class='form-control tbx_phoneNumber_mydata' placeholder='Telefonnr.'> </div> <div class='col-sm-4'>" +
-										"<select class='form-control select_phoneNumber_mydata' id='select_phoneNumber_mydata"+ phoneCount +"'> <option>privat</option> <option>gesch&auml;ftlich</option> </select>" +
-										"</div> <div class='col-sm-3'> <button type='button' class='btn btn-danger btn_removephonenumber_mydata' id='btn_delete_mydata' >L&ouml;schen</button> </div> </div> </div>";
-										
+				phoneelement_template = "<div class='row'><div class='col-md-6'><div class='form-group'><div class='col-sm-4'></div><div class='col-sm-8'>" +
+					"<input type='text' id='tbx_phoneNumber_mydata" + phoneCount + "' class='form-control tbx_phoneNumber_mydata' placeholder='Telefonnr.' maxlength='20'>" +
+					"</div></div></div><div class='col-md-6'><div class='form-group'><div class='col-sm-6'><select class='form-control select_phoneNumber_mydata' id='select_phoneNumber_mydata"+ phoneCount +"'>" +
+					"<option>privat</option> <option>gesch&auml;ftlich</option></select></div><div class='col-sm-6'>" + 
+					"<button type='button' class='btn btn-danger btn_removephonenumber_mydata' id='btn_delete_mydata' ><span class='glyphicon glyphicon-trash'></span> L&ouml;schen</button>" +
+					"</div></div></div></div>";
+				
 										var newElement = $(
 											"<div/>",
 											{
@@ -225,10 +242,12 @@ $("#pageheader").load("../partials/header.html", function() {
 	//add email div
 	$(document).ready(function() {
 		$("#btn_addemail_mydata").click(function() {
-			emailelement_template = "<div class='row'> <div class='form-group'> <div class='col-sm-5'> <input type='text' id='tbx_email_mydata" + emailCount + "' " +
-				"class='form-control tbx_mailadress_mydata' placeholder='Email'> </div> <div class='col-sm-4'> <select class='form-control select_email_mydata' id='select_email_mydata"+ emailCount +"'>" +
-				"<option>privat</option> <option>gesch&auml;ftlich</option> </select> </div> <div class='col-sm-3'><button type='button' class='btn btn-danger btn_removeemail_mydata'" +
-				"id='btn_delete_mydata' >L&ouml;schen</button> </div> </div> </div>";
+			emailelement_template = "<div class='row'><div class='col-md-6'><div class='form-group'><div class='col-sm-4'></div><div class='col-sm-8'>" +
+			"<input type='text' id='tbx_email_mydata" + emailCount + "' class='form-control tbx_mailadress_mydata' placeholder='Email' maxlength='50'>" +
+			"</div></div></div><div class='col-md-6'><div class='form-group'><div class='col-sm-6'><select class='form-control select_email_mydata' id='select_email_mydata"+ emailCount +"'>" +
+			"<option>privat</option> <option>gesch&auml;ftlich</option></select></div><div class='col-sm-6'>" + 
+			"<button type='button' class='btn btn-danger btn_removeemail_mydata' id='btn_delete_mydata' ><span class='glyphicon glyphicon-trash'></span> L&ouml;schen</button>" +
+			"</div></div></div></div>";
 			
 			var newElement = $("<div/>", {
 				id : "email_element_mydata" + emailCount++,
@@ -247,15 +266,21 @@ $("#pageheader").load("../partials/header.html", function() {
 
 	//Save my data
 	$("#btn_savemydata").click(function() {
+		if($("#tbx_salutation_mydata").val() == "" || $("#tbx_firstName_mydata").val() == "" || $("#tbx_lastName_mydata").val() == "" 
+			|| $("#tbx_address_mydata").val() == "" || $("#tbx_city_mydata").val() == "" || $("#tbx_zip_mydata").val() == "" || $("#tbx_country_mydata").val() == "")
+		{
+				$("#myDataAlertForm").show();
+				return;
+		}
+		
 		var newperson = new Object();
-
+			
 		newperson.personId = $("#tbx_id_mydata").val();
 		newperson.salutation = $("#tbx_salutation_mydata").val();
 		newperson.title = $("#tbx_title_mydata").val();
 		newperson.firstName = $("#tbx_firstName_mydata").val();
 		newperson.lastName = $("#tbx_lastName_mydata").val();
-		//Not used yet
-		newperson.comment = "";
+		newperson.comment = $("#tbx_comment_mydata").val();
 		//Set by server
 		newperson.updateTimestamp = "";
 		newperson.active = 1;
