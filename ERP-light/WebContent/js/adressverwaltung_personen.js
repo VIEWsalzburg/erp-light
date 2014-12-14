@@ -651,8 +651,8 @@ $('#TableHead').on('click', 'tbody tr', function(event) {
 $("#btn_deleteModal").click(function() {
 	var id = tableData[0];
 	
-	$("#label_name").text(p[id].title + " " + p[id].lastName + " " + p[id].firstName);
-	$("#label_address").text(p[id].address + ", " + p[id].zip + " " + p[id].city + ", " + p[id].country);
+	$("#label_name_delete").text(p[id].title + " " + p[id].lastName + " " + p[id].firstName);
+	$("#label_address_delete").text(p[id].address + ", " + p[id].zip + " " + p[id].city + ", " + p[id].country);
 });
 
 $("#btn_deletePerson").click(function() {
