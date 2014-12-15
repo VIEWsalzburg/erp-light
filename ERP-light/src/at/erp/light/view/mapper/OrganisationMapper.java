@@ -83,11 +83,7 @@ public class OrganisationMapper {
 					categoryId).getCategory(), ""));
 		}
 		entity.setCategories(categories);
-		try {
-			entity.setUpdateTimestamp(df.parse(dto.getUpdateTimestamp()));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		entity.setUpdateTimestamp(new Date());
 
 		Set<Type> types = new HashSet<Type>();
 		for (String typeStr : dto.getTypes()) {
