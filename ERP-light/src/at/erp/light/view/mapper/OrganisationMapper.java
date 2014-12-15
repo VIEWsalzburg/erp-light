@@ -8,21 +8,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import at.erp.light.view.dto.OrganisationDTO;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Category;
 import at.erp.light.view.model.City;
+import at.erp.light.view.model.Country;
 import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.Person;
 import at.erp.light.view.model.Type;
 import at.erp.light.view.services.IDataBase;
 
 public class OrganisationMapper {
-
-	@Autowired
-	private static IDataBase dataBaseService;
 
 	private static DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -41,6 +37,7 @@ public class OrganisationMapper {
 		dto.setAddress(organisation.getAddress().getAddress());
 		dto.setZip(organisation.getCity().getZip());
 		dto.setCity(organisation.getCity().getCity());
+		dto.setCountry(organisation.getCountry().getCountry());
 
 		List<Integer> ids = new ArrayList<Integer>();
 		for (Person p : organisation.getContactPersons()) {
@@ -62,7 +59,7 @@ public class OrganisationMapper {
 		return dto;
 	}
 
-	public static Organisation mapToEntity(OrganisationDTO dto) {
+	public static Organisation mapToEntity(OrganisationDTO dto, IDataBase dataBaseService) {
 		Organisation entity = new Organisation();
 
 		entity.setOrganisationId(dto.getId());
@@ -70,7 +67,8 @@ public class OrganisationMapper {
 		entity.setComment(dto.getComment());
 		entity.setAddress(new Address(0, dto.getAddress()));
 		entity.setCity(new City(0, dto.getCity(), dto.getZip()));
-
+		entity.setCountry(new Country(0, dto.getCountry()));
+		
 		Set<Person> pList = new HashSet<Person>();
 		for (Integer id : dto.getPersonIds()) {
 			pList.add(dataBaseService.getPersonById(id));
