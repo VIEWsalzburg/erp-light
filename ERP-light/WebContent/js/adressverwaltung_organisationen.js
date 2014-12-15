@@ -218,6 +218,7 @@ $("#btn_saveorganisation").click(function() {
 	neworganisation.address = $("#tbx_address").val();
 	neworganisation.zip = $("#tbx_zip").val();
 	neworganisation.city = $("#tbx_city").val();
+	//neworganisation.country = $("#tbx_country").val();
 	
 	//Set by server
 	neworganisation.updateTimestamp = "";
@@ -241,7 +242,7 @@ $("#btn_saveorganisation").click(function() {
 			categoryArray.push(c[i-1].categoryId);
 		}
 	}
-	neworganisation.categories = categoryArray;
+	neworganisation.categoryIds = categoryArray;
 	
 	//checking if type checkboxes checked
 	var typesArray = [];

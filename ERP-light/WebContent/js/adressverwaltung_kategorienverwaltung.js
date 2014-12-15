@@ -50,11 +50,11 @@ $("#btn_savecategory").click(function() {
 			return;
 	}
 	
-	var neworganisation = new Object();
+	var newcategory = new Object();
 	
-	neworganisation.categoryId = $("#tbx_categoryId").val();
-	neworganisation.category = $("#tbx_category").val();
-	neworganisation.description = $("#tbx_description").val();
+	newcategory.categoryId = $("#tbx_categoryId").val();
+	newcategory.category = $("#tbx_category").val();
+	newcategory.description = $("#tbx_description").val();
 	
 	$.ajax({
 		headers : {
@@ -65,7 +65,7 @@ $("#btn_savecategory").click(function() {
 		url : "../rest/secure/category/setCategory",	//TODO setCategory?
 		contentType: "application/json; charset=utf-8",
 	    dataType: "json",
-		data : JSON.stringify(newperson)
+		data : JSON.stringify(newcategory)
 	}).done(function(data) {
 		if (data) {
 			$('#categoryTableBody').empty();
