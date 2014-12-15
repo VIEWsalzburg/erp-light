@@ -33,7 +33,7 @@ public class CategoryController {
 		return catDTOList;
 	}
 	
-	@RequestMapping(value = "secure/category/setCategories")
+	@RequestMapping(value = "secure/category/setCategory")
 	public ControllerMessage setCategory(@RequestBody CategoryDTO category, HttpServletRequest request) {
 		Category entity = CategoryMapper.mapToEntity(category);
 		
