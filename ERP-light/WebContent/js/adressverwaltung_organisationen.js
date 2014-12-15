@@ -218,7 +218,7 @@ $("#btn_saveorganisation").click(function() {
 	neworganisation.address = $("#tbx_address").val();
 	neworganisation.zip = $("#tbx_zip").val();
 	neworganisation.city = $("#tbx_city").val();
-	//neworganisation.country = $("#tbx_country").val();
+	neworganisation.country = $("#tbx_country").val();
 	
 	//Set by server
 	neworganisation.updateTimestamp = "";
