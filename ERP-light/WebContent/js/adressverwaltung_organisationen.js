@@ -4,7 +4,7 @@ $("#pageheader").load("../partials/header.html", function() {
 });
 
 //append alert message to modal
-var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>"
+var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>";
 	$("#newAlertForm").append(pwdError);
 
 var template = "<div class='row'><div class='col-md-6'><label>Login Email</label></div><div class='col-md-6'><label id='label_loginEmail_details'>Login Email</label>" +
@@ -24,8 +24,8 @@ function loadAllContactPersons() {
 				p = eval(data);
 				
 				for (var e in p) {
-					var p_divRow = "<div class='boxElement_person'>" + "<span>" + p[e].lastName + " " + p[e].firstName
-								+ " " + "</span><input class='pull-right' type='checkbox' id='cbx_contactperson" + p[e].personId + "'></div>";
+					var p_divRow = "<div class='boxElement_person'>" + "<input type='hidden' value="+ p[e].personId +">" + "<span>" + p[e].lastName + " " + p[e].firstName
+								+ " " + "</span><input class='pull-right' type='checkbox' ></div>";
 					
 					$("#contactPersonDiv").append(p_divRow);
 				}
@@ -54,8 +54,8 @@ function loadAllCategories() {
 				c = eval(data);
 				
 				for (var e in c) {
-					var c_divRow = "<div class='boxElement_category'>" + "<span>" + c[e].category + " "
-					+ "</span><input class='pull-right' type='checkbox' id='cbx_category" + c[e].categoryId + "'></div>";
+					var c_divRow = "<div class='boxElement_category'>" + "<input type='hidden' value="+ c[e].categoryId +">" + "<span>" + c[e].category + " "
+					+ "</span><input class='pull-right' type='checkbox'></div>";
 					
 					$("#categoryDiv").append(c_divRow);
 				}
@@ -78,8 +78,16 @@ $("#btn_new").click(function() {
 	$("#tbx_city").val("");
 	$("#tbx_country").val("");
 	
+	// untick Checkboxes
+	$('#cbx_lieferant').prop('checked',false);
+	$('#cbx_kunde').prop('checked',false);
+	$('#cbx_sponsor').prop('checked',false);
+	
+	// load all available categories and all available persons to modal
 	clearAndLoadDivContainer();
 });
+
+
 
 $("#btn_edit").click(function() {
 	$("#modal_title_text").text("Bearbeite Organisation");
@@ -89,31 +97,105 @@ $("#btn_edit").click(function() {
 	
 	var id = tableData[0];
 	
-	//load textboxes
-	$("#tbx_id").val(o[id].id);
-	$("#tbx_name").val(o[id].name);
-	$("#tbx_address").val(o[id].address);
-	$("#tbx_zip").val(o[id].zip);
-	$("#tbx_city").val(o[id].city);
-	$("#tbx_country").val("Österreich");
-	$("#tbx_description").val(o[id].comment);
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/organisation/getOrganisationById/" + id
+	}).done(function(data) {
+		
+		var org = eval(data);
+		
+		//load textboxes
+		$("#tbx_id").val(org.id);
+		$("#tbx_name").val(org.name);
+		$("#tbx_address").val(org.address);
+		$("#tbx_zip").val(org.zip);
+		$("#tbx_city").val(org.city);
+		$("#tbx_country").val(org.country);
+		$("#tbx_comment").val(org.comment);
+		
+		// load all available categories and all available persons to modal
+		clearAndLoadDivContainer();
 	
-	clearAndLoadDivContainer();
+		// check all persons, which are currently contactPersons
+		$('#contactPersonDiv').children().each(
+				function(){
+					var inputs = $(this).children('input');
+					var id = $(inputs).first().val();
+					
+					// iterate over all assigned contactPersons and check those with matching Ids
+					var personIds = org.personIds;
+					for (var i in personIds)
+					{
+						// check if Ids match, when they match => check checkbox
+						if (id == personIds[i])
+						{
+							$(inputs).last().prop('checked', true);
+						}
+					}
+					
+				}
+		);
 	
-	//set contact person checkboxes
-	var personIds = o[id].personIds
-	for(var i=0; i<personIds.length; i++){
-		var help = "#cbx_contactperson" + personIds[i];
-		$(help).prop('checked', true);
-	}
 	
-	//set category checkboxes
-	var categoryIds = o[id].categoryIds;
-	for(var i=0; i<categoryIds.length; i++){
-		var help = "#cbx_category" + categoryIds[i];
-		$(help).prop('checked', true);
-	}
-});
+		// check all categories, which are currently assigned
+		$('#categoryDiv').children().each(
+				function(){
+					var inputs = $(this).children('input');
+					var id = $(inputs).first().val();
+					
+					// iterate over all assigned contactPersons and check those with matching Ids
+					var categoryIds = org.categoryIds;
+					for (var i in categoryIds)
+					{
+						// check if Ids match, when they match => check checkbox
+						if (id == categoryIds[i])
+						{
+							$(inputs).last().prop('checked', true);
+						}
+					}
+					
+				}
+		);
+		
+		
+		// uncheck all checkboxes first
+		$('#cbx_lieferant').prop('checked',false);
+		$('#cbx_kunde').prop('checked',false);
+		$('#cbx_sponsor').prop('checked',false);
+		
+		
+		var types = org.types;
+		for (i in types)
+		{
+			if (types[i] == "Lieferant")
+			{
+				$('#cbx_lieferant').prop('checked',true);
+			}
+			
+			if (types[i] == "Kunde")
+			{
+				$('#cbx_kunde').prop('checked',true);
+			}
+			
+			if (types[i] == "Sponsor")
+			{
+				$('#cbx_sponsor').prop('checked',true);
+			}
+			
+		}
+		
+		
+		
+		
+	
+	});	// end of ajax.done()
+	
+	
+});	// end of click function
+
+
+
+
 
 //load contact persons for table
 var contactPerson;
@@ -134,6 +216,9 @@ function loadContactPerson(id) {
 var o;
 var c;
 function loadTableContent() {
+	
+	
+	// load all Categories
 	var category;
 	$.ajax({
 		type : "POST",
@@ -142,6 +227,17 @@ function loadTableContent() {
 	}).done(
 			function(data) {
 				c = eval(data);
+	});
+	
+	// load all Persons for ContactPersons
+	var allPersons;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/person/getAll"
+	}).done(
+			function(data) {
+				allPersons = eval(data);
 	});
 	
 	$.ajax({
@@ -155,12 +251,13 @@ function loadTableContent() {
 					var types = o[e].types;
 					var typeString = "";
 					
-					var categories = o[e].categoryIds;
+					var categoryIds = o[e].categoryIds;
 					var categoryString = "";
 					
 					var personIds = o[e].personIds;
 					var personIdString = "";
 					
+					// append all Types to one String
 					for (var k = 0; k < types.length; k++) {
 						typeString = typeString + types[k];
 						if (k < types.length - 1) {
@@ -168,18 +265,44 @@ function loadTableContent() {
 						}
 					}
 					
-					for (var k = 0; k < categories.length; k++) {
-						categoryString = categoryString + c[categories[k]-1].category;
-						if (k < categories.length - 1) {
-							categoryString = categoryString + "," + "<br/>";
+					
+					// read assigned categories from allCategories
+					// IMPORTANT !!! CHECK FOR CORRECT CategoryID
+					for (var k = 0; k < categoryIds.length; k++) {
+						
+						// iterate over all categories and append only assigned categories with the correct IDs
+						// IMPORTANT for (i in c) => i is only the current index
+						for (i in c)
+						{
+							
+							// if assigned categoryId matches with categoryId from all Categories then append CategoryName to String
+							if (categoryIds[k] == c[i].categoryId)
+							{
+								categoryString = categoryString + c[i].category;
+								if (k < categoryIds.length - 1) {
+									categoryString = categoryString + "," + "<br/>";
+								}
+							}	
 						}
 					}
 					
+					
+					
+					// read assigned contactPersons from allPersons
+					// IMPORTANT !!! CHECK FOR CORRECT PersonID
 					for (var k = 0; k < personIds.length; k++) {
-						var help = loadContactPerson(personIds[k]);
-						personIdString = personIdString + help;
-						if (k < personIds.length - 1) {
-							personIdString = personIdString + "," + "<br/>";
+						
+						// iterate over all persons and append only assigned contactPerons with the correct IDs
+						// IMPORTANT for (i in p) => i is only the current index
+						for (i in allPersons)
+						{
+							if (personIds[k] == allPersons[i].personId)
+							{
+								personIdString = personIdString + allPersons[i].lastName + " " + allPersons[i].firstName;
+								if (k < personIds.length - 1) {
+									personIdString = personIdString + "," + "<br/>";
+								}
+							}
 						}
 					}
 					
@@ -198,13 +321,16 @@ function loadTableContent() {
 			});
 };
 
+
+
 //Get all organisations and load into table
 $(document).ready(loadTableContent());
 
-//save person
+
+
+//save organisation
 $("#btn_saveorganisation").click(function() {
-	if($("#tbx_name").val() == "" || $("#tbx_address").val() == "" || $("#tbx_zip").val() == "" 
-		|| $("#tbx_city").val() == "" || $("#tbx_country").val() == "")
+	if($("#tbx_name").val() == "" )
 	{
 			$("#newAlertForm").show();
 			return;
@@ -224,27 +350,37 @@ $("#btn_saveorganisation").click(function() {
 	neworganisation.updateTimestamp = "";
 	neworganisation.lastEditor = "";
 	
-	//check if contact person checkboxes are checked
-	var contactPersonArray = [];
-	for(var i=1; i<=p.length; i++){
-		var help = "#cbx_contactperson" + i;
-		if($(help).prop('checked')){
-			contactPersonArray.push(i);
-		}
-	}
-	neworganisation.personIds = contactPersonArray;
+	// get Ids of all checked Checkboxes of contactPersons
+	var contactPersonIds = [];
+	$('#contactPersonDiv').children().each(
+			function(){
+				var inputs = $(this).children('input');
+				if ($(inputs).last().prop('checked'))
+				{
+					var id = $(inputs).first().val();
+					contactPersonIds.push(id);
+				}
+			}
+	);
+	neworganisation.personIds = contactPersonIds;
 	
-	//check if category checkboxes are checked
-	var categoryArray = [];
-	for(var i=1; i<=c.length; i++){
-		var help = "#cbx_category" + i;
-		if($(help).prop('checked')){
-			categoryArray.push(c[i-1].categoryId);
-		}
-	}
-	neworganisation.categoryIds = categoryArray;
 	
-	//checking if type checkboxes checked
+	// get Ids of all checked Checkboxes of categories
+	var categoryIds = [];
+	$('#categoryDiv').children().each(
+			function(){
+				var inputs = $(this).children('input');
+				if ($(inputs).last().prop('checked'))
+				{
+					var id = $(inputs).first().val();
+					categoryIds.push(id);
+				}
+			}
+	);
+	neworganisation.categoryIds = categoryIds;
+	
+	
+	//checking if type checkboxes are checked
 	var typesArray = [];
 	if($('#cbx_lieferant').prop('checked')){
 		typesArray.push("Lieferant");
@@ -256,6 +392,7 @@ $("#btn_saveorganisation").click(function() {
 		typesArray.push("Sponsor");
 	}
 	neworganisation.types = typesArray;
+
 	
 	$.ajax({
 		headers : {
@@ -281,13 +418,18 @@ $("#btn_saveorganisation").click(function() {
 				showAlertElement(2, data.message, 5000);
 			}
 			
+			// reload Table content
 			loadTableContent();
 		} else {
 			alert("Verbindungsproblem mit dem Server");
 		}
 	});
+	
+	
 	return false;
 });
+
+
 
 //load details modal
 $("#btn_details").click(function() {
@@ -297,107 +439,153 @@ $("#btn_details").click(function() {
 	
 	var id = tableData[0];
 	
-	$("#label_name_details").text(o[id].name);
-	$("#label_address_details").text(o[id].address);
-	$("#label_zip_details").text(o[id].zip);
-	$("#label_city_details").text(o[id].city);
-	$("#label_country_details").text(o[id].country);
-	$("#label_lastEditor_details").text(o[id].lastEditor);
-	$("#label_updateTimestamp_details").text(o[id].updateTimestamp);
-	
-	if(o[id].comment == ""){
-		$("#label_comment_details").text("-");
-	}
-	else{
-		$("#label_comment_details").text(o[id].comment);
-	}
-	
-	//load types
-	var types = o[id].types;
-	if(types.length == 0){
-		$("#label_types_details").text("-");
-	}
-	else{
-		var typeString = "";
-		$("#label_types_details").text(types[0]);
-		for (var j = 1; j < types.length; j++) {
-			typeString = types[j];
-			var template = "<div class='row'><div class='col-md-6'></div><div class='col-md-6'><label>" + typeString + "</label></div></div>";
-			$("#type_container_details").append(template);
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/organisation/getOrganisationById/" + id
+	}).done(function(data) {
+		
+		var org = eval(data);
+		
+		$("#label_name_details").text(org.name);
+		$("#label_address_details").text(org.address);
+		$("#label_zip_details").text(org.zip);
+		$("#label_city_details").text(org.city);
+		$("#label_country_details").text(org.country);
+		$("#label_lastEditor_details").text(org.lastEditor);
+		$("#label_updateTimestamp_details").text(org.updateTimestamp);
+		
+		if(org.comment == ""){
+			$("#label_comment_details").text("-");
 		}
-	}
-	
-	//load categories
-	var categories = o[id].categoryIds;
-	if(categories.length == 0){
-		$("#label_categories_details").text("-");
-	}
-	else{
-		var categoryString = "";
-		$("#label_categories_details").text(c[categories[0]-1].category);
-		$("#category_container_details").show();
-		for (var k = 1; k < categories.length; k++) {
-			categoryString = c[categories[k]-1].category;
-			var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + categoryString + "</label></div></div>";
-			$("#category_container_details").append(template);
+		else{
+			$("#label_comment_details").text(org.comment);
 		}
-	}
-	
-	//load personIds
-	var persons = o[id].personIds;
-	if(persons.length == 0){
-		$("#label_personIds_details").text("-");
-	}
-	else{
-		var personString = "";
-		for (var j = 0; j < persons.length; j++) {
-			loadContactPerson(persons[j]);
-			
-			//load contact person name
-			personString = contactPerson.lastName + " " + contactPerson.firstName;
-			var template = "<div class='row details'><div class='col-md-6'><label>Name</label></div><div class='col-md-6'><label>" + personString + "</label></div></div>";
-			$("#person_container_details").append(template);
-			
-			//load contact person phone numbers
-			var phoneNumbers = contactPerson.telephones;
-			if(phoneNumbers.length == 0){
-				var template = "<div class='row details'><div class='col-md-6'><label>Telefonnummer</label></div><div class='col-md-6'><label>-</label></div></div>";
-				$("#person_container_details").append(template);
+		
+		//load types
+		var types = org.types;
+		if(types.length == 0){
+			$("#label_types_details").text("-");
+		}
+		else{
+			var typeString = "";
+			$("#label_types_details").text(types[0]);
+			for (var j = 1; j < types.length; j++) {
+				typeString = types[j];
+				var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + typeString + "</label></div></div>";
+				$("#type_container_details").append(template);
 			}
-			else{
-				var phoneString = phoneNumbers[0].telephone + " (" + phoneNumbers[0].type.toLowerCase() + ")";
-				var template = "<div class='row details'><div class='col-md-6'><label>Telefonnummer</label></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
-				$("#person_container_details").append(template);
-				
-				for (var k = 1; k < phoneNumbers.length; k++) {
-					phoneString = phoneNumbers[k].telephone + " (" + phoneNumbers[k].type.toLowerCase() + ")";
-					var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
-					$("#person_container_details").append(template);
+		}
+		
+		
+		
+		
+		
+		// load all Categories to iterate over them and search for used Ids
+		var allCategories;
+		$.ajax({
+			type : "POST",
+			async : false,
+			url : "../rest/secure/category/getAllCategories"
+		}).done(
+				function(data) {
+					allCategories = eval(data);
+		});
+		
+		
+		//load categories
+		var categoryIds = org.categoryIds;		
+		if(categoryIds.length == 0){
+			$("#label_categories_details").text("-");
+		}
+		else{
+			var categoryString = "";
+			
+			// find first categoryId in allCategories
+			for (i in allCategories)
+			{
+				if (categoryIds[0] == allCategories[i].categoryId)
+				{
+					$("#label_categories_details").text(allCategories[i].category);
 				}
 			}
 			
-			//load contact person emails
-			var emails = contactPerson.emails;
-			if(emails.length == 0){
-				var template = "<div class='row details'><div class='col-md-6'><label>Email-Adresse</label></div><div class='col-md-6'><label>-</label></div></div>";
-				$("#person_container_details").append(template);
-			}
-			else{
-				var emailString = emails[0].mail + " (" + emails[0].type.toLowerCase() + ")";
-				var template = "<div class='row details'><div class='col-md-6'><label>Email-Adresse</label></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
-				$("#person_container_details").append(template);
+			$("#category_container_details").show();
+			for (var k = 1; k < categoryIds.length; k++) {
 				
-				for (var l = 1; l < emails.length; l++) {
-					emailString = emails[l].mail + " (" + emails[l].type.toLowerCase() + ")";
-					var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
-					$("#person_container_details").append(template);
+				for (i in allCategories)
+				{
+					if (categoryIds[k] == allCategories[i].categoryId)
+					{
+						categoryString = allCategories[i].category;
+						var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + categoryString + "</label></div></div>";
+						$("#category_container_details").append(template); 
+					}
 				}
 			}
-			
-			//append divider
-			$("#person_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+		}	// end of load categories
+		
+		
+		
+		
+		//load personIds
+		var contactPersonIds = org.personIds;
+		if(contactPersonIds.length == 0){
+			$("#label_personIds_details").text("-");
 		}
-	}
+		else{
+			var personString = "";
+			for (var j = 0; j < contactPersonIds.length; j++) {
+				loadContactPerson(contactPersonIds[j]);
+				
+				//load contact person name
+				personString = contactPerson.lastName + " " + contactPerson.firstName;
+				var template = "<div class='row details'><div class='col-md-6'><label>Name</label></div><div class='col-md-6'><label>" + personString + "</label></div></div>";
+				$("#person_container_details").append(template);
+				
+				//load contact person phone numbers
+				var phoneNumbers = contactPerson.telephones;
+				if(phoneNumbers.length == 0){
+					var template = "<div class='row details'><div class='col-md-6'><label>Telefonnummer</label></div><div class='col-md-6'><label>-</label></div></div>";
+					$("#person_container_details").append(template);
+				}
+				else{
+					var phoneString = phoneNumbers[0].telephone + " (" + phoneNumbers[0].type.toLowerCase() + ")";
+					var template = "<div class='row details'><div class='col-md-6'><label>Telefonnummer</label></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
+					$("#person_container_details").append(template);
+					
+					for (var k = 1; k < phoneNumbers.length; k++) {
+						phoneString = phoneNumbers[k].telephone + " (" + phoneNumbers[k].type.toLowerCase() + ")";
+						var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
+						$("#person_container_details").append(template);
+					}
+				}
+				
+				//load contact person emails
+				var emails = contactPerson.emails;
+				if(emails.length == 0){
+					var template = "<div class='row details'><div class='col-md-6'><label>Email-Adresse</label></div><div class='col-md-6'><label>-</label></div></div>";
+					$("#person_container_details").append(template);
+				}
+				else{
+					var emailString = emails[0].mail + " (" + emails[0].type.toLowerCase() + ")";
+					var template = "<div class='row details'><div class='col-md-6'><label>Email-Adresse</label></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
+					$("#person_container_details").append(template);
+					
+					for (var l = 1; l < emails.length; l++) {
+						emailString = emails[l].mail + " (" + emails[l].type.toLowerCase() + ")";
+						var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
+						$("#person_container_details").append(template);
+					}
+				}
+				
+				//append divider
+				$("#person_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+			}
+		} 	// end else
+		
+	});
+	
+	
 });
 
 //search filter

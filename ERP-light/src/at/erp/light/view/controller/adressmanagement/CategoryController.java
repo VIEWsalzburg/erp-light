@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,8 +38,14 @@ public class CategoryController {
 	public ControllerMessage setCategory(@RequestBody CategoryDTO category, HttpServletRequest request) {
 		Category entity = CategoryMapper.mapToEntity(category);
 		
-		dataBaseService.setCategory(entity);
-		return new ControllerMessage(true, "Speichern erfoglreich");
+		try {
+			dataBaseService.setCategory(entity);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return new ControllerMessage(false, "Speichern fehlgeschlagen!");
+		}
+		
+		return new ControllerMessage(true, "Speichern erfoglreich!");
 	}
 	
 	

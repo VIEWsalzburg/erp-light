@@ -121,8 +121,7 @@ body{
 }
 
 .ModalDivContainer{
-	height: auto;
-	max-height: 80px;
+	height: 80px;
 	overflow-y: auto;
 }
 

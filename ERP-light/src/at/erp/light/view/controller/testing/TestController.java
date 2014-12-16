@@ -178,19 +178,18 @@ public class TestController {
 	}
 	
 	@RequestMapping(value = "Test2")
-	public void doSomething2(@RequestParam(value="param") String param) {		
+	public void doSomething2(@RequestParam(value="param") int catId) {		
 		
-		Category catFleisch = new Category(0, "Fleisch", "lecker Fleisch");
-		dataBaseService.setCategory(catFleisch);
+		System.out.println("before:");
+		doSomething3();
 		
+		System.out.println("delete Category with id: "+catId);
+		dataBaseService.deleteCategoryById(catId);
 		
-		Category catFisch = new Category(1, "Fisch", "lecker Fisch");
-		dataBaseService.setCategory(catFisch);
-		
-		 Category ks = dataBaseService.getCategoryByCategory("großer Kühlschrank");
-		 ks.setDescription("haben einen großen Kühlschrank");
-		 dataBaseService.setCategory(ks);
-		
+		// list all categories
+		System.out.println("\nafter:");
+		 doSomething3();
+		 
 		
 		
 	}

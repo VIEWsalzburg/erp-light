@@ -134,7 +134,7 @@ public class MockedDataBaseService implements IDataBase {
 		
 		
 		// Organisations
-		Organisation Org1 = new Organisation(0, "eine Organisation", "Lieferscheine Ja", new Date(System.currentTimeMillis()), 1);
+		Organisation Org1 = new Organisation(33, "eine Organisation", "Lieferscheine Ja", new Date(System.currentTimeMillis()), 1);
 		Org1.setAddress(new Address(0, "Org1 Straﬂe"));
 		Org1.setCity(new City(0, "Org1 City", "Org1 Zip"));
 		Org1.setCountry(new Country(0, "÷sterreich"));
@@ -150,7 +150,7 @@ public class MockedDataBaseService implements IDataBase {
 		
 		
 		
-		Organisation Org2 = new Organisation(1, "Kunde2 Org", "Lieferung vor 12:00 Uhr", new Date(System.currentTimeMillis()), 1);
+		Organisation Org2 = new Organisation(25, "Kunde2 Org", "Lieferung vor 12:00 Uhr", new Date(System.currentTimeMillis()), 1);
 		Org2.setAddress(new Address(1, "Kunde2 Straﬂe"));
 		Org2.setCity(new City(1, "Kunde2 City", "Kunde2 Zip"));
 		Org2.setCountry(new Country(1, "÷sterreich"));
@@ -427,6 +427,16 @@ public class MockedDataBaseService implements IDataBase {
 	@Override
 	public int setOrganisation(Organisation organisation) {
 		
+		// assign Types
+		Set<Type> types = new HashSet<Type>();
+		for (Type type : organisation.getTypes())
+		{
+			types.add(this.getTypeByType(type.getName()));
+		}
+		organisation.setTypes(types);
+		
+		
+		
 		Organisation found = null;
 		for (Organisation o : mockedOrganisations)
 		{
@@ -445,6 +455,7 @@ public class MockedDataBaseService implements IDataBase {
 		
 		mockedOrganisations.add(organisation);
 		return organisation.getOrganisationId();
+		
 	}
 
 	@Override
@@ -660,6 +671,12 @@ public class MockedDataBaseService implements IDataBase {
 	public List<Category> getAllCategories()
 	{
 		return mockedCategories;
+	}
+
+	@Override
+	public boolean deleteCategoryById(int id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

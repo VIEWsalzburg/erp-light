@@ -74,15 +74,14 @@ public class OrganisationMapper {
 		for (Integer id : dto.getPersonIds()) {
 			pList.add(dataBaseService.getPersonById(id));
 		}
-
 		entity.setContactPersons(pList);
 
 		Set<Category> categories = new HashSet<Category>();
 		for (int categoryId : dto.getCategoryIds()) {
-			categories.add(new Category(0, dataBaseService.getCategoryById(
-					categoryId).getCategory(), ""));
+			categories.add(dataBaseService.getCategoryById(categoryId));
 		}
 		entity.setCategories(categories);
+		
 		entity.setUpdateTimestamp(new Date());
 
 		Set<Type> types = new HashSet<Type>();
