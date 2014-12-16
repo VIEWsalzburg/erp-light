@@ -78,6 +78,11 @@ $("#btn_new").click(function() {
 	$("#tbx_city").val("");
 	$("#tbx_country").val("");
 	
+	// untick Checkboxes
+	$('#cbx_lieferant').prop('checked',false);
+	$('#cbx_kunde').prop('checked',false);
+	$('#cbx_sponsor').prop('checked',false);
+	
 	// load all available categories and all available persons to modal
 	clearAndLoadDivContainer();
 });
@@ -98,7 +103,7 @@ $("#btn_edit").click(function() {
 	}).done(function(data) {
 		
 		var org = eval(data);
-	
+		
 		//load textboxes
 		$("#tbx_id").val(org.id);
 		$("#tbx_name").val(org.name);
@@ -151,6 +156,37 @@ $("#btn_edit").click(function() {
 					
 				}
 		);
+		
+		
+		// uncheck all checkboxes first
+		$('#cbx_lieferant').prop('checked',false);
+		$('#cbx_kunde').prop('checked',false);
+		$('#cbx_sponsor').prop('checked',false);
+		
+		
+		var types = org.types;
+		for (i in types)
+		{
+			if (types[i] == "Lieferant")
+			{
+				$('#cbx_lieferant').prop('checked',true);
+			}
+			
+			if (types[i] == "Kunde")
+			{
+				$('#cbx_kunde').prop('checked',true);
+			}
+			
+			if (types[i] == "Sponsor")
+			{
+				$('#cbx_sponsor').prop('checked',true);
+			}
+			
+		}
+		
+		
+		
+		
 	
 	});	// end of ajax.done()
 	
@@ -435,7 +471,7 @@ $("#btn_details").click(function() {
 			$("#label_types_details").text(types[0]);
 			for (var j = 1; j < types.length; j++) {
 				typeString = types[j];
-				var template = "<div class='row'><div class='col-md-6'></div><div class='col-md-6'><label>" + typeString + "</label></div></div>";
+				var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + typeString + "</label></div></div>";
 				$("#type_container_details").append(template);
 			}
 		}
