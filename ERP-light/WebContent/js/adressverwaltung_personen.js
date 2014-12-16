@@ -436,86 +436,100 @@ $("#btn_details").click(function() {
 	
 	var id = tableData[0];
 	
-	$("#label_salutation_details").text(p[id].salutation);
-	
-	if(p[id].title == ""){
-		$("#label_title_details").text("-");
-	}
-	else{
-		$("#label_title_details").text(p[id].title);
-	}
-	
-	$("#label_firstName_details").text(p[id].firstName);
-	$("#label_lastName_details").text(p[id].lastName);
-	$("#label_address_details").text(p[id].address);
-	$("#label_zip_details").text(p[id].zip);
-	$("#label_city_details").text(p[id].city);
-	$("#label_country_details").text(p[id].country);
-	$("#label_lastEditor_details").text(p[id].lastEditor);
-	$("#label_updateTimestamp_details").text(p[id].updateTimestamp);
-	
-	if(p[id].comment == ""){
-		$("#label_comment_details").text("-");
-	}
-	else{
-		$("#label_comment_details").text(p[id].comment);
-	}
-	
-	//load phone numbers
-	var phoneNumbers = p[id].telephones;
-	if(phoneNumbers.length == 0){
-		$("#label_phoneNumber_details").text("-");
-	}
-	else{
-		var phoneString = "";
-		$("#label_phoneNumber_details").text(phoneNumbers[0].telephone + " (" + phoneNumbers[0].type.toLowerCase() + ")");
-		for (var j = 1; j < phoneNumbers.length; j++) {
-			phoneString = phoneNumbers[j].telephone + " (" + phoneNumbers[j].type.toLowerCase() + ")";
-			var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
-			$("#phone_container_details").append(template);
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/person/getPersonById/" + id
+	}).done(function(data) {
+		
+		var p = eval(data);
+		
+		$("#label_salutation_details").text(p.salutation);
+		
+		if(p.title == ""){
+			$("#label_title_details").text("-");
 		}
-	}
-	
-	//load emails
-	var emails = p[id].emails;
-	if(emails.length == 0){
-		$("#label_email_details").text("-");
-	}
-	else{
-		var emailString = "";
-		$("#label_email_details").text(emails[0].mail + " (" + emails[0].type.toLowerCase() + ")");
-		for (var j = 1; j < emails.length; j++) {
-			emailString = emails[j].mail + " (" + emails[j].type.toLowerCase() + ")";
-			var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
-			$("#email_container_details").append(template);
+		else{
+			$("#label_title_details").text(p.title);
 		}
-	}
-	
-	//load types
-	var types = p[id].types;
-	if(types.length == 0){
-		$("#label_types_details").text("-");
-	}
-	else{
-		var typeString = "";
-		$("#label_types_details").text(types[0]);
-		for (var j = 1; j < types.length; j++) {
-			typeString = types[j];
-			var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + typeString + "</label></div></div>";
-			$("#type_container_details").append(template);
+		
+		$("#label_firstName_details").text(p.firstName);
+		$("#label_lastName_details").text(p.lastName);
+		$("#label_address_details").text(p.address);
+		$("#label_zip_details").text(p.zip);
+		$("#label_city_details").text(p.city);
+		$("#label_country_details").text(p.country);
+		$("#label_lastEditor_details").text(p.lastEditor);
+		$("#label_updateTimestamp_details").text(p.updateTimestamp);
+		
+		if(p.comment == ""){
+			$("#label_comment_details").text("-");
 		}
-	}
+		else{
+			$("#label_comment_details").text(p.comment);
+		}
+		
+		//load phone numbers
+		var phoneNumbers = p.telephones;
+		if(phoneNumbers.length == 0){
+			$("#label_phoneNumber_details").text("-");
+		}
+		else{
+			var phoneString = "";
+			// fill in first line
+			$("#label_phoneNumber_details").text(phoneNumbers[0].telephone + " (" + phoneNumbers[0].type.toLowerCase() + ")");
+			// add all extra lines beginning with index 1
+			for (var j = 1; j < phoneNumbers.length; j++) {
+				phoneString = phoneNumbers[j].telephone + " (" + phoneNumbers[j].type.toLowerCase() + ")";
+				var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
+				$("#phone_container_details").append(template);
+			}
+		}
+		
+		//load emails
+		var emails = p.emails;
+		if(emails.length == 0){
+			$("#label_email_details").text("-");
+		}
+		else{
+			var emailString = "";
+			// fill in first line
+			$("#label_email_details").text(emails[0].mail + " (" + emails[0].type.toLowerCase() + ")");
+			// add all extra lines beginning with index 1
+			for (var j = 1; j < emails.length; j++) {
+				emailString = emails[j].mail + " (" + emails[j].type.toLowerCase() + ")";
+				var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
+				$("#email_container_details").append(template);
+			}
+		}
+		
+		//load types
+		var types = p.types;
+		if(types.length == 0){
+			$("#label_types_details").text("-");
+		}
+		else{
+			var typeString = "";
+			$("#label_types_details").text(types[0]);
+			for (var j = 1; j < types.length; j++) {
+				typeString = types[j];
+				var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + typeString + "</label></div></div>";
+				$("#type_container_details").append(template);
+			}
+		}
+		
+		//check if systemuser
+		if(p.systemUser){
+			$("#cbx_systemuser_details").prop("checked", "true");
+			$("#loginEmailPermission_container_details").show();
+			$("#label_loginEmail_details").text(p.loginEmail);
+			$("#label_permission_details").text(p.permission);
+		}
+		else{
+			$("#cbx_systemuser_details").removeAttr("checked");
+		}
+		
+	});	// end ajax
 	
-	//check if systemuser
-	if(p[id].systemUser){
-		$("#cbx_systemuser_details").prop("checked", "true");
-		$("#loginEmailPermission_container_details").show();
-		$("#label_loginEmail_details").text(p[id].loginEmail);
-		$("#label_permission_details").text(p[id].permission);
-	}
-	else{
-		$("#cbx_systemuser_details").removeAttr("checked");
-	}
 });
 
 //search filter
