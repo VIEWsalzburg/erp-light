@@ -661,6 +661,12 @@ public class MockedDataBaseService implements IDataBase {
 	{
 		return mockedCategories;
 	}
+
+	@Override
+	public boolean deleteCategoryById(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	
 }

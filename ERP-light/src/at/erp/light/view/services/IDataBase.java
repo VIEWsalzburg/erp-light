@@ -3,6 +3,8 @@ package at.erp.light.view.services;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.HibernateException;
+
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.Category;
 import at.erp.light.view.model.DeliveryList;
@@ -168,7 +170,8 @@ public interface IDataBase {
 	// Categories
 	public Category getCategoryById(int id);
 	public Category getCategoryByCategory(String category);
-	public Category setCategory(Category category);
+	public Category setCategory(Category category) throws HibernateException;
+	public boolean deleteCategoryById(int id);
 	public List<Category> getAllCategories();
 	
 }

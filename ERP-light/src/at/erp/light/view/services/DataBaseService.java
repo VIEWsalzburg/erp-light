@@ -29,6 +29,7 @@ import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
 
 
+@Transactional(propagation=Propagation.REQUIRED)
 public class DataBaseService implements IDataBase {
 
 	private SessionFactory sessionFactory;
@@ -699,7 +700,7 @@ public class DataBaseService implements IDataBase {
 
 
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
+	// @Transactional(propagation=Propagation.REQUIRED)
 	public Category getCategoryById(int id) {
 
 		Category mCategory = (Category)sessionFactory.getCurrentSession().createQuery("FROM Category c WHERE c.categoryId = :id").setParameter("id", id).uniqueResult();
@@ -713,18 +714,18 @@ public class DataBaseService implements IDataBase {
 
 		Category mCategory = (Category)sessionFactory.getCurrentSession().createQuery("FROM Category c WHERE c.category = :category").setParameter("category", category).uniqueResult();
 		
-		if (mCategory == null)
+		/* if (mCategory == null)
 		{
 			mCategory = new Category(0, category, "");
 			this.setCategory(mCategory);
-		}
+		} */
 		
 		return mCategory;
 	}
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Category setCategory(Category category)
+	public Category setCategory(Category category) throws HibernateException
 	{
 		sessionFactory.getCurrentSession().saveOrUpdate(category);
 		return category;
@@ -736,6 +737,20 @@ public class DataBaseService implements IDataBase {
 	{
 		List<Category> categories = sessionFactory.getCurrentSession().createQuery("FROM Category c ORDER BY c.category").list();
 		return categories;
+	}
+
+
+	@Override
+	public boolean deleteCategoryById(int id) {
+		
+		Category category = this.getCategoryById(id);
+		
+		if (category == null)
+			return false;
+		
+		sessionFactory.getCurrentSession().delete(category);
+		
+		return true;
 	}
 
 }
