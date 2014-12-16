@@ -118,12 +118,9 @@ public class PersonController {
 		// persist Person to DB
 		dataBaseService.setPerson(entity);
 
-		boolean isPlatformuser = false;
+		boolean isPlatformuser = person.isSystemUser();
 		// TODO Check for Platformuser and include Checkbox in GUI
-		if (person.getLoginEmail() != null)
-			if (!person.getLoginEmail().isEmpty())
-				isPlatformuser = true;
-
+		
 		if (isPlatformuser) {
 			System.out.println("is platformuser");
 			Platformuser existingPU = dataBaseService

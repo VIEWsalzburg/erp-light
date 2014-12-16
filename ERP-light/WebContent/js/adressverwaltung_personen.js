@@ -128,8 +128,9 @@ $("#btn_new").click(function() {
 
 //save person
 $("#btn_saveperson").click(function() {
-	if($("#tbx_salutation").val() == "" || $("#tbx_firstName").val() == "" || $("#tbx_lastName").val() == "" 
-		|| $("#tbx_address").val() == "" || $("#tbx_city").val() == "" || $("#tbx_zip").val() == "" || $("#tbx_country").val() == "")
+	
+	// TODO check for 
+	if( $("#tbx_lastName").val() == "" )
 	{
 			$("#newAlertForm").show();
 			return;
@@ -181,6 +182,9 @@ $("#btn_saveperson").click(function() {
 	$(".phone_element").each(function (){
 		newperson.telephones.push({"telephone":$(this).find(".tbx_phoneNumber").val(), "type":$(this).find(".select_phoneNumber").val()});
 	});
+	
+	// set SystemUser Property
+	newperson.systemUser = $('#cbx_systemuser').prop('checked');
 	
 	$.ajax({
 		headers : {
