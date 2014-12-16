@@ -37,7 +37,8 @@ public class OrganisationController {
 	@RequestMapping(value = "/secure/organisation/setOrganisation")
 	ControllerMessage setOrganisation(@RequestBody OrganisationDTO organisation, HttpServletRequest request) {
 		Organisation entity = OrganisationMapper.mapToEntity(organisation, dataBaseService);
-	
+		entity.setLastEditor(dataBaseService.getPersonById((int) request
+				.getSession().getAttribute("id")));
 		dataBaseService.setOrganisation(entity);
 		return new ControllerMessage(true, "Speichern erfoglreich");
 	}
