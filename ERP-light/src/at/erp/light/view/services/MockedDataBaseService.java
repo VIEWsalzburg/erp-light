@@ -55,9 +55,9 @@ public class MockedDataBaseService implements IDataBase {
 		// initialize Persons
 
 		// first Person
-		Person person1 = new Person(1, "Herr", "", "Josef", "Huber",
+		Person person1 = new Person(33, "Herr", "", "Josef", "Huber",
 				"f‰hrt of mit dem Bus", new Date(System.currentTimeMillis()), 1);
-		Address address1 = new Address(1, "Bundesstraﬂe 20B");
+		Address address1 = new Address(53, "Bundesstraﬂe 20B");
 		City city1 = new City(1, "Mattsee", "5163");
 		Country country1 = new Country(1, "÷sterreich");
 
@@ -78,7 +78,7 @@ public class MockedDataBaseService implements IDataBase {
 		
 		
 		// second Person
-		Person person2 = new Person(2, "Frau", "", "Susanne", "Mayer",
+		Person person2 = new Person(14, "Frau", "", "Susanne", "Mayer",
 				"", new Date(System.currentTimeMillis()), 1);
 		Address address2 = new Address(2, "Karolingerstraﬂe 2");
 		City city2 = new City(2, "Salzburg", "5020");
@@ -99,7 +99,7 @@ public class MockedDataBaseService implements IDataBase {
 		person2.setPlatformuser(platformUser2);		// not intended for ProdDB
 
 		// third Person
-		Person person3 = new Person(3, "Herr", "", "Maximilian", "Neumann",
+		Person person3 = new Person(19, "Herr", "", "Maximilian", "Neumann",
 				"", new Date(System.currentTimeMillis()),
 				1);
 		Address address3 = new Address(3, "Dorfstraﬂe 3");

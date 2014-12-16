@@ -84,7 +84,7 @@ body{
 }
 
 .table-responsive{
-	max-height: 265px !important;
+	height: 365px !important;
 	max-width: 1140px !important;
     overflow: scroll;
 	overflow-x: hidden;
