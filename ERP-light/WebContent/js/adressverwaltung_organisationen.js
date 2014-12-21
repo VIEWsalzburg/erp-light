@@ -588,11 +588,16 @@ $("#btn_details").click(function() {
 	
 });
 
-//search filter
+//search filter main table
 $(document).ready(function() {
 	(function($) {
 		$('#filter').keyup(function() {
 
+			// check all checkboxes
+			$('#lieferanten_cbx').prop('checked', true);
+			$('#kunden_cbx').prop('checked', true);
+			$('#sponsoren_cbx').prop('checked', true);
+			
 			var rex = new RegExp($(this).val(), 'i');
 			$('.searchable tr').hide();
 			$('.searchable tr').filter(function() {
@@ -602,7 +607,7 @@ $(document).ready(function() {
 	}(jQuery));
 });
 
-//modal search filter 1
+//modal search filter Person
 $(document).ready(function() {
 	(function($) {
 		$('#filter_modal1').keyup(function() {
@@ -616,7 +621,7 @@ $(document).ready(function() {
 	}(jQuery));
 });
 
-//modal search filter 2
+//modal search filter Kategorie
 $(document).ready(function() {
 	(function($) {
 		$('#filter_modal2').keyup(function() {
@@ -630,47 +635,75 @@ $(document).ready(function() {
 	}(jQuery));
 });
 
+
+//show/hide Persons by Types
+function updateTableTypeFilter() {
+	
+	// remove textfilter
+	$('#filter').val('');
+	
+	// get checkbox states
+	var lieferantenChecked = $('#lieferanten_cbx').prop('checked');
+	var kundenChecked = $('#kunden_cbx').prop('checked'); 
+	var sponsorenChecked = $('#sponsoren_cbx').prop('checked');
+	
+	$('.searchable tr').each( function() {
+		
+		// hide all by default
+		var show = false;
+		
+		// get typeText
+		var typeText = $(this).find('td').eq(4).text();
+		
+		// show all Lieferanten
+		if (lieferantenChecked)
+		{
+			if (typeText.indexOf('Lieferant')!=-1)
+				show = true;
+		}
+		
+		// show all Kunden
+		if (kundenChecked)
+		{
+			if (typeText.indexOf('Kunde')!=-1)
+				show = true;
+		}
+		
+		// show all Sponsore
+		if (sponsorenChecked)
+		{
+			if (typeText.indexOf('Sponsor')!=-1)
+				show = true;
+		}
+		
+		// show all empty types
+		if (typeText == '')
+		{
+			show = true;
+		}
+		
+		if (show) {
+			$(this).show();
+		} else {
+			$(this).hide();
+		}
+		
+	} );
+
+}
+
+
+
 //typefilter
 $(document).ready(function() {
 	$('#lieferanten_cbx').prop('checked', true);
 	$('#kunden_cbx').prop('checked', true);
 	$('#sponsoren_cbx').prop('checked', true);
 
-	(function($) {
-		$('#lieferanten_cbx').on('change', function() {
-			if (this.checked) {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(4).text() >= "Lieferant"
-				}).show();
-			} else {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(4).text() >= "Lieferant"
-				}).hide();
-			}
-		});
-		$('#kunden_cbx').on('change', function() {
-			if (this.checked) {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(4).text() == "Kunde"
-				}).show();
-			} else {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(4).text() == "Kunde"
-				}).hide();
-			}
-		});
-		$('#sponsoren_cbx').on('change', function() {
-			if (this.checked) {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(4).text() == "Sponsor"
-				}).show();
-			} else {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(4).text() == "Sponsor"
-				}).hide();
-			}
-		});
-	}(jQuery));
+	// call function updateTableTypeFilter when checkbox states are changed
+	$('#lieferanten_cbx').on('change', updateTableTypeFilter);
+	$('#kunden_cbx').on('change', updateTableTypeFilter);
+	$('#sponsoren_cbx').on('change', updateTableTypeFilter);
 });
 
 //disable new, edit and delete buttons

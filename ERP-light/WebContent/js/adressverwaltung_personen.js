@@ -541,8 +541,16 @@ $(document).ready(function() {
 	(function($) {
 		$('#filter').keyup(function() {
 
+			// check all Checkboxes
+			$('#mitarbeiter_cbx').prop('checked', true);
+			$('#unterstuetzer_cbx').prop('checked', true);
+			$('#mitglieder_cbx').prop('checked', true);
+			$('#gaeste_cbx').prop('checked', true);
+			
 			var rex = new RegExp($(this).val(), 'i');
+			// hide all Persons
 			$('.searchable tr').hide();
+			// show all Persons, which contain the given text
 			$('.searchable tr').filter(function() {
 				return rex.test($(this).text());
 			}).show();
@@ -550,59 +558,85 @@ $(document).ready(function() {
 	}(jQuery));
 });
 
-//typfilter
+
+// show/hide Persons by Types
+function updateTableTypeFilter() {
+	
+	// remove textfilter
+	$('#filter').val('');
+	
+	// get checkbox states
+	var mitarbeiterChecked = $('#mitarbeiter_cbx').prop('checked'); 
+	var unterstuetzerChecked = $('#unterstuetzer_cbx').prop('checked');
+	var mitgliederChecked = $('#mitglieder_cbx').prop('checked');
+	var gaesteChecked = $('#gaeste_cbx').prop('checked');
+	
+	
+	$('.searchable tr').each( function() {
+		
+		// hide all by default
+		var show = false;
+		
+		// get typeText
+		var typeText = $(this).find('td').eq(5).text();
+		
+		// show all Mitarbeiter
+		if (mitarbeiterChecked)
+		{
+			if (typeText.indexOf('Mitarbeiter')!=-1)
+				show = true;
+		}
+		
+		// show all Unterstützer
+		if (unterstuetzerChecked)
+		{
+			if (typeText.indexOf('Unterstützer')!=-1)
+				show = true;
+		}
+		
+		// show all Mitglieder
+		if (mitgliederChecked)
+		{
+			if (typeText.indexOf('Mitglied')!=-1)
+				show = true;
+		}
+		
+		// show all Gäste
+		if (gaesteChecked)
+		{
+			if (typeText.indexOf('Gast')!=-1)
+				show = true;
+		}
+		
+		// show all empty types
+		if (typeText == '')
+		{
+			show = true;
+		}
+		
+		if (show) {
+			$(this).show();
+		} else {
+			$(this).hide();
+		}
+		
+	} );
+
+}
+
+// assign typefilter to checkboxes
 $(document).ready(function() {
 	$('#mitarbeiter_cbx').prop('checked', true);
 	$('#unterstuetzer_cbx').prop('checked', true);
 	$('#mitglieder_cbx').prop('checked', true);
 	$('#gaeste_cbx').prop('checked', true);
 
-	(function($) {
-		$('#mitarbeiter_cbx').on('change', function() {
-			if (this.checked) {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(5).text() == "Mitarbeiter"
-				}).show();
-			} else {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(5).text() == "Mitarbeiter"
-				}).hide();
-			}
-		});
-		$('#unterstuetzer_cbx').on('change', function() {
-			if (this.checked) {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(5).text() == "Unterstützer"
-				}).show();
-			} else {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(5).text() == "Unterstützer"
-				}).hide();
-			}
-		});
-		$('#mitglieder_cbx').on('change', function() {
-			if (this.checked) {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(5).text() == "Mitglied"
-				}).show();
-			} else {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(5).text() == "Mitglied"
-				}).hide();
-			}
-		});
-		$('#gaeste_cbx').on('change', function() {
-			if (this.checked) {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(5).text() == "Gast"
-				}).show();
-			} else {
-				$('.searchable tr').filter(function() {
-					return $(this).find('td').eq(5).text() == "Gast"
-				}).hide();
-			}
-		});
-	}(jQuery));
+	$('#mitarbeiter_cbx').on('change', updateTableTypeFilter);
+	$('#unterstuetzer_cbx').on('change', updateTableTypeFilter);
+	$('#mitglieder_cbx').on('change', updateTableTypeFilter);
+	$('#gaeste_cbx').on('change', updateTableTypeFilter);
+	
+	
 });
 
 //disable new, edit, delete and details buttons
