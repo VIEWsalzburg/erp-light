@@ -123,7 +123,6 @@ public class PersonMapper {
 			types.add(new Type(0, typeStr));
 		}
 		
-		// TODO gather EMail types
 		Set<Email> emails = new HashSet<Email>();
 		for (EmailDTO emailDTO : dto.getEmails()) {
 			emails.add(new Email(0, new Type(0, emailDTO.getType()), emailDTO.getMail()));

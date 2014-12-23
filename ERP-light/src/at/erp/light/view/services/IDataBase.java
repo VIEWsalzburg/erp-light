@@ -72,6 +72,13 @@ public interface IDataBase {
 	 */
 	public int setPersons(List<Person> persons);
 	
+	/**
+	 * deletes a person by setting the active flag to 0
+	 * @param id
+	 * @return 0 on success
+	 */
+	public int deletePersonById(int id);
+	
 	// Organisations
 	public Organisation getOrganisationById(int id);
 	public List<Organisation> getOrganisationsByCategory(Category category);
@@ -79,6 +86,13 @@ public interface IDataBase {
 	
 	public int setOrganisation(Organisation organisation);
 	public int setOrganisations(List<Organisation> organisations);
+	
+	/**
+	 * deletes an organisation by setting the active flag to 0
+	 * @param id
+	 * @return 0 on success
+	 */
+	public int deleteOrganisationById(int id);
 	
 	// Incoming deliveries
 	public IncomingDelivery getIncomingDeliveryById(int id);

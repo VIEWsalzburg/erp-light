@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -106,7 +107,6 @@ public class PersonController {
 	}
 	
 	
-	// TODO Mapping of letzter bearbeiter
 	@RequestMapping(value = "/secure/person/setPerson")
 	ControllerMessage setPerson(@RequestBody PersonDTO person, HttpServletRequest request) {
 		Person entity = PersonMapper.mapToEntity(person);
@@ -119,7 +119,6 @@ public class PersonController {
 		dataBaseService.setPerson(entity);
 
 		boolean isPlatformuser = person.isSystemUser();
-		// TODO Check for Platformuser and include Checkbox in GUI
 		
 		if (isPlatformuser) {
 			System.out.println("is platformuser");
@@ -157,19 +156,16 @@ public class PersonController {
 	@RequestMapping(value = "secure/person/deletePersonById/{id}")
 	public ControllerMessage deletePersonById(@PathVariable int id) {
 
-		/*	not implemented in ProdDB by now */
-		List<Person> pList = dataBaseService.getAllPersons();
-		List<Person> returnList = new ArrayList<Person>();
-
-		for (Person p : pList) {
-			if (p.getPersonId() != id) {
-				returnList.add(p);
-			}
+		try {
+			dataBaseService.deletePersonById(id);
+		} catch (HibernateException e)
+		{
+			e.printStackTrace();
+			return new ControllerMessage(false, "Löschen fehlgeschlagen!");
 		}
-
-		dataBaseService.setPersons(returnList);
-
-		return new ControllerMessage(true, "Speichern erfolgreich!");
+		
+		return new ControllerMessage(true, "Löschen erfolgreich!");
+		
 	}
 
 	@RequestMapping(value = "secure/person/resetPasswordForId/{id}")

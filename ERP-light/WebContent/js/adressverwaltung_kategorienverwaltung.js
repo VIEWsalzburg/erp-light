@@ -169,7 +169,8 @@ $("#btn_deleteModal").click(function() {
 	$("#label_description").text(tableData[2]);
 });
 
-$("#btn_deleteCategory").click(function() { //TODO
+//TODO implement functionality to delete Categories
+$("#btn_deleteCategory").click(function() {
 	 var id = tableData[0];
 	 
 	 $.ajax({

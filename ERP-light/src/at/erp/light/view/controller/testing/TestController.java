@@ -197,12 +197,7 @@ public class TestController {
 	@RequestMapping(value = "Test3")
 	public void doSomething3() {		
 		
-		List<Category> categories = dataBaseService.getAllCategories();
 		
-		for (Category c : categories)
-		{
-			System.out.println(c.getCategoryId()+" "+c.getCategory()+" "+c.getDescription());
-		}
 	}
 	
 	@RequestMapping(value = "Test4")

@@ -67,7 +67,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Person> getAllPersons() {
 		@SuppressWarnings("unchecked")
-		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor ORDER BY p.lastName").list();
+		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor WHERE p.active=1 ORDER BY p.lastName").list();
 		return persons;
 	}
 
@@ -222,6 +222,14 @@ public class DataBaseService implements IDataBase {
 		
 		return person.getPersonId();
 		
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public int deletePersonById(int id) {
+		Person p = this.getPersonById(id);
+		p.setActive(0);	// set active flag to inactive (0)
+		return 0;
 	}
 
 	@Override
@@ -464,7 +472,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Organisation> getAllOrganisations() {
 		
-		List<Organisation> organisations = sessionFactory.getCurrentSession().createQuery("FROM Organisation o ORDER BY o.name").list();
+		List<Organisation> organisations = sessionFactory.getCurrentSession().createQuery("FROM Organisation o WHERE o.active=1 ORDER BY o.name").list();
 		return organisations;
 	}
 
@@ -553,6 +561,16 @@ public class DataBaseService implements IDataBase {
 		return organisation.getOrganisationId();
 
 	}
+	
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public int deleteOrganisationById(int id) {
+		Organisation o = this.getOrganisationById(id);
+		o.setActive(0);	// set active flag to inactive (0)
+		return 0;
+	}
+	
 
 	@Override
 	public int setOrganisations(List<Organisation> organisations) {

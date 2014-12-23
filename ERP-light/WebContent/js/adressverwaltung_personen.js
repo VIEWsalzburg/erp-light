@@ -129,7 +129,7 @@ $("#btn_new").click(function() {
 //save person
 $("#btn_saveperson").click(function() {
 	
-	// TODO check for 
+	// check if person has a lastname
 	if( $("#tbx_lastName").val() == "" )
 	{
 			$("#newAlertForm").show();
@@ -689,14 +689,25 @@ $('#TableHead').on('click', 'tbody tr', function(event) {
 		$('#btn_details').prop('disabled', false);
 });
 
-//remove table row modal
+// call delete modal and fill in according data
 $("#btn_deleteModal").click(function() {
 	var id = tableData[0];
 	
-	$("#label_name_delete").text(p[id].title + " " + p[id].lastName + " " + p[id].firstName);
-	$("#label_address_delete").text(p[id].address + ", " + p[id].zip + " " + p[id].city + ", " + p[id].country);
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/person/getPersonById/" + id
+	}).done(function(data) {
+	
+		var p = eval(data);
+	
+		$("#label_name_delete").text(p.title + " " + p.lastName + " " + p.firstName);
+		$("#label_address_delete").text(p.address + ", " + p.zip + " " + p.city + ", " + p.country);
+	
+	});
+	
 });
 
+// delete Action
 $("#btn_deletePerson").click(function() {
 	var id = tableData[0];
 	$.ajax({

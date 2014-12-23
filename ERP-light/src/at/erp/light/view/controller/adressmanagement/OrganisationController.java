@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,10 +37,12 @@ public class OrganisationController {
 	
 	@RequestMapping(value = "/secure/organisation/setOrganisation")
 	ControllerMessage setOrganisation(@RequestBody OrganisationDTO organisation, HttpServletRequest request) {
+		
 		Organisation entity = OrganisationMapper.mapToEntity(organisation, dataBaseService);
 		entity.setLastEditor(dataBaseService.getPersonById((int) request
 				.getSession().getAttribute("id")));
 		dataBaseService.setOrganisation(entity);
+		
 		return new ControllerMessage(true, "Speichern erfoglreich");
 	}
 	
@@ -64,19 +67,16 @@ public class OrganisationController {
 	@RequestMapping(value = "secure/organisation/deleteOrganisationById/{id}")
 	public ControllerMessage deleteOrganisationById(@PathVariable int id) {
 
-		/*	not implemented in ProdDB by now */
-		List<Organisation> oList = dataBaseService.getAllOrganisations();
-		List<Organisation> returnList = new ArrayList<Organisation>();
-
-		for (Organisation o : oList) {
-			if (o.getOrganisationId() != id) {
-				returnList.add(o);
-			}
+		try {
+			dataBaseService.deleteOrganisationById(id);
+		} catch (HibernateException e)
+		{
+			e.printStackTrace();
+			return new ControllerMessage(false, "Löschen fehlgeschlagen!");
 		}
-
-		dataBaseService.setOrganisations(returnList);
-
+		
 		return new ControllerMessage(true, "Löschen erfolgreich!");
+		
 	}
 	
 }

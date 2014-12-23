@@ -9,6 +9,8 @@ import java.util.Set;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
+
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.Category;
@@ -248,7 +250,18 @@ public class MockedDataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Person> getAllPersons() {
-		return mockedPersons;
+		
+		List<Person> list = new ArrayList<Person>();
+		
+		for (Person p : mockedPersons)
+		{
+			if (p.getActive() == 1)		// only return active persons
+			{
+				list.add(p);
+			}
+		}
+		
+		return list;
 	}
 
 	@Override
@@ -279,6 +292,14 @@ public class MockedDataBaseService implements IDataBase {
 		return person.getPersonId();
 	}
 
+	
+	@Override
+	public int deletePersonById(int id) {
+		Person p = this.getPersonById(id);
+		p.setActive(0);		// set active flag to inactive (0)
+		return 0;
+	}
+	
 	
 	@Override
 	public Type getTypeById(int id) {
@@ -421,7 +442,17 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public List<Organisation> getAllOrganisations() {
-		return mockedOrganisations;
+		List<Organisation> list = new ArrayList<Organisation>();
+		
+		for (Organisation o : mockedOrganisations)
+		{
+			if (o.getActive()==1)	// only add active organisations
+			{
+				list.add(o);
+			}
+		}
+		
+		return list;
 	}
 
 	@Override
@@ -456,6 +487,13 @@ public class MockedDataBaseService implements IDataBase {
 		mockedOrganisations.add(organisation);
 		return organisation.getOrganisationId();
 		
+	}
+	
+	@Override
+	public int deleteOrganisationById(int id) {
+		Organisation o = this.getOrganisationById(id);
+		o.setActive(0);		// set active flag to inactive (0)
+		return 0;
 	}
 
 	@Override
@@ -675,9 +713,11 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public boolean deleteCategoryById(int id) {
-		// TODO Auto-generated method stub
+		//TODO implement delete Category
 		return false;
 	}
+
+
 	
 	
 }

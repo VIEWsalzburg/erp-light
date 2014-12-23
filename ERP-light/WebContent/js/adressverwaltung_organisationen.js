@@ -21,17 +21,20 @@ function loadAllContactPersons() {
 		url : "../rest/secure/person/getAll"
 	}).done(
 			function(data) {
-				p = eval(data);
+				var contactPersons = eval(data);
 				
-				for (var e in p) {
-					var p_divRow = "<div class='boxElement_person'>" + "<input type='hidden' value="+ p[e].personId +">" + "<span>" + p[e].lastName + " " + p[e].firstName
-								+ " " + "</span><input class='pull-right' type='checkbox' ></div>";
+				for (var e in contactPersons) {
+					var p_divRow = "<div class='boxElement_person'>" + "<input type='hidden' value="+
+						contactPersons[e].personId +">" + "<span>" + contactPersons[e].lastName + " " + contactPersons[e].firstName
+						+ " " + "</span><input class='pull-right' type='checkbox' ></div>";
 					
 					$("#contactPersonDiv").append(p_divRow);
 				}
 			});
 };
 
+// remove all contactPerson-checkboxes and all category-checkboxes from the new/edit-modal
+// and load them again from the database
 function clearAndLoadDivContainer(){
 	//clear div container
 	$(".boxElement_person").remove();
@@ -65,10 +68,10 @@ function loadAllCategories() {
 $("#btn_new").click(function() {
 	$("#modal_title_text").text("Neue Organisation");
 	
-	//hide alert messsage
+	// hide alert messsage
 	$("#newAlertForm").hide();
 	
-	//clear textboxes
+	// clear textboxes
 	$("#tbx_id").val("");
 	$("#tbx_type").val("");
 	$("#tbx_name").val("");
@@ -77,6 +80,11 @@ $("#btn_new").click(function() {
 	$("#tbx_zip").val("");
 	$("#tbx_city").val("");
 	$("#tbx_country").val("");
+	$("#tbx_comment").val("");
+	
+	// clear filter boxes
+	$('#filter_modal1').val("");
+	$('#filter_modal2').val("");
 	
 	// untick Checkboxes
 	$('#cbx_lieferant').prop('checked',false);
@@ -92,7 +100,11 @@ $("#btn_new").click(function() {
 $("#btn_edit").click(function() {
 	$("#modal_title_text").text("Bearbeite Organisation");
 	
-	//hide alert messsage
+	// clear filter boxes
+	$('#filter_modal1').val("");
+	$('#filter_modal2').val("");
+	
+	// hide alert messsage
 	$("#newAlertForm").hide();
 	
 	var id = tableData[0];
@@ -104,7 +116,7 @@ $("#btn_edit").click(function() {
 		
 		var org = eval(data);
 		
-		//load textboxes
+		// load textboxes
 		$("#tbx_id").val(org.id);
 		$("#tbx_name").val(org.name);
 		$("#tbx_address").val(org.address);
@@ -183,10 +195,6 @@ $("#btn_edit").click(function() {
 			}
 			
 		}
-		
-		
-		
-		
 	
 	});	// end of ajax.done()
 	
@@ -197,7 +205,8 @@ $("#btn_edit").click(function() {
 
 
 
-//load contact persons for table
+//load a single (contact)Person into a global variable
+// function returns the name of a person
 var contactPerson;
 function loadContactPerson(id) {
 	var nameString="";
@@ -311,7 +320,7 @@ function loadTableContent() {
 								+ "<td>" + o[e].name + "</td>"
 								+ "<td>" + personIdString + "</td>" 
 								+ "<td>" + o[e].address + "," + "<br/>" + o[e].zip + " "
-								+ o[e].city + "," + "<br/>" + "Österreich" + "</td>"	//TODO country missing in json object
+								+ o[e].city + "," + "<br/>" + o[e].country + "</td>"
 								+ "<td>" + typeString + "</td>" 
 								+ "<td>" + categoryString + "</td>"
 								+ "<td>" + o[e].comment + "</td>" +	"</tr>";
@@ -400,7 +409,7 @@ $("#btn_saveorganisation").click(function() {
 			'Content-Type' : 'application/json'
 		},
 		type : "POST",
-		url : "../rest/secure/organisation/setOrganisation", //TODO set organisation
+		url : "../rest/secure/organisation/setOrganisation",
 		contentType: "application/json; charset=utf-8",
 	    dataType: "json",
 		data : JSON.stringify(neworganisation)
@@ -627,8 +636,8 @@ $(document).ready(function() {
 		$('#filter_modal2').keyup(function() {
 
 			var rex = new RegExp($(this).val(), 'i');
-			$('.searchable .boxElement_kategorie').hide();
-			$('.searchable .boxElement_kategorie').filter(function() {
+			$('.searchable .boxElement_category').hide();
+			$('.searchable .boxElement_category').filter(function() {
 				return rex.test($(this).text());
 			}).show();
 		})
@@ -760,11 +769,32 @@ $('#TableHead').on('click', 'tbody tr', function(event) {
 $("#btn_deleteModal").click(function() {
 	var id = tableData[0];
 	
-	$("#label_name").text(o[id].name);
-	$("#label_address").text(o[id].address);
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/organisation/getOrganisationById/" + id
+	}).done(function(data) {
+	
+		var o = eval(data); 
+		
+		var typeString = "";
+		
+		for (i in o.types)
+		{
+			typeString = typeString + o.types[i];
+			if (i<o.types.length-1)
+				typeString += ', ';
+		}
+		
+		$("#label_name").text(o.name);
+		$("#label_address").text(o.address + ", " + o.zip + " " + o.city + ", " + o.country);
+		$("#label_type").text(typeString);
+		
+	});
+	
+	
 });
 
-//TODO delete organisation
+// delete organisation
 $("#btn_deleteOrganisation").click(function() {
 	var id = tableData[0];
 	

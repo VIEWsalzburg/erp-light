@@ -69,6 +69,7 @@ public class OrganisationMapper {
 		entity.setAddress(new Address(0, dto.getAddress()));
 		entity.setCity(new City(0, dto.getCity(), dto.getZip()));
 		entity.setCountry(new Country(0, dto.getCountry()));
+		entity.setActive(1);	// set Entity active, every entity which is available in the frontend must be active
 		
 		Set<Person> pList = new HashSet<Person>();
 		for (Integer id : dto.getPersonIds()) {
