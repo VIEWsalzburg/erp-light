@@ -709,6 +709,7 @@ $("#btn_deleteModal").click(function() {
 // delete Action
 $("#btn_deletePerson").click(function() {
 	var id = tableData[0];
+	
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/person/deletePersonById/" + id

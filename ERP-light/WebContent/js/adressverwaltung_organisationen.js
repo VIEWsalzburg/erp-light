@@ -767,7 +767,6 @@ $('#TableHead').on('click', 'tbody tr', function(event) {
 $("#btn_deleteModal").click(function() {
 	var id = tableData[0];
 	
-<<<<<<< HEAD
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/organisation/getOrganisationById/" + id
@@ -791,7 +790,6 @@ $("#btn_deleteModal").click(function() {
 	});
 	
 	
-=======
 	// Get organisation with id "id"
 	$.ajax({
 		type : "POST",
@@ -803,14 +801,9 @@ $("#btn_deleteModal").click(function() {
 		$("#label_name_delete").text(deleteOrganisation.name);
 		$("#label_address_delete").text(deleteOrganisation.address + ", " + deleteOrganisation.zip + " " + deleteOrganisation.city + ", " + deleteOrganisation.country);
 	});
->>>>>>> refs/heads/Frontend
 });
 
-<<<<<<< HEAD
 // delete organisation
-=======
-//TODO delete organisation not working
->>>>>>> refs/heads/Frontend
 $("#btn_deleteOrganisation").click(function() {
 	var id = tableData[0];
 	

@@ -179,12 +179,7 @@ $("#btn_deleteModal").click(function() {
 	});
 });
 
-<<<<<<< HEAD
-//TODO implement functionality to delete Categories
 $("#btn_deleteCategory").click(function() {
-=======
-$("#btn_deleteCategory").click(function() { //TODO delete category not working
->>>>>>> refs/heads/Frontend
 	 var id = tableData[0];
 	 
 	 $.ajax({
