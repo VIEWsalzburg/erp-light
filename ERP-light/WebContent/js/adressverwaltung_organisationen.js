@@ -292,7 +292,7 @@ function loadTableContent() {
 					// IMPORTANT !!! CHECK FOR CORRECT PersonID
 					for (var k = 0; k < personIds.length; k++) {
 						
-						// iterate over all persons and append only assigned contactPerons with the correct IDs
+						// iterate over all persons and append only assigned contactPersons with the correct IDs
 						// IMPORTANT for (i in p) => i is only the current index
 						for (i in allPersons)
 						{
@@ -311,7 +311,7 @@ function loadTableContent() {
 								+ "<td>" + o[e].name + "</td>"
 								+ "<td>" + personIdString + "</td>" 
 								+ "<td>" + o[e].address + "," + "<br/>" + o[e].zip + " "
-								+ o[e].city + "," + "<br/>" + "Österreich" + "</td>"	//TODO country missing in json object
+								+ o[e].city + "," + "<br/>" + o[e].country + "</td>"
 								+ "<td>" + typeString + "</td>" 
 								+ "<td>" + categoryString + "</td>"
 								+ "<td>" + o[e].comment + "</td>" +	"</tr>";
@@ -400,7 +400,7 @@ $("#btn_saveorganisation").click(function() {
 			'Content-Type' : 'application/json'
 		},
 		type : "POST",
-		url : "../rest/secure/organisation/setOrganisation", //TODO set organisation
+		url : "../rest/secure/organisation/setOrganisation",
 		contentType: "application/json; charset=utf-8",
 	    dataType: "json",
 		data : JSON.stringify(neworganisation)
@@ -424,8 +424,6 @@ $("#btn_saveorganisation").click(function() {
 			alert("Verbindungsproblem mit dem Server");
 		}
 	});
-	
-	
 	return false;
 });
 
@@ -622,8 +620,8 @@ $(document).ready(function() {
 		$('#filter_modal2').keyup(function() {
 
 			var rex = new RegExp($(this).val(), 'i');
-			$('.searchable .boxElement_kategorie').hide();
-			$('.searchable .boxElement_kategorie').filter(function() {
+			$('.searchable .boxElement_category').hide();
+			$('.searchable .boxElement_category').filter(function() {
 				return rex.test($(this).text());
 			}).show();
 		})
@@ -727,11 +725,20 @@ $('#TableHead').on('click', 'tbody tr', function(event) {
 $("#btn_deleteModal").click(function() {
 	var id = tableData[0];
 	
-	$("#label_name").text(o[id].name);
-	$("#label_address").text(o[id].address);
+	// Get organisation with id "id"
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/organisation/getOrganisationById/" + id
+	}).done(function(data) {
+
+		var deleteOrganisation = eval(data);
+	
+		$("#label_name_delete").text(deleteOrganisation.name);
+		$("#label_address_delete").text(deleteOrganisation.address + ", " + deleteOrganisation.zip + " " + deleteOrganisation.city + ", " + deleteOrganisation.country);
+	});
 });
 
-//TODO delete organisation
+//TODO delete organisation not working
 $("#btn_deleteOrganisation").click(function() {
 	var id = tableData[0];
 	

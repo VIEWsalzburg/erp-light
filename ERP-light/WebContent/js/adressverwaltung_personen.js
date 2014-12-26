@@ -129,8 +129,7 @@ $("#btn_new").click(function() {
 //save person
 $("#btn_saveperson").click(function() {
 	
-	// TODO check for 
-	if( $("#tbx_lastName").val() == "" )
+	if( $("#tbx_lastName").val() == "")
 	{
 			$("#newAlertForm").show();
 			return;
@@ -659,8 +658,17 @@ $('#TableHead').on('click', 'tbody tr', function(event) {
 $("#btn_deleteModal").click(function() {
 	var id = tableData[0];
 	
-	$("#label_name_delete").text(p[id].title + " " + p[id].lastName + " " + p[id].firstName);
-	$("#label_address_delete").text(p[id].address + ", " + p[id].zip + " " + p[id].city + ", " + p[id].country);
+	// Get person with id "id"
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/person/getPersonById/" + id
+	}).done(function(data) {
+
+		var deletePerson = eval(data);
+	
+		$("#label_name_delete").text(deletePerson.firstName + " " + deletePerson.lastName);
+		$("#label_address_delete").text(deletePerson.address + ", " + deletePerson.zip + " " + deletePerson.city + ", " + deletePerson.country);
+	});
 });
 
 $("#btn_deletePerson").click(function() {
