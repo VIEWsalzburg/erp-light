@@ -44,7 +44,7 @@ $("#btn_edit").click(function() {
 });
 
 $("#btn_savecategory").click(function() {
-	if($("#tbx_category").val() == "" || $("#tbx_description").val() == "")
+	if($("#tbx_category").val() == "")
 	{
 			$("#newAlertForm").show();
 			return;
@@ -62,7 +62,7 @@ $("#btn_savecategory").click(function() {
 			'Content-Type' : 'application/json'
 		},
 		type : "POST",
-		url : "../rest/secure/category/setCategory",	//TODO setCategory?
+		url : "../rest/secure/category/setCategory",	
 		contentType: "application/json; charset=utf-8",
 	    dataType: "json",
 		data : JSON.stringify(newcategory)
@@ -164,13 +164,27 @@ $('#TableHead').on('click','tbody tr', function(event) {
 
 // remove table row Modal
 $("#btn_deleteModal").click(function() {
-	$("#label_id").text(tableData[0]);
-	$("#label_name").text(tableData[1]);
-	$("#label_description").text(tableData[2]);
+	var id = tableData[0];
+	
+	// Get category with id "id"
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/category/getCategoryById/" + id
+	}).done(function(data) {
+
+		var deleteCategory = eval(data);
+	
+		$("#label_name_delete").text(deleteCategory.category);
+		$("#label_description_delete").text(deleteCategory.description);
+	});
 });
 
+<<<<<<< HEAD
 //TODO implement functionality to delete Categories
 $("#btn_deleteCategory").click(function() {
+=======
+$("#btn_deleteCategory").click(function() { //TODO delete category not working
+>>>>>>> refs/heads/Frontend
 	 var id = tableData[0];
 	 
 	 $.ajax({

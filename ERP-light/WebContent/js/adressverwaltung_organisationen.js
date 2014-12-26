@@ -301,7 +301,7 @@ function loadTableContent() {
 					// IMPORTANT !!! CHECK FOR CORRECT PersonID
 					for (var k = 0; k < personIds.length; k++) {
 						
-						// iterate over all persons and append only assigned contactPerons with the correct IDs
+						// iterate over all persons and append only assigned contactPersons with the correct IDs
 						// IMPORTANT for (i in p) => i is only the current index
 						for (i in allPersons)
 						{
@@ -433,8 +433,6 @@ $("#btn_saveorganisation").click(function() {
 			alert("Verbindungsproblem mit dem Server");
 		}
 	});
-	
-	
 	return false;
 });
 
@@ -769,6 +767,7 @@ $('#TableHead').on('click', 'tbody tr', function(event) {
 $("#btn_deleteModal").click(function() {
 	var id = tableData[0];
 	
+<<<<<<< HEAD
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/organisation/getOrganisationById/" + id
@@ -792,9 +791,26 @@ $("#btn_deleteModal").click(function() {
 	});
 	
 	
+=======
+	// Get organisation with id "id"
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/organisation/getOrganisationById/" + id
+	}).done(function(data) {
+
+		var deleteOrganisation = eval(data);
+	
+		$("#label_name_delete").text(deleteOrganisation.name);
+		$("#label_address_delete").text(deleteOrganisation.address + ", " + deleteOrganisation.zip + " " + deleteOrganisation.city + ", " + deleteOrganisation.country);
+	});
+>>>>>>> refs/heads/Frontend
 });
 
+<<<<<<< HEAD
 // delete organisation
+=======
+//TODO delete organisation not working
+>>>>>>> refs/heads/Frontend
 $("#btn_deleteOrganisation").click(function() {
 	var id = tableData[0];
 	

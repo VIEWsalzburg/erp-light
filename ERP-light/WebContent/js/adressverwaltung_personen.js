@@ -129,8 +129,7 @@ $("#btn_new").click(function() {
 //save person
 $("#btn_saveperson").click(function() {
 	
-	// check if person has a lastname
-	if( $("#tbx_lastName").val() == "" )
+	if( $("#tbx_lastName").val() == "")
 	{
 			$("#newAlertForm").show();
 			return;

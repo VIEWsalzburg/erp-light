@@ -1,0 +1,160 @@
+@CHARSET "UTF-8";
+
+body{		
+	background-color: #45A12B;
+}
+
+.container{
+	background-color: #000;
+}
+
+.modalContentPerson{
+	width: 670px;
+  	margin-left: -35px;
+}
+
+.modalContentOrganisation{
+	width: 710px;
+  	margin-left: -55px;
+}
+
+/* Navbar */
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    background-color: #45A12B;
+    color: #FFF;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {    
+    background-color: #45A12B;
+	color: #FFF;
+}
+
+.navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav > .active > a:hover, 
+.navbar-default .navbar-nav > .active > a:focus {
+    background-color: #45A12B;
+    color: #FFF;
+}
+
+.navbar .nav > li.dropdown.open > .dropdown-toggle,
+.navbar .nav > li.dropdown.active > .dropdown-toggle,
+.navbar .nav > li.dropdown.open.active > .dropdown-toggle{
+    background-color: #45A12B;
+    color: #FFF;
+}
+
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+	background-color: #45A12B;
+	color: #FFF;
+}
+
+/* Nav-tabs */
+.nav-tabs > li > a {	
+	color: #333; /*Change active text color here*/
+}
+
+/* active tab color */
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+  color: #FFF;
+  background-color: #45A12B;
+  
+}
+
+/* hover tab color */
+.nav-tabs>li>a:hover {
+  background-color: #45A12B;
+  color: #FFF;
+}
+
+.suchfilter{
+	width: 250px;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.typfilter{
+    margin-right: 5px;
+}
+
+/* Table */
+.TableHead{	
+	background-color: #999;
+}
+
+.table-responsive{
+	height: 310px !important;
+	max-width: 1140px !important;
+    overflow: scroll;
+	overflow-x: hidden;
+}
+
+.table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
+  background-color: #45A12B;
+  color: #FFF;
+}
+/* Table end */
+
+.bottom{
+    margin-top: 5px;	
+}
+
+.centered{
+    margin-top: 5px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.modalrow{
+	margin-bottom: 5px;	
+}
+
+.table-striped tbody tr.highlight td { 
+    background-color: #45A12B;
+	color: #FFF;
+}
+
+.divider-horizontal{
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 15px;
+}
+
+.ModalDivContainer{
+	height: 80px;
+	overflow-y: auto;
+}
+
+.boxElement_person{
+	border-bottom: 1px solid #ccc;
+}
+
+.boxElement_category{
+	border-bottom: 1px solid #ccc;
+}
+
+#top
+{
+	height: 60px;
+	background-color: #45A12B;
+}
+
+#header
+{	
+	height: 70px;
+	background-color: #FFF;	
+}
+
+#body
+{	
+	height: 450px;
+	background-color: #FFF;	
+}
+
+#footer
+{	
+	height: 45px;
+	background-color: #333333;
+	color: #FFF;
+}
+
