@@ -20,6 +20,7 @@
 	<mvc:annotation-driven/>
 
 	<!-- 	Database Access Config -->
+	<!-- TODO: use Connection Pool C3PO -->
 	<beans profile="ProdDB">
 	
 		<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" >
