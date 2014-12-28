@@ -17,6 +17,12 @@ $("#loginEmailPermission_container_details").append(template);
 
 var p;
 function loadTableContent() {
+	// check all Checkboxes
+	$('#mitarbeiter_cbx').prop('checked', true);
+	$('#unterstuetzer_cbx').prop('checked', true);
+	$('#mitglieder_cbx').prop('checked', true);
+	$('#gaeste_cbx').prop('checked', true);
+	
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/person/getAll"

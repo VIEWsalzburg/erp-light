@@ -226,6 +226,9 @@ var o;
 var c;
 function loadTableContent() {
 	
+	$('#lieferanten_cbx').prop('checked', true);
+	$('#kunden_cbx').prop('checked', true);
+	$('#sponsoren_cbx').prop('checked', true);
 	
 	// load all Categories
 	var category;
@@ -783,24 +786,14 @@ $("#btn_deleteModal").click(function() {
 				typeString += ', ';
 		}
 		
-		$("#label_name").text(o.name);
-		$("#label_address").text(o.address + ", " + o.zip + " " + o.city + ", " + o.country);
-		$("#label_type").text(typeString);
+		$("#label_name_delete").text(o.name);
+		$("#label_address_delete").text(o.address + ", " + o.zip + " " + o.city + ", " + o.country);
+		$("#label_types_delete").text(typeString);
 		
 	});
 	
 	
-	// Get organisation with id "id"
-	$.ajax({
-		type : "POST",
-		url : "../rest/secure/organisation/getOrganisationById/" + id
-	}).done(function(data) {
-
-		var deleteOrganisation = eval(data);
 	
-		$("#label_name_delete").text(deleteOrganisation.name);
-		$("#label_address_delete").text(deleteOrganisation.address + ", " + deleteOrganisation.zip + " " + deleteOrganisation.city + ", " + deleteOrganisation.country);
-	});
 });
 
 // delete organisation
