@@ -43,6 +43,11 @@ function clearAndLoadDivContainer(){
 	//load div container
 	loadAllContactPersons();
 	loadAllCategories();
+	
+	// call the sorting function when a contact person checkbox change its status
+	$('.boxElement_person > input:checkbox').change( sortContactPersonBoxElements );
+	$('.boxElement_category > input:checkbox').change( sortCategoryBoxElements );
+	
 };
 
 //load categories to modal
@@ -65,6 +70,10 @@ function loadAllCategories() {
 	});
 };
 
+
+/**
+ * call modal for a new organisation
+ */
 $("#btn_new").click(function() {
 	$("#modal_title_text").text("Neue Organisation");
 	
@@ -97,6 +106,9 @@ $("#btn_new").click(function() {
 
 
 
+/**
+ * call modal for editing an organisation
+ */
 $("#btn_edit").click(function() {
 	$("#modal_title_text").text("Bearbeite Organisation");
 	
@@ -169,6 +181,10 @@ $("#btn_edit").click(function() {
 				}
 		);
 		
+		
+		// call the sorting functions for contact persons and categories one time to initially sort them
+		sortContactPersonBoxElements();
+		sortCategoryBoxElements();
 		
 		// uncheck all checkboxes first
 		$('#cbx_lieferant').prop('checked',false);
@@ -598,7 +614,120 @@ $("#btn_details").click(function() {
 	
 });
 
-//search filter main table
+
+
+/**
+ * sorting function for contact persons in organisation modal, 
+ * sorts the contact persons according to their checkbox status and their name
+ */
+function sortContactPersonBoxElements()
+{
+
+	var sortedElements = $('#contactPersonDiv').children().sort( function(a, b) {
+		
+				if( $(a).find('input').last().prop('checked') == false && $(b).find('input').last().prop('checked') == true )
+				{
+					return 1;	// switch
+				}
+				
+				if( $(a).find('input').last().prop('checked') == true && $(b).find('input').last().prop('checked') == false )
+				{
+					return -1;	// don't switch
+				}
+				
+				// if both have the same status
+				if( $(a).find('input').last().prop('checked') == $(b).find('input').last().prop('checked') )
+				{
+					
+					// if first text is greater than second text
+					if( $(a).text().toLowerCase() > $(b).text().toLowerCase() )
+					{
+						return 1;	// switch
+					}
+					
+					// if first text is less than second text
+					if( $(a).text().toLowerCase() < $(b).text().toLowerCase() )
+					{
+						return -1;	// don't switch
+					}
+					
+					return 0;
+					
+					
+				}
+				
+				return 0;
+				
+		
+			} );
+
+	// rearrange the elements in the container
+	for( i=0; i<sortedElements.length; i++)
+	{
+		$('#contactPersonDiv').append( $(sortedElements[i]));
+	}
+
+}
+
+
+/**
+ * sorting function for categories in organisation modal, 
+ * sorts the categories according to their checkbox status and their name
+ */
+function sortCategoryBoxElements()
+{
+
+	var sortedElements = $('#categoryDiv').children().sort( function(a, b) {
+		
+				if( $(a).find('input').last().prop('checked') == false && $(b).find('input').last().prop('checked') == true )
+				{
+					return 1;	// switch
+				}
+				
+				if( $(a).find('input').last().prop('checked') == true && $(b).find('input').last().prop('checked') == false )
+				{
+					return -1;	// don't switch
+				}
+				
+				// if both have the same status
+				if( $(a).find('input').last().prop('checked') == $(b).find('input').last().prop('checked') )
+				{
+					
+					// if first text is greater than second text
+					if( $(a).text().toLowerCase() > $(b).text().toLowerCase() )
+					{
+						return 1;	// switch
+					}
+					
+					// if first text is less than second text
+					if( $(a).text().toLowerCase() < $(b).text().toLowerCase() )
+					{
+						return -1;	// don't switch
+					}
+					
+					return 0;
+					
+					
+				}
+				
+				return 0;
+				
+		
+			} );
+
+	// rearrange the elements in the container
+	for( i=0; i<sortedElements.length; i++)
+	{
+		$('#categoryDiv').append( $(sortedElements[i]));
+	}
+
+}
+
+
+
+/**
+ * search filter for the table of all organisations
+ */
 $(document).ready(function() {
 	(function($) {
 		$('#filter').keyup(function() {
@@ -617,7 +746,11 @@ $(document).ready(function() {
 	}(jQuery));
 });
 
-//modal search filter Person
+
+
+/**
+ * search filter for contactPersons in organisation modal
+ */
 $(document).ready(function() {
 	(function($) {
 		$('#filter_modal1').keyup(function() {
@@ -631,7 +764,11 @@ $(document).ready(function() {
 	}(jQuery));
 });
 
-//modal search filter Kategorie
+
+
+/**
+ * search filter for categories in organisation modal
+ */
 $(document).ready(function() {
 	(function($) {
 		$('#filter_modal2').keyup(function() {
@@ -646,7 +783,11 @@ $(document).ready(function() {
 });
 
 
-//show/hide Persons by Types
+
+
+/**
+ * filter function, which updates the table according to the checkbox status
+ */
 function updateTableTypeFilter() {
 	
 	// remove textfilter
@@ -704,7 +845,9 @@ function updateTableTypeFilter() {
 
 
 
-//typefilter
+/**
+ * assign the filter function calls to the checkboxes
+ */
 $(document).ready(function() {
 	$('#lieferanten_cbx').prop('checked', true);
 	$('#kunden_cbx').prop('checked', true);
@@ -716,14 +859,22 @@ $(document).ready(function() {
 	$('#sponsoren_cbx').on('change', updateTableTypeFilter);
 });
 
-//disable new, edit and delete buttons
+
+
+/**
+ * disable new, edit and delete buttons, and activate them according to the user permissions
+ */
 $('#btn_new').hide();
 $(".suchfilter").css("margin-left", "0px");
 $('#btn_edit').hide();
 $('#btn_deleteModal').hide();
 $('#btn_details').prop('disabled', true);
 
-//get current user rights
+
+
+/**
+ * Get current user permissions
+ */
 $(document).ready(function() {
 	$.ajax({
 		type : "POST",
@@ -746,6 +897,9 @@ $(document).ready(function() {
 	});
 });
 
+/**
+ * write the selected row data to a global variable 
+ */
 var tableData;
 $('#TableHead').on('click', 'tbody tr', function(event) {
 	tableData = $(this).children("td").map(function() {
@@ -766,7 +920,10 @@ $('#TableHead').on('click', 'tbody tr', function(event) {
 	$('#btn_details').prop('disabled', false);
 });
 
-//remove table row modal
+
+/**
+ * Call the delete modal
+ */
 $("#btn_deleteModal").click(function() {
 	var id = tableData[0];
 	
@@ -792,11 +949,11 @@ $("#btn_deleteModal").click(function() {
 		
 	});
 	
-	
-	
 });
 
-// delete organisation
+/**
+ * AJAX call to delete an organisation
+ */
 $("#btn_deleteOrganisation").click(function() {
 	var id = tableData[0];
 	
