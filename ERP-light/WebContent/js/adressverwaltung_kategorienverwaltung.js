@@ -4,7 +4,7 @@ $("#pageheader").load("../partials/header.html", function() {
 });
 
 //append alert message to modal
-var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-5'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>"
+var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-5'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>";
 	$("#newAlertForm").append(pwdError);
 
 // Get all categories and load into table
@@ -162,23 +162,48 @@ $('#TableHead').on('click','tbody tr', function(event) {
 			}
 });
 
-// remove table row Modal
+/**
+ * call the delete modal for the selected category
+ */
 $("#btn_deleteModal").click(function() {
 	var id = tableData[0];
+	 var name = tableData[1];
+	 var description = tableData[2];
+	 
+	$("#label_name_delete").text(name);
+	$("#label_description_delete").text(description);
 	
 	// Get category with id "id"
 	$.ajax({
 		type : "POST",
-		url : "../rest/secure/category/getCategoryById/" + id
+		url : "../rest/secure/category/getOrganisationsByCategoryId/" + id
 	}).done(function(data) {
 
-		var deleteCategory = eval(data);
+		var organisations = eval(data);
 	
-		$("#label_name_delete").text(deleteCategory.category);
-		$("#label_description_delete").text(deleteCategory.description);
+		if (organisations.length>0)
+		{
+			var organisationString = "";
+			
+			for (i in organisations)
+			{
+				organisationString += organisations[i].name;
+				if (i < organisations.length-1)
+				organisationString += ", "
+			}
+		
+			$("#label_organisations_delete").text(organisationString);
+		}
+		else
+			$("#label_organisations_delete").text("-");
+		
 	});
 });
 
+
+/**
+ * call the delete url for the category
+ */
 $("#btn_deleteCategory").click(function() {
 	 var id = tableData[0];
 	 

@@ -41,7 +41,7 @@ public class DataBaseService implements IDataBase {
 		
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Person getPersonById(int id) {				
+	public Person getPersonById(int id) throws HibernateException {				
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor WHERE p.personId = :id");
 		query.setParameter("id", id);
 		Person person = (Person)query.uniqueResult();
@@ -49,7 +49,7 @@ public class DataBaseService implements IDataBase {
 	}
 	
 	@Override
-	public int setIncomingDelivery(IncomingDelivery incomingDelivery) {
+	public int setIncomingDelivery(IncomingDelivery incomingDelivery) throws HibernateException {
 		
 		return 0;
 	}
@@ -58,14 +58,14 @@ public class DataBaseService implements IDataBase {
 	
 
 	@Override
-	public List<Person> getPersonsByType(Type type) {
+	public List<Person> getPersonsByType(Type type) throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<Person> getAllPersons() {
+	public List<Person> getAllPersons() throws HibernateException {
 		@SuppressWarnings("unchecked")
 		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor WHERE p.active=1 ORDER BY p.lastName").list();
 		return persons;
@@ -79,7 +79,7 @@ public class DataBaseService implements IDataBase {
 	
 	// setCountry
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Country getCountryByCountry(String country) {
+	public Country getCountryByCountry(String country) throws HibernateException {
 		Country mCountry = (Country) sessionFactory.getCurrentSession().
 				createQuery("FROM Country c WHERE c.country = :country").
 				setParameter("country", country).uniqueResult();
@@ -93,14 +93,14 @@ public class DataBaseService implements IDataBase {
 	
 	// setCountry
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Country setCountry(Country country) {
+	public Country setCountry(Country country) throws HibernateException {
 		sessionFactory.getCurrentSession().saveOrUpdate(country);
 		return country;
 	}
 	
 	// getAddressByAddress
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Address getAddressByAddress(String address) {
+	public Address getAddressByAddress(String address) throws HibernateException {
 		Address mAddress = (Address) sessionFactory.getCurrentSession().
 				createQuery("FROM Address a WHERE a.address = :address").
 				setParameter("address", address).uniqueResult();
@@ -114,14 +114,14 @@ public class DataBaseService implements IDataBase {
 	
 	// setAddress
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Address setAddress(Address address) {
+	public Address setAddress(Address address) throws HibernateException {
 		sessionFactory.getCurrentSession().saveOrUpdate(address);
 		return address;
 	}
 	
 	// setCity
 	@Transactional(propagation=Propagation.REQUIRED)
-	public City getCityByCityAndZip(String city, String zip) {
+	public City getCityByCityAndZip(String city, String zip) throws HibernateException {
 		City mCity = (City) sessionFactory.getCurrentSession()
 				.createQuery("FROM City c WHERE c.city = :city AND c.zip = :zip")
 				.setParameter("city", city).setParameter("zip", zip).uniqueResult();
@@ -135,14 +135,14 @@ public class DataBaseService implements IDataBase {
 	
 	// setCity
 	@Transactional(propagation=Propagation.REQUIRED)
-	public City setCity(City city) {
+	public City setCity(City city) throws HibernateException {
 		sessionFactory.getCurrentSession().saveOrUpdate(city);
 		return city;
 	}
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public int setPerson(Person person) {
+	public int setPerson(Person person) throws HibernateException {
 		
 		// update Address
 		// if address == null => delete FK
@@ -226,7 +226,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public int deletePersonById(int id) {
+	public int deletePersonById(int id) throws HibernateException {
 		Person p = this.getPersonById(id);
 		p.setActive(0);	// set active flag to inactive (0)
 		return 0;
@@ -234,7 +234,7 @@ public class DataBaseService implements IDataBase {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Type getTypeById(int id) {
+	public Type getTypeById(int id) throws HibernateException {
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Type t WHERE t.typeId = :id");
 		query.setParameter("id", id);
 		Type type = (Type)query.uniqueResult();
@@ -243,7 +243,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Type getTypeByType(String type)
+	public Type getTypeByType(String type) throws HibernateException
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Type t WHERE t.name = :type");
 		query.setParameter("type", type);
@@ -252,8 +252,8 @@ public class DataBaseService implements IDataBase {
 	}
 	
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
-	public List<Type> getAllTypes() {
+	@Transactional(propagation=Propagation.REQUIRED) 
+	public List<Type> getAllTypes() throws HibernateException {
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Type t ORDER BY t.name");
 		List<Type> types = (List<Type>)query.list();
 		return types;
@@ -261,14 +261,14 @@ public class DataBaseService implements IDataBase {
 	
 	
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Telephone setTelephone(Telephone telephone)
+	public Telephone setTelephone(Telephone telephone) throws HibernateException
 	{
 		sessionFactory.getCurrentSession().saveOrUpdate(telephone);
 		return telephone;
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Telephone getTelephoneByTelephone(String telephone, String type)
+	public Telephone getTelephoneByTelephone(String telephone, String type) throws HibernateException
 	{
 		Telephone mTelephone = (Telephone) sessionFactory.getCurrentSession().createQuery("FROM Telephone t WHERE t.telephone = :telephone")
 				.setParameter("telephone", telephone).uniqueResult();
@@ -286,14 +286,14 @@ public class DataBaseService implements IDataBase {
 	
 	
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Email setEmail(Email email)
+	public Email setEmail(Email email) throws HibernateException
 	{
 		sessionFactory.getCurrentSession().saveOrUpdate(email);
 		return email;
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Email getEmailByEmail(String email, String type)
+	public Email getEmailByEmail(String email, String type) throws HibernateException
 	{
 		Email mEmail = (Email) sessionFactory.getCurrentSession().createQuery("FROM Email e WHERE e.email = :email")
 				.setParameter("email", email).uniqueResult();
@@ -311,7 +311,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional
-	public Platformuser getPlatformuserById(int id)
+	public Platformuser getPlatformuserById(int id) throws HibernateException
 	{
 		Platformuser platformuser = (Platformuser) sessionFactory.getCurrentSession().createQuery("FROM Platformuser p WHERE p.personId = :id")
 				.setParameter("id", id).uniqueResult();
@@ -320,7 +320,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional
-	public Platformuser getPlatformuserbyLoginEmail(String loginEmail)
+	public Platformuser getPlatformuserbyLoginEmail(String loginEmail) throws HibernateException
 	{
 		Platformuser platformuser = (Platformuser) sessionFactory.getCurrentSession().createQuery("FROM Platformuser p WHERE p.loginEmail = :loginEmail")
 				.setParameter("loginEmail", loginEmail).uniqueResult();
@@ -329,7 +329,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional
-	public Platformuser setPlatformuser(Platformuser platformuser)
+	public Platformuser setPlatformuser(Platformuser platformuser) throws HibernateException
 	{
 		sessionFactory.getCurrentSession().saveOrUpdate(platformuser);
 		return platformuser;
@@ -337,7 +337,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional
-	public void removePlatformuserById(int id)
+	public void removePlatformuserById(int id) throws HibernateException
 	{
 		Platformuser platformuser = this.getPlatformuserById(id);
 		if (platformuser != null)
@@ -346,7 +346,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional
-	public Permission getPermissionById(int id)
+	public Permission getPermissionById(int id) throws HibernateException
 	{
 		Permission permission = (Permission) sessionFactory.getCurrentSession().createQuery("From Permission p WHERE p.permissionId = :id")
 				.setParameter("id", id).uniqueResult();
@@ -355,7 +355,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional
-	public Permission getPermissionByPermission(String permission)
+	public Permission getPermissionByPermission(String permission) throws HibernateException
 	{
 		Permission mPermission = (Permission) sessionFactory.getCurrentSession().createQuery("From Permission p WHERE p.permission = :permission")
 				.setParameter("permission", permission).uniqueResult();
@@ -365,7 +365,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional
-	public int telephoneTest() {
+	public int telephoneTest() throws HibernateException {
 	
 		
 		Person mPerson = getPersonById(36);
@@ -448,14 +448,14 @@ public class DataBaseService implements IDataBase {
 	
 	
 	@Override
-	public int setPersons(List<Person> persons) {
+	public int setPersons(List<Person> persons) throws HibernateException {
 		
 		return 0;
 	}
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Organisation getOrganisationById(int id) {
+	public Organisation getOrganisationById(int id) throws HibernateException {
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Organisation o WHERE o.organisationId = :id");
 		query.setParameter("id", id);
 		Organisation organisation = (Organisation)query.uniqueResult();
@@ -463,14 +463,14 @@ public class DataBaseService implements IDataBase {
 	}
 
 	@Override
-	public List<Organisation> getOrganisationsByCategory(Category category) {
+	public List<Organisation> getOrganisationsByCategory(Category category) throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<Organisation> getAllOrganisations() {
+	public List<Organisation> getAllOrganisations() throws HibernateException {
 		
 		List<Organisation> organisations = sessionFactory.getCurrentSession().createQuery("FROM Organisation o WHERE o.active=1 ORDER BY o.name").list();
 		return organisations;
@@ -478,7 +478,7 @@ public class DataBaseService implements IDataBase {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public int setOrganisation(Organisation organisation) {
+	public int setOrganisation(Organisation organisation) throws HibernateException {
 
 
 		// update Address
@@ -565,7 +565,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public int deleteOrganisationById(int id) {
+	public int deleteOrganisationById(int id) throws HibernateException {
 		Organisation o = this.getOrganisationById(id);
 		o.setActive(0);	// set active flag to inactive (0)
 		return 0;
@@ -573,145 +573,145 @@ public class DataBaseService implements IDataBase {
 	
 
 	@Override
-	public int setOrganisations(List<Organisation> organisations) {
+	public int setOrganisations(List<Organisation> organisations) throws HibernateException {
 		
 		return 0;
 	}
 
 	@Override
-	public IncomingDelivery getIncomingDeliveryById(int id) {
+	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
-	public List<IncomingDelivery> getAllIncomingDeliveries() {
+	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
-	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) {
+	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) throws HibernateException {
 		
 		return 0;
 	}
 
 	@Override
-	public IncomingArticle getIncomingArticleById(int id) {
+	public IncomingArticle getIncomingArticleById(int id) throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
-	public List<IncomingArticle> getAllIncomingArticles() {
+	public List<IncomingArticle> getAllIncomingArticles() throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
-	public int setIncomingArticle(IncomingArticle incomingArticle) {
+	public int setIncomingArticle(IncomingArticle incomingArticle) throws HibernateException {
 		
 		return 0;
 	}
 
 	@Override
-	public int setIncomingArticles(List<IncomingArticle> incomingArticles) {
+	public int setIncomingArticles(List<IncomingArticle> incomingArticles) throws HibernateException {
 		
 		return 0;
 	}
 
 	@Override
-	public Article getArticleById(int id) {
+	public Article getArticleById(int id) throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
-	public List<Article> getAllArticles() {
+	public List<Article> getAllArticles() throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
-	public int setArticle(Article article) {
+	public int setArticle(Article article) throws HibernateException {
 		
 		return 0;
 	}
 
 	@Override
-	public int setArticles(List<Article> articles) {
+	public int setArticles(List<Article> articles) throws HibernateException {
 		
 		return 0;
 	}
 
 	@Override
-	public OutgoingArticle getOutgoingArticleById(int id) {
+	public OutgoingArticle getOutgoingArticleById(int id) throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
-	public List<OutgoingArticle> getAllOutgoingArticles() {
+	public List<OutgoingArticle> getAllOutgoingArticles() throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
-	public int setOutgoingArticle(OutgoingArticle outgoingArticle) {
+	public int setOutgoingArticle(OutgoingArticle outgoingArticle) throws HibernateException {
 		
 		return 0;
 	}
 
 	@Override
-	public int setOutgoingArticles(List<OutgoingArticle> outgoingArticles) {
+	public int setOutgoingArticles(List<OutgoingArticle> outgoingArticles) throws HibernateException {
 		
 		return 0;
 	}
 
 	@Override
-	public OutgoingDelivery getOutgoingDeliveryById(int id) {
+	public OutgoingDelivery getOutgoingDeliveryById(int id) throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
-	public List<OutgoingDelivery> getAllOutgoingDeliveries() {
+	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
-	public int setOutgoingDelivery(OutgoingDelivery outgoingDelivery) {
+	public int setOutgoingDelivery(OutgoingDelivery outgoingDelivery) throws HibernateException {
 		
 		return 0;
 	}
 
 	@Override
-	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) {
+	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) throws HibernateException {
 		
 		return 0;
 	}
 
 	@Override
-	public DeliveryList getDeliveryListById(int id) {
+	public DeliveryList getDeliveryListById(int id) throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
-	public List<DeliveryList> getAllDeliveryLists() {
+	public List<DeliveryList> getAllDeliveryLists() throws HibernateException {
 		
 		return null;
 	}
 
 	@Override
-	public int setDeliveryList(DeliveryList deliveryList) {
+	public int setDeliveryList(DeliveryList deliveryList) throws HibernateException {
 		
 		return 0;
 	}
 
 	@Override
-	public int setDeliveryLists(List<DeliveryList> deliveryLists) {
+	public int setDeliveryLists(List<DeliveryList> deliveryLists) throws HibernateException {
 		
 		return 0;
 	}
@@ -719,7 +719,7 @@ public class DataBaseService implements IDataBase {
 
 	@Override
 	// @Transactional(propagation=Propagation.REQUIRED)
-	public Category getCategoryById(int id) {
+	public Category getCategoryById(int id) throws HibernateException {
 
 		Category mCategory = (Category)sessionFactory.getCurrentSession().createQuery("FROM Category c WHERE c.categoryId = :id").setParameter("id", id).uniqueResult();
 		return mCategory;
@@ -728,7 +728,7 @@ public class DataBaseService implements IDataBase {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Category getCategoryByCategory(String category) {
+	public Category getCategoryByCategory(String category) throws HibernateException {
 
 		Category mCategory = (Category)sessionFactory.getCurrentSession().createQuery("FROM Category c WHERE c.category = :category").setParameter("category", category).uniqueResult();
 		
@@ -751,7 +751,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<Category> getAllCategories()
+	public List<Category> getAllCategories() throws HibernateException
 	{
 		List<Category> categories = sessionFactory.getCurrentSession().createQuery("FROM Category c ORDER BY c.category").list();
 		return categories;
@@ -759,7 +759,7 @@ public class DataBaseService implements IDataBase {
 
 
 	@Override
-	public boolean deleteCategoryById(int id) {
+	public boolean deleteCategoryById(int id) throws HibernateException {
 		
 		Category category = this.getCategoryById(id);
 		
@@ -771,4 +771,20 @@ public class DataBaseService implements IDataBase {
 		return true;
 	}
 
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<Organisation> getOrganisationsByCategoryId(int id) throws HibernateException {
+		
+		
+		// important: add 'SELECT DISTINC o' to get only Objects and use JOIN to restrict the categoryIds
+		List<Organisation> organisations = sessionFactory.getCurrentSession().
+					createQuery("SELECT DISTINCT o FROM Organisation o JOIN o.categories c WHERE o.active=1 AND c.categoryId = :id ORDER BY o.name").setParameter("id", id).list();
+		
+//		System.out.println("size: "+organisations.size());
+//		System.out.println(organisations.get(0).getName());
+//		System.out.println(organisations.get(0).getComment());
+		
+		return organisations;
+	}
+	
 }

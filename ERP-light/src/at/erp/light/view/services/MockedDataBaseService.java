@@ -184,10 +184,10 @@ public class MockedDataBaseService implements IDataBase {
 	private void initCategories()
 	{
 		// Categories
-		Category Cat1 = new Category(1, "Fleisch", "Fleischdesc");
-		Category Cat2 = new Category(2, "Fisch", "Fischdesc");
-		Category Cat3 = new Category(3, "Brot", "Brotdesc");
-		Category Cat4 = new Category(4, "Käse", "Käsedesc");
+		Category Cat1 = new Category(10, "Fleisch", "Fleischdesc");
+		Category Cat2 = new Category(20, "Fisch", "Fischdesc");
+		Category Cat3 = new Category(30, "Brot", "Brotdesc");
+		Category Cat4 = new Category(40, "Käse", "Käsedesc");
 		
 		mockedCategories.add(Cat1);
 		mockedCategories.add(Cat2);
@@ -713,8 +713,28 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public boolean deleteCategoryById(int id) {
-		//TODO implement delete Category
-		return false;
+		
+		Category category = this.getCategoryById(id);
+		mockedCategories.remove(category);
+		
+		return true;
+	}
+
+	@Override
+	public List<Organisation> getOrganisationsByCategoryId(int id) {
+		
+		List<Organisation> list = new ArrayList<Organisation>();
+		
+		for (Organisation o : this.getAllOrganisations())
+		{
+			for (Category c : o.getCategories())
+			{
+				if (c.getCategoryId() == id)
+					list.add(o);
+			}
+		}
+		
+		return list;
 	}
 
 

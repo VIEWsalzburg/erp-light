@@ -33,7 +33,7 @@ public interface IDataBase {
 	 * @param id
 	 * @return Person object / null, if Person does not exist
 	 */
-	public Person getPersonById(int id);
+	public Person getPersonById(int id) throws HibernateException;
 	
 
 	
@@ -42,20 +42,20 @@ public interface IDataBase {
 	 * @param type
 	 * @return
 	 */
-	public List<Person> getPersonsByType(Type type);
+	public List<Person> getPersonsByType(Type type) throws HibernateException;
 	
 	/**
 	 * This function returns all Persons from the DB.
 	 * @return a Set with all Persons. 
 	 */
-	public List<Person> getAllPersons();
+	public List<Person> getAllPersons() throws HibernateException;
 	
 	/**
 	 * unimplemented
 	 * @param loginEmail
 	 * @return
 	 */
-	public Person getPersonByLoginEmail(String loginEmail);
+	public Person getPersonByLoginEmail(String loginEmail) throws HibernateException;
 	
 	/**
 	 * Saves or updates the given Person in the DB. All fields are parsed and reassign depending on the saved entities.
@@ -63,79 +63,79 @@ public interface IDataBase {
 	 * @param person
 	 * @return
 	 */
-	public int setPerson(Person person);
+	public int setPerson(Person person) throws HibernateException;
 	
 	/**
 	 * unimplemented
 	 * @param persons
 	 * @return
 	 */
-	public int setPersons(List<Person> persons);
+	public int setPersons(List<Person> persons) throws HibernateException;
 	
 	/**
 	 * deletes a person by setting the active flag to 0
 	 * @param id
 	 * @return 0 on success
 	 */
-	public int deletePersonById(int id);
+	public int deletePersonById(int id) throws HibernateException;
 	
 	// Organisations
-	public Organisation getOrganisationById(int id);
-	public List<Organisation> getOrganisationsByCategory(Category category);
-	public List<Organisation> getAllOrganisations();
+	public Organisation getOrganisationById(int id) throws HibernateException;
+	public List<Organisation> getOrganisationsByCategory(Category category) throws HibernateException;
+	public List<Organisation> getAllOrganisations() throws HibernateException;
 	
-	public int setOrganisation(Organisation organisation);
-	public int setOrganisations(List<Organisation> organisations);
+	public int setOrganisation(Organisation organisation) throws HibernateException;
+	public int setOrganisations(List<Organisation> organisations) throws HibernateException;
 	
 	/**
 	 * deletes an organisation by setting the active flag to 0
 	 * @param id
 	 * @return 0 on success
 	 */
-	public int deleteOrganisationById(int id);
+	public int deleteOrganisationById(int id) throws HibernateException;
 	
 	// Incoming deliveries
-	public IncomingDelivery getIncomingDeliveryById(int id);
-	public List<IncomingDelivery> getAllIncomingDeliveries();
+	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException;
+	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException;
 	
-	public int setIncomingDelivery(IncomingDelivery incomingDelivery);
-	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries);
+	public int setIncomingDelivery(IncomingDelivery incomingDelivery) throws HibernateException;
+	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) throws HibernateException;
 	
 	// Incoming articles
-	public IncomingArticle getIncomingArticleById(int id);
-	public List<IncomingArticle> getAllIncomingArticles();
+	public IncomingArticle getIncomingArticleById(int id) throws HibernateException;
+	public List<IncomingArticle> getAllIncomingArticles() throws HibernateException;
 	
-	public int setIncomingArticle(IncomingArticle incomingArticle);
-	public int setIncomingArticles(List<IncomingArticle> incomingArticles);
+	public int setIncomingArticle(IncomingArticle incomingArticle) throws HibernateException;
+	public int setIncomingArticles(List<IncomingArticle> incomingArticles) throws HibernateException;
 
 	// Articles
-	public Article getArticleById(int id);
-	public List<Article> getAllArticles();
+	public Article getArticleById(int id) throws HibernateException;
+	public List<Article> getAllArticles() throws HibernateException;
 	
-	public int setArticle(Article article);
-	public int setArticles(List<Article> articles);
+	public int setArticle(Article article) throws HibernateException;
+	public int setArticles(List<Article> articles) throws HibernateException;
 
 	// Outgoing articles
-	public OutgoingArticle getOutgoingArticleById(int id);
-	public List<OutgoingArticle> getAllOutgoingArticles();
+	public OutgoingArticle getOutgoingArticleById(int id) throws HibernateException;
+	public List<OutgoingArticle> getAllOutgoingArticles() throws HibernateException;
 	
-	public int setOutgoingArticle(OutgoingArticle outgoingArticle);
-	public int setOutgoingArticles(List<OutgoingArticle> outgoingArticles);
+	public int setOutgoingArticle(OutgoingArticle outgoingArticle) throws HibernateException;
+	public int setOutgoingArticles(List<OutgoingArticle> outgoingArticles) throws HibernateException;
 	
 	// Outgoing deliveries
-	public OutgoingDelivery getOutgoingDeliveryById(int id);
-	public List<OutgoingDelivery> getAllOutgoingDeliveries();
+	public OutgoingDelivery getOutgoingDeliveryById(int id) throws HibernateException;
+	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException;
 	
 	public int setOutgoingDelivery(OutgoingDelivery outgoingDelivery);
-	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries);
+	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) throws HibernateException;
 	
 	// Delivery list
-	public DeliveryList getDeliveryListById(int id);
-	public List<DeliveryList> getAllDeliveryLists();
+	public DeliveryList getDeliveryListById(int id) throws HibernateException;
+	public List<DeliveryList> getAllDeliveryLists() throws HibernateException;
 	
-	public int setDeliveryList(DeliveryList deliveryList);
-	public int setDeliveryLists(List<DeliveryList> deliveryLists);
-	public int telephoneTest();
+	public int setDeliveryList(DeliveryList deliveryList) throws HibernateException;
+	public int setDeliveryLists(List<DeliveryList> deliveryLists) throws HibernateException;
+	public int telephoneTest() throws HibernateException;
 	
 	
 	// Types
@@ -144,20 +144,20 @@ public interface IDataBase {
 	 * @param id
 	 * @return Type object / null, if given ID does not exist in DB
 	 */
-	public Type getTypeById(int id);
+	public Type getTypeById(int id) throws HibernateException;
 	
 	/**
 	 * Gets the Type object with the given Name from the DB.
 	 * @param type
 	 * @return Type object / null, if given Name does not exist in DB
 	 */
-	public Type getTypeByType(String type);
+	public Type getTypeByType(String type) throws HibernateException;
 	
 	/**
 	 * Gets a Set with all Type objects from the DB.
 	 * @return
 	 */
-	public List<Type> getAllTypes();
+	public List<Type> getAllTypes() throws HibernateException;
 	
 	// Permissions
 	/**
@@ -165,27 +165,29 @@ public interface IDataBase {
 	 * @param id
 	 * @return Permission object / null, if given ID does not exist in DB
 	 */
-	public Permission getPermissionById(int id);
+	public Permission getPermissionById(int id) throws HibernateException;
 	
 	/**
 	 * Gets the Permission object with the given Name from the DB.
 	 * @param permission
 	 * @return Permission object / null, if given Name does not exist in DB
 	 */
-	public Permission getPermissionByPermission(String permission);
+	public Permission getPermissionByPermission(String permission) throws HibernateException;
 	
 	// Platformuser
-	public Platformuser getPlatformuserById(int id);
-	public Platformuser getPlatformuserbyLoginEmail(String loginEmail);
-	public Platformuser setPlatformuser(Platformuser platformuser);
-	public void removePlatformuserById(int id);
+	public Platformuser getPlatformuserById(int id) throws HibernateException;
+	public Platformuser getPlatformuserbyLoginEmail(String loginEmail) throws HibernateException;
+	public Platformuser setPlatformuser(Platformuser platformuser) throws HibernateException;
+	public void removePlatformuserById(int id) throws HibernateException;
 	
 	
 	// Categories
-	public Category getCategoryById(int id);
-	public Category getCategoryByCategory(String category);
+	public Category getCategoryById(int id) throws HibernateException;
+	public Category getCategoryByCategory(String category) throws HibernateException;
 	public Category setCategory(Category category) throws HibernateException;
-	public boolean deleteCategoryById(int id);
-	public List<Category> getAllCategories();
+	public boolean deleteCategoryById(int id) throws HibernateException;
+	public List<Category> getAllCategories() throws HibernateException;
+
+	public List<Organisation> getOrganisationsByCategoryId(int id);
 	
 }
