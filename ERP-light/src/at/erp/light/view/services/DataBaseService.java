@@ -48,13 +48,6 @@ public class DataBaseService implements IDataBase {
 		return person;
 	}
 	
-	@Override
-	public int setIncomingDelivery(IncomingDelivery incomingDelivery) throws HibernateException {
-		
-		return 0;
-	}
-
-
 	
 
 	@Override
@@ -578,6 +571,31 @@ public class DataBaseService implements IDataBase {
 		return 0;
 	}
 
+	
+	/***** Start der Warenverwaltung *****/
+	
+	
+	
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery) throws HibernateException {
+		
+		// add all new articles to the the table articles
+		
+		for (IncomingArticle incomingArticle : incomingDelivery.getIncomingArticles())
+		{
+			sessionFactory.getCurrentSession().saveOrUpdate(incomingArticle.getArticle());
+		}
+		
+		sessionFactory.getCurrentSession().saveOrUpdate(incomingDelivery);
+		
+		return incomingDelivery.getIncomingDeliveryId();
+	}
+	
+	
+	
+	
 	@Override
 	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException {
 		
@@ -785,6 +803,13 @@ public class DataBaseService implements IDataBase {
 //		System.out.println(organisations.get(0).getComment());
 		
 		return organisations;
+	}
+
+
+	@Override
+	public boolean removeIncomingDeliverById(int id) throws HibernateException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

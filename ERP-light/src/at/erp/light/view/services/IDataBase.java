@@ -95,10 +95,22 @@ public interface IDataBase {
 	public int deleteOrganisationById(int id) throws HibernateException;
 	
 	// Incoming deliveries
+	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery) throws HibernateException;
+	public boolean removeIncomingDeliverById(int id) throws HibernateException;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException;
 	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException;
 	
-	public int setIncomingDelivery(IncomingDelivery incomingDelivery) throws HibernateException;
+	
 	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) throws HibernateException;
 	
 	// Incoming articles
