@@ -12,11 +12,6 @@
   	margin-left: -55px;
 }
 
-
-
-
-
-
 /* Nav-tabs */
 .nav-tabs > li > a {	
 	color: #333; /*Change active text color here*/
@@ -33,6 +28,11 @@
 .nav-tabs>li>a:hover {
   background-color: #45A12B;
   color: #FFF;
+}
+
+.newposition{
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 .suchfilter{
@@ -52,7 +52,28 @@
 	background-color: #999;
 }
 
-.table-responsive{
+#incomingDeliveryTable{
+	height: 310px !important;
+	max-width: 1140px !important;
+    overflow: scroll;
+	overflow-x: hidden;
+}
+
+#newIncomingDeliveryTable{
+	height: 275px !important;
+	max-width: 1140px !important;
+    overflow: scroll;
+	overflow-x: hidden;
+}
+
+#outgoingDeliveryTable{
+	height: 310px !important;
+	max-width: 1140px !important;
+    overflow: scroll;
+	overflow-x: hidden;
+}
+
+#deliveryListTable{
 	height: 310px !important;
 	max-width: 1140px !important;
     overflow: scroll;

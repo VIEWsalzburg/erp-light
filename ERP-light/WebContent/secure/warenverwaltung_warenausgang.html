@@ -29,20 +29,23 @@
 				
 				<!-- Tabs -->
 				<ul class="nav nav-tabs">
-					<li role="presentation" class="active"><a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
-					<li role="presentation"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
+					<li role="presentation"><a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
+					<li role="presentation" class="active"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
 					<li role="presentation"><a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
-					<li role="presentation"><a href="warenverwaltung_neuerwareneingang.html">Neuer Wareneingang</a></li>
+					<li role="presentation" class="hidden"><a href="warenverwaltung_neuerwareneingang.html">Neuer Wareneingang</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuedisposition.html">Neue Disposition</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuelieferliste.html">Neue Lieferliste</a></li>
 				</ul>
 				
 				<div class="tab-content">		
-					<div class="tab-pane active" id="tab1">
-						<h3>Liste aller Wareneingänge</h3>			
+					<div class="tab-pane" id="tab1">
+					</div>	
+												
+					<div class="tab-pane active" id="tab2">
+						<h3>Liste aller Dispositionen</h3>			
 						<form role="form" class="form-inline">
 							<div class="form-group">							
-								<button type="button" id="btn_new" class="btn btn-primary" data-toggle="modal" data-target="#new"><span class="glyphicon glyphicon-plus"></span> Neuer Wareneingang</button>							
+								<button type="button" id="btn_new" class="btn btn-primary" data-toggle="modal" data-target="#new"><span class="glyphicon glyphicon-plus"></span> Neue Disposition</button>							
 								
 									<div class="input-group suchfilter"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> Filter</span>
 										<input id="filter" type="text" class="form-control" placeholder="Filterbegriff eingeben...">
@@ -51,18 +54,18 @@
 						</form>
 						
 						<!-- Table -->
-						<div class="table-responsive" id="incomingDeliveryTable">
+						<div class="table-responsive" id="outgoingDeliveryTable">
 							<table class="table table-hover table-striped header-fixed" id="TableHead">
 								<thead class="TableHead">
 									<tr>
 										<th style="width: 3%">#</th>								
-										<th style="width: 20%">Lieferant</th>
+										<th style="width: 20%">Kunde</th>
 										<th style="width: 7%">Lieferdatum</th>
-										<th style="width: 35%">Beschreibung</th>
-										<th style="width: 35%">Waren</th>															
+										<th style="width: 35%">Waren</th>
+										<th style="width: 35%">Bemerkung</th>															
 									</tr>
 								</thead>	
-								<tbody id="incomingDeliveryTableBody" class="searchable">
+								<tbody id="outgoingDeliveryTableBody" class="searchable">
 									<!-- table rows -->
 								</tbody>
 							</table>
@@ -240,14 +243,9 @@
 							<!-- /.modal-dialog -->
 						</div>
 						<!-- /.modal -->
-						
 					</div>
 					
-					<div class="tab-pane" id="tab2">
-						Content2
-					</div>
 					<div class="tab-pane" id="tab3">
-						Content3
 					</div>
 				</div>
 				
@@ -292,6 +290,6 @@
     <script src="../js/bootstrap.min.js"></script>
 	<!-- Load javascript File -->
 	<script src="../js/header.js" type="text/javascript"></script>
-	<script src="../js/warenverwaltung_wareneingang.js" type="text/javascript"></script>
+	<script src="../js/warenverwaltung_warenausgang.js" type="text/javascript"></script>
 </body>
 </html>

@@ -13,13 +13,13 @@ function loadTableContent(){
 
 						for ( var e in c) {
 							var tableRow = "<tr>" + "<td>" + "1"
-									+ "</td>" + "<td>" + "Nannerl" + ", " + "<br/>" + "Österreich" + "<br/>" + "5020 Salzburg" 
-									+ "</td>" + "<td>" + "05.01.2014"
-									+ "</td>" + "<td>" + "Beschreibung"
+									+ "</td>" + "<td>" + "Helios Hallein" + ", " + "<br/>" + "Österreich" + "<br/>" + "5020 Salzburg" 
+									+ "</td>" + "<td>" + "03.01.2014"
 									+ "</td>" + "<td>" + "Äpfel, Birnen, Kekse, Sauce"
+									+ "</td>" + "<td>" + "Bemerkung"
 									+ "</td>" + "</tr>";
 
-							$("#incomingDeliveryTableBody").append(tableRow);
+							$("#outgoingDeliveryTableBody").append(tableRow);
 						}
 					});
 };
