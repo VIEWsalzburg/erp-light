@@ -5,9 +5,12 @@ package at.erp.light.view.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -18,24 +21,16 @@ import javax.persistence.Table;
 public class IncomingArticle implements java.io.Serializable {
 
 	private int incomingArticleId;
-	private IncomingDelivery incomingDelivery;
 	private Article article;
-	private Integer articleNr;
+	private IncomingDelivery incomingDelivery;
+	private Integer articleNr;	// used for order within an incomingDelivery
 	private Double numberpu;
 
 	public IncomingArticle() {
 	}
 
-	public IncomingArticle(int incomingArticleId,
-			IncomingDelivery incomingDelivery, Article article) {
-		this.incomingArticleId = incomingArticleId;
-		this.incomingDelivery = incomingDelivery;
-		this.article = article;
-	}
-
-	public IncomingArticle(int incomingArticleId,
-			IncomingDelivery incomingDelivery, Article article,
-			Integer articleNr, Double numberpu) {
+	public IncomingArticle(int incomingArticleId, IncomingDelivery incomingDelivery,
+			Article article, Integer articleNr, Double numberpu) {
 		this.incomingArticleId = incomingArticleId;
 		this.incomingDelivery = incomingDelivery;
 		this.article = article;
@@ -44,6 +39,8 @@ public class IncomingArticle implements java.io.Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="gen_incoming_article_id")
+	@SequenceGenerator(name="gen_incoming_article_id", sequenceName="incoming_article_incoming_article_id_seq", allocationSize=1)
 	@Column(name = "incoming_article_id", unique = true, nullable = false)
 	public int getIncomingArticleId() {
 		return this.incomingArticleId;
@@ -53,17 +50,7 @@ public class IncomingArticle implements java.io.Serializable {
 		this.incomingArticleId = incomingArticleId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "incoming_delivery_id", nullable = false)
-	public IncomingDelivery getIncomingDelivery() {
-		return this.incomingDelivery;
-	}
-
-	public void setIncomingDelivery(IncomingDelivery incomingDelivery) {
-		this.incomingDelivery = incomingDelivery;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "article_id", nullable = false)
 	public Article getArticle() {
 		return this.article;
@@ -72,6 +59,18 @@ public class IncomingArticle implements java.io.Serializable {
 	public void setArticle(Article article) {
 		this.article = article;
 	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "incoming_delivery_id", nullable = false)
+	public IncomingDelivery getIncomingDelivery() {
+		return this.incomingDelivery;
+	}
+
+
+	public void setIncomingDelivery(IncomingDelivery incomingDelivery) {
+		this.incomingDelivery = incomingDelivery;
+	}
+
 
 	@Column(name = "article_nr")
 	public Integer getArticleNr() {

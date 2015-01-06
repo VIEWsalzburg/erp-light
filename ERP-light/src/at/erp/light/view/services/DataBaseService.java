@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
+import at.erp.light.view.model.AvailArticleInDepot;
 import at.erp.light.view.model.Category;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
@@ -48,13 +49,6 @@ public class DataBaseService implements IDataBase {
 		return person;
 	}
 	
-	@Override
-	public int setIncomingDelivery(IncomingDelivery incomingDelivery) throws HibernateException {
-		
-		return 0;
-	}
-
-
 	
 
 	@Override
@@ -367,16 +361,12 @@ public class DataBaseService implements IDataBase {
 	@Transactional
 	public int telephoneTest() throws HibernateException {
 	
-		
-		Person mPerson = getPersonById(36);
-		for (Type type : mPerson.getTypes())
-		{
-			System.out.println(type.getName());
-		}
-		
-		System.out.println("Seas");
-		
-		
+//		List<Article> availableArticleList = sessionFactory.getCurrentSession().createQuery("Select a From AvailArticleInDepot aInDep Join aInDept.article as a").list();
+//		
+//		for (Article article : availableArticleList)
+//		{
+//			System.out.println("Article: "+article.getDescription());
+//		}
 		
 		
 //		int id = 36;
@@ -578,6 +568,31 @@ public class DataBaseService implements IDataBase {
 		return 0;
 	}
 
+	
+	/***** Start der Warenverwaltung *****/
+	
+	
+	
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery) throws HibernateException {
+		
+		// add all new articles to the the table articles
+		
+		for (IncomingArticle incomingArticle : incomingDelivery.getIncomingArticles())
+		{
+			sessionFactory.getCurrentSession().saveOrUpdate(incomingArticle.getArticle());
+		}
+		
+		sessionFactory.getCurrentSession().saveOrUpdate(incomingDelivery);
+		
+		return incomingDelivery.getIncomingDeliveryId();
+	}
+	
+	
+	
+	
 	@Override
 	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException {
 		
@@ -785,6 +800,24 @@ public class DataBaseService implements IDataBase {
 //		System.out.println(organisations.get(0).getComment());
 		
 		return organisations;
+	}
+
+
+	@Override
+	public boolean removeIncomingDeliverById(int id) throws HibernateException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<AvailArticleInDepot> getAvailableArticlesInDepot()
+	{
+		// Test VIEW AvailArticleInDepot
+	
+		List<AvailArticleInDepot> availArticleInDepots = sessionFactory.getCurrentSession().createQuery("From AvailArticleInDepot").list();
+	
+		return availArticleInDepots;
 	}
 	
 }

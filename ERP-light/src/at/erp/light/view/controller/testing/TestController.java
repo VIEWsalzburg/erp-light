@@ -1,6 +1,8 @@
 package at.erp.light.view.controller.testing;
 
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,10 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.erp.light.view.model.Address;
+import at.erp.light.view.model.Article;
+import at.erp.light.view.model.AvailArticleInDepot;
 import at.erp.light.view.model.Category;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
 import at.erp.light.view.model.Email;
+import at.erp.light.view.model.IncomingArticle;
+import at.erp.light.view.model.IncomingDelivery;
 import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.Permission;
 import at.erp.light.view.model.Person;
@@ -227,5 +233,57 @@ public class TestController {
 		dataBaseService.setOrganisation(mOrganisation);
 	}
 	
+	@RequestMapping(value = "WarenTest1")
+	public void warenTest1() {		
+		
+		// create Articles
+		Article article1 = new Article(0, "Äpfel", "1kg", 1, new Date(2015, 1, 10), new BigDecimal(new BigInteger("99"), 2));
+		Article article2 = new Article(0, "Soße", "5kg", 5, new Date(2015, 1, 11), new BigDecimal(new BigInteger("149"), 2));
+		
+		
 
+		
+		// create Delivery
+		IncomingDelivery incomingDelivery = new IncomingDelivery();
+		incomingDelivery.setComment("neue EingangsLieferung");
+		incomingDelivery.setIncomingDeliveryId(0);
+		incomingDelivery.setLastEditor(dataBaseService.getPersonById(36));
+		incomingDelivery.setDate(new Date(System.currentTimeMillis()));
+		incomingDelivery.setDeliveryNr(100);
+		incomingDelivery.setOrganisation(dataBaseService.getOrganisationById(7));
+
+		// create IncomingArticles
+		// including the incomingDelivery is very important => IncomingArticle is the owning side => otherwise the not null constraint generates problems
+		// as the foreign keys are updated at the end of the transaction (incomingdelivery is temporary NULL) when incomingDelivery is the owning side
+		IncomingArticle incomingArticle1 = new IncomingArticle(0, incomingDelivery, article1, 0, 10.0);
+		IncomingArticle incomingArticle2 = new IncomingArticle(0, incomingDelivery, article2, 1, 15.0);
+		
+		// add incomingArticles to the Delivery
+		// following assignment is very important => otherwise the incomingArticles are not saved (though they represent the owning side of the relation
+		incomingDelivery.getIncomingArticles().add(incomingArticle1);
+		incomingDelivery.getIncomingArticles().add(incomingArticle2);
+		
+		
+		try {
+			dataBaseService.setNewIncomingDelivery(incomingDelivery);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	@RequestMapping(value = "WarenTest2")
+	public void warenTest2() {	
+	
+		List<AvailArticleInDepot> availArticleInDepots = dataBaseService.getAvailableArticlesInDepot();
+		
+		for (AvailArticleInDepot a : availArticleInDepots)
+		{
+			System.out.println("["+a.getArticleId()+"], "+a.getArticle().getDescription()+", "+a.getAvailNumberOfPUs());
+		}
+		
+	}
+	
 }

@@ -2,14 +2,19 @@ package at.erp.light.view.model;
 
 // Generated 22.11.2014 18:02:50 by Hibernate Tools 3.4.0.CR1
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,7 +31,7 @@ public class Article implements java.io.Serializable {
 	private String packagingUnit;
 	private double weightpu;
 	private Date mdd;
-	private double pricepu;
+	private BigDecimal pricepu;
 	private Set<OutgoingArticle> outgoingArticles = new HashSet<OutgoingArticle>(
 			0);
 	private Set<IncomingArticle> incomingArticles = new HashSet<IncomingArticle>(
@@ -36,7 +41,7 @@ public class Article implements java.io.Serializable {
 	}
 
 	public Article(int articleId, String description, String packagingUnit,
-			double weightpu, Date mdd, double pricepu) {
+			double weightpu, Date mdd, BigDecimal pricepu) {
 		this.articleId = articleId;
 		this.description = description;
 		this.packagingUnit = packagingUnit;
@@ -46,7 +51,7 @@ public class Article implements java.io.Serializable {
 	}
 
 	public Article(int articleId, String description, String packagingUnit,
-			double weightpu, Date mdd, double pricepu,
+			double weightpu, Date mdd, BigDecimal pricepu,
 			Set<OutgoingArticle> outgoingArticles,
 			Set<IncomingArticle> incomingArticles) {
 		this.articleId = articleId;
@@ -60,6 +65,8 @@ public class Article implements java.io.Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="gen_article_id")
+	@SequenceGenerator(name="gen_article_id", sequenceName="article_article_id_seq", allocationSize=1)
 	@Column(name = "article_id", unique = true, nullable = false)
 	public int getArticleId() {
 		return this.articleId;
@@ -107,14 +114,15 @@ public class Article implements java.io.Serializable {
 	}
 
 	@Column(name = "pricepu", nullable = false, scale = 0)
-	public double getPricepu() {
+	public BigDecimal getPricepu() {
 		return this.pricepu;
 	}
 
-	public void setPricepu(double pricepu) {
+	public void setPricepu(BigDecimal pricepu) {
 		this.pricepu = pricepu;
 	}
 
+	// not owning side
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "article")
 	public Set<OutgoingArticle> getOutgoingArticles() {
 		return this.outgoingArticles;
@@ -124,6 +132,7 @@ public class Article implements java.io.Serializable {
 		this.outgoingArticles = outgoingArticles;
 	}
 
+	// not owning side
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "article")
 	public Set<IncomingArticle> getIncomingArticles() {
 		return this.incomingArticles;
