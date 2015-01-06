@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Warenverwaltung</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+	<!-- Stylesheet -->
+	<link href="../css/warenverwaltung.css" rel="stylesheet">
+	<link href="../css/globalStyles.css" rel="stylesheet">
+</head>
+<body>
+	<header id="pageheader">
+	</header>
+	
+	<div class="container">
+		<div class="row" id="top">
+			<div class="col-md-12">
+				
+			</div>		  
+		</div>
+	
+		<div class="row" id="header">
+			<div class="col-md-12">			
+				<h2>Warenverwaltung</h2>
+				
+				<!-- Tabs -->
+				<ul class="nav nav-tabs">
+					<li role="presentation"><a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
+					<li role="presentation"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
+					<li role="presentation"><a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
+					<li role="presentation" class="hidden"><a href="warenverwaltung_neuerwareneingang.html">Neuer Wareneingang</a></li>
+					<li role="presentation" class="active"><a href="warenverwaltung_neuedisposition.html">Neue Disposition</a></li>
+					<li role="presentation" class="hidden"><a href="warenverwaltung_neuelieferliste.html">Neue Lieferliste</a></li>
+				</ul>
+				
+				<div class="tab-content">		
+					<div class="tab-pane" id="tab1">
+					</div>
+					
+					<div class="tab-pane" id="tab2">
+						Content2
+					</div>
+					<div class="tab-pane" id="tab3">
+						Content3
+					</div>
+					<div class="tab-pane" id="tab4">
+						Content4
+					</div>
+					<div class="tab-pane active" id="tab5">
+						<div class="row">
+							<div class="col-md-7">
+<!-- 								<h3><span class="label label-default">Depot</span></h3> -->
+							</div>
+							
+<!-- 												<div class="col-md-3"> -->
+<!-- 													<div class="form-group"> -->
+<!-- 														<label class="col-sm-4 control-label">Empfänger</label> -->
+<!-- 														<div class="col-sm-8"> -->
+<!-- 															<input type="text" class="form-control" placeholder="Empfänger"> -->
+<!-- 														</div> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 												<div class="col-md-2"> -->
+<!-- 													<div class="form-group"> -->
+<!-- 														<label class="col-sm-4 control-label">Datum</label> -->
+<!-- 														<div class="col-sm-8"> -->
+<!-- 															<input type="text" class="form-control" placeholder="Datum"> -->
+<!-- 														</div> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+						
+						</div>
+						
+						<div class="row">
+							<div class="col-md-7">
+							</div>
+						
+							<div class="col-md-5">
+<!-- 													<div class="form-group"> -->
+<!-- 														<label class="col-sm-3 control-label">Bemerkung</label> -->
+<!-- 														<div class="col-sm-9"> -->
+<!-- 															<input type="text" class="form-control" placeholder="Bemerkung"> -->
+<!-- 														</div> -->
+<!-- 													</div> -->
+												</div>
+						</div>
+					
+						
+						<div class="row">
+							<div class="col-md-5">
+								<!-- Table -->
+								<div class="table-responsive" id="leftDepotTableTable">
+									<table class="table table-hover table-striped header-fixed" id="TableHead">
+										<thead class="TableHead">
+											<tr>
+												<th style="width: 3%">#</th>								
+												<th style="width: 30%">Ware</th>
+												<th style="width: 7%">Menge</th>
+												<th style="width: 30%">VE</th>
+												<th style="width: 30%">MHD</th>																	
+											</tr>
+										</thead>	
+										<tbody id="leftDepotTableBody" class="searchable">
+											<!-- table rows -->
+										</tbody>
+									</table>
+								</div>
+								<!-- Table end -->
+							
+							</div>
+							<div class="col-md-2">
+								<label style="margin-top: 40px;">Verpackungseinheiten</label>
+								<input type="text" class="form-control" placeholder="Verpackungseinheiten">
+								<button type="button" class="btn btn-primary addbutton">
+									<span class="glyphicon glyphicon-plus"></span> Hinzuf&uuml;gen
+								</button>
+								<button type="button" class="btn btn-danger">
+									<span class="glyphicon glyphicon-trash"></span> Entfernen
+								</button>
+							</div>
+							<div class="col-md-5">
+								<!-- Table -->
+								<div class="table-responsive" id="rightDepotTableTable">
+									<table class="table table-hover table-striped header-fixed" id="TableHead">
+										<thead class="TableHead">
+											<tr>
+												<th style="width: 3%">#</th>								
+												<th style="width: 30%">Ware</th>
+												<th style="width: 7%">Menge</th>
+												<th style="width: 30%">VE</th>
+												<th style="width: 30%">MHD</th>															
+											</tr>
+										</thead>	
+										<tbody id="rightDepotTableBody" class="searchable">
+											<!-- table rows -->
+										</tbody>
+									</table>
+								</div>
+								<!-- Table end -->
+							</div>
+						</div>
+						
+					</div>
+					
+				</div>
+				
+			</div>		  
+		</div>
+		
+		<div class="row" id="body">
+			<div class="col-md-12">				
+				
+			</div>
+		</div>
+		
+		<div class="row" id="footer">
+			<div class="col-md-7">
+			</div>
+			<div class="col-md-5">
+				<button type="button" id="btn_up" class="btn btn-default pull-left centered" style="margin-right: 5px;">
+							<span class="glyphicon glyphicon-arrow-up"></span> Hinauf
+				</button>
+				<button type="button" id="btn_down" class="btn btn-default pull-left centered">
+							<span class="glyphicon glyphicon-arrow-down"></span> Hinab
+				</button>
+				<button type="button" id="btn_submittodepot" class="btn btn-primary pull-right centered" data-toggle="modal" data-target="#submitModal">
+					<span class="glyphicon glyphicon-floppy-save"></span> Disposition speichern
+				</button>
+			</div>
+		</div>
+	</div>	
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.min.js"></script>
+	<!-- Load javascript File -->
+	<script src="../js/header.js" type="text/javascript"></script>
+	<script src="../js/warenverwaltung_neuerwareneingang.js" type="text/javascript"></script>
+</body>
+</html>

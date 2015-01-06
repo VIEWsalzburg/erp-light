@@ -1,15 +1,8 @@
 @CHARSET "UTF-8";
 
-
-
-.modalContentPerson{
-	width: 670px;
-  	margin-left: -35px;
-}
-
-.modalContentOrganisation{
-	width: 710px;
-  	margin-left: -55px;
+.modalPosition{
+	width: 700px;
+  	margin-left: -50px;
 }
 
 /* Nav-tabs */
@@ -33,6 +26,11 @@
 .newposition{
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+
+.addbutton{
+	margin-top: 5px;
+	margin-bottom: 20px;
 }
 
 .suchfilter{
@@ -60,7 +58,7 @@
 }
 
 #newIncomingDeliveryTable{
-	height: 275px !important;
+	height: 325px !important;
 	max-width: 1140px !important;
     overflow: scroll;
 	overflow-x: hidden;
@@ -115,5 +113,9 @@
 }
 
 .boxElement_category{
+	border-bottom: 1px solid #ccc;
+}
+
+.boxElement_deliverer{
 	border-bottom: 1px solid #ccc;
 }

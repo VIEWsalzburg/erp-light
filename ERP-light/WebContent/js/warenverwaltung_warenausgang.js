@@ -2,7 +2,7 @@
 var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-5'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>";
 	$("#newAlertForm").append(pwdError);
 
-//TODO Get all incoming deliveries and load into table
+//TODO Get all outgoing deliveries and load into table
 function loadTableContent(){
 			$.ajax({
 				type : "POST",
@@ -24,77 +24,18 @@ function loadTableContent(){
 					});
 };
 
-//Get all organisations and load into table
+//Get all outgoing deliveries and load into table
 $(document).ready(loadTableContent());
 
-// Get one category and load it to modal
-$("#btn_edit").click(function() {
-	$("#modal_title_text").text("Bearbeite Kategorie");
-
-	//hide alert messsage
-	$("#newAlertForm").hide();
-	
-	// load data to modal
-	$('#tbx_categoryId').val(tableData[0]);
-	$('#tbx_category').val(tableData[1]);
-	$('#tbx_description').val(tableData[2]);
-});
-
-$("#btn_savecategory").click(function() {
-	if($("#tbx_category").val() == "")
-	{
-			$("#newAlertForm").show();
-			return;
-	}
-	
-	var newcategory = new Object();
-	
-	newcategory.categoryId = $("#tbx_categoryId").val();
-	newcategory.category = $("#tbx_category").val();
-	newcategory.description = $("#tbx_description").val();
-	
-	$.ajax({
-		headers : {
-			'Accept' : 'application/json',
-			'Content-Type' : 'application/json'
-		},
-		type : "POST",
-		url : "../rest/secure/category/setCategory",	
-		contentType: "application/json; charset=utf-8",
-	    dataType: "json",
-		data : JSON.stringify(newcategory)
-	}).done(function(data) {
-		if (data) {
-			$('#categoryTableBody').empty();
-			$('#new').modal('hide');
-			
-			if (data.success == true)
-			{
-				showAlertElement(1, data.message, 5000);
-			}
-			else
-			{
-				showAlertElement(2, data.message, 5000);
-			}
-			
-			loadTableContent();
-		} else {
-			alert("Verbindungsproblem mit dem Server");
-		}
-	});
-	return false;
-});
-
+//TODO new button function
 $("#btn_new").click(function() {
-	$("#modal_title_text").text("Neue Kategorie");
-	
-	//hide alert messsage
-	$("#newAlertForm").hide();
-	
-	//clear modal
-	$('#tbx_categoryId').val("");
-	$('#tbx_category').val("");
-	$('#tbx_description').val("");
+	$("#outgoingdelivery").removeClass("active");
+	$("#newoutgoingdelivery").removeClass("hidden");
+});
+
+//TODO edit button function
+$("#btn_edit").click(function() {
+	$("#newoutgoingdelivery").removeClass("hidden");
 });
 
 // search filter
@@ -160,7 +101,7 @@ $('#TableHead').on('click','tbody tr', function(event) {
 });
 
 /**
- * call the delete modal for the selected category
+ * TODO call the delete modal for the selected outgoing delivery
  */
 $("#btn_deleteModal").click(function() {
 	var id = tableData[0];
@@ -199,7 +140,7 @@ $("#btn_deleteModal").click(function() {
 
 
 /**
- * call the delete url for the category
+ * TODO call the delete url for the outgoing delivery
  */
 $("#btn_deleteCategory").click(function() {
 	 var id = tableData[0];

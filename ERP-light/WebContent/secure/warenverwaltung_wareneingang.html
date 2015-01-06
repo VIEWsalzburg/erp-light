@@ -29,17 +29,19 @@
 				
 				<!-- Tabs -->
 				<ul class="nav nav-tabs">
-					<li role="presentation" class="active"><a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
+					<li role="presentation" id="incomingdelivery" class="active"><a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
 					<li role="presentation"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
 					<li role="presentation"><a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
-					<li role="presentation"><a href="warenverwaltung_neuerwareneingang.html">Neuer Wareneingang</a></li>
+					<li role="presentation" id="newincomingdelivery" class="hidden"><a href="warenverwaltung_neuerwareneingang.html">Neuer Wareneingang</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuedisposition.html">Neue Disposition</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuelieferliste.html">Neue Lieferliste</a></li>
 				</ul>
 				
 				<div class="tab-content">		
 					<div class="tab-pane active" id="tab1">
-						<h3>Liste aller Wareneingänge</h3>			
+<!-- 						<h3>Liste aller Wareneingänge</h3> -->
+						<h3><span class="label label-default">Liste aller Wareneingänge</span></h3>
+									
 						<form role="form" class="form-inline">
 							<div class="form-group">							
 								<button type="button" id="btn_new" class="btn btn-primary" data-toggle="modal" data-target="#new"><span class="glyphicon glyphicon-plus"></span> Neuer Wareneingang</button>							
@@ -85,8 +87,8 @@
 
 										<div class="row modalrow">
 											<div class="col-md-6">
-												<label id="label_name">name</label> 
-												<label id="label_description">description</label>
+												<label id="label_deliverer_delete">Lieferant</label> 
+												<label id="label_article_delete">Ware</label>
 											</div>
 											<div class="col-md-6"></div>
 										</div>

@@ -1,7 +1,3 @@
-//append alert message to modal
-var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-5'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>";
-	$("#newAlertForm").append(pwdError);
-
 //TODO Get all incoming deliveries and load into table
 function loadTableContent(){
 			$.ajax({
@@ -24,77 +20,19 @@ function loadTableContent(){
 					});
 };
 
-//Get all organisations and load into table
+//Get all incoming deliveries and load into table
 $(document).ready(loadTableContent());
 
-// Get one category and load it to modal
-$("#btn_edit").click(function() {
-	$("#modal_title_text").text("Bearbeite Kategorie");
-
-	//hide alert messsage
-	$("#newAlertForm").hide();
-	
-	// load data to modal
-	$('#tbx_categoryId').val(tableData[0]);
-	$('#tbx_category').val(tableData[1]);
-	$('#tbx_description').val(tableData[2]);
-});
-
-$("#btn_savecategory").click(function() {
-	if($("#tbx_category").val() == "")
-	{
-			$("#newAlertForm").show();
-			return;
-	}
-	
-	var newcategory = new Object();
-	
-	newcategory.categoryId = $("#tbx_categoryId").val();
-	newcategory.category = $("#tbx_category").val();
-	newcategory.description = $("#tbx_description").val();
-	
-	$.ajax({
-		headers : {
-			'Accept' : 'application/json',
-			'Content-Type' : 'application/json'
-		},
-		type : "POST",
-		url : "../rest/secure/category/setCategory",	
-		contentType: "application/json; charset=utf-8",
-	    dataType: "json",
-		data : JSON.stringify(newcategory)
-	}).done(function(data) {
-		if (data) {
-			$('#categoryTableBody').empty();
-			$('#new').modal('hide');
-			
-			if (data.success == true)
-			{
-				showAlertElement(1, data.message, 5000);
-			}
-			else
-			{
-				showAlertElement(2, data.message, 5000);
-			}
-			
-			loadTableContent();
-		} else {
-			alert("Verbindungsproblem mit dem Server");
-		}
-	});
-	return false;
-});
-
+//switch to new incoming deliveries tab
 $("#btn_new").click(function() {
-	$("#modal_title_text").text("Neue Kategorie");
-	
-	//hide alert messsage
-	$("#newAlertForm").hide();
-	
-	//clear modal
-	$('#tbx_categoryId').val("");
-	$('#tbx_category').val("");
-	$('#tbx_description').val("");
+	$("#incomingdelivery").removeClass("active");
+	$("#newincomingdelivery").removeClass("hidden");
+	$(".nav-tabs").tabs("select", "warenverwaltung_neuerwareneingang.html"); //TODO not working
+});
+
+//switch to edit incoming deliveries tab
+$("#btn_edit").click(function() {
+	$("#newincomingdelivery").removeClass("hidden");
 });
 
 // search filter
@@ -160,46 +98,15 @@ $('#TableHead').on('click','tbody tr', function(event) {
 });
 
 /**
- * call the delete modal for the selected category
+ * TODO call the delete modal for the selected incoming delivery
  */
 $("#btn_deleteModal").click(function() {
-	var id = tableData[0];
-	 var name = tableData[1];
-	 var description = tableData[2];
-	 
-	$("#label_name_delete").text(name);
-	$("#label_description_delete").text(description);
-	
-	// Get category with id "id"
-	$.ajax({
-		type : "POST",
-		url : "../rest/secure/category/getOrganisationsByCategoryId/" + id
-	}).done(function(data) {
 
-		var organisations = eval(data);
-	
-		if (organisations.length>0)
-		{
-			var organisationString = "";
-			
-			for (i in organisations)
-			{
-				organisationString += organisations[i].name;
-				if (i < organisations.length-1)
-				organisationString += ", "
-			}
-		
-			$("#label_organisations_delete").text(organisationString);
-		}
-		else
-			$("#label_organisations_delete").text("-");
-		
-	});
 });
 
 
 /**
- * call the delete url for the category
+ * TODO call the delete url for the category
  */
 $("#btn_deleteCategory").click(function() {
 	 var id = tableData[0];
