@@ -48,17 +48,16 @@
 						Content3
 					</div>
 					<div class="tab-pane active" id="tab4">
-						<h3>Neuer Wareneingang</h3>			
 						
-						<div class="row">
+						<div class="row" style="margin-top: 5px;">
 							<div class="col-md-12">
 									<div class="col-md-5">
 										<form class="form-inline">
   										<div class="form-group">
 											<label id="label_lieferant">Lieferant</label>
-											<input type="text" class="form-control" id="tbx_zip" placeholder="Lieferant" style="width: 330px;" disabled>
+											<input type="text" class="form-control" id="tbx_deliverer" placeholder="Lieferant" style="width: 330px;" disabled>
 										</div>
-										<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>				
+										<button type="button" class="btn btn-default" id="btn_addDeliverer" data-toggle="modal" data-target="#chooseDelivererModal"><span class="glyphicon glyphicon-plus"></span></button>				
 										</form>
 									
 									</div>
@@ -66,7 +65,7 @@
 										<form class="form-inline">
   										<div class="form-group">
 											<label id="label_lieferant">Datum</label>
-											<input type="text" class="form-control" id="tbx_zip" placeholder="Datum" style="width: 100px;">
+											<input type="text" class="form-control" id="tbx_date" placeholder="Datum" style="width: 100px;">
 										</div>
 										</form>
 									</div>
@@ -74,7 +73,7 @@
 										<form class="form-inline">
   										<div class="form-group">
 											<label id="label_lieferant">Bemerkung</label>
-											<input type="text" class="form-control" id="tbx_zip" placeholder="Bemerkung" style="width: 360px;">
+											<input type="text" class="form-control" id="tbx_comment" placeholder="Bemerkung" style="width: 360px;">
 										</div>
 										</form>
 									</div>
@@ -107,6 +106,136 @@
 						</div>
 						<!-- Table end -->
 						
+						<!-- Choose deliverer Modal -->
+						<div class="modal fade" id="chooseDelivererModal" tabindex="-1"
+							role="dialog" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title">Lieferantenauswahl</h4>
+									</div>
+									<div class="modal-body">
+
+										<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<div class="col-sm-12">
+															<div class="input-group suchfilter_modal">
+																<span
+																	class="input-group-addon glyphicon glyphicon-search"></span>
+																<input id="filter_modal" type="text"
+																	class="form-control" placeholder="Suche...">
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<div class="col-sm-12">
+															<div class="form-control searchable ModalDivContainer" id="delivererDiv">
+																	<!-- deliverer -->
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Abbrechen</button>
+										<button type="button" id="btn_saveDeliverer" class="btn btn-primary">
+											<span class="glyphicon glyphicon-floppy-save"></span> Speichern
+										</button>
+
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal-dialog -->
+						</div>
+						<!-- /.modal -->
+						
+						<!-- Neue Position -->
+						<div class="modal fade" id="new" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content modalPosition">
+									  <div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+										<h4 class="modal-title" id="modal_title_text">Neue Position</h4>
+									  </div>
+									  <div class="modal-body">
+											<form class="form-horizontal" role="form">
+												<div class="row">
+													<input type="hidden" name="tbx_positionId" id="tbx_positionId">
+												  	<div class="form-group">
+														<label class="col-sm-4 control-label">Bezeichnung</label>
+														<div class="col-sm-5">
+															<input type="text" class="form-control" name="tbx_description" id="tbx_description" placeholder="Bezeichnung" maxlength="100">
+														</div>
+													</div>
+												</div>
+												
+												<div class="row">
+												  	<div class="form-group">
+														<label class="col-sm-4 control-label">Anzahl der VE</label>
+														<div class="col-sm-5">
+															<input type="text" class="form-control" name="tbx_numberofpackagingunits" id="tbx_numberofpackagingunits" placeholder="Anzahl der VE" maxlength="100">
+														</div>
+													</div>
+												</div>		
+												
+												<div class="row">
+												  	<div class="form-group">
+														<label class="col-sm-4 control-label">VE</label>
+														<div class="col-sm-5">
+															<input type="text" class="form-control" name="tbx_packagingunit" id="tbx_packagingunit" placeholder="VE" maxlength="100">
+														</div>
+													</div>
+												</div>		
+												
+												<div class="row">
+												  	<div class="form-group">
+														<label class="col-sm-4 control-label">Einzelgewicht der VE</label>
+														<div class="col-sm-5">
+															<input type="text" class="form-control" name="tbx_weightpackagingunit" id="tbx_weightpackagingunit" placeholder="Einzelgewicht der VE" maxlength="100">
+														</div>
+													</div>
+												</div>		
+												
+												<div class="row">
+												  	<div class="form-group">
+														<label class="col-sm-4 control-label">Mindesthaltbarkeitsdatum</label>
+														<div class="col-sm-5">
+															<input type="text" class="form-control" name="tbx_mdd" id="tbx_mdd" placeholder="MHD" maxlength="100">
+														</div>
+													</div>
+												</div>		
+												
+												<div class="row">
+												  	<div class="form-group">
+														<label class="col-sm-4 control-label">Einzelpreis</label>
+														<div class="col-sm-5">
+															<input type="text" class="form-control" name="tbx_pricepackagingunit" id="tbx_pricepackagingunit" placeholder="Einzelpreis" maxlength="100">
+														</div>
+													</div>
+												</div>																							
+											</form>											  													
+										
+									  </div>
+									  <div class="modal-footer">
+									  	<div id="newAlertForm"></div>										
+										<button type="button" class="btn btn-default" data-dismiss="modal"> Abbrechen</button>
+										<button type="button" id="btn_savearticle" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Speichern</button>								
+
+									  </div>
+								</div><!-- /.modal-content -->
+							</div><!-- /.modal-dialog -->
+						</div><!-- /.modal -->
+						
 						<!-- Modal Delete -->
 						<div class="modal fade" id="deleteModal" tabindex="-1"
 							role="dialog" aria-hidden="true">
@@ -123,8 +252,7 @@
 
 										<div class="row modalrow">
 											<div class="col-md-6">
-												<label id="label_name">name</label> 
-												<label id="label_description">description</label>
+												<label id="label_name_delete">Bezeichnung</label> 
 											</div>
 											<div class="col-md-6"></div>
 										</div>
@@ -133,144 +261,10 @@
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">Abbrechen</button>
-										<button type="button" class="btn btn-danger">
-											<span class="glyphicon glyphicon-trash"></span> Loeschen
+										<button type="button" id="btn_deleteArticle" class="btn btn-danger">
+											<span class="glyphicon glyphicon-trash"></span> L&ouml;schen
 										</button>
 
-									</div>
-								</div>
-								<!-- /.modal-content -->
-							</div>
-							<!-- /.modal-dialog -->
-						</div>
-						<!-- /.modal -->
-						
-						<!-- Modal Details -->
-						<div class="modal fade" id="details" tabindex="-1"
-							role="dialog" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal">
-											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-										</button>
-										<h4 class="modal-title">Details</h4>
-									</div>
-									<div class="modal-body">
-
-										<div class="row">
-											<div class="col-md-6">
-												<label>Name</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_name_details">Name</label>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<label>Adresse</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_address_details">Adresse</label>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<label>Postleitzahl</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_zip_details">Postleitzahl</label>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<label>Stadt</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_city_details">Stadt</label>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<label>Land</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_country_details">Land</label>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<label>Bemerkung</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_comment_details">Bemerkung</label>
-											</div>
-										</div>
-										
-										<div class="row divider-horizontal">
-										</div>
-										
-										<div class="row">
-											<div class="col-md-6">
-												<label>Typ(en)</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_types_details">Typ(en)</label>
-											</div>
-										</div>
-										<div id="type_container_details"></div>
-										
-										<div class="row divider-horizontal">
-										</div>
-										
-										<div class="row">
-											<div class="col-md-6">
-												<label>Kategorie(n)</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_categories_details">Kategorie(n)</label>
-											</div>
-										</div>
-										<div id="category_container_details"></div>
-										
-										<div class="row divider-horizontal">
-										</div>
-										
-										<div class="row">
-											<div class="col-md-6">
-												<label>Ansprechperson(en)</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_personIds_details"></label>
-											</div>
-										</div>
-								
-										<div class="row divider-horizontal">
-										</div>
-								
-										<div id="person_container_details"></div>
-										
-										<div class="row">
-											<div class="col-md-6">
-												<label>Letzter Bearbeiter</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_lastEditor_details">Letzter Bearbeiter</label>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<label>Aktualisierungsdatum</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_updateTimestamp_details">Aktualisierungsdatum</label>
-											</div>
-										</div>
-
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-primary"
-											data-dismiss="modal">OK</button>
 									</div>
 								</div>
 								<!-- /.modal-content -->
@@ -315,7 +309,7 @@
 				</form>
 			</div>
 			<div class="col-md-4">
-				<button type="button" id="btn_submittodepot" class="btn btn-primary pull-right centered" data-toggle="modal" data-target="#exportModal">
+				<button type="button" id="btn_submittodepot" class="btn btn-primary pull-right centered" data-toggle="modal" data-target="#submitModal">
 					<span class="glyphicon glyphicon-plus"></span> Alles zum Depot hinzufügen
 				</button>
 			</div>
