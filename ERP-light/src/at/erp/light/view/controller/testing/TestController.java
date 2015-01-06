@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
+import at.erp.light.view.model.AvailArticleInDepot;
 import at.erp.light.view.model.Category;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
@@ -273,5 +274,16 @@ public class TestController {
 		
 	}
 	
+	@RequestMapping(value = "WarenTest2")
+	public void warenTest2() {	
+	
+		List<AvailArticleInDepot> availArticleInDepots = dataBaseService.getAvailableArticlesInDepot();
+		
+		for (AvailArticleInDepot a : availArticleInDepots)
+		{
+			System.out.println("["+a.getArticleId()+"], "+a.getArticle().getDescription()+", "+a.getAvailNumberOfPUs());
+		}
+		
+	}
 	
 }

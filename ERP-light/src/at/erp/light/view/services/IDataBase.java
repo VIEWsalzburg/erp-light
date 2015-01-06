@@ -6,6 +6,7 @@ import java.util.Set;
 import org.hibernate.HibernateException;
 
 import at.erp.light.view.model.Article;
+import at.erp.light.view.model.AvailArticleInDepot;
 import at.erp.light.view.model.Category;
 import at.erp.light.view.model.DeliveryList;
 import at.erp.light.view.model.IncomingArticle;
@@ -201,5 +202,12 @@ public interface IDataBase {
 	public List<Category> getAllCategories() throws HibernateException;
 
 	public List<Organisation> getOrganisationsByCategoryId(int id);
+
+	
+	
+	// Returns a list of all available Articles in the Depot including the Number of PUs
+	// The list bases on the VIEW AvailArticleInDepot
+	public List<AvailArticleInDepot> getAvailableArticlesInDepot();
+	
 	
 }

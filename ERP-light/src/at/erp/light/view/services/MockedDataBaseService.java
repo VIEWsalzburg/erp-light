@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.HibernateException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import com.sun.org.apache.xpath.internal.operations.Or;
 
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
+import at.erp.light.view.model.AvailArticleInDepot;
 import at.erp.light.view.model.Category;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
@@ -233,11 +235,7 @@ public class MockedDataBaseService implements IDataBase {
 		return null;
 	}
 
-	@Override
-	public int setIncomingDelivery(IncomingDelivery incomingDelivery) {
 
-		return 0;
-	}
 
 
 
@@ -735,6 +733,25 @@ public class MockedDataBaseService implements IDataBase {
 		}
 		
 		return list;
+	}
+
+	@Override
+	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery)
+			throws HibernateException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean removeIncomingDeliverById(int id) throws HibernateException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<AvailArticleInDepot> getAvailableArticlesInDepot() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

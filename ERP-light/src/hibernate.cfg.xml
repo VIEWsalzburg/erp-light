@@ -38,5 +38,9 @@
   <mapping class="at.erp.light.view.model.Category"/>
   <mapping class="at.erp.light.view.model.OutgoingArticle"/>
   <mapping class="at.erp.light.view.model.Reporting"/>
+  
+  <!-- Map the VIEW -->
+  <mapping class="at.erp.light.view.model.AvailArticleInDepot"/>
+  
  </session-factory>
 </hibernate-configuration>
