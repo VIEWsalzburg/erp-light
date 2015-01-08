@@ -16,7 +16,7 @@ public class IncomingArticleMapper {
 		dto.setIncomingArticleId(incomingArticle.getIncomingArticleId());
 		dto.setArticleNr(incomingArticle.getArticleNr());
 		dto.setNumberpu(incomingArticle.getNumberpu());
-		dto.setArticleDTO(ArticleMapper.maptToDTO(incomingArticle.getArticle()));
+		dto.setArticleDTO(ArticleMapper.mapToDTO(incomingArticle.getArticle()));
 		
 		return dto;
 	}

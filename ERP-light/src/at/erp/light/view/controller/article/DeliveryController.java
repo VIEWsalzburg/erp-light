@@ -30,7 +30,7 @@ public class DeliveryController {
 		List<IncomingDelivery> entityList = dataBaseService
 				.getAllIncomingDeliveries();
 
-		if (entityList != null) {
+		if (entityList.size() > 0) {
 			for (IncomingDelivery id : entityList) {
 				list.add(IncomingDeliveryMapper.mapToDTO(id));
 			}
@@ -47,22 +47,21 @@ public class DeliveryController {
 	@RequestMapping(value = "secure/incomingDelivery/getById/{id}")
 	public IncomingDeliveryDTO getIncomingDeliveryById(@PathVariable int id) {
 
-		List<IncomingDelivery> entityList = dataBaseService
-				.getAllIncomingDeliveries();
 
-		if (entityList != null) {
-			for (IncomingDelivery incomingDelivery : dataBaseService
-					.getAllIncomingDeliveries()) {
-				if (incomingDelivery.getIncomingDeliveryId() == id) {
-					log.info("returning deliveries with id: " + id);
-					return IncomingDeliveryMapper.mapToDTO(incomingDelivery);
-				}
-			}
-		} else {
-			log.info("no incoming delivery for id " + id + " found");
-
+		try {
+			IncomingDelivery incomingDelivery = dataBaseService.getIncomingDeliveryById(id);
+			if (incomingDelivery == null)
+				throw new Exception();
+			log.info("returning delivery with id: " + id);
+			return IncomingDeliveryMapper.mapToDTO(incomingDelivery);
+			
+		} catch (Exception e) {
+			log.info("no incoming delivery with id " + id + " found");
 			return null;
 		}
-		return null;
+
+
+
+		
 	}
 }

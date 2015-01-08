@@ -649,31 +649,44 @@ public class DataBaseService implements IDataBase {
 		return availArticleInDepots;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
 	@Override
 	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException {
-		
-		return null;
+		List<IncomingDelivery> incomingDeliveries = sessionFactory.getCurrentSession().createQuery("From IncomingDelivery").list();
+		return incomingDeliveries;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	@Override
 	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) throws HibernateException {

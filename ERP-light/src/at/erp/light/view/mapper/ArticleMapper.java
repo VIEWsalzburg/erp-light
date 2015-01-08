@@ -10,7 +10,7 @@ public class ArticleMapper {
 
 	private static DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 	
-	public static ArticleDTO maptToDTO(Article entity) {
+	public static ArticleDTO mapToDTO(Article entity) {
 		if(entity == null)
 		{
 			return null;

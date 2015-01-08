@@ -23,7 +23,8 @@ public class IncomingDeliveryMapper {
 		
 				IncomingDeliveryDTO dto = new IncomingDeliveryDTO();
 			
-				dto.setDeliveryNr(entity.getIncomingDeliveryId());
+				dto.setIncomingDeliveryId(entity.getIncomingDeliveryId());
+				dto.setDeliveryNr(entity.getDeliveryNr());
 				dto.setOrganisationDTO(OrganisationMapper.mapToDTO(entity.getOrganisation()));
 				dto.setLastEditorDTO(PersonMapper.mapToDTO(entity.getLastEditor()));
 				dto.setDeliveryNr(entity.getDeliveryNr());

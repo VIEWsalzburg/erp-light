@@ -322,5 +322,17 @@ public class TestController {
 		
 	}
 	
+	@RequestMapping(value = "WarenTest6")
+	public void warenTest6() {	
+	
+		List<IncomingDelivery> incomingDeliveries = dataBaseService.getAllIncomingDeliveries();
+		
+		for (IncomingDelivery i : incomingDeliveries)
+		{
+			System.out.println(i.getComment());
+		}
+		
+	}
+	
 	
 }
