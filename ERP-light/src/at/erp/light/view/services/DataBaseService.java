@@ -572,14 +572,34 @@ public class DataBaseService implements IDataBase {
 	/***** Start der Warenverwaltung *****/
 	
 	
+	/* check validity of the incoming articles vs the outgoing articles */
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public boolean checkInAndOutArticlePUs()
+	{
+		List<AvailArticleInDepot> list = sessionFactory.getCurrentSession().createQuery("From AvailArticleInDepot a Where a.availNumberOfPUs < 0").list();
+		
+		if (list.size()>0)
+			return false;
+		else
+			return true;	
+	}
+	
+	
+	
 	
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery) throws HibernateException {
 		
-		// add all new articles to the the table articles
+		// set the incoming delivery for each incoming article to be sure they are updated
+		for (IncomingArticle incomingArticle : incomingDelivery.getIncomingArticles())
+		{
+			incomingArticle.setIncomingDelivery(incomingDelivery);
+		}
 		
+		// add all new articles to the table articles
 		for (IncomingArticle incomingArticle : incomingDelivery.getIncomingArticles())
 		{
 			sessionFactory.getCurrentSession().saveOrUpdate(incomingArticle.getArticle());
@@ -590,14 +610,64 @@ public class DataBaseService implements IDataBase {
 		return incomingDelivery.getIncomingDeliveryId();
 	}
 	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException {
+		
+		IncomingDelivery incomingDelivery = (IncomingDelivery) sessionFactory.getCurrentSession().
+				createQuery("From IncomingDelivery i Where i.incomingDeliveryId = :id").setParameter("id", id).uniqueResult();
+		
+		return incomingDelivery;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public boolean deleteIncomingDeliveryById(int id) throws Exception {
+		
+		IncomingDelivery incomingDelivery = this.getIncomingDeliveryById(id);
+		
+		sessionFactory.getCurrentSession().delete(incomingDelivery);
+		
+		// check incoming and outgoing articles for validity
+		if (this.checkInAndOutArticlePUs()==false)
+			throw new HibernateException("Number of PUs for incoming and outgoing articles are not valid.");
+		
+		return true;
+	}
+	
 	
 	
 	
 	@Override
-	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException {
-		
-		return null;
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<AvailArticleInDepot> getAvailableArticlesInDepot()
+	{
+		// Test VIEW AvailArticleInDepot
+	
+		List<AvailArticleInDepot> availArticleInDepots = sessionFactory.getCurrentSession().createQuery("From AvailArticleInDepot").list();
+	
+		return availArticleInDepots;
 	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 
 	@Override
 	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException {
@@ -733,7 +803,7 @@ public class DataBaseService implements IDataBase {
 
 
 	@Override
-	// @Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation=Propagation.REQUIRED)
 	public Category getCategoryById(int id) throws HibernateException {
 
 		Category mCategory = (Category)sessionFactory.getCurrentSession().createQuery("FROM Category c WHERE c.categoryId = :id").setParameter("id", id).uniqueResult();
@@ -774,6 +844,7 @@ public class DataBaseService implements IDataBase {
 
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public boolean deleteCategoryById(int id) throws HibernateException {
 		
 		Category category = this.getCategoryById(id);
@@ -800,24 +871,6 @@ public class DataBaseService implements IDataBase {
 //		System.out.println(organisations.get(0).getComment());
 		
 		return organisations;
-	}
-
-
-	@Override
-	public boolean removeIncomingDeliverById(int id) throws HibernateException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
-	public List<AvailArticleInDepot> getAvailableArticlesInDepot()
-	{
-		// Test VIEW AvailArticleInDepot
-	
-		List<AvailArticleInDepot> availArticleInDepots = sessionFactory.getCurrentSession().createQuery("From AvailArticleInDepot").list();
-	
-		return availArticleInDepots;
 	}
 	
 }

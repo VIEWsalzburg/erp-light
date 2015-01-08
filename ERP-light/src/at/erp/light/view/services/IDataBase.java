@@ -95,9 +95,23 @@ public interface IDataBase {
 	 */
 	public int deleteOrganisationById(int id) throws HibernateException;
 	
+	
 	// Incoming deliveries
+	/**
+	 * persists a new incoming delivery with the given incoming articles to the DB
+	 * @param incomingDelivery
+	 * @return id of the persisted entity
+	 * @throws HibernateException
+	 */
 	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery) throws HibernateException;
-	public boolean removeIncomingDeliverById(int id) throws HibernateException;
+	
+	/**
+	 * removes an incoming delivery with the associated incoming articles; only works if articles haven't been added to outgoing delivery
+	 * @param id
+	 * @return success of operation
+	 * @throws HibernateException
+	 */
+	public boolean deleteIncomingDeliveryById(int id) throws Exception;
 	
 	
 	
@@ -207,7 +221,18 @@ public interface IDataBase {
 	
 	// Returns a list of all available Articles in the Depot including the Number of PUs
 	// The list bases on the VIEW AvailArticleInDepot
+	/**
+	 * returns a list of all available articles, which can be added to outgoing deliveries
+	 * @return
+	 */
 	public List<AvailArticleInDepot> getAvailableArticlesInDepot();
+	
+	/**
+	 * Compares the incoming and outgoing articles and check if the number of the PUs are valid
+	 * the numbers must be equal or incoming article PUs must be greater
+	 * @return validity of the incoming and outgoing article PUs
+	 */
+	public boolean checkInAndOutArticlePUs();
 	
 	
 }

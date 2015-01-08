@@ -255,8 +255,8 @@ public class TestController {
 		// create IncomingArticles
 		// including the incomingDelivery is very important => IncomingArticle is the owning side => otherwise the not null constraint generates problems
 		// as the foreign keys are updated at the end of the transaction (incomingdelivery is temporary NULL) when incomingDelivery is the owning side
-		IncomingArticle incomingArticle1 = new IncomingArticle(0, incomingDelivery, article1, 0, 10.0);
-		IncomingArticle incomingArticle2 = new IncomingArticle(0, incomingDelivery, article2, 1, 15.0);
+		IncomingArticle incomingArticle1 = new IncomingArticle(0, null, article1, 0, 10.0);
+		IncomingArticle incomingArticle2 = new IncomingArticle(0, null, article2, 1, 15.0);
 		
 		// add incomingArticles to the Delivery
 		// following assignment is very important => otherwise the incomingArticles are not saved (though they represent the owning side of the relation
@@ -285,5 +285,42 @@ public class TestController {
 		}
 		
 	}
+	
+	
+	@RequestMapping(value = "WarenTest3")
+	public void warenTest3() {	
+	
+		boolean validity = dataBaseService.checkInAndOutArticlePUs();
+		
+		System.out.println("The validity of the incoming and outgoing articles is: "+validity);
+		
+	}
+	
+	@RequestMapping(value = "WarenTest4")
+	public void warenTest4() {	
+	
+		IncomingDelivery i = dataBaseService.getIncomingDeliveryById(24);
+		
+		System.out.println("Comm: "+i.getComment()+", OrgName: "+i.getOrganisation().getName()+", Date:"+i.getDate());
+		
+		for (IncomingArticle ia : i.getIncomingArticles())
+		{
+			System.out.println("#"+ia.getNumberpu()+", Desc:"+ia.getArticle().getDescription()+", PU:"+ia.getArticle().getPackagingUnit()+", Mdd:"+ia.getArticle().getMdd());
+		}
+		
+	}
+	
+	@RequestMapping(value = "WarenTest5")
+	public void warenTest5() {	
+	
+		try {
+			dataBaseService.deleteIncomingDeliveryById(27);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 }
