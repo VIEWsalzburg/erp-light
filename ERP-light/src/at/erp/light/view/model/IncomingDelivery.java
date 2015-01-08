@@ -123,7 +123,7 @@ public class IncomingDelivery implements java.io.Serializable {
 		this.comment = comment;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "incomingDelivery")						// removed this for unidirectional OneToMany
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "incomingDelivery")						// removed this for unidirectional OneToMany
 //	@OneToMany(fetch = FetchType.EAGER)														// added this for unidirectional OneToMany
 	@Cascade({CascadeType.ALL})									// add Cascade to Save and Delete incomingArticles automatically
 //	@JoinColumn(name="incoming_delivery_id", referencedColumnName="incoming_delivery_id")	// added this for unidirectional OneToMany

@@ -743,7 +743,7 @@ public class MockedDataBaseService implements IDataBase {
 	}
 
 	@Override
-	public boolean removeIncomingDeliverById(int id) throws HibernateException {
+	public boolean deleteIncomingDeliveryById(int id) throws HibernateException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -752,6 +752,12 @@ public class MockedDataBaseService implements IDataBase {
 	public List<AvailArticleInDepot> getAvailableArticlesInDepot() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean checkInAndOutArticlePUs() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 
