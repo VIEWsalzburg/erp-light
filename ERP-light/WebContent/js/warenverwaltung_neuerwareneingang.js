@@ -1,3 +1,4 @@
+//loads all deliverers
 function loadAllDeliverers() {
 	$.ajax({
 		type : "POST",
@@ -8,16 +9,22 @@ function loadAllDeliverers() {
 				var o = eval(data);
 				
 				for (var e in o) {
-					var o_divRow = "<div class='boxElement_deliverer'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + o[e].name + " "
-					+ "</span><input class='pull-right' value="+ o[e].id +" name='delivererRadio' type='radio'></div>";
-					
-					$("#delivererDiv").append(o_divRow);
+					for(var i=0; i< o[e].types.length; i++){
+						if(o[e].types[i] == "Lieferant"){
+							var o_divRow = "<div class='boxElement_deliverer'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + o[e].name + " "
+							+ "</span><input class='pull-right' value="+ o[e].id +" name='delivererRadio' type='radio'></div>";
+							
+							$("#delivererDiv").append(o_divRow);
+						}
+					}
 				}
 	});
 };
 
+//load deliverer modal
 $("#btn_addDeliverer").click(function() {
 	$(".boxElement_deliverer").remove();
+	$("#filter_modal").val("");
 	loadAllDeliverers();
 });
 
@@ -35,6 +42,7 @@ function createTableRow(count){
 	return tableRow;
 }
 
+//saves an article to the table
 var articleCount = 1;
 $("#btn_savearticle").click(function() {
 	if($("#modal_title_text").text() == "Neue Position"){
@@ -52,6 +60,7 @@ $("#btn_savearticle").click(function() {
 	$('#new').modal('hide');
 });
 
+//save deliverer to textbox
 $("#btn_saveDeliverer").click(function() {
 	//get Id of checked radiobox of deliverer div
 	var id = $("#delivererDiv input[name='delivererRadio']:checked").val();
@@ -71,13 +80,44 @@ $("#btn_saveDeliverer").click(function() {
 	$('#chooseDelivererModal').modal('hide');
 });
 
+//new position modal
 $("#btn_new").click(function() {
 	$("#modal_title_text").text("Neue Position");
+	clearPositionModal();
+});
+
+//close newincoming delivery and show incoming delivery tab
+$("#btn_close").click(function() {
+	location.href="warenverwaltung_wareneingang.html";
+	return false;
+});
+
+//move marked row one row upwards
+$("#btn_up").click(function() {
+	var id = tableData[0];
+	
+	var thisRow = $("#" + id).closest('tr');
+    var prevRow = thisRow.prev();
+    if (prevRow.length) {
+        prevRow.before(thisRow);
+    }
+});
+
+//move marked row one row downwards
+$("#btn_down").click(function() {
+	var id = tableData[0];
+	
+	var thisRow = $("#" + id).closest('tr');
+    var nextRow = thisRow.next();
+    if (nextRow.length) {
+        nextRow.after(thisRow);
+    }
 });
 
 //Load selected article to modal
 $("#btn_edit").click(function() {
 	$("#modal_title_text").text("Bearbeite Position");
+	clearPositionModal();
 	
 	$("#tbx_description").val(tableData[1]);
 	$("#tbx_numberofpackagingunits").val(tableData[2]);
@@ -86,6 +126,16 @@ $("#btn_edit").click(function() {
 	$("#tbx_mdd").val(tableData[5]);
 	$("#tbx_pricepackagingunit").val(tableData[6]);
 });
+
+//clears position modal textboxes
+function clearPositionModal(){
+	$("#tbx_description").val("");
+	$("#tbx_numberofpackagingunits").val("");
+	$("#tbx_packagingunit").val("");
+	$("#tbx_weightpackagingunit").val("");
+	$("#tbx_mdd").val("");
+	$("#tbx_pricepackagingunit").val("");
+}
 
 /**
  * search filter for deliverer
@@ -126,6 +176,8 @@ $(document).ready(function() {
 			$('#btn_edit').show();
 			$('#btn_deleteModal').show();
 
+			$('#btn_up').prop('disabled', true);
+			$('#btn_down').prop('disabled', true);
 			$('#btn_edit').prop('disabled', true);
 			$('#btn_deleteModal').prop('disabled', true);
 		}
@@ -142,10 +194,14 @@ $('#TableHead').on('click','tbody tr', function(event) {
 
 			// only when user has admin rights
 			if (currentUserRights == "Admin" && currentUserRights != "") {
+				$('#btn_up').prop('disabled', false);
+				$('#btn_down').prop('disabled', false);
 				$('#btn_edit').prop('disabled', false);
 				$('#btn_deleteModal').prop('disabled', false);
 			} 
 			else {
+				$('#btn_up').prop('disabled', true);
+				$('#btn_down').prop('disabled', true);
 				$('#btn_edit').prop('disabled', true);
 				$('#btn_deleteModal').prop('disabled', true);
 			}

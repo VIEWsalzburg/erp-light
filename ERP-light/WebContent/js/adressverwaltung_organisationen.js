@@ -456,7 +456,6 @@ $("#btn_saveorganisation").click(function() {
 });
 
 
-
 //load details modal
 $("#btn_details").click(function() {
 	//remove container
