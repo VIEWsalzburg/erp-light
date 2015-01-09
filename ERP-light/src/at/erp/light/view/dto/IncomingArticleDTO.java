@@ -10,7 +10,6 @@ public class IncomingArticleDTO {
 	
 	public IncomingArticleDTO(){}
 	
-	
 	public IncomingArticleDTO(int incomingArticleId, ArticleDTO articleDTO,
 			Integer articleNr, Double numberpu) {
 		super();

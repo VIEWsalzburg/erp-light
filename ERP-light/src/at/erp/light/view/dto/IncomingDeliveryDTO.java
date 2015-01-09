@@ -5,8 +5,8 @@ import java.util.Set;
 
 public class IncomingDeliveryDTO {
 	private int incomingDeliveryId;
-	private OrganisationDTO organisationDTO;
-	private PersonDTO lastEditorDTO;
+	private int organisationId;
+	private int lastEditorId;
 	private int deliveryNr;
 	private String date;
 	private String comment;
@@ -16,13 +16,13 @@ public class IncomingDeliveryDTO {
 	public IncomingDeliveryDTO(){}
 	
 	public IncomingDeliveryDTO(int incomingDeliveryId,
-			OrganisationDTO organisationDTO, PersonDTO lastEditorDTO,
+			int organisationId, int lastEditorId,
 			int deliveryNr, String date, String comment,
 			Set<IncomingArticleDTO> incomingArticleDTOs) {
 		super();
 		this.incomingDeliveryId = incomingDeliveryId;
-		this.organisationDTO = organisationDTO;
-		this.lastEditorDTO = lastEditorDTO;
+		this.organisationId = organisationId;
+		this.lastEditorId = lastEditorId;
 		this.deliveryNr = deliveryNr;
 		this.date = date;
 		this.comment = comment;
@@ -37,20 +37,20 @@ public class IncomingDeliveryDTO {
 		this.incomingDeliveryId = incomingDeliveryId;
 	}
 
-	public OrganisationDTO getOrganisationDTO() {
-		return organisationDTO;
+	public int getOrganisationId() {
+		return organisationId;
 	}
 
-	public void setOrganisationDTO(OrganisationDTO organisationDTO) {
-		this.organisationDTO = organisationDTO;
+	public void setOrganisationId(int organisationId) {
+		this.organisationId = organisationId;
 	}
 
-	public PersonDTO getLastEditorDTO() {
-		return lastEditorDTO;
+	public int getLastEditorId() {
+		return lastEditorId;
 	}
 
-	public void setLastEditorDTO(PersonDTO lastEditorDTO) {
-		this.lastEditorDTO = lastEditorDTO;
+	public void setLastEditorId(int lastEditorId) {
+		this.lastEditorId = lastEditorId;
 	}
 
 	public int getDeliveryNr() {

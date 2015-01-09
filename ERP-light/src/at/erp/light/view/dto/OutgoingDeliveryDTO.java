@@ -5,9 +5,8 @@ import java.util.Set;
 
 public class OutgoingDeliveryDTO {
 	private int outgoingDeliveryId;
-	private DeliveryListDTO deliveryListDTO;
-	private OrganisationDTO organisationDTO;
-	private PersonDTO lastEditorDTO;
+	private int organisationId;
+	private int lastEditorId;
 	private Integer deliveryNr;
 	private String date;
 	private String comment;
@@ -17,14 +16,13 @@ public class OutgoingDeliveryDTO {
 	public OutgoingDeliveryDTO(){}
 	
 	public OutgoingDeliveryDTO(int outgoingDeliveryId,
-			DeliveryListDTO deliveryListDTO, OrganisationDTO organisationDTO,
-			PersonDTO lastEditorDTO, Integer deliveryNr, String date,
+			int organisationId,
+			int lastEditorId, Integer deliveryNr, String date,
 			String comment, Set<OutgoingArticleDTO> outgoingArticleDTOs) {
 		super();
 		this.outgoingDeliveryId = outgoingDeliveryId;
-		this.deliveryListDTO = deliveryListDTO;
-		this.organisationDTO = organisationDTO;
-		this.lastEditorDTO = lastEditorDTO;
+		this.organisationId = organisationId;
+		this.lastEditorId = lastEditorId;
 		this.deliveryNr = deliveryNr;
 		this.date = date;
 		this.comment = comment;
@@ -39,28 +37,20 @@ public class OutgoingDeliveryDTO {
 		this.outgoingDeliveryId = outgoingDeliveryId;
 	}
 
-	public DeliveryListDTO getDeliveryListDTO() {
-		return deliveryListDTO;
+	public int getOrganisationId() {
+		return organisationId;
 	}
 
-	public void setDeliveryListDTO(DeliveryListDTO deliveryListDTO) {
-		this.deliveryListDTO = deliveryListDTO;
+	public void setOrganisationId(int organisationId) {
+		this.organisationId = organisationId;
 	}
 
-	public OrganisationDTO getOrganisationDTO() {
-		return organisationDTO;
+	public int getLastEditorId() {
+		return lastEditorId;
 	}
 
-	public void setOrganisationDTO(OrganisationDTO organisationDTO) {
-		this.organisationDTO = organisationDTO;
-	}
-
-	public PersonDTO getLastEditorDTO() {
-		return lastEditorDTO;
-	}
-
-	public void setLastEditorDTO(PersonDTO lastEditorDTO) {
-		this.lastEditorDTO = lastEditorDTO;
+	public void setLastEditorId(int lastEditorId) {
+		this.lastEditorId = lastEditorId;
 	}
 
 	public Integer getDeliveryNr() {

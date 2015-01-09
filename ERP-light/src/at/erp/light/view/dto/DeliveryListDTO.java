@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class DeliveryListDTO {
 	private int deliveryListId;
-	private PersonDTO lastEditor;
+	private int lastEditorId;
 	private String name;
 	private String date;
 	private String comment;
@@ -16,12 +16,12 @@ public class DeliveryListDTO {
 	
 	public DeliveryListDTO(){}
 	
-	public DeliveryListDTO(int deliveryListId, PersonDTO lastEditor,
+	public DeliveryListDTO(int deliveryListId, int lastEditorId,
 			String name, String date, String comment, String driver,
 			String passenger, Set<OutgoingDeliveryDTO> outgoingDeliverieDTOs) {
 		super();
 		this.deliveryListId = deliveryListId;
-		this.lastEditor = lastEditor;
+		this.lastEditorId = lastEditorId;
 		this.name = name;
 		this.date = date;
 		this.comment = comment;
@@ -35,11 +35,11 @@ public class DeliveryListDTO {
 	public void setDeliveryListId(int deliveryListId) {
 		this.deliveryListId = deliveryListId;
 	}
-	public PersonDTO getLastEditor() {
-		return lastEditor;
+	public int getLastEditorId() {
+		return lastEditorId;
 	}
-	public void setLastEditor(PersonDTO lastEditor) {
-		this.lastEditor = lastEditor;
+	public void setLastEditorId(int lastEditorId) {
+		this.lastEditorId = lastEditorId;
 	}
 	public String getName() {
 		return name;

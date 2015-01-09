@@ -21,4 +21,21 @@ public class IncomingArticleMapper {
 		return dto;
 	}
 
+	public static IncomingArticle mapToEntity(
+			IncomingArticleDTO dto) {
+		
+		if(dto == null)
+		{
+			return null;
+		}			
+		
+		IncomingArticle entity = new IncomingArticle();
+		entity.setIncomingArticleId(dto.getIncomingArticleId());
+		entity.setArticleNr(dto.getArticleNr());
+		entity.setNumberpu(dto.getNumberpu());
+		entity.setArticle(ArticleMapper.mapToEntity(dto.getArticleDTO()));
+		
+		return entity;
+	}
+
 }
