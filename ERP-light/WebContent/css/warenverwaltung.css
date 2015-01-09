@@ -30,7 +30,7 @@
 
 .addbutton{
 	margin-top: 5px;
-	margin-bottom: 20px;
+	margin-bottom: 5px;
 }
 
 .suchfilter{
@@ -69,6 +69,14 @@
 	max-width: 1140px !important;
     overflow: scroll;
 	overflow-x: hidden;
+}
+
+.newOutgoingDeliveryTable{
+	height: 315px !important;
+	max-width: 1140px !important;
+    overflow: scroll;
+	overflow-x: hidden;
+	border: 1px solid #999;
 }
 
 #deliveryListTable{
@@ -117,5 +125,9 @@
 }
 
 .boxElement_deliverer{
+	border-bottom: 1px solid #ccc;
+}
+
+.boxElement_receiver{
 	border-bottom: 1px solid #ccc;
 }

@@ -33,14 +33,14 @@
 					<li role="presentation" id="outgoingdelivery"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
 					<li role="presentation"><a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuerwareneingang.html">Neuer Wareneingang</a></li>
-					<li role="presentation" class="active" id="newoutgoingdelivery"><a href="warenverwaltung_neuedisposition.html">Neue Disposition<button class="close closeTab" id="btn_close" type="button" style="margin-left: 5px;">×</button></a></li>
-					<li role="presentation" class="hidden"><a href="warenverwaltung_neuelieferliste.html">Neue Lieferliste</a></li>
+					<li role="presentation" class="hidden" id="newoutgoingdelivery"><a href="warenverwaltung_neuedisposition.html">Neue Disposition</a></li>
+					<li role="presentation" class="active"><a href="warenverwaltung_neuelieferliste.html">Neue Lieferliste<button class="close closeTab" id="btn_close" type="button" style="margin-left: 5px;">×</button></a></li>
 				</ul>
 				
 				<div class="tab-content">		
 					<div class="tab-pane" id="tab1">
+						Content1
 					</div>
-					
 					<div class="tab-pane" id="tab2">
 						Content2
 					</div>
@@ -50,17 +50,20 @@
 					<div class="tab-pane" id="tab4">
 						Content4
 					</div>
-					<div class="tab-pane active" id="tab5">
+					<div class="tab-pane" id="tab5">
+						Content5
+					</div>
+					<div class="tab-pane active" id="tab6">
 						
 						<div class="row" style="margin-top: 5px;">
 							<div class="col-md-12">
 									<div class="col-md-5">
 										<form class="form-inline">
   										<div class="form-group">
-											<label id="label_lieferant">Empfänger</label>
-											<input type="text" class="form-control" id="tbx_receiver" placeholder="Empfänger" style="width: 320px;" disabled>
+											<label id="label_lieferant">Fahrer/Beifahrer</label>
+											<input type="text" class="form-control" id="tbx_driver" placeholder="Fahrer" style="width: 275px;" disabled>
 										</div>
-										<button type="button" class="btn btn-default" id="btn_addReceiver" data-toggle="modal" data-target="#chooseReceiverModal"><span class="glyphicon glyphicon-plus"></span></button>				
+										<button type="button" class="btn btn-default" id="btn_addDeliverer" data-toggle="modal" data-target="#chooseDelivererModal"><span class="glyphicon glyphicon-plus"></span></button>				
 										</form>
 									
 									</div>
@@ -86,30 +89,29 @@
 						
 						<div class="row">
 							<div class="col-md-5">
-								<h3><span class="label label-default">Depot</span></h3>
+								<h3><span class="label label-default">Warenausgang</span></h3>
 							</div>
 							<div class="col-md-2">
 							</div>
 							<div class="col-md-5">
-								<h3><span class="label label-default">Disposition</span></h3>
+								<h3><span class="label label-default">Lieferliste</span></h3>
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="col-md-5">
 								<!-- Table -->
-								<div class="table-responsive newOutgoingDeliveryTable" id="leftDepotTableTable">
-									<table class="table table-hover table-striped header-fixed" id="TableHeadLeftDepot">
+								<div class="table-responsive newOutgoingDeliveryTable" id="outcomingdeliveriesTable">
+									<table class="table table-hover table-striped header-fixed" id="TableHeadOutcomingDeliveries">
 										<thead class="TableHead">
 											<tr>
 												<th style="width: 3%">#</th>								
-												<th style="width: 30%">Ware</th>
-												<th style="width: 17%">Menge</th>
-												<th style="width: 20%">VE</th>
-												<th style="width: 30%">MHD</th>																	
+												<th style="width: 32%">Kunde</th>
+												<th style="width: 32%">Waren</th>
+												<th style="width: 33%">Bemerkung</th>
 											</tr>
 										</thead>	
-										<tbody id="leftDepotTableBody" class="searchable">
+										<tbody id="outcomingdeliveriesTableBody" class="searchable">
 											<!-- table rows -->
 										</tbody>
 									</table>
@@ -118,29 +120,26 @@
 							
 							</div>
 							<div class="col-md-2">
-								<label style="margin-top: 40px;">Verpackungseinheiten</label>
-								<input type="text" class="form-control" id="tbx_packagingunit" placeholder="VE" style="margin-left: 35%; margin-right: 65%; width: 50px;">
-								<button type="button" class="btn btn-primary addbutton" id="btn_addtodisposition" style="margin-left: 15%; margin-right: 85%;">
+								<button type="button" class="btn btn-primary addbutton" id="btn_addtodeliverylist" style="margin-top: 60px; margin-left: 15%; margin-right: 85%;">
 									<span class="glyphicon glyphicon-plus"></span> Hinzuf&uuml;gen
 								</button>
-								<button type="button" class="btn btn-danger" id="btn_removefromdisposition" style="margin-left: 15%; margin-right: 85%;">
+								<button type="button" class="btn btn-danger" id="btn_removefromdeliverylist" style="margin-left: 15%; margin-right: 85%;">
 									<span class="glyphicon glyphicon-trash"></span> Entfernen
 								</button>
 							</div>
 							<div class="col-md-5">
 								<!-- Table -->
-								<div class="table-responsive newOutgoingDeliveryTable" id="rightDepotTableTable">
-									<table class="table table-hover table-striped header-fixed" id="TableHeadRightDepot">
+								<div class="table-responsive newOutgoingDeliveryTable" id="deliveryListTable">
+									<table class="table table-hover table-striped header-fixed" id="TableHeadDeliveryList">
 										<thead class="TableHead">
 											<tr>
 												<th style="width: 3%">#</th>								
-												<th style="width: 30%">Ware</th>
-												<th style="width: 17%">Menge</th>
-												<th style="width: 20%">VE</th>
-												<th style="width: 30%">MHD</th>															
+												<th style="width: 32%">Kunde</th>
+												<th style="width: 32%">Waren</th>
+												<th style="width: 33%">Bemerkung</th>														
 											</tr>
 										</thead>	
-										<tbody id="rightDepotTableBody" class="searchable">
+										<tbody id="deliveryListTableBody" class="searchable">
 											<!-- table rows -->
 										</tbody>
 									</table>
@@ -148,59 +147,6 @@
 								<!-- Table end -->
 							</div>
 						</div>
-						
-						<!-- Choose receiver Modal -->
-						<div class="modal fade" id="chooseReceiverModal" tabindex="-1"
-							role="dialog" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal">
-											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-										</button>
-										<h4 class="modal-title">Empfängerauswahl</h4>
-									</div>
-									<div class="modal-body">
-
-										<div class="row">
-												<div class="col-md-6">
-													<div class="form-group">
-														<div class="col-sm-12">
-															<div class="input-group suchfilter_modal">
-																<span
-																	class="input-group-addon glyphicon glyphicon-search"></span>
-																<input id="filter_modal" type="text"
-																	class="form-control" placeholder="Suche...">
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<div class="col-sm-12">
-															<div class="form-control searchable ModalDivContainer" id="receiverDiv">
-																	<!-- deliverer -->
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default"
-											data-dismiss="modal">Abbrechen</button>
-										<button type="button" id="btn_saveReceiver" class="btn btn-primary">
-											<span class="glyphicon glyphicon-floppy-save"></span> Speichern
-										</button>
-
-									</div>
-								</div>
-								<!-- /.modal-content -->
-							</div>
-							<!-- /.modal-dialog -->
-						</div>
-						<!-- /.modal -->
 						
 					</div>
 					
@@ -225,8 +171,8 @@
 				<button type="button" id="btn_down" class="btn btn-default pull-left centered">
 							<span class="glyphicon glyphicon-arrow-down"></span> Hinab
 				</button>
-				<button type="button" id="btn_submittodepot" class="btn btn-primary pull-right centered" data-toggle="modal" data-target="#submitModal">
-					<span class="glyphicon glyphicon-floppy-save"></span> Disposition speichern
+				<button type="button" id="btn_savedeliverylist" class="btn btn-primary pull-right centered" data-toggle="modal" data-target="#submitModal">
+					<span class="glyphicon glyphicon-floppy-save"></span> Speichern
 				</button>
 			</div>
 		</div>
@@ -238,6 +184,6 @@
     <script src="../js/bootstrap.min.js"></script>
 	<!-- Load javascript File -->
 	<script src="../js/header.js" type="text/javascript"></script>
-	<script src="../js/warenverwaltung_neuedisposition.js" type="text/javascript"></script>
+	<script src="../js/warenverwaltung_neuelieferliste.js" type="text/javascript"></script>
 </body>
 </html>
