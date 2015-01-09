@@ -28,9 +28,16 @@ function loadTableContent(){
 //Get all delivery lists and load into table
 $(document).ready(loadTableContent());
 
-//TODO button edit function
+//switch to new delivery list tab
+$("#btn_new").click(function() {
+	location.href="warenverwaltung_neuelieferliste.html"; //TODO good solution?
+	return false;
+});
+
+//switch to edit new delivery list tab
 $("#btn_edit").click(function() {
-	
+	location.href="warenverwaltung_neuelieferliste.html";
+	return false;
 });
 
 //search filter

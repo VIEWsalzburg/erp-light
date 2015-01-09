@@ -27,15 +27,16 @@ function loadTableContent(){
 //Get all outgoing deliveries and load into table
 $(document).ready(loadTableContent());
 
-//TODO new button function
+//switch to new incoming deliveries tab
 $("#btn_new").click(function() {
-	$("#outgoingdelivery").removeClass("active");
-	$("#newoutgoingdelivery").removeClass("hidden");
+	location.href="warenverwaltung_neuedisposition.html"; //TODO good solution?
+	return false;
 });
 
-//TODO edit button function
+//switch to edit incoming deliveries tab
 $("#btn_edit").click(function() {
-	$("#newoutgoingdelivery").removeClass("hidden");
+	location.href="warenverwaltung_neuedisposition.html";
+	return false;
 });
 
 // search filter
