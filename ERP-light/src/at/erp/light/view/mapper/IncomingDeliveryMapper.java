@@ -7,14 +7,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import at.erp.light.view.dto.IncomingArticleDTO;
 import at.erp.light.view.dto.IncomingDeliveryDTO;
 import at.erp.light.view.model.IncomingArticle;
 import at.erp.light.view.model.IncomingDelivery;
-import at.erp.light.view.model.Organisation;
-import at.erp.light.view.services.IDataBase;
 
 
 public class IncomingDeliveryMapper {

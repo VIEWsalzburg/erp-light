@@ -13,12 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import at.erp.light.view.dto.AvailableArticleDTO;
+import at.erp.light.view.dto.DeliveryListDTO;
 import at.erp.light.view.dto.IncomingDeliveryDTO;
 import at.erp.light.view.dto.OutgoingDeliveryDTO;
+import at.erp.light.view.mapper.AvailableArticleMapper;
+import at.erp.light.view.mapper.DeliveryListMapper;
 import at.erp.light.view.mapper.IncomingDeliveryMapper;
 import at.erp.light.view.mapper.OutgoingDeliveryMapper;
+import at.erp.light.view.model.AvailArticleInDepot;
+import at.erp.light.view.model.DeliveryList;
 import at.erp.light.view.model.IncomingDelivery;
-import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.OutgoingDelivery;
 import at.erp.light.view.services.IDataBase;
 import at.erp.light.view.state.ControllerMessage;
@@ -32,10 +37,12 @@ public class DeliveryController {
 	private IDataBase dataBaseService;
 
 	
-	
 	/***** [START] incoming Deliveries *****/
 	
-	
+	/**
+	 * Get all incoming deliveries.
+	 * @return a dto representation for displaying them
+	 */
 	@RequestMapping(value = "secure/incomingDelivery/getAll")
 	public List<IncomingDeliveryDTO> getAllIncomingDeliveries() {
 
@@ -64,7 +71,11 @@ public class DeliveryController {
 		}
 	}
 	
-
+	/**
+	 * Get an incoming delivery by id.
+	 * @param id of the requested delivery
+	 * @return a dto representation of the requested delivery
+	 */
 	@RequestMapping(value = "secure/incomingDelivery/getById/{id}")
 	public IncomingDeliveryDTO getIncomingDeliveryById(@PathVariable int id) {
 		try {
@@ -80,6 +91,12 @@ public class DeliveryController {
 		}
 	}
 	
+	/**
+	 * Set a delivery. Sets also last editor via the logged in id.
+	 * @param dto to save
+	 * @param request to determine the editor
+	 * @return a message which contains a state for successful or not and a textual description
+	 */
 	@RequestMapping(value = "secure/incomingDelivery/set")
 	public ControllerMessage setIncomingDelivery(@RequestBody IncomingDeliveryDTO dto, HttpServletRequest request) {
 		
@@ -104,6 +121,11 @@ public class DeliveryController {
 		
 	}
 	
+	/**
+	 * Deletes an incomingDelivery by the specified id.
+	 * @param id to delete
+	 * @return a message with a state if successful or not and a textual description
+	 */
 	@RequestMapping(value = "secure/incomingDelivery/deleteById/{id}")
 	public ControllerMessage deleteIncomingDeliveryById(@PathVariable int id) {
 		
@@ -128,7 +150,10 @@ public class DeliveryController {
 	/***** [START] outgoing Deliveries *****/
 	
 	
-	
+	/**
+	 * Gets all outgoing deliveries.
+	 * @return a dto representation
+	 */
 	@RequestMapping(value = "secure/outgoingDelivery/getAll")
 	public List<OutgoingDeliveryDTO> getAllOutgoingDeliveries() {
 
@@ -151,12 +176,17 @@ public class DeliveryController {
 		}
 	}
 
+	/**
+	 * Gets only the requested outgoing delivery.
+	 * @param id the requested outgoing delivery id
+	 * @return a dto representation of the delivery
+	 */
 	@RequestMapping(value = "secure/outgoingDelivery/getById/{id}")
 	public OutgoingDeliveryDTO getOutgoingDeliveryById(@PathVariable int id) {
 		try {
 			OutgoingDelivery outgoingDelivery = dataBaseService.getOutgoingDeliveryById(id);
 			if (outgoingDelivery == null)
-				throw new Exception();
+				throw new Exception("Outgoing delivery null");
 			log.info("returning outgoing delivery with id: " + id);
 			return OutgoingDeliveryMapper.mapToDTO(outgoingDelivery);
 			
@@ -166,12 +196,17 @@ public class DeliveryController {
 		}
 	}
 	
-	
+	/**
+	 * Sets an outgoing delivery dto.
+	 * @param dto to save
+	 * @param request to determine the last editor
+	 * @return a message with a state and a textual description
+	 */
 	@RequestMapping(value = "secure/outgoingDelivery/set")
 	public ControllerMessage setOutgoingDelivery(@RequestBody OutgoingDeliveryDTO dto, HttpServletRequest request) {
 		
 		dto.setLastEditorId(dataBaseService.getPersonById((int) request.getSession().getAttribute("id")).getPersonId());
-		OutgoingDelivery entity = OutgoingDeliveryMapper.mapToEntity(dto);
+		OutgoingDelivery entity = OutgoingDeliveryMapper.mapToEntity(dto, dataBaseService);
 		
 		dataBaseService.setOutgoingDelivery(entity);
 		log.info("saved outgoing delivery with id " + entity.getOutgoingDeliveryId());
@@ -179,6 +214,11 @@ public class DeliveryController {
 		return new ControllerMessage(true, "Speichern erfolgreich");
 	}
 	
+	/**
+	 * Deletes an outgoing delivery.
+	 * @param id of object to delete
+	 * @return a message with a state and textual description 
+	 */
 	@RequestMapping(value = "secure/outgoingDelivery/deleteById/{id}")
 	public ControllerMessage deleteOutgoingDeliveryById(@PathVariable int id) {
 		throw new NotImplementedException();
@@ -195,4 +235,112 @@ public class DeliveryController {
 	
 	/***** [END] outgoing Deliveries *****/
 	
+	
+	/***** [START] availableArticles Deliveries *****/
+	
+	/**
+	 * To determine all available articles in the storage.
+	 * @return a dto representation
+	 */
+	@RequestMapping(value = "secure/articles/getAvailableArticles")
+	public List<AvailableArticleDTO> getAvailableArticles() 
+	{
+		List<AvailableArticleDTO> availableDTOs = new ArrayList<AvailableArticleDTO>();
+		List<AvailArticleInDepot> articleInDepots = new ArrayList<AvailArticleInDepot>();
+		try{
+			articleInDepots= dataBaseService.getAvailableArticlesInDepot();
+		}
+		catch(Exception e)
+		{
+			log.severe(e.getMessage());
+		}
+		
+		for(AvailArticleInDepot article : articleInDepots)
+		{
+			availableDTOs.add(AvailableArticleMapper.mapToDTO(article));
+		}
+		return availableDTOs;
+	}
+	
+	/***** [END] availableArticles Deliveries *****/
+	
+	/***** [START] Delivery list *****/
+
+	/**
+	 * Get all delivery lists.
+	 * @return dto representation
+	 */
+	@RequestMapping(value = "secure/deliveryList/getAll")
+	public List<DeliveryListDTO> getAllDeliveryLists() 
+	{
+		List<DeliveryListDTO> deliveryListDTOs = new ArrayList<DeliveryListDTO>();
+		List<DeliveryList> deliveryLists = new ArrayList<DeliveryList>();
+		try{
+			deliveryLists= dataBaseService.getAllDeliveryLists();
+		}
+		catch(Exception e)
+		{
+			log.severe(e.getMessage());
+		}
+		if(deliveryLists == null)
+		{
+			return deliveryListDTOs;
+		}
+		for(DeliveryList list : deliveryLists)
+		{
+			deliveryListDTOs.add(DeliveryListMapper.mapToDTO(list));
+		}
+		return deliveryListDTOs;
+	}
+	
+	/**
+	 * Returns the requested delivery list.
+	 * @param id of the requested list
+	 * @return a dto representation
+	 */
+	@RequestMapping(value = "secure/deliveryList/getById/{id}")
+	public DeliveryListDTO getDeliverListById(@PathVariable int id) { 
+
+		DeliveryListDTO deliveryListDTO = new DeliveryListDTO();
+	
+		try{
+			deliveryListDTO = DeliveryListMapper.mapToDTO(dataBaseService.getDeliveryListById(id));
+		}
+		catch(Exception e)
+		{
+			log.severe(e.getMessage());
+		}
+		
+		return deliveryListDTO;
+	}
+	
+	/**
+	 * Sets a deliveryList.
+	 * @param dto to set
+	 * @param request to determine the last editor
+	 * @return a message with a state and a textual description
+	 */
+	@RequestMapping(value = "secure/deliveryList/set")
+	public ControllerMessage setDeliveryList(@RequestBody DeliveryListDTO dto, HttpServletRequest request) {
+		
+		try {
+			
+			DeliveryList entity = DeliveryListMapper.mapToEntity(dto, dataBaseService);
+			entity.setLastEditor(dataBaseService.getPersonById((int) request.getSession().getAttribute("id")));
+			
+			dataBaseService.setDeliveryList(entity);
+			
+			return new ControllerMessage(true, "Speichern erfolgreich!");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.severe(e.getMessage());
+			return new ControllerMessage(false, "Speichern nicht erfolgreich!");
+		}
+	}
+	
+	//DELETE OF DELIVERY LIST AND IF, HOW
+	
+	/***** [END] Delivery list *****/
+
 }
