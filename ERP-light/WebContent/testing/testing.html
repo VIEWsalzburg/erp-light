@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  
+  
+    <h1>Hello, world!</h1>
+	
+	<button id="btn_sendData" type="button" class="btn btn-default">send data</button>
+
+	
+	<!-- <div style="position: absolute; width: 100%; z-index: 10;">
+		<div style="width: 250px; margin: auto;">
+			<div class="row">
+				<div class="alert alert-success" role="alert">successfully saved person</div>
+			</div>
+		</div>
+	<div> -->
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	<script>
+	
+	
+	
+	$("#btn_sendData").click(
+		function(){
+			
+			var incomingDelivery = new Object();
+			
+			incomingDelivery.incomingDeliveryId = 0;
+			incomingDelivery.organisationId = 5;
+			incomingDelivery.lastEditorId = 0;
+			incomingDelivery.deliveryNr = 0;
+			incomingDelivery.date = '10.01.2015';
+			incomingDelivery.comment = 'neues Comment';
+			
+			var incomingArticles = [];
+			
+			var iA0 = {incomingArticleId:'0', articleNr:'0', numberpu:'9',
+				articleDTO: {articleId:'0', description:'Brot', packagingUnit:'1kg', weightpu:'1', mdd:'12.01.2015', pricepu:'0.99'}
+				};
+			incomingArticles.push(iA0);
+			
+			var iA1 = {incomingArticleId:'0', articleNr:'1', numberpu:'18',
+				articleDTO: {articleId:'0', description:'Semmeln', packagingUnit:'0.5kg', weightpu:'0.5', mdd:'12.01.2015', pricepu:'0.65'}
+				};
+			incomingArticles.push(iA1);
+			
+			incomingDelivery.incomingArticleDTOs = incomingArticles;
+			
+			console.log(incomingDelivery);
+			
+			
+
+	
+	$.ajax({
+		headers : {
+			'Accept' : 'application/json',
+			'Content-Type' : 'application/json'
+		},
+		type : "POST",
+		url : "../rest/secure/incomingDelivery/set",
+		contentType: "application/json; charset=utf-8",
+	    dataType: "json",
+		data : JSON.stringify(incomingDelivery)
+	}).done(function(data) {
+			alert(data);
+	});
+	
+			
+			
+			
+			
+		}
+	);
+	
+	
+	
+	</script>
+	
+  </body>
+</html>

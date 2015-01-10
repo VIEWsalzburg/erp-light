@@ -13,15 +13,13 @@ import at.erp.light.view.dto.IncomingArticleDTO;
 import at.erp.light.view.dto.IncomingDeliveryDTO;
 import at.erp.light.view.model.IncomingArticle;
 import at.erp.light.view.model.IncomingDelivery;
+import at.erp.light.view.model.Organisation;
 import at.erp.light.view.services.IDataBase;
 
 
 public class IncomingDeliveryMapper {
 	private static DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 
-	@Autowired
-	private static IDataBase dataBaseService;
-	
 	public static IncomingDeliveryDTO mapToDTO(IncomingDelivery entity) {
 			if(entity==null)
 			{
@@ -62,8 +60,8 @@ public class IncomingDeliveryMapper {
 			entity.setIncomingDeliveryId(dto.getIncomingDeliveryId());
 			entity.setDeliveryNr(dto.getDeliveryNr());
 			
-			entity.setOrganisation(dataBaseService.getOrganisationById(dto.getOrganisationId()));
-			entity.setLastEditor(dataBaseService.getPersonById(dto.getLastEditorId()));
+			// organisation must be set outside of the mapper (the static functions require a static dataBaseService which is not supported and permanently return null)
+			// lastEditor must be set outside of the mapper (the static functions require a static dataBaseService which is not supported and permanently return null)
 			
 			entity.setDeliveryNr(dto.getDeliveryNr());
 			try {

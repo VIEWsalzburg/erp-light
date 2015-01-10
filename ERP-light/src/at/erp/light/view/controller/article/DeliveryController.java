@@ -18,6 +18,7 @@ import at.erp.light.view.dto.OutgoingDeliveryDTO;
 import at.erp.light.view.mapper.IncomingDeliveryMapper;
 import at.erp.light.view.mapper.OutgoingDeliveryMapper;
 import at.erp.light.view.model.IncomingDelivery;
+import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.OutgoingDelivery;
 import at.erp.light.view.services.IDataBase;
 import at.erp.light.view.state.ControllerMessage;
@@ -83,17 +84,22 @@ public class DeliveryController {
 	public ControllerMessage setIncomingDelivery(@RequestBody IncomingDeliveryDTO dto, HttpServletRequest request) {
 		
 		try {
-			dto.setLastEditorId(dataBaseService.getPersonById((int) request.getSession().getAttribute("id")).getPersonId());
+			int lastEditorId = (int) request.getSession().getAttribute("id");
 			
-			 IncomingDelivery entity = IncomingDeliveryMapper.mapToEntity(dto);
+			IncomingDelivery entity = IncomingDeliveryMapper.mapToEntity(dto);
+			
+			// set Organisation and LastEditor for the entity
+			entity.setOrganisation(dataBaseService.getOrganisationById(dto.getOrganisationId()));
+			entity.setLastEditor(dataBaseService.getPersonById(lastEditorId));
+			
 			dataBaseService.setNewIncomingDelivery(entity);
 			
-			return new ControllerMessage(true, "Speichern erfolgreich");
+			return new ControllerMessage(true, "Speichern erfolgreich!");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			
-			return new ControllerMessage(false, "Speichern nicht erfolgreich");
+			return new ControllerMessage(false, "Speichern nicht erfolgreich!");
 		}
 		
 	}
