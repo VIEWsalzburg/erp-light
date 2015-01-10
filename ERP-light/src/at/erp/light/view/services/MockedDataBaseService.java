@@ -603,12 +603,6 @@ public class MockedDataBaseService implements IDataBase {
 	}
 
 	@Override
-	public int setOutgoingDelivery(OutgoingDelivery outgoingDelivery) {
-
-		return 0;
-	}
-
-	@Override
 	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) {
 
 		return 0;
@@ -756,6 +750,19 @@ public class MockedDataBaseService implements IDataBase {
 
 	@Override
 	public boolean checkInAndOutArticlePUs() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int setNewOutgoingDelivery(OutgoingDelivery outgoingDelivery)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean deleteOutgoingDeliveryById(int id) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}

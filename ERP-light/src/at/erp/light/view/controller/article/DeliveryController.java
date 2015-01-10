@@ -178,7 +178,7 @@ public class DeliveryController {
 
 	/**
 	 * Gets only the requested outgoing delivery.
-	 * @param id the requested outgoing delivery id
+	 * @param id of the requested outgoing delivery id
 	 * @return a dto representation of the delivery
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/getById/{id}")
@@ -208,10 +208,16 @@ public class DeliveryController {
 		dto.setLastEditorId(dataBaseService.getPersonById((int) request.getSession().getAttribute("id")).getPersonId());
 		OutgoingDelivery entity = OutgoingDeliveryMapper.mapToEntity(dto, dataBaseService);
 		
-		dataBaseService.setNewOutgoingDelivery(entity);
-		log.info("saved outgoing delivery with id " + entity.getOutgoingDeliveryId());
+		try {
+			dataBaseService.setNewOutgoingDelivery(entity);
+			log.info("saved outgoing delivery with id " + entity.getOutgoingDeliveryId());
+			return new ControllerMessage(true, "Speichern erfolgreich!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.severe("failed to save outgoing delivery with id " + entity.getOutgoingDeliveryId());
+			return new ControllerMessage(false, "Speichern nicht erfolgreich!");
+		}
 
-		return new ControllerMessage(true, "Speichern erfolgreich");
 	}
 	
 	/**
@@ -236,7 +242,7 @@ public class DeliveryController {
 	/***** [END] outgoing Deliveries *****/
 	
 	
-	/***** [START] availableArticles Deliveries *****/
+	/***** [START] availableArticles *****/
 	
 	/**
 	 * To determine all available articles in the storage.
@@ -262,7 +268,9 @@ public class DeliveryController {
 		return availableDTOs;
 	}
 	
-	/***** [END] availableArticles Deliveries *****/
+	/***** [END] availableArticles *****/
+	
+	
 	
 	/***** [START] Delivery list *****/
 
