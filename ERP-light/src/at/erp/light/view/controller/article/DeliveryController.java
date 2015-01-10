@@ -324,9 +324,8 @@ public class DeliveryController {
 	public ControllerMessage setDeliveryList(@RequestBody DeliveryListDTO dto, HttpServletRequest request) {
 		
 		try {
-			
+			dto.setLastEditorId((int) request.getSession().getAttribute("id"));
 			DeliveryList entity = DeliveryListMapper.mapToEntity(dto, dataBaseService);
-			entity.setLastEditor(dataBaseService.getPersonById((int) request.getSession().getAttribute("id")));
 			
 			dataBaseService.setDeliveryList(entity);
 			
