@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import at.erp.light.view.dto.ArticleDTO;
 import at.erp.light.view.model.Article;
@@ -46,6 +47,7 @@ public class ArticleMapper {
 			entity.setMdd(df.parse(dto.getMdd()));
 		} catch (ParseException e) {
 			e.printStackTrace();
+			entity.setMdd(new Date(System.currentTimeMillis()));
 		}
 		entity.setPackagingUnit(dto.getPackagingUnit());
 		entity.setPricepu(BigDecimal.valueOf(dto.getPricepu()));

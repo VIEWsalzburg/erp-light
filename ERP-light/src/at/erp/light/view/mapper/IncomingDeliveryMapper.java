@@ -3,6 +3,7 @@ package at.erp.light.view.mapper;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,7 +50,7 @@ public class IncomingDeliveryMapper {
 	}
 
 
-	public static IncomingDelivery mapToEntity(IncomingDeliveryDTO dto) {
+	public static IncomingDelivery mapToEntity(IncomingDeliveryDTO dto) throws Exception {
 		
 		if(dto==null)
 		{
@@ -60,13 +61,16 @@ public class IncomingDeliveryMapper {
 		
 			entity.setIncomingDeliveryId(dto.getIncomingDeliveryId());
 			entity.setDeliveryNr(dto.getDeliveryNr());
+			
 			entity.setOrganisation(dataBaseService.getOrganisationById(dto.getOrganisationId()));
 			entity.setLastEditor(dataBaseService.getPersonById(dto.getLastEditorId()));
+			
 			entity.setDeliveryNr(dto.getDeliveryNr());
 			try {
 				entity.setDate(df.parse(dto.getDate()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
+				// set current Date if parsing fails
+				entity.setDate(new Date(System.currentTimeMillis()));
 				e.printStackTrace();
 			}
 			entity.setComment(dto.getComment());

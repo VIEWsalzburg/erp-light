@@ -30,13 +30,24 @@ public class DeliveryController {
 	@Autowired
 	private IDataBase dataBaseService;
 
+	
+	
+	/***** [START] incoming Deliveries *****/
+	
+	
 	@RequestMapping(value = "secure/incomingDelivery/getAll")
 	public List<IncomingDeliveryDTO> getAllIncomingDeliveries() {
 
 		List<IncomingDeliveryDTO> list = new ArrayList<IncomingDeliveryDTO>();
-
-		List<IncomingDelivery> entityList = dataBaseService
+		List<IncomingDelivery> entityList = null;
+		
+		try {
+		entityList = dataBaseService
 				.getAllIncomingDeliveries();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 
 		if (entityList.size() > 0) {
 			for (IncomingDelivery id : entityList) {
@@ -71,12 +82,20 @@ public class DeliveryController {
 	@RequestMapping(value = "secure/incomingDelivery/set")
 	public ControllerMessage setIncomingDelivery(@RequestBody IncomingDeliveryDTO dto, HttpServletRequest request) {
 		
-		dto.setLastEditorId(dataBaseService.getPersonById((int) request.getSession().getAttribute("id")).getPersonId());
-		IncomingDelivery entity = IncomingDeliveryMapper.mapToEntity(dto);
+		try {
+			dto.setLastEditorId(dataBaseService.getPersonById((int) request.getSession().getAttribute("id")).getPersonId());
+			
+			 IncomingDelivery entity = IncomingDeliveryMapper.mapToEntity(dto);
+			dataBaseService.setNewIncomingDelivery(entity);
+			
+			return new ControllerMessage(true, "Speichern erfolgreich");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			return new ControllerMessage(false, "Speichern nicht erfolgreich");
+		}
 		
-		dataBaseService.setNewIncomingDelivery(entity);
-		
-		return new ControllerMessage(true, "Speichern erfolgreich");
 	}
 	
 	@RequestMapping(value = "secure/incomingDelivery/deleteById/{id}")
@@ -91,6 +110,17 @@ public class DeliveryController {
 		
 		return new ControllerMessage(true, "Löschen erfolgreich");
 	}
+	
+	/***** [END] incoming Deliveries *****/
+	
+	
+	
+	
+	
+	
+	
+	/***** [START] outgoing Deliveries *****/
+	
 	
 	
 	@RequestMapping(value = "secure/outgoingDelivery/getAll")
@@ -156,5 +186,7 @@ public class DeliveryController {
 		
 //		return new ControllerMessage(true, "Löschen erfolgreich");
 	}
+	
+	/***** [END] outgoing Deliveries *****/
 	
 }

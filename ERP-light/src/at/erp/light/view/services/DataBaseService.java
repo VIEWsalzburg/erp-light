@@ -599,11 +599,15 @@ public class DataBaseService implements IDataBase {
 			incomingArticle.setIncomingDelivery(incomingDelivery);
 		}
 		
-		// add all new articles to the table articles
+		// add all new articles to the table articles and set the Id to 0 so they are created
 		for (IncomingArticle incomingArticle : incomingDelivery.getIncomingArticles())
 		{
+			incomingArticle.getArticle().setArticleId(0);
 			sessionFactory.getCurrentSession().saveOrUpdate(incomingArticle.getArticle());
 		}
+		
+		// set incomingDelivery Id to 0 so it is created new
+		incomingDelivery.setIncomingDeliveryId(0);
 		
 		sessionFactory.getCurrentSession().saveOrUpdate(incomingDelivery);
 		
