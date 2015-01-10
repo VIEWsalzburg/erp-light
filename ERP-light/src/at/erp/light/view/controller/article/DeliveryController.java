@@ -173,7 +173,7 @@ public class DeliveryController {
 		dto.setLastEditorId(dataBaseService.getPersonById((int) request.getSession().getAttribute("id")).getPersonId());
 		OutgoingDelivery entity = OutgoingDeliveryMapper.mapToEntity(dto);
 		
-		dataBaseService.setOutgoingDelivery(entity);
+		dataBaseService.setNewOutgoingDelivery(entity);
 		log.info("saved outgoing delivery with id " + entity.getOutgoingDeliveryId());
 
 		return new ControllerMessage(true, "Speichern erfolgreich");

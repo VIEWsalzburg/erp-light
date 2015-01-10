@@ -25,6 +25,8 @@ import at.erp.light.view.model.Email;
 import at.erp.light.view.model.IncomingArticle;
 import at.erp.light.view.model.IncomingDelivery;
 import at.erp.light.view.model.Organisation;
+import at.erp.light.view.model.OutgoingArticle;
+import at.erp.light.view.model.OutgoingDelivery;
 import at.erp.light.view.model.Permission;
 import at.erp.light.view.model.Person;
 import at.erp.light.view.model.Platformuser;
@@ -237,8 +239,8 @@ public class TestController {
 	public void warenTest1() {		
 		
 		// create Articles
-		Article article1 = new Article(0, "Äpfel", "1kg", 1, new Date(2015, 1, 10), new BigDecimal(new BigInteger("99"), 2));
-		Article article2 = new Article(0, "Soße", "5kg", 5, new Date(2015, 1, 11), new BigDecimal(new BigInteger("149"), 2));
+		Article article1 = new Article(0, "Bananen", "1kg", 1, new Date(2015, 1, 10), new BigDecimal(new BigInteger("99"), 2));
+		Article article2 = new Article(0, "Gemüse", "5kg", 5, new Date(2015, 1, 11), new BigDecimal(new BigInteger("149"), 2));
 		
 		
 
@@ -314,7 +316,7 @@ public class TestController {
 	public void warenTest5() {	
 	
 		try {
-			dataBaseService.deleteIncomingDeliveryById(27);
+			dataBaseService.deleteIncomingDeliveryById(31);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -334,5 +336,65 @@ public class TestController {
 		
 	}
 	
+	
+	// Test for outgoing Delivery
+	@RequestMapping(value = "WarenTest10")
+	public void warenTest10() {	
+	
+				
+		// create Delivery
+		OutgoingDelivery outgoingDelivery = new OutgoingDelivery();
+		outgoingDelivery.setComment("neue AusgangsLieferung");
+		outgoingDelivery.setOutgoingDeliveryId(0);
+		outgoingDelivery.setLastEditor(dataBaseService.getPersonById(36));
+		outgoingDelivery.setDate(new Date(System.currentTimeMillis()));
+		outgoingDelivery.setDeliveryNr(90);
+		outgoingDelivery.setOrganisation(dataBaseService.getOrganisationById(3));
+
+		Article article1 = new Article();
+		article1.setArticleId(53);
+		Article article2 = new Article();
+		article2.setArticleId(54);
+		
+		// 9 Brot von DB
+		OutgoingArticle outgoingArticle1 = new OutgoingArticle(0, null, article1, 0, 9.0);
+		// 18 x 0.5 kg Semmeln
+		OutgoingArticle outgoingArticle2 = new OutgoingArticle(0, null, article2, 1, 18.0);
+		
+		outgoingDelivery.getOutgoingArticles().add(outgoingArticle1);
+		outgoingDelivery.getOutgoingArticles().add(outgoingArticle2);
+		
+		
+		try {
+			dataBaseService.setNewOutgoingDelivery(outgoingDelivery);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value = "WarenTest11")
+	public void warenTest11() {	
+	
+		try {
+			dataBaseService.deleteOutgoingDeliveryById(22);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@RequestMapping(value = "WarenTest12")
+	public void warenTest12() {	
+	
+		List<OutgoingDelivery> outgoingDeliveries = dataBaseService.getAllOutgoingDeliveries();
+		
+		for (OutgoingDelivery o : outgoingDeliveries)
+		{
+			System.out.println(o.getComment());
+		}
+		
+	}
 	
 }

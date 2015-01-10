@@ -103,27 +103,55 @@ public interface IDataBase {
 	 * @return id of the persisted entity
 	 * @throws HibernateException
 	 */
-	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery) throws HibernateException;
+	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery) throws Exception;
 	
 	/**
-	 * removes an incoming delivery with the associated incoming articles; only works if articles haven't been added to outgoing delivery
+	 * deletes an incoming delivery with the associated incoming articles; only works if articles haven't been added to outgoing delivery
 	 * @param id
 	 * @return success of operation
 	 * @throws HibernateException
 	 */
 	public boolean deleteIncomingDeliveryById(int id) throws Exception;
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException;
+	/**
+	 * return a list of all incoming deliveries
+	 * @return list of all incoming deliveries
+	 * @throws HibernateException
+	 */
 	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException;
+	
+	/**
+	 * returns the incoming delivery with the given id
+	 * @param id
+	 * @return incoming delivery
+	 * @throws HibernateException
+	 */
+	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException;
+	
+	/**
+	 * persists a new outgoing delivery with the given outgoing articles to the DB;
+	 * checks if PUs of outgoing articles are allowed and the given articleIds exist in the DB;
+	 * if outgoing delivery is not valid, a Exception is thrown and a DB rollback is performed
+	 * @param outgoingDelivery
+	 * @return id of the persisted delivery
+	 */
+	public int setNewOutgoingDelivery(OutgoingDelivery outgoingDelivery) throws Exception;
+	
+	/**
+	 * delete an outgoing delivery with the associated outgoing articles;
+	 * @param id
+	 * @return success of operation
+	 * @throws Exception
+	 */
+	public boolean deleteOutgoingDeliveryById(int id) throws Exception;
+	
+	// Outgoing deliveries
+	public OutgoingDelivery getOutgoingDeliveryById(int id) throws HibernateException;
+	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException;
+	
+	
+	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) throws HibernateException;
+	
 	
 	
 	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) throws HibernateException;
@@ -149,12 +177,7 @@ public interface IDataBase {
 	public int setOutgoingArticle(OutgoingArticle outgoingArticle) throws HibernateException;
 	public int setOutgoingArticles(List<OutgoingArticle> outgoingArticles) throws HibernateException;
 	
-	// Outgoing deliveries
-	public OutgoingDelivery getOutgoingDeliveryById(int id) throws HibernateException;
-	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException;
 	
-	public int setOutgoingDelivery(OutgoingDelivery outgoingDelivery);
-	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) throws HibernateException;
 	
 	// Delivery list
 	public DeliveryList getDeliveryListById(int id) throws HibernateException;
@@ -163,6 +186,10 @@ public interface IDataBase {
 	public int setDeliveryList(DeliveryList deliveryList) throws HibernateException;
 	public int setDeliveryLists(List<DeliveryList> deliveryLists) throws HibernateException;
 	public int telephoneTest() throws HibernateException;
+	
+	
+	
+	
 	
 	
 	// Types
@@ -223,6 +250,7 @@ public interface IDataBase {
 	// The list bases on the VIEW AvailArticleInDepot
 	/**
 	 * returns a list of all available articles, which can be added to outgoing deliveries
+	 * returns only those articles where the numberofPUs != 0
 	 * @return
 	 */
 	public List<AvailArticleInDepot> getAvailableArticlesInDepot();

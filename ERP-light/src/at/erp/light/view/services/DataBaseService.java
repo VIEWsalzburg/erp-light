@@ -29,6 +29,8 @@ import at.erp.light.view.model.Platformuser;
 import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
 
+//TODO rollbackFor=[Exceptions] => check and create custom annotation if needed
+// http://stackoverflow.com/questions/3701376/rollback-on-every-checked-exception-whenever-i-say-transactional
 
 @Transactional(propagation=Propagation.REQUIRED)
 public class DataBaseService implements IDataBase {
@@ -249,6 +251,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED) 
 	public List<Type> getAllTypes() throws HibernateException {
 		Query query = sessionFactory.getCurrentSession().createQuery("FROM Type t ORDER BY t.name");
+		@SuppressWarnings("unchecked")
 		List<Type> types = (List<Type>)query.list();
 		return types;
 	}
@@ -462,6 +465,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Organisation> getAllOrganisations() throws HibernateException {
 		
+		@SuppressWarnings("unchecked")
 		List<Organisation> organisations = sessionFactory.getCurrentSession().createQuery("FROM Organisation o WHERE o.active=1 ORDER BY o.name").list();
 		return organisations;
 	}
@@ -577,8 +581,11 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public boolean checkInAndOutArticlePUs()
 	{
+		// get a list of all availArticleInDepot where the availablenumber is negativ (outgoingPUs > incomingPUs)
+		@SuppressWarnings("unchecked")
 		List<AvailArticleInDepot> list = sessionFactory.getCurrentSession().createQuery("From AvailArticleInDepot a Where a.availNumberOfPUs < 0").list();
 		
+		// check is false if at least one article is in the list
 		if (list.size()>0)
 			return false;
 		else
@@ -586,12 +593,12 @@ public class DataBaseService implements IDataBase {
 	}
 	
 	
-	
+	/***** [START] incoming deliveries *****/
 	
 	
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
-	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery) throws HibernateException {
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery) throws Exception {
 		
 		// set the incoming delivery for each incoming article to be sure they are updated
 		for (IncomingArticle incomingArticle : incomingDelivery.getIncomingArticles())
@@ -628,12 +635,107 @@ public class DataBaseService implements IDataBase {
 	}
 	
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public boolean deleteIncomingDeliveryById(int id) throws Exception {
 		
 		IncomingDelivery incomingDelivery = this.getIncomingDeliveryById(id);
 		
 		sessionFactory.getCurrentSession().delete(incomingDelivery);
+		
+		// call flush to execute pending SQL Statements and synchronize Context to DB 
+		sessionFactory.getCurrentSession().flush();
+		
+		// check incoming and outgoing articles for validity
+		if (this.checkInAndOutArticlePUs()==false)
+			throw new Exception("Number of PUs for incoming and outgoing articles are not valid.");
+		
+		return true;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException {
+		@SuppressWarnings("unchecked")
+		List<IncomingDelivery> incomingDeliveries = sessionFactory.getCurrentSession().createQuery("From IncomingDelivery").list();
+		return incomingDeliveries;
+	}
+	
+	/***** [END] incoming deliveries *****/
+	
+	
+	/***** [START] articles *****/
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<AvailArticleInDepot> getAvailableArticlesInDepot()
+	{
+		// Test VIEW AvailArticleInDepot
+	
+		@SuppressWarnings("unchecked")
+		List<AvailArticleInDepot> availArticleInDepots = sessionFactory.getCurrentSession().createQuery("From AvailArticleInDepot Where availNumberOfPUs != 0").list();
+	
+		return availArticleInDepots;
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Article getArticleById(int id) throws HibernateException {
+		Article article = (Article)sessionFactory.getCurrentSession().createQuery("From Article a Where a.articleId = :id").setParameter("id", id).uniqueResult();
+		return article;
+	}
+	
+	/***** [END] articles *****/
+	
+	
+	
+	/***** [START] outgoing deliveries *****/
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int setNewOutgoingDelivery(OutgoingDelivery outgoingDelivery) throws Exception {
+		
+		for (OutgoingArticle outgoingArticle : outgoingDelivery.getOutgoingArticles())
+		{
+			// set id to 0 so it is created
+			outgoingArticle.setOutgoingArticleId(0);
+			
+			// get existingArticleId from OutgoingArticle
+			int existingId = outgoingArticle.getArticle().getArticleId();
+			// get existing Article by existingId
+			Article existingArticle = this.getArticleById(existingId);
+			// set Article for outgoingArtilce
+			outgoingArticle.setArticle(existingArticle);
+
+			// set Delivery for outgoingArticle so they are bidirectional linked (cascade update and owning side/null constraint) 
+			outgoingArticle.setOutgoingDelivery(outgoingDelivery);
+		}
+				
+		sessionFactory.getCurrentSession().saveOrUpdate(outgoingDelivery);
+
+		// call flush to execute pending SQL Statements and synchronize Context to DB
+		// !!! IMPORTANT !!!
+		sessionFactory.getCurrentSession().flush();
+		
+		// check if the PUs of the outgoing articles and the available articles are correct
+		// do the check by checking the consistency of the availArticleInDepot VIEW after persisting the outgoingDelivery
+		
+		// check incoming and outgoing articles for validity
+		boolean validity = this.checkInAndOutArticlePUs();
+		if (validity == false)
+			throw new HibernateException("Number of PUs for incoming and outgoing articles are not valid.");
+		
+		return outgoingDelivery.getOutgoingDeliveryId();
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public boolean deleteOutgoingDeliveryById(int id) throws Exception {
+		
+		OutgoingDelivery outgoingDelivery = this.getOutgoingDeliveryById(id);
+		
+		sessionFactory.getCurrentSession().delete(outgoingDelivery);
+		
+		// call flush to execute pending SQL Statements and synchronize Context to DB 
+		sessionFactory.getCurrentSession().flush();
 		
 		// check incoming and outgoing articles for validity
 		if (this.checkInAndOutArticlePUs()==false)
@@ -642,45 +744,25 @@ public class DataBaseService implements IDataBase {
 		return true;
 	}
 	
-	
-	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public OutgoingDelivery getOutgoingDeliveryById(int id) throws HibernateException {
+		
+		OutgoingDelivery outgoingDelivery = (OutgoingDelivery)sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery o Where o.outgoingDeliveryId = :id")
+				.setParameter("id", id).uniqueResult();
+		
+		return outgoingDelivery;
+	}
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<AvailArticleInDepot> getAvailableArticlesInDepot()
-	{
-		// Test VIEW AvailArticleInDepot
-	
-		List<AvailArticleInDepot> availArticleInDepots = sessionFactory.getCurrentSession().createQuery("From AvailArticleInDepot").list();
-	
-		return availArticleInDepots;
+	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException {
+		@SuppressWarnings("unchecked")
+		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery").list();
+		return outgoingDeliveries;
 	}
 
-	@Override
-	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException {
-		List<IncomingDelivery> incomingDeliveries = sessionFactory.getCurrentSession().createQuery("From IncomingDelivery").list();
-		return incomingDeliveries;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
-	
+	/***** [END] outgoing deliveries *****/
 	
 	
 	
@@ -700,6 +782,8 @@ public class DataBaseService implements IDataBase {
 		
 		return 0;
 	}
+	
+	/***** [START] IncomingArticles *****/
 
 	@Override
 	public IncomingArticle getIncomingArticleById(int id) throws HibernateException {
@@ -724,12 +808,11 @@ public class DataBaseService implements IDataBase {
 		
 		return 0;
 	}
+	
+	/***** [END] IncomingArticles *****/
 
-	@Override
-	public Article getArticleById(int id) throws HibernateException {
-		
-		return null;
-	}
+
+	/***** [START] Articles *****/
 
 	@Override
 	public List<Article> getAllArticles() throws HibernateException {
@@ -748,6 +831,12 @@ public class DataBaseService implements IDataBase {
 		
 		return 0;
 	}
+	
+	/***** [END] Articles *****/
+	
+	
+	
+	/***** [START] OutgoingArticles *****/
 
 	@Override
 	public OutgoingArticle getOutgoingArticleById(int id) throws HibernateException {
@@ -773,24 +862,14 @@ public class DataBaseService implements IDataBase {
 		return 0;
 	}
 
-	@Override
-	public OutgoingDelivery getOutgoingDeliveryById(int id) throws HibernateException {
-		
-		return null;
-	}
-
-	@Override
-	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException {
-		
-		return null;
-	}
-
-	@Override
-	public int setOutgoingDelivery(OutgoingDelivery outgoingDelivery) throws HibernateException {
-		
-		return 0;
-	}
-
+	/***** [END] OutgoingArticles *****/
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) throws HibernateException {
 		
@@ -821,6 +900,7 @@ public class DataBaseService implements IDataBase {
 		return 0;
 	}
 
+	/***** [START] Categories *****/
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -858,6 +938,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Category> getAllCategories() throws HibernateException
 	{
+		@SuppressWarnings("unchecked")
 		List<Category> categories = sessionFactory.getCurrentSession().createQuery("FROM Category c ORDER BY c.category").list();
 		return categories;
 	}
@@ -883,7 +964,8 @@ public class DataBaseService implements IDataBase {
 		
 		
 		// important: add 'SELECT DISTINC o' to get only Objects and use JOIN to restrict the categoryIds
-		List<Organisation> organisations = sessionFactory.getCurrentSession().
+		@SuppressWarnings("unchecked")
+		List<Organisation> organisations = (List<Organisation>) sessionFactory.getCurrentSession().
 					createQuery("SELECT DISTINCT o FROM Organisation o JOIN o.categories c WHERE o.active=1 AND c.categoryId = :id ORDER BY o.name").setParameter("id", id).list();
 		
 //		System.out.println("size: "+organisations.size());
@@ -892,5 +974,7 @@ public class DataBaseService implements IDataBase {
 		
 		return organisations;
 	}
+	
+	/***** [END] Categories *****/
 	
 }

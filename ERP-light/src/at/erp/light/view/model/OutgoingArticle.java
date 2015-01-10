@@ -5,9 +5,12 @@ package at.erp.light.view.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -27,13 +30,6 @@ public class OutgoingArticle implements java.io.Serializable {
 	}
 
 	public OutgoingArticle(int outgoingArticleId,
-			OutgoingDelivery outgoingDelivery, Article article) {
-		this.outgoingArticleId = outgoingArticleId;
-		this.outgoingDelivery = outgoingDelivery;
-		this.article = article;
-	}
-
-	public OutgoingArticle(int outgoingArticleId,
 			OutgoingDelivery outgoingDelivery, Article article,
 			Integer articleNr, Double numberpu) {
 		this.outgoingArticleId = outgoingArticleId;
@@ -44,6 +40,8 @@ public class OutgoingArticle implements java.io.Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="gen_outgoing_article_id")
+	@SequenceGenerator(name="gen_outgoing_article_id", sequenceName="outgoing_article_outgoing_article_id_seq", allocationSize=1)
 	@Column(name = "outgoing_article_id", unique = true, nullable = false)
 	public int getOutgoingArticleId() {
 		return this.outgoingArticleId;
@@ -63,7 +61,7 @@ public class OutgoingArticle implements java.io.Serializable {
 		this.outgoingDelivery = outgoingDelivery;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "article_id", nullable = false)
 	public Article getArticle() {
 		return this.article;

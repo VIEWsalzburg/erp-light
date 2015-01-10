@@ -126,7 +126,8 @@ public class DeliveryList implements java.io.Serializable {
 		this.passenger = passenger;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "deliveryList")
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="delivery_list_id", referencedColumnName="delivery_list_id")
 	public Set<OutgoingDelivery> getOutgoingDeliveries() {
 		return this.outgoingDeliveries;
 	}
