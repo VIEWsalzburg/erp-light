@@ -1,18 +1,40 @@
-//TODO Get all incoming deliveries and load into table
+//Get all incoming deliveries and load into table
 function loadTableContent(){
 			$.ajax({
 				type : "POST",
-				url : "../rest/secure/category/getAllCategories"
-			}).done(
-					function(data) {
-						var c = eval(data);
+				url : "../rest/secure/incomingDelivery/getAll"
+			}).done(function(data) {
+						var inc = eval(data);
 
-						for ( var e in c) {
-							var tableRow = "<tr>" + "<td>" + "1"
-									+ "</td>" + "<td>" + "Nannerl" + ", " + "<br/>" + "Österreich" + "<br/>" + "5020 Salzburg" 
-									+ "</td>" + "<td>" + "05.01.2014"
-									+ "</td>" + "<td>" + "Beschreibung"
-									+ "</td>" + "<td>" + "Äpfel, Birnen, Kekse, Sauce"
+						for (var e in inc) {
+							
+							//get organisation by id
+							var org;
+							$.ajax({
+								type : "POST",
+								async : false,
+								url : "../rest/secure/organisation/getOrganisationById/" + inc[e].organisationId
+							}).done(function(data) {
+								
+								org = eval(data);
+							});
+							
+							//get articles
+							var articleString = "";
+							var article = inc[e].incomingArticleDTOs;
+							for(var i=0; i < inc[e].incomingArticleDTOs.length; i++){
+								articleString = articleString + article[i].articleDTO.description;
+								
+								if(i < inc[e].incomingArticleDTOs.length - 1){
+									articleString = articleString + ", ";
+								}
+							}
+							
+							var tableRow = "<tr>" + "<td>" + inc[e].incomingDeliveryId
+									+ "</td>" + "<td>" + org.name + ", " + "<br/>" + org.zip + " " + org.city + "," + "<br/>" + org.country 
+									+ "</td>" + "<td>" + inc[e].date
+									+ "</td>" + "<td>" + inc[e].comment
+									+ "</td>" + "<td>" + articleString
 									+ "</td>" + "</tr>";
 
 							$("#incomingDeliveryTableBody").append(tableRow);
@@ -25,13 +47,15 @@ $(document).ready(loadTableContent());
 
 //switch to new incoming deliveries tab
 $("#btn_new").click(function() {
-	location.href="warenverwaltung_neuerwareneingang.html";
+	//switch to new incoming deliveries with GET parameter mode=new and id=-1
+	location.href="warenverwaltung_neuerwareneingang.html?mode=new&id=-1";
 	return false;
 });
 
 //switch to edit incoming deliveries tab
 $("#btn_edit").click(function() {
-	location.href="warenverwaltung_neuerwareneingang.html";
+	//switch to edit incoming deliveries with GET parameter mode=edit and id=...
+	location.href="warenverwaltung_neuerwareneingang.html?mode=edit&id=" + tableData[0];
 	return false;
 });
 
@@ -51,7 +75,7 @@ function loadContactPerson(id) {
 	return nameString;
 };
 
-//TODO load details modal
+//load details modal
 $("#btn_details").click(function() {
 	//remove container
 	$(".details").remove();
@@ -59,33 +83,46 @@ $("#btn_details").click(function() {
 	
 	var id = tableData[0];
 	
+	//get incoming delivery by id
+	var inc;
 	$.ajax({
 		type : "POST",
-		url : "../rest/secure/organisation/getOrganisationById/" + "33"
+		async : false,
+		url : "../rest/secure/incomingDelivery/getById/" + id
 	}).done(function(data) {
+		inc = eval(data);
+	});
+				
+	//get organisation by id
+	var org;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/organisation/getOrganisationById/" + inc.organisationId
+	}).done(function(data) {
+		org = eval(data);
+	});
+	
+	$("#label_name_details").text(org.name);
+	$("#label_address_details").text(org.address);
+	$("#label_zip_details").text(org.zip);
+	$("#label_city_details").text(org.city);
+	$("#label_country_details").text(org.country);
 		
-		var org = eval(data);
-		
-		$("#label_name_details").text(org.name);
-		$("#label_address_details").text(org.address);
-		$("#label_zip_details").text(org.zip);
-		$("#label_city_details").text(org.city);
-		$("#label_country_details").text(org.country);
-		
-		if(org.comment == ""){
-			$("#label_comment_details").text("-");
-		}
-		else{
-			$("#label_comment_details").text(org.comment);
-		}
-		
-		//load personIds
-		var contactPersonIds = org.personIds;
-		if(contactPersonIds.length == 0){
-			$("#label_personIds_details").text("-");
-		}
-		else{
-			var personString = "";
+	if(org.comment == ""){
+		$("#label_comment_details").text("-");
+	}
+	else{
+		$("#label_comment_details").text(org.comment);
+	}
+	
+	//load personIds
+	var contactPersonIds = org.personIds;
+	if(contactPersonIds.length == 0){
+		$("#label_personIds_details").text("-");
+	}
+	else{
+		var personString = "";
 			for (var j = 0; j < contactPersonIds.length; j++) {
 				loadContactPerson(contactPersonIds[j]);
 				
@@ -135,20 +172,51 @@ $("#btn_details").click(function() {
 			}
 		} 	// end else
 		
-	});
 	
+	//load date and comment
+	$("#label_dateofdelivery_details").text(inc.date);
+	$("#label_description_details").text(inc.comment);
 	
-	//Lieferdatum und Beschreibung
-	$("#label_dateofdelivery_details").text("Lieferdatum");
-	$("#label_description_details").text("Beschreibung");
+	//load last editor and updateTimeStamp
+	$("#label_lastEditor_details").text(loadContactPerson(inc.lastEditorId));
+	$("#label_updateTimestamp_details").text(inc.date); //TODO updateTimeStamp missing
 	
-	//Letzter Bearbeiter und Aktualiserungsdatum von Wareneingangseintrag
-	$("#label_lastEditor_details").text("Letzter Bearbeiter");
-	$("#label_updateTimestamp_details").text("Aktualisierungsdatum");
+	//load articles
+	var articleString = "";
+	var article = inc.incomingArticleDTOs;
+	for(var i=0; i < inc.incomingArticleDTOs.length; i++){
+		articleString = article[i].articleDTO.description;
+		createAndAppendArticleTemplate("Beschreibung", articleString);
+		
+		articleString = article[i].numberpu;
+		createAndAppendArticleTemplate("Anzahl der VE", articleString);
+		
+		articleString = article[i].articleDTO.packagingUnit;
+		createAndAppendArticleTemplate("VE", articleString);
+		
+		articleString = article[i].articleDTO.weightpu;
+		createAndAppendArticleTemplate("Einzelgewicht der VE", articleString);
+		
+		articleString = article[i].articleDTO.mdd;
+		createAndAppendArticleTemplate("Mindesthaltbarkeitsdatum", articleString);
+		
+		articleString = article[i].articleDTO.pricepu + " €";
+		createAndAppendArticleTemplate("Einzelpreis der VE", articleString);
+		
+		var pricepu = parseFloat(article[i].articleDTO.pricepu);
+		var sum = pricepu * article[i].numberpu;
+		createAndAppendArticleTemplate("Gesamtpreis", sum + " €");
+		
+		//append divider
+		$("#article_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+	}
 	
-	//Ware
-	$("#label_article_details").text("Ware");
 });
+
+function createAndAppendArticleTemplate(name, value){
+	var template = "<div class='row details'><div class='col-md-6'><label>"+ name +"</label></div><div class='col-md-6'><label>" + value + "</label></div></div>";
+	$("#article_container_details").append(template);
+}
 
 // search filter
 $(document).ready(function() {
@@ -169,6 +237,7 @@ $('#btn_new').hide();
 $(".suchfilter").css("margin-left", "0px");
 $('#btn_edit').hide();
 $('#btn_deleteModal').hide();
+$('#btn_details').prop('disabled', true);
 
 // get current user rights
 $(document).ready(function() {
@@ -210,27 +279,63 @@ $('#TableHead').on('click','tbody tr', function(event) {
 				$('#btn_edit').prop('disabled', true);
 				$('#btn_deleteModal').prop('disabled', true);
 			}
+			$('#btn_details').prop('disabled', false);
 });
 
 /**
- * TODO call the delete modal for the selected incoming delivery
+ * Call the delete modal for the selected incoming delivery
  */
 $("#btn_deleteModal").click(function() {
-
+	var id = tableData[0];
+	
+	//get incoming delivery
+	var inc;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/incomingDelivery/getById/" + id
+	}).done(function(data) {
+			inc = eval(data);
+	});
+				
+	//get organisation by id
+	var org;
+	var organisationString;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/organisation/getOrganisationById/" + inc.organisationId
+	}).done(function(data) {
+		org = eval(data);
+		organisationString = org.name + ", " + org.zip + " " + org.city + ", " + org.country
+	});
+					
+	//get articles
+	var articleString = "";
+	var article = inc.incomingArticleDTOs;
+	for(var i=0; i < inc.incomingArticleDTOs.length; i++){
+		articleString = articleString + article[i].articleDTO.description;
+				
+		if(i < inc.incomingArticleDTOs.length - 1){
+			articleString = articleString + ", ";
+		}
+	}
+	
+	$("#label_deliverer_delete").text(organisationString); 
+	$("#label_article_delete").text(articleString);
 });
 
-
 /**
- * TODO call the delete url for the category
+ * call the delete url for the incoming delivery
  */
-$("#btn_deleteCategory").click(function() {
+$("#btn_deleteIncomingDelivery").click(function() {
 	 var id = tableData[0];
 	 
 	 $.ajax({
 		 type : "POST",
-		 url : "../rest/secure/category/deleteCategoryById/" + id
+		 url : "../rest/secure/incomingDelivery/deleteById/" + id
 	 }).done(function(data) {
-		 $('#categoryTableBody').empty();
+		 $('#incomingDeliveryTableBody').empty();
 		 $('#deleteModal').modal('hide');
 		 
 		 if (data.success == true)

@@ -97,7 +97,7 @@
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">Abbrechen</button>
-										<button type="button" class="btn btn-danger">
+										<button type="button" id="btn_deleteIncomingDelivery" class="btn btn-danger">
 											<span class="glyphicon glyphicon-trash"></span> L&ouml;schen
 										</button>
 
@@ -213,12 +213,14 @@
 												<label>Waren</label>
 											</div>
 											<div class="col-md-6">
-												<label id="label_article_details">Waren</label>
+												<label id="label_article_details"></label>
 											</div>
 										</div>
 										
 										<div class="row divider-horizontal">
 										</div>
+										
+										<div id="article_container_details"></div>
 										
 										<div class="row">
 											<div class="col-md-6">
