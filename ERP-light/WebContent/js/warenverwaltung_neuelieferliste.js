@@ -24,6 +24,24 @@ function loadTableContent(){
 //Get all outgoing deliveries and load into table
 $(document).ready(loadTableContent());
 
+//load driver modal
+$("#btn_addDriver").click(function() {
+	$("#tbx_driver_modal").val("");
+	$("#tbx_codriver_modal").val("");
+});
+
+//save driver to textbox
+$("#btn_saveDriver").click(function() {
+	var driver = $("#tbx_driver_modal").val();
+	var codriver = $("#tbx_codriver_modal").val();
+	
+	if(codriver == ""){
+		$("#tbx_driver").val(driver);
+	}
+	$("#tbx_driver").val(driver + ", " + codriver);
+	$('#chooseDriverModal').modal('hide');
+});
+
 //add outgoing delivery to delivery list
 $("#btn_addtodeliverylist").click(function() {
 	var id = tableData[0];

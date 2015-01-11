@@ -1,5 +1,83 @@
+//load page in specific mode
+$(document).ready(function() {
+	$.urlParam = function(name){
+	    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	    if (results==null){
+	       return null;
+	    }
+	    else{
+	       return results[1] || 0;
+	    }
+	}
+	
+	var mode = $.urlParam('mode');
+	var id = $.urlParam('id');
+	
+	if(mode == "new"){
+		$("#tabtext").text("Neuer Wareneingang");
+	}
+	else if(mode == "edit"){
+		$("#tabtext").text("Bearbeite Wareneingang");
+		loadNewIncomingDelivery(id);
+	}
+});
+
+function loadNewIncomingDelivery(id){
+	var inc;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/incomingDelivery/getById/" + id
+	}).done(function(data) {
+			inc = eval(data);
+	});
+	
+	//get organisation by id
+	var org;
+	var delivererString;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/organisation/getOrganisationById/" + inc.organisationId
+	}).done(function(data) {
+		org = eval(data);
+		delivererString = org.name + ", " + org.country + ", " + org.zip + " " + org.city;
+		$("#tbx_deliverer").val(delivererString);
+	});
+	
+	$("#tbx_date").val(inc.date);
+	$("#tbx_comment").val(inc.comment);
+					
+	//get articles
+	var article = inc.incomingArticleDTOs;
+	for(var i=0; i < article.length; i++){
+		var articleId = article[i].articleDTO.articleId;
+		var description = article[i].articleDTO.description;
+		var numberpu = article[i].numberpu;
+		var packagingUnit = article[i].articleDTO.packagingUnit;
+		var weightpu = article[i].articleDTO.weightpu;
+		var mdd = article[i].articleDTO.mdd;
+		var pricepu = parseFloat(article[i].articleDTO.pricepu);
+		
+		//calculate sum price
+		var sum = pricepu * article[i].numberpu;
+		
+		var tableRow = "<tr id='"+articleId+"'>" + "<td>" + articleId
+		+ "</td>" + "<td>" + description
+		+ "</td>" + "<td>" + numberpu
+		+ "</td>" + "<td>" + packagingUnit
+		+ "</td>" + "<td>" + weightpu
+		+ "</td>" + "<td>" + mdd
+		+ "</td>" + "<td>" + pricepu + " €"
+		+ "</td>" + "<td>" + sum + " €"
+		+ "</td>" + "</tr>";
+		
+		$("#newIncomingDeliveryTableBody").append(tableRow);
+	}
+}
+
 //loads all deliverers
-function loadAllDeliverers() {
+function loadAllDeliverers(id) {
 	$.ajax({
 		type : "POST",
 		async : false,
@@ -12,7 +90,7 @@ function loadAllDeliverers() {
 					for(var i=0; i< o[e].types.length; i++){
 						if(o[e].types[i] == "Lieferant"){
 							var o_divRow = "<div class='boxElement_deliverer'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + o[e].name + " "
-							+ "</span><input class='pull-right' value="+ o[e].id +" name='delivererRadio' type='radio'></div>";
+							+ "</span><input class='pull-right' value="+ o[e].id +" id="+ o[e].id +" name='delivererRadio' type='radio'></div>";
 							
 							$("#delivererDiv").append(o_divRow);
 						}
@@ -29,18 +107,56 @@ $("#btn_addDeliverer").click(function() {
 });
 
 function createTableRow(count){
+	var pricepu = parseFloat($("#tbx_pricepackagingunit").val());
+	var sum = pricepu * $("#tbx_numberofpackagingunits").val();
+	
 	var tableRow = "<tr id="+ count +">" + "<td>" + count
 	+ "</td>" + "<td>" + $("#tbx_description").val()
 	+ "</td>" + "<td>" + $("#tbx_numberofpackagingunits").val()
 	+ "</td>" + "<td>" + $("#tbx_packagingunit").val()
 	+ "</td>" + "<td>" + $("#tbx_weightpackagingunit").val()
 	+ "</td>" + "<td>" + $("#tbx_mdd").val()
-	+ "</td>" + "<td>" + $("#tbx_pricepackagingunit").val()
-	+ "</td>" + "<td>" + "10€" //TODO Gesamtpreis
+	+ "</td>" + "<td>" + $("#tbx_pricepackagingunit").val() + " €"
+	+ "</td>" + "<td>" + sum + " €" //TODO Gesamtpreis
 	+ "</td>" + "</tr>";
 	
 	return tableRow;
 }
+
+//TODO submit to depot
+$("#btn_submittodepot").click(function() {
+	var newincomingdelivery = new Object();
+	
+	
+	
+	$.ajax({
+		headers : {
+			'Accept' : 'application/json',
+			'Content-Type' : 'application/json'
+		},
+		type : "POST",
+		url : "../rest/secure/incomingDelivery/set",
+		contentType: "application/json; charset=utf-8",
+	    dataType: "json",
+		data : JSON.stringify(newincomingdelivery)
+	}).done(function(data) {
+		if (data) {
+			location.href="warenverwaltung_wareneingang.html";
+			
+			if (data.success == true)
+			{
+				showAlertElement(1, data.message, 5000);
+			}
+			else
+			{
+				showAlertElement(2, data.message, 5000);
+			}
+		} 
+		else {
+			alert("Verbindungsproblem mit dem Server");
+		}
+	});
+});
 
 //saves an article to the table
 var articleCount = 1;
@@ -86,12 +202,6 @@ $("#btn_new").click(function() {
 	clearPositionModal();
 });
 
-//close newincoming delivery and show incoming delivery tab
-$("#btn_close").click(function() {
-	location.href="warenverwaltung_wareneingang.html";
-	return false;
-});
-
 //move marked row one row upwards
 $("#btn_up").click(function() {
 	var id = tableData[0];
@@ -114,7 +224,7 @@ $("#btn_down").click(function() {
     }
 });
 
-//Load selected article to modal
+//TODO Load selected article to modal
 $("#btn_edit").click(function() {
 	$("#modal_title_text").text("Bearbeite Position");
 	clearPositionModal();

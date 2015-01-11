@@ -63,7 +63,7 @@
 											<label id="label_lieferant">Fahrer/Beifahrer</label>
 											<input type="text" class="form-control" id="tbx_driver" placeholder="Fahrer" style="width: 275px;" disabled>
 										</div>
-										<button type="button" class="btn btn-default" id="btn_addDeliverer" data-toggle="modal" data-target="#chooseDelivererModal"><span class="glyphicon glyphicon-plus"></span></button>				
+										<button type="button" class="btn btn-default" id="btn_addDriver" data-toggle="modal" data-target="#chooseDriverModal"><span class="glyphicon glyphicon-plus"></span></button>				
 										</form>
 									
 									</div>
@@ -147,6 +147,57 @@
 								<!-- Table end -->
 							</div>
 						</div>
+						
+						<!-- Choose driver Modal -->
+						<div class="modal fade" id="chooseDriverModal" tabindex="-1"
+							role="dialog" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										<h4 class="modal-title">Fahrerauswahl</h4>
+									</div>
+									<div class="modal-body">
+
+										<form class="form-horizontal" role="form">
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-4 control-label">Fahrer</label>
+													<div class="col-sm-5">
+														<input type="text" class="form-control" id="tbx_driver_modal"
+															placeholder="Vorname Nachname" maxlength="50">
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-4 control-label">Beifahrer</label>
+													<div class="col-sm-5">
+														<input type="text" class="form-control" id="tbx_codriver_modal"
+															placeholder="Vorname Nachname" maxlength="50">
+													</div>
+												</div>
+											</div>
+											
+										</form>
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Abbrechen</button>
+										<button type="button" id="btn_saveDriver" class="btn btn-primary">
+											<span class="glyphicon glyphicon-floppy-save"></span> Speichern
+										</button>
+
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal-dialog -->
+						</div>
+						<!-- /.modal -->
 						
 					</div>
 					

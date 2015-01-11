@@ -32,7 +32,7 @@
 					<li role="presentation" id="incomingdelivery"><a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
 					<li role="presentation"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
 					<li role="presentation"><a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
-					<li role="presentation" class="active" id="newincomingdelivery"><a href="warenverwaltung_neuerwareneingang.html" id="newincomingdeliverylink">Neuer Wareneingang<button class="close closeTab" id="btn_close" type="button" style="margin-left: 5px;">×</button></a></li>
+					<li role="presentation" class="active" id="newincomingdelivery"><a href="javascript:;" id="newincomingdeliverylink"><span id="tabtext">Bearbeite Wareneingang</span><button onclick="location.href='warenverwaltung_wareneingang.html'" class='close closeTab' id='btn_close' type='button' style="margin-left: 5px;">×</button></a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuedisposition.html">Neue Disposition</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuelieferliste.html">Neue Lieferliste</a></li>
 				</ul>
@@ -173,7 +173,7 @@
 													<input type="hidden" name="tbx_positionId" id="tbx_positionId">
 												  	<div class="form-group">
 														<label class="col-sm-4 control-label">Bezeichnung</label>
-														<div class="col-sm-5">
+														<div class="col-sm-4">
 															<input type="text" class="form-control" name="tbx_description" id="tbx_description" placeholder="Bezeichnung" maxlength="100">
 														</div>
 													</div>
@@ -182,7 +182,7 @@
 												<div class="row">
 												  	<div class="form-group">
 														<label class="col-sm-4 control-label">Anzahl der VE</label>
-														<div class="col-sm-5">
+														<div class="col-sm-4">
 															<input type="text" class="form-control" name="tbx_numberofpackagingunits" id="tbx_numberofpackagingunits" placeholder="Anzahl der VE" maxlength="100">
 														</div>
 													</div>
@@ -191,7 +191,7 @@
 												<div class="row">
 												  	<div class="form-group">
 														<label class="col-sm-4 control-label">VE</label>
-														<div class="col-sm-5">
+														<div class="col-sm-4">
 															<input type="text" class="form-control" name="tbx_packagingunit" id="tbx_packagingunit" placeholder="VE" maxlength="100">
 														</div>
 													</div>
@@ -200,7 +200,7 @@
 												<div class="row">
 												  	<div class="form-group">
 														<label class="col-sm-4 control-label">Einzelgewicht der VE</label>
-														<div class="col-sm-5">
+														<div class="col-sm-4">
 															<input type="text" class="form-control" name="tbx_weightpackagingunit" id="tbx_weightpackagingunit" placeholder="Einzelgewicht der VE" maxlength="100">
 														</div>
 													</div>
@@ -209,7 +209,7 @@
 												<div class="row">
 												  	<div class="form-group">
 														<label class="col-sm-4 control-label">Mindesthaltbarkeitsdatum</label>
-														<div class="col-sm-5">
+														<div class="col-sm-4">
 															<input type="text" class="form-control" name="tbx_mdd" id="tbx_mdd" placeholder="MHD" maxlength="100">
 														</div>
 													</div>
@@ -218,8 +218,11 @@
 												<div class="row">
 												  	<div class="form-group">
 														<label class="col-sm-4 control-label">Einzelpreis</label>
-														<div class="col-sm-5">
+														<div class="col-sm-4">
+															 <div class="input-group">
 															<input type="text" class="form-control" name="tbx_pricepackagingunit" id="tbx_pricepackagingunit" placeholder="Einzelpreis" maxlength="100">
+															<div class="input-group-addon">€</div>
+															</div>
 														</div>
 													</div>
 												</div>																							

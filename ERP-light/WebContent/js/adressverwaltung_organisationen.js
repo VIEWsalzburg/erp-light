@@ -5,7 +5,7 @@ $("#pageheader").load("../partials/header.html", function() {
 
 //append alert message to modal
 var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>";
-	$("#newAlertForm").append(pwdError);
+$("#newAlertForm").append(pwdError);
 
 var template = "<div class='row'><div class='col-md-6'><label>Login Email</label></div><div class='col-md-6'><label id='label_loginEmail_details'>Login Email</label>" +
 	"</div></div><div class='row'><div class='col-md-6'><label>Rechte</label></div><div class='col-md-6'><label id='label_permission_details'>Rechte</label>" +
@@ -241,7 +241,6 @@ function loadContactPerson(id) {
 var o;
 var c;
 function loadTableContent() {
-	
 	$('#lieferanten_cbx').prop('checked', true);
 	$('#kunden_cbx').prop('checked', true);
 	$('#sponsoren_cbx').prop('checked', true);

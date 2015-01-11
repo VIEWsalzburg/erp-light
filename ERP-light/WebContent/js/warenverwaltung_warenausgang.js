@@ -6,12 +6,12 @@ var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-5'> <div class='aler
 function loadTableContent(){
 			$.ajax({
 				type : "POST",
-				url : "../rest/secure/category/getAllCategories"
+				url : "../rest/secure/outgoingDelivery/getAll"
 			}).done(
 					function(data) {
-						var c = eval(data);
+						var out = eval(data);
 
-						for ( var e in c) {
+						for (var e in inc) {
 							var tableRow = "<tr>" + "<td>" + "1"
 									+ "</td>" + "<td>" + "Helios Hallein" + ", " + "<br/>" + "Österreich" + "<br/>" + "5020 Salzburg" 
 									+ "</td>" + "<td>" + "03.01.2014"
