@@ -30,11 +30,11 @@
 				<!-- Tabs -->
 				<ul class="nav nav-tabs">
 					<li role="presentation"><a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
-					<li role="presentation" id="outgoingdelivery"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
+					<li role="presentation"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
 					<li role="presentation"><a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuerwareneingang.html">Neuer Wareneingang</a></li>
-					<li role="presentation" class="hidden" id="newoutgoingdelivery"><a href="warenverwaltung_neuedisposition.html">Neue Disposition</a></li>
-					<li role="presentation" class="active"><a href="warenverwaltung_neuelieferliste.html">Neue Lieferliste<button class="close closeTab" id="btn_close" type="button" style="margin-left: 5px;">×</button></a></li>
+					<li role="presentation" class="hidden"><a href="warenverwaltung_neuedisposition.html">Neue Disposition</a></li>
+					<li role="presentation" class="active" id="newoutgoingdeliverylist"><a href="javascript:;" id="newoutgoingdeliverylistlink"><span id="tabtext">Bearbeite Lieferliste</span><button onclick="location.href='warenverwaltung_lieferlisten.html'" class='close closeTab' id='btn_close' type='button' style="margin-left: 5px;">×</button></a></li>
 				</ul>
 				
 				<div class="tab-content">		
@@ -61,7 +61,7 @@
 										<form class="form-inline">
   										<div class="form-group">
 											<label id="label_lieferant">Fahrer/Beifahrer</label>
-											<input type="text" class="form-control" id="tbx_driver" placeholder="Fahrer" style="width: 275px;" disabled>
+											<input type="text" data-toggle="tooltip" data-placement="bottom" title="" class="form-control" id="tbx_driver" placeholder="Fahrer" style="width: 275px;" disabled>
 										</div>
 										<button type="button" class="btn btn-default" id="btn_addDriver" data-toggle="modal" data-target="#chooseDriverModal"><span class="glyphicon glyphicon-plus"></span></button>				
 										</form>
@@ -102,7 +102,7 @@
 							<div class="col-md-5">
 								<!-- Table -->
 								<div class="table-responsive newOutgoingDeliveryTable" id="outcomingdeliveriesTable">
-									<table class="table table-hover table-striped header-fixed" id="TableHeadOutcomingDeliveries">
+									<table class="table table-hover table-striped header-fixed" id="TableHeadOutgoingDelivery">
 										<thead class="TableHead">
 											<tr>
 												<th style="width: 3%">#</th>								
@@ -111,7 +111,7 @@
 												<th style="width: 33%">Bemerkung</th>
 											</tr>
 										</thead>	
-										<tbody id="outcomingdeliveriesTableBody" class="searchable">
+										<tbody id="outgoingDeliveryTableBody" class="searchable">
 											<!-- table rows -->
 										</tbody>
 									</table>
@@ -124,7 +124,7 @@
 									<span class="glyphicon glyphicon-plus"></span> Hinzuf&uuml;gen
 								</button>
 								<button type="button" class="btn btn-danger" id="btn_removefromdeliverylist" style="margin-left: 15%; margin-right: 85%;">
-									<span class="glyphicon glyphicon-trash"></span> Entfernen
+									<span class="glyphicon glyphicon-minus"></span> Entfernen
 								</button>
 							</div>
 							<div class="col-md-5">

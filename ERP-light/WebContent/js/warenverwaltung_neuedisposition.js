@@ -1,26 +1,139 @@
-//TODO Get depot entries and load into table
-function loadTableContent(){
-			$.ajax({
-				type : "POST",
-				url : "../rest/secure/category/getAllCategories"
-			}).done(
-					function(data) {
-						var c = eval(data);
+//load page in specific mode
+var global_id;
+$(document).ready(function() {
+	$.urlParam = function(name){
+	    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	    if (results==null){
+	       return null;
+	    }
+	    else{
+	       return results[1] || 0;
+	    }
+	}
+	
+	var mode = $.urlParam('mode');
+	global_id = $.urlParam('id');
+	
+	if(mode == "new"){
+		$("#tabtext").text("Neue Disposition");
+		loadAllIncomingDeliveries();
+	}
+	else if(mode == "edit"){
+		$("#tabtext").text("Bearbeite Disposition");
+		loadTableContent(global_id);
+	}
+});
 
-						var count = 1;
-						for ( var e in c) {
-							var tableRow = "<tr id='"+ count +"'>" + "<td>" + count
-									+ "</td>" + "<td class='article_description'>" + "Äpfel" 
-									+ "</td>" + "<td class='article_packagingunits'>" + count
-									+ "</td>" + "<td class='article_packaging_unit'>" + "kg"
-									+ "</td>" + "<td class='article_mdd'>" + "05.01.2014"
-									+ "</td>" + "</tr>";
+function loadAllIncomingDeliveries(){
+	var inc;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/incomingDelivery/getAll"
+	}).done(function(data) {
+			inc = eval(data);
+	});
+	
+	for (var e in inc) {
+		//get articles (depot)
+		var article = inc[e].incomingArticleDTOs;
+		for(var i=0; i < article.length; i++){
+			var articleId = article[i].articleDTO.articleId;
+			var description = article[i].articleDTO.description;
+			var numberpu = article[i].numberpu;
+			var packagingUnit = article[i].articleDTO.packagingUnit;
+			var weightpu = article[i].articleDTO.weightpu;
+			var mdd = article[i].articleDTO.mdd;
+			
+			var tableRow = "<tr id='"+articleId+"'>" + "<td>" + articleId
+			+ "</td>" + "<td class='article_description'>" + description
+			+ "</td>" + "<td class='article_packagingunits'>" + numberpu
+			+ "</td>" + "<td class='article_packaging_unit'>" + packagingUnit
+			+ "</td>" + "<td class='article_mdd'>" + mdd
+			+ "</td>" + "</tr>";
+			
+			$("#leftDepotTableBody").append(tableRow);
+		}
+	}
+}
 
-							$("#leftDepotTableBody").append(tableRow);
-							count++;
-						}
-					});
-};
+function loadTableContent(id){
+	var out;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/outgoingDelivery/getById/" + id
+	}).done(function(data) {
+			out = eval(data);
+	});
+	
+	//get organisation by id
+	var org;
+	var receiverString;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/organisation/getOrganisationById/" + out.organisationId
+	}).done(function(data) {
+		org = eval(data);
+		receiverString = org.name + ", " + org.country + ", " + org.zip + " " + org.city;
+		$("#tbx_receiver").val(receiverString);
+	});
+	
+	$("#tbx_date").val(out.date);
+	$("#tbx_comment").val(out.comment);
+					
+	//get articles (disposition)
+	var article = out.outgoingArticleDTOs;
+	for(var i=0; i < article.length; i++){
+		var articleId = article[i].articleDTO.articleId;
+		var description = article[i].articleDTO.description;
+		var numberpu = article[i].numberpu;
+		var packagingUnit = article[i].articleDTO.packagingUnit;
+		var weightpu = article[i].articleDTO.weightpu;
+		var mdd = article[i].articleDTO.mdd;
+		
+		var tableRow = "<tr id='"+articleId + "_new" +"'>" + "<td>" + articleId
+		+ "</td>" + "<td class='article_description'>" + description
+		+ "</td>" + "<td class='article_packagingunits'>" + numberpu
+		+ "</td>" + "<td class='article_packaging_unit'>" + packagingUnit
+		+ "</td>" + "<td class='article_mdd'>" + mdd
+		+ "</td>" + "</tr>";
+		
+		$("#rightDepotTableBody").append(tableRow);
+	}
+	
+	var inc;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/incomingDelivery/getAll"
+	}).done(function(data) {
+			inc = eval(data);
+	});
+	
+	for (var e in inc) {
+		//get articles (depot)
+		var article = inc[e].incomingArticleDTOs;
+		for(var i=0; i < article.length; i++){
+			var articleId = article[i].articleDTO.articleId;
+			var description = article[i].articleDTO.description;
+			var numberpu = article[i].numberpu;
+			var packagingUnit = article[i].articleDTO.packagingUnit;
+			var weightpu = article[i].articleDTO.weightpu;
+			var mdd = article[i].articleDTO.mdd;
+			
+			var tableRow = "<tr id='"+articleId+"'>" + "<td>" + articleId
+			+ "</td>" + "<td class='article_description'>" + description
+			+ "</td>" + "<td class='article_packagingunits'>" + numberpu
+			+ "</td>" + "<td class='article_packaging_unit'>" + packagingUnit
+			+ "</td>" + "<td class='article_mdd'>" + mdd
+			+ "</td>" + "</tr>";
+			
+			$("#leftDepotTableBody").append(tableRow);
+		}
+	}
+}
 
 //loads all receiver
 function loadAllReceivers() {
@@ -92,9 +205,6 @@ $("#btn_saveReceiver").click(function() {
 	$('#chooseReceiverModal').modal('hide');
 });
 
-//Get all incoming deliveries and load into table
-$(document).ready(loadTableContent());
-
 //add article to disposition
 $("#btn_addtodisposition").click(function() {
 	var id = tableData[0];
@@ -104,7 +214,7 @@ $("#btn_addtodisposition").click(function() {
 	var packagingunits_tbx = $("#tbx_packagingunit").val().trim();
 	
 	var article_description = $(thisRow).find(".article_description").html();
-	var article_packagingunits = $(thisRow).find(".article_packagingunits").html() - packagingunits_tbx;
+	var article_packagingunits = parseFloat($(thisRow).find(".article_packagingunits").html()) - parseFloat(packagingunits_tbx);
 	var article_packaging_unit = $(thisRow).find(".article_packaging_unit").html();
 	var article_mdd = $(thisRow).find(".article_mdd").html();
 	
@@ -117,24 +227,25 @@ $("#btn_addtodisposition").click(function() {
 		$("#rightDepotTableBody").append(newDispositionRow);
 	}
 	else{
-		if(packagingunits_tbx > packagingunits_depot){
+		if(parseFloat(packagingunits_tbx) > parseFloat(packagingunits_depot)){
 			$("#tbx_packagingunit").val("");
 			return false;
 		}
 		else{
 			if(article_packagingunits == 0){
 				$(thisRow).remove();
+				$('#btn_addtodisposition').prop('disabled', true);
 			}
 			
-			$(thisRow).find(".article_packagingunits").html(article_packagingunits);
+			$(thisRow).find(".article_packagingunits").html(parseFloat(article_packagingunits));
 			
 			if($("#" + id + "_new").length != 0){
 				var thisRow = $("#" + id + "_new").closest('tr');
 				article_packagingunits = $(thisRow).find(".article_packagingunits").html();
-				$(thisRow).find(".article_packagingunits").html(Number(packagingunits_tbx) + Number(article_packagingunits));
+				$(thisRow).find(".article_packagingunits").html(parseFloat(packagingunits_tbx) + parseFloat(article_packagingunits));
 			}
 			else{
-				var newDispositionRow = createTableRow(id, 0, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
+				var newDispositionRow = createTableRow(id, 0, article_description, parseFloat(packagingunits_tbx), article_packaging_unit, article_mdd);
 				$("#rightDepotTableBody").append(newDispositionRow);
 			}
 		}
@@ -150,7 +261,7 @@ $("#btn_removefromdisposition").click(function() {
 	var packagingunits_tbx = $("#tbx_packagingunit").val().trim();
 	
 	var article_description = $(thisRow).find(".article_description").html();
-	var article_packagingunits = $(thisRow).find(".article_packagingunits").html() - packagingunits_tbx;
+	var article_packagingunits = parseFloat($(thisRow).find(".article_packagingunits").html()) - parseFloat(packagingunits_tbx);
 	var article_packaging_unit = $(thisRow).find(".article_packaging_unit").html();
 	var article_mdd = $(thisRow).find(".article_mdd").html();
 	
@@ -163,24 +274,25 @@ $("#btn_removefromdisposition").click(function() {
 		$("#leftDepotTableBody").append(newDepotRow);
 	}
 	else{
-		if(packagingunits_tbx > packagingunits_depot){
+		if(parseFloat(packagingunits_tbx) > parseFloat(packagingunits_depot)){
 			$("#tbx_packagingunit").val("");
 			return false;
 		}
 		else{
 			if(article_packagingunits == 0){
 				$(thisRow).remove();
+				$('#btn_removefromdisposition').prop('disabled', true);
 			}
 			
-			$(thisRow).find(".article_packagingunits").html(article_packagingunits);
+			$(thisRow).find(".article_packagingunits").html(parseFloat(article_packagingunits));
 			
 			if($("#" + id).length != 0){
 				var thisRow = $("#" + id).closest('tr');
 				article_packagingunits = $(thisRow).find(".article_packagingunits").html();
-				$(thisRow).find(".article_packagingunits").html(Number(packagingunits_tbx) + Number(article_packagingunits));
+				$(thisRow).find(".article_packagingunits").html(parseFloat(packagingunits_tbx) + parseFloat(article_packagingunits));
 			}
 			else{
-				var newDepotRow = createTableRow(id, 1, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
+				var newDepotRow = createTableRow(id, 1, article_description, parseFloat(packagingunits_tbx), article_packaging_unit, article_mdd);
 				$("#leftDepotTableBody").append(newDepotRow);
 			}
 		}

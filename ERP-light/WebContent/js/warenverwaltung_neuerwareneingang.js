@@ -1,4 +1,5 @@
 //load page in specific mode
+var global_id;
 $(document).ready(function() {
 	$.urlParam = function(name){
 	    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -11,14 +12,14 @@ $(document).ready(function() {
 	}
 	
 	var mode = $.urlParam('mode');
-	var id = $.urlParam('id');
+	global_id = $.urlParam('id');
 	
 	if(mode == "new"){
 		$("#tabtext").text("Neuer Wareneingang");
 	}
 	else if(mode == "edit"){
 		$("#tabtext").text("Bearbeite Wareneingang");
-		loadNewIncomingDelivery(id);
+		loadNewIncomingDelivery(global_id);
 	}
 });
 
@@ -117,7 +118,7 @@ function createTableRow(count){
 	+ "</td>" + "<td>" + $("#tbx_weightpackagingunit").val()
 	+ "</td>" + "<td>" + $("#tbx_mdd").val()
 	+ "</td>" + "<td>" + $("#tbx_pricepackagingunit").val() + " €"
-	+ "</td>" + "<td>" + sum + " €" //TODO Gesamtpreis
+	+ "</td>" + "<td>" + sum + " €"
 	+ "</td>" + "</tr>";
 	
 	return tableRow;
@@ -224,17 +225,23 @@ $("#btn_down").click(function() {
     }
 });
 
-//TODO Load selected article to modal
+//Load selected article to modal
 $("#btn_edit").click(function() {
 	$("#modal_title_text").text("Bearbeite Position");
 	clearPositionModal();
 	
 	$("#tbx_description").val(tableData[1]);
 	$("#tbx_numberofpackagingunits").val(tableData[2]);
+	
+	//var packagingUnit = tableData[3];
+	//packagingUnit.match(/\d+/g);
 	$("#tbx_packagingunit").val(tableData[3]);
+	
 	$("#tbx_weightpackagingunit").val(tableData[4]);
 	$("#tbx_mdd").val(tableData[5]);
-	$("#tbx_pricepackagingunit").val(tableData[6]);
+	
+	var Stringlength = tableData[6].length;
+	$("#tbx_pricepackagingunit").val(tableData[6].substring(0, Stringlength-2));
 });
 
 //clears position modal textboxes

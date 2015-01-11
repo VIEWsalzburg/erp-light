@@ -33,8 +33,8 @@ function loadTableContent(){
 							var tableRow = "<tr>" + "<td>" + inc[e].incomingDeliveryId
 									+ "</td>" + "<td>" + org.name + ", " + "<br/>" + org.zip + " " + org.city + "," + "<br/>" + org.country 
 									+ "</td>" + "<td>" + inc[e].date
-									+ "</td>" + "<td>" + inc[e].comment
 									+ "</td>" + "<td>" + articleString
+									+ "</td>" + "<td>" + inc[e].comment
 									+ "</td>" + "</tr>";
 
 							$("#incomingDeliveryTableBody").append(tableRow);

@@ -1,28 +1,77 @@
-//TODO Get outgoing delivery entries and load into table
-function loadTableContent(){
-			$.ajax({
-				type : "POST",
-				url : "../rest/secure/category/getAllCategories"
-			}).done(
-					function(data) {
-						var c = eval(data);
+//load page in specific mode
+var global_id;
+$(document).ready(function() {
+	$.urlParam = function(name){
+	    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	    if (results==null){
+	       return null;
+	    }
+	    else{
+	       return results[1] || 0;
+	    }
+	}
+	
+	var mode = $.urlParam('mode');
+	global_id = $.urlParam('id');
+	
+	if(mode == "new"){
+		$("#tabtext").text("Neue Lieferliste");
+		loadAllOutgoingDeliveries();
+	}
+	else if(mode == "edit"){
+		$("#tabtext").text("Bearbeite Lieferliste");
+		loadAllOutgoingDeliveries();
+		loadDeliveryList(global_id);
+	}
+});
 
-						var count = 1;
-						for ( var e in c) {
-							var tableRow = "<tr id='"+ count +"'>" + "<td>" + count
-									+ "</td>" + "<td class='receiver'>" + "Wärmestube" 
-									+ "</td>" + "<td class='article'>" + "Kekse, Saft"
-									+ "</td>" + "<td class='comment'>" + "Bemerkung"
-									+ "</td>" + "</tr>";
+//Get all outgoing delivery entries and load into table
+function loadAllOutgoingDeliveries(){
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/outgoingDelivery/getAll"
+	}).done(function(data) {
+				var out = eval(data);
 
-							$("#outcomingdeliveriesTableBody").append(tableRow);
-							count++;
-						}
+				for (var e in out) {
+					
+					//get organisation by id
+					var org;
+					$.ajax({
+						type : "POST",
+						async : false,
+						url : "../rest/secure/organisation/getOrganisationById/" + out[e].organisationId
+					}).done(function(data) {
+						
+						org = eval(data);
 					});
+					
+					//get articles
+					var articleString = "";
+					var article = out[e].outgoingArticleDTOs;
+					for(var i=0; i < out[e].outgoingArticleDTOs.length; i++){
+						articleString = articleString + article[i].articleDTO.description;
+						
+						if(i < out[e].outgoingArticleDTOs.length - 1){
+							articleString = articleString + ", ";
+						}
+					}
+					
+					var tableRow = "<tr id='"+ out[e].outgoingDeliveryId +"'>" + "<td>" + out[e].outgoingDeliveryId
+							+ "</td>" + "<td class='receiver'>" + org.name
+							+ "</td>" + "<td class='article'>" + articleString
+							+ "</td>" + "<td class='comment'>" + out[e].comment
+							+ "</td>" + "</tr>";
+
+					$("#outgoingDeliveryTableBody").append(tableRow);
+				}
+	});
 };
 
-//Get all outgoing deliveries and load into table
-$(document).ready(loadTableContent());
+//TODO Load delivery list with specific id
+function loadDeliveryList(){
+	
+}
 
 //load driver modal
 $("#btn_addDriver").click(function() {
@@ -35,10 +84,24 @@ $("#btn_saveDriver").click(function() {
 	var driver = $("#tbx_driver_modal").val();
 	var codriver = $("#tbx_codriver_modal").val();
 	
-	if(codriver == ""){
-		$("#tbx_driver").val(driver);
+	if(driver == "" && codriver == ""){
+		$('#chooseDriverModal').modal('hide');
 	}
-	$("#tbx_driver").val(driver + ", " + codriver);
+	else{
+		if(codriver == ""){
+			$("#tbx_driver").val("F: " + driver);
+			$("#tbx_driver").attr("title", "F: " + driver);
+		}
+		else if(driver == ""){
+			$("#tbx_driver").val("B: " + codriver);
+			$("#tbx_driver").attr("title", "B: " + codriver);
+		}
+		else{
+			$("#tbx_driver").val("F: " + driver + ", " + "B: " + codriver);
+			$("#tbx_driver").attr("title", "F: " + driver + ", " + "B: " + codriver);
+		}
+		
+	}
 	$('#chooseDriverModal').modal('hide');
 });
 
@@ -56,14 +119,13 @@ $("#btn_removefromdeliverylist").click(function() {
 	var id = tableData[0];
 	
 	var thisRow = $("#" + id).closest('tr');
-	$("#outcomingdeliveriesTableBody").append(thisRow);
+	$("#outgoingDeliveryTableBody").append(thisRow);
 	$(thisRow).removeClass("highlight");
 });
 
-//close new delivery list and show delivery list tab
-$("#btn_close").click(function() {
-	location.href="warenverwaltung_lieferlisten.html";
-	return false;
+//TODO save delivery list
+$("#btn_savedeliverylist").click(function() {
+	
 });
 
 //move marked row one row upwards
@@ -115,7 +177,7 @@ $(document).ready(function() {
 });
 
 var tableData;
-$('#TableHeadOutcomingDeliveries').on('click','tbody tr', function(event) {
+$('#TableHeadOutgoingDelivery').on('click','tbody tr', function(event) {
 			tableData = $(this).children("td").map(function() {
 				return $(this).text();
 			}).get();

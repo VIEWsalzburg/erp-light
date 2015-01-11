@@ -89,18 +89,17 @@
 									<div class="modal-body">
 
 										<div class="row modalrow">
-											<div class="col-md-6">
-												<label id="label_name">name</label> 
-												<label id="label_description">description</label>
+											<div class="col-md-12">
+												<label class="col-md-12" id="label_receiver_delete">Lieferant</label> 
+												<label class="col-md-12" id="label_article_delete">Ware</label>
 											</div>
-											<div class="col-md-6"></div>
 										</div>
 
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">Abbrechen</button>
-										<button type="button" class="btn btn-danger">
+										<button type="button" id="btn_deleteOutgoingDelivery" class="btn btn-danger">
 											<span class="glyphicon glyphicon-trash"></span> L&ouml;schen
 										</button>
 
@@ -127,10 +126,10 @@
 
 										<div class="row">
 											<div class="col-md-6">
-												<label>Name</label>
+												<label>Lieferant</label>
 											</div>
 											<div class="col-md-6">
-												<label id="label_name_details">Name</label>
+												<label id="label_name_details">Lieferatenname</label>
 											</div>
 										</div>
 										<div class="row">
@@ -179,32 +178,6 @@
 										
 										<div class="row">
 											<div class="col-md-6">
-												<label>Typ(en)</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_types_details">Typ(en)</label>
-											</div>
-										</div>
-										<div id="type_container_details"></div>
-										
-										<div class="row divider-horizontal">
-										</div>
-										
-										<div class="row">
-											<div class="col-md-6">
-												<label>Kategorie(n)</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_categories_details">Kategorie(n)</label>
-											</div>
-										</div>
-										<div id="category_container_details"></div>
-										
-										<div class="row divider-horizontal">
-										</div>
-										
-										<div class="row">
-											<div class="col-md-6">
 												<label>Ansprechperson(en)</label>
 											</div>
 											<div class="col-md-6">
@@ -216,6 +189,40 @@
 										</div>
 								
 										<div id="person_container_details"></div>
+										
+										<div class="row">
+											<div class="col-md-6">
+												<label>Lieferdatum</label>
+											</div>
+											<div class="col-md-6">
+												<label id="label_dateofdelivery_details">Lieferdatum</label>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<label>Beschreibung</label>
+											</div>
+											<div class="col-md-6">
+												<label id="label_description_details">Beschreibung</label>
+											</div>
+										</div>
+										
+										<div class="row divider-horizontal">
+										</div>
+										
+										<div class="row">
+											<div class="col-md-6">
+												<label>Waren</label>
+											</div>
+											<div class="col-md-6">
+												<label id="label_article_details"></label>
+											</div>
+										</div>
+										
+										<div class="row divider-horizontal">
+										</div>
+										
+										<div id="article_container_details"></div>
 										
 										<div class="row">
 											<div class="col-md-6">
@@ -245,6 +252,7 @@
 							<!-- /.modal-dialog -->
 						</div>
 						<!-- /.modal -->
+						
 					</div>
 					
 					<div class="tab-pane" id="tab3">

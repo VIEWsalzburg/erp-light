@@ -33,7 +33,7 @@
 					<li role="presentation" id="outgoingdelivery"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
 					<li role="presentation"><a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuerwareneingang.html">Neuer Wareneingang</a></li>
-					<li role="presentation" class="active" id="newoutgoingdelivery"><a href="warenverwaltung_neuedisposition.html">Neue Disposition<button class="close closeTab" id="btn_close" type="button" style="margin-left: 5px;">×</button></a></li>
+					<li role="presentation" class="active" id="newoutgoingdelivery"><a href="javascript:;" id="newoutgoingdeliverylink"><span id="tabtext">Bearbeite Wareneingang</span><button onclick="location.href='warenverwaltung_warenausgang.html'" class='close closeTab' id='btn_close' type='button' style="margin-left: 5px;">×</button></a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuelieferliste.html">Neue Lieferliste</a></li>
 				</ul>
 				
@@ -119,12 +119,17 @@
 							</div>
 							<div class="col-md-2">
 								<label style="margin-top: 40px;">Verpackungseinheiten</label>
-								<input type="text" class="form-control" id="tbx_packagingunit" placeholder="VE" style="margin-left: 35%; margin-right: 65%; width: 50px;">
+								
+								<div class="input-group">
+									<input type="text" class="form-control" id="tbx_packagingunit" placeholder="Menge" >
+									<div class="input-group-addon"><span class="glyphicon glyphicon-transfer"></span></div>
+								</div>
+								
 								<button type="button" class="btn btn-primary addbutton" id="btn_addtodisposition" style="margin-left: 15%; margin-right: 85%;">
 									<span class="glyphicon glyphicon-plus"></span> Hinzuf&uuml;gen
 								</button>
 								<button type="button" class="btn btn-danger" id="btn_removefromdisposition" style="margin-left: 15%; margin-right: 85%;">
-									<span class="glyphicon glyphicon-trash"></span> Entfernen
+									<span class="glyphicon glyphicon-minus"></span> Entfernen
 								</button>
 							</div>
 							<div class="col-md-5">
