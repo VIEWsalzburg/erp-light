@@ -37,12 +37,16 @@
 	margin-bottom: 5px;
 }
 
+.dispositionButton {
+	width: 120px;
+	position: relative;
+	left: 50%;
+	margin: 5px 0px 0px -60px;
+}
+
 .suchfilter{
 	width: 250px;
-	margin-left: 5px;
-	margin-right: 5px;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin: 5px;
 }
 
 .typfilter{

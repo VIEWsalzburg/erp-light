@@ -62,7 +62,7 @@
 												<input type="text" class="form-control" id="tbx_receiver" placeholder="Empfänger" style="width: 320px;" disabled>
 											</span>
 										</div>
-										<button type="button" class="btn btn-default" id="btn_addReceiver" data-toggle="modal" data-target="#chooseReceiverModal"><span class="glyphicon glyphicon-plus"></span></button>				
+										<button type="button" class="btn btn-default" id="btn_addReceiver" data-toggle="modal" data-target="#chooseReceiverModal"><span class="glyphicon glyphicon-search"></span></button>				
 										</form>
 									
 									</div>
@@ -70,7 +70,7 @@
 										<form class="form-inline">
   										<div class="form-group">
 											<label id="label_lieferant">Datum</label>
-											<input type="text" class="form-control" id="tbx_date" placeholder="Datum" style="width: 100px;">
+											<input type="text" class="form-control" id="tbx_date" placeholder="dd.mm.yyyy" style="width: 100px;">
 										</div>
 										</form>
 									</div>
@@ -127,12 +127,24 @@
 									<div class="input-group-addon"><span class="glyphicon glyphicon-transfer"></span></div>
 								</div>
 								
-								<button type="button" class="btn btn-primary addbutton" id="btn_addtodisposition" style="margin-left: 15%; margin-right: 85%;">
+								<div class="row">
+								<button type="button" class="btn btn-primary dispositionButton" id="btn_addtodisposition">
 									<span class="glyphicon glyphicon-plus"></span> Hinzuf&uuml;gen
 								</button>
-								<button type="button" class="btn btn-danger" id="btn_removefromdisposition" style="margin-left: 15%; margin-right: 85%;">
+								</div>
+								
+								<div class="row">
+								<button type="button" class="btn btn-danger dispositionButton" id="btn_removefromdisposition">
 									<span class="glyphicon glyphicon-minus"></span> Entfernen
 								</button>
+								</div>
+								
+<!-- 								<button type="button" class="btn btn-primary addbutton" id="btn_addtodisposition" style="margin-left: 15%; margin-right: 85%;"> -->
+<!-- 									<span class="glyphicon glyphicon-plus"></span> Hinzuf&uuml;gen -->
+<!-- 								</button> -->
+<!-- 								<button type="button" class="btn btn-danger" id="btn_removefromdisposition" style="margin-left: 15%; margin-right: 85%;"> -->
+<!-- 									<span class="glyphicon glyphicon-minus"></span> Entfernen -->
+<!-- 								</button> -->
 							</div>
 							<div class="col-md-5">
 								<!-- Table -->
