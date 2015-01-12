@@ -59,28 +59,30 @@
 							<div class="col-md-12">
 									<div class="col-md-5">
 										<form class="form-inline">
-  										<div class="form-group">
-											<label id="label_lieferant">Fahrer/Beifahrer</label>
-											<input type="text" data-toggle="tooltip" data-placement="bottom" title="" class="form-control" id="tbx_driver" placeholder="Fahrer" style="width: 275px;" disabled>
-										</div>
-										<button type="button" class="btn btn-default" id="btn_addDriver" data-toggle="modal" data-target="#chooseDriverModal"><span class="glyphicon glyphicon-plus"></span></button>				
+	  										<div class="form-group">
+												<label id="label_lieferant">Fahrer/Beifahrer</label>
+												<span id="tbx_driver_popover" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
+													<input type="text" class="form-control" id="tbx_driver" placeholder="Fahrer" style="width: 275px;" disabled>
+												</span>
+											</div>
+												<button type="button" class="btn btn-default" id="btn_addDriver" data-toggle="modal" data-target="#chooseDriverModal"><span class="glyphicon glyphicon-plus"></span></button>				
 										</form>
 									
 									</div>
 									<div class="col-md-2">
 										<form class="form-inline">
-  										<div class="form-group">
-											<label id="label_lieferant">Datum</label>
-											<input type="text" class="form-control" id="tbx_date" placeholder="Datum" style="width: 100px;">
-										</div>
+	  										<div class="form-group">
+												<label id="label_lieferant">Datum</label>
+												<input type="text" class="form-control" id="tbx_date" placeholder="Datum" style="width: 100px;">
+											</div>
 										</form>
 									</div>
 									<div class="col-md-5">
 										<form class="form-inline">
-  										<div class="form-group">
-											<label id="label_lieferant">Bemerkung</label>
-											<input type="text" class="form-control" id="tbx_comment" placeholder="Bemerkung" style="width: 360px;">
-										</div>
+	  										<div class="form-group">
+												<label id="label_lieferant">Bemerkung</label>
+												<input type="text" class="form-control" id="tbx_comment" placeholder="Bemerkung" style="width: 360px;">
+											</div>
 										</form>
 									</div>
 										

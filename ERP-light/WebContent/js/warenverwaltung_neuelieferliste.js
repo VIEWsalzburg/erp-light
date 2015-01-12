@@ -25,6 +25,11 @@ $(document).ready(function() {
 	}
 });
 
+//init popover
+$(function () {
+	$('[data-toggle="popover"]').popover()
+});
+
 //Get all outgoing delivery entries and load into table
 function loadAllOutgoingDeliveries(){
 	$.ajax({
@@ -100,9 +105,14 @@ $("#btn_saveDriver").click(function() {
 			$("#tbx_driver").val("F: " + driver + ", " + "B: " + codriver);
 			$("#tbx_driver").attr("title", "F: " + driver + ", " + "B: " + codriver);
 		}
-		
 	}
+	$("#tbx_driver_popover").attr("data-content", $("#tbx_driver").val());
 	$('#chooseDriverModal').modal('hide');
+});
+
+$("#tbx_driver").hover(function() {
+	//alert("test");	
+	//$("#tbx_driver").removeAttr("disabled");
 });
 
 //add outgoing delivery to delivery list

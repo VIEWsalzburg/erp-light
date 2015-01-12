@@ -23,6 +23,11 @@ $(document).ready(function() {
 	}
 });
 
+//init popover
+$(function () {
+	$('[data-toggle="popover"]').popover()
+});
+
 function loadNewIncomingDelivery(id){
 	var inc;
 	$.ajax({
@@ -45,6 +50,9 @@ function loadNewIncomingDelivery(id){
 		delivererString = org.name + ", " + org.country + ", " + org.zip + " " + org.city;
 		$("#tbx_deliverer").val(delivererString);
 	});
+	
+	//set deliverer popover
+	$("#tbx_deliverer_popover").attr("data-content", $("#tbx_deliverer").val());
 	
 	$("#tbx_date").val(inc.date);
 	$("#tbx_comment").val(inc.comment);
@@ -194,6 +202,7 @@ $("#btn_saveDeliverer").click(function() {
 	});
 	
 	$("#tbx_deliverer").val(delivererString);
+	$("#tbx_deliverer_popover").attr("data-content", $("#tbx_deliverer").val());
 	$('#chooseDelivererModal').modal('hide');
 });
 

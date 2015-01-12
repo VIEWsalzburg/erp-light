@@ -55,7 +55,9 @@
 										<form class="form-inline">
   										<div class="form-group">
 											<label id="label_lieferant">Lieferant</label>
-											<input type="text" class="form-control" id="tbx_deliverer" placeholder="Lieferant" style="width: 330px;" disabled>
+											<span id="tbx_deliverer_popover" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
+												<input type="text" class="form-control" id="tbx_deliverer" placeholder="Lieferant" style="width: 330px;" disabled>
+											</span>
 										</div>
 										<button type="button" class="btn btn-default" id="btn_addDeliverer" data-toggle="modal" data-target="#chooseDelivererModal"><span class="glyphicon glyphicon-plus"></span></button>				
 										</form>

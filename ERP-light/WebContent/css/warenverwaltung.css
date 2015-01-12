@@ -1,5 +1,9 @@
 @CHARSET "UTF-8";
 
+[disabled] {
+  pointer-events: none;
+}
+
 .modalPosition{
 	width: 700px;
   	margin-left: -50px;

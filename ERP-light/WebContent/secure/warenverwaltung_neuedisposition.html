@@ -58,7 +58,9 @@
 										<form class="form-inline">
   										<div class="form-group">
 											<label id="label_lieferant">Empfänger</label>
-											<input type="text" class="form-control" id="tbx_receiver" placeholder="Empfänger" style="width: 320px;" disabled>
+											<span id="tbx_receiver_popover" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
+												<input type="text" class="form-control" id="tbx_receiver" placeholder="Empfänger" style="width: 320px;" disabled>
+											</span>
 										</div>
 										<button type="button" class="btn btn-default" id="btn_addReceiver" data-toggle="modal" data-target="#chooseReceiverModal"><span class="glyphicon glyphicon-plus"></span></button>				
 										</form>

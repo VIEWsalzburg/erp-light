@@ -24,6 +24,11 @@ $(document).ready(function() {
 	}
 });
 
+//init popover
+$(function () {
+	$('[data-toggle="popover"]').popover();
+});
+
 function loadAllIncomingDeliveries(){
 	var inc;
 	$.ajax({
@@ -79,6 +84,9 @@ function loadTableContent(id){
 		receiverString = org.name + ", " + org.country + ", " + org.zip + " " + org.city;
 		$("#tbx_receiver").val(receiverString);
 	});
+	
+	//set receiver popover
+	$("#tbx_receiver_popover").attr("data-content", $("#tbx_receiver").val());
 	
 	$("#tbx_date").val(out.date);
 	$("#tbx_comment").val(out.comment);
@@ -202,6 +210,7 @@ $("#btn_saveReceiver").click(function() {
 	});
 	
 	$("#tbx_receiver").val(receiverString);
+	$("#tbx_receiver_popover").attr("data-content", $("#tbx_receiver").val());
 	$('#chooseReceiverModal').modal('hide');
 });
 
