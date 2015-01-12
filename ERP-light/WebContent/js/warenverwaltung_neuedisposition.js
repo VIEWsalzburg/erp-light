@@ -212,14 +212,12 @@ $("#btn_addReceiver").click(function() {
 });
 
 
-// global var for storing the selected id of the receiver
-var orgReceiveId = 0;
 //save receiver to textbox
 $("#btn_saveReceiver").click(function() {
 	//get Id of checked radiobox of receiver div
 	var id = $("#receiverDiv input[name='receiverRadio']:checked").val();
 	// store the id to the global var
-	orgReceiveId = id;
+	$('#tbx_orgId').val(id);
 	
 	var receiverString;
 	$.ajax({
@@ -383,7 +381,7 @@ $(document).ready(function() {
 	$('#btn_submittodepot').click(
 			function() {
 			
-				var orgId = orgReceiveId;
+				var orgId = $('#tbx_orgId').val();
 				var date = $('#tbx_date').val();
 				var comment = $('#tbx_comment').val();
 								
