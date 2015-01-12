@@ -92,6 +92,7 @@ public interface IDataBase {
 	 * deletes an organisation by setting the active flag to 0
 	 * @param id
 	 * @return 0 on success
+	 * @throws HibernateException
 	 */
 	public int deleteOrganisationById(int id) throws HibernateException;
 	
@@ -101,7 +102,7 @@ public interface IDataBase {
 	 * persists a new incoming delivery with the given incoming articles to the DB
 	 * @param incomingDelivery
 	 * @return id of the persisted entity
-	 * @throws HibernateException
+	 * @throws Exception
 	 */
 	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery) throws Exception;
 	
@@ -109,7 +110,7 @@ public interface IDataBase {
 	 * deletes an incoming delivery with the associated incoming articles; only works if articles haven't been added to outgoing delivery
 	 * @param id
 	 * @return success of operation
-	 * @throws HibernateException
+	 * @throws Exception
 	 */
 	public boolean deleteIncomingDeliveryById(int id) throws Exception;
 	
@@ -134,6 +135,7 @@ public interface IDataBase {
 	 * if outgoing delivery is not valid, a Exception is thrown and a DB rollback is performed
 	 * @param outgoingDelivery
 	 * @return id of the persisted delivery
+	 * @throws Exception
 	 */
 	public int setNewOutgoingDelivery(OutgoingDelivery outgoingDelivery) throws Exception;
 	
@@ -180,11 +182,39 @@ public interface IDataBase {
 	
 	
 	// Delivery list
+	/**
+	 * returns the delivery list with the given id
+	 * @param id
+	 * @return delivery list object
+	 * @throws HibernateException
+	 */
 	public DeliveryList getDeliveryListById(int id) throws HibernateException;
+	
+	/**
+	 * returns all delivery lists
+	 * @return list with all delivery lists
+	 * @throws HibernateException
+	 */
 	public List<DeliveryList> getAllDeliveryLists() throws HibernateException;
 	
+	/**
+	 * persist or update a new deliveryList to the DB
+	 * @param deliveryList
+	 * @return the id of the persisted deliveryList
+	 * @throws HibernateException
+	 */
 	public int setDeliveryList(DeliveryList deliveryList) throws HibernateException;
+	
+	/**
+	 * deletes the deliveryList with the given ID
+	 * @param id
+	 * @return the success of the operation
+	 * @throws HibernateException
+	 */
+	boolean deleteDeliveryListById(int id) throws HibernateException;
+	
 	public int setDeliveryLists(List<DeliveryList> deliveryLists) throws HibernateException;
+	
 	public int telephoneTest() throws HibernateException;
 	
 	

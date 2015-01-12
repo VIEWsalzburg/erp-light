@@ -58,6 +58,8 @@ public class DataBaseService implements IDataBase {
 		
 		return null;
 	}
+	
+	
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -67,11 +69,15 @@ public class DataBaseService implements IDataBase {
 		return persons;
 	}
 
+	
+	
 	@Override
 	public Person getPersonByLoginEmail(String loginEmail) {
 		
 		return null;
 	}
+	
+	
 	
 	// setCountry
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -765,10 +771,52 @@ public class DataBaseService implements IDataBase {
 	/***** [END] outgoing deliveries *****/
 	
 	
+	/***** [START] DeliveryLists *****/
 	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public DeliveryList getDeliveryListById(int id) throws HibernateException {
+		
+		DeliveryList deliveryList = (DeliveryList)sessionFactory.getCurrentSession().createQuery("From DeliveryList dl Where dl.deliveryListId = :id")
+				.setParameter("id", id).uniqueResult();
+		return deliveryList;
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<DeliveryList> getAllDeliveryLists() throws HibernateException {
+		
+		List<DeliveryList> deliveryLists = sessionFactory.getCurrentSession().createQuery("From DeliveryList").list();
+		return deliveryLists;
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int setDeliveryList(DeliveryList deliveryList) throws HibernateException {
+		
+		sessionFactory.getCurrentSession().saveOrUpdate(deliveryList);
+		
+		return deliveryList.getDeliveryListId();
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public boolean deleteDeliveryListById(int id) throws HibernateException {
+		
+		DeliveryList deliveryList = this.getDeliveryListById(id);
+		
+		sessionFactory.getCurrentSession().delete(deliveryList);
+		
+		return true;
+	}
 	
+	@Override
+	public int setDeliveryLists(List<DeliveryList> deliveryLists) throws HibernateException {
+		
+		return 0;
+	}
 	
-	
+	/***** [END] DeliveryLists *****/
 	
 	
 	
@@ -876,29 +924,7 @@ public class DataBaseService implements IDataBase {
 		return 0;
 	}
 
-	@Override
-	public DeliveryList getDeliveryListById(int id) throws HibernateException {
-		
-		return null;
-	}
-
-	@Override
-	public List<DeliveryList> getAllDeliveryLists() throws HibernateException {
-		
-		return null;
-	}
-
-	@Override
-	public int setDeliveryList(DeliveryList deliveryList) throws HibernateException {
-		
-		return 0;
-	}
-
-	@Override
-	public int setDeliveryLists(List<DeliveryList> deliveryLists) throws HibernateException {
-		
-		return 0;
-	}
+	
 
 	/***** [START] Categories *****/
 

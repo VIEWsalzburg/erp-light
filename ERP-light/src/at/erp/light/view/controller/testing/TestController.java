@@ -21,6 +21,7 @@ import at.erp.light.view.model.AvailArticleInDepot;
 import at.erp.light.view.model.Category;
 import at.erp.light.view.model.City;
 import at.erp.light.view.model.Country;
+import at.erp.light.view.model.DeliveryList;
 import at.erp.light.view.model.Email;
 import at.erp.light.view.model.IncomingArticle;
 import at.erp.light.view.model.IncomingDelivery;
@@ -394,6 +395,52 @@ public class TestController {
 		{
 			System.out.println(o.getComment());
 		}
+		
+	}
+
+	@RequestMapping(value = "WarenTest20")
+	public void warenTest20() {	
+	
+		List<DeliveryList> deliveryLists = dataBaseService.getAllDeliveryLists();
+		
+		for (DeliveryList d : deliveryLists)
+		{
+			System.out.println(d.getName()+", "+d.getDeliveryListId()+", "+d.getComment()+", "+d.getDriver()+", "+d.getPassenger());
+			
+			for (OutgoingDelivery o : d.getOutgoingDeliveries())
+			{
+				System.out.println("["+o.getOutgoingDeliveryId()+"], "+o.getComment()+", "+o.getDate()+", "+o.getOrganisation().getName());
+			}
+			
+		}
+		
+	}
+	
+	@RequestMapping(value = "WarenTest21")
+	public void warenTest21() {	
+	
+		Set<OutgoingDelivery> deliveries = new HashSet<OutgoingDelivery>();
+		deliveries.add(dataBaseService.getOutgoingDeliveryById(1));
+		deliveries.add(dataBaseService.getOutgoingDeliveryById(2));
+		
+		DeliveryList deliveryList = new DeliveryList(0, dataBaseService.getPersonById(36),
+				"neue Lieferliste", new Date(System.currentTimeMillis()), "neues Kommentar", "Hansi", "Franzi", deliveries);
+		
+		dataBaseService.setDeliveryList(deliveryList);
+		
+	}
+	
+	@RequestMapping(value = "WarenTest22")
+	public void warenTest22() {	
+	
+		DeliveryList deliveryList = dataBaseService.getDeliveryListById(2);
+		
+		Set<OutgoingDelivery> deliveries = new HashSet<OutgoingDelivery>();
+		deliveries.add(dataBaseService.getOutgoingDeliveryById(2));
+		
+		deliveryList.setOutgoingDeliveries(deliveries);
+		
+		dataBaseService.setDeliveryList(deliveryList);
 		
 	}
 	

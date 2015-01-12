@@ -80,7 +80,7 @@ public class OutgoingArticle implements java.io.Serializable {
 		this.articleNr = articleNr;
 	}
 
-	@Column(name = "numberpu", precision = 17, scale = 17)
+	@Column(name = "numberpu", precision = 17, scale = 17, nullable = false)
 	public Double getNumberpu() {
 		return this.numberpu;
 	}
