@@ -767,6 +767,12 @@ public class MockedDataBaseService implements IDataBase {
 		return false;
 	}
 
+	@Override
+	public boolean deleteDeliveryListById(int id) throws HibernateException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 	
 	
