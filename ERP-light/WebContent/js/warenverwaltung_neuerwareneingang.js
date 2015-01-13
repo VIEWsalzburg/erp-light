@@ -47,6 +47,7 @@ function loadNewIncomingDelivery(id){
 		url : "../rest/secure/organisation/getOrganisationById/" + inc.organisationId
 	}).done(function(data) {
 		org = eval(data);
+		organisationId_global = org.id;
 		delivererString = org.name + ", " + org.country + ", " + org.zip + " " + org.city;
 		$("#tbx_deliverer").val(delivererString);
 	});
@@ -75,7 +76,7 @@ function loadNewIncomingDelivery(id){
 		+ "</td>" + "<td>" + description
 		+ "</td>" + "<td>" + numberpu
 		+ "</td>" + "<td>" + packagingUnit
-		+ "</td>" + "<td>" + weightpu
+		+ "</td>" + "<td>" + weightpu + " kg"
 		+ "</td>" + "<td>" + mdd
 		+ "</td>" + "<td>" + pricepu + " €"
 		+ "</td>" + "<td>" + sum + " €"
@@ -123,7 +124,7 @@ function createTableRow(count){
 	+ "</td>" + "<td>" + $("#tbx_description").val()
 	+ "</td>" + "<td>" + $("#tbx_numberofpackagingunits").val()
 	+ "</td>" + "<td>" + $("#tbx_packagingunit").val()
-	+ "</td>" + "<td>" + $("#tbx_weightpackagingunit").val()
+	+ "</td>" + "<td>" + $("#tbx_weightpackagingunit").val() + " kg"
 	+ "</td>" + "<td>" + $("#tbx_mdd").val()
 	+ "</td>" + "<td>" + $("#tbx_pricepackagingunit").val() + " €"
 	+ "</td>" + "<td>" + sum + " €"
@@ -134,37 +135,81 @@ function createTableRow(count){
 
 //TODO submit to depot
 $("#btn_submittodepot").click(function() {
+	var inc;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/incomingDelivery/getById/" + global_id
+	}).done(function(data) {
+			inc = eval(data);
+	});
+	
 	var newincomingdelivery = new Object();
 	
+	newincomingdelivery.incomingDeliveryId = inc.incomingDeliveryId;
+	newincomingdelivery.organisationId = organisationId_global;
+	newincomingdelivery.lastEditorId = "";
+	newincomingdelivery.deliveryNr = inc.deliveryNr;
+	newincomingdelivery.date = $("#tbx_date").val();
+	newincomingdelivery.comment = $("#tbx_comment").val();
 	
+	var allRows = [];
+	$("#newIncomingDeliveryTableBody tr").each(
+			function() {
+				var row = $(this).children().map(function(){return $(this).text();});
+				allRows.push(row);
+			}
+	);
 	
-	$.ajax({
-		headers : {
-			'Accept' : 'application/json',
-			'Content-Type' : 'application/json'
-		},
-		type : "POST",
-		url : "../rest/secure/incomingDelivery/set",
-		contentType: "application/json; charset=utf-8",
-	    dataType: "json",
-		data : JSON.stringify(newincomingdelivery)
-	}).done(function(data) {
-		if (data) {
-			location.href="warenverwaltung_wareneingang.html";
-			
-			if (data.success == true)
-			{
-				showAlertElement(1, data.message, 5000);
-			}
-			else
-			{
-				showAlertElement(2, data.message, 5000);
-			}
-		} 
-		else {
-			alert("Verbindungsproblem mit dem Server");
-		}
-	});
+	var incomingArticleDTOs = new Object();
+	for(var i=0; i<allRows.length; i++) {
+	    var row = allRows[i];
+	    for(var j=0; j<row.length; j++) {
+	        //alert("row[" + i + "][" + j + "] = " + row[j]);
+	    	
+	        incomingArticleDTOs[j].incomingArticleId = "";
+	        incomingArticleDTOs[j].articleNr = i;
+	        incomingArticleDTOs[j].numberpu = row[2];
+	        
+	        incomingArticleDTOs[j].articleDTO.articleId = "";
+	        incomingArticleDTOs[j].articleDTO.description = row[1];
+	        incomingArticleDTOs[j].articleDTO.packagingUnit = row[3];
+	        incomingArticleDTOs[j].articleDTO.weightpu = row[4];
+	        incomingArticleDTOs[j].articleDTO.mdd = row[5];
+	        incomingArticleDTOs[j].articleDTO.pricepu = row[6].substring(0, row[6].length-3);
+	    }
+	}
+	newincomingdelivery.incomingArticleDTOs = incomingArticleDTOs;
+	
+	alert(JSON.stringify(newincomingdelivery));
+	
+//	$.ajax({
+//		headers : {
+//			'Accept' : 'application/json',
+//			'Content-Type' : 'application/json'
+//		},
+//		type : "POST",
+//		url : "../rest/secure/incomingDelivery/set",
+//		contentType: "application/json; charset=utf-8",
+//	    dataType: "json",
+//		data : JSON.stringify(newincomingdelivery)
+//	}).done(function(data) {
+//		if (data) {
+//			location.href="warenverwaltung_wareneingang.html";
+//			
+//			if (data.success == true)
+//			{
+//				showAlertElement(1, data.message, 5000);
+//			}
+//			else
+//			{
+//				showAlertElement(2, data.message, 5000);
+//			}
+//		} 
+//		else {
+//			alert("Verbindungsproblem mit dem Server");
+//		}
+//	});
 });
 
 //saves an article to the table
@@ -186,6 +231,7 @@ $("#btn_savearticle").click(function() {
 });
 
 //save deliverer to textbox
+var organisationId_global;
 $("#btn_saveDeliverer").click(function() {
 	//get Id of checked radiobox of deliverer div
 	var id = $("#delivererDiv input[name='delivererRadio']:checked").val();
@@ -198,6 +244,7 @@ $("#btn_saveDeliverer").click(function() {
 	}).done(
 			function(data) {
 				var o = eval(data);
+				organisationId_global = o.id;
 				delivererString = o.name + ", " + o.country + ", " + o.zip + " " + o.city;
 	});
 	
