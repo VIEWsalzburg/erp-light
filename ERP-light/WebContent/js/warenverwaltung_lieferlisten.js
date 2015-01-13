@@ -1,7 +1,3 @@
-//append alert message to modal
-var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-5'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>";
-	$("#newAlertForm").append(pwdError);
-
 //TODO Get all delivery lists and load into table
 function loadTableContent(){
 			$.ajax({
@@ -12,7 +8,7 @@ function loadTableContent(){
 						var list = eval(data);
 
 						for (var e in list) {
-							var tableRow = "<tr>" + "<td>" + "1"
+							var tableRow = "<tr>" + "<td>" + "13"
 									+ "</td>" + "<td>" + "Lieferliste 1" 
 									+ "</td>" + "<td>" + "03.01.2014"
 									+ "</td>" + "<td>" + "Wärmestube, Barmherzigen Schwestern"

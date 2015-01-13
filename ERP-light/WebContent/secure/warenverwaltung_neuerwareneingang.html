@@ -55,11 +55,12 @@
 										<form class="form-inline">
   										<div class="form-group">
 											<label id="label_lieferant">Lieferant</label>
-											<span id="tbx_deliverer_popover" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
+											<span id="tbx_deliverer_popover" data-html="true" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
 												<input type="text" class="form-control" id="tbx_deliverer" placeholder="Lieferant" style="width: 330px;" disabled>
+												<input type="hidden" id="tbx_orgId">
 											</span>
 										</div>
-										<button type="button" class="btn btn-default" id="btn_addDeliverer" data-toggle="modal" data-target="#chooseDelivererModal"><span class="glyphicon glyphicon-plus"></span></button>				
+										<button type="button" class="btn btn-default" id="btn_addDeliverer" data-toggle="modal" data-target="#chooseDelivererModal"><span class="glyphicon glyphicon-search"></span></button>				
 										</form>
 									
 									</div>
@@ -203,7 +204,10 @@
 												  	<div class="form-group">
 														<label class="col-sm-4 control-label">Einzelgewicht der VE</label>
 														<div class="col-sm-4">
-															<input type="text" class="form-control" name="tbx_weightpackagingunit" id="tbx_weightpackagingunit" placeholder="Einzelgewicht der VE" maxlength="100">
+															<div class="input-group">
+																<input type="text" class="form-control" name="tbx_weightpackagingunit" id="tbx_weightpackagingunit" placeholder="Einzelgewicht der VE" maxlength="100">
+																<div class="input-group-addon">kg</div>
+															</div>
 														</div>
 													</div>
 												</div>		
@@ -212,7 +216,7 @@
 												  	<div class="form-group">
 														<label class="col-sm-4 control-label">Mindesthaltbarkeitsdatum</label>
 														<div class="col-sm-4">
-															<input type="text" class="form-control" name="tbx_mdd" id="tbx_mdd" placeholder="MHD" maxlength="100">
+															<input type="text" class="form-control" name="tbx_mdd" id="tbx_mdd" placeholder="dd.mm.yyyy" maxlength="100">
 														</div>
 													</div>
 												</div>		

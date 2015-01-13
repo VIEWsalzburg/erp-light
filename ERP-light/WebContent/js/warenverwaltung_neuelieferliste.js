@@ -74,8 +74,47 @@ function loadAllOutgoingDeliveries(){
 };
 
 //TODO Load delivery list with specific id
-function loadDeliveryList(){
+function loadDeliveryList(id){
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/deliveryList/getById/" + id
+	}).done(function(data) {
+			var out = eval(data);
+			out = out.outgoingDeliverieDTOs;
 	
+			for (var e in out) {
+				
+				//get organisation by id
+				var org;
+				$.ajax({
+					type : "POST",
+					async : false,
+					url : "../rest/secure/organisation/getOrganisationById/" + out[e].organisationId
+				}).done(function(data) {
+					
+					org = eval(data);
+				});
+				
+				//get articles
+				var articleString = "";
+				var article = out[e].outgoingArticleDTOs;
+				for(var i=0; i < out[e].outgoingArticleDTOs.length; i++){
+					articleString = articleString + article[i].articleDTO.description;
+					
+					if(i < out[e].outgoingArticleDTOs.length - 1){
+						articleString = articleString + ", ";
+					}
+				}
+				
+				var tableRow = "<tr id='"+ out[e].outgoingDeliveryId +"'>" + "<td>" + out[e].outgoingDeliveryId
+						+ "</td>" + "<td class='receiver'>" + org.name
+						+ "</td>" + "<td class='article'>" + articleString
+						+ "</td>" + "<td class='comment'>" + out[e].comment
+						+ "</td>" + "</tr>";
+
+				$("#deliveryListTableBody").append(tableRow);
+			}
+	});
 }
 
 //load driver modal
@@ -95,24 +134,20 @@ $("#btn_saveDriver").click(function() {
 	else{
 		if(codriver == ""){
 			$("#tbx_driver").val("F: " + driver);
-			$("#tbx_driver").attr("title", "F: " + driver);
+			$("#tbx_driver_hidden").val(driver);
 		}
 		else if(driver == ""){
 			$("#tbx_driver").val("B: " + codriver);
-			$("#tbx_driver").attr("title", "B: " + codriver);
+			$("#tbx_codriver_hidden").val(codriver);
 		}
 		else{
 			$("#tbx_driver").val("F: " + driver + ", " + "B: " + codriver);
-			$("#tbx_driver").attr("title", "F: " + driver + ", " + "B: " + codriver);
+			$("#tbx_driver_hidden").val(driver);
+			$("#tbx_codriver_hidden").val(codriver);
 		}
 	}
 	$("#tbx_driver_popover").attr("data-content", $("#tbx_driver").val());
 	$('#chooseDriverModal').modal('hide');
-});
-
-$("#tbx_driver").hover(function() {
-	//alert("test");	
-	//$("#tbx_driver").removeAttr("disabled");
 });
 
 //add outgoing delivery to delivery list
@@ -133,9 +168,105 @@ $("#btn_removefromdeliverylist").click(function() {
 	$(thisRow).removeClass("highlight");
 });
 
-//TODO save delivery list
+//save delivery list
+$(document).ready(function() {
 $("#btn_savedeliverylist").click(function() {
+	var driver = $('#tbx_driver_hidden').val();
+	var codriver = $("#tbx_codriver_hidden").val();
+	var date = $('#tbx_date').val();
+	var comment = $('#tbx_comment').val();
+					
+	// check if all Fields are filled
+	if ( (driver=="") || (date=="") || (comment=="") )
+	{
+		showAlertElement(2, "Leere Felder vorhanden!", 5000);
+		return;
+	}
 	
+	// check date for validity
+	var regEx = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/;
+	var dateArray = date.match(regEx);
+	
+	if (dateArray == null)
+	{
+		showAlertElement(2, "Falsches Datumsformat!", 5000);
+		return;
+	}
+	
+	//dispositions in delivery list table
+	var dispositions = [];
+	// get all articles in the new disposition
+	$('#deliveryListTableBody tr').each(function(){
+		var rowData = $(this).children('td').map(function(){return $(this).text();});
+		dispositions.push(rowData);
+	});
+	
+	if (dispositions.length == 0)
+	{
+		showAlertElement(2, "Keine Disposition verfügbar!", 5000);
+		return;
+	}
+	
+	var deliveryList = new Object();
+	deliveryList.deliveryListId = 0;
+	deliveryList.lastEditorId = 0;
+	deliveryList.name = comment;
+	deliveryList.date = date;
+	deliveryList.comment = comment;
+	deliveryList.driver = driver;
+	deliveryList.passenger = codriver;
+	
+	var outgoingDeliverieDTOs = [];
+	for (e in dispositions)
+	{
+		// current article of the mapped article array from the disposition
+		var disp = dispositions[e];
+		
+		var out;
+		$.ajax({
+			type : "POST",
+			async : false,
+			url : "../rest/secure/outgoingDelivery/getById/" + disp[0]
+		}).done(function(data) {
+					out = eval(data);
+		});
+		outgoingDeliverieDTOs.push(out);
+	}
+	
+	// insert outgoing deliveries array in the delivery list
+	deliveryList.outgoingDeliverieDTOs = outgoingDeliverieDTOs;
+	
+	$.ajax({
+		headers : {
+			'Accept' : 'application/json',
+			'Content-Type' : 'application/json'
+		},
+		type : "POST",
+		url : "../rest/secure/deliveryList/set",
+		contentType: "application/json; charset=utf-8",
+	    dataType: "json",
+		data : JSON.stringify(deliveryList)
+	}).done(function(data) {
+		if (data) {
+			
+			if (data.success == true)
+			{
+				showAlertElement(1, data.message, 5000);
+				
+				// return to delivery list overview
+				location.href="warenverwaltung_lieferlisten.html";
+			}
+			else
+			{
+				showAlertElement(2, data.message, 5000);
+			}
+			
+		} else {
+			alert("Verbindungsproblem mit dem Server");
+		}
+		
+	});
+});
 });
 
 //move marked row one row upwards
