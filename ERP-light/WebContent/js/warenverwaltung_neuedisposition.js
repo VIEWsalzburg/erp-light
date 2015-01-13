@@ -222,18 +222,39 @@ $("#btn_addtodisposition").click(function() {
 	var packagingunits_depot = $(thisRow).find(".article_packagingunits").html().trim();
 	var packagingunits_tbx = $("#tbx_packagingunit").val().trim();
 	
+	packagingunits_depot = Math.round(packagingunits_depot * 100) / 100;
+	packagingunits_tbx = Math.round(packagingunits_tbx * 100) / 100;
+	
+	if(isNaN(packagingunits_tbx) == true){
+		$("#tbx_packagingunit").val("");
+		return false;
+	}
+	
 	var article_description = $(thisRow).find(".article_description").html();
 	var article_packagingunits = parseFloat($(thisRow).find(".article_packagingunits").html()) - parseFloat(packagingunits_tbx);
+	article_packagingunits = Math.round(article_packagingunits * 100) / 100;
+	
 	var article_packaging_unit = $(thisRow).find(".article_packaging_unit").html();
 	var article_mdd = $(thisRow).find(".article_mdd").html();
 	
 	if($("#tbx_packagingunit").val() == ""){
 		packagingunits_tbx = $(thisRow).find(".article_packagingunits").html();
+		packagingunits_tbx = Math.round(packagingunits_tbx * 100) / 100;
 		var newDispositionRow = createTableRow(id, 0, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
 		
+		if($("#" + id + "_new").length != 0){
+			var currRow = $("#" + id + "_new").closest('tr');
+			article_packagingunits = $(currRow).find(".article_packagingunits").html();
+			article_packagingunits = Math.round(article_packagingunits * 100) / 100;
+			
+			var sum = Math.round((packagingunits_tbx + article_packagingunits) * 100) / 100;
+			$(currRow).find(".article_packagingunits").html(sum);
+		}
+		else{
+			$("#rightDepotTableBody").append(newDispositionRow);
+		}
 		$(thisRow).removeClass("highlight");
 		$(thisRow).remove();
-		$("#rightDepotTableBody").append(newDispositionRow);
 	}
 	else{
 		if(parseFloat(packagingunits_tbx) > parseFloat(packagingunits_depot)){
@@ -246,15 +267,20 @@ $("#btn_addtodisposition").click(function() {
 				$('#btn_addtodisposition').prop('disabled', true);
 			}
 			
-			$(thisRow).find(".article_packagingunits").html(parseFloat(article_packagingunits));
+			$(thisRow).find(".article_packagingunits").html(article_packagingunits);
 			
 			if($("#" + id + "_new").length != 0){
 				var thisRow = $("#" + id + "_new").closest('tr');
 				article_packagingunits = $(thisRow).find(".article_packagingunits").html();
-				$(thisRow).find(".article_packagingunits").html(parseFloat(packagingunits_tbx) + parseFloat(article_packagingunits));
+				article_packagingunits = Math.round(article_packagingunits * 100) / 100;
+				
+				var sum = Math.round((packagingunits_tbx + article_packagingunits) * 100) / 100;
+				$(thisRow).find(".article_packagingunits").html(sum);
+				return;
 			}
-			else{
-				var newDispositionRow = createTableRow(id, 0, article_description, parseFloat(packagingunits_tbx), article_packaging_unit, article_mdd);
+			else 
+			{
+				var newDispositionRow = createTableRow(id, 0, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
 				$("#rightDepotTableBody").append(newDispositionRow);
 			}
 		}
@@ -269,18 +295,39 @@ $("#btn_removefromdisposition").click(function() {
 	var packagingunits_depot = $(thisRow).find(".article_packagingunits").html().trim();
 	var packagingunits_tbx = $("#tbx_packagingunit").val().trim();
 	
+	packagingunits_depot = Math.round(packagingunits_depot * 100) / 100;
+	packagingunits_tbx = Math.round(packagingunits_tbx * 100) / 100;
+	
+	if(isNaN(packagingunits_tbx) == true){
+		$("#tbx_packagingunit").val("");
+		return false;
+	}
+	
 	var article_description = $(thisRow).find(".article_description").html();
 	var article_packagingunits = parseFloat($(thisRow).find(".article_packagingunits").html()) - parseFloat(packagingunits_tbx);
+	article_packagingunits = Math.round(article_packagingunits * 100) / 100;
+	
 	var article_packaging_unit = $(thisRow).find(".article_packaging_unit").html();
 	var article_mdd = $(thisRow).find(".article_mdd").html();
 	
 	if($("#tbx_packagingunit").val() == ""){
 		packagingunits_tbx = $(thisRow).find(".article_packagingunits").html();
+		packagingunits_tbx = Math.round(packagingunits_tbx * 100) / 100;
 		var newDepotRow = createTableRow(id, 1, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
 		
+		if($("#" + id).length != 0){
+			var currRow = $("#" + id).closest('tr');
+			article_packagingunits = $(currRow).find(".article_packagingunits").html();
+			article_packagingunits = Math.round(article_packagingunits * 100) / 100;
+			
+			var sum = Math.round((packagingunits_tbx + article_packagingunits) * 100) / 100;
+			$(currRow).find(".article_packagingunits").html(sum);
+		}
+		else{
+			$("#leftDepotTableBody").append(newDepotRow);
+		}
 		$(thisRow).removeClass("highlight");
 		$(thisRow).remove();
-		$("#leftDepotTableBody").append(newDepotRow);
 	}
 	else{
 		if(parseFloat(packagingunits_tbx) > parseFloat(packagingunits_depot)){
@@ -293,15 +340,19 @@ $("#btn_removefromdisposition").click(function() {
 				$('#btn_removefromdisposition').prop('disabled', true);
 			}
 			
-			$(thisRow).find(".article_packagingunits").html(parseFloat(article_packagingunits));
+			$(thisRow).find(".article_packagingunits").html(article_packagingunits);
 			
 			if($("#" + id).length != 0){
 				var thisRow = $("#" + id).closest('tr');
 				article_packagingunits = $(thisRow).find(".article_packagingunits").html();
-				$(thisRow).find(".article_packagingunits").html(parseFloat(packagingunits_tbx) + parseFloat(article_packagingunits));
+				article_packagingunits = Math.round(article_packagingunits * 100) / 100;
+				
+				var sum = Math.round((packagingunits_tbx + article_packagingunits) * 100) / 100;
+				$(thisRow).find(".article_packagingunits").html(sum);
+				return;
 			}
 			else{
-				var newDepotRow = createTableRow(id, 1, article_description, parseFloat(packagingunits_tbx), article_packaging_unit, article_mdd);
+				var newDepotRow = createTableRow(id, 1, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
 				$("#leftDepotTableBody").append(newDepotRow);
 			}
 		}
@@ -383,7 +434,8 @@ $('#TableHeadLeftDepot').on('click','tbody tr', function(event) {
 			tableData = $(this).children("td").map(function() {
 				return $(this).text();
 			}).get();
-
+			
+			$("*").removeClass("highlight");	
 			$(this).addClass('highlight').siblings().removeClass('highlight');
 
 			// only when user has admin rights
@@ -401,7 +453,8 @@ $('#TableHeadRightDepot').on('click','tbody tr', function(event) {
 	tableData = $(this).children("td").map(function() {
 		return $(this).text();
 	}).get();
-
+	
+	$("*").removeClass("highlight");
 	$(this).addClass('highlight').siblings().removeClass('highlight');
 
 	// only when user has admin rights
