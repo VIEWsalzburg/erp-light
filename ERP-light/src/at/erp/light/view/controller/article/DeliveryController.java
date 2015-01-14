@@ -1,6 +1,7 @@
 package at.erp.light.view.controller.article;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -100,10 +101,24 @@ public class DeliveryController {
 	@RequestMapping(value = "secure/incomingDelivery/set")
 	public ControllerMessage setIncomingDelivery(@RequestBody IncomingDeliveryDTO dto, HttpServletRequest request) {
 		
+		// if Id != 0 => delete existing
+		if (dto.getIncomingDeliveryId() != 0)
+		{
+			try {
+				dataBaseService.deleteIncomingDeliveryById(dto.getIncomingDeliveryId());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ControllerMessage(false, "Speichern nicht erfolgreich!");
+			}
+		}
+		
+		// and save new one
 		try {
 			int lastEditorId = (int) request.getSession().getAttribute("id");
 			
 			IncomingDelivery entity = IncomingDeliveryMapper.mapToEntity(dto);
+			// set current Times for updateTimestamp
+			entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 			
 			// set Organisation and LastEditor for the entity
 			entity.setOrganisation(dataBaseService.getOrganisationById(dto.getOrganisationId()));
@@ -119,6 +134,7 @@ public class DeliveryController {
 			return new ControllerMessage(false, "Speichern nicht erfolgreich!");
 		}
 		
+		
 	}
 	
 	/**
@@ -133,7 +149,7 @@ public class DeliveryController {
 			dataBaseService.deleteIncomingDeliveryById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ControllerMessage(true, "Löschen nicht erfolgreich: " + e.getMessage());
+			return new ControllerMessage(false, "Löschen nicht erfolgreich: " + e.getMessage());
 		}
 		
 		return new ControllerMessage(true, "Löschen erfolgreich");
@@ -205,8 +221,21 @@ public class DeliveryController {
 	@RequestMapping(value = "secure/outgoingDelivery/set")
 	public ControllerMessage setOutgoingDelivery(@RequestBody OutgoingDeliveryDTO dto, HttpServletRequest request) {
 		
+		if (dto.getOutgoingDeliveryId() != 0)
+		{
+			try {
+				dataBaseService.deleteOutgoingDeliveryById(dto.getOutgoingDeliveryId());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ControllerMessage(false, "Speichern nicht erfolgreich!");
+			}
+		}
+		
+		dto.setOutgoingDeliveryId(0);
 		dto.setLastEditorId(dataBaseService.getPersonById((int) request.getSession().getAttribute("id")).getPersonId());
 		OutgoingDelivery entity = OutgoingDeliveryMapper.mapToEntity(dto, dataBaseService);
+		// set current Times for updateTimestamp
+		entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 		
 		try {
 			dataBaseService.setNewOutgoingDelivery(entity);
@@ -227,16 +256,15 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/deleteById/{id}")
 	public ControllerMessage deleteOutgoingDeliveryById(@PathVariable int id) {
-		throw new NotImplementedException();
 
-//		try {
-//			//dataBaseService.delete
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return new ControllerMessage(true, "Löschen nicht erfolgreich: " + e.getMessage());
-//		}
+		try {
+			dataBaseService.deleteOutgoingDeliveryById(id);
+			return new ControllerMessage(true, "Löschen erfolgreich!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ControllerMessage(false, "Löschen nicht erfolgreich: " + e.getMessage());
+		}
 		
-//		return new ControllerMessage(true, "Löschen erfolgreich");
 	}
 	
 	/***** [END] outgoing Deliveries *****/
@@ -334,6 +362,7 @@ public class DeliveryController {
 		try {
 			dto.setLastEditorId((int) request.getSession().getAttribute("id"));
 			DeliveryList entity = DeliveryListMapper.mapToEntity(dto, dataBaseService);
+			entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 			
 			dataBaseService.setDeliveryList(entity);
 			

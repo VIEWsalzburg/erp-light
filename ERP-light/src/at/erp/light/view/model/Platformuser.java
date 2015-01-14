@@ -71,7 +71,7 @@ public class Platformuser implements java.io.Serializable {
 		this.person = person;
 	}
 
-	@Column(name = "password", nullable = false, length = 50)
+	@Column(name = "password", nullable = false, length = 100)
 	public String getPassword() {
 		return this.password;
 	}

@@ -45,8 +45,9 @@ public class HashGenerator {
 			
 			String reHashed = new String(digest);
 			
-			// compare hash in DB
-			if (reHashed.equals(hashedCompare))
+			//Comparing Hex values because encoded string comparison isn't reliable
+			
+			if (toHexString(reHashed.getBytes()).equals(toHexString(hashedCompare.getBytes())))
 				return true;
 			else
 				return false;

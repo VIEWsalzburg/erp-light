@@ -424,7 +424,7 @@ public class TestController {
 		deliveries.add(dataBaseService.getOutgoingDeliveryById(2));
 		
 		DeliveryList deliveryList = new DeliveryList(0, dataBaseService.getPersonById(36),
-				"neue Lieferliste", new Date(System.currentTimeMillis()), "neues Kommentar", "Hansi", "Franzi", deliveries);
+				"neue Lieferliste", new Date(System.currentTimeMillis()), "neues Kommentar", "Hansi", "Franzi", deliveries, new Date(System.currentTimeMillis()));
 		
 		dataBaseService.setDeliveryList(deliveryList);
 		

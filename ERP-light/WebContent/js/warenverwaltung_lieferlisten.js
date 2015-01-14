@@ -154,7 +154,7 @@ $("#btn_details").click(function() {
 	
 	//load last editor and updateTimeStamp
 	$("#label_lastEditor_details").text(loadContactPerson(list.lastEditorId));
-	$("#label_updateTimestamp_details").text("not working"); //TODO updateTimeStamp missing
+	$("#label_updateTimestamp_details").text(list.updateTimestamp);
 });
 
 //search filter

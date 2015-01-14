@@ -34,6 +34,7 @@ public class DeliveryList implements java.io.Serializable {
 	private String comment;
 	private String driver;
 	private String passenger;
+	private Date updateTimestamp;
 	private Set<OutgoingDelivery> outgoingDeliveries = new HashSet<OutgoingDelivery>(
 			0);
 
@@ -41,7 +42,7 @@ public class DeliveryList implements java.io.Serializable {
 	}
 
 	public DeliveryList(int deliveryListId, Person lastEditor, String name,
-			Date date, String comment, String driver, String passenger) {
+			Date date, String comment, String driver, String passenger, Date updateTimestamp) {
 		this.deliveryListId = deliveryListId;
 		this.lastEditor = lastEditor;
 		this.name = name;
@@ -49,11 +50,12 @@ public class DeliveryList implements java.io.Serializable {
 		this.comment = comment;
 		this.driver = driver;
 		this.passenger = passenger;
+		this.updateTimestamp = updateTimestamp;
 	}
 
 	public DeliveryList(int deliveryListId, Person lastEditor, String name,
 			Date date, String comment, String driver, String passenger,
-			Set<OutgoingDelivery> outgoingDeliveries) {
+			Set<OutgoingDelivery> outgoingDeliveries, Date updateTimestamp) {
 		this.deliveryListId = deliveryListId;
 		this.lastEditor = lastEditor;
 		this.name = name;
@@ -62,6 +64,7 @@ public class DeliveryList implements java.io.Serializable {
 		this.driver = driver;
 		this.passenger = passenger;
 		this.outgoingDeliveries = outgoingDeliveries;
+		this.updateTimestamp = updateTimestamp;
 	}
 
 	@Id
@@ -112,6 +115,16 @@ public class DeliveryList implements java.io.Serializable {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "update_timestamp", nullable = false, length = 13)
+	public Date getUpdateTimestamp() {
+		return this.updateTimestamp;
+	}
+
+	public void setUpdateTimestamp(Date updateTimestamp) {
+		this.updateTimestamp = updateTimestamp;
 	}
 
 	@Column(name = "driver", nullable = false, length = 100)

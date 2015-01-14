@@ -4,6 +4,19 @@ var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-5'> <div class='aler
 
 //Get all outgoing deliveries and load into table
 function loadTableContent(){
+	
+			// get all organisations
+			var organisations;
+			$.ajax({
+				type : "POST",
+				async : false,
+				url : "../rest/secure/organisation/getAllOrganisations"
+			}).done(function(data) {
+				organisations = eval(data);
+			});
+	
+			
+			
 			$.ajax({
 				type : "POST",
 				url : "../rest/secure/outgoingDelivery/getAll"
@@ -13,28 +26,29 @@ function loadTableContent(){
 						for (var e in out) {
 							
 							//get organisation by id
-							var org;
-							$.ajax({
-								type : "POST",
-								async : false,
-								url : "../rest/secure/organisation/getOrganisationById/" + out[e].organisationId
-							}).done(function(data) {
-								
-								org = eval(data);
-							});
+							var org = null;
 							
-							//get articles
+							for (i in organisations)
+							{
+								if (organisations[i].id == out[e].organisationId)
+								{
+									org = organisations[i];
+								}
+							}
+							
+							var articles = out[e].outgoingArticleDTOs;
+							// sort articles according to their articleNr
+							articles.sort( function(a, b) { 
+								return (a.articleNr - b.articleNr);
+							} );
+							
+							//get article names
 							var articleString = "";
-							var article = out[e].outgoingArticleDTOs;
-							for(var i=0; i < article.length; i++){
-								for(var j=0; j < article.length; j++){
-									if(article[j].articleNr == i){
-										articleString = articleString + article[j].articleDTO.description;
-										
-										if(i < article.length - 1){
-											articleString = articleString + ", ";
-										}
-									}
+							for(var i=0; i < articles.length; i++){
+								articleString = articleString + articles[i].articleDTO.description;
+								
+								if(i < articles.length - 1){
+									articleString = articleString + ", ";
 								}
 							}
 							
@@ -194,32 +208,39 @@ $("#btn_details").click(function() {
 	
 	//load last editor and updateTimeStamp
 	$("#label_lastEditor_details").text(loadContactPerson(out.lastEditorId));
-	$("#label_updateTimestamp_details").text("not working"); //TODO updateTimeStamp missing
+	$("#label_updateTimestamp_details").text(out.updateTimestamp);
+	
+
+	
+	var articles = out.outgoingArticleDTOs;
+	// sort articles according to their articleNr
+	articles.sort( function(a, b) { 
+		return (a.articleNr - b.articleNr);
+	} );
 	
 	//load articles
 	var articleString = "";
-	var article = out.outgoingArticleDTOs;
 	for(var i=0; i < out.outgoingArticleDTOs.length; i++){
-		articleString = article[i].articleDTO.description;
+		articleString = articles[i].articleDTO.description;
 		createAndAppendArticleTemplate("Beschreibung", articleString);
 		
-		articleString = article[i].numberpu;
+		articleString = articles[i].numberpu;
 		createAndAppendArticleTemplate("Anzahl der VE", articleString);
 		
-		articleString = article[i].articleDTO.packagingUnit;
+		articleString = articles[i].articleDTO.packagingUnit;
 		createAndAppendArticleTemplate("VE", articleString);
 		
-		articleString = article[i].articleDTO.weightpu;
+		articleString = articles[i].articleDTO.weightpu; + " kg";
 		createAndAppendArticleTemplate("Einzelgewicht der VE", articleString);
 		
-		articleString = article[i].articleDTO.mdd;
+		articleString = articles[i].articleDTO.mdd;
 		createAndAppendArticleTemplate("Mindesthaltbarkeitsdatum", articleString);
 		
-		articleString = article[i].articleDTO.pricepu + " €";
+		articleString = articles[i].articleDTO.pricepu + " €";
 		createAndAppendArticleTemplate("Einzelpreis der VE", articleString);
 		
-		var pricepu = parseFloat(article[i].articleDTO.pricepu);
-		var sum = pricepu * article[i].numberpu;
+		var pricepu = parseFloat(articles[i].articleDTO.pricepu);
+		var sum = Math.round((pricepu * articles[i].numberpu)*100)/100;
 		createAndAppendArticleTemplate("Gesamtpreis", sum + " €");
 		
 		if(i < out.outgoingArticleDTOs.length-1){
