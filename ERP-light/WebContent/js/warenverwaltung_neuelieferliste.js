@@ -1,3 +1,6 @@
+var modalErrorDriver = "<div id='modalErrorDriverAlert'> <div class='col-sm-5'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Kein Fahrer angegeben!</div> </div>  </div>";
+$("#newAlertFormDriver").append(modalErrorDriver);
+
 //load page in specific mode
 var global_id;
 $(document).ready(function() {
@@ -73,15 +76,30 @@ function loadAllOutgoingDeliveries(){
 	});
 };
 
-//TODO Load delivery list with specific id
+//Load delivery list with specific id
 function loadDeliveryList(id){
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/deliveryList/getById/" + id
 	}).done(function(data) {
-			var out = eval(data);
-			out = out.outgoingDeliverieDTOs;
+			var list = eval(data);
+			var out = list.outgoingDeliverieDTOs;
 	
+			//load textboxes
+			$("#tbx_driver_hidden").val(list.driver);
+			$("#tbx_codriver_hidden").val(list.passenger);
+			$('#tbx_driver').val("F: " + list.driver + ", " + "B: " + list.passenger);
+			
+			if($("#tbx_codriver_hidden").val() == ""){
+				$("#tbx_driver_popover").attr("data-content", "Fahrer: " + $("#tbx_driver_hidden").val());
+			}
+			else{
+				$("#tbx_driver_popover").attr("data-content", "Fahrer: " + $("#tbx_driver_hidden").val() + "<br>" + "Beifahrer: " + $("#tbx_codriver_hidden").val());
+			}
+			
+			$('#tbx_date').val(list.date);
+			$('#tbx_comment').val(list.name);
+			
 			for (var e in out) {
 				
 				//get organisation by id
@@ -121,6 +139,8 @@ function loadDeliveryList(id){
 $("#btn_addDriver").click(function() {
 	$("#tbx_driver_modal").val("");
 	$("#tbx_codriver_modal").val("");
+	
+	$("#newAlertFormDriver").hide();
 });
 
 //save driver to textbox
@@ -129,7 +149,8 @@ $("#btn_saveDriver").click(function() {
 	var codriver = $("#tbx_codriver_modal").val();
 	
 	if(driver == "" && codriver == ""){
-		$('#chooseDriverModal').modal('hide');
+		$("#newAlertFormDriver").show();
+		return;
 	}
 	else{
 		if(codriver == ""){
@@ -146,7 +167,14 @@ $("#btn_saveDriver").click(function() {
 			$("#tbx_codriver_hidden").val(codriver);
 		}
 	}
-	$("#tbx_driver_popover").attr("data-content", $("#tbx_driver").val());
+	
+	if($("#tbx_codriver_hidden").val() == ""){
+		$("#tbx_driver_popover").attr("data-content", "Fahrer: " + $("#tbx_driver_hidden").val());
+	}
+	else{
+		$("#tbx_driver_popover").attr("data-content", "Fahrer: " + $("#tbx_driver_hidden").val() + "<br>" + "Beifahrer: " + $("#tbx_codriver_hidden").val());
+	}
+	
 	$('#chooseDriverModal').modal('hide');
 });
 
@@ -323,6 +351,10 @@ $('#TableHeadOutgoingDelivery').on('click','tbody tr', function(event) {
 				return $(this).text();
 			}).get();
 
+			$('tr.highlight').removeClass('highlight');
+			$(this).addClass('highlight');
+			
+			$("*").removeClass("highlight");
 			$(this).addClass('highlight').siblings().removeClass('highlight');
 
 			// only when user has admin rights
@@ -341,6 +373,10 @@ $('#TableHeadDeliveryList').on('click','tbody tr', function(event) {
 		return $(this).text();
 	}).get();
 
+	$('tr.highlight').removeClass('highlight');
+	$(this).addClass('highlight');
+	
+	$("*").removeClass("highlight");
 	$(this).addClass('highlight').siblings().removeClass('highlight');
 
 	// only when user has admin rights

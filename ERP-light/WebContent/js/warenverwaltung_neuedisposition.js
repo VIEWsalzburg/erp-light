@@ -1,3 +1,7 @@
+//append alert message to modal
+var modalError = "<div id='modalErrorReceiverAlert'> <div class='col-sm-5'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Kein Empfänger ausgewählt!</div> </div>  </div>";
+$("#newAlertFormReceiver").append(modalError);
+
 //load page in specific mode
 var global_id;
 $(document).ready(function() {
@@ -48,7 +52,6 @@ function loadAllAvailableArticlesInDepot(){
 	}
 	
 	for (var i in availArticles) {
-		
 		var article = availArticles[i].articleDTO;
 		var articleId = article.articleId;
 		var description = article.description;
@@ -71,7 +74,7 @@ function loadAllAvailableArticlesInDepot(){
 }
 
 
-//TODO load table content
+//load table content
 function loadTableContent(id){
 	var out;
 	$.ajax({
@@ -211,6 +214,7 @@ function createTableRow(id, mode, article_description, article_packagingunits, a
 $("#btn_addReceiver").click(function() {
 	$(".boxElement_receiver").remove();
 	$("#filter_modal").val("");
+	$("#newAlertFormReceiver").hide();
 	loadAllReceivers();
 });
 
@@ -219,6 +223,12 @@ $("#btn_addReceiver").click(function() {
 $("#btn_saveReceiver").click(function() {
 	//get Id of checked radiobox of receiver div
 	var id = $("#receiverDiv input[name='receiverRadio']:checked").val();
+	
+	//check if a checkbox is selected
+	if(id == null){
+		$("#newAlertFormReceiver").show();
+		return;
+	}
 	
 	var receiverString;
 	var o;

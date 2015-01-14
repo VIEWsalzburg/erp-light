@@ -61,8 +61,8 @@
 										<form class="form-inline">
 	  										<div class="form-group">
 												<label id="label_drivercodriver">Fahrer/Beifahrer</label>
-												<span id="tbx_driver_popover" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
-													<input type="text" class="form-control" id="tbx_driver" placeholder="Fahrer" style="width: 275px;" disabled>
+												<span id="tbx_driver_popover" data-container="body" data-html="true" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
+													<input type="text" class="form-control" id="tbx_driver" placeholder="Fahrer" style="width: 276px;" disabled>
 													<input type="hidden" id="tbx_driver_hidden">
 													<input type="hidden" id="tbx_codriver_hidden">
 												</span>
@@ -206,6 +206,7 @@
 
 									</div>
 									<div class="modal-footer">
+										<div id="newAlertFormDriver"></div>
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">Abbrechen</button>
 										<button type="button" id="btn_saveDriver" class="btn btn-primary">

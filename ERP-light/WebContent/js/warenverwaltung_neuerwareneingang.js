@@ -1,6 +1,8 @@
 //append alert message to modal
 var modalError = "<div id='modalErrorAlert'> <div class='col-sm-7'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>";
-	$("#newAlertForm").append(modalError);
+$("#newAlertForm").append(modalError);
+var modalErrorDeliverer = "<div id='modalErrorDelivererAlert'> <div class='col-sm-5'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Kein Lieferant ausgewählt!</div> </div>  </div>";
+$("#newAlertFormDeliverer").append(modalErrorDeliverer);
 
 //load page in specific mode
 var global_id;
@@ -65,31 +67,35 @@ function loadNewIncomingDelivery(id){
 	$("#tbx_date").val(inc.date);
 	$("#tbx_comment").val(inc.comment);
 					
-	//get articles
+	//get articles, sort them by the articleId and append them to the table
 	var article = inc.incomingArticleDTOs;
 	for(var i=0; i < article.length; i++){
-		var articleId = article[i].articleDTO.articleId;
-		var description = article[i].articleDTO.description;
-		var numberpu = article[i].numberpu;
-		var packagingUnit = article[i].articleDTO.packagingUnit;
-		var weightpu = article[i].articleDTO.weightpu;
-		var mdd = article[i].articleDTO.mdd;
-		var pricepu = parseFloat(article[i].articleDTO.pricepu);
-		
-		//calculate sum price
-		var sum = pricepu * article[i].numberpu;
-		
-		var tableRow = "<tr id='"+articleId+"'>" + "<td>" + articleId
-		+ "</td>" + "<td>" + description
-		+ "</td>" + "<td>" + numberpu
-		+ "</td>" + "<td>" + packagingUnit
-		+ "</td>" + "<td>" + weightpu + " kg"
-		+ "</td>" + "<td>" + mdd
-		+ "</td>" + "<td>" + pricepu + " €"
-		+ "</td>" + "<td>" + sum + " €"
-		+ "</td>" + "</tr>";
-		
-		$("#newIncomingDeliveryTableBody").append(tableRow);
+		for(var j=0; j < article.length; j++){
+			if(article[j].articleNr == i){
+				var articleId = article[j].articleDTO.articleId;
+				var description = article[j].articleDTO.description;
+				var numberpu = article[j].numberpu;
+				var packagingUnit = article[j].articleDTO.packagingUnit;
+				var weightpu = article[j].articleDTO.weightpu;
+				var mdd = article[j].articleDTO.mdd;
+				var pricepu = parseFloat(article[j].articleDTO.pricepu);
+				
+				//calculate sum price
+				var sum = pricepu * article[j].numberpu;
+				
+				var tableRow = "<tr id='"+articleId+"'>" + "<td>" + articleId
+				+ "</td>" + "<td>" + description
+				+ "</td>" + "<td>" + numberpu
+				+ "</td>" + "<td>" + packagingUnit
+				+ "</td>" + "<td>" + weightpu + " kg"
+				+ "</td>" + "<td>" + mdd
+				+ "</td>" + "<td>" + pricepu + " €"
+				+ "</td>" + "<td>" + sum + " €"
+				+ "</td>" + "</tr>";
+				
+				$("#newIncomingDeliveryTableBody").append(tableRow);
+			}
+		}
 	}
 }
 
@@ -120,6 +126,7 @@ function loadAllDeliverers(id) {
 $("#btn_addDeliverer").click(function() {
 	$(".boxElement_deliverer").remove();
 	$("#filter_modal").val("");
+	$("#newAlertFormDeliverer").hide();
 	loadAllDeliverers();
 });
 
@@ -311,6 +318,12 @@ $("#btn_savearticle").click(function() {
 $("#btn_saveDeliverer").click(function() {
 	//get Id of checked radiobox of deliverer div
 	var id = $("#delivererDiv input[name='delivererRadio']:checked").val();
+	
+	//check if a checkbox is selected
+	if(id == null){
+		$("#newAlertFormDeliverer").show();
+		return;
+	}
 	
 	var delivererString;
 	var o;

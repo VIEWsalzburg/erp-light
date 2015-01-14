@@ -1,4 +1,4 @@
-//TODO Get all delivery lists and load into table
+//Get all delivery lists and load into table
 function loadTableContent(){
 			$.ajax({
 				type : "POST",
@@ -6,14 +6,35 @@ function loadTableContent(){
 			}).done(
 					function(data) {
 						var list = eval(data);
-
+						var receiverString;
+						
 						for (var e in list) {
-							var tableRow = "<tr>" + "<td>" + "13"
-									+ "</td>" + "<td>" + "Lieferliste 1" 
-									+ "</td>" + "<td>" + "03.01.2014"
-									+ "</td>" + "<td>" + "Wärmestube, Barmherzigen Schwestern"
-									+ "</td>" + "<td>" + "Sepp Huber"
-									+ "</td>" + "<td>" + "Hans Meier"
+							
+							receiverString = "";
+							for(var i=0; i < list[e].outgoingDeliverieDTOs.length; i++){
+								
+								//get organisation by id
+								var org;
+								$.ajax({
+									type : "POST",
+									async : false,
+									url : "../rest/secure/organisation/getOrganisationById/" + list[e].outgoingDeliverieDTOs[i].organisationId
+								}).done(function(data) {
+									org = eval(data);
+									
+									receiverString = receiverString + org.name;
+									if(i < list[e].outgoingDeliverieDTOs.length - 1){
+										receiverString = receiverString + ", ";
+									}
+								});
+							}
+						
+							var tableRow = "<tr>" + "<td>" + list[e].deliveryListId
+									+ "</td>" + "<td>" + list[e].name
+									+ "</td>" + "<td>" + list[e].date
+									+ "</td>" + "<td>" + receiverString
+									+ "</td>" + "<td>" + list[e].driver
+									+ "</td>" + "<td>" + list[e].passenger
 									+ "</td>" + "</tr>";
 
 							$("#deliveryListTableBody").append(tableRow);
@@ -23,6 +44,11 @@ function loadTableContent(){
 
 //Get all delivery lists and load into table
 $(document).ready(loadTableContent());
+
+//init collapse
+$(function () {
+	$('.collapse').collapse()
+});
 
 //switch to new delivery list tab
 $("#btn_new").click(function() {
@@ -54,7 +80,7 @@ function loadContactPerson(id) {
 	return nameString;
 };
 
-//TODO load details modal
+//load details modal
 $("#btn_details").click(function() {
 	//remove container
 	$(".details").remove();
@@ -62,140 +88,74 @@ $("#btn_details").click(function() {
 	
 	var id = tableData[0];
 	
-	//get outgoing delivery by id
-	var out;
+	//get delivery list by id
+	var list;
 	$.ajax({
 		type : "POST",
 		async : false,
-		url : "../rest/secure/outgoingDelivery/getById/" + id
+		url : "../rest/secure/deliveryList/getById/" + id
 	}).done(function(data) {
-		out = eval(data);
-	});
-				
-	//get organisation by id
-	var org;
-	$.ajax({
-		type : "POST",
-		async : false,
-		url : "../rest/secure/organisation/getOrganisationById/" + out.organisationId
-	}).done(function(data) {
-		org = eval(data);
+		list = eval(data);
 	});
 	
-	$("#label_name_details").text(org.name);
-	$("#label_address_details").text(org.address);
-	$("#label_zip_details").text(org.zip);
-	$("#label_city_details").text(org.city);
-	$("#label_country_details").text(org.country);
+	$("#label_description_details").text(list.name);
+	$("#label_dateofdeliverylist_details").text(list.date);
 		
-	if(org.comment == ""){
-		$("#label_comment_details").text("-");
-	}
-	else{
-		$("#label_comment_details").text(org.comment);
-	}
-	
-	//load personIds
-	var contactPersonIds = org.personIds;
-	if(contactPersonIds.length == 0){
-		$("#label_personIds_details").text("-");
-	}
-	else{
-		var personString = "";
-			for (var j = 0; j < contactPersonIds.length; j++) {
-				loadContactPerson(contactPersonIds[j]);
-				
-				//load contact person name
-				personString = contactPerson.lastName + " " + contactPerson.firstName;
-				var template = "<div class='row details'><div class='col-md-6'><label>Name</label></div><div class='col-md-6'><label>" + personString + "</label></div></div>";
-				$("#person_container_details").append(template);
-				
-				//load contact person phone numbers
-				var phoneNumbers = contactPerson.telephones;
-				if(phoneNumbers.length == 0){
-					var template = "<div class='row details'><div class='col-md-6'><label>Telefonnummer</label></div><div class='col-md-6'><label>-</label></div></div>";
-					$("#person_container_details").append(template);
-				}
-				else{
-					var phoneString = phoneNumbers[0].telephone + " (" + phoneNumbers[0].type.toLowerCase() + ")";
-					var template = "<div class='row details'><div class='col-md-6'><label>Telefonnummer</label></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
-					$("#person_container_details").append(template);
-					
-					for (var k = 1; k < phoneNumbers.length; k++) {
-						phoneString = phoneNumbers[k].telephone + " (" + phoneNumbers[k].type.toLowerCase() + ")";
-						var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
-						$("#person_container_details").append(template);
-					}
-				}
-				
-				//load contact person emails
-				var emails = contactPerson.emails;
-				if(emails.length == 0){
-					var template = "<div class='row details'><div class='col-md-6'><label>Email-Adresse</label></div><div class='col-md-6'><label>-</label></div></div>";
-					$("#person_container_details").append(template);
-				}
-				else{
-					var emailString = emails[0].mail + " (" + emails[0].type.toLowerCase() + ")";
-					var template = "<div class='row details'><div class='col-md-6'><label>Email-Adresse</label></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
-					$("#person_container_details").append(template);
-					
-					for (var l = 1; l < emails.length; l++) {
-						emailString = emails[l].mail + " (" + emails[l].type.toLowerCase() + ")";
-						var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
-						$("#person_container_details").append(template);
-					}
-				}
-				
-				//append divider
-				$("#person_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+	for (var i = 0; i < list.outgoingDeliverieDTOs.length; i++) {
+		//get organisation by id
+		var org;
+		$.ajax({
+			type : "POST",
+			async : false,
+			url : "../rest/secure/organisation/getOrganisationById/" + list.outgoingDeliverieDTOs[i].organisationId
+		}).done(function(data) {
+			org = eval(data);
+		
+			var template = "<div class='row details'><div class='col-md-6'><label>Name</label></div><div class='col-md-6'><label>" + org.name + "</label></div></div>";
+			$("#organisation_container_details").append(template);
+			
+			var template = "<div class='row details'><div class='col-md-6'><label>Adresse</label></div><div class='col-md-6'><label>" + org.address + "</label></div></div>";
+			$("#organisation_container_details").append(template);
+		
+			var template = "<div class='row details'><div class='col-md-6'><label>Postleitzahl</label></div><div class='col-md-6'><label>" + org.zip + "</label></div></div>";
+			$("#organisation_container_details").append(template);
+			
+			var template = "<div class='row details'><div class='col-md-6'><label>Stadt</label></div><div class='col-md-6'><label>" + org.city + "</label></div></div>";
+			$("#organisation_container_details").append(template);
+			
+			var template = "<div class='row details'><div class='col-md-6'><label>Land</label></div><div class='col-md-6'><label>" + org.country + "</label></div></div>";
+			$("#organisation_container_details").append(template);
+		
+			if(org.comment == ""){
+				var template = "<div class='row details'><div class='col-md-6'><label>Bemerkung</label></div><div class='col-md-6'><label>-</label></div></div>";
+				$("#organisation_container_details").append(template);
 			}
-		} 	// end else
+			else{
+				var template = "<div class='row details'><div class='col-md-6'><label>Bemerkung</label></div><div class='col-md-6'><label>" + org.comment + "</label></div></div>";
+				$("#organisation_container_details").append(template);
+			}
+		});
 		
+		if(i < list.outgoingDeliverieDTOs.length-1){
+			//append divider
+			$("#organisation_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+		}
+	}
 	
-	//load date and comment
-	$("#label_dateofdelivery_details").text(out.date);
-	$("#label_description_details").text(out.comment);
+	//load driver and codriver
+	$("#label_driver_details").text(list.driver);
+	
+	if(list.passenger == ""){
+		$("#label_codriver_details").text("-");
+	}
+	else{
+		$("#label_codriver_details").text(list.passenger);
+	}
 	
 	//load last editor and updateTimeStamp
-	$("#label_lastEditor_details").text(loadContactPerson(out.lastEditorId));
-	$("#label_updateTimestamp_details").text(out.date); //TODO updateTimeStamp missing
-	
-	//load articles
-	var articleString = "";
-	var article = out.outgoingArticleDTOs;
-	for(var i=0; i < out.outgoingArticleDTOs.length; i++){
-		articleString = article[i].articleDTO.description;
-		createAndAppendArticleTemplate("Beschreibung", articleString);
-		
-		articleString = article[i].numberpu;
-		createAndAppendArticleTemplate("Anzahl der VE", articleString);
-		
-		articleString = article[i].articleDTO.packagingUnit;
-		createAndAppendArticleTemplate("VE", articleString);
-		
-		articleString = article[i].articleDTO.weightpu;
-		createAndAppendArticleTemplate("Einzelgewicht der VE", articleString);
-		
-		articleString = article[i].articleDTO.mdd;
-		createAndAppendArticleTemplate("Mindesthaltbarkeitsdatum", articleString);
-		
-		articleString = article[i].articleDTO.pricepu + " €";
-		createAndAppendArticleTemplate("Einzelpreis der VE", articleString);
-		
-		var pricepu = parseFloat(article[i].articleDTO.pricepu);
-		var sum = pricepu * article[i].numberpu;
-		createAndAppendArticleTemplate("Gesamtpreis", sum + " €");
-		
-		//append divider
-		$("#article_container_details").append("<div class='row divider-horizontal persondivider'></div>");
-	}
-	
+	$("#label_lastEditor_details").text(loadContactPerson(list.lastEditorId));
+	$("#label_updateTimestamp_details").text("not working"); //TODO updateTimeStamp missing
 });
-
-function createAndAppendArticleTemplate(name, value){
-	var template = "<div class='row details'><div class='col-md-6'><label>"+ name +"</label></div><div class='col-md-6'><label>" + value + "</label></div></div>";
-	$("#article_container_details").append(template);
-}
 
 //search filter
 $(document).ready(function() {
@@ -262,55 +222,37 @@ $('#TableHead').on('click','tbody tr', function(event) {
 });
 
 /**
- * TODO call the delete modal for the selected delivery list
+ * Call the delete modal for the selected delivery list
  */
 $("#btn_deleteModal").click(function() {
 	var id = tableData[0];
-	 var name = tableData[1];
-	 var description = tableData[2];
 	 
-	$("#label_name_delete").text(name);
-	$("#label_description_delete").text(description);
-	
-	// Get category with id "id"
+	//get delivery list by id
+	var inc;
 	$.ajax({
 		type : "POST",
-		url : "../rest/secure/category/getOrganisationsByCategoryId/" + id
+		async : false,
+		url : "../rest/secure/deliveryList/getById/" + id
 	}).done(function(data) {
-
-		var organisations = eval(data);
-	
-		if (organisations.length>0)
-		{
-			var organisationString = "";
-			
-			for (i in organisations)
-			{
-				organisationString += organisations[i].name;
-				if (i < organisations.length-1)
-				organisationString += ", "
-			}
-		
-			$("#label_organisations_delete").text(organisationString);
-		}
-		else
-			$("#label_organisations_delete").text("-");
-		
+			inc = eval(data);
 	});
+	
+	$("#label_name_delete").text(inc.name); 
+	$("#label_date_delete").text(inc.date);
 });
 
 
 /**
- * TODO call the delete url for the delivery list
+ * Call the delete url for the delivery list
  */
-$("#btn_deleteCategory").click(function() {
-	 var id = tableData[0];
-	 
-	 $.ajax({
+$("#btn_deleteDeliveryList").click(function() {
+	var id = tableData[0];
+
+	$.ajax({
 		 type : "POST",
-		 url : "../rest/secure/category/deleteCategoryById/" + id
+		 url : "../rest/secure/deliveryList/deleteById/" + id
 	 }).done(function(data) {
-		 $('#categoryTableBody').empty();
+		 $('#deliveryListTableBody').empty();
 		 $('#deleteModal').modal('hide');
 		 
 		 if (data.success == true)
