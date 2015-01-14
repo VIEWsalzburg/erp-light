@@ -11,6 +11,7 @@ public class DeliveryListDTO {
 	private String comment;
 	private String driver;
 	private String passenger;
+	private String updateTimestamp;
 	private Set<OutgoingDeliveryDTO> outgoingDeliverieDTOs = new HashSet<OutgoingDeliveryDTO>(
 			0);
 	
@@ -18,7 +19,8 @@ public class DeliveryListDTO {
 	
 	public DeliveryListDTO(int deliveryListId, int lastEditorId,
 			String name, String date, String comment, String driver,
-			String passenger, Set<OutgoingDeliveryDTO> outgoingDeliverieDTOs) {
+			String passenger, Set<OutgoingDeliveryDTO> outgoingDeliverieDTOs,
+			String updateTimestamp) {
 		super();
 		this.deliveryListId = deliveryListId;
 		this.lastEditorId = lastEditorId;
@@ -28,6 +30,7 @@ public class DeliveryListDTO {
 		this.driver = driver;
 		this.passenger = passenger;
 		this.outgoingDeliverieDTOs = outgoingDeliverieDTOs;
+		this.setUpdateTimestamp(updateTimestamp);
 	}
 	public int getDeliveryListId() {
 		return deliveryListId;
@@ -77,6 +80,14 @@ public class DeliveryListDTO {
 	public void setOutgoingDeliverieDTOs(
 			Set<OutgoingDeliveryDTO> outgoingDeliverieDTOs) {
 		this.outgoingDeliverieDTOs = outgoingDeliverieDTOs;
+	}
+
+	public String getUpdateTimestamp() {
+		return updateTimestamp;
+	}
+
+	public void setUpdateTimestamp(String updateTimestamp) {
+		this.updateTimestamp = updateTimestamp;
 	}
 	
 	

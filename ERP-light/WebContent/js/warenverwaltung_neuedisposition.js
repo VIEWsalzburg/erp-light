@@ -21,6 +21,7 @@ $(document).ready(function() {
 	if(mode == "new"){
 		$("#tabtext").text("Neue Disposition");
 		loadAllAvailableArticlesInDepot();
+		global_id = 0;	// set Id to 0
 	}
 	else if(mode == "edit"){
 		$("#tabtext").text("Bearbeite Disposition");
@@ -495,7 +496,7 @@ $(document).ready(function() {
 				}
 				
 				var outgoingDelivery = new Object();
-				outgoingDelivery.outgoingDeliveryId = 0;
+				outgoingDelivery.outgoingDeliveryId = global_id;
 				outgoingDelivery.organisationId = orgId;
 				outgoingDelivery.lastEditorId = 0;
 				outgoingDelivery.deliveryNr = 0;

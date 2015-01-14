@@ -22,6 +22,7 @@ $(document).ready(function() {
 	
 	if(mode == "new"){
 		$("#tabtext").text("Neuer Wareneingang");
+		global_id = 0;	// set Id to 0
 	}
 	else if(mode == "edit"){
 		$("#tabtext").text("Bearbeite Wareneingang");
@@ -186,7 +187,7 @@ $("#btn_submittodepot").click(function() {
 	}
 	
 	var incomingDelivery = new Object();
-	incomingDelivery.incomingDeliveryId = 0;
+	incomingDelivery.incomingDeliveryId = global_id;	// either Id = 0 or it is the Id of the incoming deivery, which is editted
 	incomingDelivery.organisationId = orgId;
 	incomingDelivery.lastEditorId = 0;
 	incomingDelivery.deliveryNr = 0;

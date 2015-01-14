@@ -11,6 +11,7 @@ function loadTableContent(){
 			organisations = eval(data);
 	});
 	
+	
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/incomingDelivery/getAll"
@@ -205,32 +206,38 @@ $("#btn_details").click(function() {
 	
 	//load last editor and updateTimeStamp
 	$("#label_lastEditor_details").text(loadContactPerson(inc.lastEditorId));
-	$("#label_updateTimestamp_details").text("not working"); //TODO updateTimeStamp missing
+	$("#label_updateTimestamp_details").text(inc.updateTimestamp);
+	
+	
+	var articles = inc.incomingArticleDTOs;
+	// sort articles according to their articleNr
+	articles.sort( function(a, b) { 
+		return (a.articleNr - b.articleNr);
+	} );
 	
 	//load articles
 	var articleString = "";
-	var article = inc.incomingArticleDTOs;
 	for(var i=0; i < inc.incomingArticleDTOs.length; i++){
-		articleString = article[i].articleDTO.description;
+		articleString = articles[i].articleDTO.description;
 		createAndAppendArticleTemplate("Beschreibung", articleString);
 		
-		articleString = article[i].numberpu;
+		articleString = articles[i].numberpu;
 		createAndAppendArticleTemplate("Anzahl der VE", articleString);
 		
-		articleString = article[i].articleDTO.packagingUnit;
-		createAndAppendArticleTemplate("VE", articleString);
+		articleString = articles[i].articleDTO.packagingUnit;
+		createAndAppendArticleTemplate("Art der VE", articleString);
 		
-		articleString = article[i].articleDTO.weightpu + " kg";
+		articleString = articles[i].articleDTO.weightpu + " kg";
 		createAndAppendArticleTemplate("Einzelgewicht der VE", articleString);
 		
-		articleString = article[i].articleDTO.mdd;
+		articleString = articles[i].articleDTO.mdd;
 		createAndAppendArticleTemplate("Mindesthaltbarkeitsdatum", articleString);
 		
-		articleString = article[i].articleDTO.pricepu + " €";
+		articleString = articles[i].articleDTO.pricepu + " €";
 		createAndAppendArticleTemplate("Einzelpreis der VE", articleString);
 		
-		var pricepu = parseFloat(article[i].articleDTO.pricepu);
-		var sum = pricepu * article[i].numberpu;
+		var pricepu = parseFloat(articles[i].articleDTO.pricepu);
+		var sum = Math.round( (pricepu * articles[i].numberpu) *100)/100;
 		createAndAppendArticleTemplate("Gesamtpreis", sum + " €");
 		
 		if(i < inc.incomingArticleDTOs.length-1){
@@ -245,6 +252,8 @@ function createAndAppendArticleTemplate(name, value){
 	var template = "<div class='row details'><div class='col-md-6'><label>"+ name +"</label></div><div class='col-md-6'><label>" + value + "</label></div></div>";
 	$("#article_container_details").append(template);
 }
+
+
 
 // search filter
 $(document).ready(function() {

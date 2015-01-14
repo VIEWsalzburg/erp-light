@@ -101,6 +101,18 @@ public class DeliveryController {
 	@RequestMapping(value = "secure/incomingDelivery/set")
 	public ControllerMessage setIncomingDelivery(@RequestBody IncomingDeliveryDTO dto, HttpServletRequest request) {
 		
+		// if Id != 0 => delete existing
+		if (dto.getIncomingDeliveryId() != 0)
+		{
+			try {
+				dataBaseService.deleteIncomingDeliveryById(dto.getIncomingDeliveryId());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ControllerMessage(false, "Speichern nicht erfolgreich!");
+			}
+		}
+		
+		// and save new one
 		try {
 			int lastEditorId = (int) request.getSession().getAttribute("id");
 			
@@ -122,6 +134,7 @@ public class DeliveryController {
 			return new ControllerMessage(false, "Speichern nicht erfolgreich!");
 		}
 		
+		
 	}
 	
 	/**
@@ -136,7 +149,7 @@ public class DeliveryController {
 			dataBaseService.deleteIncomingDeliveryById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ControllerMessage(true, "Löschen nicht erfolgreich: " + e.getMessage());
+			return new ControllerMessage(false, "Löschen nicht erfolgreich: " + e.getMessage());
 		}
 		
 		return new ControllerMessage(true, "Löschen erfolgreich");
@@ -232,16 +245,15 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/deleteById/{id}")
 	public ControllerMessage deleteOutgoingDeliveryById(@PathVariable int id) {
-		throw new NotImplementedException();
 
-//		try {
-//			//dataBaseService.delete
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return new ControllerMessage(true, "Löschen nicht erfolgreich: " + e.getMessage());
-//		}
+		try {
+			dataBaseService.deleteOutgoingDeliveryById(id);
+			return new ControllerMessage(true, "Löschen erfolgreich!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ControllerMessage(false, "Löschen nicht erfolgreich: " + e.getMessage());
+		}
 		
-//		return new ControllerMessage(true, "Löschen erfolgreich");
 	}
 	
 	/***** [END] outgoing Deliveries *****/
@@ -339,6 +351,7 @@ public class DeliveryController {
 		try {
 			dto.setLastEditorId((int) request.getSession().getAttribute("id"));
 			DeliveryList entity = DeliveryListMapper.mapToEntity(dto, dataBaseService);
+			entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 			
 			dataBaseService.setDeliveryList(entity);
 			

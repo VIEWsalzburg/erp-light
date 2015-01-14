@@ -33,6 +33,7 @@ public class DeliveryListMapper {
 		dto.setName(entity.getName());
 		dto.setDate(df.format(entity.getDate()));
 		dto.setComment(entity.getComment());
+		dto.setUpdateTimestamp(df.format(entity.getUpdateTimestamp()));
 		dto.setDriver(entity.getDriver());
 		dto.setPassenger(entity.getPassenger());
 		
@@ -70,6 +71,16 @@ public class DeliveryListMapper {
 		} catch (ParseException e) {
 			entity.setDate(new Date());
 			e.printStackTrace();
+		}
+		
+		if (dto.getUpdateTimestamp() != null)
+		{
+			try {
+				entity.setUpdateTimestamp(df.parse(dto.getUpdateTimestamp()));
+			} catch (ParseException e) {
+				entity.setUpdateTimestamp(new Date());
+				e.printStackTrace();
+			}
 		}
 		
 		entity.setComment(dto.getComment());

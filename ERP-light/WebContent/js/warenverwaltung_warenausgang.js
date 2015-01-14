@@ -23,9 +23,6 @@ function loadTableContent(){
 			}).done(function(data) {
 						var out = eval(data);
 
-						
-						
-						
 						for (var e in out) {
 							
 							//get organisation by id
@@ -39,13 +36,11 @@ function loadTableContent(){
 								}
 							}
 							
-							
 							var articles = out[e].outgoingArticleDTOs;
 							// sort articles according to their articleNr
 							articles.sort( function(a, b) { 
 								return (a.articleNr - b.articleNr);
 							} );
-							
 							
 							//get article names
 							var articleString = "";
@@ -213,32 +208,39 @@ $("#btn_details").click(function() {
 	
 	//load last editor and updateTimeStamp
 	$("#label_lastEditor_details").text(loadContactPerson(out.lastEditorId));
-	$("#label_updateTimestamp_details").text("not working"); //TODO updateTimeStamp missing
+	$("#label_updateTimestamp_details").text(out.updateTimestamp);
+	
+
+	
+	var articles = out.outgoingArticleDTOs;
+	// sort articles according to their articleNr
+	articles.sort( function(a, b) { 
+		return (a.articleNr - b.articleNr);
+	} );
 	
 	//load articles
 	var articleString = "";
-	var article = out.outgoingArticleDTOs;
 	for(var i=0; i < out.outgoingArticleDTOs.length; i++){
-		articleString = article[i].articleDTO.description;
+		articleString = articles[i].articleDTO.description;
 		createAndAppendArticleTemplate("Beschreibung", articleString);
 		
-		articleString = article[i].numberpu;
+		articleString = articles[i].numberpu;
 		createAndAppendArticleTemplate("Anzahl der VE", articleString);
 		
-		articleString = article[i].articleDTO.packagingUnit;
+		articleString = articles[i].articleDTO.packagingUnit;
 		createAndAppendArticleTemplate("VE", articleString);
 		
-		articleString = article[i].articleDTO.weightpu;
+		articleString = articles[i].articleDTO.weightpu; + " kg";
 		createAndAppendArticleTemplate("Einzelgewicht der VE", articleString);
 		
-		articleString = article[i].articleDTO.mdd;
+		articleString = articles[i].articleDTO.mdd;
 		createAndAppendArticleTemplate("Mindesthaltbarkeitsdatum", articleString);
 		
-		articleString = article[i].articleDTO.pricepu + " €";
+		articleString = articles[i].articleDTO.pricepu + " €";
 		createAndAppendArticleTemplate("Einzelpreis der VE", articleString);
 		
-		var pricepu = parseFloat(article[i].articleDTO.pricepu);
-		var sum = pricepu * article[i].numberpu;
+		var pricepu = parseFloat(articles[i].articleDTO.pricepu);
+		var sum = Math.round((pricepu * articles[i].numberpu)*100)/100;
 		createAndAppendArticleTemplate("Gesamtpreis", sum + " €");
 		
 		if(i < out.outgoingArticleDTOs.length-1){
