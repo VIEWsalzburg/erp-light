@@ -1,0 +1,84 @@
+package at.erp.light.view.authenticate;
+
+import java.security.MessageDigest;
+import java.security.SecureRandom;
+
+import javax.xml.bind.DatatypeConverter;
+
+public class HashGenerator {
+
+	/**
+	 * Compare plain password with hash 
+	 * @param plain text
+	 * @param hash .
+	 * @return if they match
+	 */
+	
+	public static String toHexString(byte[] array) {
+	    return DatatypeConverter.printHexBinary(array);
+	}
+
+	public static byte[] toByteArray(String s) {
+	    return DatatypeConverter.parseHexBinary(s);
+	}
+	
+	public static void main(String ...args)
+	{
+		String password = "default";
+		String hashed = hashPasswordWithSalt(password);
+		System.out.println(hashed);
+	}
+	
+	
+	public static boolean comparePasswordWithHash(String plain, String hashHex)
+	{
+		String hash = new String(toByteArray(hashHex));
+		String salt = hash.substring(0, 10);
+		String hashedCompare = hash.substring(10);
+		
+		byte[] digest = null;
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			
+			md.update((salt + plain).getBytes("UTF-8")); // Change this to "UTF-16" if needed
+			digest = md.digest();
+			
+			String reHashed = new String(digest);
+			
+			// compare hash in DB
+			if (reHashed.equals(hashedCompare))
+				return true;
+			else
+				return false;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+		
+	}
+	
+	
+	/**
+	 * Generates hash
+	 * @param text given string to hash
+	 * @return the hashed value
+	 */
+	public static String hashPasswordWithSalt(String text) {
+		byte[] digest = null;
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			String salt = new String(SecureRandom.getSeed(10));
+
+			md.update((salt + text).getBytes("UTF-8")); // Change this to
+																// "UTF-16" if
+																// needed
+			digest = md.digest();
+			return toHexString((salt + new String(digest)).getBytes());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+}

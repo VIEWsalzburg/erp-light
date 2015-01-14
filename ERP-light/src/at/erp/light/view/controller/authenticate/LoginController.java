@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.erp.light.view.authenticate.Authentication;
+import at.erp.light.view.authenticate.HashGenerator;
 import at.erp.light.view.model.Platformuser;
 import at.erp.light.view.services.IDataBase;
 import at.erp.light.view.state.ControllerMessage;
@@ -47,14 +48,15 @@ public class LoginController {
 		Platformuser existingUser = dataBaseService
 				.getPlatformuserbyLoginEmail(authentication.getLoginEmail());
 
-		
 		if (existingUser == null) {
 			return new ControllerMessage(false, "Falsche Anmeldeinformationen!");
 		}
 		log.info("Found User: " + existingUser.getPerson().getFirstName() + " "
 				+ existingUser.getPerson().getLastName());
 
-		if (existingUser.getPassword().equals(authentication.getPassword())) {
+		if (HashGenerator.comparePasswordWithHash(authentication.getPassword(),
+				existingUser.getPassword())) 
+		{
 			request.getSession().setAttribute("username",
 					existingUser.getLoginEmail());
 			request.getSession().setAttribute("id",

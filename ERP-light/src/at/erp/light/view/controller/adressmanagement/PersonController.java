@@ -1,6 +1,8 @@
 package at.erp.light.view.controller.adressmanagement;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import at.erp.light.view.authenticate.HashGenerator;
 import at.erp.light.view.dto.PersonDTO;
 import at.erp.light.view.mapper.PersonMapper;
 import at.erp.light.view.model.Permission;
@@ -99,7 +102,6 @@ public class PersonController {
 		
 		myPerson.setLastEditor(dataBaseService.getPersonById((int) request
 				.getSession().getAttribute("id")));
-		
 		dataBaseService.setPerson(myPerson);
 
 		
@@ -108,7 +110,7 @@ public class PersonController {
 	
 	
 	@RequestMapping(value = "/secure/person/setPerson")
-	ControllerMessage setPerson(@RequestBody PersonDTO person, HttpServletRequest request) {
+	ControllerMessage setPerson(@RequestBody PersonDTO person, HttpServletRequest request) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		Person entity = PersonMapper.mapToEntity(person);
 		
 		// set current user for updater
@@ -130,7 +132,7 @@ public class PersonController {
 			if (existingPU == null) // if platformuser does not exist
 			{
 				// create new one
-				existingPU = new Platformuser(mPermission, entity, "default",
+				existingPU = new Platformuser(mPermission, entity, HashGenerator.hashPasswordWithSalt("default"),
 						person.getLoginEmail());
 				System.out.println("created new one");
 			} else { // if platformuser exists
@@ -170,9 +172,11 @@ public class PersonController {
 
 	@RequestMapping(value = "secure/person/resetPasswordForId/{id}")
 	public ControllerMessage resetPasswordForId(@PathVariable int id)
-			throws IOException {
+			throws IOException, NoSuchAlgorithmException {
 		Platformuser platformuser = dataBaseService.getPlatformuserById(id);
-		platformuser.setPassword("default");
+		
+		platformuser.setPassword(HashGenerator.hashPasswordWithSalt("default"));
+		
 		dataBaseService.setPlatformuser(platformuser);
 		return new ControllerMessage(true, "Zurücksetzen erfolgreich");
 	}
@@ -193,12 +197,12 @@ public class PersonController {
 				return new ControllerMessage(false, "User existiert nicht!");
 			}
 			
-			if(!platformuser.getPassword().equals(changePasswordObject.getOldPassword()))
+			if(!HashGenerator.comparePasswordWithHash(changePasswordObject.getOldPassword(),platformuser.getPassword()))
 			{
 				return new ControllerMessage(false, "Altes Passwort falsch!");
 			}
 			
-			platformuser.setPassword(changePasswordObject.getNewPassword());
+			platformuser.setPassword(HashGenerator.hashPasswordWithSalt(changePasswordObject.getNewPassword()));
 			dataBaseService.setPlatformuser(platformuser);
 			return new ControllerMessage(true, "Ändern erfolgreich!");
 		}
