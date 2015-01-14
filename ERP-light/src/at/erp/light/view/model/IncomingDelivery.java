@@ -36,6 +36,7 @@ public class IncomingDelivery implements java.io.Serializable {
 	private Integer deliveryNr;
 	private Date date;
 	private String comment;
+	private Date updateTimestamp;
 	private Set<IncomingArticle> incomingArticles = new HashSet<IncomingArticle>(
 			0);
 
@@ -43,16 +44,18 @@ public class IncomingDelivery implements java.io.Serializable {
 	}
 
 	public IncomingDelivery(int incomingDeliveryId, Organisation organisation,
-			Person lastEditor, Date date, String comment) {
+			Person lastEditor, Date date, String comment, Date updateTimestamp) {
 		this.incomingDeliveryId = incomingDeliveryId;
 		this.organisation = organisation;
 		this.lastEditor = lastEditor;
 		this.date = date;
 		this.comment = comment;
+		this.updateTimestamp = updateTimestamp;
 	}
 
 	public IncomingDelivery(int incomingDeliveryId, Organisation organisation,
 			Person lastEditor, Integer deliveryNr, Date date, String comment,
+			Date updateTimestamp,
 			Set<IncomingArticle> incomingArticles) {
 		this.incomingDeliveryId = incomingDeliveryId;
 		this.organisation = organisation;
@@ -61,6 +64,7 @@ public class IncomingDelivery implements java.io.Serializable {
 		this.date = date;
 		this.comment = comment;
 		this.incomingArticles = incomingArticles;
+		this.updateTimestamp = updateTimestamp;
 	}
 
 	@Id
@@ -121,6 +125,16 @@ public class IncomingDelivery implements java.io.Serializable {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "update_timestamp", nullable = false, length = 13)
+	public Date getUpdateTimestamp() {
+		return this.updateTimestamp;
+	}
+
+	public void setUpdateTimestamp(Date updateTimestamp) {
+		this.updateTimestamp = updateTimestamp;
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "incomingDelivery")						// removed this for unidirectional OneToMany

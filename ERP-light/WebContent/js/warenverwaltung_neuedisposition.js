@@ -260,144 +260,155 @@ $("#btn_addtodisposition").click(function() {
 	
 	// get the selected row
 	var thisRow = $("#aId_" + id + "_dep").closest('tr');
+	// get the current number of PUs
 	var packagingunits_depot = $(thisRow).find(".article_packagingunits").html().trim();
+	// get the number of PUs to move to the right table
 	var packagingunits_tbx = $("#tbx_packagingunit").val().trim();
 	
+	// round the number of PUs
 	packagingunits_depot = Math.round(packagingunits_depot * 100) / 100;
 	packagingunits_tbx = Math.round(packagingunits_tbx * 100) / 100;
 	
+	// checks if the number is valid
 	if(isNaN(packagingunits_tbx) == true){
 		$("#tbx_packagingunit").val("");
 		return false;
 	}
 	
+	// get informations from the row
 	var article_description = $(thisRow).find(".article_description").html();
-	var article_packagingunits = parseFloat($(thisRow).find(".article_packagingunits").html()) - parseFloat(packagingunits_tbx);
+	// calc the remaining PUs and round them
+	var article_packagingunits = parseFloat(packagingunits_depot) - parseFloat(packagingunits_tbx);
 	article_packagingunits = Math.round(article_packagingunits * 100) / 100;
 	
 	var article_packaging_unit = $(thisRow).find(".article_packaging_unit").html();
 	var article_mdd = $(thisRow).find(".article_mdd").html();
 	
+	
 	if($("#tbx_packagingunit").val() == ""){
-		packagingunits_tbx = $(thisRow).find(".article_packagingunits").html();
-		packagingunits_tbx = Math.round(packagingunits_tbx * 100) / 100;
-		var newDispositionRow = createTableRow(id, 0, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
-		
-		if($("#" + id + "_new").length != 0){
-			var currRow = $("#" + id + "_new").closest('tr');
-			article_packagingunits = $(currRow).find(".article_packagingunits").html();
-			article_packagingunits = Math.round(article_packagingunits * 100) / 100;
-			
-			var sum = Math.round((packagingunits_tbx + article_packagingunits) * 100) / 100;
-			$(currRow).find(".article_packagingunits").html(sum);
-		}
-		else{
-			$("#rightDepotTableBody").append(newDispositionRow);
-		}
-		$(thisRow).removeClass("highlight");
-		$(thisRow).remove();
+		showAlertElement(2, "Keine Anzahl ausgewählt!", 2500);
+		return false;
+	}
+	
+	// if number of PUs, which should be moved, is greater than number of PUs, which are available
+	if(parseFloat(packagingunits_tbx) > parseFloat(packagingunits_depot)){
+		$("#tbx_packagingunit").val(packagingunits_depot);
+		showAlertElement(2, "Nummer der VE zu groß!", 2500);
+		return false;	// return from function
 	}
 	else{
-		if(parseFloat(packagingunits_tbx) > parseFloat(packagingunits_depot)){
-			$("#tbx_packagingunit").val("");
-			return false;
+		// if no PUs will remain in the depot ...
+		if(article_packagingunits == 0){
+			$(thisRow).remove();	// ... remove the row from the depot
+			$('#btn_addtodisposition').prop('disabled', true);
 		}
-		else{
-			if(article_packagingunits == 0){
-				$(thisRow).remove();
-				$('#btn_addtodisposition').prop('disabled', true);
-			}
-			
+		else {
+			// set the remaining PUs for the remaining row in the left table
 			$(thisRow).find(".article_packagingunits").html(article_packagingunits);
+		}
+		
+		// if an entry with the given id already exists in the right table
+		if($("#aId_" + id + "_disp").length != 0){
+			// get the desired row in the right table
+			var thisRow = $("#aId_" + id + "_disp").closest('tr');
+			// get the number of PUs already in the right table
+			article_packagingunits = $(thisRow).find(".article_packagingunits").html();
+			// round the existing number
+			article_packagingunits = Math.round(article_packagingunits * 100) / 100;
 			
-			if($("#aId_" + id + "_disp").length != 0){
-				var thisRow = $("#aId_" + id + "_disp").closest('tr');
-				article_packagingunits = $(thisRow).find(".article_packagingunits").html();
-				article_packagingunits = Math.round(article_packagingunits * 100) / 100;
-				
-				var sum = Math.round((packagingunits_tbx + article_packagingunits) * 100) / 100;
-				$(thisRow).find(".article_packagingunits").html(sum);
-				return;
-			}
-			else 
-			{
-				var newDispositionRow = createTableRow(id, 0, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
-				$("#rightDepotTableBody").append(newDispositionRow);
-			}
+			// calc the new total number, round it and set it for the existing row
+			var sum = Math.round((packagingunits_tbx + article_packagingunits) * 100) / 100;
+			$(thisRow).find(".article_packagingunits").html(sum);
+			return;
+		}
+		else 
+		{
+			// create a new row with the number of PUs, which should be moved
+			var newDispositionRow = createTableRow(id, 0, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
+			// add the row to the right table
+			$("#rightDepotTableBody").append(newDispositionRow);
 		}
 	}
+	
 });
+
+
 
 //remove article from disposition
 $("#btn_removefromdisposition").click(function() {
+	// get the current id
 	var id = tableData[0];
 	
+	// get the selected row from the disposition
 	var thisRow = $("#aId_" + id + "_disp").closest('tr');
-	var packagingunits_depot = $(thisRow).find(".article_packagingunits").html().trim();
+	// get the number of PUs available
+	var packagingunits_disposition = $(thisRow).find(".article_packagingunits").html().trim();
+	// get the number of PUs to be moved
 	var packagingunits_tbx = $("#tbx_packagingunit").val().trim();
 	
-	packagingunits_depot = Math.round(packagingunits_depot * 100) / 100;
+	// round the values to two comma digits
+	packagingunits_disposition = Math.round(packagingunits_disposition * 100) / 100;
 	packagingunits_tbx = Math.round(packagingunits_tbx * 100) / 100;
 	
+	// check the number for validity
 	if(isNaN(packagingunits_tbx) == true){
 		$("#tbx_packagingunit").val("");
 		return false;
 	}
 	
+	// get informations
 	var article_description = $(thisRow).find(".article_description").html();
-	var article_packagingunits = parseFloat($(thisRow).find(".article_packagingunits").html()) - parseFloat(packagingunits_tbx);
+	// calc the remaining PUs and round it
+	var article_packagingunits = parseFloat(packagingunits_disposition) - parseFloat(packagingunits_tbx);
 	article_packagingunits = Math.round(article_packagingunits * 100) / 100;
 	
 	var article_packaging_unit = $(thisRow).find(".article_packaging_unit").html();
 	var article_mdd = $(thisRow).find(".article_mdd").html();
 	
+	
 	if($("#tbx_packagingunit").val() == ""){
-		packagingunits_tbx = $(thisRow).find(".article_packagingunits").html();
-		packagingunits_tbx = Math.round(packagingunits_tbx * 100) / 100;
-		var newDepotRow = createTableRow(id, 1, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
-		
-		if($("#" + id).length != 0){
-			var currRow = $("#" + id).closest('tr');
-			article_packagingunits = $(currRow).find(".article_packagingunits").html();
-			article_packagingunits = Math.round(article_packagingunits * 100) / 100;
-			
-			var sum = Math.round((packagingunits_tbx + article_packagingunits) * 100) / 100;
-			$(currRow).find(".article_packagingunits").html(sum);
-		}
-		else{
-			$("#leftDepotTableBody").append(newDepotRow);
-		}
-		$(thisRow).removeClass("highlight");
-		$(thisRow).remove();
+		showAlertElement(2, "Keine Anzahl ausgewählt!", 2500);
+		return false;
+	}
+	
+	// if number of PUs, which should be moved, is greater than number of PUs, which are available
+	if(parseFloat(packagingunits_tbx) > parseFloat(packagingunits_disposition)){
+		$("#tbx_packagingunit").val(packagingunits_disposition);
+		showAlertElement(2, "Nummer der VE zu groß!", 2500);
+		return false;
 	}
 	else{
-		if(parseFloat(packagingunits_tbx) > parseFloat(packagingunits_depot)){
-			$("#tbx_packagingunit").val("");
-			return false;
+		// if no PUs will remain in the disposition
+		if(article_packagingunits == 0){
+			$(thisRow).remove();	// remove the row
+			$('#btn_removefromdisposition').prop('disabled', true);
 		}
 		else{
-			if(article_packagingunits == 0){
-				$(thisRow).remove();
-				$('#btn_removefromdisposition').prop('disabled', true);
-			}
-			
+			// set the remaining PUs for the remaining row in the right table
 			$(thisRow).find(".article_packagingunits").html(article_packagingunits);
+		}
+		
+		// if an entry with the given id already exists in the left table
+		if($("#aId_" + id + "_dep").length != 0){
+			// get the row with the id in the left table
+			var thisRow = $("#aId_" + id + "_dep").closest('tr');
+			// get the number of PUs, which are already in the left table
+			article_packagingunits = $(thisRow).find(".article_packagingunits").html();
+			article_packagingunits = Math.round(article_packagingunits * 100) / 100;
 			
-			if($("#aId_" + id + "_dep").length != 0){
-				var thisRow = $("#aId_" + id + "_dep").closest('tr');
-				article_packagingunits = $(thisRow).find(".article_packagingunits").html();
-				article_packagingunits = Math.round(article_packagingunits * 100) / 100;
-				
-				var sum = Math.round((packagingunits_tbx + article_packagingunits) * 100) / 100;
-				$(thisRow).find(".article_packagingunits").html(sum);
-				return;
-			}
-			else{
-				var newDepotRow = createTableRow(id, 1, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
-				$("#leftDepotTableBody").append(newDepotRow);
-			}
+			// calc the new total number of PUs and set it
+			var sum = Math.round((packagingunits_tbx + article_packagingunits) * 100) / 100;
+			$(thisRow).find(".article_packagingunits").html(sum);
+			return;
+		}
+		else{
+			// create a new depot row with the number of PUs which should be moved
+			var newDepotRow = createTableRow(id, 1, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
+			$("#leftDepotTableBody").append(newDepotRow);
 		}
 	}
+	
+	
 });
 
 
@@ -602,29 +613,29 @@ $(document).ready(function() {
 // tableData of the selected Row (either depot or disposition table)
 var tableData;
 $('#TableHeadLeftDepot').on('click','tbody tr', function(event) {
-			tableData = $(this).children("td").map(function() {
-				return $(this).text();
-			}).get();
+	tableData = $(this).children("td").map(function() {
+		return $(this).text();
+	}).get();
 
-			$('tr.highlight').removeClass('highlight');
-			$(this).addClass('highlight');
-			
-			$("*").removeClass("highlight");	
-			$(this).addClass('highlight').siblings().removeClass('highlight');
+	$('tr.highlight').removeClass('highlight');
+	$(this).addClass('highlight');
+	
+	// $("*").removeClass("highlight");	
+	// $(this).addClass('highlight').siblings().removeClass('highlight');
 
-			// only when user has admin rights
-			if (currentUserRights == "Admin" && currentUserRights != "") {
-				// enable 'button to disposition'
-				$('#btn_addtodisposition').prop('disabled', false);
-				// disable 'button from disposition'
-				$('#btn_removefromdisposition').prop('disabled', true);
-				// set the maximum packaging units for the selected article
-				$('#tbx_packagingunit').val(parseFloat(tableData[2]));
-			} 
-			else {
-				$('#btn_addtodisposition').prop('disabled', true);
-				$('#btn_removefromdisposition').prop('disabled', true);
-			}
+	// only when user has admin rights
+	if (currentUserRights == "Admin" && currentUserRights != "") {
+		// enable 'button to disposition'
+		$('#btn_addtodisposition').prop('disabled', false);
+		// disable 'button from disposition'
+		$('#btn_removefromdisposition').prop('disabled', true);
+		// set the maximum packaging units for the selected article
+		$('#tbx_packagingunit').val(parseFloat(tableData[2]));
+	} 
+	else {
+		$('#btn_addtodisposition').prop('disabled', true);
+		$('#btn_removefromdisposition').prop('disabled', true);
+	}
 });
 
 $('#TableHeadRightDepot').on('click','tbody tr', function(event) {
@@ -635,8 +646,8 @@ $('#TableHeadRightDepot').on('click','tbody tr', function(event) {
 	$('tr.highlight').removeClass('highlight');
 	$(this).addClass('highlight');
 	
-	$("*").removeClass("highlight");
-	$(this).addClass('highlight').siblings().removeClass('highlight');
+//	$("*").removeClass("highlight");
+//	$(this).addClass('highlight').siblings().removeClass('highlight');
 
 	// only when user has admin rights
 	if (currentUserRights == "Admin" && currentUserRights != "") {

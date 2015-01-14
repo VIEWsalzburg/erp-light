@@ -4,37 +4,56 @@ var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-5'> <div class='aler
 
 //Get all outgoing deliveries and load into table
 function loadTableContent(){
+	
+			// get all organisations
+			var organisations;
+			$.ajax({
+				type : "POST",
+				async : false,
+				url : "../rest/secure/organisation/getAllOrganisations"
+			}).done(function(data) {
+				organisations = eval(data);
+			});
+	
+			
+			
 			$.ajax({
 				type : "POST",
 				url : "../rest/secure/outgoingDelivery/getAll"
 			}).done(function(data) {
 						var out = eval(data);
 
+						
+						
+						
 						for (var e in out) {
 							
 							//get organisation by id
-							var org;
-							$.ajax({
-								type : "POST",
-								async : false,
-								url : "../rest/secure/organisation/getOrganisationById/" + out[e].organisationId
-							}).done(function(data) {
-								
-								org = eval(data);
-							});
+							var org = null;
 							
-							//get articles
+							for (i in organisations)
+							{
+								if (organisations[i].id == out[e].organisationId)
+								{
+									org = organisations[i];
+								}
+							}
+							
+							
+							var articles = out[e].outgoingArticleDTOs;
+							// sort articles according to their articleNr
+							articles.sort( function(a, b) { 
+								return (a.articleNr - b.articleNr);
+							} );
+							
+							
+							//get article names
 							var articleString = "";
-							var article = out[e].outgoingArticleDTOs;
-							for(var i=0; i < article.length; i++){
-								for(var j=0; j < article.length; j++){
-									if(article[j].articleNr == i){
-										articleString = articleString + article[j].articleDTO.description;
-										
-										if(i < article.length - 1){
-											articleString = articleString + ", ";
-										}
-									}
+							for(var i=0; i < articles.length; i++){
+								articleString = articleString + articles[i].articleDTO.description;
+								
+								if(i < articles.length - 1){
+									articleString = articleString + ", ";
 								}
 							}
 							

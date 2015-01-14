@@ -1,49 +1,64 @@
 //Get all incoming deliveries and load into table
 function loadTableContent(){
-			$.ajax({
-				type : "POST",
-				url : "../rest/secure/incomingDelivery/getAll"
-			}).done(function(data) {
-						var inc = eval(data);
+	
+	// get all organisations and save it in variable to search for when loading all incoming deliveries
+	var organisations;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/organisation/getAllOrganisations"
+	}).done(function(data) {
+			organisations = eval(data);
+	});
+	
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/incomingDelivery/getAll"
+	}).done(function(data) {
+		var inc = eval(data);
 
-						for (var e in inc) {
-							
-							//get organisation by id
-							var org;
-							$.ajax({
-								type : "POST",
-								async : false,
-								url : "../rest/secure/organisation/getOrganisationById/" + inc[e].organisationId
-							}).done(function(data) {
-								
-								org = eval(data);
-							});
-							
-							//get articles and sort them by the articleNr
-							var articleString = "";
-							var article = inc[e].incomingArticleDTOs;
-							for(var i=0; i < article.length; i++){
-								for(var j=0; j < article.length; j++){
-									if(article[j].articleNr == i){
-										articleString = articleString + article[j].articleDTO.description;
-										
-										if(i < article.length - 1){
-											articleString = articleString + ", ";
-										}
-									}
-								}
-							}
-							
-							var tableRow = "<tr>" + "<td>" + inc[e].incomingDeliveryId
-									+ "</td>" + "<td>" + org.name + ", " + "<br/>" + org.zip + " " + org.city + "," + "<br/>" + org.country 
-									+ "</td>" + "<td>" + inc[e].date
-									+ "</td>" + "<td>" + articleString
-									+ "</td>" + "<td>" + inc[e].comment
-									+ "</td>" + "</tr>";
+		for (var e in inc) {
+			
+			//get organisation by id
+			var org;
 
-							$("#incomingDeliveryTableBody").append(tableRow);
-						}
-					});
+			// search organisation in variable
+			for (i in organisations)
+			{
+				if (organisations[i].id == inc[e].organisationId)
+				{
+					org = organisations[i];
+				}
+			}
+			
+			//get articles
+			var articleString = "";
+			var articles = inc[e].incomingArticleDTOs;
+			
+			// sort articles according to their articleNr
+			articles.sort( function(a, b) { 
+				return (a.articleNr - b.articleNr);
+			} );
+			
+			for(var i=0; i < articles.length; i++){
+				articleString = articleString + articles[i].articleDTO.description;
+				
+				if(i < articles.length - 1){
+					articleString = articleString + ", ";
+				}
+			}
+			
+			var tableRow = "<tr>" + "<td>" + inc[e].incomingDeliveryId
+					+ "</td>" + "<td>" + org.name + ", " + "<br/>" + org.zip + " " + org.city + "," + "<br/>" + org.country 
+					+ "</td>" + "<td>" + inc[e].date
+					+ "</td>" + "<td>" + articleString
+					+ "</td>" + "<td>" + inc[e].comment
+					+ "</td>" + "</tr>";
+
+			$("#incomingDeliveryTableBody").append(tableRow);
+		}
+	});
+	
 };
 
 //Get all incoming deliveries and load into table
