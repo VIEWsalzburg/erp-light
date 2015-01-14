@@ -1,3 +1,9 @@
+//append alert message to modal
+var modalError = "<div id='modalErrorAlert'> <div class='col-sm-7'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>";
+$("#newAlertForm").append(modalError);
+var modalErrorDeliverer = "<div id='modalErrorDelivererAlert'> <div class='col-sm-5'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Kein Lieferant ausgewählt!</div> </div>  </div>";
+$("#newAlertFormDeliverer").append(modalErrorDeliverer);
+
 //load page in specific mode
 var global_id;
 $(document).ready(function() {
@@ -47,42 +53,49 @@ function loadNewIncomingDelivery(id){
 		url : "../rest/secure/organisation/getOrganisationById/" + inc.organisationId
 	}).done(function(data) {
 		org = eval(data);
-		organisationId_global = org.id;
-		delivererString = org.name + ", " + org.country + ", " + org.zip + " " + org.city;
+
+		// store the id to the global var
+		$('#tbx_orgId').val(org.id);
+		
+		delivererString = org.name + ", " + org.zip + " " + org.city + ", " + org.country;
 		$("#tbx_deliverer").val(delivererString);
 	});
 	
 	//set deliverer popover
-	$("#tbx_deliverer_popover").attr("data-content", $("#tbx_deliverer").val());
+	$("#tbx_deliverer_popover").attr("data-content", org.name + " <br> " + org.zip + " " + org.city + "<br>" + org.country);
 	
 	$("#tbx_date").val(inc.date);
 	$("#tbx_comment").val(inc.comment);
 					
-	//get articles
+	//get articles, sort them by the articleId and append them to the table
 	var article = inc.incomingArticleDTOs;
 	for(var i=0; i < article.length; i++){
-		var articleId = article[i].articleDTO.articleId;
-		var description = article[i].articleDTO.description;
-		var numberpu = article[i].numberpu;
-		var packagingUnit = article[i].articleDTO.packagingUnit;
-		var weightpu = article[i].articleDTO.weightpu;
-		var mdd = article[i].articleDTO.mdd;
-		var pricepu = parseFloat(article[i].articleDTO.pricepu);
-		
-		//calculate sum price
-		var sum = pricepu * article[i].numberpu;
-		
-		var tableRow = "<tr id='"+articleId+"'>" + "<td>" + articleId
-		+ "</td>" + "<td>" + description
-		+ "</td>" + "<td>" + numberpu
-		+ "</td>" + "<td>" + packagingUnit
-		+ "</td>" + "<td>" + weightpu + " kg"
-		+ "</td>" + "<td>" + mdd
-		+ "</td>" + "<td>" + pricepu + " €"
-		+ "</td>" + "<td>" + sum + " €"
-		+ "</td>" + "</tr>";
-		
-		$("#newIncomingDeliveryTableBody").append(tableRow);
+		for(var j=0; j < article.length; j++){
+			if(article[j].articleNr == i){
+				var articleId = article[j].articleDTO.articleId;
+				var description = article[j].articleDTO.description;
+				var numberpu = article[j].numberpu;
+				var packagingUnit = article[j].articleDTO.packagingUnit;
+				var weightpu = article[j].articleDTO.weightpu;
+				var mdd = article[j].articleDTO.mdd;
+				var pricepu = parseFloat(article[j].articleDTO.pricepu);
+				
+				//calculate sum price
+				var sum = pricepu * article[j].numberpu;
+				
+				var tableRow = "<tr id='"+articleId+"'>" + "<td>" + articleId
+				+ "</td>" + "<td>" + description
+				+ "</td>" + "<td>" + numberpu
+				+ "</td>" + "<td>" + packagingUnit
+				+ "</td>" + "<td>" + weightpu + " kg"
+				+ "</td>" + "<td>" + mdd
+				+ "</td>" + "<td>" + pricepu + " €"
+				+ "</td>" + "<td>" + sum + " €"
+				+ "</td>" + "</tr>";
+				
+				$("#newIncomingDeliveryTableBody").append(tableRow);
+			}
+		}
 	}
 }
 
@@ -113,6 +126,7 @@ function loadAllDeliverers(id) {
 $("#btn_addDeliverer").click(function() {
 	$(".boxElement_deliverer").remove();
 	$("#filter_modal").val("");
+	$("#newAlertFormDeliverer").hide();
 	loadAllDeliverers();
 });
 
@@ -133,88 +147,158 @@ function createTableRow(count){
 	return tableRow;
 }
 
-//TODO submit to depot
+//submit to depot
+$(document).ready(function() {
 $("#btn_submittodepot").click(function() {
-	var inc;
-	$.ajax({
-		type : "POST",
-		async : false,
-		url : "../rest/secure/incomingDelivery/getById/" + global_id
-	}).done(function(data) {
-			inc = eval(data);
+	var orgId = $('#tbx_orgId').val();
+	var date = $('#tbx_date').val();
+	var comment = $('#tbx_comment').val();
+					
+	// check if all Fields are filled
+	if ( (orgId==0) || (date=="") || (comment=="") )
+	{
+		showAlertElement(2, "Leere Felder vorhanden!", 5000);
+		return;
+	}
+	
+	// check date for validity
+	var regEx = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/;
+	var dateArray = date.match(regEx);
+	
+	if (dateArray == null)
+	{
+		showAlertElement(2, "Falsches Datumsformat!", 5000);
+		return;
+	}
+	
+	// articles in disposition
+	var articles = [];
+	// get all articles in the new disposition
+	$('#newIncomingDeliveryTableBody tr').each(function(){
+		var rowData = $(this).children('td').map(function(){return $(this).text();});
+		articles.push(rowData);
 	});
 	
-	var newincomingdelivery = new Object();
-	
-	newincomingdelivery.incomingDeliveryId = inc.incomingDeliveryId;
-	newincomingdelivery.organisationId = organisationId_global;
-	newincomingdelivery.lastEditorId = "";
-	newincomingdelivery.deliveryNr = inc.deliveryNr;
-	newincomingdelivery.date = $("#tbx_date").val();
-	newincomingdelivery.comment = $("#tbx_comment").val();
-	
-	var allRows = [];
-	$("#newIncomingDeliveryTableBody tr").each(
-			function() {
-				var row = $(this).children().map(function(){return $(this).text();});
-				allRows.push(row);
-			}
-	);
-	
-	var incomingArticleDTOs = new Object();
-	for(var i=0; i<allRows.length; i++) {
-	    var row = allRows[i];
-	    for(var j=0; j<row.length; j++) {
-	        //alert("row[" + i + "][" + j + "] = " + row[j]);
-	    	
-	        incomingArticleDTOs[j].incomingArticleId = "";
-	        incomingArticleDTOs[j].articleNr = i;
-	        incomingArticleDTOs[j].numberpu = row[2];
-	        
-	        incomingArticleDTOs[j].articleDTO.articleId = "";
-	        incomingArticleDTOs[j].articleDTO.description = row[1];
-	        incomingArticleDTOs[j].articleDTO.packagingUnit = row[3];
-	        incomingArticleDTOs[j].articleDTO.weightpu = row[4];
-	        incomingArticleDTOs[j].articleDTO.mdd = row[5];
-	        incomingArticleDTOs[j].articleDTO.pricepu = row[6].substring(0, row[6].length-3);
-	    }
+	if (articles.length == 0)
+	{
+		showAlertElement(2, "Keine Waren verfügbar!", 5000);
+		return;
 	}
-	newincomingdelivery.incomingArticleDTOs = incomingArticleDTOs;
 	
-	alert(JSON.stringify(newincomingdelivery));
+	var incomingDelivery = new Object();
+	incomingDelivery.incomingDeliveryId = 0;
+	incomingDelivery.organisationId = orgId;
+	incomingDelivery.lastEditorId = 0;
+	incomingDelivery.deliveryNr = 0;
+	incomingDelivery.date = date;
+	incomingDelivery.comment = comment;
 	
-//	$.ajax({
-//		headers : {
-//			'Accept' : 'application/json',
-//			'Content-Type' : 'application/json'
-//		},
-//		type : "POST",
-//		url : "../rest/secure/incomingDelivery/set",
-//		contentType: "application/json; charset=utf-8",
-//	    dataType: "json",
-//		data : JSON.stringify(newincomingdelivery)
-//	}).done(function(data) {
-//		if (data) {
-//			location.href="warenverwaltung_wareneingang.html";
-//			
-//			if (data.success == true)
-//			{
-//				showAlertElement(1, data.message, 5000);
-//			}
-//			else
-//			{
-//				showAlertElement(2, data.message, 5000);
-//			}
-//		} 
-//		else {
-//			alert("Verbindungsproblem mit dem Server");
-//		}
-//	});
+	var incomingArticleDTOs = [];
+	for (e in articles)
+	{
+		// current article of the mapped article array from the disposition
+		var art = articles[e];
+		
+		var incomingArticle = new Object();
+		incomingArticle.outgoingArticleId = 0;
+		incomingArticle.articleNr = e;	// assign the index of the element
+		incomingArticle.numberpu = art[2];		// get the number of the PUs
+		
+		var articleDTO = new Object();
+		articleDTO.articleId = null;		// id of the article
+		articleDTO.description = art[1];	// description of the article
+		articleDTO.packagingUnit = art[3];	// packaging unit
+		articleDTO.weightpu = art[4].substring(0, art[4].length-2);			// don't assign weight
+		articleDTO.mdd = art[5];			// mdd of the article
+		articleDTO.pricepu = art[6].substring(0, art[6].length-2);			// don't assign pricepu
+		
+		incomingArticle.articleDTO = articleDTO;
+		
+		// insert current incomingArticle in the array
+		incomingArticleDTOs.push(incomingArticle);
+	}
+	
+	// insert incomingArticles array in the incomingDelivery
+	incomingDelivery.incomingArticleDTOs = incomingArticleDTOs;
+	
+	$.ajax({
+		headers : {
+			'Accept' : 'application/json',
+			'Content-Type' : 'application/json'
+		},
+		type : "POST",
+		url : "../rest/secure/incomingDelivery/set",
+		contentType: "application/json; charset=utf-8",
+	    dataType: "json",
+		data : JSON.stringify(incomingDelivery)
+	}).done(function(data) {
+		if (data) {
+			
+			if (data.success == true)
+			{
+				showAlertElement(1, data.message, 5000);
+				
+				// return to incomingDelivery overview
+				location.href="warenverwaltung_wareneingang.html";
+			}
+			else
+			{
+				showAlertElement(2, data.message, 5000);
+			}
+			
+		} else {
+			alert("Verbindungsproblem mit dem Server");
+		}
+		
+	});
+	
+});
 });
 
 //saves an article to the table
 var articleCount = 1;
 $("#btn_savearticle").click(function() {
+	//validate input fields
+	if($("#tbx_description").val() == ""){
+		$(".alert").text("Keine Beschreibung Vorhanden!");
+		$("#newAlertForm").show();
+		return;
+	}
+	if($("#tbx_numberofpackagingunits").val() == 0 || isNaN($("#tbx_numberofpackagingunits").val()) == true){
+		$(".alert").text("Anzahl der VE ist leer oder keine Zahl!");
+		$("#newAlertForm").show();
+		return;
+	}
+	if($("#tbx_packagingunit").val() == ""){
+		$(".alert").text("VE ist leer!");
+		$("#newAlertForm").show();
+		return;
+	}
+	if($("#tbx_weightpackagingunit").val() == 0 || isNaN($("#tbx_weightpackagingunit").val()) == true){
+		$(".alert").text("Einzelgewicht der VE ist leer oder keine Zahl!");
+		$("#newAlertForm").show();
+		return;
+	}
+	
+	var date = $("#tbx_mdd").val();
+	var regEx = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/;
+	var dateArray = date.match(regEx);
+	
+	if (dateArray == null)
+	{
+		$(".alert").text("MDD ist kein valides Datumsformat!");
+		$("#newAlertForm").show();
+		return;
+	}
+	
+	if(isNaN($("#tbx_pricepackagingunit").val()) == true || $("#tbx_pricepackagingunit").val() == ""){
+		$(".alert").text("Einzelpreis ist leer oder keine Zahl!");
+		$("#newAlertForm").show();
+		return;
+	}
+	//end validation
+	
+	
 	if($("#modal_title_text").text() == "Neue Position"){
 		var rowTemplate = createTableRow(articleCount);
 		$("#newIncomingDeliveryTableBody").append(rowTemplate);
@@ -231,31 +315,41 @@ $("#btn_savearticle").click(function() {
 });
 
 //save deliverer to textbox
-var organisationId_global;
 $("#btn_saveDeliverer").click(function() {
 	//get Id of checked radiobox of deliverer div
 	var id = $("#delivererDiv input[name='delivererRadio']:checked").val();
 	
+	//check if a checkbox is selected
+	if(id == null){
+		$("#newAlertFormDeliverer").show();
+		return;
+	}
+	
 	var delivererString;
+	var o;
 	$.ajax({
 		type : "POST",
 		async : false,
 		url : "../rest/secure/organisation/getOrganisationById/" + id
 	}).done(
 			function(data) {
-				var o = eval(data);
-				organisationId_global = o.id;
-				delivererString = o.name + ", " + o.country + ", " + o.zip + " " + o.city;
+				o = eval(data);
+				
+				// store the id to the global var
+				$('#tbx_orgId').val(o.id);
+				
+				delivererString = o.name + ", " + o.zip + " " + o.city + ", " + o.country;
 	});
 	
 	$("#tbx_deliverer").val(delivererString);
-	$("#tbx_deliverer_popover").attr("data-content", $("#tbx_deliverer").val());
+	$("#tbx_deliverer_popover").attr("data-content", o.name + " <br> " + o.zip + " " + o.city + "<br>" + o.country);
 	$('#chooseDelivererModal').modal('hide');
 });
 
 //new position modal
 $("#btn_new").click(function() {
 	$("#modal_title_text").text("Neue Position");
+	$("#newAlertForm").hide();
 	clearPositionModal();
 });
 
@@ -284,6 +378,7 @@ $("#btn_down").click(function() {
 //Load selected article to modal
 $("#btn_edit").click(function() {
 	$("#modal_title_text").text("Bearbeite Position");
+	$("#newAlertForm").hide();
 	clearPositionModal();
 	
 	$("#tbx_description").val(tableData[1]);
@@ -293,7 +388,9 @@ $("#btn_edit").click(function() {
 	//packagingUnit.match(/\d+/g);
 	$("#tbx_packagingunit").val(tableData[3]);
 	
-	$("#tbx_weightpackagingunit").val(tableData[4]);
+	var Stringlength = tableData[4].length;
+	$("#tbx_weightpackagingunit").val(tableData[4].substring(0, Stringlength-2));
+	
 	$("#tbx_mdd").val(tableData[5]);
 	
 	var Stringlength = tableData[6].length;

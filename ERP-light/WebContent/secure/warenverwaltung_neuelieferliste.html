@@ -60,12 +60,14 @@
 									<div class="col-md-5">
 										<form class="form-inline">
 	  										<div class="form-group">
-												<label id="label_lieferant">Fahrer/Beifahrer</label>
-												<span id="tbx_driver_popover" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
-													<input type="text" class="form-control" id="tbx_driver" placeholder="Fahrer" style="width: 275px;" disabled>
+												<label id="label_drivercodriver">Fahrer/Beifahrer</label>
+												<span id="tbx_driver_popover" data-container="body" data-html="true" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
+													<input type="text" class="form-control" id="tbx_driver" placeholder="Fahrer" style="width: 276px;" disabled>
+													<input type="hidden" id="tbx_driver_hidden">
+													<input type="hidden" id="tbx_codriver_hidden">
 												</span>
 											</div>
-												<button type="button" class="btn btn-default" id="btn_addDriver" data-toggle="modal" data-target="#chooseDriverModal"><span class="glyphicon glyphicon-plus"></span></button>				
+												<button type="button" class="btn btn-default" id="btn_addDriver" data-toggle="modal" data-target="#chooseDriverModal"><span class="glyphicon glyphicon-search"></span></button>				
 										</form>
 									
 									</div>
@@ -121,14 +123,31 @@
 								<!-- Table end -->
 							
 							</div>
+							
 							<div class="col-md-2">
-								<button type="button" class="btn btn-primary addbutton" id="btn_addtodeliverylist" style="margin-top: 60px; margin-left: 15%; margin-right: 85%;">
+							<div class="row">
+								<button type="button" class="btn btn-primary dispositionButton" id="btn_addtodeliverylist" style="margin-top: 60px;">
 									<span class="glyphicon glyphicon-plus"></span> Hinzuf&uuml;gen
 								</button>
-								<button type="button" class="btn btn-danger" id="btn_removefromdeliverylist" style="margin-left: 15%; margin-right: 85%;">
+							</div>
+								
+							<div class="row">
+								<button type="button" class="btn btn-danger dispositionButton" id="btn_removefromdeliverylist">
 									<span class="glyphicon glyphicon-minus"></span> Entfernen
 								</button>
 							</div>
+							</div>
+							
+							
+<!-- 							<div class="col-md-2"> -->
+<!-- 								<button type="button" class="btn btn-primary addbutton" id="btn_addtodeliverylist" style="margin-top: 60px; margin-left: 15%; margin-right: 85%;"> -->
+<!-- 									<span class="glyphicon glyphicon-plus"></span> Hinzuf&uuml;gen -->
+<!-- 								</button> -->
+<!-- 								<button type="button" class="btn btn-danger" id="btn_removefromdeliverylist" style="margin-left: 15%; margin-right: 85%;"> -->
+<!-- 									<span class="glyphicon glyphicon-minus"></span> Entfernen -->
+<!-- 								</button> -->
+<!-- 							</div> -->
+
 							<div class="col-md-5">
 								<!-- Table -->
 								<div class="table-responsive newOutgoingDeliveryTable" id="deliveryListTable">
@@ -187,6 +206,7 @@
 
 									</div>
 									<div class="modal-footer">
+										<div id="newAlertFormDriver"></div>
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">Abbrechen</button>
 										<button type="button" id="btn_saveDriver" class="btn btn-primary">

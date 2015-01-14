@@ -19,14 +19,18 @@ function loadTableContent(){
 								org = eval(data);
 							});
 							
-							//get articles
+							//get articles and sort them by the articleNr
 							var articleString = "";
 							var article = inc[e].incomingArticleDTOs;
-							for(var i=0; i < inc[e].incomingArticleDTOs.length; i++){
-								articleString = articleString + article[i].articleDTO.description;
-								
-								if(i < inc[e].incomingArticleDTOs.length - 1){
-									articleString = articleString + ", ";
+							for(var i=0; i < article.length; i++){
+								for(var j=0; j < article.length; j++){
+									if(article[j].articleNr == i){
+										articleString = articleString + article[j].articleDTO.description;
+										
+										if(i < article.length - 1){
+											articleString = articleString + ", ";
+										}
+									}
 								}
 							}
 							
@@ -44,6 +48,11 @@ function loadTableContent(){
 
 //Get all incoming deliveries and load into table
 $(document).ready(loadTableContent());
+
+//init collapse
+$(function () {
+	$('.collapse').collapse()
+});
 
 //switch to new incoming deliveries tab
 $("#btn_new").click(function() {
@@ -167,8 +176,10 @@ $("#btn_details").click(function() {
 					}
 				}
 				
-				//append divider
-				$("#person_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+				if(j < contactPersonIds.length-1){
+					//append divider
+					$("#person_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+				}
 			}
 		} 	// end else
 		
@@ -179,7 +190,7 @@ $("#btn_details").click(function() {
 	
 	//load last editor and updateTimeStamp
 	$("#label_lastEditor_details").text(loadContactPerson(inc.lastEditorId));
-	$("#label_updateTimestamp_details").text(inc.date); //TODO updateTimeStamp missing
+	$("#label_updateTimestamp_details").text("not working"); //TODO updateTimeStamp missing
 	
 	//load articles
 	var articleString = "";
@@ -194,7 +205,7 @@ $("#btn_details").click(function() {
 		articleString = article[i].articleDTO.packagingUnit;
 		createAndAppendArticleTemplate("VE", articleString);
 		
-		articleString = article[i].articleDTO.weightpu;
+		articleString = article[i].articleDTO.weightpu + " kg";
 		createAndAppendArticleTemplate("Einzelgewicht der VE", articleString);
 		
 		articleString = article[i].articleDTO.mdd;
@@ -207,8 +218,10 @@ $("#btn_details").click(function() {
 		var sum = pricepu * article[i].numberpu;
 		createAndAppendArticleTemplate("Gesamtpreis", sum + " €");
 		
-		//append divider
-		$("#article_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+		if(i < inc.incomingArticleDTOs.length-1){
+			//append divider
+			$("#article_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+		}
 	}
 	
 });

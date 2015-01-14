@@ -26,11 +26,15 @@ function loadTableContent(){
 							//get articles
 							var articleString = "";
 							var article = out[e].outgoingArticleDTOs;
-							for(var i=0; i < out[e].outgoingArticleDTOs.length; i++){
-								articleString = articleString + article[i].articleDTO.description;
-								
-								if(i < out[e].outgoingArticleDTOs.length - 1){
-									articleString = articleString + ", ";
+							for(var i=0; i < article.length; i++){
+								for(var j=0; j < article.length; j++){
+									if(article[j].articleNr == i){
+										articleString = articleString + article[j].articleDTO.description;
+										
+										if(i < article.length - 1){
+											articleString = articleString + ", ";
+										}
+									}
 								}
 							}
 							
@@ -48,6 +52,11 @@ function loadTableContent(){
 
 //Get all outgoing deliveries and load into table
 $(document).ready(loadTableContent());
+
+//init collapse
+$(function () {
+	$('.collapse').collapse()
+});
 
 //switch to new outgoing deliveries tab
 $("#btn_new").click(function() {
@@ -171,8 +180,10 @@ $("#btn_details").click(function() {
 					}
 				}
 				
-				//append divider
-				$("#person_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+				if(j < contactPersonIds.length-1){
+					//append divider
+					$("#person_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+				}
 			}
 		} 	// end else
 		
@@ -183,7 +194,7 @@ $("#btn_details").click(function() {
 	
 	//load last editor and updateTimeStamp
 	$("#label_lastEditor_details").text(loadContactPerson(out.lastEditorId));
-	$("#label_updateTimestamp_details").text(out.date); //TODO updateTimeStamp missing
+	$("#label_updateTimestamp_details").text("not working"); //TODO updateTimeStamp missing
 	
 	//load articles
 	var articleString = "";
@@ -211,8 +222,10 @@ $("#btn_details").click(function() {
 		var sum = pricepu * article[i].numberpu;
 		createAndAppendArticleTemplate("Gesamtpreis", sum + " €");
 		
-		//append divider
-		$("#article_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+		if(i < out.outgoingArticleDTOs.length-1){
+			//append divider
+			$("#article_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+		}
 	}
 	
 });

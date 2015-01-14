@@ -58,9 +58,9 @@
 										<form class="form-inline">
   										<div class="form-group">
 											<label id="label_lieferant">Empfänger</label>
-											<span id="tbx_receiver_popover" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
-												<input type="text" class="form-control" id="tbx_receiver" placeholder="Empfänger" style="width: 320px;" disabled>
-												<input type="hidden" id="tbx_orgId" >
+											<span id="tbx_receiver_popover" data-html="true" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
+												<input type="text" class="form-control" id="tbx_receiver" placeholder="Empfänger" style="width: 317px;" disabled>
+												<input type="hidden" id="tbx_orgId">
 											</span>
 										</div>
 										<button type="button" class="btn btn-default" id="btn_addReceiver" data-toggle="modal" data-target="#chooseReceiverModal"><span class="glyphicon glyphicon-search"></span></button>				
@@ -105,11 +105,11 @@
 									<table class="table table-hover table-striped header-fixed" id="TableHeadLeftDepot">
 										<thead class="TableHead">
 											<tr>
-												<th style="width: 3%">#</th>								
-												<th style="width: 30%">Ware</th>
-												<th style="width: 17%">Menge</th>
-												<th style="width: 20%">VE</th>
-												<th style="width: 30%">MHD</th>																	
+												<th style="width: 5%">#</th>								
+												<th style="width: 40%">Ware</th>
+												<th style="width: 15%">Menge</th>
+												<th style="width: 15%">VE</th>
+												<th style="width: 25%">MHD</th>																	
 											</tr>
 										</thead>	
 										<tbody id="leftDepotTableBody" class="searchable">
@@ -121,7 +121,7 @@
 							
 							</div>
 							<div class="col-md-2">
-								<label style="margin-top: 40px;">Verpackungseinheiten</label>
+								<label style="margin-top: 40px; margin-left: 2%;">Verpackungseinheiten</label>
 								
 								<div class="input-group">
 									<input type="text" class="form-control" id="tbx_packagingunit" placeholder="Menge" >
@@ -140,12 +140,6 @@
 								</button>
 								</div>
 								
-<!-- 								<button type="button" class="btn btn-primary addbutton" id="btn_addtodisposition" style="margin-left: 15%; margin-right: 85%;"> -->
-<!-- 									<span class="glyphicon glyphicon-plus"></span> Hinzuf&uuml;gen -->
-<!-- 								</button> -->
-<!-- 								<button type="button" class="btn btn-danger" id="btn_removefromdisposition" style="margin-left: 15%; margin-right: 85%;"> -->
-<!-- 									<span class="glyphicon glyphicon-minus"></span> Entfernen -->
-<!-- 								</button> -->
 							</div>
 							<div class="col-md-5">
 								<!-- Table -->
@@ -153,11 +147,11 @@
 									<table class="table table-hover table-striped header-fixed" id="TableHeadRightDepot">
 										<thead class="TableHead">
 											<tr>
-												<th style="width: 3%">#</th>								
-												<th style="width: 30%">Ware</th>
-												<th style="width: 17%">Menge</th>
-												<th style="width: 20%">VE</th>
-												<th style="width: 30%">MHD</th>															
+												<th style="width: 5%">#</th>								
+												<th style="width: 40%">Ware</th>
+												<th style="width: 15%">Menge</th>
+												<th style="width: 15%">VE</th>
+												<th style="width: 25%">MHD</th>															
 											</tr>
 										</thead>	
 										<tbody id="rightDepotTableBody" class="searchable">
@@ -208,6 +202,7 @@
 
 									</div>
 									<div class="modal-footer">
+										<div id="newAlertFormReceiver"></div>
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">Abbrechen</button>
 										<button type="button" id="btn_saveReceiver" class="btn btn-primary">

@@ -1,3 +1,7 @@
+//append alert message to modal
+var modalError = "<div id='modalErrorReceiverAlert'> <div class='col-sm-5'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Kein Empfänger ausgewählt!</div> </div>  </div>";
+$("#newAlertFormReceiver").append(modalError);
+
 //load page in specific mode
 var global_id;
 $(document).ready(function() {
@@ -48,7 +52,6 @@ function loadAllAvailableArticlesInDepot(){
 	}
 	
 	for (var i in availArticles) {
-		
 		var article = availArticles[i].articleDTO;
 		var articleId = article.articleId;
 		var description = article.description;
@@ -71,7 +74,7 @@ function loadAllAvailableArticlesInDepot(){
 }
 
 
-// unchecked
+//load table content
 function loadTableContent(id){
 	var out;
 	$.ajax({
@@ -91,12 +94,16 @@ function loadTableContent(id){
 		url : "../rest/secure/organisation/getOrganisationById/" + out.organisationId
 	}).done(function(data) {
 		org = eval(data);
-		receiverString = org.name + ", " + org.country + ", " + org.zip + " " + org.city;
+		
+		// store the id to the global var
+		$('#tbx_orgId').val(org.id);
+		
+		receiverString = org.name + ", " + org.zip + " " + org.city + ", " + org.country;
 		$("#tbx_receiver").val(receiverString);
 	});
 	
 	//set receiver popover
-	$("#tbx_receiver_popover").attr("data-content", $("#tbx_receiver").val());
+	$("#tbx_receiver_popover").attr("data-content", org.name + " <br> " + org.zip + " " + org.city + "<br>" + org.country);
 	
 	$("#tbx_date").val(out.date);
 	$("#tbx_comment").val(out.comment);
@@ -121,35 +128,34 @@ function loadTableContent(id){
 		$("#rightDepotTableBody").append(tableRow);
 	}
 	
-	var inc;
+	var availArticles;
 	$.ajax({
 		type : "POST",
 		async : false,
-		url : "../rest/secure/incomingDelivery/getAll"
+		url : "../rest/secure/articles/getAvailableArticles"
 	}).done(function(data) {
-			inc = eval(data);
+			availArticles = eval(data);
 	});
 	
-	for (var e in inc) {
-		//get articles (depot)
-		var article = inc[e].incomingArticleDTOs;
-		for(var i=0; i < article.length; i++){
-			var articleId = article[i].articleDTO.articleId;
-			var description = article[i].articleDTO.description;
-			var numberpu = article[i].numberpu;
-			var packagingUnit = article[i].articleDTO.packagingUnit;
-			var weightpu = article[i].articleDTO.weightpu;
-			var mdd = article[i].articleDTO.mdd;
-			
-			var tableRow = "<tr id='aId_"+articleId+"_dep'>" + "<td>" + articleId
-			+ "</td>" + "<td class='article_description'>" + description
-			+ "</td>" + "<td class='article_packagingunits'>" + numberpu
-			+ "</td>" + "<td class='article_packaging_unit'>" + packagingUnit
-			+ "</td>" + "<td class='article_mdd'>" + mdd
-			+ "</td>" + "</tr>";
-			
-			$("#leftDepotTableBody").append(tableRow);
-		}
+	for (var i in availArticles) {
+		
+		var article = availArticles[i].articleDTO;
+		var articleId = article.articleId;
+		var description = article.description;
+		var packagingUnit = article.packagingUnit;
+		var weightpu = article.wieghtpu;
+		var mdd = article.mdd;
+		var pricepu = article.pricepu;
+		var availNumberPUs = availArticles[i].availNumberOfPUs;
+		
+		var tableRow = "<tr id='aId_"+articleId+"_dep'>" + "<td>" + articleId
+		+ "</td>" + "<td class='article_description'>" + description
+		+ "</td>" + "<td class='article_packagingunits'>" + availNumberPUs
+		+ "</td>" + "<td class='article_packaging_unit'>" + packagingUnit
+		+ "</td>" + "<td class='article_mdd'>" + mdd
+		+ "</td>" + "</tr>";
+		
+		$("#leftDepotTableBody").append(tableRow);
 	}
 }
 
@@ -208,6 +214,7 @@ function createTableRow(id, mode, article_description, article_packagingunits, a
 $("#btn_addReceiver").click(function() {
 	$(".boxElement_receiver").remove();
 	$("#filter_modal").val("");
+	$("#newAlertFormReceiver").hide();
 	loadAllReceivers();
 });
 
@@ -216,22 +223,31 @@ $("#btn_addReceiver").click(function() {
 $("#btn_saveReceiver").click(function() {
 	//get Id of checked radiobox of receiver div
 	var id = $("#receiverDiv input[name='receiverRadio']:checked").val();
-	// store the id to the global var
-	$('#tbx_orgId').val(id);
+	
+	//check if a checkbox is selected
+	if(id == null){
+		$("#newAlertFormReceiver").show();
+		return;
+	}
 	
 	var receiverString;
+	var o;
 	$.ajax({
 		type : "POST",
 		async : false,
 		url : "../rest/secure/organisation/getOrganisationById/" + id
 	}).done(
 			function(data) {
-				var o = eval(data);
-				receiverString = o.name + ", " + o.country + ", " + o.zip + " " + o.city;
+				o = eval(data);
+				
+				// store the id to the global var
+				$('#tbx_orgId').val(o.id);
+				
+				receiverString = o.name + ", " + o.zip + " " + o.city + ", " + o.country;
 	});
 	
 	$("#tbx_receiver").val(receiverString);
-	$("#tbx_receiver_popover").attr("data-content", $("#tbx_receiver").val());
+	$("#tbx_receiver_popover").attr("data-content", o.name + "<br>" + o.zip + " " + o.city + "<br>" + o.country);
 	$('#chooseReceiverModal').modal('hide');
 });
 
