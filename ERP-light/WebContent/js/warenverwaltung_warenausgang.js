@@ -10,18 +10,29 @@ function loadTableContent(){
 			}).done(function(data) {
 						var out = eval(data);
 
+						// get all organisations
+						var organisations;
+						$.ajax({
+							type : "POST",
+							async : false,
+							url : "../rest/secure/organisation/getAllOrganisations"
+						}).done(function(data) {
+							organisations = eval(data);
+						});
+						
+						
 						for (var e in out) {
 							
 							//get organisation by id
-							var org;
-							$.ajax({
-								type : "POST",
-								async : false,
-								url : "../rest/secure/organisation/getOrganisationById/" + out[e].organisationId
-							}).done(function(data) {
-								
-								org = eval(data);
-							});
+							var org = null;
+							
+							for (i in organisations)
+							{
+								if (organisations[i].id == out[e].organisationId)
+								{
+									org = organisations[i];
+								}
+							}
 							
 							//get articles
 							var articleString = "";
