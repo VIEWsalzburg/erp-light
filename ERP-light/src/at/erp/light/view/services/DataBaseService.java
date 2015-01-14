@@ -699,6 +699,9 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int setNewOutgoingDelivery(OutgoingDelivery outgoingDelivery) throws Exception {
 		
+		// set Id to 0 => so the outgoingDelivery is created
+		outgoingDelivery.setOutgoingDeliveryId(0);
+		
 		for (OutgoingArticle outgoingArticle : outgoingDelivery.getOutgoingArticles())
 		{
 			// set id to 0 so it is created

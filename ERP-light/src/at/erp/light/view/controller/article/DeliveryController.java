@@ -221,6 +221,17 @@ public class DeliveryController {
 	@RequestMapping(value = "secure/outgoingDelivery/set")
 	public ControllerMessage setOutgoingDelivery(@RequestBody OutgoingDeliveryDTO dto, HttpServletRequest request) {
 		
+		if (dto.getOutgoingDeliveryId() != 0)
+		{
+			try {
+				dataBaseService.deleteOutgoingDeliveryById(dto.getOutgoingDeliveryId());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ControllerMessage(false, "Speichern nicht erfolgreich!");
+			}
+		}
+		
+		dto.setOutgoingDeliveryId(0);
 		dto.setLastEditorId(dataBaseService.getPersonById((int) request.getSession().getAttribute("id")).getPersonId());
 		OutgoingDelivery entity = OutgoingDeliveryMapper.mapToEntity(dto, dataBaseService);
 		// set current Times for updateTimestamp
