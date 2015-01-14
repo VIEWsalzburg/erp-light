@@ -67,7 +67,7 @@ $(document).ready(loadTableContent());
 
 //init collapse
 $(function () {
-	$('.collapse').collapse()
+	$('#details .collapse').collapse();		// collapse all accordions of the details modal
 });
 
 //switch to new incoming deliveries tab
