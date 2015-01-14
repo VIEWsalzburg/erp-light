@@ -10,6 +10,7 @@ public class OutgoingDeliveryDTO {
 	private Integer deliveryNr;
 	private String date;
 	private String comment;
+	private String updateTimestamp;
 	private Set<OutgoingArticleDTO> outgoingArticleDTOs = new HashSet<OutgoingArticleDTO>(
 			0);
 	
@@ -18,7 +19,8 @@ public class OutgoingDeliveryDTO {
 	public OutgoingDeliveryDTO(int outgoingDeliveryId,
 			int organisationId,
 			int lastEditorId, Integer deliveryNr, String date,
-			String comment, Set<OutgoingArticleDTO> outgoingArticleDTOs) {
+			String comment, Set<OutgoingArticleDTO> outgoingArticleDTOs,
+			String updateTimestamp) {
 		super();
 		this.outgoingDeliveryId = outgoingDeliveryId;
 		this.organisationId = organisationId;
@@ -27,6 +29,7 @@ public class OutgoingDeliveryDTO {
 		this.date = date;
 		this.comment = comment;
 		this.outgoingArticleDTOs = outgoingArticleDTOs;
+		this.updateTimestamp = updateTimestamp;
 	}
 
 	public int getOutgoingDeliveryId() {
@@ -83,6 +86,14 @@ public class OutgoingDeliveryDTO {
 
 	public void setOutgoingArticleDTOs(Set<OutgoingArticleDTO> outgoingArticleDTOs) {
 		this.outgoingArticleDTOs = outgoingArticleDTOs;
+	}
+
+	public String getUpdateTimestamp() {
+		return updateTimestamp;
+	}
+
+	public void setUpdateTimestamp(String updateTimestamp) {
+		this.updateTimestamp = updateTimestamp;
 	}
 	
 }

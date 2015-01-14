@@ -1,6 +1,7 @@
 package at.erp.light.view.controller.article;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -104,6 +105,8 @@ public class DeliveryController {
 			int lastEditorId = (int) request.getSession().getAttribute("id");
 			
 			IncomingDelivery entity = IncomingDeliveryMapper.mapToEntity(dto);
+			// set current Times for updateTimestamp
+			entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 			
 			// set Organisation and LastEditor for the entity
 			entity.setOrganisation(dataBaseService.getOrganisationById(dto.getOrganisationId()));
@@ -207,6 +210,8 @@ public class DeliveryController {
 		
 		dto.setLastEditorId(dataBaseService.getPersonById((int) request.getSession().getAttribute("id")).getPersonId());
 		OutgoingDelivery entity = OutgoingDeliveryMapper.mapToEntity(dto, dataBaseService);
+		// set current Times for updateTimestamp
+		entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 		
 		try {
 			dataBaseService.setNewOutgoingDelivery(entity);

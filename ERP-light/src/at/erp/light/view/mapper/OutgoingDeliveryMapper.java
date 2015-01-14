@@ -3,6 +3,7 @@ package at.erp.light.view.mapper;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -32,6 +33,7 @@ public class OutgoingDeliveryMapper {
 		dto.setDeliveryNr(entity.getDeliveryNr());
 		dto.setDate(df.format(entity.getDate()));
 		dto.setComment(entity.getComment());
+		dto.setUpdateTimestamp(df.format(entity.getUpdateTimestamp()));
 
 		Set<OutgoingArticleDTO> outgoingArticleDTOs = new HashSet<OutgoingArticleDTO>();
 		for (OutgoingArticle outgoingArticle : entity.getOutgoingArticles()) {
@@ -66,11 +68,25 @@ public class OutgoingDeliveryMapper {
 		}
 
 		entity.setDeliveryNr(dto.getDeliveryNr());
+		
 		try {
 			entity.setDate(df.parse(dto.getDate()));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
+		// updateTimestamp does not have to be delivered by the frontend
+		if (dto.getUpdateTimestamp() != null)
+		{
+			try {
+				entity.setUpdateTimestamp(df.parse(dto.getUpdateTimestamp()));
+			} catch (ParseException e) {
+				// set current Date if parsing fails
+				entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
+				e.printStackTrace();
+			}
+		}
+		
 		entity.setComment(dto.getComment());
 
 		Set<OutgoingArticle> outgoingArticles = new HashSet<OutgoingArticle>();

@@ -1,49 +1,73 @@
 //Get all incoming deliveries and load into table
 function loadTableContent(){
-			$.ajax({
-				type : "POST",
-				url : "../rest/secure/incomingDelivery/getAll"
-			}).done(function(data) {
-						var inc = eval(data);
+	
+	// get all organisations and save it in variable to search for when loading all incoming deliveries
+	var organisations;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/organisation/getAllOrganisations"
+	}).done(function(data) {
+			organisations = eval(data);
+	});
+	
+	
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/incomingDelivery/getAll"
+	}).done(function(data) {
+		var inc = eval(data);
 
-						for (var e in inc) {
-							
-							//get organisation by id
-							var org;
-							$.ajax({
-								type : "POST",
-								async : false,
-								url : "../rest/secure/organisation/getOrganisationById/" + inc[e].organisationId
-							}).done(function(data) {
-								
-								org = eval(data);
-							});
-							
-							//get articles
-							var articleString = "";
-							var article = inc[e].incomingArticleDTOs;
-							for(var i=0; i < inc[e].incomingArticleDTOs.length; i++){
-								articleString = articleString + article[i].articleDTO.description;
-								
-								if(i < inc[e].incomingArticleDTOs.length - 1){
-									articleString = articleString + ", ";
-								}
-							}
-							
-							var tableRow = "<tr>" + "<td>" + inc[e].incomingDeliveryId
-									+ "</td>" + "<td>" + org.name + ", " + "<br/>" + org.zip + " " + org.city + "," + "<br/>" + org.country 
-									+ "</td>" + "<td>" + inc[e].date
-									+ "</td>" + "<td>" + articleString
-									+ "</td>" + "<td>" + inc[e].comment
-									+ "</td>" + "</tr>";
+		for (var e in inc) {
+			
+			//get organisation by id
+			var org;
 
-							$("#incomingDeliveryTableBody").append(tableRow);
-						}
-					});
+			// search organisation in variable
+			for (i in organisations)
+			{
+				if (organisations[i].id == inc[e].organisationId)
+				{
+					org = organisations[i];
+				}
+			}
+			
+			//get articles
+			var articleString = "";
+			var articles = inc[e].incomingArticleDTOs;
+			
+			// sort articles according to their articleNr
+			articles.sort( function(a, b) { 
+				return (a.articleNr - b.articleNr);
+			} );
+			
+			for(var i=0; i < articles.length; i++){
+				articleString = articleString + articles[i].articleDTO.description;
+				
+				if(i < articles.length - 1){
+					articleString = articleString + ", ";
+				}
+			}
+			
+			var tableRow = "<tr>" + "<td>" + inc[e].incomingDeliveryId
+					+ "</td>" + "<td>" + org.name + ", " + "<br/>" + org.zip + " " + org.city + "," + "<br/>" + org.country 
+					+ "</td>" + "<td>" + inc[e].date
+					+ "</td>" + "<td>" + articleString
+					+ "</td>" + "<td>" + inc[e].comment
+					+ "</td>" + "</tr>";
+
+			$("#incomingDeliveryTableBody").append(tableRow);
+		}
+	});
+	
 };
 
+
+
 //Get all incoming deliveries and load into table
-$(document).ready(loadTableContent());
+$(document).ready(
+		loadTableContent()
+);
 
 //switch to new incoming deliveries tab
 $("#btn_new").click(function() {
@@ -179,32 +203,38 @@ $("#btn_details").click(function() {
 	
 	//load last editor and updateTimeStamp
 	$("#label_lastEditor_details").text(loadContactPerson(inc.lastEditorId));
-	$("#label_updateTimestamp_details").text(inc.date); //TODO updateTimeStamp missing
+	$("#label_updateTimestamp_details").text(inc.updateTimestamp);
+	
+	
+	var articles = inc.incomingArticleDTOs;
+	// sort articles according to their articleNr
+	articles.sort( function(a, b) { 
+		return (a.articleNr - b.articleNr);
+	} );
 	
 	//load articles
 	var articleString = "";
-	var article = inc.incomingArticleDTOs;
 	for(var i=0; i < inc.incomingArticleDTOs.length; i++){
-		articleString = article[i].articleDTO.description;
+		articleString = articles[i].articleDTO.description;
 		createAndAppendArticleTemplate("Beschreibung", articleString);
 		
-		articleString = article[i].numberpu;
+		articleString = articles[i].numberpu;
 		createAndAppendArticleTemplate("Anzahl der VE", articleString);
 		
-		articleString = article[i].articleDTO.packagingUnit;
-		createAndAppendArticleTemplate("VE", articleString);
+		articleString = articles[i].articleDTO.packagingUnit;
+		createAndAppendArticleTemplate("Art der VE", articleString);
 		
-		articleString = article[i].articleDTO.weightpu;
+		articleString = articles[i].articleDTO.weightpu + " kg";
 		createAndAppendArticleTemplate("Einzelgewicht der VE", articleString);
 		
-		articleString = article[i].articleDTO.mdd;
+		articleString = articles[i].articleDTO.mdd;
 		createAndAppendArticleTemplate("Mindesthaltbarkeitsdatum", articleString);
 		
-		articleString = article[i].articleDTO.pricepu + " €";
+		articleString = articles[i].articleDTO.pricepu + " €";
 		createAndAppendArticleTemplate("Einzelpreis der VE", articleString);
 		
-		var pricepu = parseFloat(article[i].articleDTO.pricepu);
-		var sum = pricepu * article[i].numberpu;
+		var pricepu = parseFloat(articles[i].articleDTO.pricepu);
+		var sum = Math.round( (pricepu * articles[i].numberpu) *100)/100;
 		createAndAppendArticleTemplate("Gesamtpreis", sum + " €");
 		
 		//append divider
@@ -217,6 +247,8 @@ function createAndAppendArticleTemplate(name, value){
 	var template = "<div class='row details'><div class='col-md-6'><label>"+ name +"</label></div><div class='col-md-6'><label>" + value + "</label></div></div>";
 	$("#article_container_details").append(template);
 }
+
+
 
 // search filter
 $(document).ready(function() {

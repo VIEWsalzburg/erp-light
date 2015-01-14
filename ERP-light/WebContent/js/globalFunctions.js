@@ -6,11 +6,11 @@ function showAlertElement(success, text, timeOut)
 		var alertClass = "";
 	
 		//set class
-		if (success == 1)
+		if (success == 1 || success == true)
 		{
 			alertClass = "alert alert-success";
 		}
-		else if (success == 2)
+		else if (success == 2 || success == false)
 		{
 			alertClass = "alert alert-danger";
 		}

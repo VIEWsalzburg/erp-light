@@ -31,6 +31,7 @@ public class IncomingDeliveryMapper {
 				dto.setDeliveryNr(entity.getDeliveryNr());
 				dto.setDate(df.format(entity.getDate()));
 				dto.setComment(entity.getComment());
+				dto.setUpdateTimestamp(df.format(entity.getUpdateTimestamp()));
 				
 				Set<IncomingArticleDTO> incomingArticleDTOs = new HashSet<IncomingArticleDTO>();
 				for(IncomingArticle incomingArticle : entity.getIncomingArticles())
@@ -60,6 +61,7 @@ public class IncomingDeliveryMapper {
 			// lastEditor must be set outside of the mapper (the static functions require a static dataBaseService which is not supported and permanently return null)
 			
 			entity.setDeliveryNr(dto.getDeliveryNr());
+			
 			try {
 				entity.setDate(df.parse(dto.getDate()));
 			} catch (ParseException e) {
@@ -67,6 +69,19 @@ public class IncomingDeliveryMapper {
 				entity.setDate(new Date(System.currentTimeMillis()));
 				e.printStackTrace();
 			}
+			
+			// updateTimestamp does not have to be delivered by the frontend
+			if (dto.getUpdateTimestamp() != null)
+			{
+				try {
+					entity.setUpdateTimestamp(df.parse(dto.getUpdateTimestamp()));
+				} catch (ParseException e) {
+					// set current Date if parsing fails
+					entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
+					e.printStackTrace();
+				}
+			}
+			
 			entity.setComment(dto.getComment());
 			
 			Set<IncomingArticle> incomingArticles = new HashSet<IncomingArticle>();
