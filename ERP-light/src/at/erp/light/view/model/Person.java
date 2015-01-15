@@ -143,7 +143,7 @@ public class Person implements java.io.Serializable {
 		this.country = country;
 	}
 
-	@Column(name = "salutation", nullable = false, length = 10)
+	@Column(name = "salutation", nullable = false, length = 20)
 	public String getSalutation() {
 		return this.salutation;
 	}
@@ -152,7 +152,7 @@ public class Person implements java.io.Serializable {
 		this.salutation = salutation;
 	}
 
-	@Column(name = "title", nullable = false, length = 10)
+	@Column(name = "title", nullable = false, length = 20)
 	public String getTitle() {
 		return this.title;
 	}

@@ -8,6 +8,11 @@ import javax.xml.bind.DatatypeConverter;
 public class HashGenerator {
 
 	/**
+	 * generated Hex Hash for password "default"
+	 * FB1C60ADBF08B2E679DF8BF1E52AB8836C978AC0A2C6F898C8B5E8B9B1FFD384014D45362F20F184CD7E
+	 */
+	
+	/**
 	 * Compare plain password with hash 
 	 * @param plain text
 	 * @param hash .
