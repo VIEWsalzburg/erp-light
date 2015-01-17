@@ -79,11 +79,11 @@
 		
 	</beans>
 	
-	<beans profile="MockedDB">
-		<bean id="dataBaseService" class="at.erp.light.view.services.MockedDataBaseService">
+<!-- 	<beans profile="MockedDB"> -->
+<!-- 		<bean id="dataBaseService" class="at.erp.light.view.services.MockedDataBaseService"> -->
 
-		</bean>
-	</beans>
+<!-- 		</bean> -->
+<!-- 	</beans> -->
 
 
 
