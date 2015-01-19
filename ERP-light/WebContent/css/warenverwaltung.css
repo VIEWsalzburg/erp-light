@@ -97,8 +97,8 @@
 /* displays a tr as grey if the delivery has been already booked */
 /* order of the styles is important, so that highlight overrides booked-entry */
 .table-striped tbody tr.booked-entry td {
-	background-color: #808080;
-	color: #ffffff;
+	background-color: #c0c0c0;
+	color: #808080;
 }
 
 .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
