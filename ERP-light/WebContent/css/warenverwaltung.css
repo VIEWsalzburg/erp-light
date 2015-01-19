@@ -94,10 +94,24 @@
 	overflow-x: hidden;
 }
 
+/* displays a tr as grey if the delivery has been already booked */
+/* order of the styles is important, so that highlight overrides booked-entry */
+.table-striped tbody tr.booked-entry td {
+	background-color: #808080;
+	color: #ffffff;
+}
+
 .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
   background-color: #45A12B;
   color: #FFF;
 }
+
+.table-striped tbody tr.highlight td { 
+    background-color: #45A12B;
+	color: #FFF;
+}
+
+
 /* Table end */
 
 .bottom{
@@ -114,10 +128,7 @@
 	margin-bottom: 5px;	
 }
 
-.table-striped tbody tr.highlight td { 
-    background-color: #45A12B;
-	color: #FFF;
-}
+
 
 .ModalDivContainer{
 	height: 80px;

@@ -49,7 +49,11 @@ function loadTableContent(){
 				}
 			}
 			
-			var tableRow = "<tr>" + "<td>" + inc[e].incomingDeliveryId
+			var bookedClass = "";
+			if (inc[e].booked > 0)
+				bookedClass = "booked-entry";	// set the class to display as booked
+			
+			var tableRow = "<tr class='"+bookedClass+"'>" + "<td>" + inc[e].incomingDeliveryId
 					+ "</td>" + "<td>" + org.name + ", " + "<br/>" + org.zip + " " + org.city + "," + "<br/>" + org.country 
 					+ "</td>" + "<td>" + inc[e].date
 					+ "</td>" + "<td>" + articleString

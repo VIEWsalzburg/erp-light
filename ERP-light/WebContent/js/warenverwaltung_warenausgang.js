@@ -52,7 +52,11 @@ function loadTableContent(){
 								}
 							}
 							
-							var tableRow = "<tr>" + "<td>" + out[e].outgoingDeliveryId
+							var bookedClass = "";
+							if (out[e].booked > 0)
+								bookedClass = "booked-entry";
+							
+							var tableRow = "<tr class='"+bookedClass+"'>" + "<td>" + out[e].outgoingDeliveryId
 									+ "</td>" + "<td>" + org.name + ", " + "<br/>" + org.zip + " " + org.city + "," + "<br/>" + org.country 
 									+ "</td>" + "<td>" + out[e].date
 									+ "</td>" + "<td>" + articleString

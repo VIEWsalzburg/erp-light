@@ -11,6 +11,7 @@ public class IncomingDeliveryDTO {
 	private String date;
 	private String comment;
 	private String updateTimestamp;
+	private int booked;		// indicates, if at least one article from this delivery has been booked
 	private Set<IncomingArticleDTO> incomingArticleDTOs = new HashSet<IncomingArticleDTO>(
 			0);
 	
@@ -20,7 +21,7 @@ public class IncomingDeliveryDTO {
 			int organisationId, int lastEditorId,
 			int deliveryNr, String date, String comment,
 			Set<IncomingArticleDTO> incomingArticleDTOs,
-			String updateTimestamp) {
+			String updateTimestamp, int booked) {
 		super();
 		this.incomingDeliveryId = incomingDeliveryId;
 		this.organisationId = organisationId;
@@ -30,6 +31,7 @@ public class IncomingDeliveryDTO {
 		this.comment = comment;
 		this.incomingArticleDTOs = incomingArticleDTOs;
 		this.updateTimestamp = updateTimestamp;
+		this.booked = booked;
 	}
 
 	public int getIncomingDeliveryId() {
@@ -94,6 +96,14 @@ public class IncomingDeliveryDTO {
 
 	public void setUpdateTimestamp(String updateTimestamp) {
 		this.updateTimestamp = updateTimestamp;
+	}
+
+	public int getBooked() {
+		return booked;
+	}
+
+	public void setBooked(int booked) {
+		this.booked = booked;
 	}
 	
 	
