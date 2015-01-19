@@ -1,4 +1,4 @@
-//Get all delivery lists and load into table
+//TODO Get all delivery lists and load into table
 function loadTableContent(){
 			$.ajax({
 				type : "POST",
@@ -30,11 +30,11 @@ function loadTableContent(){
 							}
 						
 							var tableRow = "<tr>" + "<td>" + list[e].deliveryListId
-									+ "</td>" + "<td>" + list[e].name
 									+ "</td>" + "<td>" + list[e].date
+									+ "</td>" + "<td>" + "delivererString"
 									+ "</td>" + "<td>" + receiverString
-									+ "</td>" + "<td>" + list[e].driver
-									+ "</td>" + "<td>" + list[e].passenger
+									+ "</td>" + "<td>" + list[e].driver + "," + "<br>" + list[e].passenger
+									+ "</td>" + "<td>" + list[e].name
 									+ "</td>" + "</tr>";
 
 							$("#deliveryListTableBody").append(tableRow);

@@ -132,8 +132,19 @@ $("#btn_addDeliverer").click(function() {
 });
 
 function createTableRow(count){
-	var pricepu = parseFloat($("#tbx_pricepackagingunit").val());
-	var sum = pricepu * $("#tbx_numberofpackagingunits").val();
+	var pricepu = $("#tbx_pricepackagingunit").val();
+	var sum = $("#tbx_numberofpackagingunits").val();
+	if(pricepu == ""){
+		pricepu = "-";
+		sum = "-";
+	}
+	else{
+		pricepu = parseFloat($("#tbx_pricepackagingunit").val());
+		sum = pricepu * $("#tbx_numberofpackagingunits").val();
+		
+		pricepu = pricepu + " €";
+		sum = sum + " €";
+	}
 	
 	var tableRow = "<tr id="+ count +">" + "<td>" + count
 	+ "</td>" + "<td>" + $("#tbx_description").val()
@@ -141,8 +152,8 @@ function createTableRow(count){
 	+ "</td>" + "<td>" + $("#tbx_packagingunit").val()
 	+ "</td>" + "<td>" + $("#tbx_weightpackagingunit").val() + " kg"
 	+ "</td>" + "<td>" + $("#tbx_mdd").val()
-	+ "</td>" + "<td>" + $("#tbx_pricepackagingunit").val() + " €"
-	+ "</td>" + "<td>" + sum + " €"
+	+ "</td>" + "<td>" + pricepu
+	+ "</td>" + "<td>" + sum
 	+ "</td>" + "</tr>";
 	
 	return tableRow;
@@ -292,10 +303,12 @@ $("#btn_savearticle").click(function() {
 		return;
 	}
 	
-	if(isNaN($("#tbx_pricepackagingunit").val()) == true || $("#tbx_pricepackagingunit").val() == ""){
-		$(".alert").text("Einzelpreis ist leer oder keine Zahl!");
-		$("#newAlertForm").show();
-		return;
+	if($("#tbx_pricepackagingunit").val() != ""){
+		if(isNaN($("#tbx_pricepackagingunit").val()) == true){
+			$(".alert").text("Einzelpreis ist keine Zahl!");
+			$("#newAlertForm").show();
+			return;
+		}
 	}
 	//end validation
 	
@@ -394,8 +407,10 @@ $("#btn_edit").click(function() {
 	
 	$("#tbx_mdd").val(tableData[5]);
 	
-	var Stringlength = tableData[6].length;
-	$("#tbx_pricepackagingunit").val(tableData[6].substring(0, Stringlength-2));
+	if(tableData[6] != "-"){
+		var Stringlength = tableData[6].length;
+		$("#tbx_pricepackagingunit").val(tableData[6].substring(0, Stringlength-2));
+	}
 });
 
 //clears position modal textboxes
