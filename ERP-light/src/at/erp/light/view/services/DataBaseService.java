@@ -662,7 +662,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException {
 		@SuppressWarnings("unchecked")
-		List<IncomingDelivery> incomingDeliveries = sessionFactory.getCurrentSession().createQuery("From IncomingDelivery").list();
+		List<IncomingDelivery> incomingDeliveries = sessionFactory.getCurrentSession().createQuery("From IncomingDelivery i order by i.date DESC").list();
 		return incomingDeliveries;
 	}
 	
@@ -767,7 +767,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException {
 		@SuppressWarnings("unchecked")
-		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery").list();
+		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery o order by o.date DESC").list();
 		return outgoingDeliveries;
 	}
 

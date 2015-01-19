@@ -57,7 +57,7 @@ public class DeliveryListMapper {
 		DeliveryList entity = new DeliveryList();
 		entity.setDeliveryListId(dto.getDeliveryListId());
 		try{
-		entity.setLastEditor(dataBase.getPersonById(dto.getLastEditorId()));
+			entity.setLastEditor(dataBase.getPersonById(dto.getLastEditorId()));
 		}
 		catch(Exception e)
 		{
