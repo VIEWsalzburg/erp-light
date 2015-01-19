@@ -1,40 +1,94 @@
 //TODO Get all delivery lists and load into table
 function loadTableContent(){
+	
+	// get all organisations
+	var organisations;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/organisation/getAllOrganisations"
+	}).done(function(data) {
+		organisations = eval(data);
+	});
+	
+	
 			$.ajax({
 				type : "POST",
 				url : "../rest/secure/deliveryList/getAll"
 			}).done(
 					function(data) {
-						var list = eval(data);
+						var deliverylists = eval(data);
 						var receiverString;
 						
-						for (var e in list) {
+						// iterate over all lists
+						for (var e in deliverylists) {
+							
+							var list = deliverylists[e];
 							
 							receiverString = "";
-							for(var i=0; i < list[e].outgoingDeliverieDTOs.length; i++){
+							var delivererArray = [];
+							
+							for(var i=0; i < list.outgoingDeliveryDTOs.length; i++){
 								
-								//get organisation by id
+								// get organisation by id
+								var orgId = list.outgoingDeliveryDTOs[i].organisationId;
 								var org;
-								$.ajax({
-									type : "POST",
-									async : false,
-									url : "../rest/secure/organisation/getOrganisationById/" + list[e].outgoingDeliverieDTOs[i].organisationId
-								}).done(function(data) {
-									org = eval(data);
-									
-									receiverString = receiverString + org.name;
-									if(i < list[e].outgoingDeliverieDTOs.length - 1){
-										receiverString = receiverString + ", ";
-									}
-								});
+								
+								for (o in organisations)
+								{
+									if (organisations[o].id==orgId)
+										org = organisations[o];
+								}
+								
+								receiverString = receiverString + org.name;
+								if(i < list.outgoingDeliveryDTOs.length - 1){
+									receiverString = receiverString + ", ";
+								}
+								
+								// iterate over outgoingArticleDTOS
+								for (var indexArticle in list.outgoingDeliveryDTOs[i].outgoingArticleDTOs)
+								{
+									// iterate over all articles
+									var article = list.outgoingDeliveryDTOs[i].outgoingArticleDTOs[indexArticle].articleDTO;
+									delivererArray.push(article.delivererId);
+								}
+								
 							}
 						
-							var tableRow = "<tr>" + "<td>" + list[e].deliveryListId
-									+ "</td>" + "<td>" + list[e].date
-									+ "</td>" + "<td>" + "delivererString"
+							
+							// remove duplicates from delivererArray
+							var unique = [];
+							
+							delivererArray.forEach(function(item) {
+								if (unique.indexOf(item) < 0)		// if element does not exist in unique array
+									unique.push(item);
+							});
+							
+							// create delivererString
+							var delivererString = "";
+							for (i in unique)
+							{
+								var orgId = unique[i];
+								for (o in organisations)
+								{
+									if (organisations[o].id == orgId)
+										delivererString = delivererString + organisations[o].name;
+								}
+								
+								if (i < (unique.length - 1) )
+									delivererString = delivererString + ", ";
+							}
+							
+							// create receiverString
+							
+							
+							
+							var tableRow = "<tr>" + "<td>" + list.deliveryListId
+									+ "</td>" + "<td>" + list.date
+									+ "</td>" + "<td>" + delivererString
 									+ "</td>" + "<td>" + receiverString
-									+ "</td>" + "<td>" + list[e].driver + "," + "<br>" + list[e].passenger
-									+ "</td>" + "<td>" + list[e].name
+									+ "</td>" + "<td>" + list.driver + "," + "<br>" + list.passenger
+									+ "</td>" + "<td>" + list.name
 									+ "</td>" + "</tr>";
 
 							$("#deliveryListTableBody").append(tableRow);
@@ -101,13 +155,13 @@ $("#btn_details").click(function() {
 	$("#label_description_details").text(list.name);
 	$("#label_dateofdeliverylist_details").text(list.date);
 		
-	for (var i = 0; i < list.outgoingDeliverieDTOs.length; i++) {
+	for (var i = 0; i < list.outgoingDeliveryDTOs.length; i++) {
 		//get organisation by id
 		var org;
 		$.ajax({
 			type : "POST",
 			async : false,
-			url : "../rest/secure/organisation/getOrganisationById/" + list.outgoingDeliverieDTOs[i].organisationId
+			url : "../rest/secure/organisation/getOrganisationById/" + list.outgoingDeliveryDTOs[i].organisationId
 		}).done(function(data) {
 			org = eval(data);
 		
@@ -136,7 +190,7 @@ $("#btn_details").click(function() {
 			}
 		});
 		
-		if(i < list.outgoingDeliverieDTOs.length-1){
+		if(i < list.outgoingDeliveryDTOs.length-1){
 			//append divider
 			$("#organisation_container_details").append("<div class='row divider-horizontal persondivider'></div>");
 		}

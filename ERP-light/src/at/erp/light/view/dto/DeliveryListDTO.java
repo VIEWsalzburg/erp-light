@@ -12,14 +12,14 @@ public class DeliveryListDTO {
 	private String driver;
 	private String passenger;
 	private String updateTimestamp;
-	private Set<OutgoingDeliveryDTO> outgoingDeliverieDTOs = new HashSet<OutgoingDeliveryDTO>(
+	private Set<OutgoingDeliveryDTO> outgoingDeliveryDTOs = new HashSet<OutgoingDeliveryDTO>(
 			0);
 	
 	public DeliveryListDTO(){}
 	
 	public DeliveryListDTO(int deliveryListId, int lastEditorId,
 			String name, String date, String comment, String driver,
-			String passenger, Set<OutgoingDeliveryDTO> outgoingDeliverieDTOs,
+			String passenger, Set<OutgoingDeliveryDTO> outgoingDeliveryDTOs,
 			String updateTimestamp) {
 		super();
 		this.deliveryListId = deliveryListId;
@@ -29,7 +29,7 @@ public class DeliveryListDTO {
 		this.comment = comment;
 		this.driver = driver;
 		this.passenger = passenger;
-		this.outgoingDeliverieDTOs = outgoingDeliverieDTOs;
+		this.outgoingDeliveryDTOs = outgoingDeliveryDTOs;
 		this.setUpdateTimestamp(updateTimestamp);
 	}
 	public int getDeliveryListId() {
@@ -74,12 +74,12 @@ public class DeliveryListDTO {
 	public void setPassenger(String passenger) {
 		this.passenger = passenger;
 	}
-	public Set<OutgoingDeliveryDTO> getOutgoingDeliverieDTOs() {
-		return outgoingDeliverieDTOs;
+	public Set<OutgoingDeliveryDTO> getOutgoingDeliveryDTOs() {
+		return outgoingDeliveryDTOs;
 	}
-	public void setOutgoingDeliverieDTOs(
-			Set<OutgoingDeliveryDTO> outgoingDeliverieDTOs) {
-		this.outgoingDeliverieDTOs = outgoingDeliverieDTOs;
+	public void setOutgoingDeliveryDTOs(
+			Set<OutgoingDeliveryDTO> outgoingDeliveryDTOs) {
+		this.outgoingDeliveryDTOs = outgoingDeliveryDTOs;
 	}
 
 	public String getUpdateTimestamp() {

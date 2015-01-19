@@ -240,8 +240,8 @@ public class TestController {
 	public void warenTest1() {		
 		
 		// create Articles
-		Article article1 = new Article(0, "Bananen", "1kg", 1, new Date(2015, 1, 10), new BigDecimal(new BigInteger("99"), 2));
-		Article article2 = new Article(0, "Gemüse", "5kg", 5, new Date(2015, 1, 11), new BigDecimal(new BigInteger("149"), 2));
+		Article article1 = new Article(0, "Bananen", "1kg", 1, new Date(System.currentTimeMillis()), new BigDecimal(new BigInteger("99"), 2));
+		Article article2 = new Article(0, "Gemüse", "5kg", 5, new Date(System.currentTimeMillis()), new BigDecimal(new BigInteger("149"), 2));
 		
 		
 
@@ -253,7 +253,8 @@ public class TestController {
 		incomingDelivery.setLastEditor(dataBaseService.getPersonById(36));
 		incomingDelivery.setDate(new Date(System.currentTimeMillis()));
 		incomingDelivery.setDeliveryNr(100);
-		incomingDelivery.setOrganisation(dataBaseService.getOrganisationById(7));
+		incomingDelivery.setOrganisation(dataBaseService.getOrganisationById(9));
+		incomingDelivery.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 
 		// create IncomingArticles
 		// including the incomingDelivery is very important => IncomingArticle is the owning side => otherwise the not null constraint generates problems
@@ -441,6 +442,18 @@ public class TestController {
 		deliveryList.setOutgoingDeliveries(deliveries);
 		
 		dataBaseService.setDeliveryList(deliveryList);
+		
+	}
+	
+	@RequestMapping(value = "WarenTest30")
+	public void warenTest30() {	
+	
+		IncomingDelivery incomingDelivery = dataBaseService.getIncomingDeliveryById(51);
+		
+		for (IncomingArticle ia : incomingDelivery.getIncomingArticles())
+		{
+			System.out.println(ia.getArticle().getDelivererId());
+		}
 		
 	}
 	

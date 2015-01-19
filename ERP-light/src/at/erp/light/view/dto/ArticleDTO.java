@@ -8,11 +8,12 @@ public class ArticleDTO {
 	private double weightpu;
 	private String mdd;
 	private double pricepu;
+	private int delivererId;	// represents the OrganisationId where the article is from
 	
 	public ArticleDTO(){}
 	
 	public ArticleDTO(int articleId, String description, String packagingUnit,
-			double weightpu, String mdd, double pricepu) {
+			double weightpu, String mdd, double pricepu, int delivererId) {
 		super();
 		this.articleId = articleId;
 		this.description = description;
@@ -20,6 +21,7 @@ public class ArticleDTO {
 		this.weightpu = weightpu;
 		this.mdd = mdd;
 		this.pricepu = pricepu;
+		this.delivererId = delivererId;
 	}
 
 	public int getArticleId() {
@@ -68,6 +70,14 @@ public class ArticleDTO {
 
 	public void setPricepu(double pricepu) {
 		this.pricepu = pricepu;
+	}
+
+	public int getDelivererId() {
+		return delivererId;
+	}
+
+	public void setDelivererId(int delivererId) {
+		this.delivererId = delivererId;
 	}
 	
 }

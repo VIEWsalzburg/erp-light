@@ -42,7 +42,7 @@ public class DeliveryListMapper {
 		{
 			outgoingDeliveryDTOs.add(OutgoingDeliveryMapper.mapToDTO(outgoingDelivery));
 		}
-		dto.setOutgoingDeliverieDTOs(outgoingDeliveryDTOs);
+		dto.setOutgoingDeliveryDTOs(outgoingDeliveryDTOs);
 		
 		return dto;
 	}
@@ -88,7 +88,7 @@ public class DeliveryListMapper {
 		entity.setPassenger(dto.getPassenger());
 		
 		Set<OutgoingDelivery> outgoingDeliveries = new HashSet<OutgoingDelivery>();
-		for(OutgoingDeliveryDTO outgoingDeliveryDTO : dto.getOutgoingDeliverieDTOs())
+		for(OutgoingDeliveryDTO outgoingDeliveryDTO : dto.getOutgoingDeliveryDTOs())
 		{
 			outgoingDeliveries.add(OutgoingDeliveryMapper.mapToEntity(outgoingDeliveryDTO, dataBase));
 		}

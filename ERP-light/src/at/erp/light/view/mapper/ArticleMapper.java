@@ -28,6 +28,7 @@ public class ArticleMapper {
 		dto.setPackagingUnit(entity.getPackagingUnit());
 		dto.setPricepu(entity.getPricepu().doubleValue());
 		dto.setWeightpu(entity.getWeightpu());
+		dto.setDelivererId(entity.getDelivererId());
 		
 		return dto;
 	}
@@ -52,6 +53,7 @@ public class ArticleMapper {
 		entity.setPackagingUnit(dto.getPackagingUnit());
 		entity.setPricepu(BigDecimal.valueOf(dto.getPricepu()));
 		entity.setWeightpu(dto.getWeightpu());
+		// delivererId must not be set (it is retrieved by the DB when getting the article elements
 		
 		return entity;
 	}
