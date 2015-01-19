@@ -83,7 +83,7 @@ function loadDeliveryList(id){
 		url : "../rest/secure/deliveryList/getById/" + id
 	}).done(function(data) {
 			var list = eval(data);
-			var out = list.outgoingDeliverieDTOs;
+			var out = list.outgoingDeliveryDTOs;
 	
 			//load textboxes
 			$("#tbx_driver_hidden").val(list.driver);
@@ -244,7 +244,7 @@ $("#btn_savedeliverylist").click(function() {
 	deliveryList.driver = driver;
 	deliveryList.passenger = codriver;
 	
-	var outgoingDeliverieDTOs = [];
+	var outgoingDeliveryDTOs = [];
 	for (e in dispositions)
 	{
 		// current article of the mapped article array from the disposition
@@ -258,11 +258,11 @@ $("#btn_savedeliverylist").click(function() {
 		}).done(function(data) {
 					out = eval(data);
 		});
-		outgoingDeliverieDTOs.push(out);
+		outgoingDeliveryDTOs.push(out);
 	}
 	
 	// insert outgoing deliveries array in the delivery list
-	deliveryList.outgoingDeliverieDTOs = outgoingDeliverieDTOs;
+	deliveryList.outgoingDeliveryDTOs = outgoingDeliveryDTOs;
 	
 	$.ajax({
 		headers : {
