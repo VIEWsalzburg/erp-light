@@ -401,6 +401,23 @@ public class DeliveryController {
 		}
 	}
 	
+	/**
+	 * Deletes a delivery list
+	 * @param id of object to delete
+	 * @return a message with a state and textual description 
+	 */
+	@RequestMapping(value = "secure/deliveryList/deleteById/{id}")
+	public ControllerMessage deleteDeliveryListById(@PathVariable int id) {
+		
+		try {
+			dataBaseService.deleteDeliveryListById(id);
+			return new ControllerMessage(true, "Löschen erfolgreich!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ControllerMessage(false, "Löschen nicht erfolgreich: " + e.getMessage());
+		}
+	}
+	
 	//DELETE OF DELIVERY LIST AND IF, HOW
 	
 	/***** [END] Delivery list *****/
