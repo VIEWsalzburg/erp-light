@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import at.erp.light.view.authenticate.HashGenerator;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.AvailArticleInDepot;
@@ -456,5 +457,14 @@ public class TestController {
 		}
 		
 	}
+	
+	@RequestMapping(value = "HashPassword-default")
+	public String hashPassword() {	
+	
+		return HashGenerator.hashPasswordWithSalt("default");
+		
+	}
+	
+	
 	
 }

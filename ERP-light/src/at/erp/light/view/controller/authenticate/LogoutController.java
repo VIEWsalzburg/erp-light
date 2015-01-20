@@ -24,7 +24,7 @@ public class LogoutController {
 		// If submitted password valid:
 		request.getSession().invalidate();
 		try {
-			response.sendRedirect("http://localhost:8080/ERP-light");
+			response.sendRedirect("http://"+request.getServerName()+":"+request.getServerPort()+"/ERP-light");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

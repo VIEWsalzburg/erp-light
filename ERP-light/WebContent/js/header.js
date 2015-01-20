@@ -4,7 +4,7 @@ $("#pageheader").load("../partials/header.html", function() {
 	$(document).ready(function() {
 		$.ajax({
 			type : "POST",
-			url : "/ERP-light/rest/secure/userdata"
+			url : "../rest/secure/userdata"
 		}).done(function(data) {
 		});
 	});

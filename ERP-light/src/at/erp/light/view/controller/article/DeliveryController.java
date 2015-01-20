@@ -191,6 +191,32 @@ public class DeliveryController {
 			return null;
 		}
 	}
+	
+	/**
+	 * Gets all outgoing deliveries, which are not booked (available).
+	 * @return a dto representation
+	 */
+	@RequestMapping(value = "secure/outgoingDelivery/getAllAvailables")
+	public List<OutgoingDeliveryDTO> getAllAvailableOutgoingDeliveries() {
+
+		List<OutgoingDeliveryDTO> list = new ArrayList<OutgoingDeliveryDTO>();
+
+		List<OutgoingDelivery> entityList = dataBaseService
+				.getAvailableOutgoingDeliveries();
+
+		if (entityList != null && entityList.size() > 0) {
+			for (OutgoingDelivery od : entityList) {
+				list.add(OutgoingDeliveryMapper.mapToDTO(od));
+			}
+			log.info("returning all available outgoing deliveries");
+
+			return list;
+		} else {
+			log.info("no available outgoing deliveries found");
+
+			return null;
+		}
+	}
 
 	/**
 	 * Gets only the requested outgoing delivery.

@@ -33,26 +33,39 @@ $(function () {
 	$('[data-toggle="popover"]').popover()
 });
 
-//Get all outgoing delivery entries and load into table
+// Get all available outgoing delivery entries and load into table
+// only outgoing deliveries, which are not booked
 function loadAllOutgoingDeliveries(){
+	
+	// save organisations into list
+	var organisations;
 	$.ajax({
 		type : "POST",
-		url : "../rest/secure/outgoingDelivery/getAll"
+		async : false,
+		url : "../rest/secure/organisation/getAllOrganisations"
+	}).done(function(data) {
+		organisations = eval(data);
+	});
+	
+	
+	
+	$.ajax({
+		type : "POST",
+		url : "../rest/secure/outgoingDelivery/getAllAvailables"
 	}).done(function(data) {
 				var out = eval(data);
 
 				for (var e in out) {
 					
 					//get organisation by id
+					var orgId = out[e].organisationId;
 					var org;
-					$.ajax({
-						type : "POST",
-						async : false,
-						url : "../rest/secure/organisation/getOrganisationById/" + out[e].organisationId
-					}).done(function(data) {
-						
-						org = eval(data);
-					});
+					
+					for (i in organisations)
+					{
+						if (organisations[i].id == orgId)
+							org = organisations[i];
+					}
 					
 					//get articles
 					var articleString = "";
