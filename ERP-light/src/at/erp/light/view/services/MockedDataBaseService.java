@@ -773,6 +773,13 @@ public class MockedDataBaseService implements IDataBase {
 		return false;
 	}
 
+	@Override
+	public List<OutgoingDelivery> getAvailableOutgoingDeliveries()
+			throws HibernateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 	

@@ -150,6 +150,7 @@ public interface IDataBase {
 	// Outgoing deliveries
 	public OutgoingDelivery getOutgoingDeliveryById(int id) throws HibernateException;
 	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException;
+	public List<OutgoingDelivery> getAvailableOutgoingDeliveries() throws HibernateException;
 	
 	
 	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) throws HibernateException;

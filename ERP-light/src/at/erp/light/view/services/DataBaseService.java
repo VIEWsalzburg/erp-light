@@ -771,6 +771,15 @@ public class DataBaseService implements IDataBase {
 		return outgoingDeliveries;
 	}
 
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<OutgoingDelivery> getAvailableOutgoingDeliveries()
+			throws HibernateException {
+		@SuppressWarnings("unchecked")
+		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery o where o.booked = 0 order by o.date DESC").list();
+		return outgoingDeliveries;
+	}
+	
 	/***** [END] outgoing deliveries *****/
 	
 	
@@ -1003,6 +1012,7 @@ public class DataBaseService implements IDataBase {
 		
 		return organisations;
 	}
+
 	
 	/***** [END] Categories *****/
 	
