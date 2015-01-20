@@ -798,7 +798,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<DeliveryList> getAllDeliveryLists() throws HibernateException {
 		
-		List<DeliveryList> deliveryLists = sessionFactory.getCurrentSession().createQuery("From DeliveryList").list();
+		List<DeliveryList> deliveryLists = sessionFactory.getCurrentSession().createQuery("From DeliveryList dl order by dl.date DESC").list();
 		return deliveryLists;
 	}
 
