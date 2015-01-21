@@ -687,7 +687,6 @@ public class DataBaseService implements IDataBase {
 					// found correct IncomingArticle
 					if (existingIA.getIncomingArticleId() == updatedIA.getIncomingArticleId())
 					{
-						System.out.println("Found Article"+existingIA.getIncomingArticleId());
 						// update Infos for corresponding Article
 						existingIA.getArticle().setPricepu(updatedIA.getArticle().getPricepu());	// update Price
 						this.sessionFactory.getCurrentSession().update(existingIA.getArticle());	// persist change
