@@ -77,13 +77,13 @@ function loadNewIncomingDelivery(id){
 	
 	$("#tbx_date").val(inc.date);
 	$("#tbx_comment").val(inc.comment);
-					
-	//get articles, sort them by the articleId and append them to the table
+	
+	//get articles, sort them by the articleNr and append them to the table
 	var article = inc.incomingArticleDTOs;
 	for(var i=0; i < article.length; i++){
 		for(var j=0; j < article.length; j++){
 			if(article[j].articleNr == i){
-				var articleId = article[j].articleDTO.articleId;
+				var incomingArticleId = article[j].incomingArticleId;
 				var description = article[j].articleDTO.description;
 				var numberpu = article[j].numberpu;
 				var packagingUnit = article[j].articleDTO.packagingUnit;
@@ -94,7 +94,8 @@ function loadNewIncomingDelivery(id){
 				//calculate sum price
 				var sum = pricepu * article[j].numberpu;
 				
-				var tableRow = "<tr id='"+articleId+"'>" + "<td>" + articleId
+				// adding the incomingArticleId is important to be able to update the according Article infos in the DB by using the Ids
+				var tableRow = "<tr id='"+incomingArticleId+"'>" + "<td>" + incomingArticleId
 				+ "</td>" + "<td>" + description
 				+ "</td>" + "<td>" + numberpu
 				+ "</td>" + "<td>" + packagingUnit
@@ -141,7 +142,11 @@ $("#btn_addDeliverer").click(function() {
 	loadAllDeliverers();
 });
 
-function createTableRow(count){
+
+// variable count is shown as Id in the table, but the second parameter Id determins if its a new Article (according to the DB)
+// or a updated existing one
+function createTableRow(count, id){
+	
 	var pricepu = $("#tbx_pricepackagingunit").val();
 	var sum = $("#tbx_numberofpackagingunits").val();
 	if(pricepu == ""){
@@ -156,7 +161,17 @@ function createTableRow(count){
 		sum = sum + " €";
 	}
 	
-	var tableRow = "<tr id="+ count +">" + "<td>" + count
+	
+	// if the passed id == 0 => set the class 'newArticleId' for the new row, so the mapping funciton in the funciton
+	// 'submit to depot' can determine if it is an existing IncomingArticle or a new IncomingArticle
+	if (id == 0)
+		newArticleClass = "newArticleId";
+	else
+		newArticleClass = "";
+	
+	// add class newArticleId to sign the new Row as a new Article for the DB (set Id to 0 when saving the Delivery, by checking the class)
+	// otherwise if the class is not assigned to the row, the IncomingArticle already exists in the DB and this is a updated row
+	var tableRow = "<tr id="+ count +">" + "<td class='"+newArticleClass+"'>" + count
 	+ "</td>" + "<td>" + $("#tbx_description").val()
 	+ "</td>" + "<td>" + $("#tbx_numberofpackagingunits").val()
 	+ "</td>" + "<td>" + $("#tbx_packagingunit").val()
@@ -197,7 +212,20 @@ $("#btn_submittodepot").click(function() {
 	var articles = [];
 	// get all articles in the new disposition
 	$('#newIncomingDeliveryTableBody tr').each(function(){
-		var rowData = $(this).children('td').map(function(){return $(this).text();});
+		var rowData = $(this).children('td').map(
+				function(){
+					// if the Id field of the row has the class 'newArticleId', which signs it as a new IncomingArticle for the DB
+					// return the Id 0
+					// if it does not has the newArticleId class, which occurs when the IncomingArticle exists in the DB, it returns it Id
+					// the class acts like a flag, because setting Id fiels to 0 would break the sorting option
+					if ( $(this).hasClass("newArticleId") )
+					{	
+						return "0";
+					}
+					
+					// return the text of the current table field
+					return $(this).text();
+			});
 		articles.push(rowData);
 	});
 	
@@ -222,17 +250,19 @@ $("#btn_submittodepot").click(function() {
 		var art = articles[e];
 		
 		var incomingArticle = new Object();
-		incomingArticle.outgoingArticleId = 0;
-		incomingArticle.articleNr = e;	// assign the index of the element
-		incomingArticle.numberpu = art[2];		// get the number of the PUs
+		incomingArticle.incomingArticleId = art[0];		// incomingArticleId (when updating an existing IncomingArticle: the Id of it
+														// 		when saving a new IncomingArticle: 0 (originally 1...x added by the modal),
+														//		but returned in the mapping function when containing class 'newArticleId'
+		incomingArticle.articleNr = e;					// assign the index of the element
+		incomingArticle.numberpu = art[2];				// get the number of the PUs
 		
 		var articleDTO = new Object();
-		articleDTO.articleId = null;		// id of the article
-		articleDTO.description = art[1];	// description of the article
-		articleDTO.packagingUnit = art[3];	// packaging unit
-		articleDTO.weightpu = art[4].substring(0, art[4].length-2);			// don't assign weight
-		articleDTO.mdd = art[5];			// mdd of the article
-		articleDTO.pricepu = art[6].substring(0, art[6].length-2);			// don't assign pricepu
+		articleDTO.articleId = null;					// id of the article
+		articleDTO.description = art[1];				// description of the article
+		articleDTO.packagingUnit = art[3];				// packaging unit
+		articleDTO.weightpu = art[4].substring(0, art[4].length-2);
+		articleDTO.mdd = art[5];						// mdd of the article
+		articleDTO.pricepu = art[6].substring(0, art[6].length-2);
 		
 		incomingArticle.articleDTO = articleDTO;
 		
@@ -324,13 +354,17 @@ $("#btn_savearticle").click(function() {
 	
 	
 	if($("#modal_title_text").text() == "Neue Position"){
-		var rowTemplate = createTableRow(articleCount);
+		var rowTemplate = createTableRow(articleCount, 0);	// add Id (concerning the DB, 0 if new Article) for the new Article,
+															// so the function knows if it needs to set the class 'newArticleId'
+															// or if its an existing IncomingArticle
 		$("#newIncomingDeliveryTableBody").append(rowTemplate);
 		articleCount++;
 	}
 	else{
 		var id = tableData[0];
-		var rowTemplate = createTableRow(id);
+		var rowTemplate = createTableRow(id, id);			// add Id (concerning the DB, existing Id if existing Artilce) for the Article
+															// so the function knows if it needs to set the class 'newArticleId'
+															// or if its an existing IncomingArticle
 		$("#" + id).remove();
 		$("#newIncomingDeliveryTableBody").append(rowTemplate);
 	}
