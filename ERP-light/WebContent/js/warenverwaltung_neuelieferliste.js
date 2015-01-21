@@ -101,17 +101,18 @@ function loadDeliveryList(id){
 			//load textboxes
 			$("#tbx_driver_hidden").val(list.driver);
 			$("#tbx_codriver_hidden").val(list.passenger);
-			$('#tbx_driver').val("F: " + list.driver + ", " + "B: " + list.passenger);
 			
 			if($("#tbx_codriver_hidden").val() == ""){
+				$('#tbx_driver').val("F: " + list.driver);
 				$("#tbx_driver_popover").attr("data-content", "Fahrer: " + $("#tbx_driver_hidden").val());
 			}
 			else{
+				$('#tbx_driver').val("F: " + list.driver + ", " + "B: " + list.passenger);
 				$("#tbx_driver_popover").attr("data-content", "Fahrer: " + $("#tbx_driver_hidden").val() + "<br>" + "Beifahrer: " + $("#tbx_codriver_hidden").val());
 			}
 			
 			$('#tbx_date').val(list.date);
-			$('#tbx_comment').val(list.name);
+			$('#tbx_comment').val(list.comment);
 			
 			for (var e in out) {
 				
@@ -251,7 +252,7 @@ $("#btn_savedeliverylist").click(function() {
 	var deliveryList = new Object();
 	deliveryList.deliveryListId = 0;
 	deliveryList.lastEditorId = 0;
-	deliveryList.name = comment;
+	deliveryList.name = ""; //not used
 	deliveryList.date = date;
 	deliveryList.comment = comment;
 	deliveryList.driver = driver;
@@ -369,6 +370,9 @@ $('#TableHeadOutgoingDelivery').on('click','tbody tr', function(event) {
 			
 			$("*").removeClass("highlight");
 			$(this).addClass('highlight').siblings().removeClass('highlight');
+			
+			$('#btn_up').prop('disabled', true);
+			$('#btn_down').prop('disabled', true);
 
 			// only when user has admin rights
 			if (currentUserRights == "Admin" && currentUserRights != "") {

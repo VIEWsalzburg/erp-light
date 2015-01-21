@@ -1,4 +1,4 @@
-//TODO Get all delivery lists and load into table
+//Get all delivery lists and load into table
 function loadTableContent(){
 	
 	// get all organisations
@@ -11,22 +11,20 @@ function loadTableContent(){
 		organisations = eval(data);
 	});
 	
-	
 			$.ajax({
 				type : "POST",
 				url : "../rest/secure/deliveryList/getAll"
 			}).done(
 					function(data) {
 						var deliverylists = eval(data);
-						var receiverString;
 						
 						// iterate over all lists
 						for (var e in deliverylists) {
 							
 							var list = deliverylists[e];
 							
-							receiverString = "";
 							var delivererArray = [];
+							var receiverArray = [];
 							
 							for(var i=0; i < list.outgoingDeliveryDTOs.length; i++){
 								
@@ -36,14 +34,12 @@ function loadTableContent(){
 								
 								for (o in organisations)
 								{
-									if (organisations[o].id==orgId)
+									if (organisations[o].id == orgId)
 										org = organisations[o];
 								}
 								
-								receiverString = receiverString + org.name;
-								if(i < list.outgoingDeliveryDTOs.length - 1){
-									receiverString = receiverString + ", ";
-								}
+								// get receivers
+								receiverArray.push(org.id);
 								
 								// iterate over outgoingArticleDTOS
 								for (var indexArticle in list.outgoingDeliveryDTOs[i].outgoingArticleDTOs)
@@ -54,11 +50,9 @@ function loadTableContent(){
 								}
 								
 							}
-						
 							
 							// remove duplicates from delivererArray
 							var unique = [];
-							
 							delivererArray.forEach(function(item) {
 								if (unique.indexOf(item) < 0)		// if element does not exist in unique array
 									unique.push(item);
@@ -79,16 +73,43 @@ function loadTableContent(){
 									delivererString = delivererString + ", ";
 							}
 							
+							// remove duplicates from receiverArray
+							var unique = [];
+							receiverArray.forEach(function(item) {
+								if (unique.indexOf(item) < 0)		// if element does not exist in unique array
+									unique.push(item);
+							});
+							
 							// create receiverString
+							var receiverString = "";
+							for (i in unique)
+							{
+								var orgId = unique[i];
+								for (o in organisations)
+								{
+									if (organisations[o].id == orgId)
+										receiverString = receiverString + organisations[o].name;
+								}
+								
+								if (i < (unique.length - 1) )
+									receiverString = receiverString + ", ";
+							}
 							
-							
+							//create driverString
+							var driverString = "";
+							if(list.passenger == ""){
+								driverString = list.driver;
+							}
+							else{
+								driverString = list.driver + "," + "<br>" + list.passenger;
+							}
 							
 							var tableRow = "<tr>" + "<td>" + list.deliveryListId
 									+ "</td>" + "<td>" + list.date
 									+ "</td>" + "<td>" + delivererString
 									+ "</td>" + "<td>" + receiverString
-									+ "</td>" + "<td>" + list.driver + "," + "<br>" + list.passenger
-									+ "</td>" + "<td>" + list.name
+									+ "</td>" + "<td>" + driverString
+									+ "</td>" + "<td>" + list.comment
 									+ "</td>" + "</tr>";
 
 							$("#deliveryListTableBody").append(tableRow);
@@ -152,11 +173,101 @@ $("#btn_details").click(function() {
 		list = eval(data);
 	});
 	
-	$("#label_description_details").text(list.name);
+	$("#label_description_details").text(list.comment);
 	$("#label_dateofdeliverylist_details").text(list.date);
-		
+	
+	//load outgoingArticleDTOs
 	for (var i = 0; i < list.outgoingDeliveryDTOs.length; i++) {
-		//get organisation by id
+		var template = "<div class='panel-group details' id='accordion_deliverylist"+ i +"' role='tablist' aria-multiselectable='true'>" +
+						"<div class='panel panel-default'><div class='panel-heading' role='tab' id='heading"+ i +"'><h4 class='panel-title'>" +
+						"<a data-toggle='collapse' data-parent='#accordion_deliverylist"+ i +"' href='#collapse"+ i +"' aria-expanded='true' aria-controls='collapseOne'>" +
+						"Lieferung "+ (i+1) +"</a></h4></div><div id='collapse"+ i +"' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='heading"+ i +"'>" +
+						"<div class='panel-body'><div id='organisation_container_details"+ i +"'></div></div></div></div></div>";
+		$("#accordion_container_details").append(template);
+		
+		//close accordion
+		$("#collapse" + i).collapse("hide");
+		
+		// iterate over outgoingArticleDTOS
+		var delivererArray = [];
+		for (var indexArticle in list.outgoingDeliveryDTOs[i].outgoingArticleDTOs)
+		{
+			//push all deliverer ids to delivererArray
+			var article = list.outgoingDeliveryDTOs[i].outgoingArticleDTOs[indexArticle].articleDTO;
+			delivererArray.push(article.delivererId);
+		}
+		
+		// remove duplicates from delivererArray
+		var unique = [];
+		delivererArray.forEach(function(item) {
+			if (unique.indexOf(item) < 0)		// if element does not exist in unique array
+				unique.push(item);
+		});
+		
+		for (j in unique)
+		{
+			//get deliverer organisation by id
+			var org;
+			$.ajax({
+				type : "POST",
+				async : false,
+				url : "../rest/secure/organisation/getOrganisationById/" + unique[j]
+			}).done(function(data) {
+				org = eval(data);
+			
+				//deliverer
+				var template = "<div class='row details'><div class='col-md-6'><label>Lieferant "+ (parseInt(j) + 1) +"</label></div><div class='col-md-6'><label>" + org.name + "</label></div></div>";
+				$("#organisation_container_details" + i).append(template);
+				
+				var template = "<div class='row details'><div class='col-md-6'><label>Adresse</label></div><div class='col-md-6'><label>" + org.address + "</label></div></div>";
+				$("#organisation_container_details" + i).append(template);
+			
+				var template = "<div class='row details'><div class='col-md-6'><label>Postleitzahl</label></div><div class='col-md-6'><label>" + org.zip + "</label></div></div>";
+				$("#organisation_container_details" + i).append(template);
+				
+				var template = "<div class='row details'><div class='col-md-6'><label>Stadt</label></div><div class='col-md-6'><label>" + org.city + "</label></div></div>";
+				$("#organisation_container_details" + i).append(template);
+				
+				var template = "<div class='row details'><div class='col-md-6'><label>Land</label></div><div class='col-md-6'><label>" + org.country + "</label></div></div>";
+				$("#organisation_container_details" + i).append(template);
+			
+				if(org.comment == ""){
+					var template = "<div class='row details'><div class='col-md-6'><label>Bemerkung</label></div><div class='col-md-6'><label>-</label></div></div>";
+					$("#organisation_container_details" + i).append(template);
+				}
+				else{
+					var template = "<div class='row details'><div class='col-md-6'><label>Bemerkung</label></div><div class='col-md-6'><label>" + org.comment + "</label></div></div>";
+					$("#organisation_container_details" + i).append(template);
+				}
+				
+				//append divider
+				$("#organisation_container_details" + i).append("<div class='row divider-horizontal persondivider'></div>");
+			});
+			
+			// iterate over outgoingArticleDTOS
+			for (var indexArticle in list.outgoingDeliveryDTOs[i].outgoingArticleDTOs)
+			{
+				var article = list.outgoingDeliveryDTOs[i].outgoingArticleDTOs[indexArticle].articleDTO;
+				var article_details = list.outgoingDeliveryDTOs[i].outgoingArticleDTOs[indexArticle];
+				
+				//append only articles from same deliverer
+				if(article.delivererId == org.id){
+					var template = "<div class='row details'><div class='col-md-6'><label>Ware "+ (parseInt(indexArticle) + 1) +"</label></div><div class='col-md-6'><label>" + article.description + "</label></div></div>";
+					$("#organisation_container_details" + i).append(template);
+					
+					var template = "<div class='row details'><div class='col-md-6'><label>Anzahl der VE</label></div><div class='col-md-6'><label>" + article_details.numberpu + "</label></div></div>";
+					$("#organisation_container_details" + i).append(template);
+					
+					var template = "<div class='row details'><div class='col-md-6'><label>Art der VE</label></div><div class='col-md-6'><label>" + article.packagingUnit + "</label></div></div>";
+					$("#organisation_container_details" + i).append(template);
+					
+					//append divider
+					$("#organisation_container_details" + i).append("<div class='row divider-horizontal persondivider'></div>");
+				}
+			}
+		}
+		
+		//get receiver organisation by id
 		var org;
 		$.ajax({
 			type : "POST",
@@ -165,35 +276,31 @@ $("#btn_details").click(function() {
 		}).done(function(data) {
 			org = eval(data);
 		
-			var template = "<div class='row details'><div class='col-md-6'><label>Name</label></div><div class='col-md-6'><label>" + org.name + "</label></div></div>";
-			$("#organisation_container_details").append(template);
+			//receiver
+			var template = "<div class='row details'><div class='col-md-6'><label>Kunde</label></div><div class='col-md-6'><label>" + org.name + "</label></div></div>";
+			$("#organisation_container_details" + i).append(template);
 			
 			var template = "<div class='row details'><div class='col-md-6'><label>Adresse</label></div><div class='col-md-6'><label>" + org.address + "</label></div></div>";
-			$("#organisation_container_details").append(template);
+			$("#organisation_container_details" + i).append(template);
 		
 			var template = "<div class='row details'><div class='col-md-6'><label>Postleitzahl</label></div><div class='col-md-6'><label>" + org.zip + "</label></div></div>";
-			$("#organisation_container_details").append(template);
+			$("#organisation_container_details" + i).append(template);
 			
 			var template = "<div class='row details'><div class='col-md-6'><label>Stadt</label></div><div class='col-md-6'><label>" + org.city + "</label></div></div>";
-			$("#organisation_container_details").append(template);
+			$("#organisation_container_details" + i).append(template);
 			
 			var template = "<div class='row details'><div class='col-md-6'><label>Land</label></div><div class='col-md-6'><label>" + org.country + "</label></div></div>";
-			$("#organisation_container_details").append(template);
+			$("#organisation_container_details" + i).append(template);
 		
 			if(org.comment == ""){
 				var template = "<div class='row details'><div class='col-md-6'><label>Bemerkung</label></div><div class='col-md-6'><label>-</label></div></div>";
-				$("#organisation_container_details").append(template);
+				$("#organisation_container_details" + i).append(template);
 			}
 			else{
 				var template = "<div class='row details'><div class='col-md-6'><label>Bemerkung</label></div><div class='col-md-6'><label>" + org.comment + "</label></div></div>";
-				$("#organisation_container_details").append(template);
+				$("#organisation_container_details" + i).append(template);
 			}
 		});
-		
-		if(i < list.outgoingDeliveryDTOs.length-1){
-			//append divider
-			$("#organisation_container_details").append("<div class='row divider-horizontal persondivider'></div>");
-		}
 	}
 	
 	//load driver and codriver
@@ -291,8 +398,8 @@ $("#btn_deleteModal").click(function() {
 			inc = eval(data);
 	});
 	
-	$("#label_name_delete").text(inc.name); 
 	$("#label_date_delete").text(inc.date);
+	$("#label_name_delete").text(inc.comment); 
 });
 
 

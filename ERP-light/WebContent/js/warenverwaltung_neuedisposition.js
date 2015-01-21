@@ -4,6 +4,7 @@ $("#newAlertFormReceiver").append(modalError);
 
 //load page in specific mode
 var global_id;
+var isBooked;
 $(document).ready(function() {
 	$.urlParam = function(name){
 	    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -18,13 +19,22 @@ $(document).ready(function() {
 	var mode = $.urlParam('mode');
 	global_id = $.urlParam('id');
 	
+	//default value = false
+	isBooked = false;
+	
 	if(mode == "new"){
 		$("#tabtext").text("Neue Disposition");
 		loadAllAvailableArticlesInDepot();
 		global_id = 0;	// set Id to 0
 	}
-	else if(mode == "edit"){
+	else if(mode == "edittrue"){
 		$("#tabtext").text("Bearbeite Disposition");
+		isBooked = true;
+		loadTableContent(global_id);
+	}
+	else if(mode == "editfalse"){
+		$("#tabtext").text("Bearbeite Disposition");
+		isBooked = false;
 		loadTableContent(global_id);
 	}
 });
@@ -165,7 +175,7 @@ function loadTableContent(id){
 
 /**
  * load all organisations
- * TODO load only organisations of type KUNDE
+ * load only organisations of type KUNDE
  */
 function loadAllReceivers() {
 	$.ajax({
@@ -585,6 +595,8 @@ $(document).ready(function() {
 
 
 //disable new, edit and delete buttons
+$('#label_packagingunits').hide();
+$('#tbx_packagingunit_group').hide();
 $('#btn_addtodisposition').hide();
 $('#btn_removefromdisposition').hide();
 
@@ -600,13 +612,18 @@ $(document).ready(function() {
 
 		// only when user has admin rights
 		if (currentUserRights == "Admin" && currentUserRights != "") {
-			$('#btn_addtodisposition').show();
-			$('#btn_removefromdisposition').show();
-
+			if(isBooked != true){
+				$('#label_packagingunits').show();
+				$('#tbx_packagingunit_group').show();
+				$('#btn_addtodisposition').show();
+				$('#btn_removefromdisposition').show();
+	
+				$('#btn_addtodisposition').prop('disabled', true);
+				$('#btn_removefromdisposition').prop('disabled', true);
+			}
+				
 			$('#btn_up').prop('disabled', true);
 			$('#btn_down').prop('disabled', true);
-			$('#btn_addtodisposition').prop('disabled', true);
-			$('#btn_removefromdisposition').prop('disabled', true);
 		}
 	});
 });
@@ -624,18 +641,23 @@ $('#TableHeadLeftDepot').on('click','tbody tr', function(event) {
 	// $("*").removeClass("highlight");	
 	// $(this).addClass('highlight').siblings().removeClass('highlight');
 
-	// only when user has admin rights
-	if (currentUserRights == "Admin" && currentUserRights != "") {
-		// enable 'button to disposition'
-		$('#btn_addtodisposition').prop('disabled', false);
-		// disable 'button from disposition'
-		$('#btn_removefromdisposition').prop('disabled', true);
-		// set the maximum packaging units for the selected article
-		$('#tbx_packagingunit').val(parseFloat(tableData[2]));
-	} 
-	else {
-		$('#btn_addtodisposition').prop('disabled', true);
-		$('#btn_removefromdisposition').prop('disabled', true);
+	$('#btn_up').prop('disabled', true);
+	$('#btn_down').prop('disabled', true);
+	
+	if(isBooked != true){
+		// only when user has admin rights
+		if (currentUserRights == "Admin" && currentUserRights != "") {
+			// enable 'button to disposition'
+			$('#btn_addtodisposition').prop('disabled', false);
+			// disable 'button from disposition'
+			$('#btn_removefromdisposition').prop('disabled', true);
+			// set the maximum packaging units for the selected article
+			$('#tbx_packagingunit').val(parseFloat(tableData[2]));
+		} 
+		else {
+			$('#btn_addtodisposition').prop('disabled', true);
+			$('#btn_removefromdisposition').prop('disabled', true);
+		}
 	}
 });
 
@@ -650,21 +672,28 @@ $('#TableHeadRightDepot').on('click','tbody tr', function(event) {
 //	$("*").removeClass("highlight");
 //	$(this).addClass('highlight').siblings().removeClass('highlight');
 
+	
 	// only when user has admin rights
 	if (currentUserRights == "Admin" && currentUserRights != "") {
 		// enable buttons: 'up, down, to disposition, from disposition'
 		$('#btn_up').prop('disabled', false);
 		$('#btn_down').prop('disabled', false);
-		$('#btn_addtodisposition').prop('disabled', true);
-		$('#btn_removefromdisposition').prop('disabled', false);
-		// set the maximum packaging units for the selected article
-		$('#tbx_packagingunit').val(parseFloat(tableData[2]));
+		
+		if(isBooked != true){
+			$('#btn_addtodisposition').prop('disabled', true);
+			$('#btn_removefromdisposition').prop('disabled', false);
+			// set the maximum packaging units for the selected article
+			$('#tbx_packagingunit').val(parseFloat(tableData[2]));
+		}
 	} 
 	else {
 		$('#btn_up').prop('disabled', true);
 		$('#btn_down').prop('disabled', true);
-		$('#btn_addtodisposition').prop('disabled', true);
-		$('#btn_removefromdisposition').prop('disabled', true);
+		
+		if(isBooked != true){
+			$('#btn_addtodisposition').prop('disabled', true);
+			$('#btn_removefromdisposition').prop('disabled', true);
+		}
 	}
 });
 

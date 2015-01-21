@@ -86,7 +86,7 @@ $("#btn_new").click(function() {
 //switch to edit ougoing deliveries tab
 $("#btn_edit").click(function() {
 	//switch to edit outgoing deliveries with GET parameter mode=edit and id=...
-	location.href="warenverwaltung_neuedisposition.html?mode=edit&id=" + tableData[0];
+	location.href="warenverwaltung_neuedisposition.html?mode=edit"+ isBooked +"&id=" + tableData[0];
 	return false;
 });
 
@@ -304,6 +304,7 @@ $(document).ready(function() {
 });
 
 var tableData;
+var isBooked;
 $('#TableHead').on('click','tbody tr', function(event) {
 			tableData = $(this).children("td").map(function() {
 				return $(this).text();
@@ -313,8 +314,17 @@ $('#TableHead').on('click','tbody tr', function(event) {
 
 			// only when user has admin rights
 			if (currentUserRights == "Admin" && currentUserRights != "") {
-				$('#btn_edit').prop('disabled', false);
-				$('#btn_deleteModal').prop('disabled', false);
+				//deleteModal disabled=false only if not booked 
+				if($(this).closest("tr").hasClass("booked-entry") == true){
+					$('#btn_edit').prop('disabled', false);
+					$('#btn_deleteModal').prop('disabled', true);
+					isBooked = true;
+				}
+				else{
+					$('#btn_edit').prop('disabled', false);
+					$('#btn_deleteModal').prop('disabled', false);
+					isBooked = false;
+				}
 			} 
 			else {
 				$('#btn_edit').prop('disabled', true);
@@ -367,7 +377,7 @@ $("#btn_deleteModal").click(function() {
 
 
 /**
- * TODO call the delete url for the outgoing delivery
+ * Call the delete url for the outgoing delivery
  */
 $("#btn_deleteOutgoingDelivery").click(function() {
 	var id = tableData[0];
