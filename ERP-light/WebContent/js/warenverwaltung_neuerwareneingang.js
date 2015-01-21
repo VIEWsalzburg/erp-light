@@ -6,6 +6,7 @@ $("#newAlertFormDeliverer").append(modalErrorDeliverer);
 
 //load page in specific mode
 var global_id;
+var isBooked;
 $(document).ready(function() {
 	$.urlParam = function(name){
 	    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -20,12 +21,21 @@ $(document).ready(function() {
 	var mode = $.urlParam('mode');
 	global_id = $.urlParam('id');
 	
+	//default value = false
+	isBooked = false;
+	
 	if(mode == "new"){
 		$("#tabtext").text("Neuer Wareneingang");
 		global_id = 0;	// set Id to 0
 	}
-	else if(mode == "edit"){
+	else if(mode == "edittrue"){
 		$("#tabtext").text("Bearbeite Wareneingang");
+		isBooked = true;
+		loadNewIncomingDelivery(global_id);
+	}
+	else if(mode == "editfalse"){
+		$("#tabtext").text("Bearbeite Wareneingang");
+		isBooked = false;
 		loadNewIncomingDelivery(global_id);
 	}
 });
@@ -84,7 +94,12 @@ function loadNewIncomingDelivery(id){
 				//calculate sum price
 				var sum = pricepu * article[j].numberpu;
 				
-				var tableRow = "<tr id='"+articleId+"'>" + "<td>" + articleId
+				var bookedClass = "";
+				if (isBooked == true){
+					bookedClass = "booked-entry";	// set the class to display as booked
+				}
+				
+				var tableRow = "<tr class='"+bookedClass+"' id='"+articleId+"'>" + "<td>" + articleId
 				+ "</td>" + "<td>" + description
 				+ "</td>" + "<td>" + numberpu
 				+ "</td>" + "<td>" + packagingUnit
@@ -482,8 +497,11 @@ $('#TableHead').on('click','tbody tr', function(event) {
 			if (currentUserRights == "Admin" && currentUserRights != "") {
 				$('#btn_up').prop('disabled', false);
 				$('#btn_down').prop('disabled', false);
-				$('#btn_edit').prop('disabled', false);
-				$('#btn_deleteModal').prop('disabled', false);
+				
+				if($(this).hasClass("bookedClass") != true){
+					$('#btn_edit').prop('disabled', true);
+					$('#btn_deleteModal').prop('disabled', true);
+				}
 			} 
 			else {
 				$('#btn_up').prop('disabled', true);

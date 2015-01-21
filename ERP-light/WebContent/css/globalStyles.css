@@ -41,6 +41,11 @@ body{
 	margin-bottom: 15px;
 }
 
+.divider-horizontal-thick{
+	border-bottom: 2px solid #ccc;
+	margin-bottom: 15px;
+}
+
 #top
 {
 	height: 60px;

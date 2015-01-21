@@ -65,9 +65,9 @@
 								<thead class="TableHead">
 									<tr>
 										<th style="width: 3%">#</th>								
-										<th style="width: 7%">Datum</th>
-										<th style="width: 30%">Lieferanten</th>
-										<th style="width: 30%">Kunden</th>
+										<th style="width: 9%">Datum</th>
+										<th style="width: 29%">Lieferanten</th>
+										<th style="width: 29%">Kunden</th>
 										<th style="width: 15%">Fahrteam</th>		
 										<th style="width: 15%">Beschreibung</th>														
 									</tr>
@@ -95,8 +95,8 @@
 
 										<div class="row modalrow">
 											<div class="col-md-12">
-												<label class="col-md-12" id="label_name_delete">Lieferant</label> 
-												<label class="col-md-12" id="label_date_delete">Ware</label>
+												<label class="col-md-12" id="label_date_delete">Datum</label>
+												<label class="col-md-12" id="label_name_delete">Name</label> 
 											</div>
 										</div>
 
@@ -131,15 +131,6 @@
 										
 										<div class="row">
 											<div class="col-md-6">
-												<label>Beschreibung</label>
-											</div>
-											<div class="col-md-6">
-												<label id="label_description_details">Beschreibung</label>
-											</div>
-										</div>
-										
-										<div class="row">
-											<div class="col-md-6">
 												<label>Datum</label>
 											</div>
 											<div class="col-md-6">
@@ -147,29 +138,13 @@
 											</div>
 										</div>
 										
-										<div class="row divider-horizontal">
-										</div>
-										
-										<div class="panel-group" id="accordion_contactperson" role="tablist" aria-multiselectable="true">
-										  <div class="panel panel-default">
-										    <div class="panel-heading" role="tab" id="headingOne">
-										      <h4 class="panel-title">
-										        <a data-toggle="collapse" data-parent="#accordion_contactperson" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-										          Kunde(n)
-										        </a>
-										      </h4>
-										    </div>
-										    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-										      <div class="panel-body">
-										
-										<div id="organisation_container_details"></div>
-										
-										</div>
-										    </div>
-										  </div>
-										</div>
-										
-										<div class="row divider-horizontal">
+										<div class="row">
+											<div class="col-md-6">
+												<label>Beschreibung</label>
+											</div>
+											<div class="col-md-6">
+												<label id="label_description_details">Beschreibung</label>
+											</div>
 										</div>
 										
 										<div class="row">
@@ -187,6 +162,14 @@
 											<div class="col-md-6">
 												<label id="label_codriver_details">Beifahrer</label>
 											</div>
+										</div>
+										
+										<div class="row divider-horizontal">
+										</div>
+										
+										<div id="accordion_container_details"></div>
+										
+										<div class="row divider-horizontal">
 										</div>
 										
 										<div class="row">
