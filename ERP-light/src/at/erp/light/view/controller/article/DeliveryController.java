@@ -101,39 +101,38 @@ public class DeliveryController {
 	@RequestMapping(value = "secure/incomingDelivery/set")
 	public ControllerMessage setIncomingDelivery(@RequestBody IncomingDeliveryDTO dto, HttpServletRequest request) {
 		
-		// if Id != 0 => delete existing
-		if (dto.getIncomingDeliveryId() != 0)
-		{
-			try {
-				dataBaseService.deleteIncomingDeliveryById(dto.getIncomingDeliveryId());
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new ControllerMessage(false, "Speichern nicht erfolgreich!");
-			}
-		}
+		// first scenario: incomingDeliveryId == 0 => new IncomingDelivery
 		
-		// and save new one
 		try {
-			int lastEditorId = (int) request.getSession().getAttribute("id");
+			int lastEditorId = (int) request.getSession().getAttribute("id");		// get current editor id
 			
-			IncomingDelivery entity = IncomingDeliveryMapper.mapToEntity(dto);
+			IncomingDelivery entity = IncomingDeliveryMapper.mapToEntity(dto);		// map incomingDelivery to entity 
 			// set current Times for updateTimestamp
 			entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 			
 			// set Organisation and LastEditor for the entity
 			entity.setOrganisation(dataBaseService.getOrganisationById(dto.getOrganisationId()));
 			entity.setLastEditor(dataBaseService.getPersonById(lastEditorId));
+
+			// first scenario: incomingDeliveryId == 0 => create new IncomingDelivery
+			if (entity.getIncomingDeliveryId() == 0)
+			{
+				dataBaseService.setNewIncomingDelivery(entity);			// set NewIncomingDelivery
+			}
+			else	// second scenario: if incomingDeliveryId != 0 => update existing IncomingDelivery
+			{
+				dataBaseService.updateIncomingDelivery(entity);
+			}
 			
-			dataBaseService.setNewIncomingDelivery(entity);
-			
+			// if no exception occurs
 			return new ControllerMessage(true, "Speichern erfolgreich!");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			
+			// if an exception occurs
 			return new ControllerMessage(false, "Speichern nicht erfolgreich!");
 		}
-		
 		
 	}
 	

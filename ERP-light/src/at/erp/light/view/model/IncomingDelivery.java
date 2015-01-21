@@ -40,7 +40,7 @@ public class IncomingDelivery implements java.io.Serializable {
 	private Date updateTimestamp;
 	private Set<IncomingArticle> incomingArticles = new HashSet<IncomingArticle>(
 			0);
-	private int booked;	// status to show if at least one of the articles of the delivery is already booked
+	private int booked;	// status to show if at least one of the articles of the delivery is already booked (booked: 1, not booked: 0)
 
 	public IncomingDelivery() {
 	}

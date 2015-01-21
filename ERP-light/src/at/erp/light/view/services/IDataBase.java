@@ -106,6 +106,8 @@ public interface IDataBase {
 	 */
 	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery) throws Exception;
 	
+	public int updateIncomingDelivery(IncomingDelivery incomingDelivery) throws Exception;
+	
 	/**
 	 * deletes an incoming delivery with the associated incoming articles; only works if articles haven't been added to outgoing delivery
 	 * @param id

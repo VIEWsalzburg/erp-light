@@ -601,6 +601,7 @@ public class DataBaseService implements IDataBase {
 	
 	/***** [START] incoming deliveries *****/
 	
+	// TODO: this function needs accurate testing
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
@@ -612,23 +613,148 @@ public class DataBaseService implements IDataBase {
 			incomingArticle.setIncomingDelivery(incomingDelivery);
 		}
 		
-		// add all new articles to the table articles
-		// set the incomingArticleIds to 0 so they are created
-		// set articleIds to 0 so they are created
-		for (IncomingArticle incomingArticle : incomingDelivery.getIncomingArticles())
+		// check incomingDeliveryId: if 0 => create all incomingArticles and Articles new by setting their Ids to 0
+		// create completely new incomingDelivery
+		if (incomingDelivery.getIncomingDeliveryId()==0)
 		{
-			incomingArticle.setIncomingArticleId(0);
-			incomingArticle.getArticle().setArticleId(0);
-			sessionFactory.getCurrentSession().saveOrUpdate(incomingArticle.getArticle());
+			// add all new articles to the table articles
+			// set the incomingArticleIds to 0 so they are created
+			// set articleIds to 0 so they are created
+			for (IncomingArticle incomingArticle : incomingDelivery.getIncomingArticles())
+			{
+				incomingArticle.setIncomingArticleId(0);
+				incomingArticle.getArticle().setArticleId(0);
+				sessionFactory.getCurrentSession().saveOrUpdate(incomingArticle.getArticle());
+			}
+			
+			// set incomingDelivery Id to 0 so it is created new
+			incomingDelivery.setIncomingDeliveryId(0);
+			
+			sessionFactory.getCurrentSession().saveOrUpdate(incomingDelivery);
+			
+			return incomingDelivery.getIncomingDeliveryId();
+		}
+		else
+		{
+			// if Id != 0 => throw Exception
+			throw new Exception("Id of new IncomingDelivery is not 0");
 		}
 		
-		// set incomingDelivery Id to 0 so it is created new
-		incomingDelivery.setIncomingDeliveryId(0);
 		
-		sessionFactory.getCurrentSession().saveOrUpdate(incomingDelivery);
-		
-		return incomingDelivery.getIncomingDeliveryId();
 	}
+	
+	// TODO: this function needs accurate testing
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int updateIncomingDelivery(IncomingDelivery incomingDelivery) throws Exception {
+		
+		// update existing incomingDelivery if Id != 0
+		
+		// set the incoming delivery for each incoming article to be sure they are updated
+		for (IncomingArticle incomingArticle : incomingDelivery.getIncomingArticles())
+		{
+			incomingArticle.setIncomingDelivery(incomingDelivery);
+		}
+		
+		// check incomingDeliveryId: if not 0 => get existing incomingDelivery from DB and update fields
+		// update the incomingArticles according to the updated IncomingArticles
+		// and update the existing Articles according to the updated Articles
+		if (incomingDelivery.getIncomingDeliveryId() == 0)
+		{
+			throw new Exception("Id of IncomingDelivery is 0, entity does not exist.");
+		}
+		
+		// get existingEntity from DB, which should be updated
+		IncomingDelivery existingEntity = this.getIncomingDeliveryById(incomingDelivery.getIncomingDeliveryId());
+		
+		// first option: update infos of booked delivery
+		if (existingEntity.getBooked() == 1)
+		{
+			// first update all Article infos
+			// check if number of IncomingArticles is the same for existing and updated
+			if (existingEntity.getIncomingArticles().size() != incomingDelivery.getIncomingArticles().size())
+			{
+				throw new Exception("Numbers of Incoming Articles of existing and updated IncomingDelivery are not the same!");
+			}
+			
+			// update infos for all IncomingArticles (ArticleNr - order) including Articles (pricePU), except for packagingUnits
+			for (IncomingArticle existingIA : existingEntity.getIncomingArticles())
+			{
+				// find the correct Article in the updatedDelivery
+				for (IncomingArticle updatedIA : incomingDelivery.getIncomingArticles())
+				{
+					// found correct IncomingArticle
+					if (existingIA.getIncomingArticleId() == updatedIA.getIncomingArticleId())
+					{
+						System.out.println("Found Article"+existingIA.getIncomingArticleId());
+						// update Infos for corresponding Article
+						existingIA.getArticle().setPricepu(updatedIA.getArticle().getPricepu());	// update Price
+						this.sessionFactory.getCurrentSession().update(existingIA.getArticle());	// persist change
+						
+						// update infos for corresponding IncomingArticle
+						existingIA.setArticleNr(updatedIA.getArticleNr());				// only update order of IncomingArticles in IncomingDelivery
+						this.sessionFactory.getCurrentSession().update(existingIA);		// persist change
+					}	
+				}
+			}
+			
+			// update infos for IncomingDelivery - only update Comment and Date
+			existingEntity.setComment(incomingDelivery.getComment());
+			existingEntity.setDate(incomingDelivery.getDate());
+			existingEntity.setLastEditor(incomingDelivery.getLastEditor());
+			existingEntity.setUpdateTimestamp(incomingDelivery.getUpdateTimestamp());
+			this.sessionFactory.getCurrentSession().update(existingEntity);		// persist change
+			
+			return existingEntity.getIncomingDeliveryId();
+			
+		}	// end of update booked Delivery
+		
+		// update existing Delivery which is not booked
+		else if (existingEntity.getBooked() == 0)		
+		{
+			// remove all old incomingArticles and set the updatedIncomingArticles
+			// old incomingArticles are automatically deleted by removing them from the incomingDelivery
+			
+			// delete all IncomingArticles from the DB
+			for (IncomingArticle existingIA : existingEntity.getIncomingArticles())
+			{
+				this.sessionFactory.getCurrentSession().delete(existingIA);
+			}
+			existingEntity.getIncomingArticles().clear();	// remove IncomingArticles in the memory
+			
+			Set<IncomingArticle> updatedIncomingArticles = incomingDelivery.getIncomingArticles();	// get incomingArticles from the updated Delivery
+			existingEntity.setIncomingArticles(updatedIncomingArticles);	// set new updatedList
+			
+			// link IncomingArticles and existingEntity together
+			// and set Ids for incomingArticles and Articles so they are created new in the DB
+			for (IncomingArticle ia : updatedIncomingArticles)
+			{
+				// persist all Articles new by setting Id to 0
+				ia.setIncomingDelivery(existingEntity);
+				ia.setIncomingArticleId(0);
+				ia.getArticle().setArticleId(0);				// set id to 0
+				this.sessionFactory.getCurrentSession().saveOrUpdate(ia.getArticle());		// persist new Article to DB
+				
+			}
+			
+			// update infos for incomingDelivery
+			existingEntity.setComment(incomingDelivery.getComment());
+			existingEntity.setDate(incomingDelivery.getDate());
+			existingEntity.setOrganisation(incomingDelivery.getOrganisation());
+			existingEntity.setLastEditor(incomingDelivery.getLastEditor());
+			existingEntity.setUpdateTimestamp(incomingDelivery.getUpdateTimestamp());
+			// incomingDeliveryId stays the same
+			this.sessionFactory.getCurrentSession().update(existingEntity);
+			
+			return existingEntity.getIncomingDeliveryId();
+			
+		}
+		
+		return -1;	// should not happen
+		
+	}
+	
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)

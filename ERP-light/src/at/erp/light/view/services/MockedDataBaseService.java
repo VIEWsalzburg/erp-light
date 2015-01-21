@@ -780,6 +780,13 @@ public class MockedDataBaseService implements IDataBase {
 		return null;
 	}
 
+	@Override
+	public int updateIncomingDelivery(IncomingDelivery incomingDelivery)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 	
 	
