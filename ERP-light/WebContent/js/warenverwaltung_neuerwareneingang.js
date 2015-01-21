@@ -148,7 +148,7 @@ $("#btn_addDeliverer").click(function() {
 function createTableRow(count, id){
 	
 	var pricepu = $("#tbx_pricepackagingunit").val();
-	var sum = $("#tbx_numberofpackagingunits").val();
+	var sum;
 	if(pricepu == ""){
 		pricepu = "-";
 		sum = "-";
