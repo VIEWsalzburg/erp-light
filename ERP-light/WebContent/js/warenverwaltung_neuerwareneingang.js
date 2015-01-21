@@ -94,12 +94,7 @@ function loadNewIncomingDelivery(id){
 				//calculate sum price
 				var sum = pricepu * article[j].numberpu;
 				
-				var bookedClass = "";
-				if (isBooked == true){
-					bookedClass = "booked-entry";	// set the class to display as booked
-				}
-				
-				var tableRow = "<tr class='"+bookedClass+"' id='"+articleId+"'>" + "<td>" + articleId
+				var tableRow = "<tr id='"+articleId+"'>" + "<td>" + articleId
 				+ "</td>" + "<td>" + description
 				+ "</td>" + "<td>" + numberpu
 				+ "</td>" + "<td>" + packagingUnit
@@ -410,6 +405,15 @@ $("#btn_edit").click(function() {
 	$("#newAlertForm").hide();
 	clearPositionModal();
 	
+	//disable every textbox beside pricepackagingunit if isBooked == true
+	if(isBooked == true){
+		$("#tbx_description").prop('disabled', true);
+		$("#tbx_numberofpackagingunits").prop('disabled', true);
+		$("#tbx_packagingunit").prop('disabled', true);
+		$("#tbx_weightpackagingunit").prop('disabled', true);
+		$("#tbx_mdd").prop('disabled', true);
+	}
+	
 	$("#tbx_description").val(tableData[1]);
 	$("#tbx_numberofpackagingunits").val(tableData[2]);
 	
@@ -456,7 +460,6 @@ $(document).ready(function() {
 
 //disable new, edit and delete buttons
 $('#btn_new').hide();
-$(".suchfilter").css("margin-left", "0px");
 $('#btn_edit').hide();
 $('#btn_deleteModal').hide();
 
@@ -471,9 +474,14 @@ $(document).ready(function() {
 
 		// only when user has admin rights
 		if (currentUserRights == "Admin" && currentUserRights != "") {
-			$("#btn_new").show();
-			$(".suchfilter").css("margin-left", "5px");
-
+			if(isBooked != true){
+				$("#btn_new").show();
+			}
+			else{
+				$("#btn_new").show();
+				$("#btn_new").prop('disabled', true);
+			}
+			
 			$('#btn_edit').show();
 			$('#btn_deleteModal').show();
 
@@ -498,10 +506,13 @@ $('#TableHead').on('click','tbody tr', function(event) {
 				$('#btn_up').prop('disabled', false);
 				$('#btn_down').prop('disabled', false);
 				
-				if($(this).hasClass("bookedClass") != true){
-					$('#btn_edit').prop('disabled', true);
+				if(isBooked != true){
+					$('#btn_deleteModal').prop('disabled', false);
+				}
+				else{
 					$('#btn_deleteModal').prop('disabled', true);
 				}
+				$('#btn_edit').prop('disabled', false);
 			} 
 			else {
 				$('#btn_up').prop('disabled', true);
