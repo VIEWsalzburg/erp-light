@@ -510,10 +510,12 @@ $(document).ready(function() {
 		if (currentUserRights == "Admin" && currentUserRights != "") {
 			if(isBooked != true){
 				$("#btn_new").show();
+				$('#btn_addDeliverer').prop('disabled', false);
 			}
 			else{
 				$("#btn_new").show();
 				$("#btn_new").prop('disabled', true);
+				$('#btn_addDeliverer').prop('disabled', true);
 			}
 			
 			$('#btn_edit').show();
