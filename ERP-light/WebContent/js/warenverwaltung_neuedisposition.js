@@ -44,6 +44,11 @@ $(function () {
 	$('[data-toggle="popover"]').popover();
 });
 
+//set comment popover on tbx_comment lost focus event
+$("#tbx_comment").focusout(function() {
+	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
+});
+
 // checked
 function loadAllAvailableArticlesInDepot(){
 	var availArticles;
@@ -118,6 +123,9 @@ function loadTableContent(id){
 	
 	$("#tbx_date").val(out.date);
 	$("#tbx_comment").val(out.comment);
+	
+	//set comment popover
+	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 					
 	//get articles (disposition)
 	var article = out.outgoingArticleDTOs;

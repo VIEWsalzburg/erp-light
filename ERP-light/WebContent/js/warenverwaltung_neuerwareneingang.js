@@ -45,6 +45,11 @@ $(function () {
 	$('[data-toggle="popover"]').popover()
 });
 
+//set comment popover on tbx_comment lost focus event
+$("#tbx_comment").focusout(function() {
+	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
+});
+
 function loadNewIncomingDelivery(id){
 	var inc;
 	$.ajax({
@@ -77,6 +82,9 @@ function loadNewIncomingDelivery(id){
 	
 	$("#tbx_date").val(inc.date);
 	$("#tbx_comment").val(inc.comment);
+	
+	//set comment popover
+	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 	
 	//get articles, sort them by the articleNr and append them to the table
 	var article = inc.incomingArticleDTOs;
