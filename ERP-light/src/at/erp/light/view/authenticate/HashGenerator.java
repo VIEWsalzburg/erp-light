@@ -3,13 +3,13 @@ package at.erp.light.view.authenticate;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 
-import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.codec.binary.Base64;
 
 public class HashGenerator {
 
 	/**
 	 * generated Hex Hash for password "default"
-	 * FB1C60ADBF08B2E679DF8BF1E52AB8836C978AC0A2C6F898C8B5E8B9B1FFD384014D45362F20F184CD7E
+	 * MqPIAmlF4i2dSb0oR-JzwxG9yZidfKtK-n4AgMspQgpJbfJ3RC6Sg
 	 */
 	
 	/**
@@ -19,25 +19,17 @@ public class HashGenerator {
 	 * @return if they match
 	 */
 	
-	public static String toHexString(byte[] array) {
-	    return DatatypeConverter.printHexBinary(array);
-	}
-
-	public static byte[] toByteArray(String s) {
-	    return DatatypeConverter.parseHexBinary(s);
-	}
-	
 	public static void main(String ...args)
 	{
 		String password = "default";
 		String hashed = hashPasswordWithSalt(password);
-		System.out.println(hashed);
+		
+		System.out.println(hashed + " compared successful: " + comparePasswordWithHash(password, hashed));
 	}
 	
 	
-	public static boolean comparePasswordWithHash(String plain, String hashHex)
+	public static boolean comparePasswordWithHash(String plain, String hash)
 	{
-		String hash = new String(toByteArray(hashHex));
 		String salt = hash.substring(0, 10);
 		String hashedCompare = hash.substring(10);
 		
@@ -48,11 +40,12 @@ public class HashGenerator {
 			md.update((salt + plain).getBytes("UTF-8")); // Change this to "UTF-16" if needed
 			digest = md.digest();
 			
-			String reHashed = new String(digest);
+			//Urlsave therefore db save
+			String reHashed = Base64.encodeBase64URLSafeString(digest);
 			
 			//Comparing Hex values because encoded string comparison isn't reliable
 			
-			if (toHexString(reHashed.getBytes()).equals(toHexString(hashedCompare.getBytes())))
+			if (reHashed.equals(hashedCompare))
 				return true;
 			else
 				return false;
@@ -74,13 +67,13 @@ public class HashGenerator {
 		byte[] digest = null;
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
-			String salt = new String(SecureRandom.getSeed(10));
-
+			String salt = Base64.encodeBase64URLSafeString(SecureRandom.getSeed(10));
+			salt=salt.substring(0,10); //Cause encoding returns something strange
 			md.update((salt + text).getBytes("UTF-8")); // Change this to
 																// "UTF-16" if
 																// needed
 			digest = md.digest();
-			return toHexString((salt + new String(digest)).getBytes());
+			return (salt + Base64.encodeBase64URLSafeString(digest));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
