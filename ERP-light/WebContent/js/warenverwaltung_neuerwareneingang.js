@@ -45,6 +45,11 @@ $(function () {
 	$('[data-toggle="popover"]').popover()
 });
 
+//set comment popover on tbx_comment lost focus event
+$("#tbx_comment").focusout(function() {
+	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
+});
+
 function loadNewIncomingDelivery(id){
 	var inc;
 	$.ajax({
@@ -73,10 +78,13 @@ function loadNewIncomingDelivery(id){
 	});
 	
 	//set deliverer popover
-	$("#tbx_deliverer_popover").attr("data-content", org.name + " <br> " + org.zip + " " + org.city + "<br>" + org.country);
+	$("#tbx_deliverer_popover").attr("data-content", org.name + ",<br>" + org.zip + " " + org.city + ",<br>" + org.country);
 	
 	$("#tbx_date").val(inc.date);
 	$("#tbx_comment").val(inc.comment);
+	
+	//set comment popover
+	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 	
 	//get articles, sort them by the articleNr and append them to the table
 	var article = inc.incomingArticleDTOs;
@@ -121,12 +129,21 @@ function loadAllDeliverers(id) {
 			function(data) {
 				var o = eval(data);
 				
+				var nameString = "";
 				for (var e in o) {
 					for(var i=0; i< o[e].types.length; i++){
 						if(o[e].types[i] == "Lieferant"){
-							var o_divRow = "<div class='boxElement_deliverer'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + o[e].name + " "
+							if(o[e].name.length > 22){
+								nameString = o[e].name.substring(0, 22) + "...";
+							}
+							else{
+								nameString = o[e].name;
+							}
+							
+							var o_divRow = "<div class='boxElement_deliverer'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + nameString + " "
 							+ "</span><input class='pull-right' value="+ o[e].id +" id="+ o[e].id +" name='delivererRadio' type='radio'></div>";
 							
+							nameString = "";
 							$("#delivererDiv").append(o_divRow);
 						}
 					}
@@ -400,7 +417,7 @@ $("#btn_saveDeliverer").click(function() {
 	});
 	
 	$("#tbx_deliverer").val(delivererString);
-	$("#tbx_deliverer_popover").attr("data-content", o.name + " <br> " + o.zip + " " + o.city + "<br>" + o.country);
+	$("#tbx_deliverer_popover").attr("data-content", o.name + ",<br>" + o.zip + " " + o.city + ",<br>" + o.country);
 	$('#chooseDelivererModal').modal('hide');
 });
 
@@ -510,10 +527,12 @@ $(document).ready(function() {
 		if (currentUserRights == "Admin" && currentUserRights != "") {
 			if(isBooked != true){
 				$("#btn_new").show();
+				$('#btn_addDeliverer').prop('disabled', false);
 			}
 			else{
 				$("#btn_new").show();
 				$("#btn_new").prop('disabled', true);
+				$('#btn_addDeliverer').prop('disabled', true);
 			}
 			
 			$('#btn_edit').show();

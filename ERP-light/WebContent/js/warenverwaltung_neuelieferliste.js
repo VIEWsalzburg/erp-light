@@ -33,6 +33,11 @@ $(function () {
 	$('[data-toggle="popover"]').popover()
 });
 
+//set comment popover on tbx_comment lost focus event
+$("#tbx_comment").focusout(function() {
+	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
+});
+
 // Get all available outgoing delivery entries and load into table
 // only outgoing deliveries, which are not booked
 function loadAllOutgoingDeliveries(){
@@ -113,6 +118,9 @@ function loadDeliveryList(id){
 			
 			$('#tbx_date').val(list.date);
 			$('#tbx_comment').val(list.comment);
+			
+			//set comment popover
+			$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 			
 			for (var e in out) {
 				

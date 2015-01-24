@@ -84,7 +84,9 @@
 										<form class="form-inline">
 	  										<div class="form-group">
 												<label id="label_lieferant">Bemerkung</label>
-												<input type="text" class="form-control" id="tbx_comment" placeholder="Bemerkung" style="width: 360px;" maxlength="1000">
+												<span id="tbx_comment_popover" data-container="body" data-html="true" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
+													<input type="text" class="form-control" id="tbx_comment" placeholder="Bemerkung" style="width: 360px;" maxlength="1000">
+												</span>
 											</div>
 										</form>
 									</div>
@@ -106,7 +108,7 @@
 						<div class="row">
 							<div class="col-md-5">
 								<!-- Table -->
-								<div class="table-responsive newOutgoingDeliveryTable" id="outcomingdeliveriesTable">
+								<div class="table-responsive newOutgoingDeliveryTable">
 									<table class="table table-hover table-striped header-fixed" id="TableHeadOutgoingDelivery">
 										<thead class="TableHead">
 											<tr>
@@ -151,7 +153,7 @@
 
 							<div class="col-md-5">
 								<!-- Table -->
-								<div class="table-responsive newOutgoingDeliveryTable" id="deliveryListTable">
+								<div class="table-responsive newOutgoingDeliveryTable">
 									<table class="table table-hover table-striped header-fixed" id="TableHeadDeliveryList">
 										<thead class="TableHead">
 											<tr>

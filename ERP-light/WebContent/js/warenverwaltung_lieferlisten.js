@@ -216,7 +216,7 @@ $("#btn_details").click(function() {
 				org = eval(data);
 			
 				//deliverer
-				var template = "<div class='row details'><div class='col-md-6'><label>Lieferant "+ (parseInt(j) + 1) +"</label></div><div class='col-md-6'><label>" + org.name + "</label></div></div>";
+				var template = "<div class='row details' style='background-color: #F0F0F0;'><div class='col-md-6'><label>Lieferant "+ (parseInt(j) + 1) +"</label></div><div class='col-md-6'><label>" + org.name + "</label></div></div>";
 				$("#organisation_container_details" + i).append(template);
 				
 				var template = "<div class='row details'><div class='col-md-6'><label>Adresse</label></div><div class='col-md-6'><label>" + org.address + "</label></div></div>";
@@ -277,7 +277,7 @@ $("#btn_details").click(function() {
 			org = eval(data);
 		
 			//receiver
-			var template = "<div class='row details'><div class='col-md-6'><label>Kunde</label></div><div class='col-md-6'><label>" + org.name + "</label></div></div>";
+			var template = "<div class='row details' style='background-color: #F0F0F0;'><div class='col-md-6'><label>Kunde</label></div><div class='col-md-6'><label>" + org.name + "</label></div></div>";
 			$("#organisation_container_details" + i).append(template);
 			
 			var template = "<div class='row details'><div class='col-md-6'><label>Adresse</label></div><div class='col-md-6'><label>" + org.address + "</label></div></div>";

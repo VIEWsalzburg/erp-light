@@ -44,6 +44,11 @@ $(function () {
 	$('[data-toggle="popover"]').popover();
 });
 
+//set comment popover on tbx_comment lost focus event
+$("#tbx_comment").focusout(function() {
+	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
+});
+
 // checked
 function loadAllAvailableArticlesInDepot(){
 	var availArticles;
@@ -114,10 +119,13 @@ function loadTableContent(id){
 	});
 	
 	//set receiver popover
-	$("#tbx_receiver_popover").attr("data-content", org.name + " <br> " + org.zip + " " + org.city + "<br>" + org.country);
+	$("#tbx_receiver_popover").attr("data-content", org.name + ",<br>" + org.zip + " " + org.city + ",<br>" + org.country);
 	
 	$("#tbx_date").val(out.date);
 	$("#tbx_comment").val(out.comment);
+	
+	//set comment popover
+	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 					
 	//get articles (disposition)
 	var article = out.outgoingArticleDTOs;
@@ -186,12 +194,21 @@ function loadAllReceivers() {
 			function(data) {
 				var o = eval(data);
 				
+				var nameString = "";
 				for (var e in o) {
 					for(var i=0; i< o[e].types.length; i++){
 						if(o[e].types[i] == "Kunde"){
-							var o_divRow = "<div class='boxElement_receiver'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + o[e].name + " "
+							if(o[e].name.length > 22){
+								nameString = o[e].name.substring(0, 22) + "...";
+							}
+							else{
+								nameString = o[e].name;
+							}
+							
+							var o_divRow = "<div class='boxElement_receiver'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + nameString + " "
 							+ "</span><input class='pull-right' value="+ o[e].id +" name='receiverRadio' type='radio'></div>";
 							
+							nameString = "";
 							$("#receiverDiv").append(o_divRow);
 						}
 					}
@@ -258,7 +275,7 @@ $("#btn_saveReceiver").click(function() {
 	});
 	
 	$("#tbx_receiver").val(receiverString);
-	$("#tbx_receiver_popover").attr("data-content", o.name + "<br>" + o.zip + " " + o.city + "<br>" + o.country);
+	$("#tbx_receiver_popover").attr("data-content", o.name + ",<br>" + o.zip + " " + o.city + ",<br>" + o.country);
 	$('#chooseReceiverModal').modal('hide');
 });
 
