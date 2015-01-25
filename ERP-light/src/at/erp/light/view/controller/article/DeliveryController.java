@@ -240,7 +240,7 @@ public class DeliveryController {
 		List<OutgoingDeliveryDTO> list = new ArrayList<OutgoingDeliveryDTO>();
 
 		List<OutgoingDelivery> entityList = dataBaseService
-				.getAllOutgoingDeliveries(0);
+				.getAllOutgoingDeliveries();
 
 		if (entityList != null && entityList.size() > 0) {
 			for (OutgoingDelivery od : entityList) {
