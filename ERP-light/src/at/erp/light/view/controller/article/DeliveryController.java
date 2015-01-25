@@ -124,77 +124,43 @@ public class DeliveryController {
 	}
 	
 	/**
-	 * Set incoming delivery to archived via id
+	 * Set incoming delivery to archived state via id
 	 * @param id of the requested delivery
+	 * @param state 0/1 un/archived 
 	 * @return MessageOb
 	 */
-	@RequestMapping(value = "secure/incomingDelivery/setArchived/{id}")
-	public ControllerMessage setIncomingDeliveryArchived(@PathVariable int id) {
+	@RequestMapping(value = "secure/incomingDelivery/setArchivedState/{id}/{state}")
+	public ControllerMessage setIncomingDeliveryState(@PathVariable int id, @PathVariable int state) {
 		try {
-			dataBaseService.archiveIncomingDeliveryById(id, 1);
+			dataBaseService.archiveIncomingDeliveryById(id, state);
 			
-			log.info("set incoming delivery with: " + id + " to archived.");
-			return new ControllerMessage(true, "Archiving delivery successful");
+			log.info("set incoming delivery with: " + id + " to "+state+".");
+			return new ControllerMessage(true, "Set archived state for delivery successful");
 		} catch (Exception e) {
 			log.info("no incoming delivery with id " + id + " found");
 			return new ControllerMessage(false, e.getMessage());
 		}
 	}
-	
-	/**
-	 * Set incoming delivery to unarchived via id
-	 * @param id of the requested delivery
-	 * @return MessageOb
-	 */
-	@RequestMapping(value = "secure/incomingDelivery/setUnarchived/{id}")
-	public ControllerMessage setIncomingDeliveryUnarchived(@PathVariable int id) {
-		try {
-			dataBaseService.archiveIncomingDeliveryById(id, 0);
-			
-			log.info("set incoming delivery with: " + id + " to unarchived.");
-			return new ControllerMessage(true, "Unarchiving delivery successful");
-		} catch (Exception e) {
-			log.info("no incoming delivery with id " + id + " found");
-			return new ControllerMessage(false, e.getMessage());
-		}
-	}
-	
-	/**
-	 * Set outgoing delivery to unarchived via id
-	 * @param id of the requested delivery
-	 * @return MessageObject with state
-	 */
-	@RequestMapping(value = "secure/outgoingDelivery/setUnarchived/{id}")
-	public ControllerMessage setOutgoingDeliveryUnarchived(@PathVariable int id) {
-		try {
-			dataBaseService.archiveOutgoingDeliveryById(id, 0);
-			
-			log.info("set outgoing delivery with: " + id + " to unarchived.");
-			return new ControllerMessage(true, "Unarchiving delivery successful");
-		} catch (Exception e) {
-			log.info("no incoming delivery with id " + id + " found");
-			return new ControllerMessage(false, e.getMessage());
-		}
-	}
-	
 	
 	/**
 	 * Set outgoing delivery to archived via id
 	 * @param id of the requested delivery
-	 * @return MessageOb
+	 * @param state 0/1 un/archived 
+	 * @return MessageObject with state
 	 */
-	@RequestMapping(value = "secure/outgoingDelivery/setArchived/{id}")
-	public ControllerMessage setOutgoingDeliveryArchived(@PathVariable int id) {
+	@RequestMapping(value = "secure/outgoingDelivery/setArchivedState/{id}/{state}")
+	public ControllerMessage setOutgoingDeliveryState(@PathVariable int id, @PathVariable int state) {
 		try {
-			dataBaseService.archiveOutgoingDeliveryById(id, 1);
+			dataBaseService.archiveOutgoingDeliveryById(id, state);
 			
-			log.info("set outgoing delivery with: " + id + " to archived.");
-			return new ControllerMessage(true, "Archiving delivery successful");
+			log.info("set outgoing delivery with: " + id + " to "+state+".");
+			return new ControllerMessage(true, "Archive operation for delivery successful");
 		} catch (Exception e) {
-			log.info("no outgoing delivery with id " + id + " found");
+			log.info("no incoming delivery with id " + id + " found");
 			return new ControllerMessage(false, e.getMessage());
 		}
 	}
+	
 	
 	/**
 	 * Set a delivery. Sets also last editor via the logged in id.
@@ -259,11 +225,6 @@ public class DeliveryController {
 	}
 	
 	/***** [END] incoming Deliveries *****/
-	
-	
-	
-	
-	
 	
 	
 	/***** [START] outgoing Deliveries *****/
