@@ -117,11 +117,28 @@ public interface IDataBase {
 	public boolean deleteIncomingDeliveryById(int id) throws Exception;
 	
 	/**
+	 * archive an incoming delivery to hide it in the frontend
+	 * @param id of the incoming delivery
+	 * @param status which should be set
+	 * @return success of operation
+	 * @throws Exception
+	 */
+	public boolean archiveIncomingDeliveryById(int id, int status) throws Exception;
+	
+	/**
 	 * return a list of all incoming deliveries
 	 * @return list of all incoming deliveries
 	 * @throws HibernateException
 	 */
 	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException;
+	
+	/**
+	 * return a list of all incomingDeliveries with the given archivedStatus
+	 * @param archivedStatus of the deliveries, which should be returned
+	 * @return list of all incomingDeliveries with the given archivedStatus
+	 * @throws HibernateException
+	 */
+	public List<IncomingDelivery> getAllIncomingDeliveries(int archivedStatus) throws HibernateException;
 	
 	/**
 	 * returns the incoming delivery with the given id
@@ -149,14 +166,48 @@ public interface IDataBase {
 	 */
 	public boolean deleteOutgoingDeliveryById(int id) throws Exception;
 	
-	// Outgoing deliveries
+	/**
+	 * archive an outgoing delivery to hide it in the frontend
+	 * @param id of the outgoing delivery
+	 * @param status which should be set
+	 * @return success of operation
+	 * @throws Exception
+	 */
+	public boolean archiveOutgoingDeliveryById(int id, int status) throws Exception;
+	
+	
+	/**
+	 * returns an outgoingDelivery with the given id
+	 * @param id
+	 * @return outgoingDelivery
+	 * @throws HibernateException
+	 */
 	public OutgoingDelivery getOutgoingDeliveryById(int id) throws HibernateException;
+	
+	/**
+	 * returns all outgoingDeliveries
+	 * @return list with all outgoingDeliveries
+	 * @throws HibernateException
+	 */
 	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException;
+	
+	/**
+	 * return a list of all outgoingDeliveries with the given archivedStatus
+	 * @param archivedStatus of the deliveries, which should be returned
+	 * @return list of all outgoingDeliveries with the given archivedStatus
+	 * @throws HibernateException
+	 */
+	public List<OutgoingDelivery> getAllOutgoingDeliveries(int archviedStatus) throws HibernateException;
+	
+	/**
+	 * returns all available OutgoingDeliveries
+	 * @return list with all outgoingDeliveries which are not booked
+	 * @throws HibernateException
+	 */
 	public List<OutgoingDelivery> getAvailableOutgoingDeliveries() throws HibernateException;
 	
 	
 	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) throws HibernateException;
-	
 	
 	
 	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) throws HibernateException;
@@ -199,6 +250,14 @@ public interface IDataBase {
 	 * @throws HibernateException
 	 */
 	public List<DeliveryList> getAllDeliveryLists() throws HibernateException;
+	
+	/**
+	 * returns all delivery lists with the given archivedStatus
+	 * @param archivedStatus
+	 * @return list with all delivery lists
+	 * @throws HibernateException
+	 */
+	public List<DeliveryList> getAllDeliveryLists(int archivedStatus) throws HibernateException;
 	
 	/**
 	 * persist or update a new deliveryList to the DB

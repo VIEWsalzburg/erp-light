@@ -579,6 +579,8 @@ public class DataBaseService implements IDataBase {
 	}
 
 	
+	
+	
 	/***** Start der Warenverwaltung *****/
 	
 	
@@ -785,9 +787,28 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
+	public boolean archiveIncomingDeliveryById(int id, int status) throws Exception {
+		IncomingDelivery incomingDelivery = this.getIncomingDeliveryById(id);
+		incomingDelivery.setArchived(status);
+		return true;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException {
 		@SuppressWarnings("unchecked")
 		List<IncomingDelivery> incomingDeliveries = sessionFactory.getCurrentSession().createQuery("From IncomingDelivery i order by i.date DESC").list();
+		return incomingDeliveries;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<IncomingDelivery> getAllIncomingDeliveries(int archivedStatus) throws HibernateException {
+		@SuppressWarnings("unchecked")
+		List<IncomingDelivery> incomingDeliveries = sessionFactory.getCurrentSession()
+			.createQuery("From IncomingDelivery i Where i.archived = :archivedStatus order by i.date DESC")
+			.setParameter("archivedStatus", archivedStatus)
+			.list();
 		return incomingDeliveries;
 	}
 	
@@ -880,6 +901,14 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
+	public boolean archiveOutgoingDeliveryById(int id, int status) throws Exception {
+		OutgoingDelivery outgoingDelivery = this.getOutgoingDeliveryById(id);
+		outgoingDelivery.setArchived(status);
+		return true;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public OutgoingDelivery getOutgoingDeliveryById(int id) throws HibernateException {
 		
 		OutgoingDelivery outgoingDelivery = (OutgoingDelivery)sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery o Where o.outgoingDeliveryId = :id")
@@ -893,6 +922,17 @@ public class DataBaseService implements IDataBase {
 	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException {
 		@SuppressWarnings("unchecked")
 		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery o order by o.date DESC").list();
+		return outgoingDeliveries;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<OutgoingDelivery> getAllOutgoingDeliveries(int archviedStatus) throws HibernateException {
+		@SuppressWarnings("unchecked")
+		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession()
+			.createQuery("From OutgoingDelivery o Where o.archvied = :archivedStatus order by o.date DESC")
+			.setParameter("archivedStatus", archviedStatus)
+			.list();
 		return outgoingDeliveries;
 	}
 
@@ -924,6 +964,17 @@ public class DataBaseService implements IDataBase {
 	public List<DeliveryList> getAllDeliveryLists() throws HibernateException {
 		
 		List<DeliveryList> deliveryLists = sessionFactory.getCurrentSession().createQuery("From DeliveryList dl order by dl.date DESC").list();
+		return deliveryLists;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<DeliveryList> getAllDeliveryLists(int archviedStatus) throws HibernateException {
+		
+		List<DeliveryList> deliveryLists = sessionFactory.getCurrentSession()
+				.createQuery("From DeliveryList dl Where dl.archived = :archivedStatus order by dl.date DESC")
+				.setParameter("archivedStatus", archviedStatus)
+				.list();
 		return deliveryLists;
 	}
 

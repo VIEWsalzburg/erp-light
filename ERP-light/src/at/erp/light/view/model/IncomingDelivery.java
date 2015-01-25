@@ -40,24 +40,26 @@ public class IncomingDelivery implements java.io.Serializable {
 	private Date updateTimestamp;
 	private Set<IncomingArticle> incomingArticles = new HashSet<IncomingArticle>(
 			0);
+	private int archived;		// Archived status (1: archived, 0 not archived)
 	private int booked;	// status to show if at least one of the articles of the delivery is already booked (booked: 1, not booked: 0)
 
 	public IncomingDelivery() {
 	}
 
 	public IncomingDelivery(int incomingDeliveryId, Organisation organisation,
-			Person lastEditor, Date date, String comment, Date updateTimestamp) {
+			Person lastEditor, Date date, String comment, Date updateTimestamp, int archived) {
 		this.incomingDeliveryId = incomingDeliveryId;
 		this.organisation = organisation;
 		this.lastEditor = lastEditor;
 		this.date = date;
 		this.comment = comment;
 		this.updateTimestamp = updateTimestamp;
+		this.archived = archived;
 	}
 
 	public IncomingDelivery(int incomingDeliveryId, Organisation organisation,
 			Person lastEditor, Integer deliveryNr, Date date, String comment,
-			Date updateTimestamp,
+			Date updateTimestamp, int archived,
 			Set<IncomingArticle> incomingArticles) {
 		this.incomingDeliveryId = incomingDeliveryId;
 		this.organisation = organisation;
@@ -67,6 +69,7 @@ public class IncomingDelivery implements java.io.Serializable {
 		this.comment = comment;
 		this.incomingArticles = incomingArticles;
 		this.updateTimestamp = updateTimestamp;
+		this.archived = archived;
 	}
 
 	@Id
@@ -163,6 +166,15 @@ public class IncomingDelivery implements java.io.Serializable {
 
 	public void setIncomingArticles(Set<IncomingArticle> incomingArticles) {
 		this.incomingArticles = incomingArticles;
+	}
+
+	@Column(name = "archived", nullable = false)
+	public int getArchived() {
+		return archived;
+	}
+
+	public void setArchived(int archived) {
+		this.archived = archived;
 	}
 
 

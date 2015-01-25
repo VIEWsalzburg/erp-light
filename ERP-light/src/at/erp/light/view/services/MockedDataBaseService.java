@@ -787,6 +787,41 @@ public class MockedDataBaseService implements IDataBase {
 		return 0;
 	}
 
+	@Override
+	public boolean archiveIncomingDeliveryById(int id, int status)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean archiveOutgoingDeliveryById(int id, int status)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<IncomingDelivery> getAllIncomingDeliveries(int archivedStatus)
+			throws HibernateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<OutgoingDelivery> getAllOutgoingDeliveries(int archviedStatus)
+			throws HibernateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<DeliveryList> getAllDeliveryLists(int archivedStatus)
+			throws HibernateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 	

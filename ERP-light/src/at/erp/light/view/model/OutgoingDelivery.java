@@ -38,6 +38,7 @@ public class OutgoingDelivery implements java.io.Serializable {
 	private Date date;
 	private String comment;
 	private Date updateTimestamp;
+	private int archived;
 	private int booked;
 	private Set<OutgoingArticle> outgoingArticles = new HashSet<OutgoingArticle>(
 			0);
@@ -46,18 +47,19 @@ public class OutgoingDelivery implements java.io.Serializable {
 	}
 
 	public OutgoingDelivery(int outgoingDeliveryId, Organisation organisation,
-			Person lastEditor, Date date, String comment, Date updateTimestamp) {
+			Person lastEditor, Date date, String comment, Date updateTimestamp, int archived) {
 		this.outgoingDeliveryId = outgoingDeliveryId;
 		this.organisation = organisation;
 		this.lastEditor = lastEditor;
 		this.date = date;
 		this.comment = comment;
 		this.updateTimestamp = updateTimestamp;
+		this.archived = archived;
 	}
 
 	public OutgoingDelivery(int outgoingDeliveryId,
 			Organisation organisation, Person lastEditor, Integer deliveryNr,
-			Date date, String comment, Date updateTimestamp, Set<OutgoingArticle> outgoingArticles) {
+			Date date, String comment, Date updateTimestamp, int archived, Set<OutgoingArticle> outgoingArticles) {
 		this.outgoingDeliveryId = outgoingDeliveryId;
 		this.organisation = organisation;
 		this.lastEditor = lastEditor;
@@ -66,6 +68,7 @@ public class OutgoingDelivery implements java.io.Serializable {
 		this.comment = comment;
 		this.updateTimestamp = updateTimestamp;
 		this.outgoingArticles = outgoingArticles;
+		this.archived = archived;
 	}
 
 	@Id
@@ -160,4 +163,13 @@ public class OutgoingDelivery implements java.io.Serializable {
 		this.outgoingArticles = outgoingArticles;
 	}
 
+	@Column(name = "archived", nullable = false)
+	public int getArchived() {
+		return archived;
+	}
+
+	public void setArchived(int archived) {
+		this.archived = archived;
+	}
+	
 }

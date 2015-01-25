@@ -35,6 +35,7 @@ public class DeliveryList implements java.io.Serializable {
 	private String driver;
 	private String passenger;
 	private Date updateTimestamp;
+	private int archived;
 	private Set<OutgoingDelivery> outgoingDeliveries = new HashSet<OutgoingDelivery>(
 			0);
 
@@ -42,7 +43,7 @@ public class DeliveryList implements java.io.Serializable {
 	}
 
 	public DeliveryList(int deliveryListId, Person lastEditor, String name,
-			Date date, String comment, String driver, String passenger, Date updateTimestamp) {
+			Date date, String comment, String driver, String passenger, Date updateTimestamp, int archived) {
 		this.deliveryListId = deliveryListId;
 		this.lastEditor = lastEditor;
 		this.name = name;
@@ -51,11 +52,12 @@ public class DeliveryList implements java.io.Serializable {
 		this.driver = driver;
 		this.passenger = passenger;
 		this.updateTimestamp = updateTimestamp;
+		this.archived = archived;
 	}
 
 	public DeliveryList(int deliveryListId, Person lastEditor, String name,
 			Date date, String comment, String driver, String passenger,
-			Set<OutgoingDelivery> outgoingDeliveries, Date updateTimestamp) {
+			Set<OutgoingDelivery> outgoingDeliveries, Date updateTimestamp, int archived) {
 		this.deliveryListId = deliveryListId;
 		this.lastEditor = lastEditor;
 		this.name = name;
@@ -65,6 +67,7 @@ public class DeliveryList implements java.io.Serializable {
 		this.passenger = passenger;
 		this.outgoingDeliveries = outgoingDeliveries;
 		this.updateTimestamp = updateTimestamp;
+		this.archived = archived;
 	}
 
 	@Id
@@ -153,6 +156,15 @@ public class DeliveryList implements java.io.Serializable {
 
 	public void setOutgoingDeliveries(Set<OutgoingDelivery> outgoingDeliveries) {
 		this.outgoingDeliveries = outgoingDeliveries;
+	}
+	
+	@Column(name = "archived", nullable = false)
+	public int getArchived() {
+		return archived;
+	}
+
+	public void setArchived(int archived) {
+		this.archived = archived;
 	}
 
 }
