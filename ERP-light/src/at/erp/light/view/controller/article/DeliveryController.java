@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import at.erp.light.view.dto.AvailableArticleDTO;
 import at.erp.light.view.dto.DeliveryListDTO;
 import at.erp.light.view.dto.IncomingDeliveryDTO;
@@ -73,6 +72,38 @@ public class DeliveryController {
 	}
 	
 	/**
+	 * Get all unarchived incoming deliveries.
+	 * @return a dto representation for displaying them
+	 */
+	@RequestMapping(value = "secure/incomingDelivery/getAllUnarchived")
+	public List<IncomingDeliveryDTO> getAllunarchivedIncomingDeliveries() {
+
+		List<IncomingDeliveryDTO> list = new ArrayList<IncomingDeliveryDTO>();
+		List<IncomingDelivery> entityList = null;
+		
+		try {
+		entityList = dataBaseService
+				.getAllIncomingDeliveries(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (entityList.size() > 0) {
+			for (IncomingDelivery id : entityList) {
+				list.add(IncomingDeliveryMapper.mapToDTO(id));
+			}
+			log.info("returning all unarchived incoming deliveries");
+
+			return list;
+		} else {
+			log.info("no incoming deliveries found");
+
+			return null;
+		}
+	}
+	
+	/**
 	 * Get an incoming delivery by id.
 	 * @param id of the requested delivery
 	 * @return a dto representation of the requested delivery
@@ -89,6 +120,79 @@ public class DeliveryController {
 		} catch (Exception e) {
 			log.info("no incoming delivery with id " + id + " found");
 			return null;
+		}
+	}
+	
+	/**
+	 * Set incoming delivery to archived via id
+	 * @param id of the requested delivery
+	 * @return MessageOb
+	 */
+	@RequestMapping(value = "secure/incomingDelivery/setArchived/{id}")
+	public ControllerMessage setIncomingDeliveryArchived(@PathVariable int id) {
+		try {
+			dataBaseService.archiveIncomingDeliveryById(id, 1);
+			
+			log.info("set incoming delivery with: " + id + " to archived.");
+			return new ControllerMessage(true, "Archiving delivery successful");
+		} catch (Exception e) {
+			log.info("no incoming delivery with id " + id + " found");
+			return new ControllerMessage(false, e.getMessage());
+		}
+	}
+	
+	/**
+	 * Set incoming delivery to unarchived via id
+	 * @param id of the requested delivery
+	 * @return MessageOb
+	 */
+	@RequestMapping(value = "secure/incomingDelivery/setUnarchived/{id}")
+	public ControllerMessage setIncomingDeliveryUnarchived(@PathVariable int id) {
+		try {
+			dataBaseService.archiveIncomingDeliveryById(id, 0);
+			
+			log.info("set incoming delivery with: " + id + " to unarchived.");
+			return new ControllerMessage(true, "Unarchiving delivery successful");
+		} catch (Exception e) {
+			log.info("no incoming delivery with id " + id + " found");
+			return new ControllerMessage(false, e.getMessage());
+		}
+	}
+	
+	/**
+	 * Set outgoing delivery to unarchived via id
+	 * @param id of the requested delivery
+	 * @return MessageObject with state
+	 */
+	@RequestMapping(value = "secure/outgoingDelivery/setUnarchived/{id}")
+	public ControllerMessage setOutgoingDeliveryUnarchived(@PathVariable int id) {
+		try {
+			dataBaseService.archiveOutgoingDeliveryById(id, 0);
+			
+			log.info("set outgoing delivery with: " + id + " to unarchived.");
+			return new ControllerMessage(true, "Unarchiving delivery successful");
+		} catch (Exception e) {
+			log.info("no incoming delivery with id " + id + " found");
+			return new ControllerMessage(false, e.getMessage());
+		}
+	}
+	
+	
+	/**
+	 * Set outgoing delivery to archived via id
+	 * @param id of the requested delivery
+	 * @return MessageOb
+	 */
+	@RequestMapping(value = "secure/outgoingDelivery/setArchived/{id}")
+	public ControllerMessage setOutgoingDeliveryArchived(@PathVariable int id) {
+		try {
+			dataBaseService.archiveOutgoingDeliveryById(id, 1);
+			
+			log.info("set outgoing delivery with: " + id + " to archived.");
+			return new ControllerMessage(true, "Archiving delivery successful");
+		} catch (Exception e) {
+			log.info("no outgoing delivery with id " + id + " found");
+			return new ControllerMessage(false, e.getMessage());
 		}
 	}
 	
@@ -190,6 +294,33 @@ public class DeliveryController {
 			return null;
 		}
 	}
+	
+	/**
+	 * Gets all unarchived outgoing deliveries.
+	 * @return a dto representation
+	 */
+	@RequestMapping(value = "secure/outgoingDelivery/getAllUnarchived")
+	public List<OutgoingDeliveryDTO> getAllUnarchivedOutgoingDeliveries() {
+
+		List<OutgoingDeliveryDTO> list = new ArrayList<OutgoingDeliveryDTO>();
+
+		List<OutgoingDelivery> entityList = dataBaseService
+				.getAllOutgoingDeliveries(0);
+
+		if (entityList != null && entityList.size() > 0) {
+			for (OutgoingDelivery od : entityList) {
+				list.add(OutgoingDeliveryMapper.mapToDTO(od));
+			}
+			log.info("returning all unarchived outgoing deliveries");
+
+			return list;
+		} else {
+			log.info("no outgoing deliveries found");
+
+			return null;
+		}
+	}
+	
 	
 	/**
 	 * Gets all outgoing deliveries, which are not booked (available).
