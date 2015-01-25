@@ -930,7 +930,7 @@ public class DataBaseService implements IDataBase {
 	public List<OutgoingDelivery> getAllOutgoingDeliveries(int archivedStatus) throws HibernateException {
 		@SuppressWarnings("unchecked")
 		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession()
-			.createQuery("From OutgoingDelivery o Where o.archivid = :archivedStatus order by o.date DESC")
+			.createQuery("From OutgoingDelivery o Where o.archived = :archivedStatus order by o.date DESC")
 			.setParameter("archivedStatus", archivedStatus)
 			.list();
 		return outgoingDeliveries;
