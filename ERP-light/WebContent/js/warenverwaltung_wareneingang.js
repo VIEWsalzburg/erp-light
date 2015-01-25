@@ -1,5 +1,5 @@
 //Get all incoming deliveries and load into table
-function loadTableContent(){
+function loadTableContent(loadArchivedEntries){
 	
 	// get all organisations and save it in variable to search for when loading all incoming deliveries
 	var organisations;
@@ -11,10 +11,17 @@ function loadTableContent(){
 			organisations = eval(data);
 	});
 	
+	//check if only non archived entries should be loaded to table
+	if(loadArchivedEntries == 1){
+		loadArchivedEntries = "Unarchived";
+	}
+	else{
+		loadArchivedEntries = "";
+	}
 	
 	$.ajax({
 		type : "POST",
-		url : "../rest/secure/incomingDelivery/getAll"
+		url : "../rest/secure/incomingDelivery/getAll" + loadArchivedEntries
 	}).done(function(data) {
 		var inc = eval(data);
 
@@ -53,11 +60,18 @@ function loadTableContent(){
 			if (inc[e].booked > 0)
 				bookedClass = "booked-entry";	// set the class to display as booked
 			
-			var tableRow = "<tr class='"+bookedClass+"'>" + "<td>" + inc[e].incomingDeliveryId
+			//check archived flag
+			var archivedCheckboxState = "";
+			if(inc[e].archived > 0){
+				archivedCheckboxState = "checked";
+			}
+			
+			var tableRow = "<tr class='"+ bookedClass + " " + archivedCheckboxState +"'>" + "<td class='hidden'>" + inc[e].incomingDeliveryId
 					+ "</td>" + "<td>" + org.name + ", " + "<br/>" + org.zip + " " + org.city + "," + "<br/>" + org.country 
 					+ "</td>" + "<td>" + inc[e].date
 					+ "</td>" + "<td>" + articleString
 					+ "</td>" + "<td>" + inc[e].comment
+					+ "</td>" + "<td>" + "<input type='checkbox' id='cbx_archived' disabled "+ archivedCheckboxState +">"
 					+ "</td>" + "</tr>";
 
 			$("#incomingDeliveryTableBody").append(tableRow);
@@ -66,8 +80,8 @@ function loadTableContent(){
 	
 };
 
-//Get all incoming deliveries and load into table
-$(document).ready(loadTableContent());
+//Get all non archived incoming deliveries and load into table
+$(document).ready(loadTableContent(0));
 
 //init collapse
 $(function () {
@@ -257,8 +271,6 @@ function createAndAppendArticleTemplate(name, value){
 	$("#article_container_details").append(template);
 }
 
-
-
 // search filter
 $(document).ready(function() {
 	(function($) {
@@ -273,12 +285,27 @@ $(document).ready(function() {
 	}(jQuery));
 });
 
+//set loadArchivedEntries variable to 0 (default)
+var loadArchivedEntries = 0;
+
+//check if archive checkbox is checked
+$("#cbx_archive").on('change', function(){
+	if($("#cbx_archive").prop('checked')){
+		//load all archived entries
+	}
+	else{
+		//load all non archived entries
+	}
+});
+
 // disable new, edit and delete buttons
 $('#btn_new').hide();
 $(".suchfilter").css("margin-left", "0px");
 $('#btn_edit').hide();
 $('#btn_deleteModal').hide();
+
 $('#btn_details').prop('disabled', true);
+$('#btn_archive').prop('disabled', true);
 
 // get current user rights
 $(document).ready(function() {
@@ -331,6 +358,16 @@ $('#TableHead').on('click','tbody tr', function(event) {
 				$('#btn_deleteModal').prop('disabled', true);
 			}
 			$('#btn_details').prop('disabled', false);
+			
+			//check if clicked table row entry is archived
+			if($(this).closest("tr").hasClass("checked") == true){
+				$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> De - Archivieren');
+				$('#btn_archive').prop('disabled', false);
+			}
+			else{
+				$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> Archivieren');
+				$('#btn_archive').prop('disabled', false);
+			}
 });
 
 /**
@@ -398,6 +435,6 @@ $("#btn_deleteIncomingDelivery").click(function() {
 				showAlertElement(2, data.message, 5000);
 			}
 		 
-		 loadTableContent();
+		 loadTableContent(loadArchivedEntries);
 	 });
 });

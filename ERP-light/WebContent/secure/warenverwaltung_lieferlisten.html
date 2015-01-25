@@ -55,7 +55,9 @@
 								
 									<div class="input-group suchfilter"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> Filter</span>
 										<input id="filter" type="text" class="form-control" placeholder="Filterbegriff eingeben...">
-									</div>													
+									</div>
+									
+									<label><input type="checkbox" id="cbx_archive"	value=""> Archivierte Einträge</label>											
 							</div>
 						</form>
 						
@@ -64,12 +66,13 @@
 							<table class="table table-hover table-striped header-fixed" id="TableHead">
 								<thead class="TableHead">
 									<tr>
-										<th style="width: 3%">#</th>								
+										<th class="hidden" style="width: 3%">#</th>								
 										<th style="width: 9%">Datum</th>
 										<th style="width: 29%">Lieferanten</th>
 										<th style="width: 29%">Kunden</th>
 										<th style="width: 15%">Fahrteam</th>		
-										<th style="width: 15%">Beschreibung</th>														
+										<th style="width: 15%">Beschreibung</th>
+										<th style="width: 3%"><span class="glyphicon glyphicon-folder-close"></span></th>													
 									</tr>
 								</thead>	
 								<tbody id="deliveryListTableBody" class="searchable">
@@ -235,6 +238,9 @@
 				</form>
 			</div>
 			<div class="col-md-4">
+				<button type="button" id="btn_archive" class="btn btn-default pull-right centered">
+							<span class="glyphicon glyphicon-folder-close"></span> Archivieren
+				</button>
 			</div>
 		</div>
 	</div>	

@@ -56,11 +56,18 @@ function loadTableContent(){
 							if (out[e].booked > 0)
 								bookedClass = "booked-entry";
 							
-							var tableRow = "<tr class='"+bookedClass+"'>" + "<td>" + out[e].outgoingDeliveryId
+							//check archived flag
+							var archivedCheckboxState = "";
+							if(out[e].archived > 0){
+								archivedCheckboxState = "checked";
+							}
+							
+							var tableRow = "<tr class='"+bookedClass + " " + archivedCheckboxState +"'>" + "<td class='hidden'>" + out[e].outgoingDeliveryId
 									+ "</td>" + "<td>" + org.name + ", " + "<br/>" + org.zip + " " + org.city + "," + "<br/>" + org.country 
 									+ "</td>" + "<td>" + out[e].date
 									+ "</td>" + "<td>" + articleString
 									+ "</td>" + "<td>" + out[e].comment
+									+ "</td>" + "<td>" + "<input type='checkbox' id='cbx_archived' value='' disabled>"
 									+ "</td>" + "</tr>";
 
 							$("#outgoingDeliveryTableBody").append(tableRow);
@@ -274,11 +281,24 @@ $(document).ready(function() {
 	}(jQuery));
 });
 
+//check if archive checkbox is checked
+$("#cbx_archive").on('change', function(){
+	if($("#cbx_archive").prop('checked')){
+		//load all archived entries
+	}
+	else{
+		//load all non archived entries
+	}
+});
+
 // disable new, edit and delete buttons
 $('#btn_new').hide();
 $(".suchfilter").css("margin-left", "0px");
 $('#btn_edit').hide();
 $('#btn_deleteModal').hide();
+
+$('#btn_details').prop('disabled', true);
+$('#btn_archive').prop('disabled', true);
 
 // get current user rights
 $(document).ready(function() {
@@ -329,6 +349,17 @@ $('#TableHead').on('click','tbody tr', function(event) {
 			else {
 				$('#btn_edit').prop('disabled', true);
 				$('#btn_deleteModal').prop('disabled', true);
+			}
+			$('#btn_details').prop('disabled', false);
+			
+			//check if clicked table row entry is archived
+			if($(this).closest("tr").hasClass("checked") == true){
+				$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> De - Archivieren');
+				$('#btn_archive').prop('disabled', false);
+			}
+			else{
+				$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> Archivieren');
+				$('#btn_archive').prop('disabled', false);
 			}
 });
 
