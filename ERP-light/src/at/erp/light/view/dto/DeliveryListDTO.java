@@ -12,6 +12,7 @@ public class DeliveryListDTO {
 	private String driver;
 	private String passenger;
 	private String updateTimestamp;
+	private int archived;	// indicates the archived status (0: not archvied, 1: archived)
 	private Set<OutgoingDeliveryDTO> outgoingDeliveryDTOs = new HashSet<OutgoingDeliveryDTO>(
 			0);
 	
@@ -20,7 +21,7 @@ public class DeliveryListDTO {
 	public DeliveryListDTO(int deliveryListId, int lastEditorId,
 			String name, String date, String comment, String driver,
 			String passenger, Set<OutgoingDeliveryDTO> outgoingDeliveryDTOs,
-			String updateTimestamp) {
+			String updateTimestamp, int archived) {
 		super();
 		this.deliveryListId = deliveryListId;
 		this.lastEditorId = lastEditorId;
@@ -31,6 +32,7 @@ public class DeliveryListDTO {
 		this.passenger = passenger;
 		this.outgoingDeliveryDTOs = outgoingDeliveryDTOs;
 		this.setUpdateTimestamp(updateTimestamp);
+		this.setArchived(archived);
 	}
 	public int getDeliveryListId() {
 		return deliveryListId;
@@ -88,6 +90,14 @@ public class DeliveryListDTO {
 
 	public void setUpdateTimestamp(String updateTimestamp) {
 		this.updateTimestamp = updateTimestamp;
+	}
+
+	public int getArchived() {
+		return archived;
+	}
+
+	public void setArchived(int archived) {
+		this.archived = archived;
 	}
 	
 	

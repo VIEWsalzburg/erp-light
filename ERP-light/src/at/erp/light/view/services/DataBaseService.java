@@ -786,7 +786,7 @@ public class DataBaseService implements IDataBase {
 	}
 	
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public boolean archiveIncomingDeliveryById(int id, int status) throws Exception {
 		IncomingDelivery incomingDelivery = this.getIncomingDeliveryById(id);
 		incomingDelivery.setArchived(status);
@@ -927,11 +927,11 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<OutgoingDelivery> getAllOutgoingDeliveries(int archviedStatus) throws HibernateException {
+	public List<OutgoingDelivery> getAllOutgoingDeliveries(int archivedStatus) throws HibernateException {
 		@SuppressWarnings("unchecked")
 		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession()
-			.createQuery("From OutgoingDelivery o Where o.archvied = :archivedStatus order by o.date DESC")
-			.setParameter("archivedStatus", archviedStatus)
+			.createQuery("From OutgoingDelivery o Where o.archivid = :archivedStatus order by o.date DESC")
+			.setParameter("archivedStatus", archivedStatus)
 			.list();
 		return outgoingDeliveries;
 	}
@@ -963,17 +963,19 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<DeliveryList> getAllDeliveryLists() throws HibernateException {
 		
+		@SuppressWarnings("unchecked")
 		List<DeliveryList> deliveryLists = sessionFactory.getCurrentSession().createQuery("From DeliveryList dl order by dl.date DESC").list();
 		return deliveryLists;
 	}
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<DeliveryList> getAllDeliveryLists(int archviedStatus) throws HibernateException {
+	public List<DeliveryList> getAllDeliveryLists(int archivedStatus) throws HibernateException {
 		
+		@SuppressWarnings("unchecked")
 		List<DeliveryList> deliveryLists = sessionFactory.getCurrentSession()
 				.createQuery("From DeliveryList dl Where dl.archived = :archivedStatus order by dl.date DESC")
-				.setParameter("archivedStatus", archviedStatus)
+				.setParameter("archivedStatus", archivedStatus)
 				.list();
 		return deliveryLists;
 	}
@@ -997,6 +999,17 @@ public class DataBaseService implements IDataBase {
 		
 		return true;
 	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public boolean archiveDeliveryListById(int id, int status)
+			throws HibernateException {
+		DeliveryList deliveryList = this.getDeliveryListById(id);
+		deliveryList.setArchived(status);
+		return true;
+	}
+	
+	
 	
 	@Override
 	public int setDeliveryLists(List<DeliveryList> deliveryLists) throws HibernateException {

@@ -275,6 +275,15 @@ public interface IDataBase {
 	 */
 	boolean deleteDeliveryListById(int id) throws HibernateException;
 	
+	/**
+	 * archives the deliveryList with the given ID
+	 * @param id
+	 * @param status which should be assigned
+	 * @return the success of the operation
+	 * @throws HibernateException
+	 */
+	boolean archiveDeliveryListById(int id, int status) throws HibernateException;
+	
 	public int setDeliveryLists(List<DeliveryList> deliveryLists) throws HibernateException;
 	
 	public int telephoneTest() throws HibernateException;

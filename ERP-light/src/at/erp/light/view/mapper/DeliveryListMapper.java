@@ -36,6 +36,7 @@ public class DeliveryListMapper {
 		dto.setUpdateTimestamp(df.format(entity.getUpdateTimestamp()));
 		dto.setDriver(entity.getDriver());
 		dto.setPassenger(entity.getPassenger());
+		dto.setArchived(entity.getArchived());
 		
 		Set<OutgoingDeliveryDTO> outgoingDeliveryDTOs = new HashSet<OutgoingDeliveryDTO>();
 		for(OutgoingDelivery outgoingDelivery : entity.getOutgoingDeliveries())
@@ -86,6 +87,9 @@ public class DeliveryListMapper {
 		entity.setComment(dto.getComment());
 		entity.setDriver(dto.getDriver());
 		entity.setPassenger(dto.getPassenger());
+		
+		// set archived status only by function, not by object
+		// entity.setArchived(dto.getArchived());
 		
 		Set<OutgoingDelivery> outgoingDeliveries = new HashSet<OutgoingDelivery>();
 		for(OutgoingDeliveryDTO outgoingDeliveryDTO : dto.getOutgoingDeliveryDTOs())

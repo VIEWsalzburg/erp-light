@@ -822,6 +822,13 @@ public class MockedDataBaseService implements IDataBase {
 		return null;
 	}
 
+	@Override
+	public boolean archiveDeliveryListById(int id, int status)
+			throws HibernateException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 	
 	

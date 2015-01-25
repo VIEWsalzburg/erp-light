@@ -11,6 +11,7 @@ public class OutgoingDeliveryDTO {
 	private String date;
 	private String comment;
 	private int booked;		// indicates if the delivery is booked in a delivery_list (0: not booked, 1: booked)
+	private int archived;	// indicates the archvied Status (0: not archived, 1: archived)
 	private String updateTimestamp;
 	private Set<OutgoingArticleDTO> outgoingArticleDTOs = new HashSet<OutgoingArticleDTO>(
 			0);
@@ -21,7 +22,7 @@ public class OutgoingDeliveryDTO {
 			int organisationId,
 			int lastEditorId, Integer deliveryNr, String date,
 			String comment, Set<OutgoingArticleDTO> outgoingArticleDTOs,
-			String updateTimestamp, int booked) {
+			String updateTimestamp, int archived, int booked) {
 		super();
 		this.outgoingDeliveryId = outgoingDeliveryId;
 		this.organisationId = organisationId;
@@ -32,6 +33,7 @@ public class OutgoingDeliveryDTO {
 		this.outgoingArticleDTOs = outgoingArticleDTOs;
 		this.updateTimestamp = updateTimestamp;
 		this.booked = booked;
+		this.archived = archived;
 	}
 
 	public int getOutgoingDeliveryId() {
@@ -104,6 +106,14 @@ public class OutgoingDeliveryDTO {
 
 	public void setUpdateTimestamp(String updateTimestamp) {
 		this.updateTimestamp = updateTimestamp;
+	}
+
+	public int getArchived() {
+		return archived;
+	}
+
+	public void setArchived(int archived) {
+		this.archived = archived;
 	}
 	
 }
