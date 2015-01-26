@@ -1,10 +1,9 @@
 package at.erp.light.view.controller.article;
 
-import java.util.Date;
 
 public class ReportCommand {
-	private Date from;
-	private Date to;
+	private String from;
+	private String to;
 
 	private boolean weightPerDeliveringCompany;
 	private boolean completeWeightDeliveringCompany;
@@ -16,7 +15,7 @@ public class ReportCommand {
 	public ReportCommand() {
 	}
 
-	public ReportCommand(Date from, Date to,
+	public ReportCommand(String from, String to,
 			boolean weightPerDeliveringCompany,
 			boolean completeWeightDeliveringCompany,
 			boolean completePriceDeliveringCompany,
@@ -31,19 +30,19 @@ public class ReportCommand {
 		this.pricePerReceivingCompany = pricePerReceivingCompany;
 	}
 
-	public Date getFrom() {
+	public String getFrom() {
 		return from;
 	}
 
-	public void setFrom(Date from) {
+	public void setFrom(String from) {
 		this.from = from;
 	}
 
-	public Date getTo() {
+	public String getTo() {
 		return to;
 	}
 
-	public void setTo(Date to) {
+	public void setTo(String to) {
 		this.to = to;
 	}
 

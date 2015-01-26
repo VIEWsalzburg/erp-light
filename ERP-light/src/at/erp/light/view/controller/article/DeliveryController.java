@@ -3,6 +3,7 @@ package at.erp.light.view.controller.article;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -652,10 +653,11 @@ public class DeliveryController {
 
 	// DELETE OF DELIVERY LIST AND IF, HOW
 
-	/***** [END] Delivery list *****/
+	/***** [END] Delivery list 
+	 * @throws ParseException *****/
 	@RequestMapping(value = "secure/reports/generateReport")
 	public void downloadCSV(@RequestBody ReportCommand reportCommand,
-			HttpServletResponse response) throws IOException {
+			HttpServletResponse response) throws IOException, ParseException {
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -698,9 +700,9 @@ public class DeliveryController {
 			HashMap<Integer, Double> companyWeight = new HashMap<Integer, Double>();
 
 			for (IncomingDelivery incomingDelivery : allIncomingDeliveries) {
-				if (reportCommand.getFrom().compareTo(
+				if (simpleDateFormat.parse(reportCommand.getFrom()).compareTo(
 						incomingDelivery.getDate()) < 0
-						&& reportCommand.getTo().compareTo(
+						&& simpleDateFormat.parse(reportCommand.getTo()).compareTo(
 								incomingDelivery.getDate()) > 0) {
 					double weigthPerDelivery = 0;
 					IncomingDeliveryDTO incomingDeliveryDTO = IncomingDeliveryMapper
@@ -737,9 +739,9 @@ public class DeliveryController {
 			double weight = 0;
 
 			for (IncomingDelivery incomingDelivery : allIncomingDeliveries) {
-				if (reportCommand.getFrom().compareTo(
+				if (simpleDateFormat.parse(reportCommand.getFrom()).compareTo(
 						incomingDelivery.getDate()) < 0
-						&& reportCommand.getTo().compareTo(
+						&& simpleDateFormat.parse(reportCommand.getTo()).compareTo(
 								incomingDelivery.getDate()) > 0) {
 					IncomingDeliveryDTO incomingDeliveryDTO = IncomingDeliveryMapper
 							.mapToDTO(incomingDelivery);
@@ -760,9 +762,9 @@ public class DeliveryController {
 			double price = 0;
 
 			for (IncomingDelivery incomingDelivery : allIncomingDeliveries) {
-				if (reportCommand.getFrom().compareTo(
+				if (simpleDateFormat.parse(reportCommand.getFrom()).compareTo(
 						incomingDelivery.getDate()) < 0
-						&& reportCommand.getTo().compareTo(
+						&& simpleDateFormat.parse(reportCommand.getTo()).compareTo(
 								incomingDelivery.getDate()) > 0) {
 					IncomingDeliveryDTO incomingDeliveryDTO = IncomingDeliveryMapper
 							.mapToDTO(incomingDelivery);
@@ -795,9 +797,9 @@ public class DeliveryController {
 			HashMap<Integer, Double> companyOutgoingWeight = new HashMap<Integer, Double>();
 
 			for (OutgoingDelivery outgoingDelivery : allOutgoingDeliveries) {
-				if (reportCommand.getFrom().compareTo(
+				if (simpleDateFormat.parse(reportCommand.getFrom()).compareTo(
 						outgoingDelivery.getDate()) < 0
-						&& reportCommand.getTo().compareTo(
+						&& simpleDateFormat.parse(reportCommand.getTo()).compareTo(
 								outgoingDelivery.getDate()) > 0) {
 					
 					double weightPerDelivery = 0;
@@ -835,9 +837,9 @@ public class DeliveryController {
 			HashMap<Integer, Double> companyPrice = new HashMap<Integer, Double>();
 
 			for (OutgoingDelivery outgoingDelivery : allOutgoingDeliveries) {
-				if (reportCommand.getFrom().compareTo(
+				if (simpleDateFormat.parse(reportCommand.getFrom()).compareTo(
 						outgoingDelivery.getDate()) < 0
-						&& reportCommand.getTo().compareTo(
+						&& simpleDateFormat.parse(reportCommand.getTo()).compareTo(
 								outgoingDelivery.getDate()) > 0) {
 					
 					
