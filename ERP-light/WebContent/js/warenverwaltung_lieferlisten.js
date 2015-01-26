@@ -1,5 +1,5 @@
 //Get all delivery lists and load into table
-function loadTableContent(){
+function loadTableContent(loadArchivedEntries){
 	
 	// get all organisations
 	var organisations;
@@ -11,9 +11,17 @@ function loadTableContent(){
 		organisations = eval(data);
 	});
 	
+	//check if only non archived entries should be loaded to table
+	if(loadArchivedEntries == 1){
+		loadArchivedEntries = "";
+	}
+	else{
+		loadArchivedEntries = "Unarchived";
+	}
+	
 			$.ajax({
 				type : "POST",
-				url : "../rest/secure/deliveryList/getAll"
+				url : "../rest/secure/deliveryList/getAll" + loadArchivedEntries
 			}).done(
 					function(data) {
 						var deliverylists = eval(data);
@@ -104,12 +112,19 @@ function loadTableContent(){
 								driverString = list.driver + "," + "<br>" + list.passenger;
 							}
 							
-							var tableRow = "<tr>" + "<td>" + list.deliveryListId
+							//check archived flag
+							var archivedCheckboxState = "";
+							if(list.archived > 0){
+								archivedCheckboxState = "checked";
+							}
+							
+							var tableRow = "<tr class='"+ archivedCheckboxState +"'>" + "<td class='hidden'>" + list.deliveryListId
 									+ "</td>" + "<td>" + list.date
 									+ "</td>" + "<td>" + delivererString
 									+ "</td>" + "<td>" + receiverString
 									+ "</td>" + "<td>" + driverString
 									+ "</td>" + "<td>" + list.comment
+									+ "</td>" + "<td>" + "<input type='checkbox' id='cbx_archived' disabled "+ archivedCheckboxState +">"
 									+ "</td>" + "</tr>";
 
 							$("#deliveryListTableBody").append(tableRow);
@@ -118,7 +133,7 @@ function loadTableContent(){
 };
 
 //Get all delivery lists and load into table
-$(document).ready(loadTableContent());
+$(document).ready(loadTableContent(loadArchivedEntries));
 
 //init collapse
 $(function () {
@@ -332,11 +347,62 @@ $(document).ready(function() {
 	}(jQuery));
 });
 
+//set loadArchivedEntries variable to 0 (default)
+var loadArchivedEntries = 0;
+
+//check if archive checkbox is checked
+$("#cbx_archive").on('change', function(){
+	if($("#cbx_archive").prop('checked')){
+		//load all archived entries
+		loadArchivedEntries = 1;
+		$('#deliveryListTableBody').empty();
+		loadTableContent(loadArchivedEntries);
+	}
+	else{
+		//load all non archived entries
+		loadArchivedEntries = 0;
+		$('#deliveryListTableBody').empty();
+		loadTableContent(loadArchivedEntries);
+	}
+});
+
+//set entry archived or non archived depending on button value
+$("#btn_archive").click(function() {
+	var id = tableData[0];
+	
+	if($(this).val() == "archive"){
+		//set entry archived
+		$.ajax({
+			type : "POST",
+			async : false,
+			url : "../rest/secure/deliveryList/setArchivedState/"+ id +"/1"
+		}).done(function(data) {
+			$('#deliveryListTableBody').empty();
+			loadTableContent(loadArchivedEntries);
+		});
+	}
+	else if($(this).val() == "dearchive"){
+		//set entry non archived
+		$.ajax({
+			type : "POST",
+			async : false,
+			url : "../rest/secure/deliveryList/setArchivedState/"+ id +"/0"
+		}).done(function(data) {
+			$('#deliveryListTableBody').empty();
+			loadTableContent(loadArchivedEntries);
+		});
+	}
+});
+
 // disable new, edit and delete buttons
 $('#btn_new').hide();
 $(".suchfilter").css("margin-left", "0px");
 $('#btn_edit').hide();
 $('#btn_deleteModal').hide();
+
+$('#btn_details').prop('disabled', true);
+$('#btn_archive').prop('disabled', true);
+$('#cbx_archive').prop('checked', false);
 
 // get current user rights
 $(document).ready(function() {
@@ -357,7 +423,6 @@ $(document).ready(function() {
 
 			$('#btn_edit').prop('disabled', true);
 			$('#btn_deleteModal').prop('disabled', true);
-			$('#btn_details').prop('disabled', true);
 		}
 	});
 });
@@ -380,6 +445,18 @@ $('#TableHead').on('click','tbody tr', function(event) {
 				$('#btn_deleteModal').prop('disabled', true);
 			}
 			$('#btn_details').prop('disabled', false);
+			
+			//check if clicked table row entry is archived
+			if($(this).closest("tr").hasClass("checked") == true){
+				$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> De - Archivieren');
+				$('#btn_archive').val("dearchive");
+				$('#btn_archive').prop('disabled', false);
+			}
+			else{
+				$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> Archivieren');
+				$('#btn_archive').val("archive");
+				$('#btn_archive').prop('disabled', false);
+			}
 });
 
 /**
@@ -425,6 +502,6 @@ $("#btn_deleteDeliveryList").click(function() {
 				showAlertElement(2, data.message, 5000);
 			}
 		 
-		 loadTableContent();
+		 loadTableContent(loadArchivedEntries);
 	 });
 });
