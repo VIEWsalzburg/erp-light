@@ -713,7 +713,7 @@ public class DeliveryController {
 								.getWeightpu()*incomingArticleDTO.getNumberpu();
 					}
 
-					Double existingValue = companyWeight.putIfAbsent(
+					Double existingValue = putIfAbsent(companyWeight,
 							incomingDeliveryDTO.getOrganisationId(),
 							weigthPerDelivery);
 					if (existingValue != null) {
@@ -811,7 +811,7 @@ public class DeliveryController {
 								.getWeightpu()*outgoingArticleDTO.getNumberpu();
 					}
 
-					Double existingValue = companyOutgoingWeight.putIfAbsent(
+					Double existingValue = putIfAbsent(companyOutgoingWeight,
 							outgoingDeliveryDTO.getOrganisationId(),
 							weightPerDelivery);
 					if (existingValue != null) {
@@ -852,7 +852,7 @@ public class DeliveryController {
 								.getPricepu()*outgoingArticleDTO.getNumberpu();
 					}
 
-					Double existingValue = companyPrice.putIfAbsent(
+					Double existingValue = putIfAbsent(companyPrice,
 							outgoingDeliveryDTO.getOrganisationId(),
 							pricePerDelivery);
 					if (existingValue != null) {
@@ -872,4 +872,14 @@ public class DeliveryController {
 		}
 		csvWriter.close();
 	}
+	
+	private double putIfAbsent(HashMap<Integer,Double> hashMap,int key, double value)
+	{
+		Double v = hashMap.get(key);
+		 if (v == null)
+		     v = hashMap.put(key, value);
+
+		 return v;
+	}
+	
 }
