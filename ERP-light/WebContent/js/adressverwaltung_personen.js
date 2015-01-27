@@ -40,21 +40,21 @@ function loadTableContent() {
 					var phoneNumbers = p[e].telephones;
 					
 					for (var i = 0; i < emails.length; i++) {
-						emailString = emailString + emails[i].type.substring(0,1).toLowerCase()+":"+ emails[i].mail;
+						emailString = emailString + emails[i].type.substring(0,1).toLowerCase()+": "+ emails[i].mail;
 						if (i < emails.length - 1) {
 							emailString = emailString + "," + "<br/>";
 						}
 					}
 					for (var j = 0; j < phoneNumbers.length; j++) {
-						phoneString = phoneString + phoneNumbers[j].type.substring(0,1).toLowerCase()+":"+phoneNumbers[j].telephone;
+						phoneString = phoneString + phoneNumbers[j].type.substring(0,1).toLowerCase()+": "+phoneNumbers[j].telephone;
 						if (j < phoneNumbers.length - 1) {
-							phoneString = phoneString + ", " + "<br/>";
+							phoneString = phoneString + "," + "<br/>";
 						}
 					}
 					for (var k = 0; k < types.length; k++) {
 						typeString = typeString + types[k];
 						if (k < types.length - 1) {
-							typeString = typeString + ", " + "<br/>";
+							typeString = typeString + "," + "<br/>";
 						}
 					}
 					

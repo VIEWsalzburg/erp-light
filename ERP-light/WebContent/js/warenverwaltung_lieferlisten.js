@@ -394,11 +394,20 @@ $("#btn_archive").click(function() {
 	}
 });
 
+//export as word
+$("#btn_export").click(function() {
+	var id = tableData[0];
+	var hrefString = "http://localhost:8080/ERP-light/rest/secure/deliveryList/exportAsWord/" + id;
+	
+	$("#href_export").attr("href", hrefString);
+});
+
 // disable new, edit and delete buttons
 $('#btn_new').hide();
 $(".suchfilter").css("margin-left", "0px");
 $('#btn_edit').hide();
 $('#btn_deleteModal').hide();
+$('#btn_export').hide();
 
 $('#btn_details').prop('disabled', true);
 $('#btn_archive').prop('disabled', true);
@@ -420,9 +429,11 @@ $(document).ready(function() {
 
 			$('#btn_edit').show();
 			$('#btn_deleteModal').show();
+			$('#btn_export').show();
 
 			$('#btn_edit').prop('disabled', true);
 			$('#btn_deleteModal').prop('disabled', true);
+			$('#btn_export').prop('disabled', true);
 		}
 	});
 });
@@ -439,10 +450,12 @@ $('#TableHead').on('click','tbody tr', function(event) {
 			if (currentUserRights == "Admin" && currentUserRights != "") {
 				$('#btn_edit').prop('disabled', false);
 				$('#btn_deleteModal').prop('disabled', false);
+				$('#btn_export').prop('disabled', false);
 			} 
 			else {
 				$('#btn_edit').prop('disabled', true);
 				$('#btn_deleteModal').prop('disabled', true);
+				$('#btn_export').prop('disabled', true);
 			}
 			$('#btn_details').prop('disabled', false);
 			
