@@ -2,91 +2,117 @@ package at.erp.light.view.controller.article;
 
 
 public class ReportCommand {
+	private Integer id;
+	
 	private String dateFrom;
 	private String dateTo;
 
-	private boolean weightPerDeliveringOrganisation;
-	private boolean totalWeightAllDeliveringOrganisations;	// total weight of delivered articles of all organisations
-	private boolean totalPriceAllDeliveringOrganisations;	// total price of delivered articles of all organisations
+	private boolean incomingReportByOrganisationId;
+	private boolean incomingReportForAllOrganisations;
 	
-	private boolean weightPerReceivingOrganisation;
-	private boolean pricePerReceivingOrganisation;
+	private boolean outgoingReportByOrganisationId;
+	private boolean outgoingReportForAllOrganisation;
+	
+	private boolean totalSumOfAllIncomingDeliveries;
+	private boolean totalSumOfAllOutgoingDeliveries;
 
 	public ReportCommand() {
 	}
 
-	public ReportCommand(String from, String to,
-			boolean weightPerDeliveringCompany,
-			boolean completeWeightDeliveringCompany,
-			boolean completePriceDeliveringCompany,
-			boolean weightPerReceivingCompany, boolean pricePerReceivingCompany) {
+	public ReportCommand(Integer id, String dateFrom, String dateTo,
+			boolean incomingReportByOrganisationId,
+			boolean incomingReportForAllOrganisations,
+			boolean outgoingReportByOrganisationId,
+			boolean outgoingReportForAllOrganisation,
+			boolean totalSumOfAllIncomingDeliveries,
+			boolean totalSumOfAllOutgoingDeliveries) {
 		super();
-		this.dateFrom = from;
-		this.dateTo = to;
-		this.weightPerDeliveringOrganisation = weightPerDeliveringCompany;
-		this.totalWeightAllDeliveringOrganisations = completeWeightDeliveringCompany;
-		this.totalPriceAllDeliveringOrganisations = completePriceDeliveringCompany;
-		this.weightPerReceivingOrganisation = weightPerReceivingCompany;
-		this.pricePerReceivingOrganisation = pricePerReceivingCompany;
+		this.id = id;
+		this.dateFrom = dateFrom;
+		this.dateTo = dateTo;
+		this.incomingReportByOrganisationId = incomingReportByOrganisationId;
+		this.incomingReportForAllOrganisations = incomingReportForAllOrganisations;
+		this.outgoingReportByOrganisationId = outgoingReportByOrganisationId;
+		this.outgoingReportForAllOrganisation = outgoingReportForAllOrganisation;
+		this.totalSumOfAllIncomingDeliveries = totalSumOfAllIncomingDeliveries;
+		this.totalSumOfAllOutgoingDeliveries = totalSumOfAllOutgoingDeliveries;
 	}
 
-	public String getFrom() {
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getDateFrom() {
 		return dateFrom;
 	}
 
-	public void setFrom(String from) {
-		this.dateFrom = from;
+	public void setDateFrom(String dateFrom) {
+		this.dateFrom = dateFrom;
 	}
 
-	public String getTo() {
+	public String getDateTo() {
 		return dateTo;
 	}
 
-	public void setTo(String to) {
-		this.dateTo = to;
+	public void setDateTo(String dateTo) {
+		this.dateTo = dateTo;
 	}
 
-	public boolean isWeightPerDeliveringCompany() {
-		return weightPerDeliveringOrganisation;
+	public boolean isIncomingReportByOrganisationId() {
+		return incomingReportByOrganisationId;
 	}
 
-	public void setWeightPerDeliveringCompany(boolean weightPerDeliveringCompany) {
-		this.weightPerDeliveringOrganisation = weightPerDeliveringCompany;
+	public void setIncomingReportByOrganisationId(
+			boolean incomingReportByOrganisationId) {
+		this.incomingReportByOrganisationId = incomingReportByOrganisationId;
 	}
 
-	public boolean isCompleteWeightDeliveringCompany() {
-		return totalWeightAllDeliveringOrganisations;
+	public boolean isIncomingReportForAllOrganisations() {
+		return incomingReportForAllOrganisations;
 	}
 
-	public void setCompleteWeightDeliveringCompany(
-			boolean completeWeightDeliveringCompany) {
-		this.totalWeightAllDeliveringOrganisations = completeWeightDeliveringCompany;
+	public void setIncomingReportForAllOrganisations(
+			boolean incomingReportForAllOrganisations) {
+		this.incomingReportForAllOrganisations = incomingReportForAllOrganisations;
 	}
 
-	public boolean isCompletePriceDeliveringCompany() {
-		return totalPriceAllDeliveringOrganisations;
+	public boolean isOutgoingReportByOrganisationId() {
+		return outgoingReportByOrganisationId;
 	}
 
-	public void setCompletePriceDeliveringCompany(
-			boolean completePriceDeliveringCompany) {
-		this.totalPriceAllDeliveringOrganisations = completePriceDeliveringCompany;
+	public void setOutgoingReportByOrganisationId(
+			boolean outgoingReportByOrganisationId) {
+		this.outgoingReportByOrganisationId = outgoingReportByOrganisationId;
 	}
 
-	public boolean isWeightPerReceivingCompany() {
-		return weightPerReceivingOrganisation;
+	public boolean isOutgoingReportForAllOrganisation() {
+		return outgoingReportForAllOrganisation;
 	}
 
-	public void setWeightPerReceivingCompany(boolean weightPerReceivingCompany) {
-		this.weightPerReceivingOrganisation = weightPerReceivingCompany;
+	public void setOutgoingReportForAllOrganisation(
+			boolean outgoingReportForAllOrganisation) {
+		this.outgoingReportForAllOrganisation = outgoingReportForAllOrganisation;
 	}
 
-	public boolean isPricePerReceivingCompany() {
-		return pricePerReceivingOrganisation;
+	public boolean isTotalSumOfAllIncomingDeliveries() {
+		return totalSumOfAllIncomingDeliveries;
 	}
 
-	public void setPricePerReceivingCompany(boolean pricePerReceivingCompany) {
-		this.pricePerReceivingOrganisation = pricePerReceivingCompany;
+	public void setTotalSumOfAllIncomingDeliveries(
+			boolean totalSumOfAllIncomingDeliveries) {
+		this.totalSumOfAllIncomingDeliveries = totalSumOfAllIncomingDeliveries;
 	}
-	
-	
+
+	public boolean isTotalSumOfAllOutgoingDeliveries() {
+		return totalSumOfAllOutgoingDeliveries;
+	}
+
+	public void setTotalSumOfAllOutgoingDeliveries(
+			boolean totalSumOfAllOutgoingDeliveries) {
+		this.totalSumOfAllOutgoingDeliveries = totalSumOfAllOutgoingDeliveries;
+	}
 }

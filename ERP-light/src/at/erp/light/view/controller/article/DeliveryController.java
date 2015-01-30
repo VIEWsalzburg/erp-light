@@ -641,7 +641,7 @@ public class DeliveryController {
 									+ " "
 									+ dataBaseService.getPersonById(
 											deliveryListDTO.getLastEditorId())
-											.getLastName()));
+											.getLastName(),dataBaseService));
 			// copy it to response's OutputStream
 			IOUtils.copy(wordFile, httpServletResponse.getOutputStream());
 			httpServletResponse.flushBuffer();

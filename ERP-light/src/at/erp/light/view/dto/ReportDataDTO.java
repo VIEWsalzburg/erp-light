@@ -1,6 +1,5 @@
 package at.erp.light.view.dto;
 
-import java.util.Date;
 
 public class ReportDataDTO {
 	
