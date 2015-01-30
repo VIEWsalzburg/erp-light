@@ -3,17 +3,21 @@ package at.erp.light.view.controller.testing;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.erp.light.view.authenticate.HashGenerator;
+import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.AvailArticleInDepot;
@@ -464,5 +468,40 @@ public class TestController {
 	}
 	
 	
+	@RequestMapping(value = "IncomingReportByOrganisationId/{id}")
+	public ReportDataDTO reportTest1(@PathVariable int id) throws ParseException {	
+		ReportDataDTO reportDataDTO = dataBaseService.getIncomingReportByOrganisationId(id, "10.01.2015", "31.05.2015");
+		return reportDataDTO;
+	}
+	
+	@RequestMapping(value = "OutgoingReportByOrganisationId/{id}")
+	public ReportDataDTO reportTest2(@PathVariable int id) throws ParseException {	
+		ReportDataDTO reportDataDTO = dataBaseService.getOutgoingReportByOrganisationId(id, "10.01.2015", "31.05.2015");
+		return reportDataDTO;
+	}
+	
+	@RequestMapping(value = "IncomingReportForAllOrganisations")
+	public List<ReportDataDTO> reportTest3() throws ParseException {	
+		List<ReportDataDTO> reportDataDTOs = dataBaseService.getIncomingReportForAllOrganisations("10.01.2015", "31.05.2015");
+		return reportDataDTOs;
+	}
+	
+	@RequestMapping(value = "OutgoingReportForAllOrganisations")
+	public List<ReportDataDTO> reportTest4() throws ParseException {	
+		List<ReportDataDTO> reportDataDTOs = dataBaseService.getOutgoingReportForAllOrganisations("10.01.2015", "31.05.2015");
+		return reportDataDTOs;
+	}
+	
+	@RequestMapping(value = "TotalSumOfAllIncomingDeliveries")
+	public ReportDataDTO reportTest5() throws ParseException {	
+		ReportDataDTO reportDataDTO = dataBaseService.getTotalSumOfAllIncomingDeliveries("10.01.2015", "31.05.2015");
+		return reportDataDTO;
+	}
+	
+	@RequestMapping(value = "TotalSumOfAllOutgoingDeliveries")
+	public ReportDataDTO reportTest6() throws ParseException {	
+		ReportDataDTO reportDataDTO = dataBaseService.getTotalSumOfAllOutgoingDeliveries("10.01.2015", "31.05.2015");
+		return reportDataDTO;
+	}
 	
 }

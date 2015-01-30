@@ -2,15 +2,15 @@ package at.erp.light.view.controller.article;
 
 
 public class ReportCommand {
-	private String from;
-	private String to;
+	private String dateFrom;
+	private String dateTo;
 
-	private boolean weightPerDeliveringCompany;
-	private boolean completeWeightDeliveringCompany;
-	private boolean completePriceDeliveringCompany;
+	private boolean weightPerDeliveringOrganisation;
+	private boolean totalWeightAllDeliveringOrganisations;	// total weight of delivered articles of all organisations
+	private boolean totalPriceAllDeliveringOrganisations;	// total price of delivered articles of all organisations
 	
-	private boolean weightPerReceivingCompany;
-	private boolean pricePerReceivingCompany;
+	private boolean weightPerReceivingOrganisation;
+	private boolean pricePerReceivingOrganisation;
 
 	public ReportCommand() {
 	}
@@ -21,71 +21,71 @@ public class ReportCommand {
 			boolean completePriceDeliveringCompany,
 			boolean weightPerReceivingCompany, boolean pricePerReceivingCompany) {
 		super();
-		this.from = from;
-		this.to = to;
-		this.weightPerDeliveringCompany = weightPerDeliveringCompany;
-		this.completeWeightDeliveringCompany = completeWeightDeliveringCompany;
-		this.completePriceDeliveringCompany = completePriceDeliveringCompany;
-		this.weightPerReceivingCompany = weightPerReceivingCompany;
-		this.pricePerReceivingCompany = pricePerReceivingCompany;
+		this.dateFrom = from;
+		this.dateTo = to;
+		this.weightPerDeliveringOrganisation = weightPerDeliveringCompany;
+		this.totalWeightAllDeliveringOrganisations = completeWeightDeliveringCompany;
+		this.totalPriceAllDeliveringOrganisations = completePriceDeliveringCompany;
+		this.weightPerReceivingOrganisation = weightPerReceivingCompany;
+		this.pricePerReceivingOrganisation = pricePerReceivingCompany;
 	}
 
 	public String getFrom() {
-		return from;
+		return dateFrom;
 	}
 
 	public void setFrom(String from) {
-		this.from = from;
+		this.dateFrom = from;
 	}
 
 	public String getTo() {
-		return to;
+		return dateTo;
 	}
 
 	public void setTo(String to) {
-		this.to = to;
+		this.dateTo = to;
 	}
 
 	public boolean isWeightPerDeliveringCompany() {
-		return weightPerDeliveringCompany;
+		return weightPerDeliveringOrganisation;
 	}
 
 	public void setWeightPerDeliveringCompany(boolean weightPerDeliveringCompany) {
-		this.weightPerDeliveringCompany = weightPerDeliveringCompany;
+		this.weightPerDeliveringOrganisation = weightPerDeliveringCompany;
 	}
 
 	public boolean isCompleteWeightDeliveringCompany() {
-		return completeWeightDeliveringCompany;
+		return totalWeightAllDeliveringOrganisations;
 	}
 
 	public void setCompleteWeightDeliveringCompany(
 			boolean completeWeightDeliveringCompany) {
-		this.completeWeightDeliveringCompany = completeWeightDeliveringCompany;
+		this.totalWeightAllDeliveringOrganisations = completeWeightDeliveringCompany;
 	}
 
 	public boolean isCompletePriceDeliveringCompany() {
-		return completePriceDeliveringCompany;
+		return totalPriceAllDeliveringOrganisations;
 	}
 
 	public void setCompletePriceDeliveringCompany(
 			boolean completePriceDeliveringCompany) {
-		this.completePriceDeliveringCompany = completePriceDeliveringCompany;
+		this.totalPriceAllDeliveringOrganisations = completePriceDeliveringCompany;
 	}
 
 	public boolean isWeightPerReceivingCompany() {
-		return weightPerReceivingCompany;
+		return weightPerReceivingOrganisation;
 	}
 
 	public void setWeightPerReceivingCompany(boolean weightPerReceivingCompany) {
-		this.weightPerReceivingCompany = weightPerReceivingCompany;
+		this.weightPerReceivingOrganisation = weightPerReceivingCompany;
 	}
 
 	public boolean isPricePerReceivingCompany() {
-		return pricePerReceivingCompany;
+		return pricePerReceivingOrganisation;
 	}
 
 	public void setPricePerReceivingCompany(boolean pricePerReceivingCompany) {
-		this.pricePerReceivingCompany = pricePerReceivingCompany;
+		this.pricePerReceivingOrganisation = pricePerReceivingCompany;
 	}
 	
 	
