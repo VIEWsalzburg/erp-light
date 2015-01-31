@@ -10,6 +10,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <!-- Stylesheet -->
 <link href="css/login.css" rel="stylesheet">
+<link href="css/loadingspinner.css" rel="stylesheet">
 <link rel='shortcut icon' type='image/x-icon' href='images/favicon.ico' >
 </head>
 <body>
@@ -64,11 +65,19 @@
 
 
 	</div>
+	
+	<div class="spinner-container">
+		<div class="spinner">
+			<div class="circle"></div>
+		</div>
+	</div>
+	
 	<a id="linkToHome" href="secure/home.html" style="visibility: hidden;"></a>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/loginController.js"></script>
+	<script src="js/globalFunctions.js"></script>
 </body>
 </html>

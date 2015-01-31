@@ -46,16 +46,23 @@
 	background-color: #999;
 }
 
-.table-responsive{
-	height: 365px !important;
-	max-width: 1140px !important;
+.table-responsive {
     overflow: scroll;
 	overflow-x: hidden;
+	/* calculates the table height subtracting 270px from 100% of the viewport */
+	height: calc(100vh - 270px);	/* 100vh ... 100% of the viewport */
+	min-height: 300px;	/* use 300px min height for table */
+	border: 1px solid #999;
 }
 
 .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
   background-color: #45A12B;
   color: #FFF;
+}
+
+.table-striped tbody tr.highlight td { 
+    background-color: #45A12B;
+	color: #FFF;
 }
 /* Table end */
 
@@ -73,10 +80,7 @@
 	margin-bottom: 5px;	
 }
 
-.table-striped tbody tr.highlight td { 
-    background-color: #45A12B;
-	color: #FFF;
-}
+
 
 .ModalDivContainer{
 	height: 80px;

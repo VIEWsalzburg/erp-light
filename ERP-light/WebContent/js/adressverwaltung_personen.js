@@ -17,6 +17,10 @@ $("#loginEmailPermission_container_details").append(template);
 
 var p;
 function loadTableContent() {
+	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 	// check all Checkboxes
 	$('#mitarbeiter_cbx').prop('checked', true);
 	$('#unterstuetzer_cbx').prop('checked', true);
@@ -71,7 +75,12 @@ function loadTableContent() {
 					
 					$("#personTableBody").append(tableRow);
 				}
+				
+				// hide loading spinner
+				showLoadingSpinner(false);
+				
 			});
+
 };
 
 $("#select_loginEmail").focus(function() {

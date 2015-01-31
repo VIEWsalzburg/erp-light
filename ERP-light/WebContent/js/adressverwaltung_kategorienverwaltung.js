@@ -9,6 +9,10 @@ var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-5'> <div class='aler
 
 // Get all categories and load into table
 function loadTableContent(){
+
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 			$.ajax({
 				type : "POST",
 				url : "../rest/secure/category/getAllCategories"
@@ -24,6 +28,8 @@ function loadTableContent(){
 
 							$("#categoryTableBody").append(tableRow);
 						}
+						// hide loading spinner
+						 showLoadingSpinner(false);
 					});
 };
 
