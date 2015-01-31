@@ -1,0 +1,73 @@
+@CHARSET "UTF-8";
+
+[disabled] {
+  pointer-events: none;
+}
+
+#body
+{	
+	height: 525px !important;
+	background-color: #FFF;	
+}
+
+/* Nav-tabs */
+.nav-tabs > li > a {	
+	color: #333; /*Change active text color here*/
+}
+
+/* active tab color */
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+  color: #FFF;
+  background-color: #45A12B;
+  
+}
+
+/* hover tab color */
+.nav-tabs>li>a:hover {
+  background-color: #45A12B;
+  color: #FFF;
+}
+
+.suchfilter{
+	width: 250px;
+	margin: 5px;
+}
+
+.typfilter{
+    margin-right: 5px;
+}
+
+.bottom{
+    margin-top: 5px;	
+}
+
+.centered{
+    margin-top: 5px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.modalrow{
+	margin-bottom: 5px;	
+}
+
+.ModalDivContainer{
+	height: 80px;
+	overflow-y: auto;
+}
+
+.boxElement_person{
+	border-bottom: 1px solid #ccc;
+}
+
+.boxElement_category{
+	border-bottom: 1px solid #ccc;
+}
+
+.boxElement_deliverer{
+	border-bottom: 1px solid #ccc;
+}
+
+.boxElement_receiver{
+	border-bottom: 1px solid #ccc;
+}
