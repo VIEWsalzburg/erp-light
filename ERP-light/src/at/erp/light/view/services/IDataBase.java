@@ -1,10 +1,13 @@
 package at.erp.light.view.services;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import org.hibernate.HibernateException;
 
+import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.AvailArticleInDepot;
 import at.erp.light.view.model.Category;
@@ -364,4 +367,17 @@ public interface IDataBase {
 	public boolean checkInAndOutArticlePUs();
 	
 	
+	/***** Reports *****/
+	
+	public ReportDataDTO getIncomingReportByOrganisationId(int id, String dateFrom, String dateTo) throws ParseException;
+	
+	public List<ReportDataDTO> getIncomingReportForAllOrganisations(String dateFrom, String dateTo) throws ParseException;
+	
+	public ReportDataDTO getOutgoingReportByOrganisationId(int id, String dateFrom, String dateTo) throws ParseException;
+	
+	public List<ReportDataDTO> getOutgoingReportForAllOrganisations(String dateFrom, String dateTo) throws ParseException;
+	
+	public ReportDataDTO getTotalSumOfAllIncomingDeliveries(String dateFrom, String dateTo) throws ParseException;
+	
+	public ReportDataDTO getTotalSumOfAllOutgoingDeliveries(String dateFrom, String dateTo) throws ParseException;
 }

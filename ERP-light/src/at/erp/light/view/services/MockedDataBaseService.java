@@ -1,6 +1,7 @@
 package at.erp.light.view.services;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sun.org.apache.xpath.internal.operations.Or;
 
+import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.AvailArticleInDepot;
@@ -827,6 +829,48 @@ public class MockedDataBaseService implements IDataBase {
 			throws HibernateException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public ReportDataDTO getIncomingReportByOrganisationId(int id,
+			String dateFrom, String dateTo) throws ParseException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReportDataDTO> getIncomingReportForAllOrganisations(
+			String dateFrom, String dateTo) throws ParseException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ReportDataDTO getOutgoingReportByOrganisationId(int id,
+			String dateFrom, String dateTo) throws ParseException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReportDataDTO> getOutgoingReportForAllOrganisations(
+			String dateFrom, String dateTo) throws ParseException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ReportDataDTO getTotalSumOfAllIncomingDeliveries(String dateFrom,
+			String dateTo) throws ParseException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ReportDataDTO getTotalSumOfAllOutgoingDeliveries(String dateFrom,
+			String dateTo) throws ParseException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

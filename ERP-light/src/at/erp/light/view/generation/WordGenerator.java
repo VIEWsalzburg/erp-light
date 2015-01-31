@@ -2,6 +2,11 @@ package at.erp.light.view.generation;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.poi.util.Units;
@@ -13,9 +18,12 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import at.erp.light.view.dto.DeliveryListDTO;
 import at.erp.light.view.dto.OutgoingArticleDTO;
 import at.erp.light.view.dto.OutgoingDeliveryDTO;
+import at.erp.light.view.model.Organisation;
+import at.erp.light.view.model.Person;
+import at.erp.light.view.services.IDataBase;
 
 public class WordGenerator {
-	 public static File generate(DeliveryListDTO deliveryListDTO, String doneBy) throws Exception {
+	 public static File generate(DeliveryListDTO deliveryListDTO, String doneBy, IDataBase dataBase) throws Exception {
 	        XWPFDocument doc = new XWPFDocument();
 
 //	        Header
@@ -69,9 +77,51 @@ public class WordGenerator {
 	        
 //	        XWPFParagraph p5 = doc.createParagraph();
 //	        XWPFRun r9 = p5.createRun();
+	        Map<Integer, List<OutgoingArticleDTO>> allDeliverers = new HashMap<Integer, List<OutgoingArticleDTO>>();
+	        for(OutgoingDeliveryDTO deliveryDTO:deliveryDTOs)
+	        {
+	        	for(OutgoingArticleDTO outgoingArticleDTO:deliveryDTO.getOutgoingArticleDTOs())
+	        	{
+	        		Integer delivererId = outgoingArticleDTO.getArticleDTO().getDelivererId();
+	        		if(allDeliverers.containsKey(delivererId))
+	        		{
+	        			allDeliverers.get(delivererId).add(outgoingArticleDTO);
+	        		}
+	        		else
+	        		{
+	        			List<OutgoingArticleDTO> newList = new ArrayList<OutgoingArticleDTO>();
+	        			newList.add(outgoingArticleDTO);
+	        			allDeliverers.put(delivererId, newList);
+	        		}
+	        	}
+	        }
 	        
-	        
-	        //!!!!Hirnschmalz
+	        XWPFParagraph delivererParagraph = doc.createParagraph();
+
+	        for(Entry<Integer, List<OutgoingArticleDTO>> entry :allDeliverers.entrySet())
+	        {
+	        	Organisation o = dataBase.getOrganisationById(entry.getKey());
+	        	Person contactPerson  = o.getContactPersons().iterator().next();
+	        	String contactName = "";
+	        	
+	        	if(contactPerson!=null)
+	        	{
+	        		contactName = contactPerson.getFirstName() + " " + contactPerson.getLastName();
+	        	}
+	        	
+	        	XWPFRun innerRun = delivererParagraph.createRun();
+	 	        setArial12(innerRun);
+	 	        innerRun.setText(o.getName() + " Ansprechpartner: " + contactName);
+	 	        innerRun.addBreak();
+
+	 	        for(OutgoingArticleDTO articleDTO : entry.getValue())
+	 	        {
+	 	        	innerRun.setText("Anzahl: " + articleDTO.getNumberpu() +" "+ articleDTO.getArticleDTO().getPackagingUnit() +" Beschreibung: "+articleDTO.getArticleDTO().getDescription());
+		 	        innerRun.addBreak();
+	 	        }
+	 	        innerRun.addBreak();
+	        }
+	       
 	        
 	        
 	        XWPFParagraph p6 = doc.createParagraph();

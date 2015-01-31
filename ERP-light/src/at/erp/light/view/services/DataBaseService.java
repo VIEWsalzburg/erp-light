@@ -1,4 +1,8 @@
 package at.erp.light.view.services;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -7,9 +11,12 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.AvailArticleInDepot;
@@ -1204,5 +1211,211 @@ public class DataBaseService implements IDataBase {
 
 	
 	/***** [END] Categories *****/
+
+	
+	
+	/***** [START] Reports *****/
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public ReportDataDTO getIncomingReportByOrganisationId(int id, String dateFromStr, String dateToStr) throws ParseException
+	{
+		
+		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+		Date dateFrom = df.parse(dateFromStr);
+		Date dateTo = df.parse(dateToStr);
+		
+		String sqlString = " select name as \"organisationName\", organisation_id as \"organisationId\",  sum(numberpu * pricepu)  as \"totalPrice\", sum(numberpu * weightpu) as \"totalWeight\"	"+
+					"from organisation join incoming_delivery id using (organisation_id) "+
+					"join incoming_article using (incoming_delivery_id) "+
+					" join article using (article_id) "+
+					"where organisation_id = :id "+
+					"AND id.date between :dateFrom and :dateTo "+
+					"group by name, organisation_id;";
+		
+		ReportDataDTO reportDataDTO = (ReportDataDTO) this.sessionFactory.getCurrentSession().createSQLQuery(sqlString)
+			.addScalar("organisationName", StandardBasicTypes.STRING)
+			.addScalar("organisationId", StandardBasicTypes.INTEGER)
+			.addScalar("totalPrice", StandardBasicTypes.DOUBLE)
+			.addScalar("totalWeight", StandardBasicTypes.DOUBLE)
+			.setParameter("id", id)
+			.setParameter("dateFrom", dateFrom)
+			.setParameter("dateTo", dateTo)
+			.setResultTransformer(Transformers.aliasToBean(ReportDataDTO.class))
+			.uniqueResult();
+		
+		reportDataDTO.setDateFrom(df.format(dateFrom));
+		reportDataDTO.setDateTo(df.format(dateTo));
+		
+		return reportDataDTO;
+	}
+	
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<ReportDataDTO> getIncomingReportForAllOrganisations(String dateFromStr, String dateToStr) throws ParseException
+	{
+		
+		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+		Date dateFrom = df.parse(dateFromStr);
+		Date dateTo = df.parse(dateToStr);
+		
+		String sqlString = " select name as \"organisationName\", organisation_id as \"organisationId\",  sum(numberpu * pricepu)  as \"totalPrice\", sum(numberpu * weightpu) as \"totalWeight\"	"+
+					"from organisation join incoming_delivery id using (organisation_id) "+
+					"join incoming_article using (incoming_delivery_id) "+
+					"join article using (article_id) "+
+					"where id.date between :dateFrom and :dateTo "+
+					"group by name, organisation_id;";
+		
+		@SuppressWarnings("unchecked")
+		List<ReportDataDTO> reportDataDTOs = (List<ReportDataDTO>) this.sessionFactory.getCurrentSession().createSQLQuery(sqlString)
+			.addScalar("organisationName", StandardBasicTypes.STRING)
+			.addScalar("organisationId", StandardBasicTypes.INTEGER)
+			.addScalar("totalPrice", StandardBasicTypes.DOUBLE)
+			.addScalar("totalWeight", StandardBasicTypes.DOUBLE)
+			.setParameter("dateFrom", dateFrom)
+			.setParameter("dateTo", dateTo)
+			.setResultTransformer(Transformers.aliasToBean(ReportDataDTO.class))
+			.list();
+		
+		for (ReportDataDTO rd : reportDataDTOs)
+		{
+			rd.setDateFrom(df.format(dateFrom));
+			rd.setDateTo(df.format(dateTo));
+		}
+		
+		return reportDataDTOs;
+	}
+	
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public ReportDataDTO getOutgoingReportByOrganisationId(int id, String dateFromStr, String dateToStr) throws ParseException
+	{
+		
+		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+		Date dateFrom = df.parse(dateFromStr);
+		Date dateTo = df.parse(dateToStr);
+		
+		String sqlString = " select name as \"organisationName\", organisation_id as \"organisationId\",  sum(numberpu * pricepu)  as \"totalPrice\", sum(numberpu * weightpu) as \"totalWeight\"	"+
+					"from organisation join outgoing_delivery od using (organisation_id) "+
+					"join outgoing_article using (outgoing_delivery_id) "+
+					" join article using (article_id) "+
+					"where organisation_id = :id "+
+					"AND od.date between :dateFrom and :dateTo "+
+					"group by name, organisation_id;";
+		
+		ReportDataDTO reportDataDTO = (ReportDataDTO) this.sessionFactory.getCurrentSession().createSQLQuery(sqlString)
+			.addScalar("organisationName", StandardBasicTypes.STRING)
+			.addScalar("organisationId", StandardBasicTypes.INTEGER)
+			.addScalar("totalPrice", StandardBasicTypes.DOUBLE)
+			.addScalar("totalWeight", StandardBasicTypes.DOUBLE)
+			.setParameter("id", id)
+			.setParameter("dateFrom", dateFrom)
+			.setParameter("dateTo", dateTo)
+			.setResultTransformer(Transformers.aliasToBean(ReportDataDTO.class))
+			.uniqueResult();
+		
+		reportDataDTO.setDateFrom(df.format(dateFrom));
+		reportDataDTO.setDateTo(df.format(dateTo));
+		
+		return reportDataDTO;
+	}
+	
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<ReportDataDTO> getOutgoingReportForAllOrganisations(String dateFromStr, String dateToStr) throws ParseException
+	{
+		
+		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+		Date dateFrom = df.parse(dateFromStr);
+		Date dateTo = df.parse(dateToStr);
+		
+		String sqlString = " select name as \"organisationName\", organisation_id as \"organisationId\",  sum(numberpu * pricepu)  as \"totalPrice\", sum(numberpu * weightpu) as \"totalWeight\"	"+
+					"from organisation join outgoing_delivery id using (organisation_id) "+
+					"join outgoing_article using (outgoing_delivery_id) "+
+					"join article using (article_id) "+
+					"where id.date between :dateFrom and :dateTo "+
+					"group by name, organisation_id;";
+		
+		@SuppressWarnings("unchecked")
+		List<ReportDataDTO> reportDataDTOs = (List<ReportDataDTO>) this.sessionFactory.getCurrentSession().createSQLQuery(sqlString)
+			.addScalar("organisationName", StandardBasicTypes.STRING)
+			.addScalar("organisationId", StandardBasicTypes.INTEGER)
+			.addScalar("totalPrice", StandardBasicTypes.DOUBLE)
+			.addScalar("totalWeight", StandardBasicTypes.DOUBLE)
+			.setParameter("dateFrom", dateFrom)
+			.setParameter("dateTo", dateTo)
+			.setResultTransformer(Transformers.aliasToBean(ReportDataDTO.class))
+			.list();
+		
+		for (ReportDataDTO rd : reportDataDTOs)
+		{
+			rd.setDateFrom(df.format(dateFrom));
+			rd.setDateTo(df.format(dateTo));
+		}
+		
+		return reportDataDTOs;
+	}
+	
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public ReportDataDTO getTotalSumOfAllIncomingDeliveries(String dateFromStr, String dateToStr) throws ParseException
+	{
+		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+		Date dateFrom = df.parse(dateFromStr);
+		Date dateTo = df.parse(dateToStr);
+		
+		String sqlString = "select sum(numberpu * pricepu)  as \"totalPrice\", sum(numberpu * weightpu) as \"totalWeight\" "+
+				"from incoming_delivery id join incoming_article using (incoming_delivery_id) "+
+				"join article using (article_id) "+
+				"where id.date between :dateFrom and :dateTo ;";
+		
+		ReportDataDTO reportDataDTO = (ReportDataDTO) this.sessionFactory.getCurrentSession().createSQLQuery(sqlString)
+			.addScalar("totalPrice", StandardBasicTypes.DOUBLE)
+			.addScalar("totalWeight", StandardBasicTypes.DOUBLE)
+			.setParameter("dateFrom", dateFrom)
+			.setParameter("dateTo", dateTo)
+			.setResultTransformer(Transformers.aliasToBean(ReportDataDTO.class))
+			.uniqueResult();
+		
+		reportDataDTO.setDateFrom(df.format(dateFrom));
+		reportDataDTO.setDateTo(df.format(dateTo));
+		
+		return reportDataDTO;
+	}
+	
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public ReportDataDTO getTotalSumOfAllOutgoingDeliveries(String dateFromStr, String dateToStr) throws ParseException
+	{
+		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+		Date dateFrom = df.parse(dateFromStr);
+		Date dateTo = df.parse(dateToStr);
+		
+		String sqlString = "select sum(numberpu * pricepu)  as \"totalPrice\", sum(numberpu * weightpu) as \"totalWeight\" "+
+				"from outgoing_delivery od join outgoing_article using (outgoing_delivery_id) "+
+				"join article using (article_id) "+
+				"where od.date between :dateFrom and :dateTo ;";
+		
+		ReportDataDTO reportDataDTO = (ReportDataDTO) this.sessionFactory.getCurrentSession().createSQLQuery(sqlString)
+			.addScalar("totalPrice", StandardBasicTypes.DOUBLE)
+			.addScalar("totalWeight", StandardBasicTypes.DOUBLE)
+			.setParameter("dateFrom", dateFrom)
+			.setParameter("dateTo", dateTo)
+			.setResultTransformer(Transformers.aliasToBean(ReportDataDTO.class))
+			.uniqueResult();
+		
+		reportDataDTO.setDateFrom(df.format(dateFrom));
+		reportDataDTO.setDateTo(df.format(dateTo));
+		
+		return reportDataDTO;
+	}
+	
+	
+	/***** [END] *****/
 	
 }
