@@ -1,6 +1,9 @@
 //Get all incoming deliveries and load into table
 function loadTableContent(loadArchivedEntries){
 	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 	// get all organisations and save it in variable to search for when loading all incoming deliveries
 	var organisations;
 	$.ajax({
@@ -76,6 +79,9 @@ function loadTableContent(loadArchivedEntries){
 
 			$("#incomingDeliveryTableBody").append(tableRow);
 		}
+		
+		// hide loading spinner
+		showLoadingSpinner(false);
 	});
 	
 };

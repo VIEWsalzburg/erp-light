@@ -5,6 +5,9 @@ var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-5'> <div class='aler
 //Get all outgoing deliveries and load into table
 function loadTableContent(loadArchivedEntries){
 	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 			// get all organisations
 			var organisations;
 			$.ajax({
@@ -78,6 +81,10 @@ function loadTableContent(loadArchivedEntries){
 
 							$("#outgoingDeliveryTableBody").append(tableRow);
 						}
+						
+						// hide loading spinner
+						showLoadingSpinner(false);
+						
 			});
 };
 

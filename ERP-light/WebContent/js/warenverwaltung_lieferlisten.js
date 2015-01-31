@@ -1,6 +1,9 @@
 //Get all delivery lists and load into table
 function loadTableContent(loadArchivedEntries){
 	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 	// get all organisations
 	var organisations;
 	$.ajax({
@@ -129,6 +132,10 @@ function loadTableContent(loadArchivedEntries){
 
 							$("#deliveryListTableBody").append(tableRow);
 						}
+						
+						// hide loading spinner
+						showLoadingSpinner(false);
+						
 			});
 };
 
