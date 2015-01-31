@@ -1,0 +1,74 @@
+@CHARSET "ISO-8859-1";
+
+@-webkit-keyframes rotateCircle {
+	from {-webkit-transform: rotate(0deg);}
+	to {-webkit-transform: rotate(360deg);}
+}
+
+@-moz-keyframes rotateCircle {
+	from {-moz-transform: rotate(0deg);}
+	to {-moz-transform: rotate(360deg);}
+}
+
+@-ms-keyframes rotateCircle {
+	from {-ms-transform: rotate(0deg);}
+	to {-ms-transform: rotate(360deg);}
+}
+
+@keyframes rotateCircle {
+	from {transform: rotate(0deg);}
+	to {transform: rotate(360deg);}
+}
+
+.circle {
+	width: 50px;	/* 56px plus 2*3px border */
+	height: 50px;	/* 56px plus 2*3px border */
+	
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -25px;	/* 25px because of border-box property */
+	margin-left: -25px;	/* 25px because of border-box property */
+	
+	border-radius: 50%;
+	border: 3px solid #EEEEEE;
+	border-top-color: #00FF00;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	
+	-webkit-animation: rotateCircle 1s linear infinite;
+	-moz-animation: rotateCircle 1s linear infinite;
+	-ms-animation: rotateCircle 1s linear infinite;
+	animation: rotateCircle 1s linear infinite;
+}
+
+.spinner {
+	height: 100px;
+	width: 150px;
+	
+	/* positioning the spinner-container */
+	position: fixed;
+	z-index: 100;
+	top: 50%;
+	left: 50%;
+	margin-top: -50px;
+	margin-left: -75px;
+	
+	background-color: rgba(25, 25, 25, 0.5);
+	
+	border-radius: 7px;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+}
+
+.spinner-container {
+	height: 100%;
+	width: 100%;
+	
+	/* positioning the spinner-container */
+	position: absolute;
+	top: 0px;
+	z-index: 100;
+	background-color: rgba(25, 25, 25, 0);
+	display: none;
+}

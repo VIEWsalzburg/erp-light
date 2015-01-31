@@ -241,6 +241,10 @@ function loadContactPerson(id) {
 var o;
 var c;
 function loadTableContent() {
+	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 	$('#lieferanten_cbx').prop('checked', true);
 	$('#kunden_cbx').prop('checked', true);
 	$('#sponsoren_cbx').prop('checked', true);
@@ -345,6 +349,9 @@ function loadTableContent() {
 								
 					$("#organisationTableBody").append(tableRow);
 				}
+				
+				// hide loading spinner
+				showLoadingSpinner(false);
 			});
 };
 

@@ -31,3 +31,19 @@ function showAlertElement(success, text, timeOut)
 			}
 		);
 }
+
+/* shows the loading spinner on the site; status: false => hide; status: true => show */
+function showLoadingSpinner(status) {
+	
+	if (status==true)
+	{
+		 $('.spinner-container').show();
+//		$('.spinner-container').css('visibility','visible');
+	}
+	else
+	{
+		 $('.spinner-container').hide();
+//		$('.spinner-container').css('visibility', 'hidden');
+	}
+	
+}
