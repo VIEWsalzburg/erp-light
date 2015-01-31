@@ -6,8 +6,10 @@
 
 #body
 {	
-	height: 525px !important;
+	height: calc(100vh - 191px);
+	min-height: 525px;
 	background-color: #FFF;	
+/* 	height: 700px; */
 }
 
 /* Nav-tabs */
