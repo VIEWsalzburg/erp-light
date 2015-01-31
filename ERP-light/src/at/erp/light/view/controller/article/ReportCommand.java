@@ -2,7 +2,7 @@ package at.erp.light.view.controller.article;
 
 
 public class ReportCommand {
-	private Integer id;
+	private Integer organisationId;
 	
 	private String dateFrom;
 	private String dateTo;
@@ -11,7 +11,7 @@ public class ReportCommand {
 	private boolean incomingReportForAllOrganisations;
 	
 	private boolean outgoingReportByOrganisationId;
-	private boolean outgoingReportForAllOrganisation;
+	private boolean outgoingReportForAllOrganisations;
 	
 	private boolean totalSumOfAllIncomingDeliveries;
 	private boolean totalSumOfAllOutgoingDeliveries;
@@ -19,31 +19,31 @@ public class ReportCommand {
 	public ReportCommand() {
 	}
 
-	public ReportCommand(Integer id, String dateFrom, String dateTo,
+	public ReportCommand(Integer organisationId, String dateFrom, String dateTo,
 			boolean incomingReportByOrganisationId,
 			boolean incomingReportForAllOrganisations,
 			boolean outgoingReportByOrganisationId,
-			boolean outgoingReportForAllOrganisation,
+			boolean outgoingReportForAllOrganisations,
 			boolean totalSumOfAllIncomingDeliveries,
 			boolean totalSumOfAllOutgoingDeliveries) {
 		super();
-		this.id = id;
+		this.organisationId = organisationId;
 		this.dateFrom = dateFrom;
 		this.dateTo = dateTo;
 		this.incomingReportByOrganisationId = incomingReportByOrganisationId;
 		this.incomingReportForAllOrganisations = incomingReportForAllOrganisations;
 		this.outgoingReportByOrganisationId = outgoingReportByOrganisationId;
-		this.outgoingReportForAllOrganisation = outgoingReportForAllOrganisation;
+		this.outgoingReportForAllOrganisations = outgoingReportForAllOrganisations;
 		this.totalSumOfAllIncomingDeliveries = totalSumOfAllIncomingDeliveries;
 		this.totalSumOfAllOutgoingDeliveries = totalSumOfAllOutgoingDeliveries;
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getOrganisationId() {
+		return organisationId;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.organisationId = id;
 	}
 
 	public String getDateFrom() {
@@ -89,13 +89,13 @@ public class ReportCommand {
 		this.outgoingReportByOrganisationId = outgoingReportByOrganisationId;
 	}
 
-	public boolean isOutgoingReportForAllOrganisation() {
-		return outgoingReportForAllOrganisation;
+	public boolean isOutgoingReportForAllOrganisations() {
+		return outgoingReportForAllOrganisations;
 	}
 
 	public void setOutgoingReportForAllOrganisation(
 			boolean outgoingReportForAllOrganisation) {
-		this.outgoingReportForAllOrganisation = outgoingReportForAllOrganisation;
+		this.outgoingReportForAllOrganisations = outgoingReportForAllOrganisation;
 	}
 
 	public boolean isTotalSumOfAllIncomingDeliveries() {

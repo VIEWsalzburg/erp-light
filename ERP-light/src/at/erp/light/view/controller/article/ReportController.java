@@ -41,7 +41,7 @@ public class ReportController {
 	{
 			log.info("Returning report data");
 		
-			Integer id = reportCommand.getId();
+			Integer id = reportCommand.getOrganisationId();
 			String dateFrom = reportCommand.getDateFrom();
 			String dateTo = reportCommand.getDateTo();
 		
@@ -79,12 +79,22 @@ public class ReportController {
 		
 			if(reportCommand.isIncomingReportForAllOrganisations())
 			{
-				return dataBaseService.getIncomingReportForAllOrganisations(dateFrom, dateTo);
+				try{
+					return dataBaseService.getIncomingReportForAllOrganisations(dateFrom, dateTo);
+				}
+				catch(Exception e){
+					log.severe(e.getMessage());
+				}
 			}
 
-			if(reportCommand.isOutgoingReportForAllOrganisation())
+			if(reportCommand.isOutgoingReportForAllOrganisations())
 			{
-				return dataBaseService.getOutgoingReportForAllOrganisations(dateFrom, dateTo);
+				try{
+					return dataBaseService.getOutgoingReportForAllOrganisations(dateFrom, dateTo);
+				}
+				catch(Exception e){
+					log.severe(e.getMessage());
+				}
 			}
 			
 			return null;
@@ -128,7 +138,7 @@ public class ReportController {
 				simpleDateFormat.format(dateFrom), " bis ",
 				simpleDateFormat.format(dateTo));
 
-		Integer id = reportCommand.getId();
+		Integer id = reportCommand.getOrganisationId();
 		ReportDataDTO reportDataDTO = null;
 		
 		csvWriter.writeHeader("");
@@ -136,28 +146,44 @@ public class ReportController {
 		if(reportCommand.isIncomingReportByOrganisationId())
 		{
 			csvWriter.writeHeader("Für Lieferant");
-			reportDataDTO = dataBaseService.getIncomingReportByOrganisationId(id, dateFrom, dateTo);
+			try{
+				reportDataDTO = dataBaseService.getIncomingReportByOrganisationId(id, dateFrom, dateTo);
+			}catch(Exception e){
+				log.severe(e.getMessage());
+			}
 			writeSingleData(csvWriter, reportDataDTO);
 		}
 		
 		else if(reportCommand.isOutgoingReportByOrganisationId())
 		{
 			csvWriter.writeHeader("Für Kunde");
+			try{
 			reportDataDTO =  dataBaseService.getOutgoingReportByOrganisationId(id, dateFrom, dateTo);
+			}catch(Exception e){
+				log.severe(e.getMessage());
+			}
 			writeSingleData(csvWriter, reportDataDTO);
 		}
 		
 		else if(reportCommand.isTotalSumOfAllIncomingDeliveries())
 		{
 			csvWriter.writeHeader("Summe aller eingehenden Lieferungen");
-			reportDataDTO =  dataBaseService.getTotalSumOfAllIncomingDeliveries(dateFrom, dateTo);
+			try{
+				reportDataDTO =  dataBaseService.getTotalSumOfAllIncomingDeliveries(dateFrom, dateTo);
+			}catch(Exception e){
+				log.severe(e.getMessage());
+			}
 			writeSingleData(csvWriter, reportDataDTO);
 		}
 		
 		else if(reportCommand.isTotalSumOfAllOutgoingDeliveries())
 		{
 			csvWriter.writeHeader("Summe aller ausgehenden Lieferungen");
-			reportDataDTO =  dataBaseService.getTotalSumOfAllOutgoingDeliveries(dateFrom, dateTo);
+			try{
+				reportDataDTO =  dataBaseService.getTotalSumOfAllOutgoingDeliveries(dateFrom, dateTo);
+			} catch(Exception e){
+				log.severe(e.getMessage());
+			}
 			writeSingleData(csvWriter, reportDataDTO);
 		}
 		
@@ -166,14 +192,22 @@ public class ReportController {
 		if(reportCommand.isIncomingReportForAllOrganisations())
 		{
 			csvWriter.writeHeader("Alle Lieferanten");
-			reportDataDTOList =  dataBaseService.getIncomingReportForAllOrganisations(dateFrom, dateTo);
+			try{
+				reportDataDTOList =  dataBaseService.getIncomingReportForAllOrganisations(dateFrom, dateTo);
+			}catch(Exception e){
+				log.severe(e.getMessage());
+			}
 			writeListData(csvWriter, reportDataDTOList);
 		}
 
-		else if(reportCommand.isOutgoingReportForAllOrganisation())
+		else if(reportCommand.isOutgoingReportForAllOrganisations())
 		{
 			csvWriter.writeHeader("Alle Kunden");
-			reportDataDTOList =  dataBaseService.getOutgoingReportForAllOrganisations(dateFrom, dateTo);
+			try{
+				reportDataDTOList =  dataBaseService.getOutgoingReportForAllOrganisations(dateFrom, dateTo);
+			}catch(Exception e){
+				log.severe(e.getMessage());
+			}
 			writeListData(csvWriter, reportDataDTOList);
 		}
 		
