@@ -22,6 +22,7 @@ $(function () {
 //clear inputs on accordion load
 $(".accordion_heading").click(function() {
 	$(".btn_export").prop('disabled', true);
+	$(".tbx_organisation_popover").attr("data-content", "");
 	
 	$('.tbx_organisation').val("");
 	$('.tbx_orgId').val("");
@@ -105,32 +106,32 @@ $("#btn_saveOrganisation").click(function() {
 
 //generate report (incomingReportByOrganisation)
 $("#btn_generateIncomingReportByOrg").click(function() {
-	reportCommand_global = generateReport(true, false, false, false, false, false);
+	reportCommand_global = generateReport(0, true, false, false, false, false, false);
 });
 
 //generate report (outgoingReportByOrganisation)
 $("#btn_generateOutgoingReportByOrg").click(function() {
-	reportCommand_global = generateReport(false, false, true, false, false, false);
+	reportCommand_global = generateReport(2, false, false, true, false, false, false);
 });
 
 //generate report (incomingReportForAllOrganisations)
 $("#btn_generateIncomingReportForAllOrg").click(function() {
-	reportCommand_global = generateReport(false, true, false, false, false, false);
+	reportCommand_global = generateReport(1, false, true, false, false, false, false);
 });
 
 //generate report (outgoingReportForAllOrganisations)
 $("#btn_generateOutgoingReportForAllOrg").click(function() {
-	reportCommand_global = generateReport(false, false, false, true, false, false);
+	reportCommand_global = generateReport(3, false, false, false, true, false, false);
 });
 
 //generate report (totalSumOfAllIncomingDeliveries)
 $("#btn_generateTotalSumOfAllIncomingDeliveries").click(function() {
-	reportCommand_global = generateReport(false, false, false, false, true, false);
+	reportCommand_global = generateReport(4, false, false, false, false, true, false);
 });
 
 //generate report (totalSumOfAllOutgoingDeliveries)
 $("#btn_generateTotalSumOfAllOutgoingDeliveries").click(function() {
-	reportCommand_global = generateReport(false, false, false, false, false, true);
+	reportCommand_global = generateReport(5, false, false, false, false, false, true);
 });
 
 //generate report export
@@ -140,11 +141,11 @@ $(".btn_export").click(function() {
 
 function validateInputFields(mode){
 	var orgId = $('.tbx_orgId').val();
-	var dateFrom = $('.tbx_datefrom').val();
-	var dateTo = $('.tbx_dateto').val();
+	var dateFrom = $("#inputDateGroup" + mode).find('.tbx_datefrom').val();
+	var dateTo = $("#inputDateGroup" + mode).find('.tbx_dateto').val();
 	
 	// check if all Fields are filled
-	if(mode == 0){
+	if(mode == 0 || mode == 2){
 		if (orgId == 0)
 		{
 			showAlertElement(2, "Leere Felder vorhanden!", 5000);
@@ -175,17 +176,10 @@ function validateInputFields(mode){
 
 //generate report
 var reportCommand_global;
-function generateReport(incomingReportByOrg, incomingReportForAllOrg, outgoingReportByOrg, outgoingReportForAllOrg, totalSumOfAllIncomingDeliveries, totalSumOfAllOutgoingDeliveries){
+function generateReport(mode, incomingReportByOrg, incomingReportForAllOrg, outgoingReportByOrg, outgoingReportForAllOrg, totalSumOfAllIncomingDeliveries, totalSumOfAllOutgoingDeliveries){
 	//validate input fields
-	if(incomingReportByOrg == true || outgoingReportByOrg == true){
-		if(validateInputFields(0) == null){
+	if(validateInputFields(mode) == null){
 			return;
-		}
-	}
-	else{
-		if(validateInputFields(1) == null){
-			return;
-		}
 	}
 	
 	//create new reportCommand object
@@ -199,8 +193,8 @@ function generateReport(incomingReportByOrg, incomingReportForAllOrg, outgoingRe
 		reportCommand.organisationId = 0; 
 	}
 	
-	reportCommand.dateFrom = $('.tbx_datefrom').val();
-	reportCommand.dateTo = $('.tbx_dateto').val();
+	reportCommand.dateFrom = $("#inputDateGroup" + mode).find('.tbx_datefrom').val();
+	reportCommand.dateTo = $("#inputDateGroup" + mode).find('.tbx_dateto').val();
 	
 	reportCommand.incomingReportByOrganisationId = incomingReportByOrg;
 	reportCommand.incomingReportForAllOrganisations = incomingReportForAllOrg;
@@ -234,24 +228,22 @@ function generateReport(incomingReportByOrg, incomingReportForAllOrg, outgoingRe
 	return reportCommand;
 }
 
-//TODO not working
 function generateReportExport(){
 	if(reportCommand_global == null){
 		return;
 	}
 	
-	$.ajax({
-		headers : {
-			'Accept' : 'application/json',
-			'Content-Type' : 'application/json'
-		},
-		type : "POST",
-		url : "../rest/secure/reports/generateCSVReport",
-		contentType: "application/json; charset=utf-8",
-	    dataType: "json",
-		data : JSON.stringify(reportCommand_global)
-	}).done(function(data) {
-	});
+	$('<form action="../rest/secure/reports/generateCSVReport">'+ 
+			'<input type="hidden" value="'+reportCommand_global.organisationId+'" name="organisationId">'+ 
+			'<input type="hidden" value="'+reportCommand_global.dateFrom+'" name="dateFrom">'
+			+ '<input type="hidden" value="'+reportCommand_global.dateTo+'" name="dateTo">'
+			+ '<input type="hidden" value="'+reportCommand_global.incomingReportByOrganisationId+'" name="incomingReportByOrganisationId">'
+			+ '<input type="hidden" value="'+reportCommand_global.incomingReportForAllOrganisations+'" name="incomingReportForAllOrganisations">'
+			+ '<input type="hidden" value="'+reportCommand_global.outgoingReportByOrganisationId+'" name="outgoingReportByOrganisationId">'
+			+ '<input type="hidden" value="'+reportCommand_global.outgoingReportForAllOrganisations+'" name="outgoingReportForAllOrganisations">'
+			+ '<input type="hidden" value="'+reportCommand_global.totalSumOfAllIncomingDeliveries+'" name="totalSumOfAllIncomingDeliveries">'
+			+ '<input type="hidden" value="'+reportCommand_global.totalSumOfAllOutgoingDeliveries+'" name="totalSumOfAllOutgoingDeliveries">'
+			+ '</form>').appendTo('body').submit();
 	
 	$(".btn_export").prop('disabled', true);
 }

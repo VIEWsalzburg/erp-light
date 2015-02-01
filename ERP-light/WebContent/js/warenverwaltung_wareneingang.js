@@ -358,7 +358,7 @@ $(document).ready(function() {
 		currentUserRights = currentUser.permission;
 
 		// only when user has admin rights
-		if (currentUserRights == "Admin" && currentUserRights != "") {
+		if (currentUserRights != "Read" && currentUserRights != "") {
 			$("#btn_new").show();
 			$(".suchfilter").css("margin-left", "5px");
 
@@ -381,7 +381,7 @@ $('#TableHead').on('click','tbody tr', function(event) {
 			$(this).addClass('highlight').siblings().removeClass('highlight');
 			
 			// only when user has admin rights
-			if (currentUserRights == "Admin" && currentUserRights != "") {
+			if (currentUserRights != "Read" && currentUserRights != "") {
 				//deleteModal disabled=false only if not booked 
 				if($(this).closest("tr").hasClass("booked-entry") == true){
 					$('#btn_edit').prop('disabled', false);

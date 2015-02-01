@@ -628,7 +628,7 @@ $(document).ready(function() {
 		currentUserRights = currentUser.permission;
 
 		// only when user has admin rights
-		if (currentUserRights == "Admin" && currentUserRights != "") {
+		if (currentUserRights != "Read" && currentUserRights != "") {
 			if(isBooked != true){
 				$('#label_packagingunits').show();
 				$('#tbx_packagingunit_group').show();
@@ -663,7 +663,7 @@ $('#TableHeadLeftDepot').on('click','tbody tr', function(event) {
 	
 	if(isBooked != true){
 		// only when user has admin rights
-		if (currentUserRights == "Admin" && currentUserRights != "") {
+		if (currentUserRights != "Read" && currentUserRights != "") {
 			// enable 'button to disposition'
 			$('#btn_addtodisposition').prop('disabled', false);
 			// disable 'button from disposition'
@@ -691,7 +691,7 @@ $('#TableHeadRightDepot').on('click','tbody tr', function(event) {
 
 	
 	// only when user has admin rights
-	if (currentUserRights == "Admin" && currentUserRights != "") {
+	if (currentUserRights != "Read" && currentUserRights != "") {
 		// enable buttons: 'up, down, to disposition, from disposition'
 		$('#btn_up').prop('disabled', false);
 		$('#btn_down').prop('disabled', false);

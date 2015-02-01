@@ -355,7 +355,7 @@ $(document).ready(function() {
 		currentUserRights = currentUser.permission;
 
 		// only when user has admin rights
-		if (currentUserRights == "Admin" && currentUserRights != "") {
+		if (currentUserRights != "Read" && currentUserRights != "") {
 			$('#btn_addtodeliverylist').show();
 			$('#btn_removefromdeliverylist').show();
 
@@ -383,7 +383,7 @@ $('#TableHeadOutgoingDelivery').on('click','tbody tr', function(event) {
 			$('#btn_down').prop('disabled', true);
 
 			// only when user has admin rights
-			if (currentUserRights == "Admin" && currentUserRights != "") {
+			if (currentUserRights != "Read" && currentUserRights != "") {
 				$('#btn_addtodeliverylist').prop('disabled', false);
 				$('#btn_removefromdeliverylist').prop('disabled', true);
 			} 
@@ -405,7 +405,7 @@ $('#TableHeadDeliveryList').on('click','tbody tr', function(event) {
 	$(this).addClass('highlight').siblings().removeClass('highlight');
 
 	// only when user has admin rights
-	if (currentUserRights == "Admin" && currentUserRights != "") {
+	if (currentUserRights != "Read" && currentUserRights != "") {
 		$('#btn_up').prop('disabled', false);
 		$('#btn_down').prop('disabled', false);
 		$('#btn_addtodeliverylist').prop('disabled', true);
