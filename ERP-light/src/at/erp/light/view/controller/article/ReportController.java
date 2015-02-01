@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -102,9 +104,44 @@ public class ReportController {
 	
 	
 	@RequestMapping(value = "secure/reports/generateCSVReport")
-	public void downloadCSV(@RequestBody ReportCommand reportCommand,
+	public void downloadCSV(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ParseException {
 
+		String organisationId = request.getParameter("organisationId");
+		String dateFromParameter = request.getParameter("dateFrom");
+		String dateToParameter = request.getParameter("dateTo");
+		String incomingReportByOrganisationIdParameter = request.getParameter("incomingReportByOrganisationId");
+		String incomingReportForAllOrganisationsParameter = request.getParameter("incomingReportForAllOrganisations");
+		String outgoingReportByOrganisationIdParameter = request.getParameter("outgoingReportByOrganisationId");
+		String outgoingReportForAllOrganisationsParameter = request.getParameter("outgoingReportForAllOrganisations");
+		String totalSumOfAllIncomingDeliveriesParameter = request.getParameter("totalSumOfAllIncomingDeliveries");
+		String totalSumOfAllOutgoingDeliveriesParameter = request.getParameter("totalSumOfAllOutgoingDeliveries");
+
+		
+		Assert.notNull(organisationId);
+		Assert.notNull(dateFromParameter);
+		Assert.notNull(dateToParameter);
+		Assert.notNull(incomingReportByOrganisationIdParameter);
+		Assert.notNull(incomingReportForAllOrganisationsParameter);
+		Assert.notNull(outgoingReportByOrganisationIdParameter);
+		Assert.notNull(outgoingReportForAllOrganisationsParameter);
+		Assert.notNull(totalSumOfAllIncomingDeliveriesParameter);
+		Assert.notNull(totalSumOfAllOutgoingDeliveriesParameter);
+
+		
+		ReportCommand reportCommand = new ReportCommand();
+		
+		
+		reportCommand.setOrganisationId(Integer.valueOf(organisationId));
+		reportCommand.setDateFrom(dateFromParameter);
+		reportCommand.setDateTo(dateToParameter);
+		reportCommand.setIncomingReportByOrganisationId(Boolean.parseBoolean(incomingReportByOrganisationIdParameter));
+		reportCommand.setIncomingReportForAllOrganisations(Boolean.parseBoolean(incomingReportForAllOrganisationsParameter));
+		reportCommand.setOutgoingReportByOrganisationId(Boolean.parseBoolean(outgoingReportByOrganisationIdParameter));
+		reportCommand.setOutgoingReportForAllOrganisations(Boolean.parseBoolean(outgoingReportForAllOrganisationsParameter));
+		reportCommand.setTotalSumOfAllIncomingDeliveries(Boolean.parseBoolean(totalSumOfAllIncomingDeliveriesParameter));
+		reportCommand.setTotalSumOfAllOutgoingDeliveries(Boolean.parseBoolean(totalSumOfAllOutgoingDeliveriesParameter));
+		
 		log.info("Generate CSV Report");
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -135,8 +172,8 @@ public class ReportController {
 		String dateTo = reportCommand.getDateTo();
 		
 		csvWriter.writeHeader("Zeitraum: ",
-				simpleDateFormat.format(dateFrom), " bis ",
-				simpleDateFormat.format(dateTo));
+				dateFrom, " bis ",
+				dateTo);
 
 		Integer id = reportCommand.getOrganisationId();
 		ReportDataDTO reportDataDTO = null;
@@ -257,14 +294,17 @@ public class ReportController {
 		}
 		if(reportDataDTO.getTotalPrice()>0)
 		{
-			header.add("Gesamtpreis");
+			header.add("Gesamtpreis[Euro]");
 		}
 		if(reportDataDTO.getTotalWeight()>0)
 		{
-			header.add("Gesamtgewicht");
+			header.add("Gesamtgewicht[kg]");
 		}
 		
-		return (String[]) header.toArray();
+		String[] stockArr = new String[header.size()];
+		stockArr = header.toArray(stockArr);
+		
+		return stockArr;
 	}
 	
 	private String[] getReportObjectHeader(ReportDataDTO reportDataDTO) {
@@ -286,7 +326,8 @@ public class ReportController {
 		{
 			header.add("totalWeight");
 		}
-		
-		return (String[]) header.toArray();
+		String[] stockArr = new String[header.size()];
+		stockArr = header.toArray(stockArr);
+		return stockArr;
 	}
 }

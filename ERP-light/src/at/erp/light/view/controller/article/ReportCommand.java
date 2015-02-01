@@ -42,8 +42,8 @@ public class ReportCommand {
 		return organisationId;
 	}
 
-	public void setId(Integer id) {
-		this.organisationId = id;
+	public void setOrganisationId(Integer organisationId) {
+		this.organisationId = organisationId;
 	}
 
 	public String getDateFrom() {
@@ -93,9 +93,9 @@ public class ReportCommand {
 		return outgoingReportForAllOrganisations;
 	}
 
-	public void setOutgoingReportForAllOrganisation(
-			boolean outgoingReportForAllOrganisation) {
-		this.outgoingReportForAllOrganisations = outgoingReportForAllOrganisation;
+	public void setOutgoingReportForAllOrganisations(
+			boolean outgoingReportForAllOrganisations) {
+		this.outgoingReportForAllOrganisations = outgoingReportForAllOrganisations;
 	}
 
 	public boolean isTotalSumOfAllIncomingDeliveries() {
