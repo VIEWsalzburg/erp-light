@@ -7,7 +7,7 @@
 #body
 {	
 	height: calc(100vh - 191px);
-	min-height: 525px;
+	min-height: 565px;
 	background-color: #FFF;	
 /* 	height: 700px; */
 }
@@ -71,5 +71,9 @@
 }
 
 .boxElement_receiver{
+	border-bottom: 1px solid #ccc;
+}
+
+.boxElement_organisation{
 	border-bottom: 1px solid #ccc;
 }
