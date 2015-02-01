@@ -114,16 +114,6 @@ $("#btn_generateOutgoingReportByOrg").click(function() {
 	reportCommand_global = generateReport(2, false, false, true, false, false, false);
 });
 
-//generate report (incomingReportForAllOrganisations)
-$("#btn_generateIncomingReportForAllOrg").click(function() {
-	reportCommand_global = generateReport(1, false, true, false, false, false, false);
-});
-
-//generate report (outgoingReportForAllOrganisations)
-$("#btn_generateOutgoingReportForAllOrg").click(function() {
-	reportCommand_global = generateReport(3, false, false, false, true, false, false);
-});
-
 //generate report (totalSumOfAllIncomingDeliveries)
 $("#btn_generateTotalSumOfAllIncomingDeliveries").click(function() {
 	reportCommand_global = generateReport(4, false, false, false, false, true, false);
@@ -136,6 +126,18 @@ $("#btn_generateTotalSumOfAllOutgoingDeliveries").click(function() {
 
 //generate report export
 $(".btn_export").click(function() {
+	generateReportExport();
+});
+
+//generate report export for all organisations (incoming)
+$("#btn_exportIncomingReportForAllOrg").click(function() {
+	reportCommand_global = generateReport(1, false, true, false, false, false, false);
+	generateReportExport();
+});
+
+//generate report export for all organisations (outgoing)
+$("#btn_exportOutgoingReportForAllOrg").click(function() {
+	reportCommand_global = generateReport(3, false, false, false, true, false, false);
 	generateReportExport();
 });
 
@@ -205,6 +207,14 @@ function generateReport(mode, incomingReportByOrg, incomingReportForAllOrg, outg
 	reportCommand.totalSumOfAllIncomingDeliveries = totalSumOfAllIncomingDeliveries;
 	reportCommand.totalSumOfAllOutgoingDeliveries = totalSumOfAllOutgoingDeliveries;
 	
+	var urlString;
+	if(mode == 1 || mode == 3){
+		urlString = "getListData";
+	}
+	else{
+		urlString = "getSingleData";
+	}
+	
 	var report_data;
 	$.ajax({
 		headers : {
@@ -212,15 +222,17 @@ function generateReport(mode, incomingReportByOrg, incomingReportForAllOrg, outg
 			'Content-Type' : 'application/json'
 		},
 		type : "POST",
-		url : "../rest/secure/reports/getSingleData",
+		url : "../rest/secure/reports/" + urlString,
 		contentType: "application/json; charset=utf-8",
 	    dataType: "json",
 		data : JSON.stringify(reportCommand)
 	}).done(function(data) {
 			report_data = eval(data);
 			
-			$('.tbx_totalweight').val(report_data.totalWeight + " kg");
-			$('.tbx_totalprice').val(report_data.totalPrice + " €");
+			if(mode == 0 || mode == 2 || mode == 4 || mode == 5){
+				$('.tbx_totalweight').val(report_data.totalWeight + " kg");
+				$('.tbx_totalprice').val(report_data.totalPrice + " €");
+			}
 			
 			$(".btn_export").prop('disabled', false);
 	});
