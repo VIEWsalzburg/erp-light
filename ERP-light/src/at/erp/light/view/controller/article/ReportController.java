@@ -39,8 +39,10 @@ public class ReportController {
 	 * @throws ParseException *****/
 	
 	@RequestMapping(value = "secure/reports/getSingleData")
-	public ReportDataDTO getSingleData(@RequestBody ReportCommand reportCommand) throws IOException, ParseException 
+	public ReportDataDTO getSingleData(@RequestBody ReportCommand reportCommand) throws IOException 
 	{
+		
+		try {
 			log.info("Returning report data");
 		
 			Integer id = reportCommand.getOrganisationId();
@@ -66,8 +68,16 @@ public class ReportController {
 			{
 				return dataBaseService.getTotalSumOfAllOutgoingDeliveries(dateFrom, dateTo);
 			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 			
-			return null;
+		// return Element with 0 values if no Data is found
+		return new ReportDataDTO("","","",0,0,0);
 	}
 	
 	
@@ -99,7 +109,8 @@ public class ReportController {
 				}
 			}
 			
-			return null;
+			// return empty List
+			return new ArrayList<ReportDataDTO>();
 	}
 	
 	

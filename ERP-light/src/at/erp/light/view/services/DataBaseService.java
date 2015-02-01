@@ -1218,7 +1218,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public ReportDataDTO getIncomingReportByOrganisationId(int id, String dateFromStr, String dateToStr) throws ParseException
+	public ReportDataDTO getIncomingReportByOrganisationId(int id, String dateFromStr, String dateToStr) throws Exception
 	{
 		
 		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
@@ -1253,7 +1253,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<ReportDataDTO> getIncomingReportForAllOrganisations(String dateFromStr, String dateToStr) throws ParseException
+	public List<ReportDataDTO> getIncomingReportForAllOrganisations(String dateFromStr, String dateToStr) throws Exception
 	{
 		
 		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
@@ -1290,7 +1290,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public ReportDataDTO getOutgoingReportByOrganisationId(int id, String dateFromStr, String dateToStr) throws ParseException
+	public ReportDataDTO getOutgoingReportByOrganisationId(int id, String dateFromStr, String dateToStr) throws Exception
 	{
 		
 		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
@@ -1325,7 +1325,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<ReportDataDTO> getOutgoingReportForAllOrganisations(String dateFromStr, String dateToStr) throws ParseException
+	public List<ReportDataDTO> getOutgoingReportForAllOrganisations(String dateFromStr, String dateToStr) throws Exception
 	{
 		
 		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
@@ -1362,7 +1362,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public ReportDataDTO getTotalSumOfAllIncomingDeliveries(String dateFromStr, String dateToStr) throws ParseException
+	public ReportDataDTO getTotalSumOfAllIncomingDeliveries(String dateFromStr, String dateToStr) throws Exception
 	{
 		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		Date dateFrom = df.parse(dateFromStr);
@@ -1390,7 +1390,7 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public ReportDataDTO getTotalSumOfAllOutgoingDeliveries(String dateFromStr, String dateToStr) throws ParseException
+	public ReportDataDTO getTotalSumOfAllOutgoingDeliveries(String dateFromStr, String dateToStr) throws Exception
 	{
 		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		Date dateFrom = df.parse(dateFromStr);

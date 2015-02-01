@@ -469,37 +469,37 @@ public class TestController {
 	
 	
 	@RequestMapping(value = "IncomingReportByOrganisationId/{id}")
-	public ReportDataDTO reportTest1(@PathVariable int id) throws ParseException {	
+	public ReportDataDTO reportTest1(@PathVariable int id) throws Exception {	
 		ReportDataDTO reportDataDTO = dataBaseService.getIncomingReportByOrganisationId(id, "10.01.2015", "31.05.2015");
 		return reportDataDTO;
 	}
 	
 	@RequestMapping(value = "OutgoingReportByOrganisationId/{id}")
-	public ReportDataDTO reportTest2(@PathVariable int id) throws ParseException {	
+	public ReportDataDTO reportTest2(@PathVariable int id) throws Exception {	
 		ReportDataDTO reportDataDTO = dataBaseService.getOutgoingReportByOrganisationId(id, "10.01.2015", "31.05.2015");
 		return reportDataDTO;
 	}
 	
 	@RequestMapping(value = "IncomingReportForAllOrganisations")
-	public List<ReportDataDTO> reportTest3() throws ParseException {	
+	public List<ReportDataDTO> reportTest3() throws Exception {	
 		List<ReportDataDTO> reportDataDTOs = dataBaseService.getIncomingReportForAllOrganisations("10.01.2015", "31.05.2015");
 		return reportDataDTOs;
 	}
 	
 	@RequestMapping(value = "OutgoingReportForAllOrganisations")
-	public List<ReportDataDTO> reportTest4() throws ParseException {	
+	public List<ReportDataDTO> reportTest4() throws Exception {	
 		List<ReportDataDTO> reportDataDTOs = dataBaseService.getOutgoingReportForAllOrganisations("10.01.2015", "31.05.2015");
 		return reportDataDTOs;
 	}
 	
 	@RequestMapping(value = "TotalSumOfAllIncomingDeliveries")
-	public ReportDataDTO reportTest5() throws ParseException {	
+	public ReportDataDTO reportTest5() throws Exception {	
 		ReportDataDTO reportDataDTO = dataBaseService.getTotalSumOfAllIncomingDeliveries("10.01.2015", "31.05.2015");
 		return reportDataDTO;
 	}
 	
 	@RequestMapping(value = "TotalSumOfAllOutgoingDeliveries")
-	public ReportDataDTO reportTest6() throws ParseException {	
+	public ReportDataDTO reportTest6() throws Exception {	
 		ReportDataDTO reportDataDTO = dataBaseService.getTotalSumOfAllOutgoingDeliveries("10.01.2015", "31.05.2015");
 		return reportDataDTO;
 	}

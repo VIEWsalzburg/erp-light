@@ -369,15 +369,15 @@ public interface IDataBase {
 	
 	/***** Reports *****/
 	
-	public ReportDataDTO getIncomingReportByOrganisationId(int id, String dateFrom, String dateTo) throws ParseException;
+	public ReportDataDTO getIncomingReportByOrganisationId(int id, String dateFrom, String dateTo) throws Exception;
 	
-	public List<ReportDataDTO> getIncomingReportForAllOrganisations(String dateFrom, String dateTo) throws ParseException;
+	public List<ReportDataDTO> getIncomingReportForAllOrganisations(String dateFrom, String dateTo) throws Exception;
 	
-	public ReportDataDTO getOutgoingReportByOrganisationId(int id, String dateFrom, String dateTo) throws ParseException;
+	public ReportDataDTO getOutgoingReportByOrganisationId(int id, String dateFrom, String dateTo) throws Exception;
 	
-	public List<ReportDataDTO> getOutgoingReportForAllOrganisations(String dateFrom, String dateTo) throws ParseException;
+	public List<ReportDataDTO> getOutgoingReportForAllOrganisations(String dateFrom, String dateTo) throws Exception;
 	
-	public ReportDataDTO getTotalSumOfAllIncomingDeliveries(String dateFrom, String dateTo) throws ParseException;
+	public ReportDataDTO getTotalSumOfAllIncomingDeliveries(String dateFrom, String dateTo) throws Exception;
 	
-	public ReportDataDTO getTotalSumOfAllOutgoingDeliveries(String dateFrom, String dateTo) throws ParseException;
+	public ReportDataDTO getTotalSumOfAllOutgoingDeliveries(String dateFrom, String dateTo) throws Exception;
 }
