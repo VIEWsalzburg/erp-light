@@ -1,6 +1,8 @@
 package at.erp.light.view.controller.article;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +20,10 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.supercsv.cellprocessor.FmtNumber;
+import org.supercsv.cellprocessor.ParseDouble;
+import org.supercsv.cellprocessor.StrReplace;
+import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
@@ -32,7 +38,7 @@ public class ReportController {
 	@Autowired
 	private IDataBase dataBaseService;
 
-	
+	DecimalFormat csvDecimalFormat = (DecimalFormat)NumberFormat.getNumberInstance(new Locale("de", "AT"));
 
 
 	/***** [END] Delivery list 
@@ -271,7 +277,23 @@ public class ReportController {
 
 		csvWriter.writeHeader(reportHeader);
 
-		csvWriter.write(reportDataDTO, objectHeader);
+		List<CellProcessor> cellProcessorsList = new ArrayList<CellProcessor>();
+		// use cell Processor to format number
+		for (String header : objectHeader)
+		{
+			if (header.equals("totalPrice")) {
+				cellProcessorsList.add(new FmtNumber(csvDecimalFormat));
+			} else if (header.equals("totalWeight")) {
+				cellProcessorsList.add(new FmtNumber(csvDecimalFormat));
+			} else {
+				cellProcessorsList.add(null);
+			}
+		}
+		
+		CellProcessor[] cellProcessors = new CellProcessor[cellProcessorsList.size()];
+		cellProcessors = cellProcessorsList.toArray(cellProcessors);
+		
+		csvWriter.write(reportDataDTO, objectHeader, cellProcessors);
 		csvWriter.writeHeader("");
 	}
 
@@ -284,9 +306,25 @@ public class ReportController {
 		
 		csvWriter.writeHeader(reportHeader);
 		
+		List<CellProcessor> cellProcessorsList = new ArrayList<CellProcessor>();
+		// use cell Processor to format number
+		for (String header : objectHeader)
+		{
+			if (header.equals("totalPrice")) {
+				cellProcessorsList.add(new FmtNumber(csvDecimalFormat));
+			} else if (header.equals("totalWeight")) {
+				cellProcessorsList.add(new FmtNumber(csvDecimalFormat));
+			} else {
+				cellProcessorsList.add(null);
+			}
+		}
+		
+		CellProcessor[] cellProcessors = new CellProcessor[cellProcessorsList.size()];
+		cellProcessors = cellProcessorsList.toArray(cellProcessors);
+		
 		for(ReportDataDTO reportDataDTO2 : reportDataDTOList)
 		{
-			csvWriter.write(reportDataDTO2, objectHeader);
+			csvWriter.write(reportDataDTO2, objectHeader, cellProcessors);
 		}
 		csvWriter.writeHeader("");
 	}
