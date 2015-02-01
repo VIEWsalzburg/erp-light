@@ -120,7 +120,7 @@ function loadNewIncomingDelivery(id){
 }
 
 //loads all deliverers
-function loadAllDeliverers(id) {
+function loadAllDeliverers() {
 	$.ajax({
 		type : "POST",
 		async : false,
