@@ -430,7 +430,7 @@ $(document).ready(function() {
 		currentUserRights = currentUser.permission;
 
 		// only when user has admin rights
-		if (currentUserRights == "Admin" && currentUserRights != "") {
+		if (currentUserRights != "Read" && currentUserRights != "") {
 			$("#btn_new").show();
 			$(".suchfilter").css("margin-left", "5px");
 
@@ -454,7 +454,7 @@ $('#TableHead').on('click','tbody tr', function(event) {
 			$(this).addClass('highlight').siblings().removeClass('highlight');
 
 			// only when user has admin rights
-			if (currentUserRights == "Admin" && currentUserRights != "") {
+			if (currentUserRights != "Read" && currentUserRights != "") {
 				$('#btn_edit').prop('disabled', false);
 				$('#btn_deleteModal').prop('disabled', false);
 				$('#btn_export').prop('disabled', false);
