@@ -116,13 +116,13 @@ public class WordGenerator {
 
 	 	        for(OutgoingArticleDTO articleDTO : entry.getValue())
 	 	        {
-	 	        	innerRun.setText("Anzahl: " + articleDTO.getNumberpu() +" "+ articleDTO.getArticleDTO().getPackagingUnit() +" Beschreibung: "+articleDTO.getArticleDTO().getDescription());
+			 	    innerRun.setText(String.valueOf(articleDTO.getNumberpu()));
+			 	    innerRun.addTab();
+	 	        	innerRun.setText("Einheit: "+ articleDTO.getArticleDTO().getPackagingUnit() +" Beschreibung: "+articleDTO.getArticleDTO().getDescription());
 		 	        innerRun.addBreak();
 	 	        }
 	 	        innerRun.addBreak();
 	        }
-	       
-	        
 	        
 	        XWPFParagraph p6 = doc.createParagraph();
 	        XWPFRun r10 = p6.createRun();
@@ -138,7 +138,7 @@ public class WordGenerator {
         		i++;
 		        XWPFParagraph p = doc.createParagraph();
 		        XWPFRun run = p.createRun();
-		        run.setText(i +" " + String.valueOf(deliveryDTO.getOrganisationId()) + "("+deliveryDTO.getComment()+")");
+		        run.setText(i +" " + dataBase.getOrganisationById(deliveryDTO.getOrganisationId()).getName() + " Anmerkung: "+deliveryDTO.getComment());
 		        setArial12(run);
 		        run.setBold(true);
 		        run.addBreak();
@@ -149,7 +149,7 @@ public class WordGenerator {
 			        setArial12(innerRun);
 			        innerRun.setText(String.valueOf(outgoingArticleDTO.getNumberpu()));
 			        innerRun.addTab();
-			        innerRun.setText(" Einheit: "+outgoingArticleDTO.getArticleDTO().getPackagingUnit() + " " + outgoingArticleDTO.getArticleDTO().getDescription());
+			        innerRun.setText(" Einheit: "+outgoingArticleDTO.getArticleDTO().getPackagingUnit() + " Beschreibung: " + outgoingArticleDTO.getArticleDTO().getDescription());
 			        innerRun.addBreak();
 	        	}
 	        }
