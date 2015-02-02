@@ -100,7 +100,7 @@ function loadNewIncomingDelivery(id){
 				var pricepu = parseFloat(article[j].articleDTO.pricepu);
 				
 				//calculate sum price
-				var sum = pricepu * article[j].numberpu;
+				var sum = Math.round( pricepu * article[j].numberpu*100)/100;
 				
 				// adding the incomingArticleId is important to be able to update the according Article infos in the DB by using the Ids
 				var tableRow = "<tr id='"+incomingArticleId+"'>" + "<td>" + incomingArticleId
@@ -172,7 +172,7 @@ function createTableRow(count, id){
 	}
 	else{
 		pricepu = parseFloat($("#tbx_pricepackagingunit").val());
-		sum = pricepu * $("#tbx_numberofpackagingunits").val();
+		sum = Math.round(pricepu * $("#tbx_numberofpackagingunits").val()*100)/100;
 		
 		pricepu = pricepu + " €";
 		sum = sum + " €";
