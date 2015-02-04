@@ -227,9 +227,9 @@ $("#btn_savedeliverylist").click(function() {
 	var comment = $('#tbx_comment').val();
 					
 	// check if all Fields are filled
-	if ( (driver=="") || (date=="") || (comment=="") )
+	if ( (driver=="") || (date=="") )
 	{
-		showAlertElement(2, "Leere Felder vorhanden!", 5000);
+		showAlertElement(2, "Fahrerteam und Datum sind Pflichtfelder!", 5000);
 		return;
 	}
 	
@@ -253,7 +253,7 @@ $("#btn_savedeliverylist").click(function() {
 	
 	if (dispositions.length == 0)
 	{
-		showAlertElement(2, "Keine Disposition verfügbar!", 5000);
+		showAlertElement(2, "Keine Warenausgänge zugewiesen!", 5000);
 		return;
 	}
 	

@@ -566,9 +566,9 @@ $(document).ready(function() {
 				var comment = $('#tbx_comment').val();
 								
 				// check if all Fields are filled
-				if ( (orgId==0) || (date=="") || (comment=="") )
+				if ( (orgId==0) || (date=="") )
 				{
-					showAlertElement(2, "Leere Felder vorhanden!", 5000);
+					showAlertElement(2, "Empfänger und Datum sind Pflichtfelder!", 5000);
 					return;
 				}
 				
