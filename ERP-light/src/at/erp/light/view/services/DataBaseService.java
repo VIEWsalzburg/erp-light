@@ -714,6 +714,13 @@ public class DataBaseService implements IDataBase {
 			existingEntity.setUpdateTimestamp(incomingDelivery.getUpdateTimestamp());
 			this.sessionFactory.getCurrentSession().update(existingEntity);		// persist change
 			
+			// call flush to execute pending SQL Statements and synchronize Context to DB 
+			sessionFactory.getCurrentSession().flush();
+			
+			// check incoming and outgoing articles for validity
+			if (this.checkInAndOutArticlePUs()==false)
+				throw new Exception("Number of PUs for incoming and outgoing articles are not valid.");
+			
 			return existingEntity.getIncomingDeliveryId();
 			
 		}	// end of update booked Delivery
@@ -754,6 +761,13 @@ public class DataBaseService implements IDataBase {
 			existingEntity.setUpdateTimestamp(incomingDelivery.getUpdateTimestamp());
 			// incomingDeliveryId stays the same
 			this.sessionFactory.getCurrentSession().update(existingEntity);
+			
+			// call flush to execute pending SQL Statements and synchronize Context to DB 
+			sessionFactory.getCurrentSession().flush();
+			
+			// check incoming and outgoing articles for validity
+			if (this.checkInAndOutArticlePUs()==false)
+				throw new Exception("Number of PUs for incoming and outgoing articles are not valid.");
 			
 			return existingEntity.getIncomingDeliveryId();
 			

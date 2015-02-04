@@ -22,6 +22,10 @@ $(document).ready(function() {
 	//default value = false
 	isBooked = false;
 	
+	// load all organisations into global variable to search them for the deliverer property of each article
+	loadAllOrganisations();		// first load all organisaitons synchron to use the global variable when loading the articles
+	
+	
 	if(mode == "new"){
 		$("#tabtext").text("Neue Disposition");
 		loadAllAvailableArticlesInDepot();
@@ -49,43 +53,77 @@ $("#tbx_comment").focusout(function() {
 	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 });
 
+
+// global variable to keep organisation data
+var gOrganisations;
+function loadAllOrganisations() {
+	
+	var availArticles;
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/organisation/getAllOrganisations"
+	}).done(function(data) {
+			gOrganisations = eval(data);
+	});
+	
+}
+
 // checked
 function loadAllAvailableArticlesInDepot(){
 	var availArticles;
 	$.ajax({
 		type : "POST",
-		async : false,
+		async : true,
 		url : "../rest/secure/articles/getAvailableArticles"
 	}).done(function(data) {
 			availArticles = eval(data);
+			
+			
+			// if no articles are available
+			if (availArticles.length==0)
+			{
+				// show alert
+				showAlertElement(2, "Keine Waren verfügbar!", 5000);
+			}
+			
+			for (var i in availArticles) {
+				var article = availArticles[i].articleDTO;
+				var articleId = article.articleId;
+				var description = article.description;
+				var packagingUnit = article.packagingUnit;
+				var weightpu = article.wieghtpu;
+				var mdd = article.mdd;
+				var pricepu = article.pricepu;
+				var availNumberPUs = availArticles[i].availNumberOfPUs;
+				
+				// get Deliverer (first 20 characters)
+				var deliverer = "";
+				var delivererId = article.delivererId;
+				
+				for (var o in gOrganisations)
+				{
+					if (gOrganisations[o].id == delivererId)
+					{
+						deliverer = gOrganisations[o].name;
+						if (deliverer.length > 15)
+						{ deliverer = deliverer.substr(0, 15)+"...";	}
+					}
+				}
+				
+				var tableRow = "<tr id='aId_"+articleId+"_dep'>"
+					+ "<td class='hidden'>" + articleId + "</td>"
+					+ "<td class='article_description'>" + description + "</td>"
+					+ "<td class='article_packagingunits'>" + availNumberPUs	+ "</td>"
+					+ "<td class='article_packaging_unit'>" + packagingUnit	+ "</td>"
+					+ "<td class='article_mdd'>" + mdd	+ "</td>"
+					+ "<td class='article_deliverer'>" + deliverer + "</td>"
+					+ "</tr>";
+				
+				$("#leftDepotTableBody").append(tableRow);
+			}
+	
 	});
-	
-	// if no articles are available
-	if (availArticles.length==0)
-	{
-		// show alert
-		showAlertElement(2, "Keine Waren verfügbar!", 5000);
-	}
-	
-	for (var i in availArticles) {
-		var article = availArticles[i].articleDTO;
-		var articleId = article.articleId;
-		var description = article.description;
-		var packagingUnit = article.packagingUnit;
-		var weightpu = article.wieghtpu;
-		var mdd = article.mdd;
-		var pricepu = article.pricepu;
-		var availNumberPUs = availArticles[i].availNumberOfPUs;
-		
-		var tableRow = "<tr id='aId_"+articleId+"_dep'>" + "<td>" + articleId
-		+ "</td>" + "<td class='article_description'>" + description
-		+ "</td>" + "<td class='article_packagingunits'>" + availNumberPUs
-		+ "</td>" + "<td class='article_packaging_unit'>" + packagingUnit
-		+ "</td>" + "<td class='article_mdd'>" + mdd
-		+ "</td>" + "</tr>";
-		
-		$("#leftDepotTableBody").append(tableRow);
-	}
 	
 }
 
@@ -128,21 +166,38 @@ function loadTableContent(id){
 	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 					
 	//get articles (disposition)
-	var article = out.outgoingArticleDTOs;
-	for(var i=0; i < article.length; i++){
-		var articleId = article[i].articleDTO.articleId;
-		var description = article[i].articleDTO.description;
-		var numberpu = article[i].numberpu;
-		var packagingUnit = article[i].articleDTO.packagingUnit;
-		var weightpu = article[i].articleDTO.weightpu;
-		var mdd = article[i].articleDTO.mdd;
+	var oArticles = out.outgoingArticleDTOs;
+	for(var i=0; i < oArticles.length; i++){
+		var article = oArticles[i].articleDTO;
+		var articleId = article.articleId;
+		var description = article.description;
+		var packagingUnit = article.packagingUnit;
+		var weightpu = article.weightpu;
+		var mdd = article.mdd;
+		var numberpu = oArticles[i].numberpu;
 		
-		var tableRow = "<tr id='aId_"+articleId + "_disp" +"'>" + "<td>" + articleId
-		+ "</td>" + "<td class='article_description'>" + description
-		+ "</td>" + "<td class='article_packagingunits'>" + numberpu
-		+ "</td>" + "<td class='article_packaging_unit'>" + packagingUnit
-		+ "</td>" + "<td class='article_mdd'>" + mdd
-		+ "</td>" + "</tr>";
+		// get Deliverer (first 20 characters)
+		var deliverer = "";
+		var delivererId = article.delivererId;
+		
+		for (var o in gOrganisations)
+		{
+			if (gOrganisations[o].id == delivererId)
+			{
+				deliverer = gOrganisations[o].name;
+				if (deliverer.length > 15)
+				{ deliverer = deliverer.substr(0, 15)+"...";	}
+			}
+		}
+		
+		var tableRow = "<tr id='aId_"+articleId + "_disp" +"'>"
+			+ "<td class='hidden'>" + articleId	+ "</td>"
+			+ "<td class='article_description'>" + description	+ "</td>"
+			+ "<td class='article_packagingunits'>" + numberpu	+ "</td>"
+			+ "<td class='article_packaging_unit'>" + packagingUnit	+ "</td>"
+			+ "<td class='article_mdd'>" + mdd + "</td>"
+			+ "<td class='article_deliverer'>" + deliverer + "</td>"
+			+ "</tr>";
 		
 		$("#rightDepotTableBody").append(tableRow);
 	}
@@ -157,7 +212,6 @@ function loadTableContent(id){
 	});
 	
 	for (var i in availArticles) {
-		
 		var article = availArticles[i].articleDTO;
 		var articleId = article.articleId;
 		var description = article.description;
@@ -167,12 +221,28 @@ function loadTableContent(id){
 		var pricepu = article.pricepu;
 		var availNumberPUs = availArticles[i].availNumberOfPUs;
 		
-		var tableRow = "<tr id='aId_"+articleId+"_dep'>" + "<td>" + articleId
-		+ "</td>" + "<td class='article_description'>" + description
-		+ "</td>" + "<td class='article_packagingunits'>" + availNumberPUs
-		+ "</td>" + "<td class='article_packaging_unit'>" + packagingUnit
-		+ "</td>" + "<td class='article_mdd'>" + mdd
-		+ "</td>" + "</tr>";
+		// get Deliverer (first 20 characters)
+		var deliverer = "";
+		var delivererId = article.delivererId;
+		
+		for (var o in gOrganisations)
+		{
+			if (gOrganisations[o].id == delivererId)
+			{
+				deliverer = gOrganisations[o].name;
+				if (deliverer.length > 15)
+				{ deliverer = deliverer.substr(0, 15)+"...";	}
+			}
+		}
+		
+		var tableRow = "<tr id='aId_"+articleId+"_dep'>"
+		+ "<td class='hidden'>" + articleId + "</td>"
+		+ "<td class='article_description'>" + description + "</td>"
+		+ "<td class='article_packagingunits'>" + availNumberPUs + "</td>"
+		+ "<td class='article_packaging_unit'>" + packagingUnit	+ "</td>"
+		+ "<td class='article_mdd'>" + mdd + "</td>"
+		+ "<td class='article_deliverer'>" + deliverer + "</td>"
+		+ "</tr>";
 		
 		$("#leftDepotTableBody").append(tableRow);
 	}
@@ -217,8 +287,8 @@ function loadAllReceivers() {
 };
 
 //create table row
-function createTableRow(id, mode, article_description, article_packagingunits, article_packaging_unit, article_mdd){
-	var id_new;
+function createTableRow(id, mode, article_description, article_packagingunits, article_packaging_unit, article_mdd, article_deliverer){
+	var id_new;		// string for creating a row in the depot or in the disposition table
 	if(mode == 0){
 		id_new = id + "_disp";
 	}
@@ -226,12 +296,14 @@ function createTableRow(id, mode, article_description, article_packagingunits, a
 		id_new = id + "_dep";
 	}
 	
-	var tableRow = "<tr id='aId_"+ id_new +"'>" + "<td>" + id
-		+ "</td>" + "<td class='article_description'>" + article_description
-		+ "</td>" + "<td class='article_packagingunits'>" + article_packagingunits
-		+ "</td>" + "<td class='article_packaging_unit'>" + article_packaging_unit
-		+ "</td>" + "<td class='article_mdd'>" + article_mdd
-		+ "</td>" + "</tr>";
+	var tableRow = "<tr id='aId_"+ id_new +"'>"
+		+ "<td class='hidden'>" + id + "</td>"
+		+ "<td class='article_description'>" + article_description + "</td>"
+		+ "<td class='article_packagingunits'>" + article_packagingunits + "</td>"
+		+ "<td class='article_packaging_unit'>" + article_packaging_unit + "</td>"
+		+ "<td class='article_mdd'>" + article_mdd + "</td>"
+		+ "<td class='article_deliverer'>" + article_deliverer + "</td>"
+		+ "</tr>";
 	
 	return tableRow;
 }
@@ -311,6 +383,7 @@ $("#btn_addtodisposition").click(function() {
 	
 	var article_packaging_unit = $(thisRow).find(".article_packaging_unit").html();
 	var article_mdd = $(thisRow).find(".article_mdd").html();
+	var article_deliverer = $(thisRow).find(".article_deliverer").html();
 	
 	
 	if($("#tbx_packagingunit").val() == ""){
@@ -352,7 +425,7 @@ $("#btn_addtodisposition").click(function() {
 		else 
 		{
 			// create a new row with the number of PUs, which should be moved
-			var newDispositionRow = createTableRow(id, 0, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
+			var newDispositionRow = createTableRow(id, 0, article_description, packagingunits_tbx, article_packaging_unit, article_mdd, article_deliverer);
 			// add the row to the right table
 			$("#rightDepotTableBody").append(newDispositionRow);
 		}
@@ -392,6 +465,7 @@ $("#btn_removefromdisposition").click(function() {
 	
 	var article_packaging_unit = $(thisRow).find(".article_packaging_unit").html();
 	var article_mdd = $(thisRow).find(".article_mdd").html();
+	var article_deliverer = $(thisRow).find(".article_deliverer").html();
 	
 	
 	if($("#tbx_packagingunit").val() == ""){
@@ -431,7 +505,7 @@ $("#btn_removefromdisposition").click(function() {
 		}
 		else{
 			// create a new depot row with the number of PUs which should be moved
-			var newDepotRow = createTableRow(id, 1, article_description, packagingunits_tbx, article_packaging_unit, article_mdd);
+			var newDepotRow = createTableRow(id, 1, article_description, packagingunits_tbx, article_packaging_unit, article_mdd, article_deliverer);
 			$("#leftDepotTableBody").append(newDepotRow);
 		}
 	}
@@ -548,6 +622,7 @@ $(document).ready(function() {
 					articleDTO.weightpu = null;			// don't assign weight
 					articleDTO.mdd = art[4];			// mdd of the article
 					articleDTO.pricepu = null;			// don't assign pricepu
+														// don't assign article_deliverer, it is generated by DB
 					
 					outgoingArticle.articleDTO = articleDTO;
 					
