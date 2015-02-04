@@ -395,7 +395,7 @@ public class DeliveryController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return new ControllerMessage(false,
-						"Speichern nicht erfolgreich!");
+						"Speichern nicht erfolgreich: " + e.getMessage());
 			}
 		}
 

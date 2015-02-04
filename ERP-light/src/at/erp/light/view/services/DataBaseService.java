@@ -794,6 +794,12 @@ public class DataBaseService implements IDataBase {
 		
 		IncomingDelivery incomingDelivery = this.getIncomingDeliveryById(id);
 		
+		// check if incomingDelivery is booked => throw exception and rollback
+		if (incomingDelivery.getBooked()!=0)
+		{
+			throw new ERPLightException("Lieferung ist verbucht!");
+		}
+		
 		sessionFactory.getCurrentSession().delete(incomingDelivery);
 		
 		// call flush to execute pending SQL Statements and synchronize Context to DB 
@@ -907,6 +913,12 @@ public class DataBaseService implements IDataBase {
 	public boolean deleteOutgoingDeliveryById(int id) throws Exception {
 		
 		OutgoingDelivery outgoingDelivery = this.getOutgoingDeliveryById(id);
+		
+		// check if outgoingDelivery is booked => throw exception and rollback
+		if (outgoingDelivery.getBooked()!=0)
+		{
+			throw new ERPLightException("Lieferung ist verbucht!");
+		}
 		
 		sessionFactory.getCurrentSession().delete(outgoingDelivery);
 		
