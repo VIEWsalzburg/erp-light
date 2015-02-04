@@ -203,7 +203,7 @@ $("#btn_details").click(function() {
 		var template = "<div class='panel-group details' id='accordion_deliverylist"+ i +"' role='tablist' aria-multiselectable='true'>" +
 						"<div class='panel panel-default'><div class='panel-heading' role='tab' id='heading"+ i +"'><h4 class='panel-title'>" +
 						"<a data-toggle='collapse' data-parent='#accordion_deliverylist"+ i +"' href='#collapse"+ i +"' aria-expanded='true' aria-controls='collapseOne'>" +
-						"Lieferung "+ (i+1) +"</a></h4></div><div id='collapse"+ i +"' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='heading"+ i +"'>" +
+						"Lieferstation "+ (i+1) +"</a></h4></div><div id='collapse"+ i +"' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='heading"+ i +"'>" +
 						"<div class='panel-body'><div id='organisation_container_details"+ i +"'></div></div></div></div></div>";
 		$("#accordion_container_details").append(template);
 		

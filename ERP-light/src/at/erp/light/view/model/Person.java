@@ -31,21 +31,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "person", schema = "public")
 public class Person implements java.io.Serializable {
-
-	// Fetch Flags
-	public static int FETCH_ADDRESS = 1;							// 0000 0000 0000 0001
-	public static int FETCH_CITY = 2;								// 0000 0000 0000 0010
-	public static int FETCH_COUNTRY = 4;							// 0000 0000 0000 0100
-	
-	public static int FETCH_PLATFORMUSER = 8;						// 0000 0000 0000 1000
-	public static int FETCH_TYPES = 16;								// 0000 0000 0001 0000
-	public static int FETCH_EMAILS = 32;							// 0000 0000 0010 0000
-	public static int FETCH_TELEPHONES = 64;						// 0000 0000 0100 0000
-	
-	public static int FETCH_UPDATED_BY_PERSON = 128;				// 0000 0000 1000 0000
-	public static int FETCH_ORGANISATION_CONTACT = 256;				// 0000 0001 0000 0000
-	public static int FETCH_ALL = 511;
-	
 	
 	private int personId;
 	private Address address;
