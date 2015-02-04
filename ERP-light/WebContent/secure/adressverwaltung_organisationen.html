@@ -18,9 +18,7 @@
 	<header id="pageheader"> </header>
 
 	<div class="container-fluid">
-		<div class="row" id="top">
-			<div class="col-md-12"></div>
-		</div>
+		<div class="row" id="top"></div>
 
 		<div class="row" id="header">
 			<div class="col-md-12">
@@ -36,8 +34,13 @@
 						href="adressverwaltung_kategorienverwaltung.html">Kategorienverwaltung</a></li>
 				</ul>
 
+			</div>
+		</div>
+
+		<div class="row" id="body">
+			<div class="col-md-12">
+				
 				<div class="tab-content">
-					<div class="tab-pane" id="tab1">Content1</div>
 					<div class="tab-pane active" id="tab2">
 
 						<form role="form" class="form-inline">
@@ -55,16 +58,13 @@
 										placeholder="Filterbegriff eingeben...">
 								</div>
 
-								<span class="typfilter"><u><strong>Typfilter:</strong></u></span>
-								<label> <input type="checkbox" id="lieferanten_cbx"
-									value=""> Lieferanten
-								</label> <label> <input type="checkbox" id="kunden_cbx" value="">
-									Kunden
-								</label> <label> <input type="checkbox" id="sponsoren_cbx"
-									value=""> Sponsoren
-								</label>
+								<span class="typfilter"><strong>Typfilter:</strong></span>
+								<label> <input type="checkbox" id="lieferanten_cbx" value=""> Lieferanten</label>
+								<label> <input type="checkbox" id="kunden_cbx" value="">Kunden</label>
+								<label> <input type="checkbox" id="sponsoren_cbx" value=""> Sponsoren</label>
 							</div>
 						</form>
+						
 						<!-- Table -->
 						<div class="table-responsive">
 							<table class="table table-hover table-striped header-fixed" id="TableHead">
@@ -456,15 +456,9 @@
 						<!-- /.modal -->
 
 					</div>
-					<div class="tab-pane" id="tab3">Content3</div>
 				</div>
-
-			</div>
-		</div>
-
-		<div class="row" id="body">
-			<div class="col-md-12">
-				<!-- 				TODO: move tab content here -->
+<!-- 				/.tab-content -->
+				
 			</div>
 		</div>
 

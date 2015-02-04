@@ -34,504 +34,502 @@
 					<li role="presentation"><a href="reporting_adressen.html">Reporting: Adressverwaltung</a></li>
 				</ul>
 				
-				<div class="tab-content">		
-												
-				</div>
-				
 			</div>		  
 		</div>
 		
 		<div class="row" id="body">
 			<div class="col-md-12">				
 						
-							<div class="panel-group bottom" id="accordion_incomingReportByOrganisation" role="tablist" aria-multiselectable="true">
-								<div class="panel panel-default">
-								    <div class="panel-heading accordion_heading" role="tab" id="headingOne">
-									      <h4 class="panel-title">
-										        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-										          Gewichte und Preise eingehender Waren pro Organisation
-										        </a>
-									      </h4>
-									      
-									</div>
-									<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-											<div class="panel-body">
-											
-											<h5>Erstellung eines Reports für die ausgewählte Organisation</h5>
-											<div class="row divider-horizontal">
-											</div>
-												
-											<div class="row">
-											<div class="col-md-6">
-												<form class="form-inline">
-		  										<div class="form-group">
-													<label>Organisation</label>
-													<span class="tbx_organisation_popover" data-html="true" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
-														<input type="text" class="form-control tbx_organisation" placeholder="Organisation" style="width: 400px;" disabled>
-														<input type="hidden" class="tbx_orgId">
-													</span>
-												</div>
-												<button type="button" class="btn btn-default btn_addOrganisation" data-toggle="modal" data-target="#chooseOrganisationModal"><span class="glyphicon glyphicon-search"></span></button>				
-												</form>
-											</div>
-											
-											<div class="col-md-5">
-												<form class="form-inline">
-			  										<div class="form-group" id="inputDateGroup0">
-														<label>im Zeitraum vom</label>
-														<input type="text" class="form-control tbx_datefrom" placeholder="dd.mm.yyyy" style="width: 100px;">
-														<label>bis zum</label>
-														<input type="text" class="form-control tbx_dateto" placeholder="dd.mm.yyyy" style="width: 100px;">
-													</div>
-												</form>
-											</div>
-											
-											<div class="col-md-1">
-												<button type="button" class="btn btn-primary pull-right" id="btn_generateIncomingReportByOrg"><span class="glyphicon glyphicon-file"></span> Report erstellen</button>	
-											</div>
-											</div>
-											
-											<div class="row divider-horizontal" style="margin-top: 15px;">
-											</div>
-											
-											<div class="row">
-												<div class="col-md-6">
-													<form class="form-inline">
-				  										
-				  										<div class="form-group">
-				  											<label style="margin-right: 165px;">Ergebnis des Reports:</label>
-				  											
-															<label>Gesamtgewicht</label>
-															<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled>
-															
-														</div>
-													</form>
-												</div>
-												<div class="col-md-5">
-													<form class="form-inline">
-				  										<div class="form-group">
-															<label>Gesamtpreis</label>
-															<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled>
-														</div>
-													</form>
-												</div>
-												<div class="col-md-1">
-												</div>
-											</div>
-											
-											</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="panel-group bottom" id="accordion_outgoingReportByOrganisation" role="tablist" aria-multiselectable="true">
-								<div class="panel panel-default">
-								    <div class="panel-heading accordion_heading" role="tab" id="headingOne">
-									      <h4 class="panel-title">
-										        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-										          Gewichte und Preise ausgehender Waren pro Organisation
-										        </a>
-									      </h4>
-									</div>
-									<div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-											<div class="panel-body">
-											
-											<h5>Erstellung eines Reports für die ausgewählte Organisation</h5>
-											<div class="row divider-horizontal">
-											</div>
-												
-											<div class="row">
-											<div class="col-md-6">
-												<form class="form-inline">
-		  										<div class="form-group">
-													<label>Organisation</label>
-													<span class="tbx_organisation_popover" data-html="true" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
-														<input type="text" class="form-control tbx_organisation" placeholder="Organisation" style="width: 400px;" disabled>
-														<input type="hidden" class="tbx_orgId">
-													</span>
-												</div>
-												<button type="button" class="btn btn-default btn_addOrganisation" data-toggle="modal" data-target="#chooseOrganisationModal"><span class="glyphicon glyphicon-search"></span></button>				
-												</form>
-											</div>
-											
-											<div class="col-md-5">
-												<form class="form-inline">
-			  										<div class="form-group" id="inputDateGroup2">
-														<label>im Zeitraum vom</label>
-														<input type="text" class="form-control tbx_datefrom" placeholder="dd.mm.yyyy" style="width: 100px;">
-														<label>bis zum</label>
-														<input type="text" class="form-control tbx_dateto" placeholder="dd.mm.yyyy" style="width: 100px;">
-													</div>
-												</form>
-											</div>
-											
-											<div class="col-md-1">
-												<button type="button" class="btn btn-primary pull-right" id="btn_generateOutgoingReportByOrg"><span class="glyphicon glyphicon-file"></span> Report erstellen</button>	
-											</div>
-											</div>
-											
-											<div class="row divider-horizontal" style="margin-top: 15px;">
-											</div>
-											
-											<div class="row">
-												<div class="col-md-6">
-													<form class="form-inline">
-				  										
-				  										<div class="form-group">
-				  											<label style="margin-right: 165px;">Ergebnis des Reports:</label>
-				  											
-															<label>Gesamtgewicht</label>
-															<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled>
-															
-														</div>
-													</form>
-												</div>
-												<div class="col-md-5">
-													<form class="form-inline">
-				  										<div class="form-group">
-															<label>Gesamtpreis</label>
-															<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled>
-														</div>
-													</form>
-												</div>
-												<div class="col-md-1">
-												</div>
-											</div>
-											
-											</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="panel-group bottom" id="accordion_incomingReportForAllOrganisations" role="tablist" aria-multiselectable="true">
-								<div class="panel panel-default">
-								    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
-									      <h4 class="panel-title">
-										        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-										          Gewichte und Preise eingehender Waren aller Organisationen
-										        </a>
-									      </h4>
-									</div>
-									<div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
-											<div class="panel-body">
-											
-											<h5>Erstellung eines Reports für alle Organisationen</h5>
-											<div class="row divider-horizontal">
-											</div>
-												
-											<div class="row">
-											
-											<div class="col-md-11">
-												<form class="form-inline">
-			  										<div class="form-group" id="inputDateGroup1">
-														<label>Alle Organisationen im Zeitraum vom</label>
-														<input type="text" class="form-control tbx_datefrom" placeholder="dd.mm.yyyy" style="width: 100px;">
-														<label>bis zum</label>
-														<input type="text" class="form-control tbx_dateto" placeholder="dd.mm.yyyy" style="width: 100px;">
-													</div>
-												</form>
-											</div>
-											
-											<div class="col-md-1">
-												<button type="button" id="btn_exportIncomingReportForAllOrg" class="btn btn-primary pull-right btn_exportAll"><span class="glyphicon glyphicon-share"></span> Exportieren</button>	
-											</div>
-											</div>
-											
-<!-- 											<div class="row divider-horizontal" style="margin-top: 15px;"> -->
-<!-- 											</div> -->
-											
-<!-- 											<div class="row"> -->
-<!-- 												<div class="col-md-6"> -->
-<!-- 													<form class="form-inline"> -->
-				  										
-<!-- 				  										<div class="form-group"> -->
-<!-- 				  											<label style="margin-right: 165px;">Ergebnis des Reports:</label> -->
-				  											
-<!-- 															<label>Gesamtgewicht</label> -->
-<!-- 															<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled> -->
-															
-<!-- 														</div> -->
-<!-- 													</form> -->
-<!-- 												</div> -->
-<!-- 												<div class="col-md-5"> -->
-<!-- 													<form class="form-inline"> -->
-<!-- 				  										<div class="form-group"> -->
-<!-- 															<label>Gesamtpreis</label> -->
-<!-- 															<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled> -->
-<!-- 														</div> -->
-<!-- 													</form> -->
-<!-- 												</div> -->
-<!-- 												<div class="col-md-1"> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-											
-											
-											</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="panel-group bottom" id="accordion_outgoingReportForAllOrganisations" role="tablist" aria-multiselectable="true">
-								<div class="panel panel-default">
-								    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
-									      <h4 class="panel-title">
-										        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-										          Gewichte und Preise ausgehender Waren aller Organisationen
-										        </a>
-									      </h4>
-									</div>
-									<div id="collapseFour" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
-											<div class="panel-body">
-											
-											<h5>Erstellung eines Reports für alle Organisationen</h5>
-											<div class="row divider-horizontal">
-											</div>
-												
-											<div class="row">
-											
-											<div class="col-md-11">
-												<form class="form-inline">
-			  										<div class="form-group" id="inputDateGroup3">
-														<label>Alle Organisationen im Zeitraum vom</label>
-														<input type="text" class="form-control tbx_datefrom" placeholder="dd.mm.yyyy" style="width: 100px;">
-														<label>bis zum</label>
-														<input type="text" class="form-control tbx_dateto" placeholder="dd.mm.yyyy" style="width: 100px;">
-													</div>
-												</form>
-											</div>
-											
-											<div class="col-md-1">
-												<button type="button" id="btn_exportOutgoingReportForAllOrg" class="btn btn-primary pull-right btn_exportAll"><span class="glyphicon glyphicon-share"></span> Exportieren</button>	
-											</div>
-											</div>
-											
-<!-- 											<div class="row divider-horizontal" style="margin-top: 15px;"> -->
-<!-- 											</div> -->
-											
-<!-- 											<div class="row"> -->
-<!-- 												<div class="col-md-6"> -->
-<!-- 													<form class="form-inline"> -->
-				  										
-<!-- 				  										<div class="form-group"> -->
-<!-- 				  											<label style="margin-right: 165px;">Ergebnis des Reports:</label> -->
-				  											
-<!-- 															<label>Gesamtgewicht</label> -->
-<!-- 															<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled> -->
-															
-<!-- 														</div> -->
-<!-- 													</form> -->
-<!-- 												</div> -->
-<!-- 												<div class="col-md-5"> -->
-<!-- 													<form class="form-inline"> -->
-<!-- 				  										<div class="form-group"> -->
-<!-- 															<label>Gesamtpreis</label> -->
-<!-- 															<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled> -->
-<!-- 														</div> -->
-<!-- 													</form> -->
-<!-- 												</div> -->
-<!-- 												<div class="col-md-1"> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-											
-											
-											</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="panel-group bottom" id="accordion_totalSumOfAllIncomingDeliveries" role="tablist" aria-multiselectable="true">
-								<div class="panel panel-default">
-								    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
-									      <h4 class="panel-title">
-										        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-										          Gewichte und Preise aller eingehenden Waren
-										        </a>
-									      </h4>
-									</div>
-									<div id="collapseFive" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
-											<div class="panel-body">
-											
-											<h5>Erstellung eines Reports für alle Waren</h5>
-											<div class="row divider-horizontal">
-											</div>
-												
-											<div class="row">
-											
-											<div class="col-md-11">
-												<form class="form-inline">
-			  										<div class="form-group" id="inputDateGroup4">
-														<label>Waren im Zeitraum vom</label>
-														<input type="text" class="form-control tbx_datefrom" placeholder="dd.mm.yyyy" style="width: 100px;">
-														<label>bis zum</label>
-														<input type="text" class="form-control tbx_dateto" placeholder="dd.mm.yyyy" style="width: 100px;">
-													</div>
-												</form>
-											</div>
-											
-											<div class="col-md-1">
-												<button type="button" class="btn btn-primary pull-right" id="btn_generateTotalSumOfAllIncomingDeliveries"><span class="glyphicon glyphicon-file"></span> Report erstellen</button>	
-											</div>
-											</div>
-											
-											<div class="row divider-horizontal" style="margin-top: 15px;">
-											</div>
-											
-											<div class="row">
-												<div class="col-md-6">
-													<form class="form-inline">
-				  										
-				  										<div class="form-group">
-				  											<label style="margin-right: 165px;">Ergebnis des Reports:</label>
-				  											
-															<label>Gesamtgewicht</label>
-															<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled>
-															
-														</div>
-													</form>
-												</div>
-												<div class="col-md-5">
-													<form class="form-inline">
-				  										<div class="form-group">
-															<label>Gesamtpreis</label>
-															<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled>
-														</div>
-													</form>
-												</div>
-												<div class="col-md-1">
-												</div>
-											</div>
-											
-											</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="panel-group bottom" id="accordion_totalSumOfAllOutgoingDeliveries" role="tablist" aria-multiselectable="true">
-								<div class="panel panel-default">
-								    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
-									      <h4 class="panel-title">
-										        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
-										          Gewichte und Preise aller ausgehenden Waren
-										        </a>
-									      </h4>
-									</div>
-									<div id="collapseSix" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
-											<div class="panel-body">
-											
-											<h5>Erstellung eines Reports für alle Waren</h5>
-											<div class="row divider-horizontal">
-											</div>
-												
-											<div class="row">
-											
-											<div class="col-md-11">
-												<form class="form-inline">
-			  										<div class="form-group" id="inputDateGroup5">
-														<label>Waren im Zeitraum vom</label>
-														<input type="text" class="form-control tbx_datefrom" placeholder="dd.mm.yyyy" style="width: 100px;">
-														<label>bis zum</label>
-														<input type="text" class="form-control tbx_dateto" placeholder="dd.mm.yyyy" style="width: 100px;">
-													</div>
-												</form>
-											</div>
-											
-											<div class="col-md-1">
-												<button type="button" class="btn btn-primary pull-right" id="btn_generateTotalSumOfAllOutgoingDeliveries"><span class="glyphicon glyphicon-file"></span> Report erstellen</button>	
-											</div>
-											</div>
-											
-											<div class="row divider-horizontal" style="margin-top: 15px;">
-											</div>
-											
-											<div class="row">
-												<div class="col-md-6">
-													<form class="form-inline">
-				  										
-				  										<div class="form-group">
-				  											<label style="margin-right: 165px;">Ergebnis des Reports:</label>
-				  											
-															<label>Gesamtgewicht</label>
-															<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled>
-															
-														</div>
-													</form>
-												</div>
-												<div class="col-md-5">
-													<form class="form-inline">
-				  										<div class="form-group">
-															<label>Gesamtpreis</label>
-															<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled>
-														</div>
-													</form>
-												</div>
-												<div class="col-md-1">
-												</div>
-											</div>
-											
-											
-											</div>
-									</div>
-								</div>
-							</div>
-							
-							
-						<!-- Choose deliverer Modal -->
-						<div class="modal fade" id="chooseOrganisationModal" tabindex="-1"
-							role="dialog" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal">
-											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-										</button>
-										<h4 class="modal-title">Organisationenauswahl</h4>
-									</div>
-									<div class="modal-body">
-
-										<div class="row">
-												<div class="col-md-6">
-													<div class="form-group">
-														<div class="col-sm-12">
-															<div class="input-group suchfilter_modal">
-																<span
-																	class="input-group-addon glyphicon glyphicon-search"></span>
-																<input id="filter_modal" type="text"
-																	class="form-control" placeholder="Suche...">
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<div class="col-sm-12">
-															<div class="form-control searchable ModalDivContainer" id="organisationDiv">
-																	<!-- organisations -->
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-
-									</div>
-									<div class="modal-footer">
-										<div id="newAlertFormOrganisation"></div>
-										<button type="button" class="btn btn-default"
-											data-dismiss="modal">Abbrechen</button>
-										<button type="button" id="btn_saveOrganisation" class="btn btn-primary">
-											<span class="glyphicon glyphicon-floppy-save"></span> Speichern
-										</button>
-
-									</div>
-								</div>
-								<!-- /.modal-content -->
-							</div>
-							<!-- /.modal-dialog -->
+				<div class="panel-group bottom" id="accordion_incomingReportByOrganisation" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-default">
+					    <div class="panel-heading accordion_heading" role="tab" id="headingOne">
+						      <h4 class="panel-title">
+							        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							          Gewichte und Preise eingehender Waren pro Organisation
+							        </a>
+						      </h4>
+						      
 						</div>
-						<!-- /.modal -->
+						<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+								<div class="panel-body">
+								
+								<h5>Erstellung eines Reports für die ausgewählte Organisation</h5>
+								<div class="row divider-horizontal">
+								</div>
+									
+								<div class="row">
+								<div class="col-md-6">
+									<form class="form-inline">
+ 										<div class="form-group">
+										<label>Organisation</label>
+										<span class="tbx_organisation_popover" data-html="true" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
+											<input type="text" class="form-control tbx_organisation" placeholder="Organisation" style="width: 400px;" disabled>
+											<input type="hidden" class="tbx_orgId">
+										</span>
+									</div>
+									<button type="button" class="btn btn-default btn_addOrganisation" data-toggle="modal" data-target="#chooseOrganisationModal"><span class="glyphicon glyphicon-search"></span></button>				
+									</form>
+								</div>
+								
+								<div class="col-md-5">
+									<form class="form-inline">
+  										<div class="form-group" id="inputDateGroup0">
+											<label>im Zeitraum vom</label>
+											<input type="text" class="form-control tbx_datefrom" placeholder="dd.mm.yyyy" style="width: 100px;">
+											<label>bis zum</label>
+											<input type="text" class="form-control tbx_dateto" placeholder="dd.mm.yyyy" style="width: 100px;">
+										</div>
+									</form>
+								</div>
+								
+								<div class="col-md-1">
+									<button type="button" class="btn btn-primary pull-right" id="btn_generateIncomingReportByOrg"><span class="glyphicon glyphicon-file"></span> Report erstellen</button>	
+								</div>
+								</div>
+								
+								<div class="row divider-horizontal" style="margin-top: 15px;">
+								</div>
+								
+								<div class="row">
+									<div class="col-md-6">
+										<form class="form-inline">
+	  										
+	  										<div class="form-group">
+	  											<label style="margin-right: 165px;">Ergebnis des Reports:</label>
+	  											
+												<label>Gesamtgewicht</label>
+												<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled>
+												
+											</div>
+										</form>
+									</div>
+									<div class="col-md-5">
+										<form class="form-inline">
+	  										<div class="form-group">
+												<label>Gesamtpreis</label>
+												<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled>
+											</div>
+										</form>
+									</div>
+									<div class="col-md-1">
+									</div>
+								</div>
+								
+								</div>
+						</div>
+					</div>
+				</div>
+							
+				<div class="panel-group bottom" id="accordion_outgoingReportByOrganisation" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-default">
+					    <div class="panel-heading accordion_heading" role="tab" id="headingOne">
+						      <h4 class="panel-title">
+							        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+							          Gewichte und Preise ausgehender Waren pro Organisation
+							        </a>
+						      </h4>
+						</div>
+						<div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+								<div class="panel-body">
+								
+								<h5>Erstellung eines Reports für die ausgewählte Organisation</h5>
+								<div class="row divider-horizontal">
+								</div>
+									
+								<div class="row">
+								<div class="col-md-6">
+									<form class="form-inline">
+ 										<div class="form-group">
+										<label>Organisation</label>
+										<span class="tbx_organisation_popover" data-html="true" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
+											<input type="text" class="form-control tbx_organisation" placeholder="Organisation" style="width: 400px;" disabled>
+											<input type="hidden" class="tbx_orgId">
+										</span>
+									</div>
+									<button type="button" class="btn btn-default btn_addOrganisation" data-toggle="modal" data-target="#chooseOrganisationModal"><span class="glyphicon glyphicon-search"></span></button>				
+									</form>
+								</div>
+								
+								<div class="col-md-5">
+									<form class="form-inline">
+  										<div class="form-group" id="inputDateGroup2">
+											<label>im Zeitraum vom</label>
+											<input type="text" class="form-control tbx_datefrom" placeholder="dd.mm.yyyy" style="width: 100px;">
+											<label>bis zum</label>
+											<input type="text" class="form-control tbx_dateto" placeholder="dd.mm.yyyy" style="width: 100px;">
+										</div>
+									</form>
+								</div>
+								
+								<div class="col-md-1">
+									<button type="button" class="btn btn-primary pull-right" id="btn_generateOutgoingReportByOrg"><span class="glyphicon glyphicon-file"></span> Report erstellen</button>	
+								</div>
+								</div>
+								
+								<div class="row divider-horizontal" style="margin-top: 15px;">
+								</div>
+								
+								<div class="row">
+									<div class="col-md-6">
+										<form class="form-inline">
+	  										
+	  										<div class="form-group">
+	  											<label style="margin-right: 165px;">Ergebnis des Reports:</label>
+	  											
+												<label>Gesamtgewicht</label>
+												<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled>
+												
+											</div>
+										</form>
+									</div>
+									<div class="col-md-5">
+										<form class="form-inline">
+	  										<div class="form-group">
+												<label>Gesamtpreis</label>
+												<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled>
+											</div>
+										</form>
+									</div>
+									<div class="col-md-1">
+									</div>
+								</div>
+								
+								</div>
+						</div>
+					</div>
+				</div>
+							
+				<div class="panel-group bottom" id="accordion_incomingReportForAllOrganisations" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-default">
+					    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
+						      <h4 class="panel-title">
+							        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+							          Gewichte und Preise eingehender Waren aller Organisationen
+							        </a>
+						      </h4>
+						</div>
+						<div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+								<div class="panel-body">
+								
+								<h5>Erstellung eines Reports für alle Organisationen</h5>
+								<div class="row divider-horizontal">
+								</div>
+									
+								<div class="row">
+								
+								<div class="col-md-11">
+									<form class="form-inline">
+  										<div class="form-group" id="inputDateGroup1">
+											<label>Alle Organisationen im Zeitraum vom</label>
+											<input type="text" class="form-control tbx_datefrom" placeholder="dd.mm.yyyy" style="width: 100px;">
+											<label>bis zum</label>
+											<input type="text" class="form-control tbx_dateto" placeholder="dd.mm.yyyy" style="width: 100px;">
+										</div>
+									</form>
+								</div>
+								
+								<div class="col-md-1">
+									<button type="button" id="btn_exportIncomingReportForAllOrg" class="btn btn-primary pull-right btn_exportAll"><span class="glyphicon glyphicon-share"></span> Exportieren</button>	
+								</div>
+								</div>
+								
+<!-- 											<div class="row divider-horizontal" style="margin-top: 15px;"> -->
+<!-- 											</div> -->
+								
+<!-- 											<div class="row"> -->
+<!-- 												<div class="col-md-6"> -->
+<!-- 													<form class="form-inline"> -->
+	  										
+<!-- 				  										<div class="form-group"> -->
+<!-- 				  											<label style="margin-right: 165px;">Ergebnis des Reports:</label> -->
+	  											
+<!-- 															<label>Gesamtgewicht</label> -->
+<!-- 															<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled> -->
+												
+<!-- 														</div> -->
+<!-- 													</form> -->
+<!-- 												</div> -->
+<!-- 												<div class="col-md-5"> -->
+<!-- 													<form class="form-inline"> -->
+<!-- 				  										<div class="form-group"> -->
+<!-- 															<label>Gesamtpreis</label> -->
+<!-- 															<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled> -->
+<!-- 														</div> -->
+<!-- 													</form> -->
+<!-- 												</div> -->
+<!-- 												<div class="col-md-1"> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+								
+								
+								</div>
+						</div>
+					</div>
+				</div>
+							
+				<div class="panel-group bottom" id="accordion_outgoingReportForAllOrganisations" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-default">
+					    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
+						      <h4 class="panel-title">
+							        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+							          Gewichte und Preise ausgehender Waren aller Organisationen
+							        </a>
+						      </h4>
+						</div>
+						<div id="collapseFour" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+								<div class="panel-body">
+								
+								<h5>Erstellung eines Reports für alle Organisationen</h5>
+								<div class="row divider-horizontal">
+								</div>
+									
+								<div class="row">
+								
+								<div class="col-md-11">
+									<form class="form-inline">
+  										<div class="form-group" id="inputDateGroup3">
+											<label>Alle Organisationen im Zeitraum vom</label>
+											<input type="text" class="form-control tbx_datefrom" placeholder="dd.mm.yyyy" style="width: 100px;">
+											<label>bis zum</label>
+											<input type="text" class="form-control tbx_dateto" placeholder="dd.mm.yyyy" style="width: 100px;">
+										</div>
+									</form>
+								</div>
+								
+								<div class="col-md-1">
+									<button type="button" id="btn_exportOutgoingReportForAllOrg" class="btn btn-primary pull-right btn_exportAll"><span class="glyphicon glyphicon-share"></span> Exportieren</button>	
+								</div>
+								</div>
+								
+<!-- 											<div class="row divider-horizontal" style="margin-top: 15px;"> -->
+<!-- 											</div> -->
+								
+<!-- 											<div class="row"> -->
+<!-- 												<div class="col-md-6"> -->
+<!-- 													<form class="form-inline"> -->
+	  										
+<!-- 				  										<div class="form-group"> -->
+<!-- 				  											<label style="margin-right: 165px;">Ergebnis des Reports:</label> -->
+	  											
+<!-- 															<label>Gesamtgewicht</label> -->
+<!-- 															<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled> -->
+												
+<!-- 														</div> -->
+<!-- 													</form> -->
+<!-- 												</div> -->
+<!-- 												<div class="col-md-5"> -->
+<!-- 													<form class="form-inline"> -->
+<!-- 				  										<div class="form-group"> -->
+<!-- 															<label>Gesamtpreis</label> -->
+<!-- 															<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled> -->
+<!-- 														</div> -->
+<!-- 													</form> -->
+<!-- 												</div> -->
+<!-- 												<div class="col-md-1"> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+								
+								
+								</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel-group bottom" id="accordion_totalSumOfAllIncomingDeliveries" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-default">
+					    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
+						      <h4 class="panel-title">
+							        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+							          Gewichte und Preise aller eingehenden Waren
+							        </a>
+						      </h4>
+						</div>
+						<div id="collapseFive" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+								<div class="panel-body">
+								
+								<h5>Erstellung eines Reports für alle Waren</h5>
+								<div class="row divider-horizontal">
+								</div>
+									
+								<div class="row">
+								
+								<div class="col-md-11">
+									<form class="form-inline">
+  										<div class="form-group" id="inputDateGroup4">
+											<label>Waren im Zeitraum vom</label>
+											<input type="text" class="form-control tbx_datefrom" placeholder="dd.mm.yyyy" style="width: 100px;">
+											<label>bis zum</label>
+											<input type="text" class="form-control tbx_dateto" placeholder="dd.mm.yyyy" style="width: 100px;">
+										</div>
+									</form>
+								</div>
+								
+								<div class="col-md-1">
+									<button type="button" class="btn btn-primary pull-right" id="btn_generateTotalSumOfAllIncomingDeliveries"><span class="glyphicon glyphicon-file"></span> Report erstellen</button>	
+								</div>
+								</div>
+								
+								<div class="row divider-horizontal" style="margin-top: 15px;">
+								</div>
+								
+								<div class="row">
+									<div class="col-md-6">
+										<form class="form-inline">
+	  										
+	  										<div class="form-group">
+	  											<label style="margin-right: 165px;">Ergebnis des Reports:</label>
+	  											
+												<label>Gesamtgewicht</label>
+												<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled>
+												
+											</div>
+										</form>
+									</div>
+									<div class="col-md-5">
+										<form class="form-inline">
+	  										<div class="form-group">
+												<label>Gesamtpreis</label>
+												<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled>
+											</div>
+										</form>
+									</div>
+									<div class="col-md-1">
+									</div>
+								</div>
+								
+								</div>
+						</div>
+					</div>
+				</div>
+							
+				<div class="panel-group bottom" id="accordion_totalSumOfAllOutgoingDeliveries" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-default">
+					    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
+						      <h4 class="panel-title">
+							        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
+							          Gewichte und Preise aller ausgehenden Waren
+							        </a>
+						      </h4>
+						</div>
+						<div id="collapseSix" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+								<div class="panel-body">
+								
+								<h5>Erstellung eines Reports für alle Waren</h5>
+								<div class="row divider-horizontal">
+								</div>
+									
+								<div class="row">
+								
+								<div class="col-md-11">
+									<form class="form-inline">
+  										<div class="form-group" id="inputDateGroup5">
+											<label>Waren im Zeitraum vom</label>
+											<input type="text" class="form-control tbx_datefrom" placeholder="dd.mm.yyyy" style="width: 100px;">
+											<label>bis zum</label>
+											<input type="text" class="form-control tbx_dateto" placeholder="dd.mm.yyyy" style="width: 100px;">
+										</div>
+									</form>
+								</div>
+								
+								<div class="col-md-1">
+									<button type="button" class="btn btn-primary pull-right" id="btn_generateTotalSumOfAllOutgoingDeliveries"><span class="glyphicon glyphicon-file"></span> Report erstellen</button>	
+								</div>
+								</div>
+								
+								<div class="row divider-horizontal" style="margin-top: 15px;">
+								</div>
+								
+								<div class="row">
+									<div class="col-md-6">
+										<form class="form-inline">
+	  										
+	  										<div class="form-group">
+	  											<label style="margin-right: 165px;">Ergebnis des Reports:</label>
+	  											
+												<label>Gesamtgewicht</label>
+												<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled>
+												
+											</div>
+										</form>
+									</div>
+									<div class="col-md-5">
+										<form class="form-inline">
+	  										<div class="form-group">
+												<label>Gesamtpreis</label>
+												<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled>
+											</div>
+										</form>
+									</div>
+									<div class="col-md-1">
+									</div>
+								</div>
+								
+								
+								</div>
+						</div>
+					</div>
+				</div>
+							
+							
+				<!-- Choose deliverer Modal -->
+				<div class="modal fade" id="chooseOrganisationModal" tabindex="-1"
+					role="dialog" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title">Organisationenauswahl</h4>
+							</div>
+							<div class="modal-body">
+
+								<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<div class="col-sm-12">
+													<div class="input-group suchfilter_modal">
+														<span
+															class="input-group-addon glyphicon glyphicon-search"></span>
+														<input id="filter_modal" type="text"
+															class="form-control" placeholder="Suche...">
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<div class="col-sm-12">
+													<div class="form-control searchable ModalDivContainer" id="organisationDiv">
+															<!-- organisations -->
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+							</div>
+							<div class="modal-footer">
+								<div id="newAlertFormOrganisation"></div>
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Abbrechen</button>
+								<button type="button" id="btn_saveOrganisation" class="btn btn-primary">
+									<span class="glyphicon glyphicon-floppy-save"></span> Speichern
+								</button>
+
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+				<!-- /.modal -->
 							
 				
 			</div>
+<!-- 			/.row -->
 		</div>
+<!-- 		/#body -->
 		
 		<div class="row" id="footer">
 			<div class="col-md-4">
