@@ -27,17 +27,17 @@ $(document).ready(function() {
 	
 	
 	if(mode == "new"){
-		$("#tabtext").text("Neue Disposition");
+		$("#tabtext").text("Neuer Warenausgang");
 		loadAllAvailableArticlesInDepot();
 		global_id = 0;	// set Id to 0
 	}
 	else if(mode == "edittrue"){
-		$("#tabtext").text("Bearbeite Disposition");
+		$("#tabtext").text("Bearbeite Warenausgang");
 		isBooked = true;
 		loadTableContent(global_id);
 	}
 	else if(mode == "editfalse"){
-		$("#tabtext").text("Bearbeite Disposition");
+		$("#tabtext").text("Bearbeite Warenausgang");
 		isBooked = false;
 		loadTableContent(global_id);
 	}
