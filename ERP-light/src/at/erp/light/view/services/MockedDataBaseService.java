@@ -11,8 +11,6 @@ import org.hibernate.HibernateException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
-
 import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
