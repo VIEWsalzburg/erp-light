@@ -19,10 +19,12 @@ $(document).ready(function() {
 	
 	if(mode == "new"){
 		$("#tabtext").text("Neue Lieferliste");
+		$("tbx_deliveryListId").val(0);
 		loadAllOutgoingDeliveries();
 	}
 	else if(mode == "edit"){
 		$("#tabtext").text("Bearbeite Lieferliste");
+		$("#tbx_deliveryListId").val(global_id);
 		loadAllOutgoingDeliveries();
 		loadDeliveryList(global_id);
 	}
@@ -223,6 +225,7 @@ $("#btn_removefromdeliverylist").click(function() {
 //save delivery list
 $(document).ready(function() {
 $("#btn_savedeliverylist").click(function() {
+	var deliveryListid = $('#tbx_deliveryListId').val();	// get deliveryListId from hidden text field
 	var driver = $('#tbx_driver_hidden').val();
 	var codriver = $("#tbx_codriver_hidden").val();
 	var date = $('#tbx_date').val();
@@ -260,7 +263,7 @@ $("#btn_savedeliverylist").click(function() {
 	}
 	
 	var deliveryList = new Object();
-	deliveryList.deliveryListId = 0;
+	deliveryList.deliveryListId = deliveryListid;
 	deliveryList.lastEditorId = 0;
 	deliveryList.name = ""; //not used
 	deliveryList.date = date;

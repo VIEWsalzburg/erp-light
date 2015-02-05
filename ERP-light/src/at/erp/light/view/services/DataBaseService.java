@@ -1096,23 +1096,6 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int setDeliveryList(DeliveryList deliveryList) throws HibernateException {
 		
-		// deliveryList with Id 0 => new deliverylist
-		if (deliveryList.getDeliveryListId()==0)
-		{
-			
-		}
-		// if deliveryList should be updated 
-		else {
-			// get current deliveryList and remove all connected outgoingDeliveries
-			
-			
-			
-		}
-		
-		
-		
-		
-		
 		sessionFactory.getCurrentSession().saveOrUpdate(deliveryList);
 		
 		return deliveryList.getDeliveryListId();
