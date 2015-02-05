@@ -2,6 +2,7 @@ package at.erp.light.view.controller.adressmanagement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import at.erp.light.view.controller.article.DeliveryController;
 import at.erp.light.view.dto.OrganisationDTO;
 import at.erp.light.view.mapper.OrganisationMapper;
 import at.erp.light.view.model.Organisation;
@@ -20,7 +22,9 @@ import at.erp.light.view.state.ControllerMessage;
 
 @RestController
 public class OrganisationController {
-
+	private static final Logger log = Logger.getLogger(DeliveryController.class
+			.getName());
+	
 	@Autowired
 	private IDataBase dataBaseService;
 	
@@ -32,36 +36,36 @@ public class OrganisationController {
 		for (Organisation o : dataBaseService.getAllOrganisations()) {
 			list.add(OrganisationMapper.mapToDTO(o));
 		}
+		
+		log.info("returning all organisations");
+		
 		return list;
 	}
 	
 	@RequestMapping(value = "/secure/organisation/setOrganisation")
 	ControllerMessage setOrganisation(@RequestBody OrganisationDTO organisation, HttpServletRequest request) {
 		
-		Organisation entity = OrganisationMapper.mapToEntity(organisation, dataBaseService);
-		entity.setLastEditor(dataBaseService.getPersonById((int) request
-				.getSession().getAttribute("id")));
-		dataBaseService.setOrganisation(entity);
+		try {
+			Organisation entity = OrganisationMapper.mapToEntity(organisation, dataBaseService);
+			entity.setLastEditor(dataBaseService.getPersonById((int) request
+					.getSession().getAttribute("id")));
+			dataBaseService.setOrganisation(entity);
 		
-		return new ControllerMessage(true, "Speichern erfoglreich");
+			log.info("saved organisation with id "+entity.getOrganisationId());
+			return new ControllerMessage(true, "Speichern erfoglreich!");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ControllerMessage(false, "Speichern nicht erfolgreich!");
+		}
 	}
 	
 	@RequestMapping(value = "secure/organisation/getOrganisationById/{id}")
 	public OrganisationDTO getOrganisationById(@PathVariable int id) {
-		
-		List<OrganisationDTO> list = new ArrayList<OrganisationDTO>();
-
-		for (Organisation p : dataBaseService.getAllOrganisations()) {
-			list.add(OrganisationMapper.mapToDTO(p));
-		}
-
-		for (OrganisationDTO element : list) {
-			if (element.getId() == id) {
-				return element;
-			}
-		}
-
-		return null;
+		Organisation o = dataBaseService.getOrganisationById(id);
+		OrganisationDTO organisation = OrganisationMapper.mapToDTO(o);
+		log.info("returning organisation with id "+id);
+		return organisation;
 	}
 
 	@RequestMapping(value = "secure/organisation/deleteOrganisationById/{id}")
@@ -69,6 +73,7 @@ public class OrganisationController {
 
 		try {
 			dataBaseService.deleteOrganisationById(id);
+			log.info("deleted organisation with id "+id);
 		} catch (HibernateException e)
 		{
 			e.printStackTrace();
