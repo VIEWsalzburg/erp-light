@@ -16,19 +16,22 @@ public class LogoutController {
 			.getLogger(LogoutController.class.getName());
 
 	@RequestMapping(value = "/logout")
-	public boolean postListener(HttpServletRequest request,
+	public void postListener(HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		log.info("Performing logout");
+		int id = (int) request.getSession().getAttribute("id");
 		
-		// If submitted password valid:
-		request.getSession().invalidate();
+		log.info("Performing logout for user with Id: "+id);
+		
+
 		try {
 			response.sendRedirect("http://"+request.getServerName()+":"+request.getServerPort()+"/ERP-light");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return true;
+		
+		request.getSession().invalidate();
+		
 	}
 
 }

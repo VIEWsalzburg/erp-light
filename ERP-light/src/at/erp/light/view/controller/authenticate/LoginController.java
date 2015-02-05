@@ -52,7 +52,7 @@ public class LoginController {
 			return new ControllerMessage(false, "Falsche Anmeldeinformationen!");
 		}
 		log.info("Found User: " + existingUser.getPerson().getFirstName() + " "
-				+ existingUser.getPerson().getLastName());
+				+ existingUser.getPerson().getLastName() + " Id: "+existingUser.getPersonId());
 
 		if (HashGenerator.comparePasswordWithHash(authentication.getPassword(),
 				existingUser.getPassword())) 
@@ -62,8 +62,10 @@ public class LoginController {
 			request.getSession().setAttribute("id",
 					existingUser.getPerson().getPersonId());
 			request.getSession().setAttribute("authenticated", true);
+			log.info("Login successful.");
 			return new ControllerMessage(true, "everything went well");
 		} else {
+			log.info("Login not successful.");
 			return new ControllerMessage(false, "Falsche Anmeldeinformationen!");
 		}
 
