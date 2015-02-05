@@ -42,6 +42,20 @@ public class OrganisationController {
 		return list;
 	}
 	
+	@RequestMapping(value = "secure/organisation/getAllActiveOrganisations")
+	public List<OrganisationDTO> getAllActiveOrganisations() {
+		
+		List<OrganisationDTO> list = new ArrayList<OrganisationDTO>();
+
+		for (Organisation o : dataBaseService.getAllActiveOrganisations()) {
+			list.add(OrganisationMapper.mapToDTO(o));
+		}
+		
+		log.info("returning all active organisations");
+		
+		return list;
+	}
+	
 	@RequestMapping(value = "/secure/organisation/setOrganisation")
 	ControllerMessage setOrganisation(@RequestBody OrganisationDTO organisation, HttpServletRequest request) {
 		

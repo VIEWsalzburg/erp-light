@@ -479,6 +479,15 @@ public class DataBaseService implements IDataBase {
 	public List<Organisation> getAllOrganisations() throws HibernateException {
 		
 		@SuppressWarnings("unchecked")
+		List<Organisation> organisations = sessionFactory.getCurrentSession().createQuery("FROM Organisation o ORDER BY o.name").list();
+		return organisations;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<Organisation> getAllActiveOrganisations() throws HibernateException {
+		
+		@SuppressWarnings("unchecked")
 		List<Organisation> organisations = sessionFactory.getCurrentSession().createQuery("FROM Organisation o WHERE o.active=1 ORDER BY o.name").list();
 		return organisations;
 	}

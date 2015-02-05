@@ -273,7 +273,7 @@ function loadTableContent() {
 	
 	$.ajax({
 		type : "POST",
-		url : "../rest/secure/organisation/getAllOrganisations"
+		url : "../rest/secure/organisation/getAllActiveOrganisations"
 	}).done(
 			function(data) {
 				o = eval(data);

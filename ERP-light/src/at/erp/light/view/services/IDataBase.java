@@ -88,6 +88,13 @@ public interface IDataBase {
 	public List<Organisation> getOrganisationsByCategory(Category category) throws HibernateException;
 	public List<Organisation> getAllOrganisations() throws HibernateException;
 	
+	/**
+	 * returns all active organisations
+	 * @return list of all active organisations, which have not been deleted
+	 * @throws HibernateException
+	 */
+	public List<Organisation> getAllActiveOrganisations() throws HibernateException;
+	
 	public int setOrganisation(Organisation organisation) throws HibernateException;
 	public int setOrganisations(List<Organisation> organisations) throws HibernateException;
 	
@@ -399,8 +406,6 @@ public interface IDataBase {
 	public ReportDataDTO getTotalSumOfAllIncomingDeliveries(String dateFrom, String dateTo) throws Exception;
 	
 	public ReportDataDTO getTotalSumOfAllOutgoingDeliveries(String dateFrom, String dateTo) throws Exception;
-
-
 
 	
 }
