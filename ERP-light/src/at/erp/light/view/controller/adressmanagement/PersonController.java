@@ -76,7 +76,7 @@ public class PersonController {
 			return null;
 
 		PersonDTO currentPersonDTO = PersonMapper.mapToDTO(currentPerson);
-		log.info("returning logged in Person");
+		log.info("returning current user");
 		return currentPersonDTO;
 
 	}

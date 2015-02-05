@@ -77,20 +77,27 @@ public class WordGenerator {
 	        
 //	        XWPFParagraph p5 = doc.createParagraph();
 //	        XWPFRun r9 = p5.createRun();
+	        // create hashmap with a List of outgoingArticles for every deliverer
 	        Map<Integer, List<OutgoingArticleDTO>> allDeliverers = new HashMap<Integer, List<OutgoingArticleDTO>>();
 	        for(OutgoingDeliveryDTO deliveryDTO:deliveryDTOs)
 	        {
 	        	for(OutgoingArticleDTO outgoingArticleDTO:deliveryDTO.getOutgoingArticleDTOs())
 	        	{
+	        		// get deliverer of current outgoingArticle
 	        		Integer delivererId = outgoingArticleDTO.getArticleDTO().getDelivererId();
+	        		// if deliverer has already a list
 	        		if(allDeliverers.containsKey(delivererId))
 	        		{
+	        			// add outgoingArticle to existing list
 	        			allDeliverers.get(delivererId).add(outgoingArticleDTO);
 	        		}
 	        		else
 	        		{
+	        			// add new outgoingArticle list for the deliverer
 	        			List<OutgoingArticleDTO> newList = new ArrayList<OutgoingArticleDTO>();
+	        			// add outgoingArticle to the new list
 	        			newList.add(outgoingArticleDTO);
+	        			// put list into hashmap
 	        			allDeliverers.put(delivererId, newList);
 	        		}
 	        	}
@@ -123,6 +130,8 @@ public class WordGenerator {
 	 	        }
 	 	        innerRun.addBreak();
 	        }
+	        
+	        // Lieferstationen
 	        
 	        XWPFParagraph p6 = doc.createParagraph();
 	        XWPFRun r10 = p6.createRun();

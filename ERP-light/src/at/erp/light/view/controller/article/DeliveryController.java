@@ -40,6 +40,7 @@ import at.erp.light.view.model.AvailArticleInDepot;
 import at.erp.light.view.model.DeliveryList;
 import at.erp.light.view.model.IncomingDelivery;
 import at.erp.light.view.model.OutgoingDelivery;
+import at.erp.light.view.model.Person;
 import at.erp.light.view.services.IDataBase;
 import at.erp.light.view.state.ControllerMessage;
 
@@ -79,7 +80,7 @@ public class DeliveryController {
 
 			return list;
 		} else {
-			log.info("no incoming deliveries found");
+			log.severe("no incoming deliveries found");
 
 			return null;
 		}
@@ -111,7 +112,7 @@ public class DeliveryController {
 
 			return list;
 		} else {
-			log.info("no incoming deliveries found");
+			log.severe("no incoming deliveries found");
 
 			return null;
 		}
@@ -131,11 +132,11 @@ public class DeliveryController {
 					.getIncomingDeliveryById(id);
 			if (incomingDelivery == null)
 				throw new Exception();
-			log.info("returning delivery with id: " + id);
+			log.info("returning incomingDelivery with id: " + id);
 			return IncomingDeliveryMapper.mapToDTO(incomingDelivery);
 
 		} catch (Exception e) {
-			log.info("no incoming delivery with id " + id + " found");
+			log.severe("no incomingDelivery with id " + id + " found");
 			return null;
 		}
 	}
@@ -155,11 +156,10 @@ public class DeliveryController {
 		try {
 			dataBaseService.archiveIncomingDeliveryById(id, state);
 
-			log.info("set incoming delivery with: " + id + " to " + state + ".");
-			return new ControllerMessage(true,
-					"Set archived state for delivery successful");
+			log.info("set incoming delivery with: " + id + " to archivedState " + state + ".");
+			return new ControllerMessage(true,"Set archived state for delivery successful");
 		} catch (Exception e) {
-			log.info("no incoming delivery with id " + id + " found");
+			log.severe("no incomingDelivery with id " + id + " found");
 			return new ControllerMessage(false, e.getMessage());
 		}
 	}
@@ -179,11 +179,11 @@ public class DeliveryController {
 		try {
 			dataBaseService.archiveOutgoingDeliveryById(id, state);
 
-			log.info("set outgoing delivery with: " + id + " to " + state + ".");
+			log.info("set outgoingDelivery with: " + id + " to archivedState " + state + ".");
 			return new ControllerMessage(true,
 					"Archive operation for delivery successful");
 		} catch (Exception e) {
-			log.info("no incoming delivery with id " + id + " found");
+			log.severe("no incoming delivery with id " + id + " found");
 			return new ControllerMessage(false, e.getMessage());
 		}
 	}
@@ -205,15 +205,9 @@ public class DeliveryController {
 		// first scenario: incomingDeliveryId == 0 => new IncomingDelivery
 
 		try {
-			int lastEditorId = (int) request.getSession().getAttribute("id"); // get
-																				// current
-																				// editor
-																				// id
+			int lastEditorId = (int) request.getSession().getAttribute("id"); // get current editor id
 
-			IncomingDelivery entity = IncomingDeliveryMapper.mapToEntity(dto); // map
-																				// incomingDelivery
-																				// to
-																				// entity
+			IncomingDelivery entity = IncomingDeliveryMapper.mapToEntity(dto); // map incomingDelivery to entity
 			// set current Times for updateTimestamp
 			entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 
@@ -234,12 +228,14 @@ public class DeliveryController {
 			}
 
 			// if no exception occurs
+			log.info("set incomingDelivery with id "+entity.getIncomingDeliveryId()+" successful");
 			return new ControllerMessage(true, "Speichern erfolgreich!");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 
 			// if an exception occurs
+			log.severe("setting incomingDelivery failed");
 			return new ControllerMessage(false, "Speichern nicht erfolgreich!");
 		}
 
@@ -258,10 +254,11 @@ public class DeliveryController {
 
 		try {
 			dataBaseService.deleteIncomingDeliveryById(id);
+			log.info("delete incomingDelivery with id "+id+" successful");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ControllerMessage(false, "Löschen nicht erfolgreich: "
-					+ e.getMessage());
+			log.severe("delete incomingDelivery with id "+id+" not successful");
+			return new ControllerMessage(false, "Löschen nicht erfolgreich: " + e.getMessage());
 		}
 
 		return new ControllerMessage(true, "Löschen erfolgreich");
@@ -288,11 +285,11 @@ public class DeliveryController {
 			for (OutgoingDelivery od : entityList) {
 				list.add(OutgoingDeliveryMapper.mapToDTO(od));
 			}
-			log.info("returning all outgoing deliveries");
+			log.info("returning all outgoingDeliveries");
 
 			return list;
 		} else {
-			log.info("no outgoing deliveries found");
+			log.severe("no outgoingDeliveries found");
 
 			return null;
 		}
@@ -315,11 +312,11 @@ public class DeliveryController {
 			for (OutgoingDelivery od : entityList) {
 				list.add(OutgoingDeliveryMapper.mapToDTO(od));
 			}
-			log.info("returning all unarchived outgoing deliveries");
+			log.info("returning all unarchived outgoingDeliveries");
 
 			return list;
 		} else {
-			log.info("no outgoing deliveries found");
+			log.severe("no outgoingDeliveries found");
 
 			return null;
 		}
@@ -400,19 +397,18 @@ public class DeliveryController {
 			outgoingDelivery.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 			outgoingDelivery.setLastEditor(dataBaseService.getPersonById(lastEditorId));
 			
-			
 			// first scenario outgoingDeliveryId == 0 => create new entry in DB
 			if (outgoingDelivery.getOutgoingDeliveryId()==0)
 			{
 				dataBaseService.setNewOutgoingDelivery(outgoingDelivery);
-				log.info("saved outgoing delivery with id "
+				log.info("saved outgoingDelivery with id "
 						+ outgoingDelivery.getOutgoingDeliveryId());
 			}
 			// second scenario outgoingDeliveryId != 0 => update existing entry in DB
 			else
 			{
 				dataBaseService.updateOutgoingDelivery(outgoingDelivery);
-				log.info("updated outgoing delivery with id "
+				log.info("updated outgoingDelivery with id "
 						+ outgoingDelivery.getOutgoingDeliveryId());
 			}
 			
@@ -441,9 +437,11 @@ public class DeliveryController {
 
 		try {
 			dataBaseService.deleteOutgoingDeliveryById(id);
+			log.info("deleting outgoingDelivery with id "+id+" successful");
 			return new ControllerMessage(true, "Löschen erfolgreich!");
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.info("deleting outgoingDelivery with id "+id+" not successful");
 			return new ControllerMessage(false, "Löschen nicht erfolgreich: "
 					+ e.getMessage());
 		}
@@ -452,6 +450,8 @@ public class DeliveryController {
 
 	/***** [END] outgoing Deliveries *****/
 
+	
+	
 	/***** [START] availableArticles *****/
 
 	/**
@@ -472,6 +472,7 @@ public class DeliveryController {
 		for (AvailArticleInDepot article : articleInDepots) {
 			availableDTOs.add(AvailableArticleMapper.mapToDTO(article));
 		}
+		log.info("returning all available articles");
 		return availableDTOs;
 	}
 
@@ -499,6 +500,7 @@ public class DeliveryController {
 		for (DeliveryList list : deliveryLists) {
 			deliveryListDTOs.add(DeliveryListMapper.mapToDTO(list));
 		}
+		log.info("returning all unarchived deliveryLists");
 		return deliveryListDTOs;
 	}
 	
@@ -517,7 +519,7 @@ public class DeliveryController {
 		try {
 			dataBaseService.archiveDeliveryListById(id, state);
 
-			log.info("set delivery list with: " + id + " to " + state + ".");
+			log.info("set delivery list with: " + id + " to archivedState" + state + ".");
 			return new ControllerMessage(true,
 					"Archive operation for delivery list successful");
 		} catch (Exception e) {
@@ -546,6 +548,7 @@ public class DeliveryController {
 		for (DeliveryList list : deliveryLists) {
 			deliveryListDTOs.add(DeliveryListMapper.mapToDTO(list));
 		}
+		log.info("returning all deliveryLists");
 		return deliveryListDTOs;
 	}
 
@@ -567,7 +570,7 @@ public class DeliveryController {
 		} catch (Exception e) {
 			log.severe(e.getMessage());
 		}
-
+		log.info("returning deliveryList with id "+id);
 		return deliveryListDTO;
 	}
 
@@ -591,7 +594,7 @@ public class DeliveryController {
 			entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 
 			dataBaseService.setDeliveryList(entity);
-
+			log.info("saving deliveryList successful");
 			return new ControllerMessage(true, "Speichern erfolgreich!");
 
 		} catch (Exception e) {
@@ -613,9 +616,11 @@ public class DeliveryController {
 
 		try {
 			dataBaseService.deleteDeliveryListById(id);
+			log.info("deleting deliveryList successful");
 			return new ControllerMessage(true, "Löschen erfolgreich!");
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.severe("deleting deliveryList not successful");
 			return new ControllerMessage(false, "Löschen nicht erfolgreich: "
 					+ e.getMessage());
 		}
@@ -640,16 +645,14 @@ public class DeliveryController {
 			DeliveryListDTO deliveryListDTO = DeliveryListMapper
 					.mapToDTO(dataBaseService.getDeliveryListById(id));
 
+			Person lastEditor = dataBaseService.getPersonById(deliveryListDTO.getLastEditorId());
+			
 			FileInputStream wordFile = new FileInputStream(
 					WordGenerator.generate(
 							deliveryListDTO,
-							dataBaseService.getPersonById(
-									deliveryListDTO.getLastEditorId())
-									.getFirstName()
-									+ " "
-									+ dataBaseService.getPersonById(
-											deliveryListDTO.getLastEditorId())
-											.getLastName(),dataBaseService));
+							lastEditor.getFirstName() + " "	+ lastEditor.getLastName(),
+							dataBaseService));
+			
 			// copy it to response's OutputStream
 			IOUtils.copy(wordFile, httpServletResponse.getOutputStream());
 			httpServletResponse.flushBuffer();
@@ -658,9 +661,5 @@ public class DeliveryController {
 			throw new RuntimeException(ex);
 		}
 	}
-
-	// DELETE OF DELIVERY LIST AND IF, HOW
-
-
 	
 }
