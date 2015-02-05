@@ -147,11 +147,12 @@ function loadDeliveryList(id){
 					}
 				}
 				
-				var tableRow = "<tr id='"+ out[e].outgoingDeliveryId +"'>" + "<td>" + out[e].outgoingDeliveryId
-						+ "</td>" + "<td class='receiver'>" + org.name
-						+ "</td>" + "<td class='article'>" + articleString
-						+ "</td>" + "<td class='comment'>" + out[e].comment
-						+ "</td>" + "</tr>";
+				var tableRow = "<tr id='"+ out[e].outgoingDeliveryId +"'>" +
+					"<td class='hidden'>" + out[e].outgoingDeliveryId + "</td>" +
+					"<td class='receiver'>" + org.name + "</td>" +
+					"<td class='article'>" + articleString + "</td>" +
+					"<td class='comment'>" + out[e].comment	+ "</td>" +
+					"</tr>";
 
 				$("#deliveryListTableBody").append(tableRow);
 			}
