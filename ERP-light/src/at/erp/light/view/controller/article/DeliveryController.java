@@ -388,35 +388,43 @@ public class DeliveryController {
 	public ControllerMessage setOutgoingDelivery(
 			@RequestBody OutgoingDeliveryDTO dto, HttpServletRequest request) {
 
-		if (dto.getOutgoingDeliveryId() != 0) {
-			try {
-				dataBaseService.deleteOutgoingDeliveryById(dto
-						.getOutgoingDeliveryId());
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new ControllerMessage(false,
-						"Speichern nicht erfolgreich: " + e.getMessage());
+		try{
+			
+			int lastEditorId = (int) request.getSession().getAttribute("id"); // get current editor id
+			dto.setLastEditorId(lastEditorId);
+			
+			// Organisation, lastEditor and updateTimestamp from DTO are set within the mapper method
+			OutgoingDelivery outgoingDelivery = OutgoingDeliveryMapper.mapToEntity(dto, dataBaseService);
+			
+			// set updateTimestamp
+			outgoingDelivery.setUpdateTimestamp(new Date(System.currentTimeMillis()));
+			outgoingDelivery.setLastEditor(dataBaseService.getPersonById(lastEditorId));
+			
+			
+			// first scenario outgoingDeliveryId == 0 => create new entry in DB
+			if (outgoingDelivery.getOutgoingDeliveryId()==0)
+			{
+				dataBaseService.setNewOutgoingDelivery(outgoingDelivery);
+				log.info("saved outgoing delivery with id "
+						+ outgoingDelivery.getOutgoingDeliveryId());
 			}
-		}
-
-		dto.setOutgoingDeliveryId(0);
-		dto.setLastEditorId(dataBaseService.getPersonById(
-				(int) request.getSession().getAttribute("id")).getPersonId());
-		OutgoingDelivery entity = OutgoingDeliveryMapper.mapToEntity(dto,
-				dataBaseService);
-		// set current Times for updateTimestamp
-		entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
-
-		try {
-			dataBaseService.setNewOutgoingDelivery(entity);
-			log.info("saved outgoing delivery with id "
-					+ entity.getOutgoingDeliveryId());
+			// second scenario outgoingDeliveryId != 0 => update existing entry in DB
+			else
+			{
+				dataBaseService.updateOutgoingDelivery(outgoingDelivery);
+				log.info("updated outgoing delivery with id "
+						+ outgoingDelivery.getOutgoingDeliveryId());
+			}
+			
+			// if no error occurs
 			return new ControllerMessage(true, "Speichern erfolgreich!");
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.severe("failed to save outgoing delivery with id "
-					+ entity.getOutgoingDeliveryId());
-			return new ControllerMessage(false, "Speichern nicht erfolgreich!");
+			
+			// if an exception occurs
+			return new ControllerMessage(false, "Speichern nicht erfolgreich: "+e.getMessage());
 		}
 
 	}

@@ -109,6 +109,14 @@ public interface IDataBase {
 	 */
 	public int setNewIncomingDelivery(IncomingDelivery incomingDelivery) throws Exception;
 	
+	/**
+	 * updates an existing incomingDelivery in the DB
+	 * checks if the delivery is booked and updates it accordingly
+	 * checks are performed to ensure article consistency
+	 * @param incomingDelivery
+	 * @return
+	 * @throws Exception
+	 */
 	public int updateIncomingDelivery(IncomingDelivery incomingDelivery) throws Exception;
 	
 	/**
@@ -154,12 +162,23 @@ public interface IDataBase {
 	/**
 	 * persists a new outgoing delivery with the given outgoing articles to the DB;
 	 * checks if PUs of outgoing articles are allowed and the given articleIds exist in the DB;
-	 * if outgoing delivery is not valid, a Exception is thrown and a DB rollback is performed
+	 * if outgoing delivery is not valid, an Exception is thrown and a DB rollback is performed
 	 * @param outgoingDelivery
 	 * @return id of the persisted delivery
 	 * @throws Exception
 	 */
 	public int setNewOutgoingDelivery(OutgoingDelivery outgoingDelivery) throws Exception;
+	
+	
+	/**
+	 * updates an existing outgoingDelivery with the given outgoing articles in the DB;
+	 * checks if PUs of outgoing articles are allowed and the given articleIds exist in the DB;
+	 * if outgoing delivery is not valid, an Exception is thrown and a DB rollback is performed
+	 * @param outgoingDelivery
+	 * @return id of the updated delivery
+	 * @throws Exception
+	 */
+	int updateOutgoingDelivery(OutgoingDelivery outgoingDelivery) throws Exception;
 	
 	/**
 	 * delete an outgoing delivery with the associated outgoing articles;
@@ -209,10 +228,10 @@ public interface IDataBase {
 	 */
 	public List<OutgoingDelivery> getAvailableOutgoingDeliveries() throws HibernateException;
 	
-	
+	// not implemented
 	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) throws HibernateException;
 	
-	
+	// not inplemented
 	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) throws HibernateException;
 	
 	// Incoming articles
@@ -380,4 +399,8 @@ public interface IDataBase {
 	public ReportDataDTO getTotalSumOfAllIncomingDeliveries(String dateFrom, String dateTo) throws Exception;
 	
 	public ReportDataDTO getTotalSumOfAllOutgoingDeliveries(String dateFrom, String dateTo) throws Exception;
+
+
+
+	
 }

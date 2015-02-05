@@ -719,7 +719,7 @@ public class DataBaseService implements IDataBase {
 			
 			// check incoming and outgoing articles for validity
 			if (this.checkInAndOutArticlePUs()==false)
-				throw new Exception("Number of PUs for incoming and outgoing articles are not valid.");
+				throw new ERPLightException("Number of PUs for incoming and outgoing articles are not valid.");
 			
 			return existingEntity.getIncomingDeliveryId();
 			
@@ -750,7 +750,6 @@ public class DataBaseService implements IDataBase {
 				ia.setIncomingArticleId(0);
 				ia.getArticle().setArticleId(0);				// set id to 0
 				this.sessionFactory.getCurrentSession().saveOrUpdate(ia.getArticle());		// persist new Article to DB
-				
 			}
 			
 			// update infos for incomingDelivery
@@ -767,7 +766,7 @@ public class DataBaseService implements IDataBase {
 			
 			// check incoming and outgoing articles for validity
 			if (this.checkInAndOutArticlePUs()==false)
-				throw new Exception("Number of PUs for incoming and outgoing articles are not valid.");
+				throw new ERPLightException("Number of PUs for incoming and outgoing articles are not valid.");
 			
 			return existingEntity.getIncomingDeliveryId();
 			
@@ -931,6 +930,86 @@ public class DataBaseService implements IDataBase {
 		
 		return true;
 	}
+	
+	
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int updateOutgoingDelivery(OutgoingDelivery outgoingDelivery) throws Exception
+	{
+		// update outgoingDelivery if id > 0
+		
+		// link outgoingArticles and OutgoingDelivery to be sure they are updated
+		for (OutgoingArticle outgoingArticle : outgoingDelivery.getOutgoingArticles())
+		{
+			outgoingArticle.setOutgoingDelivery(outgoingDelivery);
+		}
+		
+		// check outgoingDeliveryId: if not 0 => get existing outgoingDelivery from DB and update fields
+		// update the outgoingArticles according to the updated outogingArticles
+		if (outgoingDelivery.getOutgoingDeliveryId() == 0)
+		{
+			throw new Exception("Update of OutgoingDelivery with Id 0 not possible.");
+		}
+		
+		// get existing entity from DB, which should be updated
+		OutgoingDelivery existingEntity = this.getOutgoingDeliveryById(outgoingDelivery.getOutgoingDeliveryId());
+		
+		// if an outgoingDelivery is already booked: nevertheless update articles and outgoingArticles
+		// => updatedOutgoingDelivery should appear in new DeliveryList
+		
+		// update OutgoingDelivery Infos from updatedOutgoingDelivery
+		existingEntity.setComment(outgoingDelivery.getComment());
+		existingEntity.setDate(outgoingDelivery.getDate());
+		existingEntity.setOrganisation(outgoingDelivery.getOrganisation());
+		existingEntity.setLastEditor(outgoingDelivery.getLastEditor());
+		existingEntity.setUpdateTimestamp(outgoingDelivery.getUpdateTimestamp());
+		
+
+		// remove all old outgoingArticles and assign new ones
+		
+		// delete all current OutgoingArticles from the DB
+		for (OutgoingArticle existingOA : existingEntity.getOutgoingArticles())
+		{
+			this.sessionFactory.getCurrentSession().delete(existingOA);
+		}
+		existingEntity.getOutgoingArticles().clear();	// clear assigned articles in list
+		
+		this.sessionFactory.getCurrentSession().flush();
+		
+		Set<OutgoingArticle> updatedOutgoingArticles = outgoingDelivery.getOutgoingArticles();
+		existingEntity.setOutgoingArticles(updatedOutgoingArticles);	// already creates new outgoingArticles in DB
+		
+		// link outgoingDelivery and outgoingArticles bi-directional
+		// check if articles exist in DB and assign them
+		for (OutgoingArticle oA : existingEntity.getOutgoingArticles())
+		{
+			// set id to 0 so it is created
+			// oA.setOutgoingArticleId(0);	// entity is being persisted by assigning the new Set to the existingEntity
+			// exception "identifier of an instance of at.erp.light.view.modal.OutgoingArticle was altered form 118 to 0"
+			
+			// assign article from DB
+			int existingArticleId = oA.getArticle().getArticleId();
+			oA.setArticle(this.getArticleById(existingArticleId));
+			
+			// link to existingEntity, to ensure they are updated
+			oA.setOutgoingDelivery(existingEntity);
+		}
+		
+		// save updated Entity in DB
+		sessionFactory.getCurrentSession().saveOrUpdate(existingEntity);
+		
+		// call flush to execute pending SQL Statements and synchronize Context to DB 
+		sessionFactory.getCurrentSession().flush();
+				
+		// check incoming and outgoing articles for validity
+		if (this.checkInAndOutArticlePUs()==false)
+			throw new ERPLightException("Anzahl der ausgehenden und eingehenden Artikel stimmt nicht überein.");
+		
+		return existingEntity.getOutgoingDeliveryId();
+	}
+	
+	
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
