@@ -103,15 +103,16 @@ function loadNewIncomingDelivery(id){
 				var sum = Math.round( pricepu * article[j].numberpu*100)/100;
 				
 				// adding the incomingArticleId is important to be able to update the according Article infos in the DB by using the Ids
-				var tableRow = "<tr id='"+incomingArticleId+"'>" + "<td>" + incomingArticleId
-				+ "</td>" + "<td>" + description
-				+ "</td>" + "<td>" + numberpu
-				+ "</td>" + "<td>" + packagingUnit
-				+ "</td>" + "<td>" + weightpu + " kg"
-				+ "</td>" + "<td>" + mdd
-				+ "</td>" + "<td>" + pricepu + " €"
-				+ "</td>" + "<td>" + sum + " €"
-				+ "</td>" + "</tr>";
+				var tableRow = "<tr id='"+incomingArticleId+"'>" +
+					"<td class='hidden'>" + incomingArticleId + "</td>" +
+					"<td>" + description + "</td>" +
+					"<td>" + numberpu + "</td>" +
+					"<td>" + packagingUnit + "</td>" +
+					"<td>" + weightpu + " kg" + "</td>" +
+					"<td>" + mdd + "</td>" +
+					"<td>" + pricepu + " €" + "</td>" +
+					"<td>" + sum + " €" + "</td>" +
+				"</tr>";
 				
 				$("#newIncomingDeliveryTableBody").append(tableRow);
 			}
@@ -188,15 +189,16 @@ function createTableRow(count, id){
 	
 	// add class newArticleId to sign the new Row as a new Article for the DB (set Id to 0 when saving the Delivery, by checking the class)
 	// otherwise if the class is not assigned to the row, the IncomingArticle already exists in the DB and this is a updated row
-	var tableRow = "<tr id="+ count +">" + "<td class='"+newArticleClass+"'>" + count
-	+ "</td>" + "<td>" + $("#tbx_description").val()
-	+ "</td>" + "<td>" + $("#tbx_numberofpackagingunits").val()
-	+ "</td>" + "<td>" + $("#tbx_packagingunit").val()
-	+ "</td>" + "<td>" + $("#tbx_weightpackagingunit").val() + " kg"
-	+ "</td>" + "<td>" + $("#tbx_mdd").val()
-	+ "</td>" + "<td>" + pricepu
-	+ "</td>" + "<td>" + sum
-	+ "</td>" + "</tr>";
+	var tableRow = "<tr id="+ count +">" +
+		"<td class='"+newArticleClass+" hidden'>" + count + "</td>" +
+		"<td>" + $("#tbx_description").val() + "</td>" +
+		"<td>" + $("#tbx_numberofpackagingunits").val() + "</td>" +
+		"<td>" + $("#tbx_packagingunit").val() + "</td>" +
+		"<td>" + $("#tbx_weightpackagingunit").val() + " kg" + "</td>" +
+		"<td>" + $("#tbx_mdd").val() + "</td>" +
+		"<td>" + pricepu + "</td>" +
+		"<td>" + sum + "</td>" +
+	"</tr>";
 	
 	return tableRow;
 }

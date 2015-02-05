@@ -80,7 +80,7 @@ function loadTableContent() {
 					}
 					
 					var tableRow = "<tr>" +
-							"<td>" + p[e].personId + "</td>" +
+							"<td class='hidden'>" + p[e].personId + "</td>" +
 							"<td>" + p[e].title + " " + p[e].lastName + " " + p[e].firstName + "</td>" +
 							"<td>" + addressString + "</td>" +
 							"<td>" + phoneString + "</td>" +

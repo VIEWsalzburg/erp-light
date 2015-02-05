@@ -21,10 +21,11 @@ function loadTableContent(){
 						var c = eval(data);
 
 						for ( var e in c) {
-							var tableRow = "<tr>" + "<td>" + c[e].categoryId
-									+ "</td>" + "<td>" + c[e].category
-									+ "</td>" + "<td>" + c[e].description
-									+ "</td>" + "</tr>";
+							var tableRow = "<tr>" +
+								"<td class='hidden'>" + c[e].categoryId + "</td>" +
+								"<td>" + c[e].category + "</td>" +
+								"<td>" + c[e].description + "</td>" + 
+								"</tr>";
 
 							$("#categoryTableBody").append(tableRow);
 						}
