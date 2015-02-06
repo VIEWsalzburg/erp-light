@@ -122,8 +122,8 @@ public class PersonController {
 			Person entity = PersonMapper.mapToEntity(person);
 			
 			// set current user for updater
-			entity.setLastEditor(dataBaseService.getPersonById((int) request
-					.getSession().getAttribute("id")));
+			int lastEditorId = (int) request.getSession().getAttribute("id");
+			entity.setLastEditor(dataBaseService.getPersonById(lastEditorId));
 	
 			// persist Person to DB
 			dataBaseService.setPerson(entity);
@@ -156,6 +156,8 @@ public class PersonController {
 				log.info("no platformUser");
 			}
 	
+			dataBaseService.insertLogging("[INFO] Person mit der id "+entity.getPersonId()+" gespeichert", lastEditorId);
+			
 			return new ControllerMessage(true, "Speichern erfolgreich!");
 		} catch (Exception e)
 		{
@@ -167,7 +169,7 @@ public class PersonController {
 	}
 
 	@RequestMapping(value = "secure/person/deletePersonById/{id}")
-	public ControllerMessage deletePersonById(@PathVariable int id) {
+	public ControllerMessage deletePersonById(@PathVariable int id, HttpServletRequest request) {
 
 		try {
 			dataBaseService.deletePersonById(id);
@@ -179,6 +181,8 @@ public class PersonController {
 		}
 		
 		log.info("deleted person with id: "+id);
+		int lastEditorId = (int)request.getSession().getAttribute("id");
+		dataBaseService.insertLogging("[INFO] Person mit der id "+id+" gelöscht", lastEditorId);
 		return new ControllerMessage(true, "Löschen erfolgreich!");
 		
 	}

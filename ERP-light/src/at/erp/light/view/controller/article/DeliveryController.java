@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -152,11 +153,13 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/setArchivedState/{id}/{state}")
 	public ControllerMessage setIncomingDeliveryState(@PathVariable int id,
-			@PathVariable int state) {
+			@PathVariable int state, HttpServletRequest request) {
 		try {
 			dataBaseService.archiveIncomingDeliveryById(id, state);
 
 			log.info("set incoming delivery with: " + id + " to archivedState " + state + ".");
+			int lastEditorId = (int)request.getSession().getAttribute("id");
+			dataBaseService.insertLogging("[INFO] Wareneingang mit der id "+id+" auf Archivierungsstatus "+state+" gesetzt", lastEditorId);
 			return new ControllerMessage(true,"Set archived state for delivery successful");
 		} catch (Exception e) {
 			log.severe("no incomingDelivery with id " + id + " found");
@@ -175,11 +178,13 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/setArchivedState/{id}/{state}")
 	public ControllerMessage setOutgoingDeliveryState(@PathVariable int id,
-			@PathVariable int state) {
+			@PathVariable int state, HttpServletRequest request) {
 		try {
 			dataBaseService.archiveOutgoingDeliveryById(id, state);
 
 			log.info("set outgoingDelivery with: " + id + " to archivedState " + state + ".");
+			int lastEditorId = (int)request.getSession().getAttribute("id");
+			dataBaseService.insertLogging("[INFO] Warenausgang mit der id "+id+" auf Archivierungsstatus "+state+" gesetzt", lastEditorId);
 			return new ControllerMessage(true,
 					"Archive operation for delivery successful");
 		} catch (Exception e) {
@@ -229,6 +234,8 @@ public class DeliveryController {
 
 			// if no exception occurs
 			log.info("set incomingDelivery with id "+entity.getIncomingDeliveryId()+" successful");
+			dataBaseService.insertLogging("[INFO] Wareneingang mit der id "+entity.getIncomingDeliveryId()
+					+" gespeichert", lastEditorId);
 			return new ControllerMessage(true, "Speichern erfolgreich!");
 
 		} catch (Exception e) {
@@ -250,11 +257,13 @@ public class DeliveryController {
 	 *         description
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/deleteById/{id}")
-	public ControllerMessage deleteIncomingDeliveryById(@PathVariable int id) {
+	public ControllerMessage deleteIncomingDeliveryById(@PathVariable int id, HttpServletRequest request) {
 
 		try {
 			dataBaseService.deleteIncomingDeliveryById(id);
 			log.info("delete incomingDelivery with id "+id+" successful");
+			int lastEditorId = (int)request.getSession().getAttribute("id");
+			dataBaseService.insertLogging("[INFO] Wareneingang mit der id "+id+" gelöscht", lastEditorId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.severe("delete incomingDelivery with id "+id+" not successful");
@@ -413,6 +422,8 @@ public class DeliveryController {
 			}
 			
 			// if no error occurs
+			dataBaseService.insertLogging("[INFO] Warenausgang mit der id "
+					+outgoingDelivery.getOutgoingDeliveryId() +" gespeichert", lastEditorId);
 			return new ControllerMessage(true, "Speichern erfolgreich!");
 			
 			
@@ -433,11 +444,14 @@ public class DeliveryController {
 	 * @return a message with a state and textual description
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/deleteById/{id}")
-	public ControllerMessage deleteOutgoingDeliveryById(@PathVariable int id) {
+	public ControllerMessage deleteOutgoingDeliveryById(@PathVariable int id, HttpServletRequest request) {
 
 		try {
 			dataBaseService.deleteOutgoingDeliveryById(id);
 			log.info("deleting outgoingDelivery with id "+id+" successful");
+			int lastEditorId = (int) request.getSession().getAttribute("id");
+			dataBaseService.insertLogging("[INFO] Warenausgang mit der id "
+					+id+" gelöscht", lastEditorId);
 			return new ControllerMessage(true, "Löschen erfolgreich!");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -515,11 +529,14 @@ public class DeliveryController {
 	 */
 	@RequestMapping(value = "secure/deliveryList/setArchivedState/{id}/{state}")
 	public ControllerMessage setDeliveryListState(@PathVariable int id,
-			@PathVariable int state) {
+			@PathVariable int state, HttpServletRequest request) {
 		try {
 			dataBaseService.archiveDeliveryListById(id, state);
 
 			log.info("set delivery list with: " + id + " to archivedState" + state + ".");
+			int lastEditorId = (int) request.getSession().getAttribute("id");
+			dataBaseService.insertLogging("[INFO] Lieferliste mit der id "+id
+					+" auf Archivierungsstatus "+state+" gesetzt", lastEditorId);
 			return new ControllerMessage(true,
 					"Archive operation for delivery list successful");
 		} catch (Exception e) {
@@ -588,13 +605,17 @@ public class DeliveryController {
 			HttpServletRequest request) {
 
 		try {
-			dto.setLastEditorId((int) request.getSession().getAttribute("id"));
+			int lastEditorId = (int) request.getSession().getAttribute("id");
+			dto.setLastEditorId(lastEditorId);
 			DeliveryList entity = DeliveryListMapper.mapToEntity(dto,
 					dataBaseService);
 			entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 
 			dataBaseService.setDeliveryList(entity);
 			log.info("saving deliveryList successful");
+			
+			dataBaseService.insertLogging("[INFO] Lieferliste mit der id "+entity.getDeliveryListId()
+					+" gespeichert", lastEditorId);
 			return new ControllerMessage(true, "Speichern erfolgreich!");
 
 		} catch (Exception e) {
@@ -612,11 +633,15 @@ public class DeliveryController {
 	 * @return a message with a state and textual description
 	 */
 	@RequestMapping(value = "secure/deliveryList/deleteById/{id}")
-	public ControllerMessage deleteDeliveryListById(@PathVariable int id) {
+	public ControllerMessage deleteDeliveryListById(@PathVariable int id, HttpServletRequest request) {
 
 		try {
 			dataBaseService.deleteDeliveryListById(id);
 			log.info("deleting deliveryList successful");
+			
+			int lastEditorId = (int) request.getSession().getAttribute("id");
+			dataBaseService.insertLogging("[INFO] Lieferliste mit der id "+id+" gelöscht", lastEditorId);
+			
 			return new ControllerMessage(true, "Löschen erfolgreich!");
 		} catch (Exception e) {
 			e.printStackTrace();

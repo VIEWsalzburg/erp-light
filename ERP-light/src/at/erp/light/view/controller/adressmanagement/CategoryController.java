@@ -53,6 +53,7 @@ public class CategoryController {
 	@RequestMapping(value = "secure/category/setCategory")
 	public ControllerMessage setCategory(@RequestBody CategoryDTO category, HttpServletRequest request) {
 		Category entity = CategoryMapper.mapToEntity(category);
+		int lastEditorId = (int) request.getSession().getAttribute("id");
 		
 		try {
 			dataBaseService.setCategory(entity);
@@ -63,6 +64,7 @@ public class CategoryController {
 		}
 		
 		log.info("saving category successful");
+		dataBaseService.insertLogging("[INFO] Kategorie mit der id "+entity.getCategoryId()+" gespeichert", lastEditorId);
 		return new ControllerMessage(true, "Speichern erfoglreich!");
 	}
 	
@@ -87,9 +89,9 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "secure/category/deleteCategoryById/{id}")
-	public ControllerMessage deleteCategoryById(@PathVariable int id) {
+	public ControllerMessage deleteCategoryById(@PathVariable int id, HttpServletRequest request) {
 
-		
+		int lastEditorId = (int) request.getSession().getAttribute("id");
 		try {
 			dataBaseService.deleteCategoryById(id);
 			log.info("deleting category with id "+id+" successful");
@@ -99,6 +101,7 @@ public class CategoryController {
 			return new ControllerMessage(false, "Löschen fehlgeschlagen!");
 		}
 		
+		dataBaseService.insertLogging("[INFO] Kategorie mit der id "+id+" gelöscht", lastEditorId);
 		return new ControllerMessage(true, "Löschen erfolgreich!");
 
 	}

@@ -61,11 +61,12 @@ public class OrganisationController {
 		
 		try {
 			Organisation entity = OrganisationMapper.mapToEntity(organisation, dataBaseService);
-			entity.setLastEditor(dataBaseService.getPersonById((int) request
-					.getSession().getAttribute("id")));
+			int lastEditorId = (int) request.getSession().getAttribute("id");
+			entity.setLastEditor(dataBaseService.getPersonById(lastEditorId));
 			dataBaseService.setOrganisation(entity);
 		
 			log.info("saved organisation with id "+entity.getOrganisationId());
+			dataBaseService.insertLogging("[INFO] Organisation mit der id "+entity.getOrganisationId()+" gespeichert", lastEditorId);
 			return new ControllerMessage(true, "Speichern erfoglreich!");
 			
 		} catch (Exception e) {
@@ -83,7 +84,9 @@ public class OrganisationController {
 	}
 
 	@RequestMapping(value = "secure/organisation/deleteOrganisationById/{id}")
-	public ControllerMessage deleteOrganisationById(@PathVariable int id) {
+	public ControllerMessage deleteOrganisationById(@PathVariable int id, HttpServletRequest request) {
+
+		int lastEditorId = (int) request.getSession().getAttribute("id");
 
 		try {
 			dataBaseService.deleteOrganisationById(id);
@@ -94,6 +97,7 @@ public class OrganisationController {
 			return new ControllerMessage(false, "Löschen fehlgeschlagen!");
 		}
 		
+		dataBaseService.insertLogging("[INFO] Organisation mit der id "+id+" gelöscht", lastEditorId);
 		return new ControllerMessage(true, "Löschen erfolgreich!");
 		
 	}
