@@ -24,14 +24,14 @@ public class OutgoingArticle implements java.io.Serializable {
 	private OutgoingDelivery outgoingDelivery;
 	private Article article;
 	private Integer articleNr;
-	private Double numberpu;
+	private Integer numberpu;
 
 	public OutgoingArticle() {
 	}
 
 	public OutgoingArticle(int outgoingArticleId,
 			OutgoingDelivery outgoingDelivery, Article article,
-			Integer articleNr, Double numberpu) {
+			Integer articleNr, Integer numberpu) {
 		this.outgoingArticleId = outgoingArticleId;
 		this.outgoingDelivery = outgoingDelivery;
 		this.article = article;
@@ -80,12 +80,12 @@ public class OutgoingArticle implements java.io.Serializable {
 		this.articleNr = articleNr;
 	}
 
-	@Column(name = "numberpu", precision = 17, scale = 17, nullable = false)
-	public Double getNumberpu() {
+	@Column(name = "numberpu", nullable = false)
+	public Integer getNumberpu() {
 		return this.numberpu;
 	}
 
-	public void setNumberpu(Double numberpu) {
+	public void setNumberpu(Integer numberpu) {
 		this.numberpu = numberpu;
 	}
 

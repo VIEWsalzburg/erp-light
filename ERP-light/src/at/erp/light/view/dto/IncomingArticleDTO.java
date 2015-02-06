@@ -6,12 +6,12 @@ public class IncomingArticleDTO {
 	private int incomingArticleId;
 	private ArticleDTO articleDTO;
 	private Integer articleNr;	// used for order within an incomingDelivery
-	private Double numberpu;
+	private Integer numberpu;
 	
 	public IncomingArticleDTO(){}
 	
 	public IncomingArticleDTO(int incomingArticleId, ArticleDTO articleDTO,
-			Integer articleNr, Double numberpu) {
+			Integer articleNr, Integer numberpu) {
 		super();
 		this.incomingArticleId = incomingArticleId;
 		this.articleDTO = articleDTO;
@@ -36,10 +36,10 @@ public class IncomingArticleDTO {
 	public void setArticleNr(Integer articleNr) {
 		this.articleNr = articleNr;
 	}
-	public Double getNumberpu() {
+	public Integer getNumberpu() {
 		return numberpu;
 	}
-	public void setNumberpu(Double numberpu) {
+	public void setNumberpu(Integer numberpu) {
 		this.numberpu = numberpu;
 	}
 	

@@ -54,6 +54,21 @@ $("#tbx_comment").focusout(function() {
 });
 
 
+//restrict input of PUs to integers
+$(document).ready(function(){
+	$('#tbx_packagingunit').keypress(function(eventData) {
+		switch (eventData.keyCode)
+		{
+			case 8: return true;	// backspace key
+			case 46: return true;	// delete key
+			case 37: return true;	// left arrow key
+			case 39: return true;	// right arrow key
+			default: return /\d/.test(String.fromCharCode(eventData.charCode));
+		}
+	});
+});
+
+
 // global variable to keep organisation data
 var gOrganisations;
 function loadAllOrganisations() {
@@ -365,11 +380,20 @@ $("#btn_addtodisposition").click(function() {
 	// get the number of PUs to move to the right table
 	var packagingunits_tbx = $("#tbx_packagingunit").val().trim();
 	
-	// round the number of PUs
-	packagingunits_depot = Math.round(packagingunits_depot * 100) / 100;
-	packagingunits_tbx = Math.round(packagingunits_tbx * 100) / 100;
+/* INTEGERS */
+	// check numbers for integers
+	if ( (packagingunits_tbx.indexOf(".") != -1) || (packagingunits_tbx.indexOf(",") != -1) )
+	{
+		showAlertElement(false, "Nur ganze Zahlen erlaubt!", 2500);
+		return false;
+	}
 	
-	// checks if the number is valid
+	// round the number of PUs
+/*  DOUBLES */
+//	packagingunits_depot = Math.round(packagingunits_depot * 100) / 100;
+//	packagingunits_tbx = Math.round(packagingunits_tbx * 100) / 100;
+	
+	// checks if the number is valid and is 
 	if(isNaN(packagingunits_tbx) == true){
 		$("#tbx_packagingunit").val("");
 		return false;
@@ -447,9 +471,18 @@ $("#btn_removefromdisposition").click(function() {
 	// get the number of PUs to be moved
 	var packagingunits_tbx = $("#tbx_packagingunit").val().trim();
 	
-	// round the values to two comma digits
-	packagingunits_disposition = Math.round(packagingunits_disposition * 100) / 100;
-	packagingunits_tbx = Math.round(packagingunits_tbx * 100) / 100;
+	/* INTEGERS */
+	// check numbers for integers
+	if ( (packagingunits_tbx.indexOf(".") != -1) || (packagingunits_tbx.indexOf(",") != -1) )
+	{
+		showAlertElement(false, "Nur ganze Zahlen erlaubt!", 2500);
+		return false;
+	}
+	
+	// round the number of PUs
+/*  DOUBLES */
+//	packagingunits_disposition = Math.round(packagingunits_disposition * 100) / 100;
+//	packagingunits_tbx = Math.round(packagingunits_tbx * 100) / 100;
 	
 	// check the number for validity
 	if(isNaN(packagingunits_tbx) == true){

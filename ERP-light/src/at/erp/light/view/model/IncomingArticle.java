@@ -24,13 +24,13 @@ public class IncomingArticle implements java.io.Serializable {
 	private Article article;
 	private IncomingDelivery incomingDelivery;
 	private Integer articleNr;	// used for order within an incomingDelivery
-	private Double numberpu;
+	private Integer numberpu;
 
 	public IncomingArticle() {
 	}
 
 	public IncomingArticle(int incomingArticleId, IncomingDelivery incomingDelivery,
-			Article article, Integer articleNr, Double numberpu) {
+			Article article, Integer articleNr, Integer numberpu) {
 		this.incomingArticleId = incomingArticleId;
 		this.incomingDelivery = incomingDelivery;
 		this.article = article;
@@ -81,12 +81,12 @@ public class IncomingArticle implements java.io.Serializable {
 		this.articleNr = articleNr;
 	}
 
-	@Column(name = "numberpu", precision = 17, scale = 17, nullable = false)
-	public Double getNumberpu() {
+	@Column(name = "numberpu", nullable = false)
+	public Integer getNumberpu() {
 		return this.numberpu;
 	}
 
-	public void setNumberpu(Double numberpu) {
+	public void setNumberpu(Integer numberpu) {
 		this.numberpu = numberpu;
 	}
 

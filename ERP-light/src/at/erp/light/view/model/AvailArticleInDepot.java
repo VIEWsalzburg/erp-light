@@ -8,16 +8,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
-
-
 @Entity
 @Table(name = "availarticleindepot", schema = "public")
 public class AvailArticleInDepot implements java.io.Serializable {
 
 	private int articleId;
 	private Article article;
-	private double availNumberOfPUs;
+	private Integer availNumberOfPUs;
 	
 	public AvailArticleInDepot() {
 		
@@ -41,19 +38,17 @@ public class AvailArticleInDepot implements java.io.Serializable {
 	}
 	
 	public void setArticle(Article article) {
-		// dont do anything ... this is a Database VIEW
 		this.article = article;
 	}
 	
 	
 	
 	@Column(name = "availnumberofpus")
-	public double getAvailNumberOfPUs() {
+	public Integer getAvailNumberOfPUs() {
 		return this.availNumberOfPUs;
 	}
 	
-	public void setAvailNumberOfPUs(double availNumberOfPUs) {
-		// dont do anything ... this is a Database VIEW
+	public void setAvailNumberOfPUs(Integer availNumberOfPUs) {
 		this.availNumberOfPUs = availNumberOfPUs;
 	}
 	

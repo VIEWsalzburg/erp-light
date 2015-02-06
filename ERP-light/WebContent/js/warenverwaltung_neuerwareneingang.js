@@ -50,6 +50,9 @@ $("#tbx_comment").focusout(function() {
 	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 });
 
+
+
+// load existing incomingDelivery
 function loadNewIncomingDelivery(id){
 	var inc;
 	$.ajax({
@@ -120,6 +123,8 @@ function loadNewIncomingDelivery(id){
 	}
 }
 
+
+
 //loads all deliverers
 function loadAllDeliverers() {
 	$.ajax({
@@ -152,6 +157,8 @@ function loadAllDeliverers() {
 	});
 };
 
+
+
 //load deliverer modal
 $("#btn_addDeliverer").click(function() {
 	$(".boxElement_deliverer").remove();
@@ -159,6 +166,7 @@ $("#btn_addDeliverer").click(function() {
 	$("#newAlertFormDeliverer").hide();
 	loadAllDeliverers();
 });
+
 
 
 // variable count is shown as Id in the table, but the second parameter Id determins if its a new Article (according to the DB)
@@ -202,6 +210,8 @@ function createTableRow(count, id){
 	
 	return tableRow;
 }
+
+
 
 //submit to depot
 $(document).ready(function() {
@@ -326,6 +336,23 @@ $("#btn_submittodepot").click(function() {
 });
 });
 
+
+// restrict input of PUs to integers
+$(document).ready(function(){
+	$('#tbx_numberofpackagingunits').keypress(function(eventData) {
+		switch (eventData.keyCode)
+		{
+			case 8: return true;	// backspace key
+			case 9: return true;	// tab key
+			case 46: return true;	// delete key
+			case 37: return true;	// left arrow key
+			case 39: return true;	// right arrow key
+			default: return /\d/.test(String.fromCharCode(eventData.charCode));
+		}
+	});
+});
+
+
 //saves an article to the table
 var articleCount = 1;
 $("#btn_savearticle").click(function() {
@@ -335,16 +362,27 @@ $("#btn_savearticle").click(function() {
 		$("#newAlertForm").show();
 		return;
 	}
+	
+	// check number for integers
+	if ($("#tbx_numberofpackagingunits").val().indexOf(".") != -1 || $("#tbx_numberofpackagingunits").val().indexOf(",") != -1)
+	{
+		$(".alert").text("Anzahl der VE darf nur eine ganze Zahl sein!");
+		$("#newAlertForm").show();
+		return;
+	}
+		
 	if($("#tbx_numberofpackagingunits").val() == 0 || isNaN($("#tbx_numberofpackagingunits").val()) == true){
 		$(".alert").text("Anzahl der VE ist leer oder keine Zahl!");
 		$("#newAlertForm").show();
 		return;
 	}
+	
 	if($("#tbx_packagingunit").val() == ""){
 		$(".alert").text("VE ist leer!");
 		$("#newAlertForm").show();
 		return;
 	}
+	
 	if($("#tbx_weightpackagingunit").val() == 0 || isNaN($("#tbx_weightpackagingunit").val()) == true){
 		$(".alert").text("Einzelgewicht der VE ist leer oder keine Zahl!");
 		$("#newAlertForm").show();

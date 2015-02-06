@@ -262,8 +262,8 @@ public class TestController {
 		// create IncomingArticles
 		// including the incomingDelivery is very important => IncomingArticle is the owning side => otherwise the not null constraint generates problems
 		// as the foreign keys are updated at the end of the transaction (incomingdelivery is temporary NULL) when incomingDelivery is the owning side
-		IncomingArticle incomingArticle1 = new IncomingArticle(0, null, article1, 0, 10.0);
-		IncomingArticle incomingArticle2 = new IncomingArticle(0, null, article2, 1, 15.0);
+		IncomingArticle incomingArticle1 = new IncomingArticle(0, null, article1, 0, 10);
+		IncomingArticle incomingArticle2 = new IncomingArticle(0, null, article2, 1, 15);
 		
 		// add incomingArticles to the Delivery
 		// following assignment is very important => otherwise the incomingArticles are not saved (though they represent the owning side of the relation
@@ -362,9 +362,9 @@ public class TestController {
 		article2.setArticleId(54);
 		
 		// 9 Brot von DB
-		OutgoingArticle outgoingArticle1 = new OutgoingArticle(0, null, article1, 0, 9.0);
+		OutgoingArticle outgoingArticle1 = new OutgoingArticle(0, null, article1, 0, 9);
 		// 18 x 0.5 kg Semmeln
-		OutgoingArticle outgoingArticle2 = new OutgoingArticle(0, null, article2, 1, 18.0);
+		OutgoingArticle outgoingArticle2 = new OutgoingArticle(0, null, article2, 1, 18);
 		
 		outgoingDelivery.getOutgoingArticles().add(outgoingArticle1);
 		outgoingDelivery.getOutgoingArticles().add(outgoingArticle2);

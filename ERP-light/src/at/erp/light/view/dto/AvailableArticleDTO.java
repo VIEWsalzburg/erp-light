@@ -5,13 +5,13 @@ public class AvailableArticleDTO {
 	
 	private int articleId;
 	private ArticleDTO articleDTO;
-	private double availNumberOfPUs;
+	private Integer availNumberOfPUs;
 	
 	public AvailableArticleDTO() {
 	}
 	
 	public AvailableArticleDTO(int articleId, ArticleDTO articleDTO,
-			double availNumberOfPUs) {
+			Integer availNumberOfPUs) {
 		super();
 		this.articleId = articleId;
 		this.articleDTO = articleDTO;
@@ -34,11 +34,11 @@ public class AvailableArticleDTO {
 		this.articleDTO = articleDTO;
 	}
 
-	public double getAvailNumberOfPUs() {
+	public Integer getAvailNumberOfPUs() {
 		return availNumberOfPUs;
 	}
 
-	public void setAvailNumberOfPUs(double availNumberOfPUs) {
+	public void setAvailNumberOfPUs(Integer availNumberOfPUs) {
 		this.availNumberOfPUs = availNumberOfPUs;
 	}
 	
