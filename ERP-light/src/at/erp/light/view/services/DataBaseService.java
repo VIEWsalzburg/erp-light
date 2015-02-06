@@ -1,4 +1,5 @@
 package at.erp.light.view.services;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +28,7 @@ import at.erp.light.view.model.DeliveryList;
 import at.erp.light.view.model.Email;
 import at.erp.light.view.model.IncomingArticle;
 import at.erp.light.view.model.IncomingDelivery;
+import at.erp.light.view.model.Logging;
 import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.OutgoingArticle;
 import at.erp.light.view.model.OutgoingDelivery;
@@ -1543,5 +1545,19 @@ public class DataBaseService implements IDataBase {
 	
 	
 	/***** [END] *****/
+	
+	
+	/***** [START Logging] *****/
+	
+	@Override
+	@Transactional
+	public int insertLogging(String text, int personId)
+	{
+		Logging logging = new Logging(0, new Timestamp(System.currentTimeMillis()), text, personId);
+		this.sessionFactory.getCurrentSession().save(logging);
+		return logging.getLoggingId();
+	}
+	
+	/***** [END logging] *****/
 	
 }

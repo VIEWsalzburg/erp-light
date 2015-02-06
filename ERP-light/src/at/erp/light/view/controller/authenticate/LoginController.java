@@ -63,6 +63,7 @@ public class LoginController {
 					existingUser.getPerson().getPersonId());
 			request.getSession().setAttribute("authenticated", true);
 			log.info("Login successful.");
+			dataBaseService.insertLogging("[INFO] "+existingUser.getLoginEmail()+" hat sich angemeldet", existingUser.getPersonId());
 			return new ControllerMessage(true, "everything went well");
 		} else {
 			log.info("Login not successful.");

@@ -14,6 +14,7 @@ import at.erp.light.view.model.Category;
 import at.erp.light.view.model.DeliveryList;
 import at.erp.light.view.model.IncomingArticle;
 import at.erp.light.view.model.IncomingDelivery;
+import at.erp.light.view.model.Logging;
 import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.OutgoingArticle;
 import at.erp.light.view.model.OutgoingDelivery;
@@ -407,5 +408,10 @@ public interface IDataBase {
 	
 	public ReportDataDTO getTotalSumOfAllOutgoingDeliveries(String dateFrom, String dateTo) throws Exception;
 
+	
+	/***** Logging *****/
+	public int insertLogging(String text, int personId);
+	
+	
 	
 }

@@ -504,4 +504,11 @@ public class TestController {
 		return reportDataDTO;
 	}
 	
+	
+	
+	@RequestMapping(value = "LoggingTest")
+	public void loggingTest() throws Exception {	
+		dataBaseService.insertLogging("neues Log", 36);
+	}
+	
 }
