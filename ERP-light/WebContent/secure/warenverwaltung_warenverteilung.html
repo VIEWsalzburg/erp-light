@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Warenverwaltung</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+	<!-- Stylesheet -->
+	<link href="../css/warenverwaltung.css" rel="stylesheet">
+	<link href="../css/globalStyles.css" rel="stylesheet">
+	<link href="../css/loadingspinner.css" rel="stylesheet">
+	<link rel='shortcut icon' type='image/x-icon' href='../images/favicon.ico' >
+</head>
+<body>
+	<header id="pageheader">
+	</header>
+	
+	<div class="container-fluid">
+		<div class="row" id="top">
+			<div class="col-md-12">
+				
+			</div>		  
+		</div>
+	
+		<div class="row" id="header">
+			<div class="col-md-12">			
+				<h2>Warenverwaltung</h2>
+				
+				<!-- Tabs -->
+				<ul class="nav nav-tabs">
+					<li role="presentation"><a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
+					<li role="presentation"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
+					<li role="presentation"><a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
+					<li role="presentation" class="hidden"><a href="warenverwaltung_neuerwareneingang.html">Neuer Wareneingang</a></li>
+					<li role="presentation" class="hidden"><a href="warenverwaltung_neuedisposition.html">Neuer Warenausgang</a></li>
+					<li role="presentation" class="hidden"><a href="warenverwaltung_neuelieferliste.html">Neue Lieferliste</a></li>
+					<li role="presentation" class="active"><a id="newoutgoingdeliverylistlink"><span id="tabtext">Bearbeite Warenverteilung</span><button onclick="location.href='warenverwaltung_wareneingang.html'" class='close closeTab' id='btn_close' type='button' style="margin-left: 5px;">×</button></a></li>
+				</ul>
+			</div>		  
+		</div>
+		
+		<div class="row" id="body">
+			
+			<div class="col-md-12">
+			
+			<div class="row">
+				<div class="col-sm-12">
+					<h3><span class="label label-default">Warenverteilung bearbeiten</span></h3>
+				</div>
+			</div>
+			
+			
+				<div class="row">
+			
+		<!-- 		1. Spalte -->
+		
+					<div class="col-sm-6">
+						
+						<div class="panel panel-primary">
+		
+							<div class="panel-heading">Wareneingang</div>
+							<div class="panel-body">
+								<div class="col-sm-6" id="incomingDistributionContainer"> <!-- Elemente werden per javaScript erstellt --> </div>
+							</div>
+					
+						</div>
+					
+					</div>
+					
+					<!-- Ende 1. Spalte -->
+				
+				
+		<!-- 		2. Spalte mit Offset -->
+		
+					<div class="col-sm-6">
+						
+						<div class="panel panel-primary">
+		
+							<div class="panel-heading">Warenausgang</div>
+							<div class="panel-body">
+								<div class="col-sm-6" id="outgoingDistributionContainer"> <!-- Elemente werden per javaScript erstellt --> </div>
+							</div>
+					
+						</div>
+					
+					</div>
+					<!-- Ende 2. Spalte -->
+			
+				</div>
+				
+				
+<!-- 			Zeile für die Anzeige der beiden Summen -->
+				<div class="row">
+				
+					<div class="col-sm-offset-3 col-sm-3 sumIncomingDistribution">
+<!-- 						Start Summen-Panel -->
+						<div class="panel panel-success">
+						
+							<div class="panel-heading">Summe Wareneingang</div>
+								
+								<div class="panel-body">
+									
+									<form class="form-inline">
+									
+										<div class="form-group">
+											<label id="lblSumIncoming"></label>
+										</div>
+									</form>
+									
+								</div>
+						
+						</div>
+					</div>
+				
+				
+					<div class="col-sm-3 sumOutgoingDistribution">
+<!-- 						Start Summen-Panel -->
+						<div class="panel panel-success">
+						
+							<div class="panel-heading">Summe Warenausgang</div>
+								
+								<div class="panel-body">
+									
+									<form class="form-inline">
+									
+										<div class="form-group">
+											<label id="lblSumOutgoing"></label>
+										</div>
+									</form>
+									
+								</div>
+						
+						</div>
+					</div>
+				
+				
+				</div>
+				
+				
+				
+				
+			
+			</div>
+		
+<!-- 		/#body	 -->
+		</div>
+		
+		
+		
+		<div class="row" id="footer">
+			
+			<div class="col-md-offset-11 col-md-1">
+			
+				<button type="button" id="btn_saveDistribution" class="btn btn-primary pull-right centered">
+					<span class="glyphicon glyphicon-floppy-save"></span> Speichern
+				</button>
+				
+			</div>
+		</div>
+	</div>	
+	
+	<!-- 	div for showing loading activity -->
+	<div class="spinner-container">
+		<div class="spinner">
+			<div class="circle"></div>
+		</div>
+	</div>
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="../js/jquery-1.11.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.min.js"></script>
+	<!-- Load javascript File -->
+	<script src="../js/header.js" type="text/javascript"></script>
+	<!-- include global scripts here -->
+	<script src="../js/globalFunctions.js" type="text/javascript"></script>
+	<script src="../js/warenverwaltung_warenverteilung.js" type="text/javascript"></script>
+</body>
+</html>
