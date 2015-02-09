@@ -60,6 +60,7 @@ $(document).ready(function(){
 		switch (eventData.keyCode)
 		{
 			case 8: return true;	// backspace key
+			case 9: return true;	// tabulator key
 			case 46: return true;	// delete key
 			case 37: return true;	// left arrow key
 			case 39: return true;	// right arrow key

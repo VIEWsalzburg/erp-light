@@ -120,3 +120,10 @@
 .boxElement_receiver{
 	border-bottom: 1px solid #ccc;
 }
+
+
+/* add margin to labels within a panel */
+.panel label {
+	margin-left: 5px;
+	margin-right: 5px;
+}

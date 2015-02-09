@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.erp.light.view.authenticate.HashGenerator;
+import at.erp.light.view.dto.InOutArticlePUDTO;
 import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
@@ -510,5 +512,23 @@ public class TestController {
 	public void loggingTest() throws Exception {	
 		dataBaseService.insertLogging("neues Log", 36);
 	}
+
+	@RequestMapping(value = "BuchhalterTest1")
+	public void buchhalterTest1() throws Exception {	
+		
+//		List<IncomingArticle> list = dataBaseService.getIncomingArticlesByArticleId(89);
+//		for (IncomingArticle ia : list)
+//		{
+//			System.out.println(""+ia.getArticle().getDescription());
+//		}
+		
+		List<IncomingDelivery> list = dataBaseService.getAllIncomingDeliveries();
+		for (IncomingDelivery id : list)
+		{
+			System.out.println(""+id.getIncomingDeliveryId());
+		}
+		
+	}
+	
 	
 }

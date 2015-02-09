@@ -28,6 +28,7 @@ import org.supercsv.prefs.CsvPreference;
 
 import at.erp.light.view.dto.AvailableArticleDTO;
 import at.erp.light.view.dto.DeliveryListDTO;
+import at.erp.light.view.dto.InOutArticlePUDTO;
 import at.erp.light.view.dto.IncomingArticleDTO;
 import at.erp.light.view.dto.IncomingDeliveryDTO;
 import at.erp.light.view.dto.OutgoingArticleDTO;
@@ -57,7 +58,6 @@ public class DeliveryController {
 
 	/**
 	 * Get all incoming deliveries.
-	 * 
 	 * @return a dto representation for displaying them
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/getAll")
@@ -89,7 +89,6 @@ public class DeliveryController {
 
 	/**
 	 * Get all unarchived incoming deliveries.
-	 * 
 	 * @return a dto representation for displaying them
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/getAllUnarchived")
@@ -121,9 +120,7 @@ public class DeliveryController {
 
 	/**
 	 * Get an incoming delivery by id.
-	 * 
-	 * @param id
-	 *            of the requested delivery
+	 * @param id of the requested delivery
 	 * @return a dto representation of the requested delivery
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/getById/{id}")
@@ -144,11 +141,8 @@ public class DeliveryController {
 
 	/**
 	 * Set incoming delivery to archived state via id
-	 * 
-	 * @param id
-	 *            of the requested delivery
-	 * @param state
-	 *            0/1 un/archived
+	 * @param id of the requested delivery
+	 * @param state 0/1 un/archived
 	 * @return MessageOb
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/setArchivedState/{id}/{state}")
@@ -169,11 +163,8 @@ public class DeliveryController {
 
 	/**
 	 * Set outgoing delivery to archived via id
-	 * 
-	 * @param id
-	 *            of the requested delivery
-	 * @param state
-	 *            0/1 un/archived
+	 * @param id of the requested delivery
+	 * @param state 0/1 un/archived
 	 * @return MessageObject with state
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/setArchivedState/{id}/{state}")
@@ -195,13 +186,9 @@ public class DeliveryController {
 
 	/**
 	 * Set a delivery. Sets also last editor via the logged in id.
-	 * 
-	 * @param dto
-	 *            to save
-	 * @param request
-	 *            to determine the editor
-	 * @return a message which contains a state for successful or not and a
-	 *         textual description
+	 * @param dto to save
+	 * @param request to determine the editor
+	 * @return a message which contains a state for successful or not and a textual description
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/set")
 	public ControllerMessage setIncomingDelivery(
@@ -250,11 +237,8 @@ public class DeliveryController {
 
 	/**
 	 * Deletes an incomingDelivery by the specified id.
-	 * 
-	 * @param id
-	 *            to delete
-	 * @return a message with a state if successful or not and a textual
-	 *         description
+	 * @param id to delete
+	 * @return a message with a state if successful or not and a textual description
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/deleteById/{id}")
 	public ControllerMessage deleteIncomingDeliveryById(@PathVariable int id, HttpServletRequest request) {
@@ -279,7 +263,6 @@ public class DeliveryController {
 
 	/**
 	 * Gets all outgoing deliveries.
-	 * 
 	 * @return a dto representation
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/getAll")
@@ -306,7 +289,6 @@ public class DeliveryController {
 
 	/**
 	 * Gets all unarchived outgoing deliveries.
-	 * 
 	 * @return a dto representation
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/getAllUnarchived")
@@ -333,7 +315,6 @@ public class DeliveryController {
 
 	/**
 	 * Gets all outgoing deliveries, which are not booked (available).
-	 * 
 	 * @return a dto representation
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/getAllAvailables")
@@ -360,9 +341,7 @@ public class DeliveryController {
 
 	/**
 	 * Gets only the requested outgoing delivery.
-	 * 
-	 * @param id
-	 *            of the requested outgoing delivery id
+	 * @param id of the requested outgoing delivery id
 	 * @return a dto representation of the delivery
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/getById/{id}")
@@ -383,11 +362,8 @@ public class DeliveryController {
 
 	/**
 	 * Sets an outgoing delivery dto.
-	 * 
-	 * @param dto
-	 *            to save
-	 * @param request
-	 *            to determine the last editor
+	 * @param dto to save
+	 * @param request to determine the last editor
 	 * @return a message with a state and a textual description
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/set")
@@ -438,9 +414,7 @@ public class DeliveryController {
 
 	/**
 	 * Deletes an outgoing delivery.
-	 * 
-	 * @param id
-	 *            of object to delete
+	 * @param id of object to delete
 	 * @return a message with a state and textual description
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/deleteById/{id}")
@@ -470,7 +444,6 @@ public class DeliveryController {
 
 	/**
 	 * To determine all available articles in the storage.
-	 * 
 	 * @return a dto representation
 	 */
 	@RequestMapping(value = "secure/articles/getAvailableArticles")
@@ -492,11 +465,34 @@ public class DeliveryController {
 
 	/***** [END] availableArticles *****/
 
+	
+	/***** [START] updateNumberOfPUs for Incoming and OutgoingArticles "Buchhalterfunktion" *****/
+	
+	@RequestMapping(value = "secure/articlePUDistribution/getListByArticleId/{articleId}")
+	public List<InOutArticlePUDTO> getArticlePUDistributionListByArticleId(@PathVariable int articleId)
+	{
+		List<InOutArticlePUDTO> distributionList = new ArrayList<InOutArticlePUDTO>();
+		
+		try {
+			distributionList = dataBaseService.getArticleDistributionByArticleId(articleId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return distributionList;
+	}
+	
+	
+	
+	
+	/***** [END] *****/
+	
+	
+	
 	/***** [START] Delivery list *****/
 
 	/**
 	 * Get all unarchived delivery lists.
-	 * 
 	 * @return dto representation
 	 */
 	@RequestMapping(value = "secure/deliveryList/getAllUnarchived")
@@ -520,11 +516,8 @@ public class DeliveryController {
 	
 	/**
 	 * Set DeliveryList to archived via id
-	 * 
-	 * @param id
-	 *            of the requested delivery
-	 * @param state
-	 *            0/1 un/archived
+	 * @param id of the requested delivery
+	 * @param state 0/1 un/archived
 	 * @return MessageObject with state
 	 */
 	@RequestMapping(value = "secure/deliveryList/setArchivedState/{id}/{state}")
@@ -547,7 +540,6 @@ public class DeliveryController {
 	
 	/**
 	 * Get all delivery lists.
-	 * 
 	 * @return dto representation
 	 */
 	@RequestMapping(value = "secure/deliveryList/getAll")
@@ -571,9 +563,7 @@ public class DeliveryController {
 
 	/**
 	 * Returns the requested delivery list.
-	 * 
-	 * @param id
-	 *            of the requested list
+	 * @param id of the requested list
 	 * @return a dto representation
 	 */
 	@RequestMapping(value = "secure/deliveryList/getById/{id}")
@@ -593,11 +583,8 @@ public class DeliveryController {
 
 	/**
 	 * Sets a deliveryList.
-	 * 
-	 * @param dto
-	 *            to set
-	 * @param request
-	 *            to determine the last editor
+	 * @param dto to set
+	 * @param request to determine the last editor
 	 * @return a message with a state and a textual description
 	 */
 	@RequestMapping(value = "secure/deliveryList/set")
@@ -627,9 +614,7 @@ public class DeliveryController {
 
 	/**
 	 * Deletes a delivery list
-	 * 
-	 * @param id
-	 *            of object to delete
+	 * @param id of object to delete
 	 * @return a message with a state and textual description
 	 */
 	@RequestMapping(value = "secure/deliveryList/deleteById/{id}")
@@ -652,11 +637,8 @@ public class DeliveryController {
 	}
 
 	/**
-	 * Deletes a delivery list
-	 * 
-	 * @param id
-	 *            of object to delete
-	 * @return a message with a state and textual description
+	 * Exports a deliveryList as Word file
+	 * Delivers word file as outputstream
 	 */
 	@RequestMapping(value = "secure/deliveryList/exportAsWord/{id}")
 	public void generateDeliveryListById(@PathVariable int id,

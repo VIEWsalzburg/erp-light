@@ -3,6 +3,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +18,10 @@ import org.hibernate.type.StandardBasicTypes;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import at.erp.light.view.dto.ArticleDTO;
+import at.erp.light.view.dto.InOutArticlePUDTO;
 import at.erp.light.view.dto.ReportDataDTO;
+import at.erp.light.view.mapper.ArticleMapper;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.AvailArticleInDepot;
@@ -1143,7 +1147,171 @@ public class DataBaseService implements IDataBase {
 	/***** [END] DeliveryLists *****/
 	
 	
+	/***** [START] Incoming and Outgoing Articles *****/
 	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public IncomingArticle getIncomingArticleById(int id) throws HibernateException
+	{
+		IncomingArticle incomingArticle = (IncomingArticle)this.sessionFactory.getCurrentSession()
+				.createQuery("From IncomingArticle ia Where ia.incomingArticleId = :id")
+				.setParameter("id", id).uniqueResult();
+		return incomingArticle;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<IncomingArticle> getIncomingArticlesByArticleId(int id) throws HibernateException
+	{
+		@SuppressWarnings("unchecked")
+		List<IncomingArticle> list = (List<IncomingArticle>)this.sessionFactory.getCurrentSession()
+				.createQuery("Select ia From IncomingArticle ia Join ia.article a Where a.articleId = :id")
+				.setParameter("id", id).list();
+		return list;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public OutgoingArticle getOutgoingArticleById(int id) throws HibernateException
+	{
+		OutgoingArticle outgoingArticle = (OutgoingArticle)this.sessionFactory.getCurrentSession()
+				.createQuery("From OutgoingArticle oa Where oa.outgoingArticleId = :id")
+				.setParameter("id", id).uniqueResult();
+		return outgoingArticle;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<OutgoingArticle> getOutgoingArticlesByArticleId(int id) throws HibernateException
+	{
+		@SuppressWarnings("unchecked")
+		List<OutgoingArticle> list = (List<OutgoingArticle>)this.sessionFactory.getCurrentSession()
+				.createQuery("Select oa From OutgoingArticle oa Join oa.article a Where a.articleId = :id")
+				.setParameter("id", id).list();
+		return list;
+	}
+	
+	
+	/***** [END] Incoming and Outgoing Articles *****/
+	
+	
+	
+	/***** [START] "Buchhalterfunktion" *****/
+	
+	
+
+	public List<InOutArticlePUDTO> getArticleDistributionByArticleId(int articleId) throws Exception
+	{
+		// get articleInfo from DB
+		Article article = this.getArticleById(articleId);
+		if (article == null)
+		{
+			throw new ERPLightException("An article with the given id "+articleId+" does not exist in the DB");
+		}
+		
+		// create articleDTO for all InOutArticlePUDTOs
+		ArticleDTO articleDTO = ArticleMapper.mapToDTO(article);
+		
+		// list for all InOutArticlePUDTOs
+		List<InOutArticlePUDTO> distributionList = new ArrayList<InOutArticlePUDTO>();  
+		
+		
+		/***** IncomingArticles *****/
+		List<IncomingArticle> incomingArticles = this.getIncomingArticlesByArticleId(articleId);
+		int numberPUsIncoming = 0;
+		if (incomingArticles.size()==0)
+		{
+			throw new ERPLightException("no IncomingArticle exists for articleId "+articleId);
+		}
+		// add objects to distributionList
+		for (IncomingArticle ia : incomingArticles)
+		{
+			distributionList.add(new InOutArticlePUDTO(ia.getIncomingDelivery().getOrganisation().getOrganisationId(),
+					ia.getIncomingArticleId(), ia.getNumberpu(), articleDTO, 0));
+			// get organisationId via incomingDelivery
+			// tpye 0 for IncomingArticle
+			
+			// calc total incomingPUs
+			numberPUsIncoming += ia.getNumberpu();
+		}
+		
+		
+		/***** OutgoingArticles *****/
+		List<OutgoingArticle> outgoingArticles = this.getOutgoingArticlesByArticleId(articleId);
+		int numberPUsOutgoing = 0;
+		if (outgoingArticles.size()==0)
+		{
+			// an keine Organisation verteilt
+		}
+		// add objects to distributionList
+		for (OutgoingArticle oa : outgoingArticles)
+		{
+			distributionList.add(new InOutArticlePUDTO(oa.getOutgoingDelivery().getOrganisation().getOrganisationId(),
+					oa.getOutgoingArticleId(), oa.getNumberpu(), articleDTO, 1));
+			// get organisationId via IncomingDelivery
+			// tpye 1 for OutgoingArticle
+			
+			// calc total outgoingPUs
+			numberPUsOutgoing += oa.getNumberpu();
+		}
+		
+		
+		
+		/***** Articles in depot *****/
+		List<AvailArticleInDepot> availArticleInDepots = this.getAvailableArticlesInDepot();
+		// find AvailArticleInDepot for current ArticleId
+		AvailArticleInDepot availArticleInDepot = null;
+		int numberPUsDepot = 0;
+		for (AvailArticleInDepot depotArticle : availArticleInDepots)
+		{
+			if (depotArticle.getArticleId() == articleId)
+			{
+				availArticleInDepot = depotArticle;
+			}
+		}
+		// if not found => create InOutArticlePUDTO for depot with number PU 0
+		if (availArticleInDepot == null)
+		{
+			distributionList.add(new InOutArticlePUDTO(-1, -1, 0, articleDTO, 2));
+			// organisationId ... -1 for depot
+			// InOutArticleId ... -1 for depot
+			// numberPU ... 0 (nothing in the depot)
+			// type ... 2 for depot
+			
+			numberPUsDepot = 0;
+		}
+		else
+		{
+			distributionList.add(new InOutArticlePUDTO(-1, -1, availArticleInDepot.getAvailNumberOfPUs(), articleDTO, 2));
+			// organisationId ... -1 for depot
+			// InOutArticleId ... -1 for depot
+			// numberPU ... availableNumberPUs in depot
+			// type ... 2 for depot
+			
+			numberPUsDepot = availArticleInDepot.getAvailNumberOfPUs();
+		}
+		
+		
+		// check number of PUs for consistency
+		
+		if ( (numberPUsOutgoing+numberPUsDepot) != numberPUsIncoming)
+		{
+			throw new ERPLightException("number of IncomingArticles compared to Outgoing and DepotArticle does not match");
+		}
+		
+		
+		return distributionList;
+	}
+	
+
+	public int updateArticleDistribution(List<InOutArticlePUDTO> list) throws Exception
+	{
+		return 0;
+	}
+	
+	
+	
+	/***** [END] "Buchhalterfunktion" *****/
 	
 	
 	
@@ -1157,11 +1325,7 @@ public class DataBaseService implements IDataBase {
 	
 	/***** [START] IncomingArticles *****/
 
-	@Override
-	public IncomingArticle getIncomingArticleById(int id) throws HibernateException {
-		
-		return null;
-	}
+
 
 	@Override
 	public List<IncomingArticle> getAllIncomingArticles() throws HibernateException {
@@ -1210,11 +1374,7 @@ public class DataBaseService implements IDataBase {
 	
 	/***** [START] OutgoingArticles *****/
 
-	@Override
-	public OutgoingArticle getOutgoingArticleById(int id) throws HibernateException {
-		
-		return null;
-	}
+
 
 	@Override
 	public List<OutgoingArticle> getAllOutgoingArticles() throws HibernateException {

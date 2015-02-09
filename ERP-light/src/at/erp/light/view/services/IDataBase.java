@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.hibernate.HibernateException;
 
+import at.erp.light.view.dto.InOutArticlePUDTO;
 import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.AvailArticleInDepot;
@@ -167,6 +168,41 @@ public interface IDataBase {
 	 */
 	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException;
 	
+	
+	/**
+	 * returns the IncomingArticle with the specified Id
+	 * @param id
+	 * @return IncomingArticle Object
+	 * @throws HibernateException
+	 */
+	public IncomingArticle getIncomingArticleById(int id) throws HibernateException;
+	
+	/**
+	 * returns the IncomingArticle with the specified Id of the linked Article
+	 * @param id
+	 * @return list of IncomingArticle Objects which have linked the Article with the given Id
+	 * @throws HibernateException
+	 */
+	public List<IncomingArticle> getIncomingArticlesByArticleId(int id) throws HibernateException;
+	
+	
+	/**
+	 * returns the OutgoingArticle with the specified Id
+	 * @param id
+	 * @return OutgoingArticle Object
+	 * @throws HibernateException
+	 */
+	public OutgoingArticle getOutgoingArticleById(int id) throws HibernateException;
+	
+	/**
+	 * returns the OutgoingArticle with the specified Id of the linked Article
+	 * @param id
+	 * @return list of OutgoingArticle Objects which have linked the Article with the given Id
+	 * @throws HibernateException
+	 */
+	public List<OutgoingArticle> getOutgoingArticlesByArticleId(int id) throws HibernateException;
+	
+	
 	/**
 	 * persists a new outgoing delivery with the given outgoing articles to the DB;
 	 * checks if PUs of outgoing articles are allowed and the given articleIds exist in the DB;
@@ -236,6 +272,27 @@ public interface IDataBase {
 	 */
 	public List<OutgoingDelivery> getAvailableOutgoingDeliveries() throws HibernateException;
 	
+	
+	/**
+	 * returns a List with all Incoming and Outgoing Articles for a specific ArticleId
+	 * this function is used for comparing and updating the PUs of the Incoming, Outgoing and Depot Articles
+	 * @param id of the Article which the PUs should be updated for
+	 * @return a List with the requested PU-distribution
+	 * @throws Exception
+	 */
+	public List<InOutArticlePUDTO> getArticleDistributionByArticleId(int articleId) throws Exception;
+	
+	/**
+	 * updates the new article distribution in the DB
+	 * @param list of the new distribution
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateArticleDistribution(List<InOutArticlePUDTO> list) throws Exception;
+	
+	
+	
+	
 	// not implemented
 	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) throws HibernateException;
 	
@@ -243,7 +300,6 @@ public interface IDataBase {
 	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) throws HibernateException;
 	
 	// Incoming articles
-	public IncomingArticle getIncomingArticleById(int id) throws HibernateException;
 	public List<IncomingArticle> getAllIncomingArticles() throws HibernateException;
 	
 	public int setIncomingArticle(IncomingArticle incomingArticle) throws HibernateException;
@@ -257,7 +313,6 @@ public interface IDataBase {
 	public int setArticles(List<Article> articles) throws HibernateException;
 
 	// Outgoing articles
-	public OutgoingArticle getOutgoingArticleById(int id) throws HibernateException;
 	public List<OutgoingArticle> getAllOutgoingArticles() throws HibernateException;
 	
 	public int setOutgoingArticle(OutgoingArticle outgoingArticle) throws HibernateException;
