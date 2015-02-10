@@ -35,23 +35,22 @@ function createDistributionElementString(orgName, inOutArticleId, articleDescrip
 		typeStr = "depotDistributionElement";
 	}
 	
-	var distributionElementString = "<div class='row "+typeStr+"'>"+
-										"<div class='col-sm-12'>"+
-											"<div class='panel panel-default'>"+
-												"<div class='panel-heading'>"+orgName+"</div>"+
-												"<div class='panel-body'>"+
-													"<form class='form-inline'>"+
-														"<div class='form-group'>"+
-															"<input class='hidden' value='"+inOutArticleId+"' >"+
-															"<label > "+articleDescription+" </label>"+
-															"<input type='text' class='form-control numberPUs' value='"+numberPUs+"' style='width:100px;' >"+
-															"<label> VE: "+packagingUnit+"</label>"+
-														"</div>"+
-													"</form>"+
-												"</div>"+
-											"</div>"+
-										"</div>"+
-									"</div>";
+	var distributionElementString = 
+	"<div class='col-sm-12 col-md-12 col-lg-6 "+typeStr+"'>"+
+		"<div class='panel panel-default'>"+
+			"<div class='panel-heading'>"+orgName+"</div>"+
+			"<div class='panel-body'>"+
+				"<form class='form-inline'>"+
+					"<div class='form-group'>"+
+						"<input class='hidden' value='"+inOutArticleId+"' >"+
+						"<label > "+articleDescription+" </label>"+
+						"<input type='text' class='form-control numberPUs' value='"+numberPUs+"' style='width:100px;' >"+
+						"<label> VE: "+packagingUnit+"</label>"+
+					"</div>"+
+				"</form>"+
+			"</div>"+
+		"</div>"+
+	"</div>";
 	
 	return distributionElementString;
 	
@@ -81,8 +80,12 @@ $(document).ready(
 			url: "../rest/secure/articlePUDistribution/getListByArticleId/"+global_articleId
 		}).done(function(data) {
 			
+			var articleDTO;
+			
 			for (var i in data)
 			{
+				
+				articleDTO = data[i].articleDTO;
 				
 				// find Organisation for current element
 				var orgName = "";
@@ -115,6 +118,11 @@ $(document).ready(
 				
 			}
 			
+			
+			$('#lblDescriptionIncoming').text(articleDTO.description);
+			$('#lblPUIncoming').text("VE: "+articleDTO.packagingUnit);
+			$('#lblDescriptionOutgoing').text(articleDTO.description);
+			$('#lblPUOutgoing').text("VE: "+articleDTO.packagingUnit);
 			
 			
 			$('input.numberPUs').keypress(validateInput);
@@ -214,6 +222,7 @@ function checkNumberPUs() {
 }
 
 
+// save the new distribution by clicking the save button
 $(document).ready(function() {
 
 	$('#btn_saveDistribution').click(function(){
@@ -286,20 +295,92 @@ $(document).ready(function() {
 		}
 		
 		
-		
+		// list which contains all elements
+		var distributionList = [];
 		
 		// get all incomingDistributions
-		
+		$('.incomingDistributionElement').each( function() {
+			var inOutArticleId = parseInt($(this).find('input').first().val());
+			var numberPUs = parseInt($(this).find('input').last().val());
+			
+			// create object with all required fields
+			var element = new Object();
+			element.organisationId = 0;		// organisationId is not required for backend
+			element.numberPUs = numberPUs;	// number of updated PUs is required for backend
+			element.type = 0;				// type 0 => incoming
+			element.articleDTO = null;		// articleDTO is not required
+			element.inOutArticleId = inOutArticleId;	// Id of Incoming/OutgoingArticle is required for backend
+			
+			distributionList.push(element);
+		} );
 		
 		
 		// get all outgoingDistributions
-		
+		$('.outgoingDistributionElement').each( function() {
+			var inOutArticleId = parseInt($(this).find('input').first().val());
+			var numberPUs = parseInt($(this).find('input').last().val());
+			
+			// create object with all required fields
+			var element = new Object();
+			element.organisationId = 0;		// organisationId is not required for backend
+			element.numberPUs = numberPUs;	// number of updated PUs is required for backend
+			element.type = 1;				// type 1 => outgoing
+			element.articleDTO = null;		// articleDTO is not required
+			element.inOutArticleId = inOutArticleId;	// Id of Incoming/OutgoingArticle is required for backend
+			
+			distributionList.push(element);
+		} );
 		
 		
 		// get Deopt Distribution
+		$('.depotDistributionElement').each( function() {
+			var inOutArticleId = parseInt($(this).find('input').first().val());
+			var numberPUs = parseInt($(this).find('input').last().val());
+			
+			// create object with all required fields
+			var element = new Object();
+			element.organisationId = -1;	// organisationId is not required for backend (Id: -1 for Depot)
+			element.numberPUs = numberPUs;	// number of updated PUs is required for backend
+			element.type = 2;				// type 2 => depot
+			element.articleDTO = null;		// articleDTO is not required
+			element.inOutArticleId = -1;	// Id of Incoming/OutgoingArticle is required for backend (Id: -1 for Depot)
+			
+			distributionList.push(element);
+		} );
 		
-		showAlertElement(true, "Speichern", 5000);
 		
+		// transmit updated DistributionList to Backend
+		$.ajax({
+			headers : {
+				'Accept' : 'application/json',
+				'Content-Type' : 'application/json'
+			},
+			type : "POST",
+			url : "../rest/secure/articlePUDistribution/updateDistributionList",
+			contentType: "application/json; charset=utf-8",
+		    dataType: "json",
+			data : JSON.stringify(distributionList)
+		}).done(function(data) {
+			if (data) {
+				
+				if (data.success == true)
+				{
+					showAlertElement(1, data.message, 5000);
+					
+					// return to the delivery overview
+//					location.href="warenverwaltung_warenausgang.html";
+					location.href=document.referrer;	// goes back to the previous page
+				}
+				else
+				{
+					showAlertElement(2, data.message, 5000);
+				}
+				
+			} else {
+				alert("Verbindungsproblem mit dem Server");
+			}
+			
+		});
 		
 	});
 	

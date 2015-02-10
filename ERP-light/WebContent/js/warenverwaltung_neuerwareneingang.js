@@ -7,6 +7,9 @@ $("#newAlertFormDeliverer").append(modalErrorDeliverer);
 //load page in specific mode
 var global_id;
 var isBooked;
+var globalIdMap = [];		// is used to map the IncomingArticleId to a ArticleId
+							// => ArticleId is needed to call article distribution
+							// this is only used when editing an existing IncomingDelivery
 $(document).ready(function() {
 	$.urlParam = function(name){
 	    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -116,6 +119,12 @@ function loadNewIncomingDelivery(id){
 					"<td>" + pricepu + " €" + "</td>" +
 					"<td>" + sum + " €" + "</td>" +
 				"</tr>";
+				
+				// insert entry to IdMap variable
+				var entry = new Object();
+				entry.incomingArticleId = incomingArticleId;
+				entry.articleId = article[j].articleDTO.articleId;
+				globalIdMap.push(entry);	// insert entry to IdMap
 				
 				$("#newIncomingDeliveryTableBody").append(tableRow);
 			}
@@ -523,6 +532,33 @@ $("#btn_edit").click(function() {
 	}
 });
 
+
+
+
+// call mask to edit the article distribution
+$('#btn_editDistribution').click(function(){
+	var incomingArticleId = tableData[0];		// get the incomingArticleId from the current row
+	var articleId = 0;
+	// find the incomingArticleId in the IdMap and call the distribution mask with the articleId
+	for (i in globalIdMap)
+	{
+		if (globalIdMap[i].incomingArticleId == incomingArticleId)
+			articleId = globalIdMap[i].articleId;
+	}
+	
+	if (articleId == 0)
+		return;
+	
+	location.href="warenverwaltung_warenverteilung.html?articleId="+articleId;
+	
+});
+
+
+
+
+
+
+
 //clears position modal textboxes
 function clearPositionModal(){
 	$("#tbx_description").val("");
@@ -549,10 +585,11 @@ $(document).ready(function() {
 	}(jQuery));
 });
 
-//disable new, edit and delete buttons
+//disable new, edit, delete and distribution buttons
 $('#btn_new').hide();
 $('#btn_edit').hide();
 $('#btn_deleteModal').hide();
+$('#btn_editDistribution').hide();
 
 // get current user rights
 $(document).ready(function() {
@@ -564,8 +601,8 @@ $(document).ready(function() {
 		currentUserRights = currentUser.permission;
 
 		// only when user has admin rights
-		if (currentUserRights != "Read" && currentUserRights != "") {
-			if(isBooked != true){
+		if (currentUserRights == "Admin" || currentUserRights == "ReadWrite") {
+			if(isBooked == false){
 				$("#btn_new").show();
 				$('#btn_addDeliverer').prop('disabled', false);
 			}
@@ -577,15 +614,23 @@ $(document).ready(function() {
 			
 			$('#btn_edit').show();
 			$('#btn_deleteModal').show();
+			
+			// show button for editing distribution if editing an existing delivery
+			if(global_id > 0)
+				$('#btn_editDistribution').show();
 
+			// disable buttons on first load => activate/deactivate them accordingly to the selected row
 			$('#btn_up').prop('disabled', true);
 			$('#btn_down').prop('disabled', true);
 			$('#btn_edit').prop('disabled', true);
 			$('#btn_deleteModal').prop('disabled', true);
+			$('#btn_editDistribution').prop('disabled', true);	// disable the button; enable it when clicking an entry
 		}
 	});
 });
 
+
+// global variable containing the content of the selected row
 var tableData;
 $('#TableHead').on('click','tbody tr', function(event) {
 			tableData = $(this).children("td").map(function() {
@@ -595,23 +640,25 @@ $('#TableHead').on('click','tbody tr', function(event) {
 			$(this).addClass('highlight').siblings().removeClass('highlight');
 
 			// only when user has admin rights
-			if (currentUserRights != "Read" && currentUserRights != "") {
+			if (currentUserRights == "Admin" || currentUserRights == "ReadWrite") {
 				$('#btn_up').prop('disabled', false);
 				$('#btn_down').prop('disabled', false);
 				
-				if(isBooked != true){
+				if(isBooked == false){
 					$('#btn_deleteModal').prop('disabled', false);
 				}
 				else{
 					$('#btn_deleteModal').prop('disabled', true);
 				}
 				$('#btn_edit').prop('disabled', false);
+				$('#btn_editDistribution').prop('disabled', false);		// enable the button for editing the distribution
 			} 
 			else {
 				$('#btn_up').prop('disabled', true);
 				$('#btn_down').prop('disabled', true);
 				$('#btn_edit').prop('disabled', true);
 				$('#btn_deleteModal').prop('disabled', true);
+				$('#btn_editDistribution').prop('disabled', true);		// disable the button for editing the distribution
 			}
 });
 

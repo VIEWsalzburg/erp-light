@@ -121,9 +121,15 @@
 	border-bottom: 1px solid #ccc;
 }
 
+/***** Warenverteilung *****/
 
 /* add margin to labels within a panel */
 .panel label {
 	margin-left: 5px;
 	margin-right: 5px;
+}
+
+.distributionContainer {
+	max-height: 350px;
+	overflow: auto;
 }

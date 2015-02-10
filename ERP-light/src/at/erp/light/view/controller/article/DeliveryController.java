@@ -482,7 +482,18 @@ public class DeliveryController {
 		return distributionList;
 	}
 	
-	
+	@RequestMapping(value = "secure/articlePUDistribution/updateDistributionList")
+	public ControllerMessage updateArticlePUDistributionList(@RequestBody List<InOutArticlePUDTO> distributionList)
+	{
+		try {
+			dataBaseService.updateArticleDistribution(distributionList);
+			return new ControllerMessage(true, "Speichern erfolgreich");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ControllerMessage(false, "Speichern nicht erfolgreich: "+e.getMessage());
+		}
+		
+	}
 	
 	
 	/***** [END] *****/

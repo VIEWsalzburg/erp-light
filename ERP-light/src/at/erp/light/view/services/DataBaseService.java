@@ -1199,7 +1199,8 @@ public class DataBaseService implements IDataBase {
 	/***** [START] "Buchhalterfunktion" *****/
 	
 	
-
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public List<InOutArticlePUDTO> getArticleDistributionByArticleId(int articleId) throws Exception
 	{
 		// get articleInfo from DB
@@ -1303,9 +1304,112 @@ public class DataBaseService implements IDataBase {
 		return distributionList;
 	}
 	
-
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int updateArticleDistribution(List<InOutArticlePUDTO> list) throws Exception
 	{
+		// check numberPUs is the same for incoming and outgoing articles
+		int numberPUsIncoming = 0;
+		int numberPUsOutgoing = 0;
+		
+		for (InOutArticlePUDTO elem : list)
+		{
+			switch(elem.getType()){
+			// incoming
+			case 0:	
+				if (elem.getNumberPUs()<=0)
+					throw new ERPLightException("numberPU must not be smaller or euqal 0");
+				numberPUsIncoming += elem.getNumberPUs();
+				break;
+			// outgoing
+			case 1:
+				if (elem.getNumberPUs()<=0)
+					throw new ERPLightException("numberPU must not be smaller or euqal 0");
+				numberPUsOutgoing += elem.getNumberPUs();
+				break;
+			// depot
+			case 2:
+				numberPUsOutgoing += elem.getNumberPUs();
+				break;
+			default:
+				throw new ERPLightException("Unknown type for distribution element");
+			}
+		}
+		
+		if (numberPUsIncoming != numberPUsOutgoing)
+		{
+			throw new ERPLightException("Anzahl der eingehenden und ausgehenden Waren stimmt nicht überein!");
+		}
+		
+		
+		// get every Incoming/OutgoingArticle and update the numberPUs
+		int articleId = 0;	// use for determining the assigned articleId for checking the depot numberPUs
+		int announcedNumberPUDepot = 0;
+		
+		for (InOutArticlePUDTO elem : list)
+		{
+			switch(elem.getType())
+			{
+			// incoming
+			case 0:	
+				IncomingArticle incomingArticle = this.getIncomingArticleById(elem.getInOutArticleId());
+				if (incomingArticle==null)
+					throw new ERPLightException("did not find IncomingArticle with Id "+elem.getInOutArticleId());
+				incomingArticle.setNumberpu(elem.getNumberPUs());
+				this.sessionFactory.getCurrentSession().update(incomingArticle);
+				articleId = incomingArticle.getArticle().getArticleId();
+				break;
+			// outgoing
+			case 1:
+				OutgoingArticle outgoingArticle = this.getOutgoingArticleById(elem.getInOutArticleId());
+				if (outgoingArticle==null)
+					throw new ERPLightException("did not find OutgoingArticle with Id "+elem.getInOutArticleId());
+				outgoingArticle.setNumberpu(elem.getNumberPUs());
+				this.sessionFactory.getCurrentSession().update(outgoingArticle);
+				break;
+			// depot
+			case 2:
+				// don't save in database
+				announcedNumberPUDepot = elem.getNumberPUs();
+				break;
+			default:
+				throw new ERPLightException("Unknown type for distribution element");
+			}
+			
+		}
+		
+		// flush to update changes
+		this.sessionFactory.getCurrentSession().flush();
+		
+		// check resulting depot numberPUs with determined numberPUs
+		
+		// find number
+		List<AvailArticleInDepot> depotList = this.getAvailableArticlesInDepot();
+		AvailArticleInDepot availArticleInDepot = null;
+		for (AvailArticleInDepot a : depotList)
+		{
+			if (a.getArticleId() == articleId)
+				availArticleInDepot = a;
+		}
+		
+		// if not found => 0 PUs in depot
+		if (availArticleInDepot == null)
+		{
+			if (announcedNumberPUDepot != 0)
+				throw new ERPLightException("announced numberPUsDepot does not match the real numberPUs in depot "+announcedNumberPUDepot+" - 0");
+		}
+		else
+		{
+			if (announcedNumberPUDepot != availArticleInDepot.getAvailNumberOfPUs())
+				throw new ERPLightException("announced numberPUsDepot does not match the real numberPUs in depot "+announcedNumberPUDepot+" - "+availArticleInDepot.getAvailNumberOfPUs());
+		}
+		
+		if(this.checkInAndOutArticlePUs()==false)
+		{
+			throw new ERPLightException("Number of PUs for incoming and outgoing articles are not valid.");
+		}
+		
+		
 		return 0;
 	}
 	

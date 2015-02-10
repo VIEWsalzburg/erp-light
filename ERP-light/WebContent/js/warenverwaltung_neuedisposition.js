@@ -400,13 +400,18 @@ $("#btn_addtodisposition").click(function() {
 		return false;
 	}
 	
+	// convert the texts to numbers
+	packagingunits_tbx = parseInt(packagingunits_tbx);
+	packagingunits_depot = parseInt(packagingunits_depot);
+	
 	// get informations from the row
 	var article_description = $(thisRow).find(".article_description").html();
 	// calc the remaining PUs and round them
-	var article_packagingunits = parseFloat(packagingunits_depot) - parseFloat(packagingunits_tbx);
+	var article_packagingunits = packagingunits_depot - packagingunits_tbx;
 	article_packagingunits = Math.round(article_packagingunits * 100) / 100;
 	
-	var article_packaging_unit = $(thisRow).find(".article_packaging_unit").html();
+	// text, describing the details
+	var article_packaging_unit = $(thisRow).find(".article_packaging_unit").html();	
 	var article_mdd = $(thisRow).find(".article_mdd").html();
 	var article_deliverer = $(thisRow).find(".article_deliverer").html();
 	
@@ -417,7 +422,7 @@ $("#btn_addtodisposition").click(function() {
 	}
 	
 	// if number of PUs, which should be moved, is greater than number of PUs, which are available
-	if(parseFloat(packagingunits_tbx) > parseFloat(packagingunits_depot)){
+	if(packagingunits_tbx > packagingunits_depot){
 		$("#tbx_packagingunit").val(packagingunits_depot);
 		showAlertElement(2, "Nummer der VE zu groß!", 2500);
 		return false;	// return from function
@@ -491,10 +496,15 @@ $("#btn_removefromdisposition").click(function() {
 		return false;
 	}
 	
+	// convert the texts to numbers
+	packagingunits_tbx = parseInt(packagingunits_tbx);
+	packagingunits_disposition = parseInt(packagingunits_disposition);
+	
+	
 	// get informations
 	var article_description = $(thisRow).find(".article_description").html();
 	// calc the remaining PUs and round it
-	var article_packagingunits = parseFloat(packagingunits_disposition) - parseFloat(packagingunits_tbx);
+	var article_packagingunits = packagingunits_disposition - packagingunits_tbx;
 	article_packagingunits = Math.round(article_packagingunits * 100) / 100;
 	
 	var article_packaging_unit = $(thisRow).find(".article_packaging_unit").html();
@@ -508,7 +518,7 @@ $("#btn_removefromdisposition").click(function() {
 	}
 	
 	// if number of PUs, which should be moved, is greater than number of PUs, which are available
-	if(parseFloat(packagingunits_tbx) > parseFloat(packagingunits_disposition)){
+	if(packagingunits_tbx > packagingunits_disposition){
 		$("#tbx_packagingunit").val(packagingunits_disposition);
 		showAlertElement(2, "Nummer der VE zu groß!", 2500);
 		return false;
@@ -684,7 +694,7 @@ $(document).ready(function() {
 						{
 							showAlertElement(1, data.message, 5000);
 							
-							// return to incomingDelivery overview
+							// return to outgoingDelivery overview
 							location.href="warenverwaltung_warenausgang.html";
 						}
 						else
