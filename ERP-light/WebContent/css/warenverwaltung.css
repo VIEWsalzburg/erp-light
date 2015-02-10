@@ -101,8 +101,8 @@
 }
 
 .ModalDivContainer{
-	height: 80px;
-	overflow-y: auto;
+	height: 250px;
+	/* overflow-y: auto; */
 }
 
 .boxElement_person{
