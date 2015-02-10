@@ -92,44 +92,48 @@ function loadNewIncomingDelivery(id){
 	//set comment popover
 	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 	
+	
 	//get articles, sort them by the articleNr and append them to the table
-	var article = inc.incomingArticleDTOs;
-	for(var i=0; i < article.length; i++){
-		for(var j=0; j < article.length; j++){
-			if(article[j].articleNr == i){
-				var incomingArticleId = article[j].incomingArticleId;
-				var description = article[j].articleDTO.description;
-				var numberpu = article[j].numberpu;
-				var packagingUnit = article[j].articleDTO.packagingUnit;
-				var weightpu = article[j].articleDTO.weightpu;
-				var mdd = article[j].articleDTO.mdd;
-				var pricepu = parseFloat(article[j].articleDTO.pricepu);
-				
-				//calculate sum price
-				var sum = Math.round( pricepu * article[j].numberpu*100)/100;
-				
-				// adding the incomingArticleId is important to be able to update the according Article infos in the DB by using the Ids
-				var tableRow = "<tr id='"+incomingArticleId+"'>" +
-					"<td class='hidden'>" + incomingArticleId + "</td>" +
-					"<td>" + description + "</td>" +
-					"<td>" + numberpu + "</td>" +
-					"<td>" + packagingUnit + "</td>" +
-					"<td>" + weightpu + " kg" + "</td>" +
-					"<td>" + mdd + "</td>" +
-					"<td>" + pricepu + " €" + "</td>" +
-					"<td>" + sum + " €" + "</td>" +
-				"</tr>";
-				
-				// insert entry to IdMap variable
-				var entry = new Object();
-				entry.incomingArticleId = incomingArticleId;
-				entry.articleId = article[j].articleDTO.articleId;
-				globalIdMap.push(entry);	// insert entry to IdMap
-				
-				$("#newIncomingDeliveryTableBody").append(tableRow);
-			}
-		}
+	var articles = inc.incomingArticleDTOs;
+	
+	// sort articles according to their articleNr
+	articles.sort( function(a, b) { 
+		return (a.articleNr - b.articleNr);
+	} );
+	
+	for(var i=0; i < articles.length; i++){
+		var incomingArticleId = articles[i].incomingArticleId;
+		var description = articles[i].articleDTO.description;
+		var numberpu = articles[i].numberpu;
+		var packagingUnit = articles[i].articleDTO.packagingUnit;
+		var weightpu = articles[i].articleDTO.weightpu;
+		var mdd = articles[i].articleDTO.mdd;
+		var pricepu = parseFloat(articles[i].articleDTO.pricepu);
+		
+		//calculate sum price
+		var sum = Math.round( pricepu * articles[i].numberpu*100)/100;
+		
+		// adding the incomingArticleId is important to be able to update the according Article infos in the DB by using the Ids
+		var tableRow = "<tr id='"+incomingArticleId+"'>" +
+			"<td class='hidden'>" + incomingArticleId + "</td>" +
+			"<td>" + description + "</td>" +
+			"<td>" + numberpu + "</td>" +
+			"<td>" + packagingUnit + "</td>" +
+			"<td>" + weightpu + " kg" + "</td>" +
+			"<td>" + mdd + "</td>" +
+			"<td>" + pricepu + " €" + "</td>" +
+			"<td>" + sum + " €" + "</td>" +
+		"</tr>";
+		
+		// insert entry to IdMap variable
+		var entry = new Object();
+		entry.incomingArticleId = incomingArticleId;
+		entry.articleId = articles[i].articleDTO.articleId;
+		globalIdMap.push(entry);	// insert entry to IdMap
+		
+		$("#newIncomingDeliveryTableBody").append(tableRow);
 	}
+	
 }
 
 

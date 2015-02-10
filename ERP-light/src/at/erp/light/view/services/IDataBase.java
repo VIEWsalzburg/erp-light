@@ -290,6 +290,14 @@ public interface IDataBase {
 	 */
 	public int updateArticleDistribution(List<InOutArticlePUDTO> list) throws Exception;
 	
+	/**
+	 * deletes an Article with the given ID from all incomingDeliveries and all outgoingDeliveries
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public int deleteArticleWithDistributionByArticleId(int articleId) throws Exception;
+	
 	
 	
 	

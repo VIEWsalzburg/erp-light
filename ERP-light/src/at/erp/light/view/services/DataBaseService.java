@@ -793,6 +793,59 @@ public class DataBaseService implements IDataBase {
 	
 	
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int deleteArticleWithDistributionByArticleId(int articleId) throws Exception {
+		
+		// get all incomingArticles and all outgoingArticles which are linked to the Article with the given ArticleId
+		
+		List<IncomingArticle> incomingArticles = this.getIncomingArticlesByArticleId(articleId);
+		List<OutgoingArticle> outgoingArticles = this.getOutgoingArticlesByArticleId(articleId);
+		
+		// perform for every IncomingArticle
+		for (IncomingArticle iA : incomingArticles)
+		{
+			// get IncomingDelivery for IncomingArticle
+			IncomingDelivery incomingDelivery = iA.getIncomingDelivery();
+			// remove IncomingArticle from IncomingDelivery
+			incomingDelivery.getIncomingArticles().remove(iA);
+			// update modified IncomingDelivery
+			this.sessionFactory.getCurrentSession().update(incomingDelivery);
+			// delete IncomingArticle
+			this.sessionFactory.getCurrentSession().delete(iA);
+		}
+		
+		// perform for every OutgoingArticle
+		for (OutgoingArticle oA : outgoingArticles)
+		{
+			// get OutgoingDelivery for OutgoingArticle
+			OutgoingDelivery outgoingDelivery = oA.getOutgoingDelivery();
+			// remove OutgoingArticle from OutgoingDelivery
+			outgoingDelivery.getOutgoingArticles().remove(oA);
+			// update modified OutgoingDelivery
+			this.sessionFactory.getCurrentSession().update(outgoingDelivery);
+			// delete OutgoingArticle
+			this.sessionFactory.getCurrentSession().delete(oA);
+		}
+		
+		// update DB changes
+		this.sessionFactory.getCurrentSession().flush();
+		
+		// delete Article from DB
+		this.sessionFactory.getCurrentSession().delete(this.getArticleById(articleId));
+		
+		// perform consistency check
+		if (checkInAndOutArticlePUs() == false)
+			throw new ERPLightException("Number of PUs for incoming and outgoing articles are not valid.");
+		
+		return 0;
+	}
+	
+	
+	
+	
+	
+	
+	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException {
 		

@@ -367,9 +367,8 @@ $(document).ready(function() {
 				{
 					showAlertElement(1, data.message, 5000);
 					
-					// return to the delivery overview
-//					location.href="warenverwaltung_warenausgang.html";
-					location.href=document.referrer;	// goes back to the previous page
+					location.href="warenverwaltung_wareneingang.html";
+					// location.href=document.referrer;	// goes back to the previous page
 				}
 				else
 				{
@@ -386,3 +385,33 @@ $(document).ready(function() {
 	
 });
 
+
+
+$('#btn_deleteArticleDistribution').click(function(){
+	
+	// call delete request
+	$.ajax({
+		type: "POST",
+		url: "../rest/secure/articlePUDistribution/deleteArticleById/"+global_articleId
+	}).done(function(data) {
+		if (data)
+		{
+			if (data.success == true)
+			{
+				showAlertElement(1, data.message, 5000);
+				
+				location.href="warenverwaltung_wareneingang.html";
+				// location.href=document.referrer;	// goes back to the previous page
+			}
+			else
+			{
+				showAlertElement(2, data.message, 5000);
+			}
+			
+		} else {
+			alert("Verbindungsproblem mit dem Server");
+		}
+		
+	});
+	
+});

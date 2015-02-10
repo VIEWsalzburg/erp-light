@@ -464,41 +464,6 @@ public class DeliveryController {
 	}
 
 	/***** [END] availableArticles *****/
-
-	
-	/***** [START] updateNumberOfPUs for Incoming and OutgoingArticles "Buchhalterfunktion" *****/
-	
-	@RequestMapping(value = "secure/articlePUDistribution/getListByArticleId/{articleId}")
-	public List<InOutArticlePUDTO> getArticlePUDistributionListByArticleId(@PathVariable int articleId)
-	{
-		List<InOutArticlePUDTO> distributionList = new ArrayList<InOutArticlePUDTO>();
-		
-		try {
-			distributionList = dataBaseService.getArticleDistributionByArticleId(articleId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return distributionList;
-	}
-	
-	@RequestMapping(value = "secure/articlePUDistribution/updateDistributionList")
-	public ControllerMessage updateArticlePUDistributionList(@RequestBody List<InOutArticlePUDTO> distributionList)
-	{
-		try {
-			dataBaseService.updateArticleDistribution(distributionList);
-			return new ControllerMessage(true, "Speichern erfolgreich");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ControllerMessage(false, "Speichern nicht erfolgreich: "+e.getMessage());
-		}
-		
-	}
-	
-	
-	/***** [END] *****/
-	
-	
 	
 	/***** [START] Delivery list *****/
 
