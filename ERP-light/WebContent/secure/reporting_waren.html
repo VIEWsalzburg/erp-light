@@ -40,12 +40,15 @@
 		<div class="row" id="body">
 			<div class="col-md-12">				
 						
-				<div class="panel-group bottom" id="accordion_incomingReportByOrganisation" role="tablist" aria-multiselectable="true">
+<!-- 			Start Accordion -->
+				<div class="panel-group bottom" id="accordionArticleReports" role="tablist" aria-multiselectable="true">
+					
+<!-- 				Start Report Panel 1 -->
 					<div class="panel panel-default">
 					    <div class="panel-heading accordion_heading" role="tab" id="headingOne">
 						      <h4 class="panel-title">
-							        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-							          Gewichte und Preise eingehender Waren pro Organisation
+							        <a data-toggle="collapse" data-parent="#accordionArticleReports" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							          Wareneingang: Gesamtgewicht und Gesamtpreis für eine Organisation
 							        </a>
 						      </h4>
 						      
@@ -53,7 +56,7 @@
 						<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 								<div class="panel-body">
 								
-								<h5>Erstellung eines Reports für die ausgewählte Organisation</h5>
+								<h5>Dieser Report ermittelt das Gesamtgewicht und den Gesamtpreis für alle Wareneingänge einer Organisation im gewünschten Zeitraum.</h5>
 								<div class="row divider-horizontal">
 								</div>
 									
@@ -118,21 +121,21 @@
 								</div>
 						</div>
 					</div>
-				</div>
-							
-				<div class="panel-group bottom" id="accordion_outgoingReportByOrganisation" role="tablist" aria-multiselectable="true">
+<!-- 				Ende Report Panel 1 -->
+
+<!-- 				Start Report Panel 2 -->
 					<div class="panel panel-default">
-					    <div class="panel-heading accordion_heading" role="tab" id="headingOne">
+					    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
 						      <h4 class="panel-title">
-							        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-							          Gewichte und Preise ausgehender Waren pro Organisation
+							        <a class="collapsed" data-toggle="collapse" data-parent="#accordionArticleReports" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+							          Warenausgang: Gesamtgewicht und Gesamtpreis für eine Organisation
 							        </a>
 						      </h4>
 						</div>
-						<div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+						<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 								<div class="panel-body">
 								
-								<h5>Erstellung eines Reports für die ausgewählte Organisation</h5>
+								<h5>Dieser Report ermittelt das Gesamtgewicht und den Gesamtpreis für alle Warenausgänge einer Organisation im gewünschten Zeitraum.</h5>
 								<div class="row divider-horizontal">
 								</div>
 									
@@ -197,21 +200,22 @@
 								</div>
 						</div>
 					</div>
-				</div>
-							
-				<div class="panel-group bottom" id="accordion_incomingReportForAllOrganisations" role="tablist" aria-multiselectable="true">
+<!-- 					Ende Report Panel 2 -->
+					
+					
+<!-- 					Start Report Panel 3 -->
 					<div class="panel panel-default">
-					    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
+					    <div class="panel-heading accordion_heading" role="tab" id="headingThree">
 						      <h4 class="panel-title">
-							        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-							          Gewichte und Preise eingehender Waren aller Organisationen
+							        <a class="collapsed" data-toggle="collapse" data-parent="#accordionArticleReports" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+							          Wareneingang: Gesamtgewichte und Gesamtpreise für alle Organisationen
 							        </a>
 						      </h4>
 						</div>
-						<div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+						<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
 								<div class="panel-body">
 								
-								<h5>Erstellung eines Reports für alle Organisationen</h5>
+								<h5>Dieser Report ermittelt das Gesamtgewicht und den Gesamtpreis der Wareneingänge für jede Organisation im gewünschten Zeitraum.</h5>
 								<div class="row divider-horizontal">
 								</div>
 									
@@ -265,21 +269,22 @@
 								</div>
 						</div>
 					</div>
-				</div>
-							
-				<div class="panel-group bottom" id="accordion_outgoingReportForAllOrganisations" role="tablist" aria-multiselectable="true">
+<!-- 					Ende Report Panel 3 -->
+					
+					
+<!-- 					Start Report Panel 4 -->
 					<div class="panel panel-default">
-					    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
+					    <div class="panel-heading accordion_heading" role="tab" id="headingFour">
 						      <h4 class="panel-title">
-							        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-							          Gewichte und Preise ausgehender Waren aller Organisationen
+							        <a class="collapsed" data-toggle="collapse" data-parent="#accordionArticleReports" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+							          Warenausgang: Gesamtgewichte und Gesamtpreise für alle Organisationen
 							        </a>
 						      </h4>
 						</div>
-						<div id="collapseFour" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+						<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
 								<div class="panel-body">
 								
-								<h5>Erstellung eines Reports für alle Organisationen</h5>
+								<h5>Dieser Report ermittelt das Gesamtgewicht und den Gesamtpreis der Warenausgänge für jede Organisation im gewünschten Zeitraum.</h5>
 								<div class="row divider-horizontal">
 								</div>
 									
@@ -333,21 +338,22 @@
 								</div>
 						</div>
 					</div>
-				</div>
-				
-				<div class="panel-group bottom" id="accordion_totalSumOfAllIncomingDeliveries" role="tablist" aria-multiselectable="true">
+<!-- 					Ende Report Panel 4 -->
+
+
+<!-- 					Start Report Panel 5 -->
 					<div class="panel panel-default">
-					    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
+					    <div class="panel-heading accordion_heading" role="tab" id="headingFive">
 						      <h4 class="panel-title">
-							        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-							          Gewichte und Preise aller eingehenden Waren
+							        <a class="collapsed" data-toggle="collapse" data-parent="#accordionArticleReports" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+							          Wareneingang: Gesamtgewicht und Gesamtpreis aller Waren
 							        </a>
 						      </h4>
 						</div>
-						<div id="collapseFive" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+						<div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
 								<div class="panel-body">
 								
-								<h5>Erstellung eines Reports für alle Waren</h5>
+								<h5>Dieser Report ermittelt das Gesamtgewicht und den Gesamtpreis aller eingegangenen Waren im gewünschten Zeitraum.</h5>
 								<div class="row divider-horizontal">
 								</div>
 									
@@ -400,21 +406,22 @@
 								</div>
 						</div>
 					</div>
-				</div>
-							
-				<div class="panel-group bottom" id="accordion_totalSumOfAllOutgoingDeliveries" role="tablist" aria-multiselectable="true">
+<!-- 					Ende Report Panel 5 -->
+
+
+<!-- 					Start Report Panel 6 -->
 					<div class="panel panel-default">
-					    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
+					    <div class="panel-heading accordion_heading" role="tab" id="headingSix">
 						      <h4 class="panel-title">
-							        <a data-toggle="collapse" data-parent="#accordion_incomingReportByOrganisation, #accordion_reportallorganisations, #accordion_incomingReportForAllOrganisations, #accordion_outgoingReportForAllOrganisations, #accordion_totalSumOfAllIncomingDeliveries, #accordion_totalSumOfAllOutgoingDeliveries" href="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
-							          Gewichte und Preise aller ausgehenden Waren
+							        <a class="collapsed" data-toggle="collapse" data-parent="#accordionArticleReports" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+							          Warenausgang: Gesamtgewicht und Gesamtpreis aller Waren
 							        </a>
 						      </h4>
 						</div>
-						<div id="collapseSix" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+						<div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
 								<div class="panel-body">
 								
-								<h5>Erstellung eines Reports für alle Waren</h5>
+								<h5>Dieser Report ermittelt das Gesamtgewicht und den Gesamtpreis aller ausgegangenen Waren im gewünschten Zeitraum.</h5>
 								<div class="row divider-horizontal">
 								</div>
 									
@@ -468,7 +475,10 @@
 								</div>
 						</div>
 					</div>
+<!-- 					Ende Report Panel 6 -->
+					
 				</div>
+<!-- 			Ende Accordion -->
 							
 							
 				<!-- Choose deliverer Modal -->

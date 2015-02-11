@@ -4,14 +4,6 @@ $(".newAlertFormAccordion").append(accordionError);
 var modalErrorOrganisation = "<div id='modalErrorOrganisationAlert'> <div class='col-sm-6'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Keine Organisation ausgewählt!</div> </div>  </div>";
 $("#newAlertFormOrganisation").append(modalErrorOrganisation);
 
-$('.collapse').on('show.bs.collapse', function () {
-    $otherPanels = $(this).parents('.panel-group').siblings('.panel-group');
-    $('.collapse',$otherPanels).removeClass('in');
-});
-
-$('.collapse').collapse('hide');
-$("#collapseOne").collapse('show');
-
 $(".btn_export").prop('disabled', true);
 
 //init popover
