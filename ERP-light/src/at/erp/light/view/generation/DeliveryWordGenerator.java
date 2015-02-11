@@ -22,7 +22,7 @@ import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.Person;
 import at.erp.light.view.services.IDataBase;
 
-public class WordGenerator {
+public class DeliveryWordGenerator {
 	 public static File generate(DeliveryListDTO deliveryListDTO, String doneBy, IDataBase dataBase) throws Exception {
 	        XWPFDocument doc = new XWPFDocument();
 
@@ -41,7 +41,7 @@ public class WordGenerator {
 	        r1.addTab();
 	        r1.addTab();
 	        r1.addTab();
-	        r1.addPicture(WordGenerator.class.getResourceAsStream("VIEW_Logo_4c.png"), XWPFDocument.PICTURE_TYPE_PNG, "VIEW_Logo_4c.png", Units.toEMU(80), Units.toEMU(55)); // 200x200 pixels	        
+	        r1.addPicture(DeliveryWordGenerator.class.getResourceAsStream("VIEW_Logo_4c.png"), XWPFDocument.PICTURE_TYPE_PNG, "VIEW_Logo_4c.png", Units.toEMU(80), Units.toEMU(55)); // 200x200 pixels	        
 //	        Disponert von
 	        
 	        XWPFParagraph p2 = doc.createParagraph();

@@ -33,7 +33,7 @@ import at.erp.light.view.dto.IncomingArticleDTO;
 import at.erp.light.view.dto.IncomingDeliveryDTO;
 import at.erp.light.view.dto.OutgoingArticleDTO;
 import at.erp.light.view.dto.OutgoingDeliveryDTO;
-import at.erp.light.view.generation.WordGenerator;
+import at.erp.light.view.generation.DeliveryWordGenerator;
 import at.erp.light.view.mapper.AvailableArticleMapper;
 import at.erp.light.view.mapper.DeliveryListMapper;
 import at.erp.light.view.mapper.IncomingDeliveryMapper;

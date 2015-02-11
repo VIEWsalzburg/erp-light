@@ -404,7 +404,7 @@ $("#btn_archive").click(function() {
 //export as word
 $("#btn_export").click(function() {
 	var id = tableData[0];
-	var hrefString = "http://localhost:8080/ERP-light/rest/secure/deliveryList/exportAsWord/" + id;
+	var hrefString = "../rest/secure/deliveryList/exportAsWord/" + id;
 	
 	$("#href_export").attr("href", hrefString);
 });
