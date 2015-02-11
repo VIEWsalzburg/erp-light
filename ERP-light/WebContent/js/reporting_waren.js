@@ -266,7 +266,7 @@ function generateReport(mode, incomingReportByOrg, incomingReportForAllOrg, outg
 			'Content-Type' : 'application/json'
 		},
 		type : "POST",
-		url : "../rest/secure/reports/" + urlString,
+		url : "../rest/secure/reports/articles/" + urlString,
 		contentType: "application/json; charset=utf-8",
 	    dataType: "json",
 		data : JSON.stringify(reportCommand)
@@ -289,7 +289,7 @@ function generateReportExport(){
 		return;
 	}
 	
-	$('<form action="../rest/secure/reports/generateCSVReport">'+ 
+	$('<form action="../rest/secure/reports/articles/generateCSVReport">'+ 
 			'<input type="hidden" value="'+reportCommand_global.organisationId+'" name="organisationId">'+ 
 			'<input type="hidden" value="'+reportCommand_global.dateFrom+'" name="dateFrom">'
 			+ '<input type="hidden" value="'+reportCommand_global.dateTo+'" name="dateTo">'

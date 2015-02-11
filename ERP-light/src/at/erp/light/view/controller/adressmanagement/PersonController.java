@@ -21,7 +21,6 @@ import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 import at.erp.light.view.authenticate.HashGenerator;
-import at.erp.light.view.controller.article.DeliveryController;
 import at.erp.light.view.dto.PersonDTO;
 import at.erp.light.view.mapper.PersonMapper;
 import at.erp.light.view.model.Permission;
@@ -32,7 +31,7 @@ import at.erp.light.view.state.ControllerMessage;
 
 @RestController
 public class PersonController {
-	private static final Logger log = Logger.getLogger(DeliveryController.class
+	private static final Logger log = Logger.getLogger(PersonController.class
 			.getName());
 	
 	@Autowired

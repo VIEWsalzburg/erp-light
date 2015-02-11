@@ -22,7 +22,7 @@ import at.erp.light.view.state.ControllerMessage;
 
 @RestController
 public class OrganisationController {
-	private static final Logger log = Logger.getLogger(DeliveryController.class
+	private static final Logger log = Logger.getLogger(OrganisationController.class
 			.getName());
 	
 	@Autowired

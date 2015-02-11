@@ -25,7 +25,7 @@ import at.erp.light.view.state.ControllerMessage;
 
 @RestController
 public class CategoryController {
-	private static final Logger log = Logger.getLogger(DeliveryController.class
+	private static final Logger log = Logger.getLogger(CategoryController.class
 			.getName());
 	
 	@Autowired

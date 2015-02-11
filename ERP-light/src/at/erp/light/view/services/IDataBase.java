@@ -8,6 +8,7 @@ import java.util.Set;
 import org.hibernate.HibernateException;
 
 import at.erp.light.view.dto.InOutArticlePUDTO;
+import at.erp.light.view.dto.PersonAddressReportDataDTO;
 import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.AvailArticleInDepot;
@@ -471,6 +472,9 @@ public interface IDataBase {
 	
 	public ReportDataDTO getTotalSumOfAllOutgoingDeliveries(String dateFrom, String dateTo) throws Exception;
 
+	
+	/***** StickerReport *****/
+	public List<PersonAddressReportDataDTO> getPersonAddressReport() throws Exception;
 	
 	/***** Logging *****/
 	public int insertLogging(String text, int personId);

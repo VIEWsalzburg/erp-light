@@ -32,7 +32,7 @@ import at.erp.light.view.services.IDataBase;
 
 @RestController
 public class ReportController {
-	private static final Logger log = Logger.getLogger(DeliveryController.class
+	private static final Logger log = Logger.getLogger(ReportController.class
 			.getName());
 
 	@Autowired
@@ -44,7 +44,7 @@ public class ReportController {
 	/***** [END] Delivery list 
 	 * @throws ParseException *****/
 	
-	@RequestMapping(value = "secure/reports/getSingleData")
+	@RequestMapping(value = "secure/reports/articles/getSingleData")
 	public ReportDataDTO getSingleData(@RequestBody ReportCommand reportCommand) throws IOException 
 	{
 		
@@ -87,7 +87,7 @@ public class ReportController {
 	}
 	
 	
-	@RequestMapping(value = "secure/reports/getListData")
+	@RequestMapping(value = "secure/reports/articles/getListData")
 	public List<ReportDataDTO> getListData(@RequestBody ReportCommand reportCommand) throws IOException, ParseException 
 	{
 			log.info("Returning report data");
@@ -120,7 +120,7 @@ public class ReportController {
 	}
 	
 	
-	@RequestMapping(value = "secure/reports/generateCSVReport")
+	@RequestMapping(value = "secure/reports/articles/generateCSVReport")
 	public void downloadCSV(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ParseException {
 

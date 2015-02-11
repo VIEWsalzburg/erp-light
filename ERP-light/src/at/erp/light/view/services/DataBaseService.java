@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import at.erp.light.view.dto.ArticleDTO;
 import at.erp.light.view.dto.InOutArticlePUDTO;
+import at.erp.light.view.dto.PersonAddressReportDataDTO;
 import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.mapper.ArticleMapper;
 import at.erp.light.view.model.Address;
@@ -1863,6 +1864,32 @@ public class DataBaseService implements IDataBase {
 	
 	/***** [END] *****/
 	
+	/***** PersonAddressReport *****/
+	public List<PersonAddressReportDataDTO> getPersonAddressReport() throws Exception
+	{
+		String sqlString = "select * from personAddressReportView";
+		
+		@SuppressWarnings("unchecked")
+		List<PersonAddressReportDataDTO> reportDataList = (List<PersonAddressReportDataDTO>) this.sessionFactory.getCurrentSession().createSQLQuery(sqlString)
+			.addScalar("salutation", StandardBasicTypes.STRING)
+			.addScalar("title", StandardBasicTypes.STRING)
+			.addScalar("lastName", StandardBasicTypes.STRING)
+			.addScalar("firstName", StandardBasicTypes.STRING)
+			.addScalar("privateAddress", StandardBasicTypes.STRING)
+			.addScalar("privateZip", StandardBasicTypes.STRING)
+			.addScalar("privateCity", StandardBasicTypes.STRING)
+			.addScalar("privateCountry", StandardBasicTypes.STRING)
+			.addScalar("orgName", StandardBasicTypes.STRING)
+			.addScalar("orgType", StandardBasicTypes.STRING)
+			.addScalar("orgAddress", StandardBasicTypes.STRING)
+			.addScalar("orgZip", StandardBasicTypes.STRING)
+			.addScalar("orgCity", StandardBasicTypes.STRING)
+			.addScalar("orgCountry", StandardBasicTypes.STRING)
+			.setResultTransformer(Transformers.aliasToBean(PersonAddressReportDataDTO.class))
+			.list();
+
+		return reportDataList;
+	}
 	
 	/***** [START Logging] *****/
 	
