@@ -401,14 +401,6 @@ $("#btn_archive").click(function() {
 	}
 });
 
-//export as word
-$("#btn_export").click(function() {
-	var id = tableData[0];
-	var hrefString = "../rest/secure/deliveryList/exportAsWord/" + id;
-	
-	$("#href_export").attr("href", hrefString);
-});
-
 // disable new, edit and delete buttons
 $('#btn_new').hide();
 $(".suchfilter").css("margin-left", "0px");
@@ -453,6 +445,10 @@ $('#TableHead').on('click','tbody tr', function(event) {
 
 			$(this).addClass('highlight').siblings().removeClass('highlight');
 
+			// set link to word generation of the current selected deliveryList
+			var hrefString = "../rest/secure/deliveryList/exportAsWord/" + tableData[0];
+			$("#href_export").attr("href", hrefString);
+			
 			// only when user has admin rights
 			if (currentUserRights != "Read" && currentUserRights != "") {
 				$('#btn_edit').prop('disabled', false);

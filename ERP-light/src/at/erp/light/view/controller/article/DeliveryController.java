@@ -623,8 +623,7 @@ public class DeliveryController {
 			// Correct mime type
 			httpServletResponse
 					.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-			// get your file as InputStream
-
+			
 			DeliveryListDTO deliveryListDTO = DeliveryListMapper
 					.mapToDTO(dataBaseService.getDeliveryListById(id));
 
@@ -635,6 +634,11 @@ public class DeliveryController {
 							deliveryListDTO,
 							lastEditor.getFirstName() + " "	+ lastEditor.getLastName(),
 							dataBaseService));
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sdfDTO = new SimpleDateFormat("dd.MM.yyyy");
+			String filename = "Lieferliste_"+sdf.format(sdfDTO.parse(deliveryListDTO.getDate()))+".docx";
+			httpServletResponse.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", filename));
 			
 			// copy it to response's OutputStream
 			IOUtils.copy(wordFile, httpServletResponse.getOutputStream());
