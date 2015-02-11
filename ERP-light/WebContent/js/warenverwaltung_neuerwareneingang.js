@@ -159,10 +159,12 @@ function loadAllDeliverers() {
 			function(data) {
 				var o = eval(data);
 				
-				var nameString = "";
 				for (var e in o) {
 					for(var i=0; i< o[e].types.length; i++){
 						if(o[e].types[i] == "Lieferant"){
+							
+							var nameString = "";
+							
 							if(o[e].name.length > 22){
 								nameString = o[e].name.substring(0, 22) + "...";
 							}
@@ -188,7 +190,6 @@ function loadAllDeliverers() {
 								
 								if (a < categoryIds.length - 1)
 									categoryString = categoryString + ", ";
-								
 							}
 							
 							var o_divRow = "<div class='boxElement_deliverer'>" +
@@ -210,7 +211,6 @@ function loadAllDeliverers() {
 											"</div>";
 							
 							
-							nameString = "";
 							$("#delivererDiv").append(o_divRow);
 						}
 					}

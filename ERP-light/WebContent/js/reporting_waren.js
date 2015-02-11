@@ -36,6 +36,17 @@ $(".accordion_heading").click(function() {
 
 //loads all deliverers
 function loadAllOrganisations() {
+	
+	var allCategories;
+	
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/category/getAllCategories"
+	}).done( function(data){
+		allCategories = data;
+	});
+	
 	$.ajax({
 		type : "POST",
 		async : false,
@@ -44,21 +55,62 @@ function loadAllOrganisations() {
 			function(data) {
 				var o = eval(data);
 				
-				var nameString = "";
 				for (var e in o) {
 					for(var i=0; i< o[e].types.length; i++){
-							if(o[e].name.length > 22){
-								nameString = o[e].name.substring(0, 22) + "...";
-							}
-							else{
-								nameString = o[e].name;
+						
+						nameString = "";
+					
+						if(o[e].name.length > 22){
+							nameString = o[e].name.substring(0, 22) + "...";
+						}
+						else{
+							nameString = o[e].name;
+						}
+						
+//						var o_divRow = "<div class='boxElement_organisation'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + nameString + " "
+//						+ "</span><input class='pull-right' value="+ o[e].id +" id="+ o[e].id +" name='organisationRadio' type='radio'></div>";
+						
+						
+						
+						var categoryString = "";
+						
+						var categoryIds = o[e].categoryIds;
+						for (var a in categoryIds)
+						{
+							for (var c in allCategories)
+							{
+								if (categoryIds[a] == allCategories[c].categoryId)
+								{
+									categoryString = categoryString + allCategories[c].category;
+								}
 							}
 							
-							var o_divRow = "<div class='boxElement_organisation'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + nameString + " "
-							+ "</span><input class='pull-right' value="+ o[e].id +" id="+ o[e].id +" name='organisationRadio' type='radio'></div>";
-							
-							nameString = "";
-							$("#organisationDiv").append(o_divRow);
+							if (a < categoryIds.length - 1)
+								categoryString = categoryString + ", ";
+						}
+						
+						var o_divRow = "<div class='boxElement_organisation'>" +
+											"<div class='row'>" +
+												"<div class='col-sm-4'>" +
+													"<input type='hidden' value="+ o[e].id +">" +
+													"<span>" + nameString + "</span>"+
+												"</div>" +
+												"<div class='col-sm-2'>" +
+													"<span>" + o[e].city + "</span>" +
+												"</div>" +
+												"<div class='col-sm-5'>" +
+													"<span>" + categoryString + "</span>" +
+												"</div>" +
+												"<div class='col-sm-1'>" +
+													"<input class='pull-right' value="+ o[e].id +" id="+ o[e].id +" name='organisationRadio' type='radio'>" +
+												"</div>" +
+											"</div>" +
+										"</div>";
+						
+						
+						
+						$("#organisationDiv").append(o_divRow);
+						
 					}
 				}
 	});

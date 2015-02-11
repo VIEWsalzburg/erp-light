@@ -254,6 +254,10 @@ $("#btn_details").click(function() {
 		articleString = articles[i].articleDTO.weightpu + " kg";
 		createAndAppendArticleTemplate("Einzelgewicht der VE", articleString);
 		
+		var weightPU = parseFloat(articles[i].articleDTO.weightpu);
+		var sum = Math.round( (weightPU * articles[i].numberpu) *100)/100;
+		createAndAppendArticleTemplate("Gesamtgewicht", sum + " kg");
+		
 		articleString = articles[i].articleDTO.mdd;
 		createAndAppendArticleTemplate("Mindesthaltbarkeitsdatum", articleString);
 		

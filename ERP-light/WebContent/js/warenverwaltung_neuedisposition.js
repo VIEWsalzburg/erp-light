@@ -272,6 +272,17 @@ function loadTableContent(id){
  * load only organisations of type KUNDE
  */
 function loadAllReceivers() {
+	
+	var allCategories;
+	
+	$.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/category/getAllCategories"
+	}).done( function(data){
+		allCategories = data;
+	});
+	
 	$.ajax({
 		type : "POST",
 		async : false,
@@ -280,10 +291,12 @@ function loadAllReceivers() {
 			function(data) {
 				var o = eval(data);
 				
-				var nameString = "";
 				for (var e in o) {
 					for(var i=0; i< o[e].types.length; i++){
 						if(o[e].types[i] == "Kunde"){
+							
+							var nameString = "";
+							
 							if(o[e].name.length > 22){
 								nameString = o[e].name.substring(0, 22) + "...";
 							}
@@ -291,10 +304,45 @@ function loadAllReceivers() {
 								nameString = o[e].name;
 							}
 							
-							var o_divRow = "<div class='boxElement_receiver'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + nameString + " "
-							+ "</span><input class='pull-right' value="+ o[e].id +" name='receiverRadio' type='radio'></div>";
+//							var o_divRow = "<div class='boxElement_receiver'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + nameString + " "
+//							+ "</span><input class='pull-right' value="+ o[e].id +" name='receiverRadio' type='radio'></div>";
 							
-							nameString = "";
+							var categoryString = "";
+							
+							var categoryIds = o[e].categoryIds;
+							for (var a in categoryIds)
+							{
+								for (var c in allCategories)
+								{
+									if (categoryIds[a] == allCategories[c].categoryId)
+									{
+										categoryString = categoryString + allCategories[c].category;
+									}
+								}
+								
+								if (a < categoryIds.length - 1)
+									categoryString = categoryString + ", ";
+							}
+							
+							var o_divRow = "<div class='boxElement_receiver'>" +
+												"<div class='row'>" +
+													"<div class='col-sm-4'>" +
+														"<input type='hidden' value="+ o[e].id +">" +
+														"<span>" + nameString + "</span>"+
+													"</div>" +
+													"<div class='col-sm-2'>" +
+														"<span>" + o[e].city + "</span>" +
+													"</div>" +
+													"<div class='col-sm-5'>" +
+														"<span>" + categoryString + "</span>" +
+													"</div>" +
+													"<div class='col-sm-1'>" +
+														"<input class='pull-right' value="+ o[e].id +" id="+ o[e].id +" name='receiverRadio' type='radio'>" +
+													"</div>" +
+												"</div>" +
+											"</div>";
+							
+							
 							$("#receiverDiv").append(o_divRow);
 						}
 					}
