@@ -8,8 +8,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +30,12 @@ import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import at.erp.light.view.dto.InOutArticlePUDTO;
+import at.erp.light.view.dto.PersonAddressReportDataDTO;
 import at.erp.light.view.dto.ReportDataDTO;
+import at.erp.light.view.model.IncomingArticle;
+import at.erp.light.view.model.IncomingDelivery;
+import at.erp.light.view.model.Organisation;
 import at.erp.light.view.services.IDataBase;
 
 @RestController
@@ -379,4 +387,212 @@ public class ReportController {
 		stockArr = header.toArray(stockArr);
 		return stockArr;
 	}
+	
+	
+	
+	
+	
+	/***** ArticleDistributionReport *****/
+	
+	@RequestMapping(value = "secure/reports/articles/generateDistributionReportByIncomingDeliveryId/{id}")
+	public void generateAddressReport(@PathVariable int id,
+			HttpServletRequest request,	HttpServletResponse response) throws IOException, ParseException {
+
+		// get incomingDelivery with the given id
+		try {
+			
+			IncomingDelivery incomingDelivery = dataBaseService.getIncomingDeliveryById(id);
+			
+			log.info("Generate DistributionReport for IncomingDelivery "+id);
+			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+			String csvFileName = "WarenVerteilungs-Report-ID"+incomingDelivery.getIncomingDeliveryId()+"_" + simpleDateFormat.format(incomingDelivery.getDate())
+					+ ".csv";
+			response.setContentType("text/csv");
+			// creates mock data
+			String headerKey = "Content-Disposition";
+			String headerValue = String.format("attachment; filename=\"%s\"",
+					csvFileName);
+			response.setHeader(headerKey, headerValue);
+			
+			NumberFormat nf_out = NumberFormat.getNumberInstance(Locale.GERMANY);
+			nf_out.setMaximumFractionDigits(2);
+
+			CsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
+					CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
+			
+			// start writing the content
+			csvWriter.writeHeader("Warenverteilungsreport");
+			csvWriter.writeHeader("Lieferungs-ID:",""+incomingDelivery.getIncomingDeliveryId());
+			csvWriter.writeHeader("Datum:", simpleDateFormat.format(incomingDelivery.getDate()));
+			csvWriter.writeHeader("Beschreibung:",incomingDelivery.getComment());
+			csvWriter.writeHeader("");
+			csvWriter.writeHeader("Erstelldatum des Reports:",simpleDateFormat.format(new Date()));
+			csvWriter.writeHeader("");
+			
+			// get all Article IDs for this incomingDelivery
+			List<Integer> articleIds = new ArrayList<Integer>();
+			for (IncomingArticle iA : incomingDelivery.getIncomingArticles())
+			{
+				articleIds.add(iA.getArticle().getArticleId());
+			}
+			
+			// get DistributionDTO Objects for all articleIds
+			List<InOutArticlePUDTO> distributionList = new ArrayList<InOutArticlePUDTO>();
+			
+			for (Integer articleId : articleIds)
+			{
+				List<InOutArticlePUDTO> tempList = dataBaseService.getArticleDistributionByArticleId(articleId);
+				distributionList.addAll(tempList);
+			}
+			
+			// group by incoming and outgoing
+			List<InOutArticlePUDTO> incomingDistribution = new ArrayList<InOutArticlePUDTO>();
+			List<InOutArticlePUDTO> outgoingDistribution = new ArrayList<InOutArticlePUDTO>();
+			
+			for (InOutArticlePUDTO inOutArticle : distributionList)
+			{
+				switch (inOutArticle.getType())
+				{
+				case 0:	// incoming
+					incomingDistribution.add(inOutArticle);
+					break;
+				case 1:	// outoging
+					outgoingDistribution.add(inOutArticle);
+					break;
+				case 2:	// depot
+					outgoingDistribution.add(inOutArticle);
+					break;
+				}
+			}
+			
+			// group by organisation
+			// maps for associating a organisation Id with a list
+			HashMap<Integer, List<InOutArticlePUDTO>> incomingOrganisationDistributionMap = new HashMap<Integer, List<InOutArticlePUDTO>>();
+			HashMap<Integer, List<InOutArticlePUDTO>> outgoingOrganisationDistributionMap = new HashMap<Integer, List<InOutArticlePUDTO>>();
+			
+			// group incomingArticles by orgId
+			for (InOutArticlePUDTO elem : incomingDistribution)
+			{
+				int orgId = elem.getOrganisationId();
+				// if orgId is already in incomingMap
+				if (incomingOrganisationDistributionMap.containsKey(orgId))
+				{
+					incomingOrganisationDistributionMap.get(orgId).add(elem);
+				}
+				else	// if orgId is not already in incomingMap
+				{
+					List<InOutArticlePUDTO> tempList = new ArrayList<InOutArticlePUDTO>();
+					tempList.add(elem);
+					incomingOrganisationDistributionMap.put(orgId, tempList);
+				}
+			}
+			
+			// group outgoingArticles by orgId
+			for (InOutArticlePUDTO elem : outgoingDistribution)
+			{
+				int orgId = elem.getOrganisationId();
+				// if orgId is already in outgoingMap
+				if (outgoingOrganisationDistributionMap.containsKey(orgId))
+				{
+					outgoingOrganisationDistributionMap.get(orgId).add(elem);
+				}
+				else	// if orgId is not already in outgoingMap
+				{
+					List<InOutArticlePUDTO> tempList = new ArrayList<InOutArticlePUDTO>();
+					tempList.add(elem);
+					outgoingOrganisationDistributionMap.put(orgId, tempList);
+				}
+			}
+			
+			
+			// write incoming to CSV
+			csvWriter.writeHeader("Wareneingang:");
+			csvWriter.writeHeader("");
+			
+			for (Entry<Integer, List<InOutArticlePUDTO>> entry : incomingOrganisationDistributionMap.entrySet())
+			{
+				int orgId = entry.getKey();
+				List<InOutArticlePUDTO> list = entry.getValue();
+				
+				// get Organisation by Key
+				Organisation org = dataBaseService.getOrganisationById(orgId);
+				
+				csvWriter.writeHeader("Organisation:", org.getName());
+				
+				// write Objects
+				String[] header = {"Artikel", "Anzahl VE", "VE", "Gewicht", "Preis"};
+				csvWriter.writeHeader(header);
+				
+				for (InOutArticlePUDTO article : list)
+				{
+					csvWriter.writeHeader(article.getArticleDTO().getDescription(),
+							""+article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),
+							""+article.getArticleDTO().getWeightpu(), ""+article.getArticleDTO().getPricepu());
+				}
+				
+				csvWriter.writeHeader("");
+				
+			}
+			
+			
+			// write outgoing to CSV
+			csvWriter.writeHeader("");
+			csvWriter.writeHeader("");
+			csvWriter.writeHeader("Warenausgang:");
+			csvWriter.writeHeader("");
+			
+			for (Entry<Integer, List<InOutArticlePUDTO>> entry : outgoingOrganisationDistributionMap.entrySet())
+			{
+				int orgId = entry.getKey();
+				List<InOutArticlePUDTO> list = entry.getValue();
+				
+				// get Organisation by Key
+				String organisationName = "";
+				if (orgId > 0)
+				{
+					Organisation org = dataBaseService.getOrganisationById(orgId);
+					organisationName = org.getName();
+					csvWriter.writeHeader("Organisation:", organisationName);
+				}
+				else if (orgId == -1)
+				{
+					csvWriter.writeHeader("im Depot");
+				}
+				else
+				{
+					csvWriter.writeHeader("keine Organisation gefunden für Id "+orgId);
+				}
+				
+				// write Objects
+				String[] header = {"Artikel", "Anzahl VE", "VE", "Gewicht", "Preis"};
+				csvWriter.writeHeader(header);
+				
+				for (InOutArticlePUDTO article : list)
+				{
+					csvWriter.writeHeader(article.getArticleDTO().getDescription(),
+							""+article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),
+							""+article.getArticleDTO().getWeightpu(), ""+article.getArticleDTO().getPricepu());
+				}
+				
+				csvWriter.writeHeader("");
+				
+			}
+		
+			csvWriter.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	
+	
+	
+	
+	
+	
+	
 }

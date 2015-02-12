@@ -380,11 +380,6 @@ public interface IDataBase {
 	
 	public int setDeliveryLists(List<DeliveryList> deliveryLists) throws HibernateException;
 	
-	public int telephoneTest() throws HibernateException;
-	
-	
-	
-	
 	
 	
 	// Types

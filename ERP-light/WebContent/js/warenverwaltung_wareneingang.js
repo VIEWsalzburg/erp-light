@@ -276,6 +276,15 @@ $("#btn_details").click(function() {
 	
 });
 
+// button distributionReport
+$('#btn_distributionReport').click(function() {
+	
+	var id = tableData[0];
+	
+	window.location.href = "../rest/secure/reports/articles/generateDistributionReportByIncomingDeliveryId/"+id;
+	
+});
+
 function createAndAppendArticleTemplate(name, value){
 	var template = "<div class='row details'><div class='col-md-6'><label>"+ name +"</label></div><div class='col-md-6'><label>" + value + "</label></div></div>";
 	$("#article_container_details").append(template);
@@ -342,13 +351,15 @@ $("#btn_archive").click(function() {
 	}
 });
 
-// disable new, edit and delete buttons
+// hide new, edit and delete buttons
 $('#btn_new').hide();
 $(".suchfilter").css("margin-left", "0px");
 $('#btn_edit').hide();
 $('#btn_deleteModal').hide();
 
+// disable details, distribution and archive buttons
 $('#btn_details').prop('disabled', true);
+$('#btn_distributionReport').prop('disabled', true);
 $('#btn_archive').prop('disabled', true);
 $('#cbx_archive').prop('checked', false);
 
@@ -378,43 +389,46 @@ $(document).ready(function() {
 var tableData;
 var isBooked;
 $('#TableHead').on('click','tbody tr', function(event) {
-			tableData = $(this).children("td").map(function() {
-				return $(this).text();
-			}).get();
+	tableData = $(this).children("td").map(function() {
+		return $(this).text();
+	}).get();
 
-			$(this).addClass('highlight').siblings().removeClass('highlight');
-			
-			// only when user has admin rights
-			if (currentUserRights != "Read" && currentUserRights != "") {
-				//deleteModal disabled=false only if not booked 
-				if($(this).closest("tr").hasClass("booked-entry") == true){
-					$('#btn_edit').prop('disabled', false);
-					$('#btn_deleteModal').prop('disabled', true);
-					isBooked = true;
-				}
-				else{
-					$('#btn_edit').prop('disabled', false);
-					$('#btn_deleteModal').prop('disabled', false);
-					isBooked = false;
-				}
-			} 
-			else {
-				$('#btn_edit').prop('disabled', true);
-				$('#btn_deleteModal').prop('disabled', true);
-			}
-			$('#btn_details').prop('disabled', false);
-			
-			//check if clicked table row entry is archived
-			if($(this).closest("tr").hasClass("checked") == true){
-				$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> De - Archivieren');
-				$('#btn_archive').val("dearchive");
-				$('#btn_archive').prop('disabled', false);
-			}
-			else{
-				$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> Archivieren');
-				$('#btn_archive').val("archive");
-				$('#btn_archive').prop('disabled', false);
-			}
+	$(this).addClass('highlight').siblings().removeClass('highlight');
+	
+	// only when user has admin rights
+	if (currentUserRights != "Read" && currentUserRights != "") {
+		//deleteModal disabled=false only if not booked 
+		if($(this).closest("tr").hasClass("booked-entry") == true){
+			$('#btn_edit').prop('disabled', false);
+			$('#btn_deleteModal').prop('disabled', true);
+			isBooked = true;
+		}
+		else{
+			$('#btn_edit').prop('disabled', false);
+			$('#btn_deleteModal').prop('disabled', false);
+			isBooked = false;
+		}
+	} 
+	else {
+		$('#btn_edit').prop('disabled', true);
+		$('#btn_deleteModal').prop('disabled', true);
+	}
+	
+	// enable details button and distribution button on click onto an table entry
+	$('#btn_details').prop('disabled', false);
+	$('#btn_distributionReport').prop('disabled', false);
+	
+	//check if clicked table row entry is archived
+	if($(this).closest("tr").hasClass("checked") == true){
+		$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> De - Archivieren');
+		$('#btn_archive').val("dearchive");
+		$('#btn_archive').prop('disabled', false);
+	}
+	else{
+		$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> Archivieren');
+		$('#btn_archive').val("archive");
+		$('#btn_archive').prop('disabled', false);
+	}
 });
 
 /**

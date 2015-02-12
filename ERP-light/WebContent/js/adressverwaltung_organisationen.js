@@ -337,12 +337,28 @@ function loadTableContent() {
 						}
 					}
 					
+					// create addressString according to available address variables
+					var addressString = "";
+					if (o[e].address.length > 0)
+						addressString += o[e].address;
+					if (o[e].city.length > 0)
+					{
+						if (addressString.length > 0)
+							addressString += ", ";
+						addressString += o[e].zip + " " + o[e].city;
+					}
+					if (o[e].country.length > 0)
+					{
+						if (addressString.length > 0)
+							addressString += ", ";
+						addressString += o[e].country;
+					}
+					
 					var tableRow = "<tr>" + 
 								"<td class='hidden'>" + o[e].id + "</td>"
 								+ "<td>" + o[e].name + "</td>"
 								+ "<td>" + personIdString + "</td>" 
-								+ "<td>" + o[e].address + "," + "<br/>" + o[e].zip + " "
-								+ o[e].city + "," + "<br/>" + o[e].country + "</td>"
+								+ "<td>" + addressString + "</td>"
 								+ "<td>" + typeString + "</td>" 
 								+ "<td>" + categoryString + "</td>"
 								+ "<td>" + o[e].comment + "</td>" +	"</tr>";

@@ -83,7 +83,7 @@ public class Organisation implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "address_id", nullable = false)
+	@JoinColumn(name = "address_id", nullable = true)
 	public Address getAddress() {
 		return this.address;
 	}
@@ -93,7 +93,7 @@ public class Organisation implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "city_id", nullable = false)
+	@JoinColumn(name = "city_id", nullable = true)
 	public City getCity() {
 		return this.city;
 	}
@@ -113,7 +113,7 @@ public class Organisation implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "country_id", nullable = false)
+	@JoinColumn(name = "country_id", nullable = true)
 	public Country getCountry() {
 		return this.country;
 	}

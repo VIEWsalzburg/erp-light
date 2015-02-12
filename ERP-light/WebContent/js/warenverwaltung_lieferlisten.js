@@ -439,40 +439,40 @@ $(document).ready(function() {
 
 var tableData;
 $('#TableHead').on('click','tbody tr', function(event) {
-			tableData = $(this).children("td").map(function() {
-				return $(this).text();
-			}).get();
+	tableData = $(this).children("td").map(function() {
+		return $(this).text();
+	}).get();
 
-			$(this).addClass('highlight').siblings().removeClass('highlight');
+	$(this).addClass('highlight').siblings().removeClass('highlight');
 
-			// set link to word generation of the current selected deliveryList
-			var hrefString = "../rest/secure/deliveryList/exportAsWord/" + tableData[0];
-			$("#href_export").attr("href", hrefString);
-			
-			// only when user has admin rights
-			if (currentUserRights != "Read" && currentUserRights != "") {
-				$('#btn_edit').prop('disabled', false);
-				$('#btn_deleteModal').prop('disabled', false);
-				$('#btn_export').prop('disabled', false);
-			} 
-			else {
-				$('#btn_edit').prop('disabled', true);
-				$('#btn_deleteModal').prop('disabled', true);
-				$('#btn_export').prop('disabled', true);
-			}
-			$('#btn_details').prop('disabled', false);
-			
-			//check if clicked table row entry is archived
-			if($(this).closest("tr").hasClass("checked") == true){
-				$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> De - Archivieren');
-				$('#btn_archive').val("dearchive");
-				$('#btn_archive').prop('disabled', false);
-			}
-			else{
-				$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> Archivieren');
-				$('#btn_archive').val("archive");
-				$('#btn_archive').prop('disabled', false);
-			}
+	// set link to word generation of the current selected deliveryList
+	var hrefString = "../rest/secure/deliveryList/exportAsWord/" + tableData[0];
+	$("#href_export").attr("href", hrefString);
+	
+	// only when user has admin rights
+	if (currentUserRights != "Read" && currentUserRights != "") {
+		$('#btn_edit').prop('disabled', false);
+		$('#btn_deleteModal').prop('disabled', false);
+		$('#btn_export').prop('disabled', false);
+	} 
+	else {
+		$('#btn_edit').prop('disabled', true);
+		$('#btn_deleteModal').prop('disabled', true);
+		$('#btn_export').prop('disabled', true);
+	}
+	$('#btn_details').prop('disabled', false);
+	
+	//check if clicked table row entry is archived
+	if($(this).closest("tr").hasClass("checked") == true){
+		$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> De - Archivieren');
+		$('#btn_archive').val("dearchive");
+		$('#btn_archive').prop('disabled', false);
+	}
+	else{
+		$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> Archivieren');
+		$('#btn_archive').val("archive");
+		$('#btn_archive').prop('disabled', false);
+	}
 });
 
 /**

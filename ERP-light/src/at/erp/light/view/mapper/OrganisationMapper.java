@@ -34,10 +34,38 @@ public class OrganisationMapper {
 		dto.setId(organisation.getOrganisationId());
 		dto.setName(organisation.getName());
 		dto.setComment(organisation.getComment());
-		dto.setAddress(organisation.getAddress().getAddress());
-		dto.setZip(organisation.getCity().getZip());
-		dto.setCity(organisation.getCity().getCity());
-		dto.setCountry(organisation.getCountry().getCountry());
+		
+		
+		// check if addresses are null
+		Address address = organisation.getAddress();
+		City city = organisation.getCity();
+		Country country = organisation.getCountry();
+		String cityString, zipString, countryString, addressString;
+
+		if (city == null) {
+			cityString = "";
+			zipString = "";
+		} else {
+			cityString = city.getCity();
+			zipString = city.getZip();
+		}
+
+		if (country == null) {
+			countryString = "";
+		} else {
+			countryString = country.getCountry();
+		}
+
+		if (address == null) {
+			addressString = "";
+		} else {
+			addressString = address.getAddress();
+		}
+		
+		dto.setAddress(addressString);
+		dto.setZip(zipString);
+		dto.setCity(cityString);
+		dto.setCountry(countryString);
 
 		List<Integer> ids = new ArrayList<Integer>();
 		for (Person p : organisation.getContactPersons()) {
