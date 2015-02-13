@@ -18,7 +18,7 @@ function loadTableContent(){
 				url : "../rest/secure/category/getAllCategories"
 			}).done(
 					function(data) {
-						var c = eval(data);
+						var c = data;	// return data is already a JSON object
 
 						for ( var e in c) {
 							var tableRow = "<tr>" +
@@ -133,7 +133,7 @@ $(document).ready(function() {
 		type : "POST",
 		url : "../rest/secure/person/getCurrentUser"
 	}).done(function(data) {
-		currentUser = eval(data);
+		currentUser = data;		// return data is already JSON
 		currentUserRights = currentUser.permission;
 
 		// only when user has admin rights
@@ -186,7 +186,7 @@ $("#btn_deleteModal").click(function() {
 		url : "../rest/secure/category/getOrganisationsByCategoryId/" + id
 	}).done(function(data) {
 
-		var organisations = eval(data);
+		var organisations = data;	// return data is alreay JSON
 	
 		if (organisations.length>0)
 		{

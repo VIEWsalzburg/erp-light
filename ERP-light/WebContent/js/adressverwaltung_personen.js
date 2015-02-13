@@ -32,7 +32,7 @@ function loadTableContent() {
 		url : "../rest/secure/person/getAll"
 	}).done(
 			function(data) {
-				p = eval(data);
+				p = data;	// already JSON
 				
 				for (var e in p) {
 					var emailString = "";
@@ -283,7 +283,7 @@ $("#btn_edit").click(function() {
 		url : "../rest/secure/person/getPersonById/" + id
 	}).done(function(data) {
 
-		p = eval(data);
+		p = data;	// already JSOn
 
 		//load data to modal
 		$("#tbx_id").val(p.personId);
@@ -475,7 +475,7 @@ $("#btn_details").click(function() {
 		url : "../rest/secure/person/getPersonById/" + id
 	}).done(function(data) {
 		
-		var p = eval(data);
+		var p = data;	// already JSON
 		
 		$("#label_salutation_details").text(p.salutation);
 		
@@ -682,7 +682,7 @@ $(document).ready(function() {
 		type : "POST",
 		url : "../rest/secure/person/getCurrentUser"
 	}).done(function(data) {
-		currentUser = eval(data);
+		currentUser = data;		// already JSON
 		currentUserRights = currentUser.permission;
 		
 		//only when user has admin rights
@@ -728,7 +728,7 @@ $("#btn_deleteModal").click(function() {
 		url : "../rest/secure/person/getPersonById/" + id
 	}).done(function(data) {
 	
-		var p = eval(data);
+		var p = data;	// already JSON
 	
 		$("#label_name_delete").text(p.title + " " + p.lastName + " " + p.firstName);
 		$("#label_address_delete").text(p.address + ", " + p.zip + " " + p.city + ", " + p.country);
