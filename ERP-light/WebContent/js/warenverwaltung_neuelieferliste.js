@@ -51,7 +51,7 @@ function loadAllOutgoingDeliveries(){
 		async : false,
 		url : "../rest/secure/organisation/getAllOrganisations"
 	}).done(function(data) {
-		organisations = eval(data);
+		organisations = data;	// already JSON
 	});
 	
 	
@@ -60,7 +60,7 @@ function loadAllOutgoingDeliveries(){
 		type : "POST",
 		url : "../rest/secure/outgoingDelivery/getAllAvailables"
 	}).done(function(data) {
-				var out = eval(data);
+				var out = data;	// already JSON
 
 				for (var e in out) {
 					
@@ -103,7 +103,7 @@ function loadDeliveryList(id){
 		type : "POST",
 		url : "../rest/secure/deliveryList/getById/" + id
 	}).done(function(data) {
-			var list = eval(data);
+			var list = data;	// already JSON
 			var out = list.outgoingDeliveryDTOs;
 	
 			//load textboxes
@@ -135,7 +135,7 @@ function loadDeliveryList(id){
 					url : "../rest/secure/organisation/getOrganisationById/" + out[e].organisationId
 				}).done(function(data) {
 					
-					org = eval(data);
+					org = data;	// already JSON
 				});
 				
 				//get articles
@@ -283,7 +283,7 @@ $("#btn_savedeliverylist").click(function() {
 			async : false,
 			url : "../rest/secure/outgoingDelivery/getById/" + disp[0]
 		}).done(function(data) {
-					out = eval(data);
+					out = data;	// already JSON
 		});
 		outgoingDeliveryDTOs.push(out);
 	}
@@ -356,7 +356,7 @@ $(document).ready(function() {
 		type : "POST",
 		url : "../rest/secure/person/getCurrentUser"
 	}).done(function(data) {
-		currentUser = eval(data);
+		currentUser = data;	// already JSON
 		currentUserRights = currentUser.permission;
 
 		// only when user has admin rights

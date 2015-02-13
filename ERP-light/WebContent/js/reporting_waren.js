@@ -45,7 +45,7 @@ function loadAllOrganisations() {
 		url : "../rest/secure/organisation/getAllOrganisations"
 	}).done(
 			function(data) {
-				var o = eval(data);
+				var o = data;	// already JSON
 				
 				for (var e in o) {
 					for(var i=0; i< o[e].types.length; i++){
@@ -135,7 +135,7 @@ $("#btn_saveOrganisation").click(function() {
 		url : "../rest/secure/organisation/getOrganisationById/" + id
 	}).done(
 			function(data) {
-				o = eval(data);
+				o = data;	// already JSON
 				
 				// store the id to the global var
 				$('.tbx_orgId').val(o.id);
@@ -271,7 +271,7 @@ function generateReport(mode, incomingReportByOrg, incomingReportForAllOrg, outg
 	    dataType: "json",
 		data : JSON.stringify(reportCommand)
 	}).done(function(data) {
-			report_data = eval(data);
+			report_data = data;		// already JSON
 			
 			if(mode == 0 || mode == 2 || mode == 4 || mode == 5){
 				$('.tbx_totalweight').val(report_data.totalWeight + " kg");
