@@ -117,11 +117,17 @@ public class PersonController {
 	@RequestMapping(value = "/secure/person/setPerson")
 	ControllerMessage setPerson(@RequestBody PersonDTO person, HttpServletRequest request) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		try {
-		
-			Person entity = PersonMapper.mapToEntity(person);
-			
+
 			// set current user for updater
 			int lastEditorId = (int) request.getSession().getAttribute("id");
+			// get current User
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
+			Person entity = PersonMapper.mapToEntity(person);
 			entity.setLastEditor(dataBaseService.getPersonById(lastEditorId));
 	
 			// persist Person to DB
@@ -170,7 +176,15 @@ public class PersonController {
 	@RequestMapping(value = "secure/person/deletePersonById/{id}")
 	public ControllerMessage deletePersonById(@PathVariable int id, HttpServletRequest request) {
 
+		int lastEditorId = (int)request.getSession().getAttribute("id");
+		
 		try {
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dataBaseService.deletePersonById(id);
 		} catch (HibernateException e)
 		{
@@ -180,16 +194,22 @@ public class PersonController {
 		}
 		
 		log.info("deleted person with id: "+id);
-		int lastEditorId = (int)request.getSession().getAttribute("id");
 		dataBaseService.insertLogging("[INFO] Person mit der id "+id+" gelöscht", lastEditorId);
 		return new ControllerMessage(true, "Löschen erfolgreich!");
 		
 	}
 
 	@RequestMapping(value = "secure/person/resetPasswordForId/{id}")
-	public ControllerMessage resetPasswordForId(@PathVariable int id)
+	public ControllerMessage resetPasswordForId(@PathVariable int id, HttpServletRequest request)
 			throws IOException, NoSuchAlgorithmException {
 		try {
+			int lastEditorId = (int)request.getSession().getAttribute("id");
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			Platformuser platformuser = dataBaseService.getPlatformuserById(id);
 			
 			platformuser.setPassword(HashGenerator.hashPasswordWithSalt("default"));

@@ -57,11 +57,18 @@ public class OrganisationController {
 	}
 	
 	@RequestMapping(value = "/secure/organisation/setOrganisation")
-	ControllerMessage setOrganisation(@RequestBody OrganisationDTO organisation, HttpServletRequest request) {
+	public ControllerMessage setOrganisation(@RequestBody OrganisationDTO organisation, HttpServletRequest request) {
 		
 		try {
+			
+			int lastEditorId = (int)request.getSession().getAttribute("id");
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			Organisation entity = OrganisationMapper.mapToEntity(organisation, dataBaseService);
-			int lastEditorId = (int) request.getSession().getAttribute("id");
 			entity.setLastEditor(dataBaseService.getPersonById(lastEditorId));
 			dataBaseService.setOrganisation(entity);
 		
@@ -89,16 +96,22 @@ public class OrganisationController {
 		int lastEditorId = (int) request.getSession().getAttribute("id");
 
 		try {
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dataBaseService.deleteOrganisationById(id);
 			log.info("deleted organisation with id "+id);
+			dataBaseService.insertLogging("[INFO] Organisation mit der id "+id+" gelöscht", lastEditorId);
+			return new ControllerMessage(true, "Löschen erfolgreich!");
+			
 		} catch (HibernateException e)
 		{
 			e.printStackTrace();
 			return new ControllerMessage(false, "Löschen fehlgeschlagen!");
 		}
-		
-		dataBaseService.insertLogging("[INFO] Organisation mit der id "+id+" gelöscht", lastEditorId);
-		return new ControllerMessage(true, "Löschen erfolgreich!");
 		
 	}
 	

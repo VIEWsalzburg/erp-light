@@ -71,10 +71,30 @@ public class DistributionController {
 	}
 	
 	@RequestMapping(value = "secure/articlePUDistribution/updateDistributionList")
-	public ControllerMessage updateArticlePUDistributionList(@RequestBody List<InOutArticlePUDTO> distributionList)
+	public ControllerMessage updateArticlePUDistributionList(@RequestBody List<InOutArticlePUDTO> distributionList,
+			HttpServletRequest request)
 	{
 		try {
+			int lastEditorId = (int) request.getSession().getAttribute("id");
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false && currentUserPermission.equals("ReadWrite") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dataBaseService.updateArticleDistribution(distributionList);
+			
+			if (distributionList.size()>0){
+				int articleId = 0;
+
+				// get incomingArticleId for first Entry => most times the incomingArticle
+				if (distributionList.get(0).getType() == 0)
+					articleId = dataBaseService.getIncomingArticleById(distributionList.get(0).getInOutArticleId()).getArticle().getArticleId();
+
+				log.info("articleDistribution updated for Article "+articleId);
+				dataBaseService.insertLogging("[INFO] Artikelverteilung für Artikel mit der Id "+articleId+" geändert", lastEditorId);
+			}
+			
 			return new ControllerMessage(true, "Speichern erfolgreich");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,10 +106,19 @@ public class DistributionController {
 	
 	
 	@RequestMapping(value = "secure/articlePUDistribution/deleteArticleById/{articleId}")
-	public ControllerMessage deleteArticleAndDistribution(@PathVariable int articleId)
+	public ControllerMessage deleteArticleAndDistribution(@PathVariable int articleId, HttpServletRequest request)
 	{
 		try {
+			int lastEditorId = (int) request.getSession().getAttribute("id");
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false && currentUserPermission.equals("ReadWrite") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dataBaseService.deleteArticleWithDistributionByArticleId(articleId);
+			log.info("deleted all articleDistributions for article "+articleId);
+			dataBaseService.insertLogging("[INFO] Artikel mit der Id "+articleId+" für alle Wareneingänge und Warenausgänge gelöscht", lastEditorId);
 			return new ControllerMessage(true, "Löschen erfolgreich!");
 		} catch (Exception e) {
 			e.printStackTrace();

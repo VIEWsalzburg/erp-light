@@ -149,10 +149,16 @@ public class DeliveryController {
 	public ControllerMessage setIncomingDeliveryState(@PathVariable int id,
 			@PathVariable int state, HttpServletRequest request) {
 		try {
+			int lastEditorId = (int)request.getSession().getAttribute("id");
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false && currentUserPermission.equals("ReadWrite") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dataBaseService.archiveIncomingDeliveryById(id, state);
 
 			log.info("set incoming delivery with: " + id + " to archivedState " + state + ".");
-			int lastEditorId = (int)request.getSession().getAttribute("id");
 			dataBaseService.insertLogging("[INFO] Wareneingang mit der id "+id+" auf Archivierungsstatus "+state+" gesetzt", lastEditorId);
 			return new ControllerMessage(true,"Set archived state for delivery successful");
 		} catch (Exception e) {
@@ -171,10 +177,16 @@ public class DeliveryController {
 	public ControllerMessage setOutgoingDeliveryState(@PathVariable int id,
 			@PathVariable int state, HttpServletRequest request) {
 		try {
+			int lastEditorId = (int)request.getSession().getAttribute("id");
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false && currentUserPermission.equals("ReadWrite") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dataBaseService.archiveOutgoingDeliveryById(id, state);
 
 			log.info("set outgoingDelivery with: " + id + " to archivedState " + state + ".");
-			int lastEditorId = (int)request.getSession().getAttribute("id");
 			dataBaseService.insertLogging("[INFO] Warenausgang mit der id "+id+" auf Archivierungsstatus "+state+" gesetzt", lastEditorId);
 			return new ControllerMessage(true,
 					"Archive operation for delivery successful");
@@ -198,7 +210,14 @@ public class DeliveryController {
 
 		try {
 			int lastEditorId = (int) request.getSession().getAttribute("id"); // get current editor id
-
+			
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false && currentUserPermission.equals("ReadWrite") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
+			
 			IncomingDelivery entity = IncomingDeliveryMapper.mapToEntity(dto); // map incomingDelivery to entity
 			// set current Times for updateTimestamp
 			entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
@@ -244,9 +263,15 @@ public class DeliveryController {
 	public ControllerMessage deleteIncomingDeliveryById(@PathVariable int id, HttpServletRequest request) {
 
 		try {
+			int lastEditorId = (int)request.getSession().getAttribute("id");
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false && currentUserPermission.equals("ReadWrite") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dataBaseService.deleteIncomingDeliveryById(id);
 			log.info("delete incomingDelivery with id "+id+" successful");
-			int lastEditorId = (int)request.getSession().getAttribute("id");
 			dataBaseService.insertLogging("[INFO] Wareneingang mit der id "+id+" gelöscht", lastEditorId);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -373,6 +398,13 @@ public class DeliveryController {
 		try{
 			
 			int lastEditorId = (int) request.getSession().getAttribute("id"); // get current editor id
+			
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false && currentUserPermission.equals("ReadWrite") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dto.setLastEditorId(lastEditorId);
 			
 			// Organisation, lastEditor and updateTimestamp from DTO are set within the mapper method
@@ -421,9 +453,15 @@ public class DeliveryController {
 	public ControllerMessage deleteOutgoingDeliveryById(@PathVariable int id, HttpServletRequest request) {
 
 		try {
+			int lastEditorId = (int) request.getSession().getAttribute("id");
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false && currentUserPermission.equals("ReadWrite") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dataBaseService.deleteOutgoingDeliveryById(id);
 			log.info("deleting outgoingDelivery with id "+id+" successful");
-			int lastEditorId = (int) request.getSession().getAttribute("id");
 			dataBaseService.insertLogging("[INFO] Warenausgang mit der id "
 					+id+" gelöscht", lastEditorId);
 			return new ControllerMessage(true, "Löschen erfolgreich!");
@@ -500,10 +538,16 @@ public class DeliveryController {
 	public ControllerMessage setDeliveryListState(@PathVariable int id,
 			@PathVariable int state, HttpServletRequest request) {
 		try {
+			int lastEditorId = (int) request.getSession().getAttribute("id");
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false && currentUserPermission.equals("ReadWrite") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dataBaseService.archiveDeliveryListById(id, state);
 
 			log.info("set delivery list with: " + id + " to archivedState" + state + ".");
-			int lastEditorId = (int) request.getSession().getAttribute("id");
 			dataBaseService.insertLogging("[INFO] Lieferliste mit der id "+id
 					+" auf Archivierungsstatus "+state+" gesetzt", lastEditorId);
 			return new ControllerMessage(true,
@@ -569,6 +613,12 @@ public class DeliveryController {
 
 		try {
 			int lastEditorId = (int) request.getSession().getAttribute("id");
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false && currentUserPermission.equals("ReadWrite") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dto.setLastEditorId(lastEditorId);
 			DeliveryList entity = DeliveryListMapper.mapToEntity(dto,
 					dataBaseService);
@@ -597,10 +647,16 @@ public class DeliveryController {
 	public ControllerMessage deleteDeliveryListById(@PathVariable int id, HttpServletRequest request) {
 
 		try {
+			int lastEditorId = (int) request.getSession().getAttribute("id");
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false && currentUserPermission.equals("ReadWrite") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dataBaseService.deleteDeliveryListById(id);
 			log.info("deleting deliveryList successful");
 			
-			int lastEditorId = (int) request.getSession().getAttribute("id");
 			dataBaseService.insertLogging("[INFO] Lieferliste mit der id "+id+" gelöscht", lastEditorId);
 			
 			return new ControllerMessage(true, "Löschen erfolgreich!");

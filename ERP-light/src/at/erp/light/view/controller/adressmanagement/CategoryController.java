@@ -56,6 +56,12 @@ public class CategoryController {
 		int lastEditorId = (int) request.getSession().getAttribute("id");
 		
 		try {
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dataBaseService.setCategory(entity);
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -93,6 +99,12 @@ public class CategoryController {
 
 		int lastEditorId = (int) request.getSession().getAttribute("id");
 		try {
+			String currentUserPermission = dataBaseService.getPlatformuserById(lastEditorId).getPermission().getPermission();
+			if (currentUserPermission.equals("Admin") == false)
+			{
+				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
+			}
+			
 			dataBaseService.deleteCategoryById(id);
 			log.info("deleting category with id "+id+" successful");
 		} catch (HibernateException e) {
