@@ -21,7 +21,7 @@ function loadAllContactPersons() {
 		url : "../rest/secure/person/getAll"
 	}).done(
 			function(data) {
-				var contactPersons = eval(data);
+				var contactPersons = data;	// return data is already JSON
 				
 				for (var e in contactPersons) {
 					var p_divRow = "<div class='boxElement_person'>" + "<input type='hidden' value="+
@@ -59,7 +59,7 @@ function loadAllCategories() {
 		url : "../rest/secure/category/getAllCategories"
 	}).done(
 			function(data) {
-				c = eval(data);
+				c = data;	// return data is already JSON
 				
 				for (var e in c) {
 					var c_divRow = "<div class='boxElement_category'>" + "<input type='hidden' value="+ c[e].categoryId +">" + "<span>" + c[e].category + " "
@@ -126,7 +126,7 @@ $("#btn_edit").click(function() {
 		url : "../rest/secure/organisation/getOrganisationById/" + id
 	}).done(function(data) {
 		
-		var org = eval(data);
+		var org = data;		// return data is already JSON
 		
 		// load textboxes
 		$("#tbx_id").val(org.id);
@@ -231,7 +231,7 @@ function loadContactPerson(id) {
 		async : false,
 		url : "../rest/secure/person/getPersonById/" + id
 	}).done(function(data) {
-				contactPerson = eval(data);
+				contactPerson = data;	// return data is already JSON
 				nameString = contactPerson.lastName + " " + contactPerson.firstName;
 			});
 	return nameString;
@@ -257,7 +257,7 @@ function loadTableContent() {
 		url : "../rest/secure/category/getAllCategories"
 	}).done(
 			function(data) {
-				c = eval(data);
+				c = data;	// already JSON
 	});
 	
 	// load all Persons for ContactPersons
@@ -268,7 +268,7 @@ function loadTableContent() {
 		url : "../rest/secure/person/getAll"
 	}).done(
 			function(data) {
-				allPersons = eval(data);
+				allPersons = data;	// already JSON
 	});
 	
 	$.ajax({
@@ -276,7 +276,7 @@ function loadTableContent() {
 		url : "../rest/secure/organisation/getAllActiveOrganisations"
 	}).done(
 			function(data) {
-				o = eval(data);
+				o = data;	// already JSON
 				
 				for (var e in o) {
 					var types = o[e].types;
@@ -491,7 +491,7 @@ $("#btn_details").click(function() {
 		url : "../rest/secure/organisation/getOrganisationById/" + id
 	}).done(function(data) {
 		
-		var org = eval(data);
+		var org = data;	// already JSON
 		
 		$("#label_name_details").text(org.name);
 		$("#label_address_details").text(org.address);
@@ -523,10 +523,7 @@ $("#btn_details").click(function() {
 			}
 		}
 		
-		
-		
-		
-		
+
 		// load all Categories to iterate over them and search for used Ids
 		var allCategories;
 		$.ajax({
@@ -535,7 +532,7 @@ $("#btn_details").click(function() {
 			url : "../rest/secure/category/getAllCategories"
 		}).done(
 				function(data) {
-					allCategories = eval(data);
+					allCategories = data;	// already JSON
 		});
 		
 		
@@ -901,7 +898,7 @@ $(document).ready(function() {
 		type : "POST",
 		url : "../rest/secure/person/getCurrentUser"
 	}).done(function(data) {
-		currentUser = eval(data);
+		currentUser = data;	// already JSON
 		currentUserRights = currentUser.permission;
 		
 		//only when user has readwrite/admin rights
@@ -953,7 +950,7 @@ $("#btn_deleteModal").click(function() {
 		url : "../rest/secure/organisation/getOrganisationById/" + id
 	}).done(function(data) {
 	
-		var o = eval(data); 
+		var o = data;	// already JSON 
 		
 		var typeString = "";
 		

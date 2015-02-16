@@ -80,7 +80,7 @@ function loadAllOrganisations() {
 		async : false,
 		url : "../rest/secure/organisation/getAllOrganisations"
 	}).done(function(data) {
-			gOrganisations = eval(data);
+			gOrganisations = data;	// already JSON
 	});
 	
 }
@@ -93,7 +93,7 @@ function loadAllAvailableArticlesInDepot(){
 		async : true,
 		url : "../rest/secure/articles/getAvailableArticles"
 	}).done(function(data) {
-			availArticles = eval(data);
+			availArticles = data;	// already JSON
 			
 			
 			// if no articles are available
@@ -152,7 +152,7 @@ function loadTableContent(id){
 		async : false,
 		url : "../rest/secure/outgoingDelivery/getById/" + id
 	}).done(function(data) {
-			out = eval(data);
+			out = data;	// already JSON
 	});
 	
 	//get organisation by id
@@ -163,7 +163,7 @@ function loadTableContent(id){
 		async : false,
 		url : "../rest/secure/organisation/getOrganisationById/" + out.organisationId
 	}).done(function(data) {
-		org = eval(data);
+		org = data;	// already JSON
 		
 		// store the id to the global var
 		$('#tbx_orgId').val(org.id);
@@ -224,7 +224,7 @@ function loadTableContent(id){
 		async : false,
 		url : "../rest/secure/articles/getAvailableArticles"
 	}).done(function(data) {
-			availArticles = eval(data);
+			availArticles = data;	// already JSON
 	});
 	
 	for (var i in availArticles) {
@@ -289,7 +289,7 @@ function loadAllReceivers() {
 		url : "../rest/secure/organisation/getAllOrganisations"
 	}).done(
 			function(data) {
-				var o = eval(data);
+				var o = data;	// already JSON
 				
 				for (var e in o) {
 					for(var i=0; i< o[e].types.length; i++){
@@ -402,7 +402,7 @@ $("#btn_saveReceiver").click(function() {
 		url : "../rest/secure/organisation/getOrganisationById/" + id
 	}).done(
 			function(data) {
-				o = eval(data);
+				o = data;	// already JSON
 				
 				// store the id to the global var
 				$('#tbx_orgId').val(o.id);
@@ -791,7 +791,7 @@ $(document).ready(function() {
 		type : "POST",
 		url : "../rest/secure/person/getCurrentUser"
 	}).done(function(data) {
-		currentUser = eval(data);
+		currentUser = data;	// already JSON
 		currentUserRights = currentUser.permission;
 
 		// only when user has admin rights

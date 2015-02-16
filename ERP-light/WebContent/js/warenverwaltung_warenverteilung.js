@@ -71,7 +71,7 @@ $(document).ready(
 			async : false,
 			url : "../rest/secure/organisation/getAllOrganisations"
 		}).done(function(data) {
-			organisations = eval(data);
+			organisations = data;	// already JSON
 		});
 		
 		

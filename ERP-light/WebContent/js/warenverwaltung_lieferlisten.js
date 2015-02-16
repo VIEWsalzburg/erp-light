@@ -11,7 +11,7 @@ function loadTableContent(loadArchivedEntries){
 		async : false,
 		url : "../rest/secure/organisation/getAllOrganisations"
 	}).done(function(data) {
-		organisations = eval(data);
+		organisations = data;	// already JSON
 	});
 	
 	//check if only non archived entries should be loaded to table
@@ -27,7 +27,7 @@ function loadTableContent(loadArchivedEntries){
 				url : "../rest/secure/deliveryList/getAll" + loadArchivedEntries
 			}).done(
 					function(data) {
-						var deliverylists = eval(data);
+						var deliverylists = data;	// already JSON
 						
 						// iterate over all lists
 						for (var e in deliverylists) {
@@ -171,7 +171,7 @@ function loadContactPerson(id) {
 		async : false,
 		url : "../rest/secure/person/getPersonById/" + id
 	}).done(function(data) {
-				contactPerson = eval(data);
+				contactPerson = data;	// alredy JSON
 				nameString = contactPerson.lastName + " " + contactPerson.firstName;
 			});
 	return nameString;
@@ -192,7 +192,7 @@ $("#btn_details").click(function() {
 		async : false,
 		url : "../rest/secure/deliveryList/getById/" + id
 	}).done(function(data) {
-		list = eval(data);
+		list = data;	// already JSON
 	});
 	
 	$("#label_description_details").text(list.comment);
@@ -235,7 +235,7 @@ $("#btn_details").click(function() {
 				async : false,
 				url : "../rest/secure/organisation/getOrganisationById/" + unique[j]
 			}).done(function(data) {
-				org = eval(data);
+				org = data;	// already JSON
 			
 				//deliverer
 				var template = "<div class='row details' style='background-color: #F0F0F0;'><div class='col-md-6'><label>Lieferant "+ (parseInt(j) + 1) +"</label></div><div class='col-md-6'><label>" + org.name + "</label></div></div>";
@@ -296,7 +296,7 @@ $("#btn_details").click(function() {
 			async : false,
 			url : "../rest/secure/organisation/getOrganisationById/" + list.outgoingDeliveryDTOs[i].organisationId
 		}).done(function(data) {
-			org = eval(data);
+			org = data;	// already JSON
 		
 			//receiver
 			var template = "<div class='row details' style='background-color: #F0F0F0;'><div class='col-md-6'><label>Kunde</label></div><div class='col-md-6'><label>" + org.name + "</label></div></div>";
@@ -418,7 +418,7 @@ $(document).ready(function() {
 		type : "POST",
 		url : "../rest/secure/person/getCurrentUser"
 	}).done(function(data) {
-		currentUser = eval(data);
+		currentUser = data;	// already JSON
 		currentUserRights = currentUser.permission;
 
 		// only when user has admin rights
@@ -488,7 +488,7 @@ $("#btn_deleteModal").click(function() {
 		async : false,
 		url : "../rest/secure/deliveryList/getById/" + id
 	}).done(function(data) {
-			inc = eval(data);
+			inc = data;	// already JSON
 	});
 	
 	$("#label_date_delete").text(inc.date);

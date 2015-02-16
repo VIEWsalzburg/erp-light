@@ -11,7 +11,7 @@ function loadTableContent(loadArchivedEntries){
 		async : false,
 		url : "../rest/secure/organisation/getAllOrganisations"
 	}).done(function(data) {
-			organisations = eval(data);
+			organisations = data;	// already JSON
 	});
 	
 	//check if only non archived entries should be loaded to table
@@ -26,7 +26,7 @@ function loadTableContent(loadArchivedEntries){
 		type : "POST",
 		url : "../rest/secure/incomingDelivery/getAll" + loadArchivedEntries
 	}).done(function(data) {
-		var inc = eval(data);
+		var inc = data;	// already JSON
 
 		for (var e in inc) {
 			
@@ -118,7 +118,7 @@ function loadContactPerson(id) {
 		async : false,
 		url : "../rest/secure/person/getPersonById/" + id
 	}).done(function(data) {
-				contactPerson = eval(data);
+				contactPerson = data;	// already JSON
 				nameString = contactPerson.lastName + " " + contactPerson.firstName;
 			});
 	return nameString;
@@ -139,7 +139,7 @@ $("#btn_details").click(function() {
 		async : false,
 		url : "../rest/secure/incomingDelivery/getById/" + id
 	}).done(function(data) {
-		inc = eval(data);
+		inc = data;	// already JSON
 	});
 				
 	//get organisation by id
@@ -149,7 +149,7 @@ $("#btn_details").click(function() {
 		async : false,
 		url : "../rest/secure/organisation/getOrganisationById/" + inc.organisationId
 	}).done(function(data) {
-		org = eval(data);
+		org = data;	// already JSON
 	});
 	
 	$("#label_name_details").text(org.name);
@@ -369,7 +369,7 @@ $(document).ready(function() {
 		type : "POST",
 		url : "../rest/secure/person/getCurrentUser"
 	}).done(function(data) {
-		currentUser = eval(data);
+		currentUser = data;	// already JSON
 		currentUserRights = currentUser.permission;
 
 		// only when user has admin rights
@@ -444,7 +444,7 @@ $("#btn_deleteModal").click(function() {
 		async : false,
 		url : "../rest/secure/incomingDelivery/getById/" + id
 	}).done(function(data) {
-			inc = eval(data);
+			inc = data;	// already JSON
 	});
 				
 	//get organisation by id
@@ -455,7 +455,7 @@ $("#btn_deleteModal").click(function() {
 		async : false,
 		url : "../rest/secure/organisation/getOrganisationById/" + inc.organisationId
 	}).done(function(data) {
-		org = eval(data);
+		org = data;	// already JSON
 		organisationString = org.name + ", " + org.zip + " " + org.city + ", " + org.country
 	});
 					

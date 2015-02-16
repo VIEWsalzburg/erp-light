@@ -55,7 +55,7 @@ $("#pageheader").load("../partials/header.html", function() {
 			url : "../rest/secure/person/getCurrentUser"
 		}).done(function(data) {
 
-			var p = eval(data);
+			var p = data;	// already JSON
 			
 			//load data to modal
 			$("#username").text(p.firstName +" " + p.lastName);
@@ -206,7 +206,7 @@ $("#pageheader").load("../partials/header.html", function() {
 			url : "../rest/secure/person/getCurrentUser"
 		}).done(function(data) {
 
-			var p = eval(data);
+			var p = data;	// already JSON
 			
 			//load data to modal
 			$("#username").text(p.firstName +" " + p.lastName);
@@ -344,7 +344,7 @@ $(document).ready(function() {
 		type : "POST",
 		url : "../rest/secure/person/getCurrentUser"
 	}).done(function(data) {
-		var p = eval(data); 
+		var p = data;	// already JSON 
 		currentUserRights = p.permission;
 		
 		if(currentUserRights == "Read"){

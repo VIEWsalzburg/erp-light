@@ -63,7 +63,7 @@ function loadNewIncomingDelivery(id){
 		async : false,
 		url : "../rest/secure/incomingDelivery/getById/" + id
 	}).done(function(data) {
-			inc = eval(data);
+			inc = data;	// already JSON
 	});
 	
 	//get organisation by id
@@ -74,7 +74,7 @@ function loadNewIncomingDelivery(id){
 		async : false,
 		url : "../rest/secure/organisation/getOrganisationById/" + inc.organisationId
 	}).done(function(data) {
-		org = eval(data);
+		org = data;	// already JSON
 
 		// store the id to the global var
 		$('#tbx_orgId').val(org.id);
@@ -157,7 +157,7 @@ function loadAllDeliverers() {
 		url : "../rest/secure/organisation/getAllOrganisations"
 	}).done(
 			function(data) {
-				var o = eval(data);
+				var o = data;	// already JSON
 				
 				for (var e in o) {
 					for(var i=0; i< o[e].types.length; i++){
@@ -509,7 +509,7 @@ $("#btn_saveDeliverer").click(function() {
 		url : "../rest/secure/organisation/getOrganisationById/" + id
 	}).done(
 			function(data) {
-				o = eval(data);
+				o = data;	// already JSON
 				
 				// store the id to the global var
 				$('#tbx_orgId').val(o.id);
@@ -649,7 +649,7 @@ $(document).ready(function() {
 		type : "POST",
 		url : "../rest/secure/person/getCurrentUser"
 	}).done(function(data) {
-		currentUser = eval(data);
+		currentUser = data;	// already JSON
 		currentUserRights = currentUser.permission;
 
 		// only when user has admin rights
