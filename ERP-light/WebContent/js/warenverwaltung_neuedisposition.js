@@ -54,6 +54,16 @@ $("#tbx_comment").focusout(function() {
 });
 
 
+// init datepicker on load
+$('.datepicker').datepicker({
+				format: "dd.mm.yyyy",
+				weekStart: 1,
+				todayBtn: "linked",
+				language: "de",
+				todayHighlight: true
+			});
+
+
 //restrict input of PUs to integers
 $(document).ready(function(){
 	$('#tbx_packagingunit').keypress(function(eventData) {
