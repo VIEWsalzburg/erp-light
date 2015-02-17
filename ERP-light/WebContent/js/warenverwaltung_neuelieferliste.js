@@ -40,6 +40,15 @@ $("#tbx_comment").focusout(function() {
 	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 });
 
+//init datepicker on load
+$('.datepicker').datepicker({
+				format: "dd.mm.yyyy",
+				weekStart: 1,
+				todayBtn: "linked",
+				language: "de",
+				todayHighlight: true
+			});
+
 // Get all available outgoing delivery entries and load into table
 // only outgoing deliveries, which are not booked
 function loadAllOutgoingDeliveries(){

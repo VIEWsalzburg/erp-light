@@ -126,6 +126,10 @@
 	padding: 6px 12px;
 }
 
+.datepicker table tr td, .datepicker table tr th {
+	border-radius: 0px;
+}
+
 
 
 /***** Warenverteilung *****/

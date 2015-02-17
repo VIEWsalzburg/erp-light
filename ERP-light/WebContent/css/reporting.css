@@ -78,3 +78,12 @@
 .boxElement_organisation{
 	border-bottom: 1px solid #ccc;
 }
+
+/* optimize datepicker */
+.datepicker {
+	padding: 6px 12px;
+}
+
+.datepicker table tr td, .datepicker table tr th {
+	border-radius: 0px;
+}

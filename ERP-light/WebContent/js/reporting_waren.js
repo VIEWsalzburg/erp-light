@@ -11,6 +11,15 @@ $(function () {
 	$('[data-toggle="popover"]').popover()
 });
 
+//init datepicker on load
+$('.datepicker').datepicker({
+				format: "dd.mm.yyyy",
+				weekStart: 1,
+				todayBtn: "linked",
+				language: "de",
+				todayHighlight: true
+			});
+
 //clear inputs on accordion load
 $(".accordion_heading").click(function() {
 	$(".btn_export").prop('disabled', true);
