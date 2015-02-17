@@ -42,15 +42,6 @@ public interface IDataBase {
 	 */
 	public Person getPersonById(int id) throws HibernateException;
 	
-
-	
-	/**
-	 * unimplemented
-	 * @param type
-	 * @return
-	 */
-	public List<Person> getPersonsByType(Type type) throws HibernateException;
-	
 	/**
 	 * This function returns all Persons from the DB.
 	 * @return a Set with all Persons. 
@@ -58,13 +49,12 @@ public interface IDataBase {
 	public List<Person> getAllPersons() throws HibernateException;
 	
 	/**
-	 * unimplemented
-	 * @param loginEmail
-	 * @return
+	 * This function returns all active (non deleted) Persons from the DB.
+	 * @return a Set with all Persons. 
 	 */
-	public Person getPersonByLoginEmail(String loginEmail) throws HibernateException;
+	public List<Person> getAllActivePersons() throws HibernateException;
 	
-	/**
+/**
 	 * Saves or updates the given Person in the DB. All fields are parsed and reassign depending on the saved entities.
 	 * New Objects are automatically created and assigned (Address, City, Country, Telephones, Emails)
 	 * @param person
@@ -72,12 +62,7 @@ public interface IDataBase {
 	 */
 	public int setPerson(Person person) throws HibernateException;
 	
-	/**
-	 * unimplemented
-	 * @param persons
-	 * @return
-	 */
-	public int setPersons(List<Person> persons) throws HibernateException;
+
 	
 	/**
 	 * deletes a person by setting the active flag to 0
@@ -88,7 +73,6 @@ public interface IDataBase {
 	
 	// Organisations
 	public Organisation getOrganisationById(int id) throws HibernateException;
-	public List<Organisation> getOrganisationsByCategory(Category category) throws HibernateException;
 	public List<Organisation> getAllOrganisations() throws HibernateException;
 	
 	/**
@@ -99,7 +83,6 @@ public interface IDataBase {
 	public List<Organisation> getAllActiveOrganisations() throws HibernateException;
 	
 	public int setOrganisation(Organisation organisation) throws HibernateException;
-	public int setOrganisations(List<Organisation> organisations) throws HibernateException;
 	
 	/**
 	 * deletes an organisation by setting the active flag to 0
@@ -300,36 +283,10 @@ public interface IDataBase {
 	public int deleteArticleWithDistributionByArticleId(int articleId) throws Exception;
 	
 	
-	
-	
-	// not implemented
-	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) throws HibernateException;
-	
-	// not inplemented
-	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) throws HibernateException;
-	
-	// Incoming articles
-	public List<IncomingArticle> getAllIncomingArticles() throws HibernateException;
-	
-	public int setIncomingArticle(IncomingArticle incomingArticle) throws HibernateException;
-	public int setIncomingArticles(List<IncomingArticle> incomingArticles) throws HibernateException;
-
 	// Articles
 	public Article getArticleById(int id) throws HibernateException;
-	public List<Article> getAllArticles() throws HibernateException;
 	
-	public int setArticle(Article article) throws HibernateException;
-	public int setArticles(List<Article> articles) throws HibernateException;
 
-	// Outgoing articles
-	public List<OutgoingArticle> getAllOutgoingArticles() throws HibernateException;
-	
-	public int setOutgoingArticle(OutgoingArticle outgoingArticle) throws HibernateException;
-	public int setOutgoingArticles(List<OutgoingArticle> outgoingArticles) throws HibernateException;
-	
-	
-	
-	// Delivery list
 	/**
 	 * returns the delivery list with the given id
 	 * @param id
@@ -377,8 +334,6 @@ public interface IDataBase {
 	 * @throws HibernateException
 	 */
 	boolean archiveDeliveryListById(int id, int status) throws HibernateException;
-	
-	public int setDeliveryLists(List<DeliveryList> deliveryLists) throws HibernateException;
 	
 	
 	

@@ -3,7 +3,9 @@ package at.erp.light.view.controller.adressmanagement;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,7 +23,9 @@ import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 import at.erp.light.view.authenticate.HashGenerator;
+import at.erp.light.view.dto.EmailDTO;
 import at.erp.light.view.dto.PersonDTO;
+import at.erp.light.view.dto.TelephoneDTO;
 import at.erp.light.view.mapper.PersonMapper;
 import at.erp.light.view.model.Permission;
 import at.erp.light.view.model.Person;
@@ -50,6 +54,19 @@ public class PersonController {
 		}
 		
 		log.info("returning all Persons");
+		
+		return list;
+	}
+	
+	@RequestMapping(value = "secure/person/getAllActive")
+	public List<PersonDTO> getAllActivePersons() {
+		List<PersonDTO> list = new ArrayList<PersonDTO>();
+
+		for (Person p : dataBaseService.getAllActivePersons()) {
+			list.add(PersonMapper.mapToDTO(p));
+		}
+		
+		log.info("returning all active Persons");
 		
 		return list;
 	}
@@ -264,7 +281,10 @@ public class PersonController {
 	@RequestMapping(value = "secure/person/getAllPersonsAsCSV")
 	public void downloadCSV(HttpServletResponse response) throws IOException {
 
-		String csvFileName = "personen.csv";
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		String currentDateString = sdf.format(new Date());
+		
+		String csvFileName = "Alle Personen_"+currentDateString+".csv";
 		response.setContentType("text/csv");
 		// creates mock data
 		String headerKey = "Content-Disposition";
@@ -276,20 +296,98 @@ public class PersonController {
 		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
 				CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
 
-		String[] header = { "Personen ID", "Anrede", "Titel", "Vorname",
-				"Nachname", "Kommentar", "Letzte Änderung", "Aktiv", "Adresse",
-				"Stadt", "Postleitzahl", "Land", "Login", "Berechtigung",
-				"Typen", "Emails", "Tel. Nummern" };
-
-		String[] objectHeader = { "personId", "salutation", "title",
-				"firstName", "lastName", "comment", "updateTimestamp",
-				"active", "address", "city", "zip", "country", "loginEmail",
-				"permission", "types", "emails", "telephones" };
+		csvWriter.writeHeader("Liste aller Personen:");
+		csvWriter.writeHeader("Erstellungsdatum:", currentDateString);
+		csvWriter.writeHeader("");
+		
+		String[] header = { "Personen ID", "Anrede", "Titel", "Nachname",
+				"Vorname", "Anschrift", "PLZ", "Stadt", "Land", "Telefonnummern", "Email Adressen",
+				"Typen", "Bemerkung", "Login", "Berechtigung", "Letzte Änderung", "Aktiv" };
 
 		csvWriter.writeHeader(header);
 
 		for (Person p : listPersons) {
-			csvWriter.write(PersonMapper.mapToDTO(p), objectHeader);
+			PersonDTO dto = PersonMapper.mapToDTO(p);
+			
+			String[] data = new String[17];
+			
+			// insert Person ID
+			data[0] = ""+dto.getPersonId();
+			
+			// insert salutation
+			data[1] = dto.getSalutation();
+			
+			// insert title
+			data[2] = dto.getTitle();
+			
+			// insert lastName
+			data[3] = dto.getLastName();
+			
+			// insert firstName
+			data[4] = dto.getFirstName();
+			
+			// insert address
+			data[5] = dto.getAddress();
+			
+			// insert zip
+			data[6] = dto.getZip();
+			
+			// insert city
+			data[7] = dto.getCity();
+			
+			// insert country
+			data[8] = dto.getCountry();
+			
+			// insert telephones
+			String telephones = "";
+			for (int i=0; i<dto.getTelephones().size(); i++)
+			{
+				TelephoneDTO teldto = dto.getTelephones().get(i);
+				telephones += teldto.getType().substring(0, 1)+": ";
+				telephones += teldto.getTelephone();
+				if (i < (dto.getTelephones().size() - 1))
+					telephones += ", ";
+			}
+			data[9] = telephones;
+			
+			// insert emails
+			String emails = "";
+			for (int i=0; i<dto.getEmails().size(); i++)
+			{
+				EmailDTO emaildto = dto.getEmails().get(i);
+				emails += emaildto.getType().substring(0, 1)+": ";
+				emails += emaildto.getMail();
+				if (i < (dto.getEmails().size() - 1))
+					emails += ", ";
+			}
+			data[10] = emails;
+			
+			// insert types
+			String types = "";
+			for (int i=0; i<dto.getTypes().size(); i++)
+			{
+				types += dto.getTypes().get(i);
+				if (i < (dto.getTypes().size()-1) )
+					types += ", ";
+			}
+			data[11] = types;
+			
+			// insert comment
+			data[12] = dto.getComment();
+			
+			// insert login
+			data[13] = dto.getLoginEmail();
+			
+			// insert permission
+			data[14] = dto.getPermission();
+			
+			// insert last change
+			data[15] = dto.getUpdateTimestamp();
+			
+			// insert active
+			data[16] = ""+dto.getActive();
+			
+			csvWriter.writeHeader(data);
 		}
 
 		log.info("returning CSV Export of Persons");

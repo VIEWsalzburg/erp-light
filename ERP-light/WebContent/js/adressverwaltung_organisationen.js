@@ -18,7 +18,7 @@ function loadAllContactPersons() {
 	$.ajax({
 		type : "POST",
 		async : false,
-		url : "../rest/secure/person/getAll"
+		url : "../rest/secure/person/getAllActive"
 	}).done(
 			function(data) {
 				var contactPersons = data;	// return data is already JSON
@@ -265,7 +265,7 @@ function loadTableContent() {
 	$.ajax({
 		type : "POST",
 		async : false,
-		url : "../rest/secure/person/getAll"
+		url : "../rest/secure/person/getAllActive"
 	}).done(
 			function(data) {
 				allPersons = data;	// already JSON

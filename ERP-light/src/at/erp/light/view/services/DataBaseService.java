@@ -65,32 +65,21 @@ public class DataBaseService implements IDataBase {
 		return person;
 	}
 	
-	
-
-	@Override
-	public List<Person> getPersonsByType(Type type) throws HibernateException {
-		
-		return null;
-	}
-	
-	
-
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Person> getAllPersons() throws HibernateException {
 		@SuppressWarnings("unchecked")
-		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor WHERE p.active=1 ORDER BY p.lastName").list();
+		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor ORDER BY p.lastName").list();
 		return persons;
 	}
 
-	
-	
 	@Override
-	public Person getPersonByLoginEmail(String loginEmail) {
-		
-		return null;
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<Person> getAllActivePersons() throws HibernateException {
+		@SuppressWarnings("unchecked")
+		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor WHERE p.active=1 ORDER BY p.lastName").list();
+		return persons;
 	}
-	
 	
 	
 	// setCountry
@@ -379,12 +368,7 @@ public class DataBaseService implements IDataBase {
 		return mPermission;
 	}
 	
-	
-	@Override
-	public int setPersons(List<Person> persons) throws HibernateException {
-		
-		return 0;
-	}
+
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -393,12 +377,6 @@ public class DataBaseService implements IDataBase {
 		query.setParameter("id", id);
 		Organisation organisation = (Organisation)query.uniqueResult();
 		return organisation;
-	}
-
-	@Override
-	public List<Organisation> getOrganisationsByCategory(Category category) throws HibernateException {
-		
-		return null;
 	}
 
 	@Override
@@ -513,15 +491,6 @@ public class DataBaseService implements IDataBase {
 		o.setActive(0);	// set active flag to inactive (0)
 		return 0;
 	}
-	
-
-	@Override
-	public int setOrganisations(List<Organisation> organisations) throws HibernateException {
-		
-		return 0;
-	}
-
-	
 	
 	
 	/***** Start der Warenverwaltung *****/
@@ -1110,14 +1079,6 @@ public class DataBaseService implements IDataBase {
 		return true;
 	}
 	
-	
-	
-	@Override
-	public int setDeliveryLists(List<DeliveryList> deliveryLists) throws HibernateException {
-		
-		return 0;
-	}
-	
 	/***** [END] DeliveryLists *****/
 	
 	
@@ -1391,101 +1352,6 @@ public class DataBaseService implements IDataBase {
 	
 	/***** [END] "Buchhalterfunktion" *****/
 	
-	
-	
-	
-
-	@Override
-	public int setIncomingDeliveries(List<IncomingDelivery> incomingDeliveries) throws HibernateException {
-		
-		return 0;
-	}
-	
-	/***** [START] IncomingArticles *****/
-
-
-
-	@Override
-	public List<IncomingArticle> getAllIncomingArticles() throws HibernateException {
-		
-		return null;
-	}
-
-	@Override
-	public int setIncomingArticle(IncomingArticle incomingArticle) throws HibernateException {
-		
-		return 0;
-	}
-
-	@Override
-	public int setIncomingArticles(List<IncomingArticle> incomingArticles) throws HibernateException {
-		
-		return 0;
-	}
-	
-	/***** [END] IncomingArticles *****/
-
-
-	/***** [START] Articles *****/
-
-	@Override
-	public List<Article> getAllArticles() throws HibernateException {
-		
-		return null;
-	}
-
-	@Override
-	public int setArticle(Article article) throws HibernateException {
-		
-		return 0;
-	}
-
-	@Override
-	public int setArticles(List<Article> articles) throws HibernateException {
-		
-		return 0;
-	}
-	
-	/***** [END] Articles *****/
-	
-	
-	
-	/***** [START] OutgoingArticles *****/
-
-
-
-	@Override
-	public List<OutgoingArticle> getAllOutgoingArticles() throws HibernateException {
-		
-		return null;
-	}
-
-	@Override
-	public int setOutgoingArticle(OutgoingArticle outgoingArticle) throws HibernateException {
-		
-		return 0;
-	}
-
-	@Override
-	public int setOutgoingArticles(List<OutgoingArticle> outgoingArticles) throws HibernateException {
-		
-		return 0;
-	}
-
-	/***** [END] OutgoingArticles *****/
-	
-	
-	
-	
-	
-	
-	
-	@Override
-	public int setOutgoingDeliveries(List<OutgoingDelivery> outgoingDeliveries) throws HibernateException {
-		
-		return 0;
-	}
-
 	
 
 	/***** [START] Categories *****/
