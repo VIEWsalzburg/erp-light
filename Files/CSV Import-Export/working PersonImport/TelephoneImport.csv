@@ -1,0 +1,8 @@
+first_name;last_name;telephone;type
+Fperson1;Lperson1;0001 2345;p
+Fperson1;Lperson1;0001 6789;g
+Fperson2;Lperson2;0002 2345;p
+Fperson2;Lperson2;0002 6789;g
+Fperson3;Lperson3;0003 2345;p
+Fperson4;Lperson4;0004 2345;p
+Fperson3;Lperson3;0003 6789;g

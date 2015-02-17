@@ -1,0 +1,5 @@
+name;comment;address;zip;city;country;type_lieferant;type_kunde;type_sponsor
+Org1;Dies ist Organisation1;Org1Address;5001;Salzburg;Österreich;x;;x
+Org2;Dies ist Organisation2;Person2Address;;;Österreich;;x;
+Org3;Dies ist Organisation3;;5001;Salzburg;;x;x;
+Org4;Dies ist Organisation4;Org3Address;5112;Lamprechtshausen;Österreich;;x;x

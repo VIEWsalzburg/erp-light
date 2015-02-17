@@ -1,0 +1,5 @@
+salutation;title;first_name;last_name;comment;address;zip;city;country;type_mitarbeiter;type_unterstuetzer;type_mitglied;type_gast
+Herr;Msc;Fperson1;Lperson1;Ist Person 1;Person1Address;5001;Salzburg;Österreich;x;;;x
+Frau;Bsc;Fperson2;Lperson2;Ist Person 2;Person2Address;;;Österreich;;;x;
+Herr;;Fperson3;Lperson3;Ist Person 3;;5001;Salzburg;;;;;
+Frau;Dr.;Fperson4;Lperson4;Ist Person4;;;;Österreich;;x;;x
