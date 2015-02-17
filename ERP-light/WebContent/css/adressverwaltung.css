@@ -48,7 +48,7 @@
 
 .table-responsive {
     overflow: scroll;
-	overflow-x: hidden;
+	overflow-x: auto;
 	/* calculates the table height subtracting 270px from 100% of the viewport */
 	height: calc(100vh - 270px);	/* 100vh ... 100% of the viewport */
 	min-height: 300px;	/* use 300px min height for table */
