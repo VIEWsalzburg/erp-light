@@ -1,22 +1,33 @@
 package at.erp.light.view.controller.adressmanagement;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.el.stream.Stream;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
 import at.erp.light.view.controller.article.DeliveryController;
 import at.erp.light.view.dto.OrganisationDTO;
 import at.erp.light.view.mapper.OrganisationMapper;
+import at.erp.light.view.mapper.PersonMapper;
+import at.erp.light.view.model.Category;
 import at.erp.light.view.model.Organisation;
+import at.erp.light.view.model.Person;
 import at.erp.light.view.services.IDataBase;
 import at.erp.light.view.state.ControllerMessage;
 
@@ -113,6 +124,107 @@ public class OrganisationController {
 			return new ControllerMessage(false, "Löschen fehlgeschlagen!");
 		}
 		
+	}
+	
+	
+	
+	@RequestMapping(value = "secure/organisation/getAllOrganisationsAsCSV")
+	public void downloadCSV(HttpServletResponse response) throws IOException {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		String currentDateString = sdf.format(new Date());
+		
+		String csvFileName = "Alle Organisationen_"+currentDateString+".csv";
+		response.setContentType("text/csv");
+		// creates mock data
+		String headerKey = "Content-Disposition";
+		String headerValue = String.format("attachment; filename=\"%s\"", csvFileName);
+
+		response.setHeader(headerKey, headerValue);
+		List<Organisation> listOrganisations = dataBaseService.getAllOrganisations();
+		// uses the Super CSV API to generate CSV data from the model data
+		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
+				CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
+
+		csvWriter.writeHeader("Liste aller Organisationen:");
+		csvWriter.writeHeader("Erstellungsdatum:", currentDateString);
+		csvWriter.writeHeader("");
+		
+		String[] header = { "Organisation ID", "Name", "Ansprechperson(en)", "Anschrift",
+				"PLZ", "Stadt", "Land", "Typen", "Kategorien", "Bemerkung", "Aktiv (1 = aktiv / 2 = gelöscht)" };
+
+		csvWriter.writeHeader(header);
+
+		
+		// write Data to CSV
+		for (Organisation o : listOrganisations) {
+			OrganisationDTO dto = OrganisationMapper.mapToDTO(o);
+			
+			String[] data = new String[11];
+			
+			// insert ID
+			data[0] = ""+dto.getId();
+			
+			// insert Name
+			data[1] = dto.getName();
+			
+			// insert contactPersons
+			String contactPersons = "";
+			for (int i=0; i<dto.getPersonIds().size(); i++)
+			{
+				Person p = dataBaseService.getPersonById(dto.getPersonIds().get(i));
+				contactPersons += p.getLastName()+" "+p.getFirstName();
+				if ( i < (dto.getPersonIds().size()-1) )
+					contactPersons += ", ";
+			}
+			data[2] = contactPersons;
+			
+			// insert Address
+			data[3] = dto.getAddress();
+			
+			// insert zip
+			data[4] = dto.getZip();
+			
+			// insert city
+			data[5] = dto.getCity();
+			
+			// insert country
+			data[6] = dto.getCountry();
+			
+			// insert Types
+			String types = "";
+			for (int i=0; i<dto.getTypes().size(); i++)
+			{
+				types += dto.getTypes().get(i);
+				if (i < (dto.getTypes().size()-1) )
+					types += ", ";
+			}
+			data[7] = types;
+			
+			// insert ccategories
+			String categories = "";
+			for (int i=0; i<dto.getCategoryIds().size(); i++)
+			{
+				Category c = dataBaseService.getCategoryById(dto.getCategoryIds().get(i));
+				categories += c.getCategory();
+				if ( i < (dto.getCategoryIds().size()-1) )
+					categories += ", ";
+			}
+			data[8] = categories;
+			
+			// insert comment
+			data[9] = dto.getComment();
+			
+			// insert aktive flag
+			data[10] = ""+o.getActive();
+			
+			csvWriter.writeHeader(data);
+			
+		}
+
+		log.info("returning CSV Export of Organisations");
+		
+		csvWriter.close();
 	}
 	
 }
