@@ -8,6 +8,7 @@
 
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-datepicker3.min.css" rel="stylesheet">
 	<!-- Stylesheet -->
 	<link href="../css/warenverwaltung.css" rel="stylesheet">
 	<link href="../css/globalStyles.css" rel="stylesheet">
@@ -64,7 +65,7 @@
 										<form class="form-inline">
   										<div class="form-group">
 											<label id="label_lieferant">Datum</label>
-											<input type="text" class="form-control" id="tbx_date" placeholder="dd.mm.yyyy" style="width: 100px;">
+											<input type="text" class="form-control datepicker" id="tbx_date" placeholder="dd.mm.yyyy" style="width: 100px;">
 										</div>
 										</form>
 									</div>
@@ -217,7 +218,7 @@
 														<label class="col-sm-4 control-label">Mindesthaltbarkeitsdatum</label>
 														<div class="col-sm-4">
 															<div class="input-group">
-																<input type="text" class="form-control" name="tbx_mdd" id="tbx_mdd" placeholder="dd.mm.yyyy" maxlength="10">
+																<input type="text" class="form-control datepicker" name="tbx_mdd" id="tbx_mdd" placeholder="dd.mm.yyyy" maxlength="10">
 																<div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
 															</div>
 														</div>
@@ -330,6 +331,8 @@
 	<script src="../js/jquery-1.11.1.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-datepicker.min.js"></script>
+    <script src="../js/bootstrap-datepicker.de.min.js"></script>
 	<!-- Load javascript File -->
 	<script src="../js/header.js" type="text/javascript"></script>
 	<!-- include global scripts here -->

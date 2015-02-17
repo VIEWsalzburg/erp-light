@@ -82,8 +82,6 @@
     background-color: #45A12B;
 	color: #FFF;
 }
-
-
 /* Table end */
 
 .bottom{
@@ -121,6 +119,14 @@
 .boxElement_receiver{
 	border-bottom: 1px solid #ccc;
 }
+
+
+/* optimize datepicker */
+.datepicker {
+	padding: 6px 12px;
+}
+
+
 
 /***** Warenverteilung *****/
 

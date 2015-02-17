@@ -53,6 +53,14 @@ $("#tbx_comment").focusout(function() {
 	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 });
 
+// init datepicker on load
+$('.datepicker').datepicker({
+				format: "dd.mm.yyyy",
+				weekStart: 1,
+				todayBtn: "linked",
+				language: "de",
+				todayHighlight: true
+			});
 
 
 // load existing incomingDelivery
