@@ -188,7 +188,35 @@ public class ReportController {
 		CsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
 				CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
 
-		csvWriter.writeHeader("Report");
+		
+		String reportTitle = "Report";
+		
+		if(reportCommand.isIncomingReportByOrganisationId())
+		{
+			reportTitle = "Report: Eingehende Waren für Organisation";
+		}
+		else if(reportCommand.isOutgoingReportByOrganisationId())
+		{
+			reportTitle = "Report: Ausgehende Waren für Organisation";
+		}
+		else if(reportCommand.isTotalSumOfAllIncomingDeliveries())
+		{
+			reportTitle = "Report: Summe über alle eingehenden Waren";
+		}
+		else if(reportCommand.isTotalSumOfAllOutgoingDeliveries())
+		{
+			reportTitle = "Report: Summe über alle ausgehenden Waren";
+		}
+		else if(reportCommand.isIncomingReportForAllOrganisations())
+		{
+			reportTitle = "Report: Eingehende Waren für alle Organisationen";
+		}
+		else if(reportCommand.isOutgoingReportForAllOrganisations())
+		{
+			reportTitle = "Report: Ausgehende Waren für alle Organisationen";
+		}
+		
+		csvWriter.writeHeader(reportTitle);
 		csvWriter.writeHeader("");
 		
 		csvWriter.writeHeader("Erstelldatum: ",simpleDateFormat.format(new Date()));
