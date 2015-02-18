@@ -29,7 +29,7 @@ function loadTableContent() {
 	
 	$.ajax({
 		type : "POST",
-		url : "../rest/secure/person/getAll"
+		url : "../rest/secure/person/getAllActive"
 	}).done(
 			function(data) {
 				p = data;	// already JSON

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hilfe</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+	<!-- Stylesheet -->
+	<link href="../css/globalStyles.css" rel="stylesheet">
+	<link href="../css/hilfe.css" rel="stylesheet">
+	<link rel='shortcut icon' type='image/x-icon' href='../images/favicon.ico' >
+</head>
+<body>
+	<header id="pageheader">
+				
+	</header>
+	
+	<div class="container-fluid">
+		<div class="row" id="top">
+			<div class="col-md-12">
+				
+			</div>		  
+		</div>
+	
+		<div class="row" id="header">
+			<div class="col-md-12">
+				<h2>Hilfe zu ERP-light</h2>
+								
+			</div>		  
+		</div>
+		
+		<div class="row" id="body">
+		
+			<!-- Column for navigation -->
+			<div class="col-sm-3 col-md-2">
+				<div id="navbarHelp">
+					<ul class="nav nav-pills nav-stacked">
+						<li role="presentation"><a href="#hilfe_adressverwaltung">Überblick Adressverwaltung</a></li>
+						<li role="presentation"><a href="#hilfe_warenverwaltung">Überblick Warenverwaltung</a></li>
+						<li role="presentation"><a href="#hilfe_reporting">Überblick Reporting</a></li>
+						<li > <div class="divider-horizontal"></div></li>
+						<li role="presentation"><a href="#hilfe_personenverwaltung">Personenverwaltung</a></li>
+						<li role="presentation"><a href="#hilfe_organisationsverwaltung">Organisationsverwaltung</a></li>
+						<li role="presentation"><a href="#hilfe_kategorieverwaltung">Kategorieverwaltung</a></li>
+						<li > <div class="divider-horizontal"></div></li>
+						<li role="presentation"><a href="#hilfe_wareneingang">Wareneingang</a></li>
+						<li role="presentation"><a href="#hilfe_neuerwareneingang">Neuer Wareneingang</a></li>
+						<li role="presentation"><a href="#hilfe_wareneingangbearbeiten">Wareneingang bearbeiten</a></li>
+						<li role="presentation"><a href="#hilfe_veverteilungbearbeiten">VE-Verteilung bearbeiten</a></li>
+						<li > <div class="divider-horizontal"></div></li>
+						
+					</ul>
+				</div>
+			</div>
+			
+			<!-- column for showing the content -->
+			<div class="col-sm-9 col-md-10" id="help_container" data-spy="scroll" data-target="#navbarHelp">
+			
+			
+				<!-- Hilfe zu Adressverwaltung -->
+				<div id="hilfe_adressverwaltung" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Adressverwaltung
+							</div>
+							<div class="panel-body">
+								<p>Die Adressverwaltung kann über den Reiter "Adressverwaltung" in der Navigationsleiste erreicht werden.<br/>
+								Sie dient dazu die Personen und Organisationen des Systems zu verwalten.</p>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			
+				<!-- Hilfe zu Warenverwaltung -->
+				<div id="hilfe_warenverwaltung" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Warenverwaltung
+							</div>
+							<div class="panel-body">
+								<p>Die Warenverwaltung kann mithilfe des Reiters "Warenverwaltung" geöffnet werden.<br/>
+								Hier können Wareneingänge, Warenausgänge und Lieferlisten erstellt, bearbeitet, gelöscht und exportiert werden.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Hilfe zu Reporting -->
+				<div id="hilfe_reporting" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Reporting
+							</div>
+							<div class="panel-body">
+								<p>Das Reporting kann mithilfe des Reiters "Warenverwaltung" erreicht werden.<br/>
+								Es dient dazu Reports über eingegangene Waren, ausgegangene Waren und Personen zu generieren.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				<!-- Hilfe zu Personenverwaltung -->
+				<div id="hilfe_personenverwaltung" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Personenverwaltung
+							</div>
+							<div class="panel-body">
+								<p>Um zur Personenverwaltung zu gelangen muss in der Adressverwaltung der Reiter "Personen" ausgewählt werden.</p>
+								<p>In der Tabelle werden alle im System befindlichen Personen angezeigt.</p>
+								<br/>
+								<b>Personen filtern:</b><br/>
+								<p>Mit dem Suchfilter können die Personen nach beliebigen Stichwörtern durchsucht werden.
+								Der Filter wird automatisch bei Eingabe aktiv und listet nur mehr die Personen auf, die den gewünschten Begriff in einer der Spalten aufweisen.
+								Weiters können die Personen nach ihren Typen gefiltert werden indem die Checkboxen an- bzw. abgewählt werden.</p> 
+								
+								<br/>
+								<b>Eine Person neu anlegen / bearbeiten:</b> <br/>
+								<p>Mithilfe der Buttons "Neu anlegen" und "Bearbeiten" kann man eine neue Person anlegen bzw. eine bestehende Person editieren. 
+								Es erscheint ein Dialog in dem die notwendigen Daten eingegeben werden können. Der Nachname ist ein Pflichtfeld und muss somit ausgefüllt werden. 
+								Alle anderen Felder können bei Bedarf leer gelassen werden.<br/>
+								Mithilfe der Checkbox "Systembenutzer" kann ausgewählt werden, 
+								ob die zu erstellende / ändernde Person Zugriff auf das System erhalten soll. Es muss hierzu eine der angegebenen Email-Adressen als Login ausgewählt werden. 
+								Weiters können die zutreffenden Rechte vergeben werden.</p>
+								
+								
+								<br/>
+								<b>Eine Person löschen:</b> <br/>
+								<p>Mithilfe des Buttons "Löschen" kann eine Person aus dem System gelöscht werden. Der jeweilige Eintrag wird in der Datenbank 
+								als inaktiv vermerkt und erscheint auch nicht mehr im System. Sollte die als inaktiv vermerkte Person jedoch wieder aktiviert werden sollen, so muss dies 
+								direkt in der Datenbank geschehen.</p>
+								
+								<br/>
+								<b>Personendetails anzeigen:</b> <br/>
+								<p>Der Button "Details" dient dazu die Personendetails einer Person anzuzeigen. Hier werden alle vorhandenen 
+								Informationen zur gewünschten Person dargestellt.</p>
+								
+								<br/>
+								<b>Alle Personen exportieren:</b> <br/>
+								<p>Mit dem Button "Exportieren" kann eine vollständige Liste aller im System erfassten Personen als .csv – Datei generiert werden. 
+								Diese Liste enthält sowohl aktive als auch inaktive Personen.</p>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			
+				<!-- Hilfe zu Organisationsverwaltung -->
+				<div id="hilfe_organisationsverwaltung" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Organisationsverwaltung
+							</div>
+							<div class="panel-body">
+								<p>Um zur Organisationsverwaltung zu gelangen muss in der Adressverwaltung der Reiter "Organisationen" ausgewählt werden.</p>
+								<p>In der Tabelle werden alle im System befindlichen Organisationen angezeigt.</p>
+								<br/>
+								<b>Organisationen filtern:</b><br/>
+								<p>Mit dem Suchfilter können die Organisationen nach beliebigen Stichwörtern durchsucht werden.
+								Der Filter wird automatisch bei Eingabe aktiv und listet nur mehr die Organisationen auf, die den gewünschten Begriff in einer der Spalten aufweisen.
+								Weiters können die Organisationen nach ihren Typen gefiltert werden indem die Checkboxen an- bzw. abgewählt werden.</p> 
+								
+								<br/>
+								<b>Eine Organisation neu anlegen / bearbeiten:</b> <br/>
+								<p>Mithilfe der Buttons "Neu anlegen" und "Bearbeiten" kann man eine neue Organisation anlegen bzw. eine bestehende Organisation editieren. 
+								Es erscheint ein Dialog in dem die notwendigen Daten eingegeben werden können. Der Organisationsname ist ein Pflichtfeld und muss somit ausgefüllt werden. 
+								Alle anderen Felder können bei Bedarf leer gelassen werden.<br/>
+								In den Auswahlboxen für die Ansprechpersonen und die Kategorien können zutreffende Elemente ausgewählt werden. Es werden jedoch nur Personen und Kategorien 
+								angezeigt, die bereits im System angelegt sind. Soll eine Kontaktperson zugeordnet werden, die es nicht im System gibt, muss dieses zuerst in der Personenverwaltung
+								angelegt werden. Dies gilt ebenso für Kategorien, die noch nicht im System erfasst wurden.
+								Weiters kann mithilfe der Checkboxen festgelegt werden, welchen Typ eine Organisation hat.</p>
+								
+								
+								<br/>
+								<b>Eine Organisation löschen:</b> <br/>
+								<p>Mithilfe des Buttons "Löschen" kann eine Organisation aus dem System gelöscht werden. Der jeweilige Eintrag wird in der Datenbank 
+								als inaktiv vermerkt und erscheint auch nicht mehr im System. Sollte die als inaktiv vermerkte Organisation jedoch wieder aktiviert werden sollen, so muss dies 
+								direkt in der Datenbank geschehen.</p>
+								
+								<br/>
+								<b>Organisationsdetails anzeigen:</b> <br/>
+								<p>Der Button "Details" dient dazu die Organisationsdetails einer Organisation anzuzeigen. Hier werden alle vorhandenen 
+								Informationen zur gewünschten Organisation dargestellt.</p>
+								
+								<br/>
+								<b>Alle Organisationen exportieren:</b> <br/>
+								<p>Mit dem Button "Exportieren" kann eine vollständige Liste aller im System erfassten Organisationen als .csv – Datei generiert werden. 
+								Diese Liste enthält sowohl aktive als auch inaktive Organisationen.</p>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			
+				<!-- Hilfe zu Kategorieverwaltung -->
+				<div id="hilfe_kategorieverwaltung" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Kategorieverwaltung
+							</div>
+							<div class="panel-body">
+								<p>Um zur Kategorieverwaltung zu gelangen muss in der Adressverwaltung der Reiter "Kategorien" ausgewählt werden.</p>
+								<p>In der Tabelle werden alle im System angelegten Kategorien angezeigt.</p>
+								<br/>
+								<b>Kategorien durchsuchen:</b><br/>
+								<p>Mit dem Suchfilter können die Kategorien nach beliebigen Stichwörtern durchsucht werden.
+								Der Filter wird automatisch bei Eingabe aktiv und listet nur mehr die Kategorien auf, die den gewünschten Begriff aufweisen.</p> 
+								
+								<br/>
+								<b>Eine Kategorie neu anlegen / bearbeiten:</b> <br/>
+								<p>Mithilfe der Buttons "Neu anlegen" und "Bearbeiten" kann man eine neue Kategorie anlegen bzw. eine bestehende Kategorie editieren. 
+								Es erscheint ein Dialog in dem ein Kategoriename und eine Kategoriebeschreibung eingegeben werden können. Der Kategoriename ist ein Pflichtfeld und muss somit ausgefüllt werden. 
+								Die Beschreibung kann bei Bedarf leer gelassen werden. Sie dient dazu eine ausführlichere Beschreibung hinzuzufügen.</p>
+								
+								
+								<br/>
+								<b>Eine Kategorie löschen:</b> <br/>
+								<p>Mithilfe des Buttons "Löschen" kann eine Kategorie aus dem System gelöscht werden. Es erscheint ein Dialog, mit dem die Aktion bestätigt werden kann.
+								Weiters wird in dem Dialog angezeigt, welche Organisationen diese Kategorie zugewiesen haben. 
+								Denn das Löschen einer Kategorie führt dazu, dass ebenfalls die Zuordnung dieser Kategorie für alle zutreffenden Organisationen entfernt wird.</p>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			
+				<!-- Hilfe zu Wareneingang -->
+				<div id="hilfe_wareneingang" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Wareneingang
+							</div>
+							<div class="panel-body">
+								<p>Um zur Übersicht über die Wareneingänge zu gelangen, muss in der Warenverwaltung der Reiter "Wareneingang" ausgewählt werden.</p>
+								<p>In der Tabelle werden alle nicht-archivierten im System befindlichen Wareneingänge angezeigt.<br/>
+								Eine graue Hinterlegung eines Wareneingangs bedeutet, dass dieser Artikel enthält, die bereits verbucht worden sind.<br/>
+								Daher ist das Bearbeiten nur mehr geringfügig möglich und das Löschen dieser nicht verfügbar.</p>
+								<br/>
+								<b>Wareneingänge durchsuchen:</b><br/>
+								<p>Mit dem Suchfilter können die Wareneingänge nach beliebigen Stichwörtern durchsucht werden.
+								Der Filter wird automatisch bei Eingabe aktiv und listet nur mehr die Wareneingänge auf, die den gewünschten Begriff aufweisen.<br/>
+								Somit kann beispielsweise nache gewissen Lieferanten, Artikeln und Lieferdaten gesucht werden.</p> 
+								
+								<br/>
+								<b>Archivierte Wareneingänge anzeigen:</b> <br/>
+								<p>Archivierte Wareneingänge können durch Anwählen der Checkbox "Archivierte Einträge" angezeigt werden. In der letzten Tabellenspalte wird der Archivierungsstatus dargestellt. </p>
+								
+								<br/>
+								<b>Einen neuen Wareneingang anlegen / bearbeiten:</b> <br/>
+								<p>Mithilfe der Buttons "Neuer Wareneingang" und "Bearbeiten" gelangt man zu einer neuen Maske, die das Erfassen bzw. Bearbeiten des Wareneingangs ermöglicht.</p>
+								
+								<br/>
+								<b>Einen Wareneingang löschen:</b> <br/>
+								<p>Mithilfe des Buttons "Löschen" kann der ausgewählte Wareneingang gelöscht werden. Es erscheint ein Dialog, mit dem die Aktion bestätigt werden kann.
+								Der Wareneingang kann nur gelöscht werden, wenn dieser noch nicht verbucht worden ist.</p>
+								
+								<br/>
+								<b>Einen Wareneingang archivieren:</b> <br/>
+								<p>Mithilfe des Buttons "Archivieren" bzw. "De-Archivieren" kann der ausgewählte Wareneingang archiviert werden bzw. die Archivierung rückgängig gemacht werden.</p>
+								
+								<br/>
+								<b>Details anzeigen:</b> <br/>
+								<p>Mithilfe des Buttons "Details" können alle verfügbaren Details zu dem ausgewählten Wareneingang angezeigt werden.</p>
+								
+								<br/>
+								<b>Verteilungsreport exportieren:</b> <br/>
+								<p>Durch Klicken auf den Button "Verteilungsreport exportieren" kann ein detaillierter Report über die Verteilung aller Artikel des gewählten Wareneingangs generiert werden.<br/>
+								In diesem Report werden alle Artikel des Wareneingangs aufgelistet und alle erhaltenden Organisationen mit der jeweiligen Anzahl an Verpackungseinheiten dargestellt.</p>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			
+				<!-- Hilfe zu Neuer Wareneingang -->
+				<div id="hilfe_neuerwareneingang" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Neuer Wareneingang
+							</div>
+							<div class="panel-body">
+								<p>Um einen neuen Wareneingang zu erstellen, muss im Reiter "Wareneingang" auf den Button "Neuer Wareneingang" geklickt werden.</p>
+								<p>Der Vorgang kann abgebrochen werden indem auf das X des Reiters geklickt wird, oder ein anderer Reiter ausgewählt wird.</p>
+								
+								<br/>
+								<b>Lieferant:</b><br/>
+								<p>Hier kann der gewünschte Lieferant für den Wareneingang gewählt werden. In dem Auswahlfenster kann nach Name, Stadt und Kategorien gesucht werden.<br/>
+								Der gewünschte Lieferant wird ausgewählt indem die entsprechende Checkbox rechts neben dem Eintrag gewählt wird. Anschließend wird die Auswahl mit Speichern bestätigt.</p> 
+								
+								<br/>
+								<b>Datum:</b> <br/>
+								<p>Das Datum der Lieferung kann mithilfe der Auswahlbox gewählt werden. Optinal kann das Datum auch in der Form "dd.mm.yyyy" eingegeben werden.</p>
+								
+								<br/>
+								<b>Bemerkung:</b> <br/>
+								<p>In diesem Feld kann dem Wareneingang eine beliebige Bemerkung hinzugefügt werden.</p>
+								
+								<br/>
+								<b>Eine neue Position hinzufügen:</b> <br/>
+								<p>Dem Wareneingang kann durch Klick auf den Button "Neue Position" ein neuer Eintrag hinzugefügt werden. 
+								Über das erscheinende Fenster können alle notwendigen Informationen zur Position eingetragen werden. Alle Felder bis auf den Einzelpreis sind Pflichtfelder 
+								und müssen ausgefüllt werden.<br/>
+								Der neue Eintrag wird mittels "Speichern" bestätigt und dem Wareneingang hinzugefügt.</p>
+								
+								<br/>
+								<b>Eine bestehende Position bearbeiten:</b> <br/>
+								<p>Mithilfe des Buttons "Bearbeiten" kann die ausgewählte Position bearbeitet werden. Es erscheint ein Fenster in dem die Änderungen getätigt werden können.</p>
+								
+								<br/>
+								<b>Eine Position löschen:</b> <br/>
+								<p>Mithilfe des Buttons "Löschen" kann die ausgewählte Position entfernt werden.</p>
+								
+								<br/>
+								<b>Positionen sortieren:</b> <br/>
+								<p>Mithilfe der Pfeilbuttons kann der gewählte Eintrag innerhalb des Wareneingangs sortiert werden.</p>
+								
+								<br/>
+								<b>Wareneingang speichern:</b> <br/>
+								<p>Mithilfe des Buttons "Alles zum Depot hinzufügen" kann der Wareneingang im System gespeichert werden. Alle Eingaben werden erst hierdurch gültig.</p>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			
+				<!-- Hilfe zu Wareneingang bearbeiten -->
+				<div id="hilfe_wareneingangbearbeiten" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Wareneingang bearbeiten
+							</div>
+							<div class="panel-body">
+								<p>Um einen bestehenden Wareneingang zu bearbeiten, muss im Reiter "Wareneingang" ein Wareneingang ausgewählt werden und auf den Button "Bearbeiten" geklickt werden.</p>
+								<p>Der Vorgang kann abgebrochen werden indem auf das X des Reiters geklickt wird, oder ein anderer Reiter ausgewählt wird.</p>
+								
+								<br/>
+								<b>Lieferant:</b><br/>
+								<p>Hier kann der gewünschte Lieferant für den Wareneingang gewählt werden. In dem Auswahlfenster kann nach Name, Stadt und Kategorien gesucht werden.<br/>
+								Der gewünschte Lieferant wird ausgewählt indem die entsprechende Checkbox rechts neben dem Eintrag gewählt wird. Anschließend wird die Auswahl mit Speichern bestätigt.<br/>
+								<b>Achtung:</b> Der Lieferant kann nur geändert werden, wenn der Wareneingang nocht nicht verbucht wurde.</p> 
+								
+								<br/>
+								<b>Datum:</b> <br/>
+								<p>Das Datum der Lieferung kann mithilfe der Auswahlbox gewählt werden. Optinal kann das Datum auch in der Form "dd.mm.yyyy" eingegeben werden.</p>
+								
+								<br/>
+								<b>Bemerkung:</b> <br/>
+								<p>In diesem Feld kann dem Wareneingang eine beliebige Bemerkung hinzugefügt werden.</p>
+								
+								<br/>
+								<b>Eine neue Position hinzufügen:</b> <br/>
+								<p>Dem Wareneingang kann durch Klick auf den Button "Neue Position" ein neuer Eintrag hinzugefügt werden. 
+								Über das erscheinende Fenster können alle notwendigen Informationen zur Position eingetragen werden. Alle Felder bis auf den Einzelpreis sind Pflichtfelder 
+								und müssen ausgefüllt werden.<br/>
+								Der neue Eintrag wird mittels "Speichern" bestätigt und dem Wareneingang hinzugefügt.<br/>
+								<b>Achtung:</b> Das Hinzufügen eines Warenpostens ist nur möglich, wenn der zu bearbeitende Wareneingang noch nicht verbucht wurde.</p>
+								
+								<br/>
+								<b>Eine bestehende Position bearbeiten:</b> <br/>
+								<p>Mithilfe des Buttons "Bearbeiten" kann die ausgewählte Position bearbeitet werden. Es erscheint ein Fenster in dem die Änderungen getätigt werden können.<br/>
+								<b>Achtung:</b> Handelt es sich um einen verbuchten Wareneingang, kann nur mehr das Feld "Einzelpreis" geändert werden.
+								</p>
+								
+								<br/>
+								<b>Anzahl der Verpackungseinheiten ändern:</b> <br/>
+								<p>Mithilfe des Buttons "VE-Vertielung Bearbeiten" kann für die ausgewählte Position die Anzahl der erhaltenen Verpackungseinheiten verändert werden.</p>
+								
+								<br/>
+								<b>Eine Position löschen:</b> <br/>
+								<p>Mithilfe des Buttons "Löschen" kann die ausgewählte Position entfernt werden.<br/>
+								<b>Achtung:</b> Das Löschen von Positionen ist nur möglich, wenn der Wareneingang noch nicht verbucht wurde.</p>
+								
+								<br/>
+								<b>Positionen sortieren:</b> <br/>
+								<p>Mithilfe der Pfeilbuttons kann der gewählte Eintrag innerhalb des Wareneingangs sortiert werden.</p>
+								
+								<br/>
+								<b>Wareneingang speichern:</b> <br/>
+								<p>Mithilfe des Buttons "Alles zum Depot hinzufügen" kann der bearbeitete Wareneingang im System gespeichert werden. Alle Eingaben werden erst hierdurch gültig.</p>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			
+				<!-- Hilfe zu VE-Verteilung bearbeiten -->
+				<div id="hilfe_veverteilungbearbeiten" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								VE-Verteilung bearbeiten
+							</div>
+							<div class="panel-body">
+								<p>Diese Maske ermöglicht das nachträgliche Verändern der VE-Anzahl für einen eingehenden Warenposten.<br/>
+								Sie kann über den Button "VE-Verteilung Bearbeiten" beim Bearbeiten eines bestehenden Wareneingangs aufgerufen werden.</p>
+								<br/>
+								
+								<b>Verteilung bearbeiten:</b>
+								<p>Auf der linken Seite wird die eingehende VE-Anzahl samt Lieferant angezeigt.<br/>
+								Auf der rechten Seite wird angezeigt, wieviele Verpackungseinheiten aktuell den jeweiligen Kunden bzw. dem Depot zugeordnet sind.<br/>
+								Muss die Anzahl der Verpackungseinheiten nachträglich geändert werden, können die Zahlen dementsprechend angepasst werden.<br/>
+								Soll die neue Aufteilung bestätigt werden kann dies mittels Klick auf "Speichern" durchgeführt werden.
+								</p>
+								
+								<br/>
+								<b>Artikel entfernen:</b><br/>
+								<p>Handelt es sich um einen verbuchten Wareneingang und der gewählte Artikel muss vollständig aus dem System entfernt werden, 
+								kann dies durch den Button "Artikel und Verteilung entfernen" geschehen.<br/>
+								Hierdurch wird der Artikel aus dem Wareneingang und aus allen verbuchten Warenausgängen entfernt.</p> 
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+			
+		</div>
+		<!-- /#body -->
+		
+		<div class="row" id="footer">
+			<div class="col-md-12">				
+					<p>
+						<!-- Insert footer content here -->
+					</p>							
+			</div>	  
+		</div>
+	</div>	
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../js/jquery-1.11.1.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.min.js"></script>    
+    <!-- Load javascript File -->
+	<script src="../js/header.js" type="text/javascript"></script>
+	<script src="../js/hilfe.js" type="text/javascript"></script>
+</body>
+</html>

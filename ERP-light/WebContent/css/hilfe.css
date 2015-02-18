@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+
+#body
+{	
+	height: calc(100vh - 191px);
+	min-height: 565px;
+	background-color: #FFF;
+/* 	height: 700px; */
+}
+
+#help_container {
+	max-height: 100%;
+	overflow: auto;
+	position: relative;
+}
+
+/* override color for active nav pills in navbarHelp */
+#navbarHelp li.active > a {
+	background-color: #45A12B;
+	color: #fff;
+}
+
+#navbarHelp li > a {
+	color: #333;
+}
+
+/* override horizontal-divider */
+#navbarHelp .divider-horizontal {
+	margin-bottom: 0px;
+}

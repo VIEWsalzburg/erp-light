@@ -61,7 +61,7 @@
 .table-responsive {
 	overflow: scroll;
 	overflow-x: auto;
-	height: calc(100vh - 327px);
+	height: calc(100vh - 326px);
 	min-height: 300px;
 	border: 1px solid #999;
 }

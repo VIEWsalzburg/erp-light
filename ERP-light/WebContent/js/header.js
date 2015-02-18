@@ -23,6 +23,10 @@ $("#pageheader").load("../partials/header.html", function() {
 		$("#reporting_nav").addClass("active");
 
 	}
+	else if (document.URL.indexOf("hilfe") > -1)
+	{
+		$("#hilfe_nav").addClass("active");
+	}
 	else
 	{
 		$("#home_nav").addClass("active");

@@ -10,6 +10,7 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 	<!-- Stylesheet -->
 	<link href="../css/globalStyles.css" rel="stylesheet">
+	<link href="../css/home.css" rel="stylesheet">
 	<link rel='shortcut icon' type='image/x-icon' href='../images/favicon.ico' >
 </head>
 <body>
@@ -31,13 +32,14 @@
 		</div>
 		
 		<div class="row" id="body">
-			<div class="col-md-12">				
+			<div class="col-sm-9">				
 				<p>Das ERP-light System der Organisation VIEW ist ein Online-Waren- und Ressourcenverwaltungssystem, das die Prozesse des Datenerfassens und Verarbeiten vereinfacht und die Richtigkeit der Daten gewährleistet.</p>
 				<p>Das System gliedert sich in 3 Bereiche:</p>
 				<ul>
 					<li>Warenverwaltung</li>
 					<li>Adressverwaltung</li>
 					<li>Reporting</li>
+					<li>Hilfe</li>
 				</ul>
 				<h3>Warenverwaltung</h3>
 				<p>In der Warenverwaltung können eingehende Waren erfasst, neue Warendispositionen erstellt und Lieferlisten erstellt werden. Um den einzelnen Lieferungen Organisationen zuweisen zu können, müssen die gewünschten Organisationen bereits in der Adressverwaltung erfasst worden sein.</p>
@@ -46,14 +48,38 @@
 				<p>Organisationen können außerdem mit Kategorien verknüpft werden, um kleine Informationszusätze, die mehrere Organisationen betreffen, hinzuzufügen.</p>
 				<h3>Reporting</h3>
 				<p>Das Reporting stellt mehrere unterschiedliche Reports zur Verfügung, die genutzt werden können um gesammelte Informationen über Personen, Organisationen und die Warenverwaltung zu exportieren.</p>
-				<p><h2>Hilfe zu ERP-light</h2></p>
-				<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+				<h3>Hilfe</h3>
+				<p>In der Hilfe sind Beschreibungen zu den verfügbaren Funktionen hinterlegt.</p>
 			</div>
+			
+			
+			<div class="col-sm-3">
+			
+				<h4>Hotlinks:</h4>
+			
+				<div class="list-group">
+					<a class="list-group-item" href="../secure/adressverwaltung_personen.html">Personen</a>
+					<a class="list-group-item" href="../secure/adressverwaltung_organisationen.html">Organisationen</a>
+					<a class="list-group-item" href="../secure/adressverwaltung_kategorienverwaltung.html">Kategorien</a>
+				</div>
+				<div class="list-group">
+					<a class="list-group-item" href="../secure/warenverwaltung_wareneingang.html">Wareneingang</a>
+					<a class="list-group-item" href="../secure/warenverwaltung_neuerwareneingang.html?mode=new&id=-1">Neuer Wareneingang</a>
+					<a class="list-group-item" href="../secure/warenverwaltung_warenausgang.html">Warenausgang</a>
+					<a class="list-group-item" href="../secure/warenverwaltung_neuedisposition.html?mode=new&id=-1">Neuer Warenausgang</a>
+					<a class="list-group-item" href="../secure/warenverwaltung_lieferlisten.html">Lieferlisten</a>
+					<a class="list-group-item" href="../secure/warenverwaltung_neuelieferliste.html?mode=new&id=-1">Neue Lieferliste</a>
+				</div>
+			
+			</div>
+			
 		</div>
 		
 		<div class="row" id="footer">
 			<div class="col-md-12">				
-					<p>Footer Content...</p>							
+					<p>
+					<!-- Insert footer content here -->
+					</p>							
 			</div>	  
 		</div>
 	</div>	

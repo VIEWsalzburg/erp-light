@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+
+#body
+{	
+	height: calc(100vh - 191px);
+	min-height: 565px;
+	background-color: #FFF;
+/* 	height: 700px; */
+}
