@@ -119,6 +119,7 @@ function loadNewIncomingDelivery(id){
 		var pricepu = parseFloat(articles[i].articleDTO.pricepu);
 		
 		//calculate sum price
+		var totalWeight = Math.round( weightpu * articles[i].numberpu*100)/100;
 		var sum = Math.round( pricepu * articles[i].numberpu*100)/100;
 		
 		// adding the incomingArticleId is important to be able to update the according Article infos in the DB by using the Ids
@@ -130,6 +131,7 @@ function loadNewIncomingDelivery(id){
 			"<td>" + weightpu + " kg" + "</td>" +
 			"<td>" + mdd + "</td>" +
 			"<td>" + pricepu + " €" + "</td>" +
+			"<td>" + totalWeight + " kg" + "</td>" +
 			"<td>" + sum + " €" + "</td>" +
 		"</tr>";
 		
@@ -242,6 +244,11 @@ $("#btn_addDeliverer").click(function() {
 // or a updated existing one
 function createTableRow(count, id){
 	
+	var weightpu = parseFloat($("#tbx_weightpackagingunit").val());
+	var totalWeight = Math.round(weightpu * parseInt($("#tbx_numberofpackagingunits").val()) * 100) / 100;
+	weightpu = weightpu + " kg";
+	totalWeight = totalWeight + " kg";
+	
 	var pricepu = $("#tbx_pricepackagingunit").val();
 	var sum;
 	if(pricepu == ""){
@@ -250,7 +257,7 @@ function createTableRow(count, id){
 	}
 	else{
 		pricepu = parseFloat($("#tbx_pricepackagingunit").val());
-		sum = Math.round(pricepu * $("#tbx_numberofpackagingunits").val()*100)/100;
+		sum = Math.round(pricepu * parseInt($("#tbx_numberofpackagingunits").val()) * 100) / 100;
 		
 		pricepu = pricepu + " €";
 		sum = sum + " €";
@@ -271,9 +278,10 @@ function createTableRow(count, id){
 		"<td>" + $("#tbx_description").val() + "</td>" +
 		"<td>" + $("#tbx_numberofpackagingunits").val() + "</td>" +
 		"<td>" + $("#tbx_packagingunit").val() + "</td>" +
-		"<td>" + $("#tbx_weightpackagingunit").val() + " kg" + "</td>" +
+		"<td>" + weightpu + "</td>" +
 		"<td>" + $("#tbx_mdd").val() + "</td>" +
 		"<td>" + pricepu + "</td>" +
+		"<td>" + totalWeight + "</td>" +
 		"<td>" + sum + "</td>" +
 	"</tr>";
 	
@@ -447,16 +455,38 @@ $("#btn_savearticle").click(function() {
 	}
 	
 	if($("#tbx_packagingunit").val() == ""){
-		$(".alert").text("VE ist leer!");
+		$(".alert").text("Art der VE ist leer!");
 		$("#newAlertForm").show();
 		return;
 	}
 	
-	if($("#tbx_weightpackagingunit").val() == 0 || isNaN($("#tbx_weightpackagingunit").val()) == true){
-		$(".alert").text("Einzelgewicht der VE ist leer oder keine Zahl!");
+	// Start - Einzelgewicht
+	if($("#tbx_weightpackagingunit").val().length == 0 ){
+		$(".alert").text("Das Einzelgewicht darf nicht leer sein!");
 		$("#newAlertForm").show();
 		return;
 	}
+	
+	if ($("#tbx_weightpackagingunit").val().indexOf(",") != -1)
+	{
+		$(".alert").text("Dezimalpunkt als Dezimaltrennzeichen verwenden!");
+		$("#newAlertForm").show();
+		return;
+	}
+	
+	if (isNaN(parseInt($("#tbx_weightpackagingunit").val()))==true || isNaN($("#tbx_weightpackagingunit").val()) ){
+		$(".alert").text("Einzelgewicht der VE ist keine Zahl!");
+		$("#newAlertForm").show();
+		return;
+	}
+	
+	if(parseInt($("#tbx_weightpackagingunit").val()) <= 0 ){
+		$(".alert").text("Das Einzelgewicht der VE muss größer als 0 sein!");
+		$("#newAlertForm").show();
+		return;
+	}
+	// Ende - Einzelgewicht
+	
 	
 	var date = $("#tbx_mdd").val();
 	var regEx = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/;
@@ -464,19 +494,31 @@ $("#btn_savearticle").click(function() {
 	
 	if (dateArray == null)
 	{
-		$(".alert").text("MDD ist kein valides Datumsformat!");
+		$(".alert").text("MDD ist kein gültiges Datumsformat!");
 		$("#newAlertForm").show();
 		return;
 	}
 	
-	if($("#tbx_pricepackagingunit").val() != ""){
-		if(isNaN($("#tbx_pricepackagingunit").val()) == true){
-			$(".alert").text("Einzelpreis ist keine Zahl!");
+	
+	// Start - Einzelpreis
+	if ($("#tbx_pricepackagingunit").val().length != 0)
+	{
+		if ($("#tbx_pricepackagingunit").val().indexOf(",") != -1)
+		{
+			$(".alert").text("Dezimalpunkt als Dezimaltrennzeichen verwenden!");
 			$("#newAlertForm").show();
 			return;
 		}
+		
+		if (isNaN(parseInt($("#tbx_pricepackagingunit").val()))==true || isNaN($("#tbx_pricepackagingunit").val()) ){
+			$(".alert").text("Einzelpreis der VE ist keine Zahl!");
+			$("#newAlertForm").show();
+			return;
+		}
+		
 	}
-	//end validation
+	
+	// Ende - Einzelpreis
 	
 	
 	if($("#modal_title_text").text() == "Neue Position"){
@@ -582,13 +624,13 @@ $("#btn_edit").click(function() {
 	$("#tbx_packagingunit").val(tableData[3]);
 	
 	var Stringlength = tableData[4].length;
-	$("#tbx_weightpackagingunit").val(tableData[4].substring(0, Stringlength-2));
+	$("#tbx_weightpackagingunit").val(tableData[4].substring(0, Stringlength-3));		// remove ' kg' from the end
 	
 	$("#tbx_mdd").val(tableData[5]);
 	
 	if(tableData[6] != "-"){
 		var Stringlength = tableData[6].length;
-		$("#tbx_pricepackagingunit").val(tableData[6].substring(0, Stringlength-2));
+		$("#tbx_pricepackagingunit").val(tableData[6].substring(0, Stringlength-2));	// remove ' €' from the end
 	}
 });
 
