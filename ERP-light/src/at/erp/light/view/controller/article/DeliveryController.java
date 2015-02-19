@@ -680,20 +680,36 @@ public class DeliveryController {
 			httpServletResponse
 					.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 			
-			DeliveryListDTO deliveryListDTO = DeliveryListMapper
-					.mapToDTO(dataBaseService.getDeliveryListById(id));
+//			DeliveryListDTO deliveryListDTO = DeliveryListMapper
+//					.mapToDTO(dataBaseService.getDeliveryListById(id));
+//
+//			Person lastEditor = dataBaseService.getPersonById(deliveryListDTO.getLastEditorId());
+//			
+//			FileInputStream wordFile = new FileInputStream(
+//					DeliveryWordGenerator.generate(
+//							deliveryListDTO,
+//							lastEditor.getFirstName() + " "	+ lastEditor.getLastName(),
+//							dataBaseService));
+			
+			
+			
+			DeliveryList deliveryList = dataBaseService.getDeliveryListById(id);
 
-			Person lastEditor = dataBaseService.getPersonById(deliveryListDTO.getLastEditorId());
+			Person lastEditor = deliveryList.getLastEditor();
 			
 			FileInputStream wordFile = new FileInputStream(
-					DeliveryWordGenerator.generate(
-							deliveryListDTO,
+					DeliveryWordGenerator.generateArticleCombined(
+							deliveryList,
 							lastEditor.getFirstName() + " "	+ lastEditor.getLastName(),
 							dataBaseService));
 			
+			
+			
+			
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sdfDTO = new SimpleDateFormat("dd.MM.yyyy");
-			String filename = "Lieferliste_"+sdf.format(sdfDTO.parse(deliveryListDTO.getDate()))+".docx";
+			String filename = "Lieferliste_"+sdf.format(deliveryList.getDate())+".docx";
 			httpServletResponse.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", filename));
 			
 			// copy it to response's OutputStream
