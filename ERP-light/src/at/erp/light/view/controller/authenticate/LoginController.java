@@ -40,8 +40,7 @@ public class LoginController {
 	@RequestMapping(value = "/authenticate")
 	public ControllerMessage loginUser(HttpServletRequest request,
 			HttpServletResponse response, Authentication authentication) {
-		log.info("Authenticating user: " + authentication.getLoginEmail()
-				+ " with Password: " + authentication.getPassword());
+		log.info("Authenticating user: " + authentication.getLoginEmail());
 		// If submitted password valid:
 
 		// TODO should be replaced by service call

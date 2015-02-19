@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -108,17 +109,21 @@ public class DeliveryWordGenerator {
 	        for(Entry<Integer, List<OutgoingArticleDTO>> entry :allDeliverers.entrySet())
 	        {
 	        	Organisation o = dataBase.getOrganisationById(entry.getKey());
-	        	Person contactPerson  = o.getContactPersons().iterator().next();
-	        	String contactName = "";
 	        	
-	        	if(contactPerson!=null)
+	        	// get all ContactPersons for the Organisation
+	        	// iterate over all ContactPersons
+	        	String contactString = "";
+	        	for (Person p : o.getContactPersons())
 	        	{
-	        		contactName = contactPerson.getFirstName() + " " + contactPerson.getLastName();
+	        		contactString += p.getLastName() + " " + p.getFirstName() + ", ";
 	        	}
+	        	// remove comma after appending all Names, if names have been added
+	        	if (contactString.length() > 2)
+	        		contactString = contactString.substring(0, contactString.length()-2);
 	        	
 	        	XWPFRun innerRun = delivererParagraph.createRun();
 	 	        setArial12(innerRun);
-	 	        innerRun.setText(o.getName() + " Ansprechpartner: " + contactName);
+	 	        innerRun.setText(o.getName() + " Ansprechpartner: " + contactString);
 	 	        innerRun.addBreak();
 
 	 	        for(OutgoingArticleDTO articleDTO : entry.getValue())
