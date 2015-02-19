@@ -679,33 +679,16 @@ public class DeliveryController {
 			// Correct mime type
 			httpServletResponse
 					.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-			
-//			DeliveryListDTO deliveryListDTO = DeliveryListMapper
-//					.mapToDTO(dataBaseService.getDeliveryListById(id));
-//
-//			Person lastEditor = dataBaseService.getPersonById(deliveryListDTO.getLastEditorId());
-//			
-//			FileInputStream wordFile = new FileInputStream(
-//					DeliveryWordGenerator.generate(
-//							deliveryListDTO,
-//							lastEditor.getFirstName() + " "	+ lastEditor.getLastName(),
-//							dataBaseService));
-			
-			
-			
+				
 			DeliveryList deliveryList = dataBaseService.getDeliveryListById(id);
 
 			Person lastEditor = deliveryList.getLastEditor();
 			
 			FileInputStream wordFile = new FileInputStream(
-					DeliveryWordGenerator.generateArticleCombined(
+					DeliveryWordGenerator.generateDeliveryExport(
 							deliveryList,
 							lastEditor.getFirstName() + " "	+ lastEditor.getLastName(),
 							dataBaseService));
-			
-			
-			
-			
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sdfDTO = new SimpleDateFormat("dd.MM.yyyy");

@@ -134,6 +134,15 @@ function loadDeliveryList(id){
 			//set comment popover
 			$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 			
+			
+			
+			// sort outgoingDeliveries
+			out.sort(function(a, b){
+				return a.deliveryNr - b.deliveryNr;
+			});
+			
+			
+			
 			for (var e in out) {
 				
 				//get organisation by id
@@ -294,6 +303,9 @@ $("#btn_savedeliverylist").click(function() {
 		}).done(function(data) {
 					out = data;	// already JSON
 		});
+		
+		// set deliveryNr for the delivery within the deliverList
+		out.deliveryNr = e;
 		outgoingDeliveryDTOs.push(out);
 	}
 	

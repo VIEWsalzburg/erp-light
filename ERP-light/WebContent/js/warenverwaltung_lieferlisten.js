@@ -37,6 +37,11 @@ function loadTableContent(loadArchivedEntries){
 							var delivererArray = [];
 							var receiverArray = [];
 							
+							// sort outgoingDeliveryDTOs by deliveryNr
+							list.outgoingDeliveryDTOs.sort(function(a, b){
+								return a.deliveryNr - b.deliveryNr;
+							});
+							
 							for(var i=0; i < list.outgoingDeliveryDTOs.length; i++){
 								
 								// get organisation by id

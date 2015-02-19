@@ -1054,6 +1054,13 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int setDeliveryList(DeliveryList deliveryList) throws HibernateException {
 		
+		// update deliveryNr in the corresponding outgoingDeliveries
+		for (OutgoingDelivery outgoingDelivery : deliveryList.getOutgoingDeliveries())
+		{
+			// get DB entity and update deliveryNr for this entity
+			this.getOutgoingDeliveryById(outgoingDelivery.getOutgoingDeliveryId()).setDeliveryNr(outgoingDelivery.getDeliveryNr());
+		}
+		
 		sessionFactory.getCurrentSession().saveOrUpdate(deliveryList);
 		
 		return deliveryList.getDeliveryListId();
