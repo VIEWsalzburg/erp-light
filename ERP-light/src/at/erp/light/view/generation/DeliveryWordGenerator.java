@@ -15,10 +15,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.poi.util.Units;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.UnderlinePatterns;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFStyle;
+import org.apache.poi.xwpf.usermodel.XWPFStyles;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell.XWPFVertAlign;
 
 import at.erp.light.view.dto.DeliveryListDTO;
 import at.erp.light.view.dto.OutgoingArticleDTO;
@@ -49,40 +53,63 @@ public class DeliveryWordGenerator {
 	        r1.setFontSize(18);
 	        r1.setBold(true);
 	        r1.addTab();
-	        r1.addTab();
-	        r1.addTab();
-	        r1.addTab();
-	        r1.addTab();
-	        r1.addPicture(DeliveryWordGenerator.class.getResourceAsStream("VIEW_Logo_4c.png"), XWPFDocument.PICTURE_TYPE_PNG, "VIEW_Logo_4c.png", Units.toEMU(80), Units.toEMU(55)); // 200x200 pixels	        
+	        
+	        // insert image on the right side
+	        XWPFParagraph p1_1 = doc.createParagraph();
+	        p1_1.setAlignment(ParagraphAlignment.RIGHT);	        
+	        XWPFRun r1_1 = p1_1.createRun();
+	        r1_1.addPicture(DeliveryWordGenerator.class.getResourceAsStream("VIEW_Logo_4c.png"), XWPFDocument.PICTURE_TYPE_PNG, "VIEW_Logo_4c.png", Units.toEMU(90), Units.toEMU(55)); // 200x200 pixels	        
 //	        Disponert von
 	        
 	        XWPFParagraph p2 = doc.createParagraph();
 	        XWPFRun r4 = p2.createRun();
-	        r4.setText("Disponiert von: ");
+	        r4.addBreak();
+	        r4.setText("Disponiert von:");
 	        setBoldUnderlined(r4);
+	        r4.setFontSize(14);
 	        
 	        XWPFRun r6 = p2.createRun();
-	        r6.setText(doneBy);
+	        r6.setText(" "+doneBy);
 	        setArial12(r6);
+	        r6.setFontSize(12);
 	        
 	        
 //	        Fahrerteam
 	        
 	        XWPFParagraph p3 = doc.createParagraph();
 	        XWPFRun r5 = p3.createRun();
-	        r5.setText("Fahrteam: ");
+	        r5.addBreak();
+	        r5.setText("Fahrteam:");
 	        setBoldUnderlined(r5);
+	        r5.setFontSize(14);
 
 	        XWPFRun r7 = p3.createRun();
-	        r7.setText(deliveryList.getDriver() + ", " +deliveryList.getPassenger());
+	        r7.setText(" "+deliveryList.getDriver() + ", " +deliveryList.getPassenger());
 	        setArial12(r7);
+	        r7.setFontSize(12);
+	        
+//	        Beschreibung
+	        
+	        XWPFParagraph commentParagraph = doc.createParagraph();
+	        XWPFRun descriptionRun = commentParagraph.createRun();
+	        descriptionRun.addBreak();
+	        descriptionRun.setText("Beschreibung:");
+	        setBoldUnderlined(descriptionRun);
+	        descriptionRun.setFontSize(14);
+
+	        XWPFRun descriptionRun2 = commentParagraph.createRun();
+	        descriptionRun2.setText(" "+deliveryList.getComment());
+	        setArial12(descriptionRun2);
+	        descriptionRun2.setFontSize(12);
 	        
 //	        Abholen [START]
 	        
 	        XWPFParagraph p4 = doc.createParagraph();
 	        XWPFRun r8 = p4.createRun();
-	        r8.setText("Abholen: ");
+	        r8.addBreak();
+	        r8.setText("Abholen:");
 	        setBoldUnderlined(r8);
+	        r8.setFontSize(16);
 	        
 	        
 	        // Overview of the following process:
@@ -171,11 +198,21 @@ public class DeliveryWordGenerator {
 	        	if (contactString.length() > 2)
 	        		contactString = contactString.substring(0, contactString.length()-2);
 	        	
-	        	XWPFRun innerRun = delivererParagraph.createRun();
-	 	        setArial12(innerRun);
-	 	        innerRun.setText(organisation.getName() + " Ansprechpartner: " + contactString);
-	 	        innerRun.addBreak();
+	        	XWPFRun orgRun = delivererParagraph.createRun();
+	 	        setArial12(orgRun);
+	 	        orgRun.setBold(true);
+	 	        orgRun.addBreak();
+	 	        orgRun.setText(organisation.getName() + ", " + organisation.getCity().getCity());
+	 	        orgRun.addBreak();
+	 	        
+	 	        XWPFRun contactRun = delivererParagraph.createRun();
+	 	        contactRun.setFontFamily("Arial");
+	 	        contactRun.setText("Ansprechperson(en): "+contactString);
+	 	        contactRun.addBreak();
 	        
+	 	        
+	 	        XWPFRun articleRun = delivererParagraph.createRun();
+	 	        articleRun.setFontFamily("Arial");
 	 	        
 	 	        // write Articles to paragraph
 	 	        for(Integer articleId : currentEntry.keySet())
@@ -183,12 +220,11 @@ public class DeliveryWordGenerator {
 	 	        	Article article = dataBase.getArticleById(articleId);
 	 	        	int numberPU = currentEntry.get(articleId);
 	 	        	
-			 	    innerRun.setText(String.valueOf(numberPU));
-			 	    innerRun.addTab();
-	 	        	innerRun.setText("Einheit: "+ article.getPackagingUnit() +" Beschreibung: "+article.getDescription());
-		 	        innerRun.addBreak();
+	 	        	articleRun.setText(String.valueOf(numberPU));
+	 	        	articleRun.addTab();
+	 	        	articleRun.setText(article.getDescription() +" ("+ article.getPackagingUnit() +")");
+	 	        	articleRun.addBreak();
 	 	        }
-	 	        innerRun.addBreak();
 	        
 	        }
 	        
@@ -202,12 +238,12 @@ public class DeliveryWordGenerator {
 	        
 	        XWPFParagraph p6 = doc.createParagraph();
 	        XWPFRun r10 = p6.createRun();
-	        r10.setText("Lieferstationen: ");
+	        r10.setText("Lieferstationen:");
 	        setBoldUnderlined(r10);
+	        r10.setFontSize(16);
+	        r10.addBreak();
 	        
-	        XWPFParagraph p7 = doc.createParagraph();
-	        XWPFRun r11 = p7.createRun();
-	        setArial12(r11);
+
 	        
 	        
 	        
@@ -227,13 +263,36 @@ public class DeliveryWordGenerator {
 	        
 	        for(OutgoingDelivery delivery : outgoingDeliveries)
 	        {
+	        	Organisation org = delivery.getOrganisation();
+	        	
 	        	i++;
 		        XWPFParagraph p = doc.createParagraph();
-		        XWPFRun run = p.createRun();
-		        run.setText(i +" " + delivery.getOrganisation().getName() + " Anmerkung: "+delivery.getComment());
-		        setArial12(run);
-		        run.setBold(true);
-		        run.addBreak();
+		        XWPFRun orgRun = p.createRun();
+		        orgRun.setText(i +". Lieferstation: " + org.getName() + ", " + org.getCity().getCity());
+		        setArial12(orgRun);
+		        orgRun.setBold(true);
+		        orgRun.addBreak();
+		        
+		        // get contactPersons for current Organisation
+		        String contactString = "";
+	        	for (Person person : org.getContactPersons())
+	        	{
+	        		contactString += person.getLastName() + " " + person.getFirstName() + ", ";
+	        	}
+	        	// remove comma after appending all Names, if names have been added
+	        	if (contactString.length() > 2)
+	        		contactString = contactString.substring(0, contactString.length()-2);
+		        
+		        XWPFRun contactPersonRun = p.createRun();
+		        contactPersonRun.setFontFamily("Arial");
+		        contactPersonRun.setText("Ansprechperson(en): "+contactString);
+		        contactPersonRun.addBreak();
+		        
+		        XWPFRun commentRun = p.createRun();
+		        commentRun.setFontFamily("Arial");
+		        commentRun.setText("Anmerkung: "+delivery.getComment());
+		        commentRun.addBreak();
+		        
 		        
 		        // write each outgoingArticle to this paragraph
 	        	for(OutgoingArticle outgoingArticle : delivery.getOutgoingArticles())
@@ -242,7 +301,7 @@ public class DeliveryWordGenerator {
 			        setArial12(innerRun);
 			        innerRun.setText(String.valueOf(outgoingArticle.getNumberpu()));
 			        innerRun.addTab();
-			        innerRun.setText(" Einheit: "+outgoingArticle.getArticle().getPackagingUnit() + " Beschreibung: " + outgoingArticle.getArticle().getDescription());
+			        innerRun.setText(outgoingArticle.getArticle().getDescription() + " (" + outgoingArticle.getArticle().getPackagingUnit() + ")");
 			        innerRun.addBreak();
 	        	}
 	        }
