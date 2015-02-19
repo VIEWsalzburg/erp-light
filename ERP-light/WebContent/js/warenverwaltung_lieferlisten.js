@@ -54,7 +54,7 @@ function loadTableContent(loadArchivedEntries){
 										org = organisations[o];
 								}
 								
-								// get receivers
+								// get receivers 
 								receiverArray.push(org.id);
 								
 								// iterate over outgoingArticleDTOS
