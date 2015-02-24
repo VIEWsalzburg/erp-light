@@ -35,7 +35,7 @@ public class LogoutController {
 		dataBaseService.insertLogging("[INFO] "+platformuser.getLoginEmail()+" hat sich abgemeldet", platformuser.getPersonId());
 
 		try {
-			response.sendRedirect("http://"+request.getServerName()+":"+request.getServerPort()+"/ERP-light");
+			response.sendRedirect("/ERP-light");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
