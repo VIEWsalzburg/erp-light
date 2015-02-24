@@ -81,7 +81,7 @@ function loadTableContent() {
 					
 					var tableRow = "<tr>" +
 							"<td class='hidden'>" + p[e].personId + "</td>" +
-							"<td>" + p[e].title + " " + p[e].lastName + " " + p[e].firstName + "</td>" +
+							"<td>" + p[e].salutation + " " + p[e].title + " " + p[e].lastName + " " + p[e].firstName + "</td>" +
 							"<td>" + addressString + "</td>" +
 							"<td>" + phoneString + "</td>" +
 							"<td>" + emailString + "</td>" +
