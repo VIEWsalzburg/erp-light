@@ -38,6 +38,7 @@
 				
 				<div class="spacingTop">
 				
+					<!-- Adressen-Report für alle Personen -->
 					<div class="panel panel-default">
 						<div class="panel-heading">Adressen-Report für alle Personen</div>
 						<div class="panel-body">
@@ -50,6 +51,46 @@
 										<button class="btn btn-primary pull-right" type="submit" id="btn_generateAddressReport">
 											<span class="glyphicon glyphicon-file"></span>
 											 Report erstellen</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					<!-- Alle Personen exportieren -->
+					<div class="panel panel-default">
+						<div class="panel-heading">Alle Personen exportieren</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-10">
+									<h5>Dieser Report generiert eine Liste mit den gespeicherten Informationen zu allen Personen.</h5>
+								</div>
+								<div class="col-sm-2">
+									<form action="../rest/secure/person/getAllPersonsAsCSV">
+										<button class="btn btn-primary pull-right" type="submit" id="btn_generateAddressReport">
+											<span class="glyphicon glyphicon-file"></span>
+											 alle Personen exportieren</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					<!-- Alle Organisationen exportieren -->
+					<div class="panel panel-default">
+						<div class="panel-heading">Alle Organisationen exportieren</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-10">
+									<h5>Dieser Report generiert eine Liste mit den gespeicherten Informationen zu allen Organisationen.</h5>
+								</div>
+								<div class="col-sm-2">
+									<form action="../rest/secure/organisation/getAllOrganisationsAsCSV">
+										<button class="btn btn-primary pull-right" type="submit" id="btn_generateAddressReport">
+											<span class="glyphicon glyphicon-file"></span>
+											 alle Organisationen exportieren</button>
 									</form>
 								</div>
 							</div>

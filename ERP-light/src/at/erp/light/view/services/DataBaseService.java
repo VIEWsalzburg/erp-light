@@ -1458,6 +1458,7 @@ public class DataBaseService implements IDataBase {
 		
 		// round price
 		reportDataDTO.setTotalPrice( (double)Math.round(reportDataDTO.getTotalPrice()*100)/100 );
+		reportDataDTO.setTotalWeight( (double)Math.round(reportDataDTO.getTotalWeight()*100)/100 );
 		reportDataDTO.setDateFrom(df.format(dateFrom));
 		reportDataDTO.setDateTo(df.format(dateTo));
 		
@@ -1496,6 +1497,7 @@ public class DataBaseService implements IDataBase {
 		{
 			// round price
 			rd.setTotalPrice( (double)Math.round(rd.getTotalPrice()*100)/100 );
+			rd.setTotalWeight( (double)Math.round(rd.getTotalWeight()*100)/100 );
 			rd.setDateFrom(df.format(dateFrom));
 			rd.setDateTo(df.format(dateTo));
 		}
@@ -1534,6 +1536,7 @@ public class DataBaseService implements IDataBase {
 		
 		// round price
 		reportDataDTO.setTotalPrice( (double)Math.round(reportDataDTO.getTotalPrice()*100)/100 );
+		reportDataDTO.setTotalWeight( (double)Math.round(reportDataDTO.getTotalWeight()*100)/100 );
 		reportDataDTO.setDateFrom(df.format(dateFrom));
 		reportDataDTO.setDateTo(df.format(dateTo));
 		
@@ -1572,6 +1575,7 @@ public class DataBaseService implements IDataBase {
 		{
 			// round price
 			rd.setTotalPrice( (double)Math.round(rd.getTotalPrice()*100)/100 );
+			rd.setTotalWeight( (double)Math.round(rd.getTotalWeight()*100)/100 );
 			rd.setDateFrom(df.format(dateFrom));
 			rd.setDateTo(df.format(dateTo));
 		}
@@ -1603,6 +1607,7 @@ public class DataBaseService implements IDataBase {
 		
 		// round price
 		reportDataDTO.setTotalPrice( (double)Math.round(reportDataDTO.getTotalPrice()*100)/100 );
+		reportDataDTO.setTotalWeight( (double)Math.round(reportDataDTO.getTotalWeight()*100)/100 );
 		reportDataDTO.setDateFrom(df.format(dateFrom));
 		reportDataDTO.setDateTo(df.format(dateTo));
 		
@@ -1633,6 +1638,7 @@ public class DataBaseService implements IDataBase {
 		
 		// round price
 		reportDataDTO.setTotalPrice( (double)Math.round(reportDataDTO.getTotalPrice()*100)/100 );
+		reportDataDTO.setTotalWeight( (double)Math.round(reportDataDTO.getTotalWeight()*100)/100 );
 		reportDataDTO.setDateFrom(df.format(dateFrom));
 		reportDataDTO.setDateTo(df.format(dateTo));
 		

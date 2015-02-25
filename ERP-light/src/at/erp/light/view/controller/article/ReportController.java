@@ -238,21 +238,23 @@ public class ReportController {
 			csvWriter.writeHeader("Für Lieferant");
 			try{
 				reportDataDTO = dataBaseService.getIncomingReportByOrganisationId(id, dateFrom, dateTo);
+				writeSingleData(csvWriter, reportDataDTO);
 			}catch(Exception e){
 				log.severe(e.getMessage());
 			}
-			writeSingleData(csvWriter, reportDataDTO);
+			
 		}
 		
 		else if(reportCommand.isOutgoingReportByOrganisationId())
 		{
 			csvWriter.writeHeader("Für Kunde");
 			try{
-			reportDataDTO =  dataBaseService.getOutgoingReportByOrganisationId(id, dateFrom, dateTo);
+				reportDataDTO =  dataBaseService.getOutgoingReportByOrganisationId(id, dateFrom, dateTo);
+				writeSingleData(csvWriter, reportDataDTO);
 			}catch(Exception e){
 				log.severe(e.getMessage());
 			}
-			writeSingleData(csvWriter, reportDataDTO);
+			
 		}
 		
 		else if(reportCommand.isTotalSumOfAllIncomingDeliveries())
@@ -260,10 +262,11 @@ public class ReportController {
 			csvWriter.writeHeader("Summe aller eingehenden Lieferungen");
 			try{
 				reportDataDTO =  dataBaseService.getTotalSumOfAllIncomingDeliveries(dateFrom, dateTo);
+				writeSingleData(csvWriter, reportDataDTO);
 			}catch(Exception e){
 				log.severe(e.getMessage());
 			}
-			writeSingleData(csvWriter, reportDataDTO);
+			
 		}
 		
 		else if(reportCommand.isTotalSumOfAllOutgoingDeliveries())
@@ -271,10 +274,11 @@ public class ReportController {
 			csvWriter.writeHeader("Summe aller ausgehenden Lieferungen");
 			try{
 				reportDataDTO =  dataBaseService.getTotalSumOfAllOutgoingDeliveries(dateFrom, dateTo);
+				writeSingleData(csvWriter, reportDataDTO);
 			} catch(Exception e){
 				log.severe(e.getMessage());
 			}
-			writeSingleData(csvWriter, reportDataDTO);
+			
 		}
 		
 		List<ReportDataDTO> reportDataDTOList = null;
@@ -284,10 +288,11 @@ public class ReportController {
 			csvWriter.writeHeader("Alle Lieferanten");
 			try{
 				reportDataDTOList =  dataBaseService.getIncomingReportForAllOrganisations(dateFrom, dateTo);
+				writeListData(csvWriter, reportDataDTOList);
 			}catch(Exception e){
 				log.severe(e.getMessage());
 			}
-			writeListData(csvWriter, reportDataDTOList);
+			
 		}
 
 		else if(reportCommand.isOutgoingReportForAllOrganisations())
@@ -295,10 +300,11 @@ public class ReportController {
 			csvWriter.writeHeader("Alle Kunden");
 			try{
 				reportDataDTOList =  dataBaseService.getOutgoingReportForAllOrganisations(dateFrom, dateTo);
+				writeListData(csvWriter, reportDataDTOList);
 			}catch(Exception e){
 				log.severe(e.getMessage());
 			}
-			writeListData(csvWriter, reportDataDTOList);
+			
 		}
 		
 		csvWriter.close();
@@ -336,6 +342,14 @@ public class ReportController {
 
 	private void writeListData(CsvBeanWriter csvWriter,
 			List<ReportDataDTO> reportDataDTOList) throws IOException {
+		
+		// if no data is available
+		if (reportDataDTOList.size() == 0)
+		{
+			csvWriter.writeHeader("Keine Daten für diesen Zeitraum verfügbar.");
+			return;
+		}
+		
 		String[] reportHeader = getReportHeader(reportDataDTOList.get(0));
 		
 		String[] objectHeader = getReportObjectHeader(reportDataDTOList.get(0));
