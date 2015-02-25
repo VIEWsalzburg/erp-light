@@ -378,6 +378,13 @@ $("#btn_edit").click(function() {
 			$("#select_loginEmail").append(loginEmail_template);
 		}
 		
+		// select correct email
+		console.log(p.loginEmail);
+		$("#select_loginEmail").val(p.loginEmail);
+		
+		
+		
+		
 		//load type checkboxes
 		$('#cbx_mitarbeiter').prop('checked', false);
 		$('#cbx_mitglied').prop('checked', false);
