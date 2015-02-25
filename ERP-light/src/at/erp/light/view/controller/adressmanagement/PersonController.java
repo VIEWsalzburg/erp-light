@@ -147,8 +147,12 @@ public class PersonController {
 			Person entity = PersonMapper.mapToEntity(person);
 			entity.setLastEditor(dataBaseService.getPersonById(lastEditorId));
 	
-			// persist Person to DB
-			dataBaseService.setPerson(entity);
+			// persist Person to DB and get personId (to get the persisted Id if new Person with personId = 0 is saved)
+			int personId = dataBaseService.setPerson(entity);
+			
+			// get persisted Object from DB, because Object 'entity' is only accessed for reading and contains non-persisted data 
+			entity = dataBaseService.getPersonById(personId);
+			
 			log.info("saved person with id: "+entity.getPersonId());
 	
 			boolean isPlatformuser = person.isSystemUser();
@@ -162,7 +166,7 @@ public class PersonController {
 				if (existingPU == null) // if platformuser does not exist
 				{
 					// create new one
-					existingPU = new Platformuser(mPermission, entity, HashGenerator.hashPasswordWithSalt("default"),
+					existingPU = new Platformuser(mPermission, entity, HashGenerator.hashPasswordWithSalt("VIEW-Sbg"),
 							person.getLoginEmail());
 					log.info("created new platfomUser for person with id: "+entity.getPersonId());
 				} else { // if platformuser exists
@@ -229,7 +233,7 @@ public class PersonController {
 			
 			Platformuser platformuser = dataBaseService.getPlatformuserById(id);
 			
-			platformuser.setPassword(HashGenerator.hashPasswordWithSalt("default"));
+			platformuser.setPassword(HashGenerator.hashPasswordWithSalt("VIEW-Sbg"));
 			
 			dataBaseService.setPlatformuser(platformuser);
 			log.info("reset password for user with id "+id);

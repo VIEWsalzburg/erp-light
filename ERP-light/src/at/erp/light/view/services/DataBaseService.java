@@ -260,7 +260,7 @@ public class DataBaseService implements IDataBase {
 		// final update all in DB
 		sessionFactory.getCurrentSession().saveOrUpdate(existingPerson);
 		
-		return person.getPersonId();
+		return existingPerson.getPersonId();
 		
 	}
 	
