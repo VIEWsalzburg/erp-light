@@ -469,12 +469,12 @@ $('#TableHead').on('click','tbody tr', function(event) {
 	
 	//check if clicked table row entry is archived
 	if($(this).closest("tr").hasClass("checked") == true){
-		$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> De - Archivieren');
+		$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> Abschluss aufheben');
 		$('#btn_archive').val("dearchive");
 		$('#btn_archive').prop('disabled', false);
 	}
 	else{
-		$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> Archivieren');
+		$('#btn_archive').html('<span class="glyphicon glyphicon-folder-close"></span> Abschließen');
 		$('#btn_archive').val("archive");
 		$('#btn_archive').prop('disabled', false);
 	}
