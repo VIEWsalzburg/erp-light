@@ -15,6 +15,7 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
+import org.springframework.cglib.core.EmitUtils;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -149,6 +150,27 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public int setPerson(Person person) throws HibernateException {
 		
+		// create new Person
+		Person existingPerson = new Person();
+		
+		// if person exists in DB
+		if (person.getPersonId() > 0)
+		{
+			// 	get current Person
+			existingPerson = this.getPersonById(person.getPersonId());
+		}
+		// else use the new Object
+		
+		// update general information
+		existingPerson.setSalutation(person.getSalutation());
+		existingPerson.setTitle(person.getTitle());
+		existingPerson.setFirstName(person.getFirstName());
+		existingPerson.setLastName(person.getLastName());
+		existingPerson.setComment(person.getComment());
+		existingPerson.setUpdateTimestamp(person.getUpdateTimestamp());
+		existingPerson.setActive(person.getActive());
+		existingPerson.setLastEditor(person.getLastEditor());
+		
 		// update Address
 		// if address == null => delete FK
 		if (person.getAddress() != null)
@@ -156,13 +178,15 @@ public class DataBaseService implements IDataBase {
 			// check if Address is not ""
 			if (person.getAddress().getAddress().isEmpty())
 			{
-				person.setAddress(null);
+				// update existingPerson
+				existingPerson.setAddress(null);
 			}	
 			else
 			{
 				// checks if Address already exists in database (if yes => retrieve existing one, if no => create new one and get it)
 				Address Address = getAddressByAddress(person.getAddress().getAddress());
-				person.setAddress(Address);
+				// update existingPerson
+				existingPerson.setAddress(Address);
 			}
 		}
 		
@@ -172,13 +196,15 @@ public class DataBaseService implements IDataBase {
 			// check if Country is not ""
 			if (person.getCountry().getCountry().isEmpty())
 			{
-				person.setCountry(null);
+				// update existingPerson
+				existingPerson.setCountry(null);
 			}	
 			else
 			{
 				// checks if Country already exists in database (if yes => retrieve existing one, if no => create new one and get it)
 				Country country = getCountryByCountry(person.getCountry().getCountry());
-				person.setCountry(country);
+				// update existingPerson
+				existingPerson.setCountry(country);
 			}
 		}
 		
@@ -187,43 +213,52 @@ public class DataBaseService implements IDataBase {
 		{
 			if (person.getCity().getCity().isEmpty() && person.getCity().getZip().isEmpty())
 			{
-				person.setCity(null);
+				// update existingPerson
+				existingPerson.setCity(null);
 			}
 			else
 			{
 				// checks if City and Zip already exist in database (if yes => retrieve existing one, if no => create new one and get it)
 				City city = getCityByCityAndZip(person.getCity().getCity(), person.getCity().getZip());
-				person.setCity(city);
+				// update existingPerson
+				existingPerson.setCity(city);
 			}
 		}
 		
 		// update Telephones
-		Set<Telephone> telephones = new HashSet<Telephone>();
+		// 1. remove all telephones from Person
+		// 2. add all telephones to Set
+		existingPerson.getTelephones().clear();
+		
 		for (Telephone telephone : person.getTelephones())
 		{
-			telephones.add(this.getTelephoneByTelephone(telephone.getTelephone(), telephone.getType().getName()));
+			// create new Telephone object and add it to existingPerson
+			existingPerson.getTelephones().add(new Telephone(0, this.getTypeByType(telephone.getType().getName()), telephone.getTelephone()));
 		}
-		person.setTelephones(telephones);
+		// types of telephones should be set in Controller
 		
 		// update Emails
-		Set<Email> emails = new HashSet<Email>();
+		// 1. remove all emails from Person
+		existingPerson.getEmails().clear();
 		for (Email email : person.getEmails())
 		{
-			emails.add(this.getEmailByEmail(email.getEmail(), email.getType().getName()));
+			// create new email object and add it to existingPerson
+			existingPerson.getEmails().add(new Email(0, this.getTypeByType(email.getType().getName()), email.getEmail()));
 		}
-		person.setEmails(emails);
+		// types of emails should be set in Controller
 		
+		existingPerson.getTypes().clear();
 		Set<Type> types = new HashSet<Type>();
 		for (Type type : person.getTypes())
 		{
 			types.add(this.getTypeByType(type.getName()));
 		}
-		person.setTypes(types);
+		existingPerson.setTypes(types);
 		
 		// Set Types should be set in Controller because Types are "static"
 		
 		// final update all in DB
-		sessionFactory.getCurrentSession().saveOrUpdate(person);
+		sessionFactory.getCurrentSession().saveOrUpdate(existingPerson);
 		
 		return person.getPersonId();
 		
@@ -263,56 +298,6 @@ public class DataBaseService implements IDataBase {
 		@SuppressWarnings("unchecked")
 		List<Type> types = (List<Type>)query.list();
 		return types;
-	}
-	
-	
-	@Transactional(propagation=Propagation.REQUIRED)
-	public Telephone setTelephone(Telephone telephone) throws HibernateException
-	{
-		sessionFactory.getCurrentSession().saveOrUpdate(telephone);
-		return telephone;
-	}
-	
-	@Transactional(propagation=Propagation.REQUIRED)
-	public Telephone getTelephoneByTelephone(String telephone, String type) throws HibernateException
-	{
-		Telephone mTelephone = (Telephone) sessionFactory.getCurrentSession().createQuery("FROM Telephone t WHERE t.telephone = :telephone")
-				.setParameter("telephone", telephone).uniqueResult();
-		if (mTelephone == null)
-		{
-			mTelephone = new Telephone();
-			mTelephone.setTelephone(telephone);
-			mTelephone.setType(getTypeByType(type));
-			this.setTelephone(mTelephone);
-		}
-		mTelephone.setType(getTypeByType(type));
-		
-		return mTelephone;
-	}
-	
-	
-	@Transactional(propagation=Propagation.REQUIRED)
-	public Email setEmail(Email email) throws HibernateException
-	{
-		sessionFactory.getCurrentSession().saveOrUpdate(email);
-		return email;
-	}
-	
-	@Transactional(propagation=Propagation.REQUIRED)
-	public Email getEmailByEmail(String email, String type) throws HibernateException
-	{
-		Email mEmail = (Email) sessionFactory.getCurrentSession().createQuery("FROM Email e WHERE e.email = :email")
-				.setParameter("email", email).uniqueResult();
-		if (mEmail == null)
-		{
-			mEmail = new Email();
-			mEmail.setEmail(email);
-			mEmail.setType(getTypeByType(type));
-			this.setEmail(mEmail);
-		}
-		mEmail.setType(getTypeByType(type));
-		
-		return mEmail;
 	}
 	
 	@Override

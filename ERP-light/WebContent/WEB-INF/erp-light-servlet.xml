@@ -25,7 +25,7 @@
 	
 		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" >
 			<property name="driverClass" value="org.postgresql.Driver"></property>
-			<property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/emptyDBTest"></property>
+			<property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/ERP_light"></property>
 			<property name="user" value="postgres"></property>
 			<property name="password" value="root"></property>
 			
