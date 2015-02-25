@@ -7,7 +7,7 @@ var emailelement_template = "";
 var currentUser = "";
 var currentUserRights = "";
 
-var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>"
+var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div id='ErrorAlertMessage' class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>"
 	$("#newAlertForm").append(pwdError);
 
 var template = "<div class='row'><div class='col-md-6'><label>Login Email</label></div><div class='col-md-6'><label id='label_loginEmail_details'>Login Email</label>" +
@@ -99,16 +99,46 @@ function loadTableContent() {
 
 };
 
-$("#select_loginEmail").focus(function() {
+// update option entires when selection box gains focus
+$("#select_loginEmail").focus(updateLoginEmailSelect);
+
+// updates the entries within the selection for the loginEmail
+function updateLoginEmailSelect(){
+	
+	// search remove all options which are not 
+	var selectedEmail = $('#select_loginEmail').val();
+	
+	// remove all Elements
 	$("#select_loginEmail").find('option').remove().end();
+	
+	// add all Elements
 	$(".tbx_mailadress").each(function() {
 		var emailValue = $(this).val();
-		if(emailValue != ""){
-			$("#select_loginEmail").append($("<option></option>")
+		var inputId = $(this).attr('id');
+		$("#select_loginEmail").append($("<option id='"+inputId+"_option'></option>")
 			         .text(emailValue));
-		}
 	});
+	
+	// reselect the selectedEmail
+	$("#select_loginEmail").val(selectedEmail);
+	
+};
+
+// update email addresses within selection box when editing a email
+$(document).on('keyup','#email_container input',
+		function()
+		{
+			// new email address
+			var newText = $(this).val();
+			var inputId = $(this).attr('id');
+			
+			// update email addresses in option box
+			$('#select_loginEmail').find('#'+inputId+'_option').text(newText);
+			
 });
+
+
+
 
 //Modal new
 $("#btn_new").click(function() {
@@ -162,8 +192,20 @@ $("#btn_saveperson").click(function() {
 	
 	if( $("#tbx_lastName").val() == "")
 	{
+		$('#ErrorAlertMessage').text("Kein Nachname!");
+		$("#newAlertForm").show();
+		return;
+	}
+	
+	// if person is a systemuser, then check the loginEmail
+	if( $('#cbx_systemuser').prop('checked') )
+	{
+		if( $('#select_loginEmail').val() == "" || $('#select_loginEmail option').length == 0 )
+		{
+			$('#ErrorAlertMessage').text("Keine Login-Email!");
 			$("#newAlertForm").show();
 			return;
+		}
 	}
 	
 	var newperson = new Object();
@@ -174,7 +216,7 @@ $("#btn_saveperson").click(function() {
 	newperson.firstName = $("#tbx_firstName").val();
 	newperson.lastName = $("#tbx_lastName").val();
 	newperson.comment = $("#tbx_comment").val();
-	//Set by server
+	// These values are set by the server
 	newperson.updateTimestamp = "";
 	newperson.active = 1;
 
@@ -334,19 +376,20 @@ $("#btn_edit").click(function() {
 				newElement = $(
 					"<div/>",
 					{
-						id : "phone_element" + phoneCount++,
+						id : "phone_element" + (phoneCount+1),
 						"class" : "phone_element"
 					}).append(phoneelement_template);
 					$("#phone_container").append(newElement);
 			
-			help = "#tbx_phoneNumber" + (phoneCount-1);
+			help = "#tbx_phoneNumber" + (phoneCount);
 			$(help).val(p.telephones[i].telephone);
 			
 			help = p.telephones[i].type; 
-			help1 = "select#select_phoneNumber" + (phoneCount-1) + " option";
+			help1 = "select#select_phoneNumber" + (phoneCount) + " option";
 			$(help1).each(function() { 
 				this.selected = (this.text == help);
 			});
+			phoneCount++;
 		}
 		
 		//load email divs
@@ -359,23 +402,24 @@ $("#btn_edit").click(function() {
 				"</div></div></div></div>";
 			
 				newElement = $("<div/>", {
-					id : "email_element" + emailCount++,
+					id : "email_element" + (emailCount+1),
 					"class" : "email_element"
 				}).append(emailelement_template);
 				$("#email_container").append(newElement);
 				
-			help = "#tbx_email" + (emailCount-1);
+			help = "#tbx_email" + (emailCount);
 			$(help).val(p.emails[i].mail);
 			
 			help = p.emails[i].type;	//test
-			help1 = "select#select_email" + (emailCount-1) + " option";
+			help1 = "select#select_email" + (emailCount) + " option";
 			$(help1).each(function() { 
 				this.selected = (this.text == help);
 			});
 			
 			//add emails to loginEmail select
-			loginEmail_template = "<option>" + p.emails[i].mail + "</option>";
+			loginEmail_template = "<option id='tbx_email"+emailCount+"_option'>" + p.emails[i].mail + "</option>";
 			$("#select_loginEmail").append(loginEmail_template);
+			emailCount++;
 		}
 		
 		// select correct email
@@ -449,6 +493,10 @@ $(document).ready(function() {
 			"class" : "email_element"
 		}).append(emailelement_template);
 		$("#email_container").append(newElement);
+		
+		// update the elements in the loginEmail Selection
+		updateLoginEmailSelect();
+		
 	});
 });
 
@@ -456,6 +504,9 @@ $(document).ready(function() {
 $("body").on('click', '.btn_removeemail', function() {
 	$(this).closest('div[class^="email_element"]').remove();
 	emailCount--;
+	
+	// update the elements in the loginEmail Selection
+	updateLoginEmailSelect();
 });
 
 //reset password
