@@ -607,13 +607,12 @@ $("#btn_edit").click(function() {
 	$("#newAlertForm").hide();
 	clearPositionModal();
 	
-	//disable every textbox beside pricepackagingunit if isBooked == true
+	//disable every textbox beside pricepackagingunit and mdd if isBooked == true
 	if(isBooked == true){
 		$("#tbx_description").prop('disabled', true);
 		$("#tbx_numberofpackagingunits").prop('disabled', true);
 		$("#tbx_packagingunit").prop('disabled', true);
 		$("#tbx_weightpackagingunit").prop('disabled', true);
-		$("#tbx_mdd").prop('disabled', true);
 	}
 	
 	$("#tbx_description").val(tableData[1]);
@@ -704,12 +703,16 @@ $(document).ready(function() {
 
 		// only when user has admin rights
 		if (currentUserRights == "Admin" || currentUserRights == "ReadWrite") {
+			// show btn_new
+			$("#btn_new").show();
+			
+			// if delivery is not booked
 			if(isBooked == false){
-				$("#btn_new").show();
+				// enable delivery selection
 				$('#btn_addDeliverer').prop('disabled', false);
 			}
-			else{
-				$("#btn_new").show();
+			else{	// else if delivery is booked
+				// disable the button and the delivery selection
 				$("#btn_new").prop('disabled', true);
 				$('#btn_addDeliverer').prop('disabled', true);
 			}

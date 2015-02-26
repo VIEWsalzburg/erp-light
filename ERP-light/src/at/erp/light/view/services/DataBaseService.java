@@ -559,9 +559,9 @@ public class DataBaseService implements IDataBase {
 		// check incomingDeliveryId: if not 0 => get existing incomingDelivery from DB and update fields
 		// update the incomingArticles according to the updated IncomingArticles
 		// and update the existing Articles according to the updated Articles
-		if (incomingDelivery.getIncomingDeliveryId() == 0)
+		if (incomingDelivery.getIncomingDeliveryId() <= 0)
 		{
-			throw new Exception("Id of IncomingDelivery is 0, entity does not exist.");
+			throw new Exception("Id of IncomingDelivery is "+incomingDelivery.getIncomingDeliveryId()+", entity does not exist.");
 		}
 		
 		// get existingEntity from DB, which should be updated
@@ -588,6 +588,7 @@ public class DataBaseService implements IDataBase {
 					{
 						// update Infos for corresponding Article
 						existingIA.getArticle().setPricepu(updatedIA.getArticle().getPricepu());	// update Price
+						existingIA.getArticle().setMdd(updatedIA.getArticle().getMdd());			// update Mhd
 						this.sessionFactory.getCurrentSession().update(existingIA.getArticle());	// persist change
 						
 						// update infos for corresponding IncomingArticle

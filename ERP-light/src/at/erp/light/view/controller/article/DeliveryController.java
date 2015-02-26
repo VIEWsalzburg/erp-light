@@ -206,8 +206,6 @@ public class DeliveryController {
 	public ControllerMessage setIncomingDelivery(
 			@RequestBody IncomingDeliveryDTO dto, HttpServletRequest request) {
 
-		// first scenario: incomingDeliveryId == 0 => new IncomingDelivery
-
 		try {
 			int lastEditorId = (int) request.getSession().getAttribute("id"); // get current editor id
 			
@@ -216,7 +214,6 @@ public class DeliveryController {
 			{
 				return new ControllerMessage(false, "Keine Berechtigung für diese Aktion!");
 			}
-			
 			
 			IncomingDelivery entity = IncomingDeliveryMapper.mapToEntity(dto); // map incomingDelivery to entity
 			// set current Times for updateTimestamp
@@ -230,10 +227,8 @@ public class DeliveryController {
 			// first scenario: incomingDeliveryId == 0 => create new
 			// IncomingDelivery
 			if (entity.getIncomingDeliveryId() == 0) {
-				dataBaseService.setNewIncomingDelivery(entity); // set
-																// NewIncomingDelivery
-			} else // second scenario: if incomingDeliveryId != 0 => update
-					// existing IncomingDelivery
+				dataBaseService.setNewIncomingDelivery(entity); // set NewIncomingDelivery
+			} else // second scenario: if incomingDeliveryId != 0 => update existing IncomingDelivery
 			{
 				dataBaseService.updateIncomingDelivery(entity);
 			}
