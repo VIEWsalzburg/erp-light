@@ -27,7 +27,21 @@ public class SecurityFilter implements Filter {
 
 		if (request instanceof HttpServletRequest) {
 			if (response instanceof HttpServletResponse) {
+				
 				httpServletResponse = (HttpServletResponse) response;
+				httpServletRequest = (HttpServletRequest) request;
+				
+				// if request is of type http, then redirect to https site
+				if (request.getScheme().equals("http"))
+				{
+					// append https:// to the substring of requested url
+					String url = "https://"+httpServletRequest.getRequestURL().substring(7);
+					System.out.println("new url: "+url);
+					httpServletResponse.sendRedirect(url);
+					return;
+				}
+				
+				
 				
 				//No page caching
 				httpServletResponse.setHeader("Cache-Control", "no-cache");
