@@ -58,15 +58,14 @@
 		
 	</beans>
 	
-		<!-- 	Database Access Config -->
+	<!-- 	Database Access Config -->
 	<!-- TODO: use Connection Pool C3PO -->
-	<beans profile="cloudElephantUS">
-	
+	<beans profile="cloudElephantTestingUK">
 		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" >
 			<property name="driverClass" value="org.postgresql.Driver"></property>
-			<property name="jdbcUrl" value="jdbc:postgresql://jumbo.db.elephantsql.com:5432/hrmtrzod"></property>
-			<property name="user" value="hrmtrzod"></property>
-			<property name="password" value="rIt1lo3ftxpQqJ_E5cNhbR3ajJ6bDJ-P"></property>
+			<property name="jdbcUrl" value="jdbc:postgresql://qdjjtnkv.db.elephantsql.com:5432/nkfwzkln"></property>
+			<property name="user" value="nkfwzkln"></property>
+			<property name="password" value="nkfwzkln:AdaSkva0WxeSIfoyQBPxHWrIlemAWY-e"></property>
 			
 			<property name="acquireIncrement" value="1" />
         	<property name="minPoolSize" value="0" />
