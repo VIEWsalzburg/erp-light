@@ -65,7 +65,7 @@
 			<property name="driverClass" value="org.postgresql.Driver"></property>
 			<property name="jdbcUrl" value="jdbc:postgresql://qdjjtnkv.db.elephantsql.com:5432/nkfwzkln"></property>
 			<property name="user" value="nkfwzkln"></property>
-			<property name="password" value="nkfwzkln:AdaSkva0WxeSIfoyQBPxHWrIlemAWY-e"></property>
+			<property name="password" value="AdaSkva0WxeSIfoyQBPxHWrIlemAWY-e"></property>
 			
 			<property name="acquireIncrement" value="1" />
         	<property name="minPoolSize" value="0" />

@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import at.erp.light.view.dto.ArticleDTO;
 import at.erp.light.view.dto.InOutArticlePUDTO;
 import at.erp.light.view.dto.PersonAddressReportDataDTO;
+import at.erp.light.view.dto.PersonEmailReportDataDTO;
 import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.mapper.ArticleMapper;
 import at.erp.light.view.model.Address;
@@ -1671,6 +1672,29 @@ public class DataBaseService implements IDataBase {
 			.addScalar("orgCity", StandardBasicTypes.STRING)
 			.addScalar("orgCountry", StandardBasicTypes.STRING)
 			.setResultTransformer(Transformers.aliasToBean(PersonAddressReportDataDTO.class))
+			.list();
+
+		return reportDataList;
+	}
+	
+	/***** EmailReport *****/
+	@Override
+	public List<PersonEmailReportDataDTO> getPersonEmailReport() throws Exception
+	{
+		String sqlString = "select * from personEmailReportView";
+		
+		@SuppressWarnings("unchecked")
+		List<PersonEmailReportDataDTO> reportDataList = (List<PersonEmailReportDataDTO>) this.sessionFactory.getCurrentSession().createSQLQuery(sqlString)
+			.addScalar("personId", StandardBasicTypes.INTEGER)
+			.addScalar("salutation", StandardBasicTypes.STRING)
+			.addScalar("title", StandardBasicTypes.STRING)
+			.addScalar("lastName", StandardBasicTypes.STRING)
+			.addScalar("firstName", StandardBasicTypes.STRING)
+			.addScalar("comment", StandardBasicTypes.STRING)
+			.addScalar("email", StandardBasicTypes.STRING)
+			.addScalar("emailType", StandardBasicTypes.STRING)
+			.addScalar("organisationName", StandardBasicTypes.STRING)
+			.setResultTransformer(Transformers.aliasToBean(PersonEmailReportDataDTO.class))
 			.list();
 
 		return reportDataList;

@@ -19,6 +19,7 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 import at.erp.light.view.dto.PersonAddressReportDataDTO;
+import at.erp.light.view.dto.PersonEmailReportDataDTO;
 import at.erp.light.view.services.IDataBase;
 
 @RestController
@@ -36,7 +37,7 @@ public class AddressReportController {
 			HttpServletResponse response) throws IOException, ParseException {
 
 		
-		log.info("Generate Address Report for all Persons");
+		log.info("Generate Address Report for all Persons and Organisations");
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -55,7 +56,7 @@ public class AddressReportController {
 		CsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
 				CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
 
-		csvWriter.writeHeader("AddressReport");
+		csvWriter.writeHeader("Address-Report");
 		csvWriter.writeHeader("");
 		
 		csvWriter.writeHeader("Erstelldatum: ",simpleDateFormat.format(new Date()));
@@ -66,13 +67,14 @@ public class AddressReportController {
 		List<PersonAddressReportDataDTO> reportDataList = null;
 
 		
-		csvWriter.writeHeader("Alle Personen");
+		csvWriter.writeHeader("Alle Personen und Organisationen");
 		try{
 			reportDataList =  dataBaseService.getPersonAddressReport();
+			writeListData(csvWriter, reportDataList);
 		}catch(Exception e){
 			log.severe(e.getMessage());
+			e.printStackTrace();
 		}
-		writeListData(csvWriter, reportDataList);
 		
 		csvWriter.close();
 	}
@@ -97,4 +99,69 @@ public class AddressReportController {
 		csvWriter.writeHeader("");
 	}
 
+	
+	
+	@RequestMapping(value = "secure/reports/address/generateEmailReport")
+	public void generateEmailReport(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ParseException {
+
+		
+		log.info("Generate Email Report for all Persons");
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+		String csvFileName = "EmailReport_" + simpleDateFormat.format(new Date())
+				+ ".csv";
+		response.setContentType("text/csv");
+		// creates mock data
+		String headerKey = "Content-Disposition";
+		String headerValue = String.format("attachment; filename=\"%s\"",
+				csvFileName);
+		response.setHeader(headerKey, headerValue);
+		
+		NumberFormat nf_out = NumberFormat.getNumberInstance(Locale.GERMANY);
+		nf_out.setMaximumFractionDigits(2);
+
+		CsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
+				CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
+
+		csvWriter.writeHeader("Email-Report");
+		csvWriter.writeHeader("");
+		
+		csvWriter.writeHeader("Erstelldatum: ",simpleDateFormat.format(new Date()));
+		
+		csvWriter.writeHeader("");
+
+		
+		List<PersonEmailReportDataDTO> reportDataList = null;
+
+		
+		csvWriter.writeHeader("Alle Personen");
+		try{
+			reportDataList =  dataBaseService.getPersonEmailReport();
+			
+			// write into file
+			String[] reportHeader = {"Id", "Titel", "Anrede", "Nachname", "Vorname", "Kommentar", "Email",
+					"Email-Typ", "Kontaktperson für"};
+					
+			csvWriter.writeHeader(reportHeader);
+			
+			String[] objectHeader = {"personId", "salutation", "title", "lastName", "firstName", "comment", "email",
+					"emailType", "organisationName"};
+			
+			
+			for(PersonEmailReportDataDTO dataDTO : reportDataList)
+			{
+				csvWriter.write(dataDTO, objectHeader);
+			}
+			csvWriter.writeHeader("");
+		}catch(Exception e){
+			log.severe(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		csvWriter.close();
+	}
+
+	
 }
