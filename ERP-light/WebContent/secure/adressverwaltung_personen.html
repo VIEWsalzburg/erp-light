@@ -42,29 +42,40 @@
 			
 				<div class="tab-content">
 
-						<form role="form" class="form-inline">
-							<div class="form-group">
-								<button type="button" id="btn_new"
-									class="btn btn-primary" data-toggle="modal"
-									data-target="#new">
-									<span class="glyphicon glyphicon-plus"></span> Neu anlegen
-								</button>
-
-								<div class="input-group suchfilter">
-									<span class="input-group-addon"><span
-										class="glyphicon glyphicon-search"></span> Filter</span> <input
-										id="filter" type="text" class="form-control"
-										placeholder="Filterbegriff eingeben...">
+					<div class="row">
+						<div class="col-md-12">
+							<form role="form" class="form-inline">
+								<div class="row">
+									<div class="form-group col-md-10">
+											<button type="button" id="btn_new"
+												class="btn btn-primary" data-toggle="modal"
+												data-target="#new">
+												<span class="glyphicon glyphicon-plus"></span> Neu anlegen
+											</button>
+			
+											<div class="input-group suchfilter">
+												<span class="input-group-addon"><span
+													class="glyphicon glyphicon-search"></span> Filter</span> <input
+													id="filter" type="text" class="form-control"
+													placeholder="Filterbegriff eingeben...">
+											</div>
+			
+											<span class="typfilter"><strong>Typfilter:</strong></span>
+											<label> <input id="mitarbeiter_cbx" type="checkbox" value=""> Mitarbeiter</label>
+											<label> <input id="unterstuetzer_cbx" type="checkbox" value=""> Unterst&uuml;tzer</label>
+											<label> <input id="mitglieder_cbx" type="checkbox" value=""> Mitglieder	</label>
+											<label> <input id="gaeste_cbx" type="checkbox" value=""> G&auml;ste	</label>
+									</div>
+									
+									<div class="form-group col-md-2 pull-right" style="height: 44px;">
+										<label id="lbl_person_count" class="pull-right" style="margin-top: 10.5px; margin-bottom: 10.5px;">Personen</label>
+									</div>
 								</div>
-
-								<span class="typfilter"><strong>Typfilter:</strong></span>
-								<label> <input id="mitarbeiter_cbx" type="checkbox" value=""> Mitarbeiter</label>
-								<label> <input id="unterstuetzer_cbx" type="checkbox" value=""> Unterst&uuml;tzer</label>
-								<label> <input id="mitglieder_cbx" type="checkbox" value=""> Mitglieder	</label>
-								<label> <input id="gaeste_cbx" type="checkbox" value=""> G&auml;ste	</label>
-								
-							</div>
-						</form>
+							</form>
+						</div>
+					</div>
+					
+					
 						<!-- Table -->
 						<div class="table-responsive">
 							<table class="table table-hover table-striped header-fixed" id="TableHead">

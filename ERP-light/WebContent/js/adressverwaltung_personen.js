@@ -95,11 +95,14 @@ function loadTableContent() {
 				// hide loading spinner
 				showLoadingSpinner(false);
 				
+				// update person count label
+				updatePersonCountLabel();
+				
 			});
 
 };
 
-// update option entires when selection box gains focus
+// update option entries when selection box gains focus
 $("#select_loginEmail").focus(updateLoginEmailSelect);
 
 // updates the entries within the selection for the loginEmail
@@ -426,9 +429,6 @@ $("#btn_edit").click(function() {
 		console.log(p.loginEmail);
 		$("#select_loginEmail").val(p.loginEmail);
 		
-		
-		
-		
 		//load type checkboxes
 		$('#cbx_mitarbeiter').prop('checked', false);
 		$('#cbx_mitglied').prop('checked', false);
@@ -462,13 +462,13 @@ $(document).ready(function() {
 									"<button type='button' class='btn btn-danger btn_removephonenumber' id='btn_delete' ><span class='glyphicon glyphicon-trash'></span> L&ouml;schen</button>" +
 									"</div></div></div></div>";
 			
-									var newElement = $(
-										"<div/>",
-										{
-											id : "phone_element" + phoneCount++,
-											"class" : "phone_element"
-										}).append(phoneelement_template);
-										$("#phone_container").append(newElement);
+			var newElement = $(
+				"<div/>",
+				{
+					id : "phone_element" + phoneCount++,
+					"class" : "phone_element"
+				}).append(phoneelement_template);
+				$("#phone_container").append(newElement);
 	});
 });
 
@@ -519,6 +519,19 @@ $("#btn_resetpassword").click(function() {
 		$('#resetpasswordModal').modal('hide');
 	});
 });
+
+
+//showing the system user checkbox within the new / edit modal
+$('#cbx_systemuser').on('change', function() {
+	if($("#cbx_systemuser").prop('checked')){
+		$(".divContainer").show();
+	}
+	else{
+		$('.divContainer').hide();
+	}
+});
+
+
 
 //load details modal
 $("#btn_details").click(function() {
@@ -624,6 +637,16 @@ $("#btn_details").click(function() {
 	
 });
 
+// function for updating the person count label right above the table
+function updatePersonCountLabel()
+{
+	var count = $('#personTableBody').children(':visible').length;
+	
+	$('#lbl_person_count').text(count+" Personen");
+
+}
+
+
 //search filter
 $(document).ready(function() {
 	(function($) {
@@ -642,6 +665,9 @@ $(document).ready(function() {
 			$('.searchable tr').filter(function() {
 				return rex.test($(this).text());
 			}).show();
+			
+			// update person count label
+			updatePersonCountLabel();
 		})
 	}(jQuery));
 });
@@ -709,6 +735,9 @@ function updateTableTypeFilter() {
 		}
 		
 	} );
+	
+	// update person count label
+	updatePersonCountLabel();
 
 }
 
@@ -819,11 +848,4 @@ $("#btn_deletePerson").click(function() {
 	});
 });
 
-$('#cbx_systemuser').on('change', function() {
-	if($("#cbx_systemuser").prop('checked')){
-		$(".divContainer").show();
-	}
-	else{
-		$('.divContainer').hide();
-	}
-});
+

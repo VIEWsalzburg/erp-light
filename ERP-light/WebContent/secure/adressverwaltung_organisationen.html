@@ -43,27 +43,38 @@
 				<div class="tab-content">
 					<div class="tab-pane active" id="tab2">
 
-						<form role="form" class="form-inline">
-							<div class="form-group">
-								<button type="button" id="btn_new"
-									class="btn btn-primary" data-toggle="modal"
-									data-target="#new">
-									<span class="glyphicon glyphicon-plus"></span> Neu anlegen
-								</button>
-
-								<div class="input-group suchfilter">
-									<span class="input-group-addon"><span
-										class="glyphicon glyphicon-search"></span> Filter</span> <input
-										id="filter" type="text" class="form-control"
-										placeholder="Filterbegriff eingeben...">
+					<div class="row">
+						<div class="col-md-12">
+							<form role="form" class="form-inline">
+								<div class="row">
+									<div class="form-group col-md-10">
+										<button type="button" id="btn_new"
+											class="btn btn-primary" data-toggle="modal"
+											data-target="#new">
+											<span class="glyphicon glyphicon-plus"></span> Neu anlegen
+										</button>
+		
+										<div class="input-group suchfilter">
+											<span class="input-group-addon"><span
+												class="glyphicon glyphicon-search"></span> Filter</span> <input
+												id="filter" type="text" class="form-control"
+												placeholder="Filterbegriff eingeben...">
+										</div>
+		
+										<span class="typfilter"><strong>Typfilter:</strong></span>
+										<label> <input type="checkbox" id="lieferanten_cbx" value=""> Lieferanten</label>
+										<label> <input type="checkbox" id="kunden_cbx" value="">Kunden</label>
+										<label> <input type="checkbox" id="sponsoren_cbx" value=""> Sponsoren</label>
+									</div>
+								
+									<div class="form-group col-md-2 pull-right" style="height: 44px;">
+										<label id="lbl_organisation_count" class="pull-right" style="margin-top: 10.5px; margin-bottom: 10.5px;">Organisationen</label>
+									</div>
 								</div>
-
-								<span class="typfilter"><strong>Typfilter:</strong></span>
-								<label> <input type="checkbox" id="lieferanten_cbx" value=""> Lieferanten</label>
-								<label> <input type="checkbox" id="kunden_cbx" value="">Kunden</label>
-								<label> <input type="checkbox" id="sponsoren_cbx" value=""> Sponsoren</label>
-							</div>
-						</form>
+							</form>
+						</div>
+					</div>
+						
 						
 						<!-- Table -->
 						<div class="table-responsive">

@@ -368,6 +368,9 @@ function loadTableContent() {
 				
 				// hide loading spinner
 				showLoadingSpinner(false);
+				
+				// update organisation count label
+				updateOrganisationCountLabel();
 			});
 };
 
@@ -742,6 +745,15 @@ function sortCategoryBoxElements()
 }
 
 
+// function for updating the organisation count label right above the table
+function updateOrganisationCountLabel()
+{
+	var count = $('#organisationTableBody').children(':visible').length;
+	
+	$('#lbl_organisation_count').text(count+" Organisationen");
+
+}
+
 
 /**
  * search filter for the table of all organisations
@@ -760,6 +772,9 @@ $(document).ready(function() {
 			$('.searchable tr').filter(function() {
 				return rex.test($(this).text());
 			}).show();
+			
+			// update organisation count label
+			updateOrganisationCountLabel();
 		})
 	}(jQuery));
 });
@@ -858,6 +873,9 @@ function updateTableTypeFilter() {
 		}
 		
 	} );
+	
+	// update organisation count label
+	updateOrganisationCountLabel();
 
 }
 
