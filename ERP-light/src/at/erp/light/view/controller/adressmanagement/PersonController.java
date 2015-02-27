@@ -115,9 +115,16 @@ public class PersonController {
 			myPerson.setCountry(myNewPerson.getCountry());
 			myPerson.setTelephones(myNewPerson.getTelephones());
 			myPerson.setEmails(myNewPerson.getEmails());
+			myPerson.setComment(myNewPerson.getComment());
 			
 			myPerson.setLastEditor(dataBaseService.getPersonById(personId));
 			dataBaseService.setPerson(myPerson);
+			
+			// update loginEmail accordingly
+			Platformuser platformuser = dataBaseService.getPlatformuserById(personId);
+			// get new LoginEmail from personDTO
+			platformuser.setLoginEmail(person.getLoginEmail());
+			dataBaseService.setPlatformuser(platformuser);
 
 			log.info("Changing MyData successful");
 			return new ControllerMessage(true, "Speichern erfolgreich!");
@@ -241,6 +248,7 @@ public class PersonController {
 		} catch (Exception e)
 		{
 			log.severe("resetting password for user "+id+" failed");
+			e.printStackTrace();
 			return new ControllerMessage(false, "Zurücksetzen nicht erfolgreich!");
 		}
 	}

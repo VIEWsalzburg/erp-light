@@ -108,7 +108,7 @@ $("#select_loginEmail").focus(updateLoginEmailSelect);
 // updates the entries within the selection for the loginEmail
 function updateLoginEmailSelect(){
 	
-	// search remove all options which are not 
+	// selected Email
 	var selectedEmail = $('#select_loginEmail').val();
 	
 	// remove all Elements
@@ -379,7 +379,7 @@ $("#btn_edit").click(function() {
 				newElement = $(
 					"<div/>",
 					{
-						id : "phone_element" + (phoneCount+1),
+						id : "phone_element" + phoneCount,
 						"class" : "phone_element"
 					}).append(phoneelement_template);
 					$("#phone_container").append(newElement);
@@ -392,6 +392,7 @@ $("#btn_edit").click(function() {
 			$(help1).each(function() { 
 				this.selected = (this.text == help);
 			});
+			
 			phoneCount++;
 		}
 		
@@ -405,7 +406,7 @@ $("#btn_edit").click(function() {
 				"</div></div></div></div>";
 			
 				newElement = $("<div/>", {
-					id : "email_element" + (emailCount+1),
+					id : "email_element" + emailCount,
 					"class" : "email_element"
 				}).append(emailelement_template);
 				$("#email_container").append(newElement);
@@ -426,7 +427,6 @@ $("#btn_edit").click(function() {
 		}
 		
 		// select correct email
-		console.log(p.loginEmail);
 		$("#select_loginEmail").val(p.loginEmail);
 		
 		//load type checkboxes
@@ -465,10 +465,12 @@ $(document).ready(function() {
 			var newElement = $(
 				"<div/>",
 				{
-					id : "phone_element" + phoneCount++,
+					id : "phone_element" + phoneCount,
 					"class" : "phone_element"
 				}).append(phoneelement_template);
 				$("#phone_container").append(newElement);
+				
+				phoneCount++;
 	});
 });
 
@@ -489,13 +491,15 @@ $(document).ready(function() {
 			"</div></div></div></div>";
 		
 		var newElement = $("<div/>", {
-			id : "email_element" + emailCount++,
+			id : "email_element" + emailCount,
 			"class" : "email_element"
 		}).append(emailelement_template);
 		$("#email_container").append(newElement);
 		
 		// update the elements in the loginEmail Selection
 		updateLoginEmailSelect();
+		
+		emailCount++;
 		
 	});
 });
@@ -516,7 +520,22 @@ $("#btn_resetpassword").click(function() {
 		type : "POST",
 		url : "../rest/secure/person/resetPasswordForId/" + id
 	}).done(function(data) {
-		$('#resetpasswordModal').modal('hide');
+		
+		if (data) {
+			$('#resetpasswordModal').modal('hide');
+			
+			if (data.success == true)
+			{
+				showAlertElement(1, data.message, 5000);
+			}
+			else
+			{
+				showAlertElement(2, data.message, 5000);
+			}
+		} else {
+			alert("Verbindungsproblem mit dem Server");
+		}
+		
 	});
 });
 
