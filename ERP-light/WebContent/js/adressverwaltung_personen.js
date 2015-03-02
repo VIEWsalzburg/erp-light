@@ -346,6 +346,9 @@ $("#btn_edit").click(function() {
 		$('#cbx_systemuser').prop('checked', false);
 		$('.divContainer').hide();
 		
+		// hide reset passwort button automatically
+		$('#btn_resetpasswordModal').hide();
+		
 		if(p.systemUser){
 			$('#cbx_systemuser').prop('checked', true);
 			$(".divContainer").show();
@@ -358,6 +361,9 @@ $("#btn_edit").click(function() {
 			$("select#select_permission option").each(function() { 
 				this.selected = (this.text == p.permission);
 			});
+			
+			// show reset passwort button if person is a platformuser
+			$('#btn_resetpasswordModal').show();
 		}
 		
 		//load phoneNumber divs
