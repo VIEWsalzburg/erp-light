@@ -267,7 +267,7 @@ function createTableRow(count, id){
 	}
 	
 	
-	// if the passed id == 0 => set the class 'newArticleId' for the new row, so the mapping funciton in the funciton
+	// if the passed id == 0 => set the class 'newArticleId' for the new row, so the mapping function in the function
 	// 'submit to depot' can determine if it is an existing IncomingArticle or a new IncomingArticle
 	if (id == 0)
 		newArticleClass = "newArticleId";
@@ -532,10 +532,28 @@ $("#btn_savearticle").click(function() {
 		articleCount++;
 	}
 	else{
-		var id = tableData[0];
-		var rowTemplate = createTableRow(id, id);			// add Id (concerning the DB, existing Id if existing Artilce) for the Article
+		var rowData = getSelectedRow();
+		if (rowData.length == 0)
+		{
+			showAlertElement(false, "Kein Artikel auswählt!", 2500);
+			return;
+		}
+		
+		// get selected entry TableEntryId
+		var id = rowData[0];
+		var rowTemplate;
+		// check selected element for having the class newArticleId, to insert 0 or the id if the incomingArticle already exists in the DB
+		if ($("tr#"+id).find('td.newArticleId').length > 0)
+		{
+			rowTemplate = createTableRow(id, 0);
+		}
+		else
+		{
+			rowTemplate = createTableRow(id, id);			// add Id (concerning the DB, existing Id if existing Artilce) for the Article
 															// so the function knows if it needs to set the class 'newArticleId'
 															// or if its an existing IncomingArticle
+		}
+		
 		$("#" + id).remove();
 		$("#newIncomingDeliveryTableBody").append(rowTemplate);
 	}
@@ -584,7 +602,15 @@ $("#btn_new").click(function() {
 
 //move marked row one row upwards
 $("#btn_up").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Kein Artikel auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	var thisRow = $("#" + id).closest('tr');
     var prevRow = thisRow.prev();
@@ -595,7 +621,15 @@ $("#btn_up").click(function() {
 
 //move marked row one row downwards
 $("#btn_down").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Kein Artikel auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	var thisRow = $("#" + id).closest('tr');
     var nextRow = thisRow.next();
@@ -606,6 +640,14 @@ $("#btn_down").click(function() {
 
 //Load selected article to modal
 $("#btn_edit").click(function() {
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Kein Artikel auswählt!", 2500);
+		return;
+	}
+	
 	$("#modal_title_text").text("Bearbeite Position");
 	$("#newAlertForm").hide();
 	clearPositionModal();
@@ -618,22 +660,23 @@ $("#btn_edit").click(function() {
 		$("#tbx_weightpackagingunit").prop('disabled', true);
 	}
 	
-	$("#tbx_description").val(tableData[1]);
-	$("#tbx_numberofpackagingunits").val(tableData[2]);
+	$("#tbx_description").val(rowData[1]);
+	$("#tbx_numberofpackagingunits").val(rowData[2]);
 	
-	//var packagingUnit = tableData[3];
-	//packagingUnit.match(/\d+/g);
-	$("#tbx_packagingunit").val(tableData[3]);
+	$("#tbx_packagingunit").val(rowData[3]);
 	
-	var Stringlength = tableData[4].length;
-	$("#tbx_weightpackagingunit").val(tableData[4].substring(0, Stringlength-3));		// remove ' kg' from the end
+	var Stringlength = rowData[4].length;
+	$("#tbx_weightpackagingunit").val(rowData[4].substring(0, Stringlength-3));		// remove ' kg' from the end
 	
-	$("#tbx_mdd").val(tableData[5]);
+	$("#tbx_mdd").val(rowData[5]);
 	
-	if(tableData[6] != "-"){
-		var Stringlength = tableData[6].length;
-		$("#tbx_pricepackagingunit").val(tableData[6].substring(0, Stringlength-2));	// remove ' €' from the end
+	if(rowData[6] != "-"){
+		var Stringlength = rowData[6].length;
+		$("#tbx_pricepackagingunit").val(rowData[6].substring(0, Stringlength-2));	// remove ' €' from the end
 	}
+	
+	// show modal
+	$('#new').modal('show');
 });
 
 
@@ -641,7 +684,15 @@ $("#btn_edit").click(function() {
 
 // call mask to edit the article distribution
 $('#btn_editDistribution').click(function(){
-	var incomingArticleId = tableData[0];		// get the incomingArticleId from the current row
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Kein Artikel auswählt!", 2500);
+		return;
+	}
+	
+	var incomingArticleId = rowData[0];		// get the incomingArticleId from the current row
 	var articleId = 0;
 	// find the incomingArticleId in the IdMap and call the distribution mask with the articleId
 	for (i in globalIdMap)
@@ -738,12 +789,24 @@ $(document).ready(function() {
 });
 
 
+//this function is used to get the selected row
+//the function is called when a button is pressed and the selected entry has to be determined
+function getSelectedRow(){
+	
+	// find selected tr in the table and map it to the variable
+	var currentRow = $('#TableHead').find('tr.highlight').first().children("td").map(function() {
+		return $(this).text();
+	}).get();
+	
+	return currentRow;
+}
+
+
 // global variable containing the content of the selected row
-var tableData;
 $('#TableHead').on('click','tbody tr', function(event) {
-			tableData = $(this).children("td").map(function() {
-				return $(this).text();
-			}).get();
+//			tableData = $(this).children("td").map(function() {
+//				return $(this).text();
+//			}).get();
 
 			$(this).addClass('highlight').siblings().removeClass('highlight');
 
@@ -774,8 +837,18 @@ $('#TableHead').on('click','tbody tr', function(event) {
  * call the delete modal for the selected article
  */
 $("#btn_deleteModal").click(function() {
-	var name = tableData[1];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Kein Artikel auswählt!", 2500);
+		return;
+	}
+	
+	var name = rowData[1];
 	$("#label_name_delete").text(name);
+	
+	$('#deleteModal').modal('show');
 });
 
 
@@ -783,7 +856,15 @@ $("#btn_deleteModal").click(function() {
  * remove selected table row
  */
 $("#btn_deleteArticle").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Kein Artikel auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	$("#" + id).remove();
 	$('#deleteModal').modal('hide');
 });
