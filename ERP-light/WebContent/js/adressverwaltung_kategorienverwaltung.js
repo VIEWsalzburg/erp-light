@@ -39,15 +39,25 @@ $(document).ready(loadTableContent());
 
 // Get one category and load it to modal
 $("#btn_edit").click(function() {
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Kategorie auswählt!", 2500);
+		return;
+	}
+	
 	$("#modal_title_text").text("Bearbeite Kategorie");
 
 	//hide alert messsage
 	$("#newAlertForm").hide();
 	
 	// load data to modal
-	$('#tbx_categoryId').val(tableData[0]);
-	$('#tbx_category').val(tableData[1]);
-	$('#tbx_description').val(tableData[2]);
+	$('#tbx_categoryId').val(rowData[0]);
+	$('#tbx_category').val(rowData[1]);
+	$('#tbx_description').val(rowData[2]);
+	
+	$('#new').modal('show');
 });
 
 $("#btn_savecategory").click(function() {
@@ -102,7 +112,7 @@ $("#btn_new").click(function() {
 	$("#newAlertForm").hide();
 	
 	//clear modal
-	$('#tbx_categoryId').val("");
+	$('#tbx_categoryId').val("0");
 	$('#tbx_category').val("");
 	$('#tbx_description').val("");
 });
@@ -150,11 +160,22 @@ $(document).ready(function() {
 	});
 });
 
-var tableData;
+// this function is used to get the selected row
+// the function is called when a button is pressed and the selected entry has to be determined
+function getSelectedRow(){
+	
+	// find selected tr in the table and map it to the variable
+	var currentRow = $('#TableHead').find('tr.highlight').first().children("td").map(function() {
+		return $(this).text();
+	}).get();
+	
+	return currentRow;
+}
+
 $('#TableHead').on('click','tbody tr', function(event) {
-			tableData = $(this).children("td").map(function() {
-				return $(this).text();
-			}).get();
+//			tableData = $(this).children("td").map(function() {
+//				return $(this).text();
+//			}).get();
 
 			$(this).addClass('highlight').siblings().removeClass('highlight');
 
@@ -173,12 +194,22 @@ $('#TableHead').on('click','tbody tr', function(event) {
  * call the delete modal for the selected category
  */
 $("#btn_deleteModal").click(function() {
-	var id = tableData[0];
-	 var name = tableData[1];
-	 var description = tableData[2];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Kategorie auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
+	var name = rowData[1];
+	var description = rowData[2];
 	 
 	$("#label_name_delete").text(name);
 	$("#label_description_delete").text(description);
+	
+	$('#deleteModal').modal('show');
 	
 	// Get category with id "id"
 	$.ajax({
@@ -212,7 +243,15 @@ $("#btn_deleteModal").click(function() {
  * call the delete url for the category
  */
 $("#btn_deleteCategory").click(function() {
-	 var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Kategorie auswählt!", 2500);
+		return;
+	}
+	
+	 var id = rowData[0];
 	 
 	 $.ajax({
 		 type : "POST",
