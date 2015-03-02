@@ -22,25 +22,28 @@ $(document).ready(function() {
 	}
 	
 	var mode = $.urlParam('mode');
+	var bookedStatus = $.urlParam('booked');
 	global_id = $.urlParam('id');
 	
-	//default value = false
-	isBooked = false;
+	// default value = true
+	isBooked = true;
+	
+	// if bookedStatus = false, isBooked = false
+	if (bookedStatus == 'false')
+	{
+		isBooked = false;
+	}
 	
 	if(mode == "new"){
 		$("#tabtext").text("Neuer Wareneingang");
 		global_id = 0;	// set Id to 0
+		isBooked = false;	// isBooked is always false for new incomingDeliveries
 	}
-	else if(mode == "edittrue"){
+	else if(mode == "edit"){
 		$("#tabtext").text("Bearbeite Wareneingang");
-		isBooked = true;
 		loadNewIncomingDelivery(global_id);
 	}
-	else if(mode == "editfalse"){
-		$("#tabtext").text("Bearbeite Wareneingang");
-		isBooked = false;
-		loadNewIncomingDelivery(global_id);
-	}
+
 });
 
 //init popover
