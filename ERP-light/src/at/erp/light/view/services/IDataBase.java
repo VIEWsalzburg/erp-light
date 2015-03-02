@@ -8,6 +8,7 @@ import java.util.Set;
 import org.hibernate.HibernateException;
 
 import at.erp.light.view.dto.InOutArticlePUDTO;
+import at.erp.light.view.dto.LoggingDTO;
 import at.erp.light.view.dto.PersonAddressReportDataDTO;
 import at.erp.light.view.dto.PersonEmailReportDataDTO;
 import at.erp.light.view.dto.ReportDataDTO;
@@ -433,7 +434,7 @@ public interface IDataBase {
 	/***** Logging *****/
 	public int insertLogging(String text, int personId);
 
-	
+	public List<LoggingDTO> getLatestLoggings(int count);
 	
 	
 	

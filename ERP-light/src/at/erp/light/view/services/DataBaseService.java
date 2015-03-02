@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import at.erp.light.view.dto.ArticleDTO;
 import at.erp.light.view.dto.InOutArticlePUDTO;
+import at.erp.light.view.dto.LoggingDTO;
 import at.erp.light.view.dto.PersonAddressReportDataDTO;
 import at.erp.light.view.dto.PersonEmailReportDataDTO;
 import at.erp.light.view.dto.ReportDataDTO;
@@ -1709,6 +1710,30 @@ public class DataBaseService implements IDataBase {
 		Logging logging = new Logging(0, new Timestamp(System.currentTimeMillis()), text, personId);
 		this.sessionFactory.getCurrentSession().save(logging);
 		return logging.getLoggingId();
+	}
+	
+	@Override
+	@Transactional
+	public List<LoggingDTO> getLatestLoggings(int count)
+	{
+		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+		
+		String sqlString = "select loggingtext as \"loggingText\", to_char(timestamp,'dd.MM.yyyy HH:mm:ss') as \"timestamp\", coalesce((last_name || ' ' || first_name),'Unknown') as \"personName\""
+				+ "from logging left join person using (person_id)"
+				+ "order by timestamp desc limit :count ;";
+		// space after ":count" is very important, so that named parameter can be found and set
+		
+		@SuppressWarnings("unchecked")
+		List<LoggingDTO> loggingDTOList = (List<LoggingDTO>) this.sessionFactory.getCurrentSession().createSQLQuery(sqlString)
+			.addScalar("loggingText", StandardBasicTypes.STRING)
+			.addScalar("timestamp", StandardBasicTypes.STRING)
+			.addScalar("personName", StandardBasicTypes.STRING)
+			.setParameter("count", count)
+			.setResultTransformer(Transformers.aliasToBean(LoggingDTO.class))
+			.list();
+		
+		return loggingDTOList;
+		
 	}
 	
 	/***** [END logging] *****/
