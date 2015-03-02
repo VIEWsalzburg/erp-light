@@ -1716,11 +1716,11 @@ public class DataBaseService implements IDataBase {
 	@Transactional
 	public List<LoggingDTO> getLatestLoggings(int count)
 	{
-		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-		
-		String sqlString = "select loggingtext as \"loggingText\", to_char(timestamp,'dd.MM.yyyy HH:mm:ss') as \"timestamp\", coalesce((last_name || ' ' || first_name),'Unknown') as \"personName\""
-				+ "from logging left join person using (person_id)"
-				+ "order by timestamp desc limit :count ;";
+		String sqlString = "select l.loggingtext as \"loggingText\","
+				+ "to_char(l.timestamp at time zone 'MET','DD.MM.YYYY HH24:MI:SS') as \"timestamp\","
+				+ "coalesce((last_name || ' ' || first_name),'Unknown') as \"personName\""
+				+ "from logging l left join person using (person_id)"
+				+ "order by l.timestamp desc limit :count ;";
 		// space after ":count" is very important, so that named parameter can be found and set
 		
 		@SuppressWarnings("unchecked")
@@ -1733,7 +1733,28 @@ public class DataBaseService implements IDataBase {
 			.list();
 		
 		return loggingDTOList;
+	}
+	
+	@Override
+	@Transactional
+	public List<LoggingDTO> getAllLoggings()
+	{
+		String sqlString = "select l.loggingtext as \"loggingText\","
+				+ "to_char(l.timestamp at time zone 'MET','DD.MM.YYYY HH24:MI:SS') as \"timestamp\","
+				+ "coalesce((last_name || ' ' || first_name),'Unknown') as \"personName\""
+				+ "from logging l left join person using (person_id)"
+				+ "order by l.timestamp desc;";
+		// space after ":count" is very important, so that named parameter can be found and set
 		
+		@SuppressWarnings("unchecked")
+		List<LoggingDTO> loggingDTOList = (List<LoggingDTO>) this.sessionFactory.getCurrentSession().createSQLQuery(sqlString)
+			.addScalar("loggingText", StandardBasicTypes.STRING)
+			.addScalar("timestamp", StandardBasicTypes.STRING)
+			.addScalar("personName", StandardBasicTypes.STRING)
+			.setResultTransformer(Transformers.aliasToBean(LoggingDTO.class))
+			.list();
+		
+		return loggingDTOList;
 	}
 	
 	/***** [END logging] *****/

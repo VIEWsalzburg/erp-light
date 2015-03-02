@@ -22,10 +22,14 @@ public class LoggingController {
 	private IDataBase dataBaseService;
 
 	@RequestMapping(value = "secure/logging/getLatestLogs/{count}")
-	public List<LoggingDTO> getAllLogs(@PathVariable int count) {
+	public List<LoggingDTO> getLatestLogs(@PathVariable int count) {
 		
 		try {
-			List<LoggingDTO> logList = dataBaseService.getLatestLoggings(count);
+			List<LoggingDTO> logList;
+			if (count > -1)
+				logList = dataBaseService.getLatestLoggings(count);
+			else
+				logList = dataBaseService.getAllLoggings();
 			return logList;
 		} catch (HibernateException e) {
 			e.printStackTrace();

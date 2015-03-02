@@ -435,6 +435,8 @@ public interface IDataBase {
 	public int insertLogging(String text, int personId);
 
 	public List<LoggingDTO> getLatestLoggings(int count);
+
+	public List<LoggingDTO> getAllLoggings();
 	
 	
 	
