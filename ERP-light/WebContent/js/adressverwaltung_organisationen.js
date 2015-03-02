@@ -119,7 +119,14 @@ $("#btn_edit").click(function() {
 	// hide alert messsage
 	$("#newAlertForm").hide();
 	
-	var id = tableData[0];
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Organisation auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	$.ajax({
 		type : "POST",
@@ -136,6 +143,9 @@ $("#btn_edit").click(function() {
 		$("#tbx_city").val(org.city);
 		$("#tbx_country").val(org.country);
 		$("#tbx_comment").val(org.comment);
+		
+		// show modal
+		$('#new').modal('show');
 		
 		// load all available categories and all available persons to modal
 		clearAndLoadDivContainer();
@@ -211,7 +221,7 @@ $("#btn_edit").click(function() {
 			}
 			
 		}
-	
+		
 	});	// end of ajax.done()
 	
 	
@@ -487,7 +497,14 @@ $("#btn_details").click(function() {
 	$(".details").remove();
 	$(".persondivider").remove();
 	
-	var id = tableData[0];
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Organisation auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	$.ajax({
 		type : "POST",
@@ -629,6 +646,9 @@ $("#btn_details").click(function() {
 				$("#person_container_details").append("<div class='row divider-horizontal persondivider'></div>");
 			}
 		} 	// end else
+		
+		// show modal
+		$('#details').modal('show');
 		
 	});
 	
@@ -933,14 +953,25 @@ $(document).ready(function() {
 	});
 });
 
+//this function is used to get the selected row
+//the function is called when a button is pressed and the selected entry has to be determined
+function getSelectedRow(){
+	
+	// find selected tr in the table and map it to the variable
+	var currentRow = $('#TableHead').find('tr.highlight').first().children("td").map(function() {
+		return $(this).text();
+	}).get();
+	
+	return currentRow;
+}
+
 /**
  * write the selected row data to a global variable 
  */
-var tableData;
 $('#TableHead').on('click', 'tbody tr', function(event) {
-	tableData = $(this).children("td").map(function() {
-		return $(this).text();
-	}).get();
+//	tableData = $(this).children("td").map(function() {
+//		return $(this).text();
+//	}).get();
 
 	$(this).addClass('highlight').siblings().removeClass('highlight');
 	
@@ -961,7 +992,15 @@ $('#TableHead').on('click', 'tbody tr', function(event) {
  * Call the delete modal
  */
 $("#btn_deleteModal").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Organisation auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	$.ajax({
 		type : "POST",
@@ -983,6 +1022,8 @@ $("#btn_deleteModal").click(function() {
 		$("#label_address_delete").text(o.address + ", " + o.zip + " " + o.city + ", " + o.country);
 		$("#label_types_delete").text(typeString);
 		
+		// show the modal
+		$('#deleteModal').modal('show');
 	});
 	
 });
@@ -991,7 +1032,15 @@ $("#btn_deleteModal").click(function() {
  * AJAX call to delete an organisation
  */
 $("#btn_deleteOrganisation").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Organisation auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	$.ajax({
 		type : "POST",
@@ -1001,13 +1050,13 @@ $("#btn_deleteOrganisation").click(function() {
 		$('#deleteModal').modal('hide');
 		
 		if (data.success == true)
-			{
-				showAlertElement(1, data.message, 5000);
-			}
+		{
+			showAlertElement(1, data.message, 5000);
+		}
 		 else
-			{
-				showAlertElement(2, data.message, 5000);
-			}
+		{
+			showAlertElement(2, data.message, 5000);
+		}
 		 
 		 loadTableContent();
 	});
