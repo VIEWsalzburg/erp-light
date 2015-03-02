@@ -17,10 +17,15 @@ $(document).ready(function() {
 	}
 	
 	var mode = $.urlParam('mode');
+	var bookedStatus = $.urlParam('booked');
 	global_id = $.urlParam('id');
 	
 	//default value = false
-	isBooked = false;
+	isBooked = true;
+	if (bookedStatus == 'false')
+	{
+		isBooked = false;
+	}
 	
 	// load all organisations into global variable to search them for the deliverer property of each article
 	loadAllOrganisations();		// first load all organisaitons synchron to use the global variable when loading the articles
@@ -30,17 +35,13 @@ $(document).ready(function() {
 		$("#tabtext").text("Neuer Warenausgang");
 		loadAllAvailableArticlesInDepot();
 		global_id = 0;	// set Id to 0
-	}
-	else if(mode == "edittrue"){
-		$("#tabtext").text("Bearbeite Warenausgang");
-		isBooked = true;
-		loadTableContent(global_id);
-	}
-	else if(mode == "editfalse"){
-		$("#tabtext").text("Bearbeite Warenausgang");
 		isBooked = false;
+	}
+	else if(mode == "edit"){
+		$("#tabtext").text("Bearbeite Warenausgang");
 		loadTableContent(global_id);
 	}
+
 });
 
 //init popover

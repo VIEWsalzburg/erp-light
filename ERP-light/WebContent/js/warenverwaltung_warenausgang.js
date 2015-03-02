@@ -106,7 +106,7 @@ $("#btn_new").click(function() {
 //switch to edit ougoing deliveries tab
 $("#btn_edit").click(function() {
 	//switch to edit outgoing deliveries with GET parameter mode=edit and id=...
-	location.href="warenverwaltung_neuedisposition.html?mode=edit"+ isBooked +"&id=" + tableData[0];
+	location.href="warenverwaltung_neuedisposition.html?mode=edit&booked="+ isBooked +"&id=" + tableData[0];
 	return false;
 });
 
