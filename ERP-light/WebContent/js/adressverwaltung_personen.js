@@ -320,7 +320,14 @@ $("#btn_edit").click(function() {
 		$("#option_admin").remove();
 	}
 	
-	var id = tableData[0];
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Person auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 
 	// Get person with id "id"
 	$.ajax({
@@ -455,6 +462,10 @@ $("#btn_edit").click(function() {
 				$('#cbx_unterstuetzer').prop('checked', true);
 			}
 		}
+		
+		// show modal when all data has been filled in
+		$('#new').modal('show');
+		
 	});
 });
 
@@ -521,7 +532,15 @@ $("body").on('click', '.btn_removeemail', function() {
 
 //reset password
 $("#btn_resetpassword").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Person auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/person/resetPasswordForId/" + id
@@ -564,7 +583,14 @@ $("#btn_details").click(function() {
 	$(".details").remove();
 	$("#loginEmailPermission_container_details").hide();
 	
-	var id = tableData[0];
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Person auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	$.ajax({
 		type : "POST",
@@ -657,6 +683,9 @@ $("#btn_details").click(function() {
 		else{
 			$("#cbx_systemuser_details").removeAttr("checked");
 		}
+		
+		// show details modal after all data is filled in
+		$('#details').modal('show');
 		
 	});	// end ajax
 	
@@ -811,16 +840,27 @@ $(document).ready(function() {
 	});
 });
 
-var tableData;
+//this function is used to get the selected row
+//the function is called when a button is pressed and the selected entry has to be determined
+function getSelectedRow(){
+	
+	// find selected tr in the table and map it to the variable
+	var currentRow = $('#TableHead').find('tr.highlight').first().children("td").map(function() {
+		return $(this).text();
+	}).get();
+	
+	return currentRow;
+}
+
 $('#TableHead').on('click', 'tbody tr', function(event) {
-	tableData = $(this).children("td").map(function() {
+	var rowData = $(this).children("td").map(function() {
 		return $(this).text();
 	}).get();
 
 	$(this).addClass('highlight').siblings().removeClass('highlight');
 	
 		//only when user has admin rights
-		if(currentUserRights == "Admin" && currentUserRights != "" && currentUser.personId != tableData[0]){
+		if(currentUserRights == "Admin" && currentUserRights != "" && currentUser.personId != rowData[0]){
 			$('#btn_edit').prop('disabled', false);
 			$('#btn_deleteModal').prop('disabled', false);
 		}
@@ -833,7 +873,15 @@ $('#TableHead').on('click', 'tbody tr', function(event) {
 
 // call delete modal and fill in according data
 $("#btn_deleteModal").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Person auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	$.ajax({
 		type : "POST",
@@ -845,13 +893,24 @@ $("#btn_deleteModal").click(function() {
 		$("#label_name_delete").text(p.title + " " + p.lastName + " " + p.firstName);
 		$("#label_address_delete").text(p.address + ", " + p.zip + " " + p.city + ", " + p.country);
 	
+		// show modal after all data is filled in
+		$('#deleteModal').modal('show');
+		
 	});
 	
 });
 
 // delete Action
 $("#btn_deletePerson").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Person auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	$.ajax({
 		type : "POST",
