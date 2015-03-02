@@ -2,8 +2,8 @@
 
 #body{
 	width: auto;
-	padding-left: 10px;
-	padding-right: 10px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 #loggingTable {
@@ -17,5 +17,7 @@ h2 {
 }
 
 #loggingHeader {
-	margin: 10px;
+	margin-top: 15px;
+	margin-left: 0px;
+	margin-right: 0px;
 }
