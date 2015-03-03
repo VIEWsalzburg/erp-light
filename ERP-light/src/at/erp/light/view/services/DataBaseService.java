@@ -271,6 +271,24 @@ public class DataBaseService implements IDataBase {
 	public int deletePersonById(int id) throws HibernateException {
 		Person p = this.getPersonById(id);
 		p.setActive(0);	// set active flag to inactive (0)
+		
+		// remove person as contactperson from all organisations
+		@SuppressWarnings("unchecked")
+		List<Organisation> organisations = sessionFactory.getCurrentSession()
+				.createQuery("Select o from Organisation o join fetch o.contactPersons cp where cp.personId = :id")
+				.setParameter("id", p.getPersonId())
+				.list();
+		
+		System.out.println("number: "+organisations.size());
+		
+		for (Organisation o : organisations)
+		{
+			o.getContactPersons().remove(p);
+		}
+		
+		// remove platformuser for contactperson
+		this.removePlatformuserById(p.getPersonId());
+		
 		return 0;
 	}
 
