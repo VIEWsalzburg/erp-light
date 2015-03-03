@@ -105,8 +105,16 @@ $("#btn_new").click(function() {
 
 //switch to edit ougoing deliveries tab
 $("#btn_edit").click(function() {
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keinen Warenausgang auswählt!", 2500);
+		return;
+	}
+	
 	//switch to edit outgoing deliveries with GET parameter mode=edit and id=...
-	location.href="warenverwaltung_neuedisposition.html?mode=edit&booked="+ isBooked +"&id=" + tableData[0];
+	location.href="warenverwaltung_neuedisposition.html?mode=edit&booked="+ isBooked +"&id=" + rowData[0];
 	return false;
 });
 
@@ -132,7 +140,14 @@ $("#btn_details").click(function() {
 	$(".details").remove();
 	$(".persondivider").remove();
 	
-	var id = tableData[0];
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keinen Warenausgang auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	//get outgoing delivery by id
 	var out;
@@ -277,6 +292,9 @@ $("#btn_details").click(function() {
 		}
 	}
 	
+	// show modal
+	$('#details').modal('show');
+	
 });
 
 function createAndAppendArticleTemplate(name, value){
@@ -319,7 +337,15 @@ $("#cbx_archive").on('change', function(){
 
 //set entry archived or non archived depending on button value
 $("#btn_archive").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keinen Warenausgang auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	if($(this).val() == "archive"){
 		//set entry archived
@@ -378,12 +404,26 @@ $(document).ready(function() {
 	});
 });
 
-var tableData;
+
+//this function is used to get the selected row
+//the function is called when a button is pressed and the selected entry has to be determined
+function getSelectedRow(){
+	
+	// find selected tr in the table and map it to the variable
+	var currentRow = $('#TableHead').find('tr.highlight').first().children("td").map(function() {
+		return $(this).text();
+	}).get();
+	
+	return currentRow;
+}
+
+
+//var tableData;
 var isBooked;
 $('#TableHead').on('click','tbody tr', function(event) {
-			tableData = $(this).children("td").map(function() {
-				return $(this).text();
-			}).get();
+//			tableData = $(this).children("td").map(function() {
+//				return $(this).text();
+//			}).get();
 
 			$(this).addClass('highlight').siblings().removeClass('highlight');
 
@@ -424,7 +464,15 @@ $('#TableHead').on('click','tbody tr', function(event) {
  * Call the delete modal for the selected outgoing delivery
  */
 $("#btn_deleteModal").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keinen Warenausgang auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	//get incoming delivery
 	var out;
@@ -461,6 +509,8 @@ $("#btn_deleteModal").click(function() {
 	
 	$("#label_receiver_delete").text(organisationString); 
 	$("#label_article_delete").text(articleString);
+	
+	$('#deleteModal').modal('show');
 });
 
 
@@ -468,7 +518,15 @@ $("#btn_deleteModal").click(function() {
  * Call the delete url for the outgoing delivery
  */
 $("#btn_deleteOutgoingDelivery").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keinen Warenausgang auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	 $.ajax({
 		 type : "POST",
