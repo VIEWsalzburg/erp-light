@@ -10,11 +10,6 @@ var currentUserRights = "";
 var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div id='ErrorAlertMessage' class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>"
 	$("#newAlertForm").append(pwdError);
 
-var template = "<div class='row'><div class='col-md-6'><label>Login Email</label></div><div class='col-md-6'><label id='label_loginEmail_details'>Login Email</label>" +
-	"</div></div><div class='row'><div class='col-md-6'><label>Rechte</label></div><div class='col-md-6'><label id='label_permission_details'>Rechte</label>" +
-	"</div></div>";
-$("#loginEmailPermission_container_details").append(template);
-
 var p;
 function loadTableContent() {
 	

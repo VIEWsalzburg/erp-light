@@ -90,9 +90,9 @@ function loadTableContent(loadArchivedEntries){
 $(document).ready(loadTableContent(loadArchivedEntries));
 
 //init collapse
-$(function () {
-	$('#details .collapse').collapse();		// collapse all accordions of the details modal
-});
+//$(function () {
+//	$('#details .collapse').collapse();		// collapse all accordions of the details modal
+//});
 
 //switch to new incoming deliveries tab
 $("#btn_new").click(function() {
@@ -139,6 +139,8 @@ $("#btn_details").click(function() {
 	//remove container
 	$(".details").remove();
 	$(".persondivider").remove();
+	$("#accordion_articles").empty();
+	$('#person_container_details').empty();
 	
 	var rowData = getSelectedRow();
 	if (rowData.length == 0)
@@ -188,55 +190,64 @@ $("#btn_details").click(function() {
 		$("#label_personIds_details").text("-");
 	}
 	else{
+		$('#label_personIds_details').text('');
+		
 		var personString = "";
 			for (var j = 0; j < contactPersonIds.length; j++) {
+				
 				loadContactPerson(contactPersonIds[j]);
+				
+				// use this string as the content for the accordion body
+				var personTemplate = "";
 				
 				//load contact person name
 				personString = contactPerson.lastName + " " + contactPerson.firstName;
-				var template = "<div class='row details'><div class='col-md-6'><label>Name</label></div><div class='col-md-6'><label>" + personString + "</label></div></div>";
-				$("#person_container_details").append(template);
+				var template = "<div class='row'><div class='col-md-6'><label>Name</label></div><div class='col-md-6'><label>" + personString + "</label></div></div>";
+				personTemplate += template;
 				
 				//load contact person phone numbers
 				var phoneNumbers = contactPerson.telephones;
 				if(phoneNumbers.length == 0){
-					var template = "<div class='row details'><div class='col-md-6'><label>Telefonnummer</label></div><div class='col-md-6'><label>-</label></div></div>";
-					$("#person_container_details").append(template);
+					var template = "<div class='row'><div class='col-md-6'><label>Telefonnummer</label></div><div class='col-md-6'><label>-</label></div></div>";
+					personTemplate += template;
 				}
 				else{
 					var phoneString = phoneNumbers[0].telephone + " (" + phoneNumbers[0].type.toLowerCase() + ")";
-					var template = "<div class='row details'><div class='col-md-6'><label>Telefonnummer</label></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
-					$("#person_container_details").append(template);
+					var template = "<div class='row'><div class='col-md-6'><label>Telefonnummer</label></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
+					personTemplate += template;
 					
 					for (var k = 1; k < phoneNumbers.length; k++) {
 						phoneString = phoneNumbers[k].telephone + " (" + phoneNumbers[k].type.toLowerCase() + ")";
-						var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + phoneString + "</label></div></div>";
-						$("#person_container_details").append(template);
+						var template = "<div class='row'><div class='col-md-6 col-md-offset-6'><label>" + phoneString + "</label></div></div>";
+						personTemplate += template;
 					}
 				}
 				
 				//load contact person emails
 				var emails = contactPerson.emails;
 				if(emails.length == 0){
-					var template = "<div class='row details'><div class='col-md-6'><label>Email-Adresse</label></div><div class='col-md-6'><label>-</label></div></div>";
-					$("#person_container_details").append(template);
+					var template = "<div class='row'><div class='col-md-6'><label>Email-Adresse</label></div><div class='col-md-6'><label>-</label></div></div>";
+					personTemplate += template;
 				}
 				else{
 					var emailString = emails[0].mail + " (" + emails[0].type.toLowerCase() + ")";
-					var template = "<div class='row details'><div class='col-md-6'><label>Email-Adresse</label></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
-					$("#person_container_details").append(template);
+					var template = "<div class='row'><div class='col-md-6'><label>Email-Adresse</label></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
+					personTemplate += template;
 					
 					for (var l = 1; l < emails.length; l++) {
 						emailString = emails[l].mail + " (" + emails[l].type.toLowerCase() + ")";
-						var template = "<div class='row details'><div class='col-md-6'></div><div class='col-md-6'><label>" + emailString + "</label></div></div>";
-						$("#person_container_details").append(template);
+						var template = "<div class='row'><div class='col-md-6 col-md-offset-6'><label>" + emailString + "</label></div></div>";
+						personTemplate += template;
 					}
 				}
 				
 				if(j < contactPersonIds.length-1){
 					//append divider
-					$("#person_container_details").append("<div class='row divider-horizontal persondivider'></div>");
+					personTemplate += "<div class='row divider-horizontal persondivider'></div>";
 				}
+				
+				$('#person_container_details').append(personTemplate);
+				
 			}
 		} 	// end else
 		
@@ -259,42 +270,70 @@ $("#btn_details").click(function() {
 	//load articles
 	var articleString = "";
 	for(var i=0; i < inc.incomingArticleDTOs.length; i++){
+		
+		var headingString = articles[i].numberpu + "x "+articles[i].articleDTO.description + " (" + articles[i].articleDTO.packagingUnit + ")";
+		
+		var articleTemplate = "";
+		
 		articleString = articles[i].articleDTO.description;
-		createAndAppendArticleTemplate("Beschreibung", articleString);
+		articleTemplate += createArticleTemplate("Beschreibung", articleString);
 		
 		articleString = articles[i].numberpu;
-		createAndAppendArticleTemplate("Anzahl der VE", articleString);
+		articleTemplate += createArticleTemplate("Anzahl der VE", articleString);
 		
 		articleString = articles[i].articleDTO.packagingUnit;
-		createAndAppendArticleTemplate("Art der VE", articleString);
+		articleTemplate += createArticleTemplate("Art der VE", articleString);
 		
 		articleString = articles[i].articleDTO.weightpu + " kg";
-		createAndAppendArticleTemplate("Einzelgewicht der VE", articleString);
+		articleTemplate += createArticleTemplate("Einzelgewicht der VE", articleString);
 		
 		var weightPU = parseFloat(articles[i].articleDTO.weightpu);
 		var sum = Math.round( (weightPU * articles[i].numberpu) *100)/100;
-		createAndAppendArticleTemplate("Gesamtgewicht", sum + " kg");
+		articleTemplate += createArticleTemplate("Gesamtgewicht", sum + " kg");
 		
 		articleString = articles[i].articleDTO.mdd;
-		createAndAppendArticleTemplate("Mindesthaltbarkeitsdatum", articleString);
+		articleTemplate += createArticleTemplate("Mindesthaltbarkeitsdatum", articleString);
 		
 		articleString = articles[i].articleDTO.pricepu + " €";
-		createAndAppendArticleTemplate("Einzelpreis der VE", articleString);
+		articleTemplate += createArticleTemplate("Einzelpreis der VE", articleString);
 		
 		var pricepu = parseFloat(articles[i].articleDTO.pricepu);
 		var sum = Math.round( (pricepu * articles[i].numberpu) *100)/100;
-		createAndAppendArticleTemplate("Gesamtpreis", sum + " €");
+		articleTemplate += createArticleTemplate("Gesamtpreis", sum + " €");
 		
-		if(i < inc.incomingArticleDTOs.length-1){
-			//append divider
-			$("#article_container_details").append("<div class='row divider-horizontal persondivider'></div>");
-		}
+		// insert into panel and append to accordion
+		var accordionTemplate = "<div class='panel panel-default'>"+
+									 "<div class='panel-heading' role='tab' id='heading_art_"+i+"'>"+
+									 	"<h5 class='panel-title'>"+
+									 		"<a data-toggle='collapse' data-parent='#accordion_articles' href='#collapse_art_"+i+"' aria-expanded='true' aria-controls='collapse_art_"+i+"'>"+
+									 			headingString+
+									 		"</a>"+
+									 	"</h5>"+
+									 "</div>"+
+									 "<div id='collapse_art_"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading_art_"+i+"'>"+
+									 	"<div class='panel-body'>"+
+									 		articleTemplate +
+										"</div>"+
+								    "</div>"+
+								 "</div>";
+		
+		$('#accordion_articles').append(accordionTemplate);
+		
 	}
 	
 	// show modal
 	$('#details').modal('show');
 	
 });
+
+
+// used for diplaying the details modal
+function createArticleTemplate(name, value){
+	var template = "<div class='row'><div class='col-md-6'><label>"+ name +"</label></div><div class='col-md-6'><label>" + value + "</label></div></div>";
+	return template;
+}
+
+
 
 // button distributionReport
 $('#btn_distributionReport').click(function() {
@@ -312,10 +351,7 @@ $('#btn_distributionReport').click(function() {
 	
 });
 
-function createAndAppendArticleTemplate(name, value){
-	var template = "<div class='row details'><div class='col-md-6'><label>"+ name +"</label></div><div class='col-md-6'><label>" + value + "</label></div></div>";
-	$("#article_container_details").append(template);
-}
+
 
 // search filter
 $(document).ready(function() {

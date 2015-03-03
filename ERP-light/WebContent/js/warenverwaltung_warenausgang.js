@@ -139,6 +139,10 @@ $("#btn_details").click(function() {
 	//remove container
 	$(".details").remove();
 	$(".persondivider").remove();
+	$('#person_container_details').empty();
+	
+	// remove old article panels from accordion
+	$('#accordion_articles').empty();
 	
 	var rowData = getSelectedRow();
 	if (rowData.length == 0)
@@ -259,37 +263,70 @@ $("#btn_details").click(function() {
 	
 	//load articles
 	var articleString = "";
-	for(var i=0; i < out.outgoingArticleDTOs.length; i++){
+	for(var i=0; i < articles.length; i++){
+		
+		var headingString = articles[i].numberpu + "x "+articles[i].articleDTO.description + " (" + articles[i].articleDTO.packagingUnit + ")";
+		
+		var articleTemplate = "";
+		
 		articleString = articles[i].articleDTO.description;
-		createAndAppendArticleTemplate("Beschreibung", articleString);
+		articleTemplate += createArticleTemplate("Beschreibung", articleString);
 		
 		articleString = articles[i].numberpu;
-		createAndAppendArticleTemplate("Anzahl der VE", articleString);
+		articleTemplate += createArticleTemplate("Anzahl der VE", articleString);
 		
 		articleString = articles[i].articleDTO.packagingUnit;
-		createAndAppendArticleTemplate("VE", articleString);
+		articleTemplate += createArticleTemplate("VE", articleString);
 		
 		articleString = articles[i].articleDTO.weightpu; + " kg";
-		createAndAppendArticleTemplate("Einzelgewicht der VE", articleString);
+		articleTemplate += createArticleTemplate("Einzelgewicht der VE", articleString);
 		
 		var weightPU = parseFloat(articles[i].articleDTO.weightpu);
 		var sum = Math.round( (weightPU * articles[i].numberpu) *100)/100;
-		createAndAppendArticleTemplate("Gesamtgewicht", sum + " kg");
+		articleTemplate += createArticleTemplate("Gesamtgewicht", sum + " kg");
 		
 		articleString = articles[i].articleDTO.mdd;
-		createAndAppendArticleTemplate("Mindesthaltbarkeitsdatum", articleString);
+		articleTemplate += createArticleTemplate("Mindesthaltbarkeitsdatum", articleString);
 		
 		articleString = articles[i].articleDTO.pricepu + " €";
-		createAndAppendArticleTemplate("Einzelpreis der VE", articleString);
+		articleTemplate += createArticleTemplate("Einzelpreis der VE", articleString);
 		
 		var pricepu = parseFloat(articles[i].articleDTO.pricepu);
 		var sum = Math.round((pricepu * articles[i].numberpu)*100)/100;
-		createAndAppendArticleTemplate("Gesamtpreis", sum + " €");
+		articleTemplate += createArticleTemplate("Gesamtpreis", sum + " €");
 		
-		if(i < out.outgoingArticleDTOs.length-1){
-			//append divider
-			$("#article_container_details").append("<div class='row divider-horizontal persondivider'></div>");
-		}
+		
+		//get deliverer of the article
+		var org;
+		$.ajax({
+			type : "POST",
+			async : false,
+			url : "../rest/secure/organisation/getOrganisationById/" + articles[i].articleDTO.delivererId
+		}).done(function(data) {
+			org = data;	// already JSON
+		});
+		
+		articleString = org.name;
+		articleTemplate += createArticleTemplate("Lieferant", articleString);
+		
+		
+		// insert into panel and append to accordion
+		var accordionTemplate = "<div class='panel panel-default'>"+
+									 "<div class='panel-heading' role='tab' id='heading_art_"+i+"'>"+
+									 	"<h5 class='panel-title'>"+
+									 		"<a data-toggle='collapse' data-parent='#accordion_articles' href='#collapse_art_"+i+"' aria-expanded='true' aria-controls='collapse_art_"+i+"'>"+
+									 			headingString+
+									 		"</a>"+
+									 	"</h5>"+
+									 "</div>"+
+									 "<div id='collapse_art_"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading_art_"+i+"'>"+
+									 	"<div class='panel-body'>"+
+									 		articleTemplate +
+										"</div>"+
+								    "</div>"+
+								 "</div>";
+		
+		$('#accordion_articles').append(accordionTemplate);
 	}
 	
 	// show modal
@@ -297,9 +334,9 @@ $("#btn_details").click(function() {
 	
 });
 
-function createAndAppendArticleTemplate(name, value){
+function createArticleTemplate(name, value){
 	var template = "<div class='row details'><div class='col-md-6'><label>"+ name +"</label></div><div class='col-md-6'><label>" + value + "</label></div></div>";
-	$("#article_container_details").append(template);
+	return template;
 }
 
 // search filter

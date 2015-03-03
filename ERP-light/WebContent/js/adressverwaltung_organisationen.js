@@ -597,6 +597,7 @@ $("#btn_details").click(function() {
 			$("#label_personIds_details").text("-");
 		}
 		else{
+			$("#label_personIds_details").text("");
 			var personString = "";
 			for (var j = 0; j < contactPersonIds.length; j++) {
 				loadContactPerson(contactPersonIds[j]);
