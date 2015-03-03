@@ -17,6 +17,9 @@ $(document).ready(function() {
 	var mode = $.urlParam('mode');
 	global_id = $.urlParam('id');
 	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 	if(mode == "new"){
 		$("#tabtext").text("Neue Lieferliste");
 		$("tbx_deliveryListId").val(0);
@@ -53,17 +56,18 @@ $('.datepicker').datepicker({
 // only outgoing deliveries, which are not booked
 function loadAllOutgoingDeliveries(){
 	
-	// save organisations into list
-	var organisations;
-	$.ajax({
-		type : "POST",
-		async : false,
-		url : "../rest/secure/organisation/getAllOrganisations"
-	}).done(function(data) {
-		organisations = data;	// already JSON
-	});
+	// show loading spinner
+	showLoadingSpinner(true);
 	
-	
+//	// save organisations into list
+//	var organisations;
+//	$.ajax({
+//		type : "POST",
+//		async : false,
+//		url : "../rest/secure/organisation/getAllOrganisations"
+//	}).done(function(data) {
+//		organisations = data;	// already JSON
+//	});
 	
 	$.ajax({
 		type : "POST",
@@ -77,11 +81,13 @@ function loadAllOutgoingDeliveries(){
 					var orgId = out[e].organisationId;
 					var org;
 					
-					for (i in organisations)
-					{
-						if (organisations[i].id == orgId)
-							org = organisations[i];
-					}
+					$.ajax({
+						type : "POST",
+						async : false,
+						url : "../rest/secure/organisation/getOrganisationById/"+orgId
+					}).done(function(data) {
+						org = data;	// already JSON
+					});
 					
 					//get articles
 					var articleString = "";
@@ -103,11 +109,18 @@ function loadAllOutgoingDeliveries(){
 
 					$("#outgoingDeliveryTableBody").append(tableRow);
 				}
+				
+			// hide loading spinner
+			showLoadingSpinner(false);
 	});
 };
 
 //Load delivery list with specific id
 function loadDeliveryList(id){
+	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/deliveryList/getById/" + id
@@ -134,14 +147,10 @@ function loadDeliveryList(id){
 			//set comment popover
 			$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
 			
-			
-			
 			// sort outgoingDeliveries
 			out.sort(function(a, b){
 				return a.deliveryNr - b.deliveryNr;
 			});
-			
-			
 			
 			for (var e in out) {
 				
@@ -176,6 +185,10 @@ function loadDeliveryList(id){
 
 				$("#deliveryListTableBody").append(tableRow);
 			}
+			
+			// hide loading spinner
+			showLoadingSpinner(false);
+			
 	});
 }
 

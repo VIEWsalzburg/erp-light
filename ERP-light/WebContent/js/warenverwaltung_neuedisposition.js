@@ -27,6 +27,9 @@ $(document).ready(function() {
 		isBooked = false;
 	}
 	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 	// load all organisations into global variable to search them for the deliverer property of each article
 	loadAllOrganisations();		// first load all organisaitons synchron to use the global variable when loading the articles
 	
@@ -98,6 +101,10 @@ function loadAllOrganisations() {
 
 // checked
 function loadAllAvailableArticlesInDepot(){
+	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 	var availArticles;
 	$.ajax({
 		type : "POST",
@@ -149,6 +156,9 @@ function loadAllAvailableArticlesInDepot(){
 				
 				$("#leftDepotTableBody").append(tableRow);
 			}
+			
+			// hide loading spinner
+			showLoadingSpinner(false);
 	
 	});
 	
@@ -157,6 +167,10 @@ function loadAllAvailableArticlesInDepot(){
 
 //load table content
 function loadTableContent(id){
+	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 	var out;
 	$.ajax({
 		type : "POST",
@@ -273,6 +287,9 @@ function loadTableContent(id){
 		
 		$("#leftDepotTableBody").append(tableRow);
 	}
+	
+	// hide loading spinner
+	showLoadingSpinner(false);
 }
 
 
@@ -283,6 +300,9 @@ function loadTableContent(id){
  * load only organisations of type KUNDE
  */
 function loadAllReceivers() {
+	
+	// show loading spinner
+	showLoadingSpinner(true);
 	
 	var allCategories;
 	
@@ -355,6 +375,9 @@ function loadAllReceivers() {
 						}
 					}
 				}
+				
+			// hide loading spinner
+			showLoadingSpinner(false);
 	});
 };
 

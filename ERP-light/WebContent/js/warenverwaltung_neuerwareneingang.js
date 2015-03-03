@@ -68,6 +68,10 @@ $('.datepicker').datepicker({
 
 // load existing incomingDelivery
 function loadNewIncomingDelivery(id){
+	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 	var inc;
 	$.ajax({
 		type : "POST",
@@ -147,12 +151,18 @@ function loadNewIncomingDelivery(id){
 		$("#newIncomingDeliveryTableBody").append(tableRow);
 	}
 	
+	// hide loading spinner
+	showLoadingSpinner(false);
+	
 }
 
 
 
 //loads all deliverers
 function loadAllDeliverers() {
+	
+	// show loading spinner
+	showLoadingSpinner(true);
 	
 	var allCategories;
 	
@@ -225,6 +235,9 @@ function loadAllDeliverers() {
 						}
 					}
 				}
+				
+				// hide loading spinner
+				showLoadingSpinner(false);
 	});
 };
 
