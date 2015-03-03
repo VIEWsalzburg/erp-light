@@ -161,8 +161,16 @@ $("#btn_new").click(function() {
 
 //switch to edit new delivery list tab
 $("#btn_edit").click(function() {
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Lieferliste auswählt!", 2500);
+		return;
+	}
+	
 	//switch to edit delivery list with GET parameter mode=edit and id=...
-	location.href="warenverwaltung_neuelieferliste.html?mode=edit&id=" + tableData[0];
+	location.href="warenverwaltung_neuelieferliste.html?mode=edit&id=" + rowData[0];
 	return false;
 });
 
@@ -188,7 +196,14 @@ $("#btn_details").click(function() {
 	$(".details").remove();
 	$(".persondivider").remove();
 	
-	var id = tableData[0];
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Lieferliste auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	//get delivery list by id
 	var list;
@@ -343,6 +358,11 @@ $("#btn_details").click(function() {
 	//load last editor and updateTimeStamp
 	$("#label_lastEditor_details").text(loadContactPerson(list.lastEditorId));
 	$("#label_updateTimestamp_details").text(list.updateTimestamp);
+	
+	
+	// show modal
+	$('#details').modal('show');
+	
 });
 
 //search filter
@@ -380,7 +400,15 @@ $("#cbx_archive").on('change', function(){
 
 //set entry archived or non archived depending on button value
 $("#btn_archive").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Lieferliste auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	
 	if($(this).val() == "archive"){
 		//set entry archived
@@ -442,20 +470,33 @@ $(document).ready(function() {
 	});
 });
 
-var tableData;
+
+//this function is used to get the selected row
+//the function is called when a button is pressed and the selected entry has to be determined
+function getSelectedRow(){
+	
+	// find selected tr in the table and map it to the variable
+	var currentRow = $('#TableHead').find('tr.highlight').first().children("td").map(function() {
+		return $(this).text();
+	}).get();
+	
+	return currentRow;
+}
+
+
 $('#TableHead').on('click','tbody tr', function(event) {
-	tableData = $(this).children("td").map(function() {
+	var rowData = $(this).children("td").map(function() {
 		return $(this).text();
 	}).get();
 
 	$(this).addClass('highlight').siblings().removeClass('highlight');
 
 	// set link to word generation of the current selected deliveryList
-	var hrefString = "../rest/secure/deliveryList/exportAsWord/" + tableData[0];
+	var hrefString = "../rest/secure/deliveryList/exportAsWord/" + rowData[0];
 	$("#href_export").attr("href", hrefString);
 	
 	// only when user has admin rights
-	if (currentUserRights != "Read" && currentUserRights != "") {
+	if (currentUserRights == "Admin" || currentUserRights == "ReadWrite") {
 		$('#btn_edit').prop('disabled', false);
 		$('#btn_deleteModal').prop('disabled', false);
 		$('#btn_export').prop('disabled', false);
@@ -484,7 +525,15 @@ $('#TableHead').on('click','tbody tr', function(event) {
  * Call the delete modal for the selected delivery list
  */
 $("#btn_deleteModal").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Lieferliste auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 	 
 	//get delivery list by id
 	var inc;
@@ -498,6 +547,9 @@ $("#btn_deleteModal").click(function() {
 	
 	$("#label_date_delete").text(inc.date);
 	$("#label_name_delete").text(inc.comment); 
+	
+	// show modal
+	$('#deleteModal').modal('show');
 });
 
 
@@ -505,7 +557,15 @@ $("#btn_deleteModal").click(function() {
  * Call the delete url for the delivery list
  */
 $("#btn_deleteDeliveryList").click(function() {
-	var id = tableData[0];
+	
+	var rowData = getSelectedRow();
+	if (rowData.length == 0)
+	{
+		showAlertElement(false, "Keine Lieferliste auswählt!", 2500);
+		return;
+	}
+	
+	var id = rowData[0];
 
 	$.ajax({
 		 type : "POST",

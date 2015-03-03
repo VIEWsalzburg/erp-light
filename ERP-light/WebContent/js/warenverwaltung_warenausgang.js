@@ -418,12 +418,8 @@ function getSelectedRow(){
 }
 
 
-//var tableData;
 var isBooked;
 $('#TableHead').on('click','tbody tr', function(event) {
-//			tableData = $(this).children("td").map(function() {
-//				return $(this).text();
-//			}).get();
 
 			$(this).addClass('highlight').siblings().removeClass('highlight');
 

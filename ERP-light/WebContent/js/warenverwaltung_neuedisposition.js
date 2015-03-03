@@ -315,9 +315,6 @@ function loadAllReceivers() {
 								nameString = o[e].name;
 							}
 							
-//							var o_divRow = "<div class='boxElement_receiver'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + nameString + " "
-//							+ "</span><input class='pull-right' value="+ o[e].id +" name='receiverRadio' type='radio'></div>";
-							
 							var categoryString = "";
 							
 							var categoryIds = o[e].categoryIds;
@@ -806,7 +803,7 @@ $(document).ready(function() {
 		currentUserRights = currentUser.permission;
 
 		// only when user has admin rights
-		if (currentUserRights != "Read" && currentUserRights != "") {
+		if (currentUserRights == "Admin" || currentUserRights == "ReadWrite") {
 			if(isBooked != true){
 				$('#label_packagingunits').show();
 				$('#tbx_packagingunit_group').show();
@@ -841,7 +838,7 @@ $('#TableHeadLeftDepot').on('click','tbody tr', function(event) {
 	
 	if(isBooked != true){
 		// only when user has admin rights
-		if (currentUserRights != "Read" && currentUserRights != "") {
+		if (currentUserRights == "Admin" || currentUserRights == "ReadWrite") {
 			// enable 'button to disposition'
 			$('#btn_addtodisposition').prop('disabled', false);
 			// disable 'button from disposition'
@@ -869,7 +866,7 @@ $('#TableHeadRightDepot').on('click','tbody tr', function(event) {
 
 	
 	// only when user has admin rights
-	if (currentUserRights != "Read" && currentUserRights != "") {
+	if ( currentUserRights == "Admin" || currentUserRights == "ReadWrite" ) {
 		// enable buttons: 'up, down, to disposition, from disposition'
 		$('#btn_up').prop('disabled', false);
 		$('#btn_down').prop('disabled', false);
