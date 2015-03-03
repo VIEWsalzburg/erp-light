@@ -167,7 +167,7 @@ function loadAllDeliverers() {
 	$.ajax({
 		type : "POST",
 		async : false,
-		url : "../rest/secure/organisation/getAllOrganisations"
+		url : "../rest/secure/organisation/getAllActiveOrganisations"
 	}).done(
 			function(data) {
 				var o = data;	// already JSON
@@ -184,9 +184,6 @@ function loadAllDeliverers() {
 							else{
 								nameString = o[e].name;
 							}
-							
-//							var o_divRow = "<div class='boxElement_deliverer'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + nameString + " "
-//							+ "</span><input class='pull-right' value="+ o[e].id +" id="+ o[e].id +" name='delivererRadio' type='radio'></div>";
 							
 							var categoryString = "";
 							

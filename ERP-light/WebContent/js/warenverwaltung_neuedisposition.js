@@ -297,7 +297,7 @@ function loadAllReceivers() {
 	$.ajax({
 		type : "POST",
 		async : false,
-		url : "../rest/secure/organisation/getAllOrganisations"
+		url : "../rest/secure/organisation/getAllActiveOrganisations"
 	}).done(
 			function(data) {
 				var o = data;	// already JSON

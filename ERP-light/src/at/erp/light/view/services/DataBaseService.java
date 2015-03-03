@@ -494,6 +494,10 @@ public class DataBaseService implements IDataBase {
 	public int deleteOrganisationById(int id) throws HibernateException {
 		Organisation o = this.getOrganisationById(id);
 		o.setActive(0);	// set active flag to inactive (0)
+		
+		// remove all contactPersons for this organisation
+		o.getContactPersons().clear();
+		
 		return 0;
 	}
 	
