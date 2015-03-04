@@ -92,7 +92,7 @@ function loadAllOrganisations() {
 	$.ajax({
 		type : "POST",
 		async : false,
-		url : "../rest/secure/organisation/getAllOrganisations"
+		url : "../rest/secure/organisation/reducedData/getAllOrganisations"
 	}).done(function(data) {
 			gOrganisations = data;	// already JSON
 	});
@@ -317,7 +317,7 @@ function loadAllReceivers() {
 	$.ajax({
 		type : "POST",
 		async : false,
-		url : "../rest/secure/organisation/getAllActiveOrganisations"
+		url : "../rest/secure/organisation/reducedData/getAllActiveOrganisations"
 	}).done(
 			function(data) {
 				var o = data;	// already JSON

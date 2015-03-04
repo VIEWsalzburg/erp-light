@@ -87,14 +87,14 @@ public interface IDataBase {
 	public Organisation getOrganisationById(int id) throws HibernateException;
 	
 	
-	public List<Organisation> getAllOrganisations() throws HibernateException;
+	public List<Organisation> getAllOrganisations(int fetchParam) throws HibernateException;
 	
 	/**
 	 * returns all active organisations
 	 * @return list of all active organisations, which have not been deleted
 	 * @throws HibernateException
 	 */
-	public List<Organisation> getAllActiveOrganisations() throws HibernateException;
+	public List<Organisation> getAllActiveOrganisations(int fetchParam) throws HibernateException;
 	
 	
 	

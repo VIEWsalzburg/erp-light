@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
+
 import at.erp.light.view.dto.OrganisationDTO;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Category;
@@ -67,11 +69,15 @@ public class OrganisationMapper {
 		dto.setCity(cityString);
 		dto.setCountry(countryString);
 
-		List<Integer> ids = new ArrayList<Integer>();
-		for (Person p : organisation.getContactPersons()) {
-			ids.add(p.getPersonId());
+		// if loaded with contactpersons
+		if (Hibernate.isInitialized(organisation.getContactPersons()))
+		{
+			List<Integer> ids = new ArrayList<Integer>();
+			for (Person p : organisation.getContactPersons()) {
+				ids.add(p.getPersonId());
+			}
+			dto.setPersonIds(ids);
 		}
-		dto.setPersonIds(ids);
 
 		List<Integer> categories = new ArrayList<Integer>();
 		for (Category c : organisation.getCategories()) {

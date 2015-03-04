@@ -44,11 +44,25 @@ public class OrganisationController {
 		
 		List<OrganisationDTO> list = new ArrayList<OrganisationDTO>();
 
-		for (Organisation o : dataBaseService.getAllOrganisations()) {
+		for (Organisation o : dataBaseService.getAllOrganisations(Organisation.FETCH_CONTACTPERSON)) {
 			list.add(OrganisationMapper.mapToDTO(o));
 		}
 		
 		log.info("returning all organisations");
+		
+		return list;
+	}
+	
+	@RequestMapping(value = "secure/organisation/reducedData/getAllOrganisations")
+	public List<OrganisationDTO> getAllOrganisationsWithoutContactPersons() {
+		
+		List<OrganisationDTO> list = new ArrayList<OrganisationDTO>();
+
+		for (Organisation o : dataBaseService.getAllOrganisations(0)) {
+			list.add(OrganisationMapper.mapToDTO(o));
+		}
+		
+		log.info("returning all organisations without contactPersons");
 		
 		return list;
 	}
@@ -58,11 +72,25 @@ public class OrganisationController {
 		
 		List<OrganisationDTO> list = new ArrayList<OrganisationDTO>();
 
-		for (Organisation o : dataBaseService.getAllActiveOrganisations()) {
+		for (Organisation o : dataBaseService.getAllActiveOrganisations(Organisation.FETCH_CONTACTPERSON)) {
 			list.add(OrganisationMapper.mapToDTO(o));
 		}
 		
 		log.info("returning all active organisations");
+		
+		return list;
+	}
+	
+	@RequestMapping(value = "secure/organisation/reducedData/getAllActiveOrganisations")
+	public List<OrganisationDTO> getAllActiveOrganisationsWithoutContactPersons() {
+		
+		List<OrganisationDTO> list = new ArrayList<OrganisationDTO>();
+
+		for (Organisation o : dataBaseService.getAllActiveOrganisations(0)) {
+			list.add(OrganisationMapper.mapToDTO(o));
+		}
+		
+		log.info("returning all active organisations without contactPersons");
 		
 		return list;
 	}
@@ -141,7 +169,7 @@ public class OrganisationController {
 		String headerValue = String.format("attachment; filename=\"%s\"", csvFileName);
 
 		response.setHeader(headerKey, headerValue);
-		List<Organisation> listOrganisations = dataBaseService.getAllOrganisations();
+		List<Organisation> listOrganisations = dataBaseService.getAllOrganisations(Organisation.FETCH_CONTACTPERSON);
 		// uses the Super CSV API to generate CSV data from the model data
 		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
 				CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);

@@ -9,7 +9,7 @@ function loadTableContent(loadArchivedEntries){
 	$.ajax({
 		type : "POST",
 		async : false,
-		url : "../rest/secure/organisation/getAllOrganisations"
+		url : "../rest/secure/organisation/reducedData/getAllOrganisations"
 	}).done(function(data) {
 			organisations = data;	// already JSON
 	});

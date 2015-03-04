@@ -400,7 +400,7 @@ public class DataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Organisation getOrganisationById(int id) throws HibernateException {
-		Query query = sessionFactory.getCurrentSession().createQuery("FROM Organisation o WHERE o.organisationId = :id");
+		Query query = sessionFactory.getCurrentSession().createQuery("FROM Organisation o left join fetch o.contactPersons WHERE o.organisationId = :id");
 		query.setParameter("id", id);
 		Organisation organisation = (Organisation)query.uniqueResult();
 		return organisation;
@@ -408,20 +408,40 @@ public class DataBaseService implements IDataBase {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<Organisation> getAllOrganisations() throws HibernateException {
+	public List<Organisation> getAllOrganisations(int fetchParam) throws HibernateException {
 		
-		@SuppressWarnings("unchecked")
-		List<Organisation> organisations = sessionFactory.getCurrentSession().createQuery("FROM Organisation o ORDER BY o.name").list();
-		return organisations;
+		if ( (fetchParam & Organisation.FETCH_CONTACTPERSON) > 0 )
+		{
+			@SuppressWarnings("unchecked")
+			List<Organisation> organisations = (List<Organisation>)sessionFactory.getCurrentSession().createQuery("Select distinct o FROM Organisation o left join fetch o.contactPersons ORDER BY o.name").list();
+			return organisations;
+		}
+		else
+		{
+			@SuppressWarnings("unchecked")
+			List<Organisation> organisations = (List<Organisation>)sessionFactory.getCurrentSession().createQuery("FROM Organisation o ORDER BY o.name").list();
+			return organisations;
+		}
+		
 	}
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<Organisation> getAllActiveOrganisations() throws HibernateException {
+	public List<Organisation> getAllActiveOrganisations(int fetchParam) throws HibernateException {
 		
-		@SuppressWarnings("unchecked")
-		List<Organisation> organisations = sessionFactory.getCurrentSession().createQuery("FROM Organisation o WHERE o.active=1 ORDER BY o.name").list();
-		return organisations;
+		if ( (fetchParam & Organisation.FETCH_CONTACTPERSON) > 0 )
+		{
+			@SuppressWarnings("unchecked")
+			List<Organisation> organisations = sessionFactory.getCurrentSession().createQuery("Select distinct o FROM Organisation o left join fetch o.contactPersons WHERE o.active=1 ORDER BY o.name").list();
+			return organisations;
+		}
+		else
+		{
+			@SuppressWarnings("unchecked")
+			List<Organisation> organisations = sessionFactory.getCurrentSession().createQuery("FROM Organisation o WHERE o.active=1 ORDER BY o.name").list();
+			return organisations;
+		}
+		
 	}
 
 	@Override
@@ -1043,7 +1063,7 @@ public class DataBaseService implements IDataBase {
 	public List<OutgoingDelivery> getAvailableOutgoingDeliveries()
 			throws HibernateException {
 		@SuppressWarnings("unchecked")
-		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery o where o.booked = 0 order by o.date DESC").list();
+		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery o where o.booked = 0 and o.archived = 0 order by o.date DESC").list();
 		return outgoingDeliveries;
 	}
 	
@@ -1086,6 +1106,9 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int setDeliveryList(DeliveryList deliveryList) throws HibernateException {
 		
+		// because DeliveryList maintains the connection between deliverLists and outgoingDeliveries,
+		// the deliverListId is removed within old outgoingDeliveries which are not bound to this deliveryList anymore
+		
 		// update deliveryNr in the corresponding outgoingDeliveries
 		for (OutgoingDelivery outgoingDelivery : deliveryList.getOutgoingDeliveries())
 		{
@@ -1093,6 +1116,8 @@ public class DataBaseService implements IDataBase {
 			this.getOutgoingDeliveryById(outgoingDelivery.getOutgoingDeliveryId()).setDeliveryNr(outgoingDelivery.getDeliveryNr());
 		}
 		
+		// saving works, because Hibernate checks the IDs of the deliveryList and the outgoingDeliveries bound to the deliveryList,
+		// even if the outgoingDeliveryObjects are not the same, as when getting it from the DB
 		sessionFactory.getCurrentSession().saveOrUpdate(deliveryList);
 		
 		return deliveryList.getDeliveryListId();

@@ -32,6 +32,8 @@ import org.hibernate.annotations.CascadeType;
 @Table(name = "organisation", schema = "public")
 public class Organisation implements java.io.Serializable {
 
+	public final static int FETCH_CONTACTPERSON = 1;
+	
 	private int organisationId;
 	private String name;
 	private String comment;
@@ -169,7 +171,7 @@ public class Organisation implements java.io.Serializable {
 		this.categories = categories;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="orgcontactperson", schema = "public", joinColumns = { @JoinColumn(name = "organisation_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "person_id", nullable = false, updatable = false) })
 	public Set<Person> getContactPersons() {
 		return this.contactPersons;

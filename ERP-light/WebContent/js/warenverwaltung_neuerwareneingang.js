@@ -177,7 +177,7 @@ function loadAllDeliverers() {
 	$.ajax({
 		type : "POST",
 		async : false,
-		url : "../rest/secure/organisation/getAllActiveOrganisations"
+		url : "../rest/secure/organisation/reducedData/getAllActiveOrganisations"
 	}).done(
 			function(data) {
 				var o = data;	// already JSON
