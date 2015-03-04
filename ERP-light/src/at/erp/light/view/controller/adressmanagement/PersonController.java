@@ -75,6 +75,16 @@ public class PersonController {
 			
 		return list;
 	}
+	
+	@RequestMapping(value = "secure/person/reducedData/getAllActive")
+	public List<PersonDTO> getAllActivePersonsReducedData() {
+		
+		List<PersonDTO> list = dataBaseService.getAllActivePersonsReducedData();
+		
+		log.info("returning all active Persons");
+			
+		return list;
+	}
 
 	@RequestMapping(value = "secure/person/getPersonById/{id}")
 	public PersonDTO getPersonById(@PathVariable int id) {

@@ -23,6 +23,7 @@ import at.erp.light.view.dto.ArticleDTO;
 import at.erp.light.view.dto.InOutArticlePUDTO;
 import at.erp.light.view.dto.LoggingDTO;
 import at.erp.light.view.dto.PersonAddressReportDataDTO;
+import at.erp.light.view.dto.PersonDTO;
 import at.erp.light.view.dto.PersonEmailReportDataDTO;
 import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.mapper.ArticleMapper;
@@ -81,6 +82,27 @@ public class DataBaseService implements IDataBase {
 	public List<Person> getAllActivePersons() throws HibernateException {
 		@SuppressWarnings("unchecked")
 		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor WHERE p.active=1 ORDER BY p.lastName").list();
+		return persons;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<PersonDTO> getAllActivePersonsReducedData() throws HibernateException {
+		String query = "Select person_id as \"personId\", salutation, title, first_name as \"firstName\", last_name as \"lastName\", active "
+				+ "from person where active = 1 order by last_name";
+		
+		@SuppressWarnings("unchecked")
+		List<PersonDTO> persons = this.sessionFactory.getCurrentSession()
+				.createSQLQuery(query)
+				.addScalar("personId", StandardBasicTypes.INTEGER)
+				.addScalar("title", StandardBasicTypes.STRING)
+				.addScalar("salutation", StandardBasicTypes.STRING)
+				.addScalar("firstName", StandardBasicTypes.STRING)
+				.addScalar("lastName", StandardBasicTypes.STRING)
+				.addScalar("active", StandardBasicTypes.INTEGER)
+				.setResultTransformer(Transformers.aliasToBean(PersonDTO.class))
+				.list();
+		
 		return persons;
 	}
 	

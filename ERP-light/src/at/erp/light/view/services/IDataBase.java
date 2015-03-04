@@ -10,6 +10,7 @@ import org.hibernate.HibernateException;
 import at.erp.light.view.dto.InOutArticlePUDTO;
 import at.erp.light.view.dto.LoggingDTO;
 import at.erp.light.view.dto.PersonAddressReportDataDTO;
+import at.erp.light.view.dto.PersonDTO;
 import at.erp.light.view.dto.PersonEmailReportDataDTO;
 import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.model.Article;
@@ -56,7 +57,16 @@ public interface IDataBase {
 	 */
 	public List<Person> getAllActivePersons() throws HibernateException;
 	
-/**
+	/**
+	 * This function returns a minified set of data for all persons
+	 * it only contains the personId, salutation, firstName and lastName
+	 * this data can be used for faster loading in the frontend
+	 * @return
+	 * @throws HibernateException
+	 */
+	public List<PersonDTO> getAllActivePersonsReducedData() throws HibernateException;
+	
+	/**
 	 * Saves or updates the given Person in the DB. All fields are parsed and reassign depending on the saved entities.
 	 * New Objects are automatically created and assigned (Address, City, Country, Telephones, Emails)
 	 * @param person
@@ -75,6 +85,8 @@ public interface IDataBase {
 	
 	// Organisations
 	public Organisation getOrganisationById(int id) throws HibernateException;
+	
+	
 	public List<Organisation> getAllOrganisations() throws HibernateException;
 	
 	/**
@@ -83,6 +95,8 @@ public interface IDataBase {
 	 * @throws HibernateException
 	 */
 	public List<Organisation> getAllActiveOrganisations() throws HibernateException;
+	
+	
 	
 	public int setOrganisation(Organisation organisation) throws HibernateException;
 	
@@ -437,7 +451,5 @@ public interface IDataBase {
 	public List<LoggingDTO> getLatestLoggings(int count);
 
 	public List<LoggingDTO> getAllLoggings();
-	
-	
 	
 }
