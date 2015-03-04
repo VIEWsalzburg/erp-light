@@ -75,6 +75,10 @@ function loadAllCategories() {
  * call modal for a new organisation
  */
 $("#btn_new").click(function() {
+	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 	$("#modal_title_text").text("Neue Organisation");
 	
 	// hide alert messsage
@@ -102,6 +106,9 @@ $("#btn_new").click(function() {
 	
 	// load all available categories and all available persons to modal
 	clearAndLoadDivContainer();
+	
+	// hide loading spinner
+	showLoadingSpinner(false);
 });
 
 
@@ -110,6 +117,10 @@ $("#btn_new").click(function() {
  * call modal for editing an organisation
  */
 $("#btn_edit").click(function() {
+	
+	// show loading spinner
+	showLoadingSpinner(true);
+	
 	$("#modal_title_text").text("Bearbeite Organisation");
 	
 	// clear filter boxes
@@ -143,9 +154,6 @@ $("#btn_edit").click(function() {
 		$("#tbx_city").val(org.city);
 		$("#tbx_country").val(org.country);
 		$("#tbx_comment").val(org.comment);
-		
-		// show modal
-		$('#new').modal('show');
 		
 		// load all available categories and all available persons to modal
 		clearAndLoadDivContainer();
@@ -221,6 +229,12 @@ $("#btn_edit").click(function() {
 			}
 			
 		}
+		
+		// hide loading spinner
+		showLoadingSpinner(false);
+		
+		// show modal
+		$('#new').modal('show');
 		
 	});	// end of ajax.done()
 	
