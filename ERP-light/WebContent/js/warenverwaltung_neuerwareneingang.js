@@ -487,14 +487,14 @@ $("#btn_savearticle").click(function() {
 		return;
 	}
 	
-	if (isNaN(parseInt($("#tbx_weightpackagingunit").val()))==true || isNaN($("#tbx_weightpackagingunit").val()) ){
+	if (isNaN(parseFloat($("#tbx_weightpackagingunit").val()))==true || isNaN($("#tbx_weightpackagingunit").val()) ){
 		$(".alert").text("Einzelgewicht der VE ist keine Zahl!");
 		$("#newAlertForm").show();
 		return;
 	}
 	
-	if(parseInt($("#tbx_weightpackagingunit").val()) <= 0 ){
-		$(".alert").text("Das Einzelgewicht der VE muss größer als 0 sein!");
+	if(parseFloat($("#tbx_weightpackagingunit").val()) == 0 ){
+		$(".alert").text("Das Einzelgewicht der VE darf nicht 0 sein!");
 		$("#newAlertForm").show();
 		return;
 	}
@@ -523,7 +523,7 @@ $("#btn_savearticle").click(function() {
 			return;
 		}
 		
-		if (isNaN(parseInt($("#tbx_pricepackagingunit").val()))==true || isNaN($("#tbx_pricepackagingunit").val()) ){
+		if (isNaN(parseFloat($("#tbx_pricepackagingunit").val()))==true || isNaN($("#tbx_pricepackagingunit").val()) ){
 			$(".alert").text("Einzelpreis der VE ist keine Zahl!");
 			$("#newAlertForm").show();
 			return;
