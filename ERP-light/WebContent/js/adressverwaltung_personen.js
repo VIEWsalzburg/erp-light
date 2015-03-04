@@ -288,8 +288,7 @@ $("#btn_saveperson").click(function() {
 	return false;
 });
 
-// Get all Persons and load into table
-$(document).ready(loadTableContent());
+
 
 // Get one person and load it to modal
 var p;
@@ -734,7 +733,6 @@ function updateTableTypeFilter() {
 	var mitgliederChecked = $('#mitglieder_cbx').prop('checked');
 	var gaesteChecked = $('#gaeste_cbx').prop('checked');
 	
-	
 	$('.searchable tr').each( function() {
 		
 		// hide all by default
@@ -801,8 +799,6 @@ $(document).ready(function() {
 	$('#unterstuetzer_cbx').on('change', updateTableTypeFilter);
 	$('#mitglieder_cbx').on('change', updateTableTypeFilter);
 	$('#gaeste_cbx').on('change', updateTableTypeFilter);
-	
-	
 });
 
 //disable new, edit, delete and details buttons
@@ -832,8 +828,12 @@ $(document).ready(function() {
 			$('#btn_edit').prop('disabled', true);
 			$('#btn_deleteModal').prop('disabled', true);
 		}
+		
 	});
 });
+
+//Get all Persons and load into table
+$(document).ready(function(){loadTableContent();});
 
 //this function is used to get the selected row
 //the function is called when a button is pressed and the selected entry has to be determined

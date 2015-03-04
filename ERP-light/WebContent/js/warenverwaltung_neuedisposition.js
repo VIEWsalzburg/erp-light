@@ -827,7 +827,7 @@ $(document).ready(function() {
 
 		// only when user has admin rights
 		if (currentUserRights == "Admin" || currentUserRights == "ReadWrite") {
-			if(isBooked != true){
+//			if(isBooked == false){
 				$('#label_packagingunits').show();
 				$('#tbx_packagingunit_group').show();
 				$('#btn_addtodisposition').show();
@@ -835,8 +835,9 @@ $(document).ready(function() {
 	
 				$('#btn_addtodisposition').prop('disabled', true);
 				$('#btn_removefromdisposition').prop('disabled', true);
-			}
-				
+//			}
+			
+			// deactivate on start
 			$('#btn_up').prop('disabled', true);
 			$('#btn_down').prop('disabled', true);
 		}
@@ -859,7 +860,7 @@ $('#TableHeadLeftDepot').on('click','tbody tr', function(event) {
 	$('#btn_up').prop('disabled', true);
 	$('#btn_down').prop('disabled', true);
 	
-	if(isBooked != true){
+//	if(isBooked == false){
 		// only when user has admin rights
 		if (currentUserRights == "Admin" || currentUserRights == "ReadWrite") {
 			// enable 'button to disposition'
@@ -873,7 +874,7 @@ $('#TableHeadLeftDepot').on('click','tbody tr', function(event) {
 			$('#btn_addtodisposition').prop('disabled', true);
 			$('#btn_removefromdisposition').prop('disabled', true);
 		}
-	}
+//	}
 });
 
 $('#TableHeadRightDepot').on('click','tbody tr', function(event) {
@@ -886,7 +887,6 @@ $('#TableHeadRightDepot').on('click','tbody tr', function(event) {
 	
 //	$("*").removeClass("highlight");
 //	$(this).addClass('highlight').siblings().removeClass('highlight');
-
 	
 	// only when user has admin rights
 	if ( currentUserRights == "Admin" || currentUserRights == "ReadWrite" ) {
@@ -894,7 +894,7 @@ $('#TableHeadRightDepot').on('click','tbody tr', function(event) {
 		$('#btn_up').prop('disabled', false);
 		$('#btn_down').prop('disabled', false);
 		
-		if(isBooked != true){
+		if(isBooked == false){
 			$('#btn_addtodisposition').prop('disabled', true);
 			$('#btn_removefromdisposition').prop('disabled', false);
 			// set the maximum packaging units for the selected article
@@ -905,7 +905,7 @@ $('#TableHeadRightDepot').on('click','tbody tr', function(event) {
 		$('#btn_up').prop('disabled', true);
 		$('#btn_down').prop('disabled', true);
 		
-		if(isBooked != true){
+		if(isBooked == false){
 			$('#btn_addtodisposition').prop('disabled', true);
 			$('#btn_removefromdisposition').prop('disabled', true);
 		}

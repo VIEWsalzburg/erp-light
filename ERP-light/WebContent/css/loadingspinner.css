@@ -22,14 +22,14 @@
 /* } */
 
 /* .circle { */
-/* 	width: 56px; */
-/* 	height: 56px; */
+/* 	width: 64px; */
+/* 	height: 64px; */
 	
 /* 	position: fixed; */
 /* 	top: 50%; */
 /* 	left: 50%; */
-/* 	margin-top: -28px;	25px because of border-box property */
-/* 	margin-left: -28px;	25px because of border-box property */
+/* 	margin-top: -32px;	25px because of border-box property */
+/* 	margin-left: -32px;	25px because of border-box property */
 	
 /* 	border-radius: 50%; */
 /* 	border: 4px solid #EEEEEE; */
@@ -76,82 +76,82 @@
 
 
 /* Circle-Animation 2 */
-@CHARSET "ISO-8859-1";
+/* @CHARSET "ISO-8859-1"; */
 
-@-webkit-keyframes rotateCircle {
-	from {-webkit-transform: rotate(0deg);}
-	to {-webkit-transform: rotate(360deg);}
-}
+/* @-webkit-keyframes rotateCircle { */
+/* 	from {-webkit-transform: rotate(0deg);} */
+/* 	to {-webkit-transform: rotate(360deg);} */
+/* } */
 
-@-moz-keyframes rotateCircle {
-	from {-moz-transform: rotate(0deg);}
-	to {-moz-transform: rotate(360deg);}
-}
+/* @-moz-keyframes rotateCircle { */
+/* 	from {-moz-transform: rotate(0deg);} */
+/* 	to {-moz-transform: rotate(360deg);} */
+/* } */
 
-@-ms-keyframes rotateCircle {
-	from {-ms-transform: rotate(0deg);}
-	to {-ms-transform: rotate(360deg);}
-}
+/* @-ms-keyframes rotateCircle { */
+/* 	from {-ms-transform: rotate(0deg);} */
+/* 	to {-ms-transform: rotate(360deg);} */
+/* } */
 
-@keyframes rotateCircle {
-	from {transform: rotate(0deg);}
-	to {transform: rotate(360deg);}
-}
+/* @keyframes rotateCircle { */
+/* 	from {transform: rotate(0deg);} */
+/* 	to {transform: rotate(360deg);} */
+/* } */
 
-.circle {
-	width: 90px;
-	height: 90px;
+/* .circle { */
+/* 	width: 90px; */
+/* 	height: 90px; */
 	
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	margin-top: -45px;	/* 25px because of border-box property */
-	margin-left: -45px;	/* 25px because of border-box property */
+/* 	position: fixed; */
+/* 	top: 50%; */
+/* 	left: 50%; */
+/* 	margin-top: -45px;	25px because of border-box property */
+/* 	margin-left: -45px;	25px because of border-box property */
 	
-	border-radius: 50%;
-	border: 5px solid #BBBBBB;
-	border-top-color: #00FF00;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
+/* 	border-radius: 50%; */
+/* 	border: 5px solid #BBBBBB; */
+/* 	border-top-color: #00FF00; */
+/* 	-webkit-border-radius: 50%; */
+/* 	-moz-border-radius: 50%; */
 	
-	-webkit-animation: rotateCircle 1s linear infinite;
-	-moz-animation: rotateCircle 1s linear infinite;
-	-ms-animation: rotateCircle 1s linear infinite;
-	animation: rotateCircle 1s linear infinite;
-}
+/* 	-webkit-animation: rotateCircle 1s linear infinite; */
+/* 	-moz-animation: rotateCircle 1s linear infinite; */
+/* 	-ms-animation: rotateCircle 1s linear infinite; */
+/* 	animation: rotateCircle 1s linear infinite; */
+/* } */
 
-.spinner {
-	height: 120px;
-	width: 120px;
+/* .spinner { */
+/* 	height: 120px; */
+/* 	width: 120px; */
 	
-	/* positioning the spinner-container */
-	position: fixed;
-	z-index: 100;
-	top: 50%;
-	left: 50%;
-	margin-top: -60px;
-	margin-left: -60px;
+/* 	/* positioning the spinner-container */ */
+/* 	position: fixed; */
+/* 	z-index: 100; */
+/* 	top: 50%; */
+/* 	left: 50%; */
+/* 	margin-top: -60px; */
+/* 	margin-left: -60px; */
 	
-	background-color: #FFFFFF;
+/* 	background-color: #FFFFFF; */
 	
-	border-radius: 6px;
-	border: 5px solid;
-	border-color: rgba(25, 25, 25, 0.5);
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-}
+/* 	border-radius: 6px; */
+/* 	border: 5px solid; */
+/* 	border-color: rgba(25, 25, 25, 0.5); */
+/* 	-webkit-border-radius: 6px; */
+/* 	-moz-border-radius: 6px; */
+/* } */
 
-.spinner-container {
-	height: 100%;
-	width: 100%;
+/* .spinner-container { */
+/* 	height: 100%; */
+/* 	width: 100%; */
 	
-	/* positioning the spinner-container */
-	position: absolute;
-	top: 0px;
-	z-index: 100;
-	background-color: rgba(25, 25, 25, 0);
-	display: none;
-}
+/* 	/* positioning the spinner-container */ */
+/* 	position: absolute; */
+/* 	top: 0px; */
+/* 	z-index: 100; */
+/* 	background-color: rgba(25, 25, 25, 0); */
+/* 	display: none; */
+/* } */
 
 
 /* Night-Rider Animation */
@@ -234,6 +234,99 @@
 /* 	z-index: 100; */
 /* 	background-color: rgba(25, 25, 25, 0); */
 /* 	display: none; */
+/* } */
+
+
+
+Night-Rider Animation
+@CHARSET "ISO-8859-1";
+
+@-webkit-keyframes fillCircle {
+	0% {-webkit-transform: translateX(-125px);}
+	50% {-webkit-transform: translateX(125px);}
+	100% {-webkit-transform: translateX(-125px);}
+}
+
+@-moz-keyframes fillCircle {
+	0% {-moz-transform: translateX(-125px);}
+	50% {-moz-transform: translateX(125px);}
+	100% {-moz-transform: translateX(-125px);}
+}
+
+@-ms-keyframes fillCircle {
+	0% {-ms-transform: translateX(-125px);}
+	50% {-ms-transform: translateX(125px);}
+	100% {-ms-transform: translateX(-125px);}
+}
+
+@keyframes fillCircle {
+	0% {transform: translateX(-125px);}
+	100% {transform: translateX(125px);}
+/* 	100% {transform: translateX(-125px);} */
+}
+
+.circle {
+	width: 50px;
+	height: 16px;
+	
+	position: relative;
+	top: 50%;
+	left: 50%;
+	margin-top: -8px;	/* 25px because of border-box property */
+	margin-left: -25px;	/* 25px because of border-box property */
+	
+	background-color: #00FF00;
+	
+	border-radius: 4px;
+/* 	border: 4px solid #EEEEEE; */
+/* 	border-top-color: #00FF00; */
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	
+	-webkit-animation: fillCircle 1.5s linear infinite;
+	-moz-animation: fillCircle 1.5s linear infinite;
+	-ms-animation: fillCircle 1.5s linear infinite;
+	animation: fillCircle 1.5s linear infinite;
+	
+}
+
+.spinner {
+	height: 26px;
+	width: 206px;
+	
+	/* positioning the spinner-container */
+	position: fixed;
+	z-index: 100;
+	top: 50%;
+	left: 50%;
+	margin-top: -13px;
+	margin-left: -103px;
+	
+/* 	background-color: rgba(25, 25, 25, 0.5); */
+	background-color: #EEEEEE;
+	
+	border-radius: 4px;
+	border: 3px solid rgba(80, 80, 80, 1);
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	
+	overflow: hidden;
+}
+
+.spinner-container {
+	height: 100%;
+	width: 100%;
+	
+	/* positioning the spinner-container */
+	position: absolute;
+	top: 0px;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1060;
+	display: none;
+}
+
+/* .spinner-container-transparent { */
+/* 	background-color: rgba(0, 0, 0, 0); */
 /* } */
 
 

@@ -283,6 +283,7 @@ function loadTableContent() {
 	
 	$.ajax({
 		type : "POST",
+		async : false,
 		url : "../rest/secure/organisation/getAllActiveOrganisations"
 	}).done(
 			function(data) {
@@ -339,7 +340,7 @@ function loadTableContent() {
 						{
 							if (personIds[k] == allPersons[i].personId)
 							{
-								personIdString = personIdString + allPersons[i].lastName + " " + allPersons[i].firstName;
+								personIdString = personIdString + allPersons[i].salutation + " " + allPersons[i].lastName + " " + allPersons[i].firstName;
 								if (k < personIds.length - 1) {
 									personIdString = personIdString + "," + "<br/>";
 								}
@@ -383,11 +384,6 @@ function loadTableContent() {
 				updateOrganisationCountLabel();
 			});
 };
-
-
-
-//Get all organisations and load into table
-$(document).ready(loadTableContent());
 
 
 
@@ -917,7 +913,6 @@ $(document).ready(function() {
 });
 
 
-
 /**
  * disable new, edit and delete buttons, and activate them according to the user permissions
  */
@@ -925,9 +920,9 @@ $('#btn_new').hide();
 $(".suchfilter").css("margin-left", "0px");
 $('#btn_edit').hide();
 $('#btn_deleteModal').hide();
+
+// deactivate button on start
 $('#btn_details').prop('disabled', true);
-
-
 
 /**
  * Get current user permissions
@@ -951,8 +946,29 @@ $(document).ready(function() {
 			$('#btn_edit').prop('disabled', true);
 			$('#btn_deleteModal').prop('disabled', true);
 		}
+		else
+		{
+			/**
+			 * disable new, edit and delete buttons, and activate them according to the user permissions
+			 */
+			$('#btn_new').hide();
+			$(".suchfilter").css("margin-left", "0px");
+			$('#btn_edit').hide();
+			$('#btn_deleteModal').hide();
+			
+			// deactivate button on start
+			$('#btn_details').prop('disabled', true);
+		}
+		
 	});
 });
+
+
+
+//Get all organisations and load into table
+$(document).ready(function(){loadTableContent();});
+
+
 
 //this function is used to get the selected row
 //the function is called when a button is pressed and the selected entry has to be determined

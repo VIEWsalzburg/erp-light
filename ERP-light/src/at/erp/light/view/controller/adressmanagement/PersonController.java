@@ -60,14 +60,19 @@ public class PersonController {
 	
 	@RequestMapping(value = "secure/person/getAllActive")
 	public List<PersonDTO> getAllActivePersons() {
+		
 		List<PersonDTO> list = new ArrayList<PersonDTO>();
 
-		for (Person p : dataBaseService.getAllActivePersons()) {
+		List<Person> personList = dataBaseService.getAllActivePersons();
+		
+		for (Person p : personList) {
+			
 			list.add(PersonMapper.mapToDTO(p));
+			
 		}
 		
 		log.info("returning all active Persons");
-		
+			
 		return list;
 	}
 
