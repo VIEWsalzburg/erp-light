@@ -103,6 +103,7 @@ function loadAllOutgoingDeliveries(){
 					var tableRow = "<tr id='"+ out[e].outgoingDeliveryId +"'>" +
 						"<td class='hidden'>" + out[e].outgoingDeliveryId + "</td>" +
 						"<td class='receiver'>" + org.name + "</td>" +
+						"<td class='date'>" + out[e].date + "</td>" +
 						"<td class='article'>" + articleString + "</td>" +
 						"<td class='comment'>" + out[e].comment + "</td>" +
 						"</tr>";
@@ -179,6 +180,7 @@ function loadDeliveryList(id){
 				var tableRow = "<tr id='"+ out[e].outgoingDeliveryId +"'>" +
 					"<td class='hidden'>" + out[e].outgoingDeliveryId + "</td>" +
 					"<td class='receiver'>" + org.name + "</td>" +
+					"<td class='date'>" + out[e].date + "</td>" +
 					"<td class='article'>" + articleString + "</td>" +
 					"<td class='comment'>" + out[e].comment	+ "</td>" +
 					"</tr>";
