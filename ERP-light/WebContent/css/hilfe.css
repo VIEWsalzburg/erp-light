@@ -28,3 +28,9 @@
 #navbarHelp .divider-horizontal {
 	margin-bottom: 0px;
 }
+
+.centered{
+    margin-top: 5px;
+	margin-left: auto;
+	margin-right: auto;
+}
