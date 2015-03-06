@@ -245,11 +245,13 @@ function loadAllDeliverers() {
 
 
 //load deliverer modal
-$("#btn_addDeliverer").click(function() {
+$("#btn_addDeliverer,#tbx_deliverer_popover").click(function() {
 	$(".boxElement_deliverer").remove();
 	$("#filter_modal").val("");
 	$("#newAlertFormDeliverer").hide();
 	loadAllDeliverers();
+	
+	$('#chooseDelivererModal').modal('show');
 });
 
 

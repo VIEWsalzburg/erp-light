@@ -52,7 +52,7 @@ function loadAllOrganisations(type) {
 	$.ajax({
 		type : "POST",
 		async : false,
-		url : "../rest/secure/organisation/getAllOrganisations"
+		url : "../rest/secure/organisation/reducedData/getAllOrganisations"
 	}).done(
 			function(data) {
 				var o = data;	// already JSON
@@ -131,19 +131,27 @@ function loadAllOrganisations(type) {
 };
 
 //load organisation modal with lieferanten
-$(".btn_addLieferanten").click(function() {
+$(".btn_addLieferanten,#collapseOne .tbx_organisation_popover").click(function() {
 	$(".boxElement_organisation").remove();
 	$("#filter_modal").val("");
 	$("#newAlertFormOrganisation").hide();
 	loadAllOrganisations('Lieferant');
+	
+	$('#chooseOrganisationModal .modal-title').text("Lieferant auswählen");
+	
+	$('#chooseOrganisationModal').modal('show');
 });
 
 //load organisation modal with kunden
-$(".btn_addKunden").click(function() {
+$(".btn_addKunden,#collapseTwo .tbx_organisation_popover").click(function() {
 	$(".boxElement_organisation").remove();
 	$("#filter_modal").val("");
 	$("#newAlertFormOrganisation").hide();
 	loadAllOrganisations('Kunde');
+	
+	$('#chooseOrganisationModal .modal-title').text("Kunde auswählen");
+	
+	$('#chooseOrganisationModal').modal('show');
 });
 
 //save organisation to textbox

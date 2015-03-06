@@ -49,7 +49,7 @@
 					    <div class="panel-heading accordion_heading" role="tab" id="headingOne">
 						      <h4 class="panel-title">
 							        <a data-toggle="collapse" data-parent="#accordionArticleReports" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-							          Wareneingang: Gesamtgewicht und Gesamtpreis für eine Organisation
+							          Wareneingang: Gesamtgewicht und Gesamtpreis für einen Lieferanten
 							        </a>
 						      </h4>
 						      
@@ -57,7 +57,7 @@
 						<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 								<div class="panel-body">
 								
-								<h5>Dieser Report ermittelt das Gesamtgewicht und den Gesamtpreis für alle Wareneingänge einer Organisation im gewünschten Zeitraum.</h5>
+								<h5>Dieser Report ermittelt das Gesamtgewicht und den Gesamtpreis für alle Wareneingänge eines Lieferanten im gewünschten Zeitraum.</h5>
 								<div class="row divider-horizontal">
 								</div>
 									
@@ -65,13 +65,13 @@
 								<div class="col-md-6">
 									<form class="form-inline">
  										<div class="form-group">
-										<label>Organisation</label>
+										<label>Lieferant</label>
 										<span class="tbx_organisation_popover" data-html="true" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
-											<input type="text" class="form-control tbx_organisation" placeholder="Organisation" style="width: 400px;" disabled>
+											<input type="text" class="form-control tbx_organisation" placeholder="Lieferant" style="width: 400px;" disabled>
 											<input type="hidden" class="tbx_orgId">
 										</span>
 									</div>
-									<button type="button" class="btn btn-default btn_addLieferanten" data-toggle="modal" data-target="#chooseOrganisationModal"><span class="glyphicon glyphicon-search"></span></button>				
+									<button type="button" class="btn btn-default btn_addLieferanten" ><span class="glyphicon glyphicon-search"></span></button>				
 									</form>
 								</div>
 								
@@ -129,14 +129,14 @@
 					    <div class="panel-heading accordion_heading" role="tab" id="headingTwo">
 						      <h4 class="panel-title">
 							        <a class="collapsed" data-toggle="collapse" data-parent="#accordionArticleReports" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-							          Warenausgang: Gesamtgewicht und Gesamtpreis für eine Organisation
+							          Warenausgang: Gesamtgewicht und Gesamtpreis für einen Kunden
 							        </a>
 						      </h4>
 						</div>
 						<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 								<div class="panel-body">
 								
-								<h5>Dieser Report ermittelt das Gesamtgewicht und den Gesamtpreis für alle Warenausgänge einer Organisation im gewünschten Zeitraum.</h5>
+								<h5>Dieser Report ermittelt das Gesamtgewicht und den Gesamtpreis für alle Warenausgänge eines Kunden im gewünschten Zeitraum.</h5>
 								<div class="row divider-horizontal">
 								</div>
 									
@@ -144,13 +144,13 @@
 								<div class="col-md-6">
 									<form class="form-inline">
  										<div class="form-group">
-										<label>Organisation</label>
+										<label>Kunde</label>
 										<span class="tbx_organisation_popover" data-html="true" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
-											<input type="text" class="form-control tbx_organisation" placeholder="Organisation" style="width: 400px;" disabled>
+											<input type="text" class="form-control tbx_organisation" placeholder="Kunde" style="width: 400px;" disabled>
 											<input type="hidden" class="tbx_orgId">
 										</span>
 									</div>
-									<button type="button" class="btn btn-default btn_addKunden" data-toggle="modal" data-target="#chooseOrganisationModal"><span class="glyphicon glyphicon-search"></span></button>				
+									<button type="button" class="btn btn-default btn_addKunden" ><span class="glyphicon glyphicon-search"></span></button>				
 									</form>
 								</div>
 								
@@ -524,7 +524,7 @@
 								<button type="button" class="close" data-dismiss="modal">
 									<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 								</button>
-								<h4 class="modal-title">Organisationenauswahl</h4>
+								<h4 class="modal-title">Auswahl</h4>
 							</div>
 							<div class="modal-body">
 

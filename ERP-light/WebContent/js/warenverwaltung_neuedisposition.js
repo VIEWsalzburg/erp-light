@@ -407,11 +407,13 @@ function createTableRow(id, mode, article_description, article_packagingunits, a
 
 
 //load receiver modal
-$("#btn_addReceiver").click(function() {
+$("#btn_addReceiver,#tbx_receiver_popover").click(function() {
 	$(".boxElement_receiver").remove();
 	$("#filter_modal").val("");
 	$("#newAlertFormReceiver").hide();
 	loadAllReceivers();
+	
+	$('#chooseReceiverModal').modal('show');
 });
 
 
