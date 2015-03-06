@@ -80,9 +80,12 @@ body{
 #helpHover {
 	position: absolute;
 	z-index: 1060;
-	width: 200px;
-	height: 75px;
-	background: white;
-	border: 2px solid black;
-	border-radius: 6px;
+	width: auto;
+	max-width: 300px;
+	height: auto;
+	max-heigth: 100px;
+	padding: 5px;
+/* 	background: white; */
+/* 	border: 2px solid black; */
+/* 	border-radius: 6px; */
 }

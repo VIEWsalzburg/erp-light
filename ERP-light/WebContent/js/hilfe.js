@@ -5,7 +5,7 @@ $(document).mousemove(function(event) {
 	{
 		$('#helpHover').hide();
 		return;
-	}
+	}	
 	
 	var elem = document.elementFromPoint(event.pageX, event.pageY);
 	
@@ -29,12 +29,28 @@ $(document).mousemove(function(event) {
 	
 	$('#helpHover').text(helpText);
 	
-	$('#helpHover').css({top: event.pageY+10, left: event.pageX+10});
+	var helpWidth = $('#helpHover').width();
+	var windowWidth = $(window).width();
+	
+	var posX = event.pageX;
+	var posY = event.pageY;
+	
+	if (windowWidth < posX+10+helpWidth)
+	{
+		posX = posX -10 - helpWidth;
+	}
+	
+	$('#helpHover').css({top: posY+10, left: posX+10});
 	
 });
 
 
 $(document).ready(function(){
+	
+	// append helpHover to document
+	var helpTextElement = "<div id='helpHover' class='popover'>	Ich bin ein Hilfetext! </div>";
+	
+	$('body').append(helpTextElement);
 	
 	if ($.cookie('globalHelp')=='true')
 	{
