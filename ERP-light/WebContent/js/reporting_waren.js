@@ -36,7 +36,7 @@ $(".accordion_heading").click(function() {
 });
 
 //loads all deliverers
-function loadAllOrganisations() {
+function loadAllOrganisations(type) {
 	
 	var allCategories;
 	
@@ -57,72 +57,92 @@ function loadAllOrganisations() {
 				var o = data;	// already JSON
 				
 				for (var e in o) {
-					for(var i=0; i< o[e].types.length; i++){
-						
-						nameString = "";
 					
-						if(o[e].name.length > 22){
-							nameString = o[e].name.substring(0, 22) + "...";
-						}
-						else{
-							nameString = o[e].name;
-						}
-						
-//						var o_divRow = "<div class='boxElement_organisation'>" + "<input type='hidden' value="+ o[e].id +">" + "<span>" + nameString + " "
-//						+ "</span><input class='pull-right' value="+ o[e].id +" id="+ o[e].id +" name='organisationRadio' type='radio'></div>";
-						
-						
-						
-						var categoryString = "";
-						
-						var categoryIds = o[e].categoryIds;
-						for (var a in categoryIds)
-						{
-							for (var c in allCategories)
-							{
-								if (categoryIds[a] == allCategories[c].categoryId)
-								{
-									categoryString = categoryString + allCategories[c].category;
-								}
-							}
-							
-							if (a < categoryIds.length - 1)
-								categoryString = categoryString + ", ";
-						}
-						
-						var o_divRow = "<div class='boxElement_organisation'>" +
-											"<div class='row'>" +
-												"<div class='col-sm-4'>" +
-													"<input type='hidden' value="+ o[e].id +">" +
-													"<span>" + nameString + "</span>"+
-												"</div>" +
-												"<div class='col-sm-2'>" +
-													"<span>" + o[e].city + "</span>" +
-												"</div>" +
-												"<div class='col-sm-5'>" +
-													"<span>" + categoryString + "</span>" +
-												"</div>" +
-												"<div class='col-sm-1'>" +
-													"<input class='pull-right' value="+ o[e].id +" id="+ o[e].id +" name='organisationRadio' type='radio'>" +
-												"</div>" +
-											"</div>" +
-										"</div>";
-						
-						
-						
-						$("#organisationDiv").append(o_divRow);
-						
+					// variable for checking if the organisation has the requested type
+					var hasType = false;
+					
+					// iterate over all types
+					for (var i in o[e].types)
+					{
+						// if organisation has the requested type
+						if (o[e].types[i] == type)
+							hasType = true;
 					}
+					
+					// if checkvariable is not true (organisation has not the requested type
+					if (hasType == false)
+					{
+						// continue with next organisation
+						continue;
+					}
+					
+					nameString = "";
+				
+					if(o[e].name.length > 22){
+						nameString = o[e].name.substring(0, 22) + "...";
+					}
+					else{
+						nameString = o[e].name;
+					}
+					
+					var categoryString = "";
+					
+					var categoryIds = o[e].categoryIds;
+					for (var a in categoryIds)
+					{
+						for (var c in allCategories)
+						{
+							if (categoryIds[a] == allCategories[c].categoryId)
+							{
+								categoryString = categoryString + allCategories[c].category;
+							}
+						}
+						
+						if (a < categoryIds.length - 1)
+							categoryString = categoryString + ", ";
+					}
+					
+					var o_divRow = "<div class='boxElement_organisation'>" +
+										"<div class='row'>" +
+											"<div class='col-sm-4'>" +
+												"<input type='hidden' value="+ o[e].id +">" +
+												"<span>" + nameString + "</span>"+
+											"</div>" +
+											"<div class='col-sm-2'>" +
+												"<span>" + o[e].city + "</span>" +
+											"</div>" +
+											"<div class='col-sm-5'>" +
+												"<span>" + categoryString + "</span>" +
+											"</div>" +
+											"<div class='col-sm-1'>" +
+												"<input class='pull-right' value="+ o[e].id +" id="+ o[e].id +" name='organisationRadio' type='radio'>" +
+											"</div>" +
+										"</div>" +
+									"</div>";
+					
+					
+					
+					$("#organisationDiv").append(o_divRow);
+						
+					
 				}
 	});
 };
 
-//load organisation modal
-$(".btn_addOrganisation").click(function() {
+//load organisation modal with lieferanten
+$(".btn_addLieferanten").click(function() {
 	$(".boxElement_organisation").remove();
 	$("#filter_modal").val("");
 	$("#newAlertFormOrganisation").hide();
-	loadAllOrganisations();
+	loadAllOrganisations('Lieferant');
+});
+
+//load organisation modal with kunden
+$(".btn_addKunden").click(function() {
+	$(".boxElement_organisation").remove();
+	$("#filter_modal").val("");
+	$("#newAlertFormOrganisation").hide();
+	loadAllOrganisations('Kunde');
 });
 
 //save organisation to textbox
