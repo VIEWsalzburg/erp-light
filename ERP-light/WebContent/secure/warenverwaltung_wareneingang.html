@@ -48,7 +48,8 @@
 									
 						<form role="form" class="form-inline">
 							<div class="form-group">							
-								<button type="button" id="btn_new" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Neuer Wareneingang</button>							
+								<button type="button" id="btn_new" class="btn btn-primary helpHotspot" data-helptext="Einen neuen Wareneingang im System erfassen.">
+									<span class="glyphicon glyphicon-plus"></span> Neuer Wareneingang</button>							
 								
 									<div class="input-group suchfilter"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> Filter</span>
 										<input id="filter" type="text" class="form-control" placeholder="Filterbegriff eingeben...">
@@ -59,7 +60,8 @@
 						</form>
 						
 						<!-- Table -->
-						<div class="table-responsive" id="incomingDeliveryTable">
+						<div id="incomingDeliveryTable" class="table-responsive helpHotspot"
+							data-helptext="In dieser Tabelle werden alle vorhandenen Wareneing&auml;nge angezeigt. Abgeschlossene Eintr&auml;ge k&ouml;nnen mithilfe der Checkbox 'Abgeschlossene Eintr&auml;ge' angezeigt werden.">
 							<table class="table table-hover table-striped header-fixed" id="TableHead">
 								<thead class="TableHead">
 									<tr>
@@ -273,11 +275,14 @@
 			<div class="col-md-4">
 				<form role="form" class="form-inline">
 					
-					<button type="button" id="btn_details" class="btn btn-default centered">
+					<button type="button" id="btn_details" class="btn btn-default centered helpHotspot"
+						data-helptext="Eine detaillierte &Uuml;bersicht zum ausgew&auml;hlten Wareneingang anzeigen.">
 								<span class="glyphicon glyphicon-list"></span> Details
 					</button>
 					
-					<button type="button" id="btn_distributionReport" class="btn btn-default centered">
+					<button type="button" id="btn_distributionReport" class="btn btn-default centered helpHotspot"
+						data-helptext="Einen Verteilungsreport zum ausgew&auml;hlten Wareneingang exportieren. Es werden
+						alle Waren des Eintrags und deren genaue Aufteilung auf die Kunden dargestellt.">
 								<span class="glyphicon glyphicon-stats"></span> Verteilungsreport exportieren
 					</button>
 				</form>
@@ -296,7 +301,10 @@
 				</form>
 			</div>
 			<div class="col-md-4">
-				<button type="button" value="" id="btn_archive" class="btn btn-default pull-right centered">
+				<button type="button" value="" id="btn_archive" class="btn btn-default pull-right centered helpHotspot"
+					data-helptext="Den gew&auml;hlten Wareneingang abschließen. Abgeschlossene Wareneing&auml;nge 
+					k&ouml;nnen mithilfe der Checkbox 'Abgeschlossene Eintr&auml;ge' wieder angezeigt werden. 
+					Der Status kann bei erneutem Klick wieder r&uuml;ckg&auml;ngig gemacht werden.">
 							<span class="glyphicon glyphicon-folder-close"></span> Abschließen</button>
 			</div>
 		</div>
@@ -316,7 +324,9 @@
 	<!-- Load javascript File -->
 	<script src="../js/header.js" type="text/javascript"></script>
 	<!-- include global scripts here -->
+	<script src="../js/jquery.cookie.js" type="text/javascript"></script>
 	<script src="../js/globalFunctions.js" type="text/javascript"></script>
+	<script src="../js/hilfe.js" type="text/javascript"></script>
 	<script src="../js/warenverwaltung_wareneingang.js" type="text/javascript"></script>
 </body>
 </html>

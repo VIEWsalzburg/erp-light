@@ -15,15 +15,15 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li id="home_nav" class="helpArea" data-helptext="Zur&uuml;ck zur Hauptseite"><a href="home.html"><span
+				<li id="home_nav" class="helpHotspot" data-helptext="Zur&uuml;ck zur Hauptseite"><a href="home.html"><span
 						class="glyphicon glyphicon-home"></span> Home</a></li>
-				<li id="warenverwaltung_nav" class="helpArea" data-helptext="Zur Warenverwaltung"><a id="warenverwaltung_nav_a"
+				<li id="warenverwaltung_nav" class="helpHotspot" data-helptext="Zur Warenverwaltung"><a id="warenverwaltung_nav_a"
 					href="warenverwaltung_wareneingang.html"><span
 						class="glyphicon glyphicon-shopping-cart"></span> Warenverwaltung</a></li>
-				<li id="adressverwaltung_nav" class="helpArea" data-helptext="Zur Adressverwaltung von Personen und Organisationen"><a
+				<li id="adressverwaltung_nav" class="helpHotspot" data-helptext="Zur Adressverwaltung von Personen und Organisationen"><a
 					href="adressverwaltung_personen.html"><span
 						class="glyphicon glyphicon-list-alt"></span> Adressverwaltung</a></li>
-				<li id="reporting_nav" class="helpArea" data-helptext="Zum Reporting &uuml;ber die Warenverteilung und Adressdaten"><a 
+				<li id="reporting_nav" class="helpHotspot" data-helptext="Zum Reporting &uuml;ber die Warenverteilung und Adressdaten"><a 
 					href="reporting_waren.html"><span
 						class="glyphicon glyphicon-file"></span> Reporting</a></li>
 				<li id="hilfe_nav"><a 
@@ -31,18 +31,18 @@
 						class="glyphicon glyphicon-question-sign"></span> Hilfe</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
+				<li class="dropdown"><a href="#" class="dropdown-toggle helpHotspot" data-helptext="Hier k&ouml;nnen die eigenen Benutzerdaten und das Passwort ge&auml;ndert werden."
 					data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>
 						<span id="username"></span> <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="#" data-toggle="modal" id="btn_mydata"
+						<li><a href="#" data-toggle="modal" id="btn_mydata" class="helpHotspot" data-helptext="Die eigenen Daten &auml;ndern"
 							data-target="#mydata"><span class="glyphicon glyphicon-user"></span>
 								Meine Daten</a></li>
-						<li><a href="#" data-toggle="modal" id="btn_mypassword"
+						<li><a href="#" data-toggle="modal" id="btn_mypassword" class="helpHotspot" data-helptext="Das Passwort &auml;ndern"
 							data-target="#mypassword"><span
 								class="glyphicon glyphicon-lock"></span> Passwort</a></li>
 						<li class="divider"></li>
-						<li><a href="../rest/logout"><span
+						<li><a href="../rest/logout" class="helpHotspot" data-helptext="vom System abmelden"><span
 								class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
 					</ul></li>
 			</ul>

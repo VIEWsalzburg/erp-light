@@ -9,7 +9,7 @@ $(document).mousemove(function(event) {
 	
 	var elem = document.elementFromPoint(event.pageX, event.pageY);
 	
-	var elem = $(elem).closest('.helpArea');
+	var elem = $(elem).closest('.helpHotspot');
 	
 //	var id = $(elem).attr('id');
 //	
@@ -30,14 +30,21 @@ $(document).mousemove(function(event) {
 	$('#helpHover').text(helpText);
 	
 	var helpWidth = $('#helpHover').width();
+	var helpHeight = $('#helpHover').height();
 	var windowWidth = $(window).width();
+	var windowHeight = $(window).height();
 	
 	var posX = event.pageX;
 	var posY = event.pageY;
 	
-	if (windowWidth < posX+10+helpWidth)
+	if (windowWidth < posX+30+helpWidth)
 	{
-		posX = posX -10 - helpWidth;
+		posX = posX - 20 - helpWidth;
+	}
+	
+	if (windowHeight < posY+30+helpHeight)
+	{
+		posY = posY - 20 - helpHeight;
 	}
 	
 	$('#helpHover').css({top: posY+10, left: posX+10});
