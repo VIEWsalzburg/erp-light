@@ -64,7 +64,8 @@ $('.datepicker').datepicker({
 				weekStart: 1,
 				todayBtn: "linked",
 				language: "de",
-				todayHighlight: true
+				todayHighlight: true,
+				autoclose: true
 			});
 
 
