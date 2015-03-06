@@ -1,5 +1,6 @@
 package at.erp.light.view.services;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -438,6 +439,7 @@ public interface IDataBase {
 	
 	public ReportDataDTO getTotalSumOfAllOutgoingDeliveries(String dateFrom, String dateTo) throws Exception;
 
+	public File generateDeliveryExport(int id, Person lastEditor) throws Exception;
 	
 	/***** StickerReport *****/
 	public List<PersonAddressReportDataDTO> getPersonAddressReport() throws Exception;

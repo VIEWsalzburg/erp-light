@@ -1,4 +1,6 @@
 package at.erp.light.view.services;
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -26,6 +28,7 @@ import at.erp.light.view.dto.PersonAddressReportDataDTO;
 import at.erp.light.view.dto.PersonDTO;
 import at.erp.light.view.dto.PersonEmailReportDataDTO;
 import at.erp.light.view.dto.ReportDataDTO;
+import at.erp.light.view.generation.DeliveryWordGenerator;
 import at.erp.light.view.mapper.ArticleMapper;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
@@ -1715,6 +1718,20 @@ public class DataBaseService implements IDataBase {
 		reportDataDTO.setDateTo(df.format(dateTo));
 		
 		return reportDataDTO;
+	}
+	
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public File generateDeliveryExport(int id, Person lastEditor) throws Exception
+	{
+		DeliveryList deliveryList = this.getDeliveryListById(id);
+		
+		File file =	DeliveryWordGenerator.generateDeliveryExport(
+						deliveryList,
+						lastEditor.getFirstName() + " "	+ lastEditor.getLastName(), this);
+		
+		return file;
 	}
 	
 	

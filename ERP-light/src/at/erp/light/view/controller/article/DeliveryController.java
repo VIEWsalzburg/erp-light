@@ -679,11 +679,8 @@ public class DeliveryController {
 
 			Person lastEditor = deliveryList.getLastEditor();
 			
-			FileInputStream wordFile = new FileInputStream(
-					DeliveryWordGenerator.generateDeliveryExport(
-							deliveryList,
-							lastEditor.getFirstName() + " "	+ lastEditor.getLastName(),
-							dataBaseService));
+			// wordGeneration is called within dataBaseService to load lazy objects (contactPerson within Organisation)
+			FileInputStream wordFile = new FileInputStream(dataBaseService.generateDeliveryExport(id, lastEditor));
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sdfDTO = new SimpleDateFormat("dd.MM.yyyy");
