@@ -27,9 +27,12 @@
 				
 				<!-- Tabs -->
 				<ul class="nav nav-tabs">
-					<li role="presentation"><a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
-					<li role="presentation"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
-					<li role="presentation" class="active"><a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
+					<li role="presentation" class="helpHotspot" data-helptext="&Uuml;bersicht aller Wareneing&auml;nge">
+						<a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
+					<li role="presentation" class="helpHotspot" data-helptext="&Uuml;bersicht aller Warenausg&auml;nge">
+						<a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
+					<li role="presentation" class="active helpHotspot" data-helptext="&Uuml;bersicht aller Lieferlisten">
+						<a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuerwareneingang.html">Neuer Wareneingang</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuedisposition.html">Neuer Warenausgang</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuelieferliste.html">Neue Lieferliste</a></li>
@@ -54,18 +57,23 @@
 								
 						<form role="form" class="form-inline">
 							<div class="form-group">							
-								<button type="button" id="btn_new" class="btn btn-primary" ><span class="glyphicon glyphicon-plus"></span> Neue Lieferliste</button>							
+								<button type="button" id="btn_new" class="btn btn-primary helpHotspot" data-helptext="Eine neue Lieferliste im System erstellen.">
+									<span class="glyphicon glyphicon-plus"></span> Neue Lieferliste</button>							
 								
 									<div class="input-group suchfilter"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> Filter</span>
 										<input id="filter" type="text" class="form-control" placeholder="Filterbegriff eingeben...">
 									</div>
 									
-									<label><input type="checkbox" id="cbx_archive"	value=""> Abgeschlossene Einträge</label>											
+									<label class="helpHotspot" data-helptext="Mithilfe dieser Checkbox k&ouml;nnen ebenfalls alle bereits abgeschlossenen Eintr&auml;ge angezeigt werden.">
+										<input type="checkbox" id="cbx_archive"	value=""> Abgeschlossene Einträge</label>											
 							</div>
 						</form>
 						
 						<!-- Table -->
-						<div class="table-responsive" id="deliveryListTable">
+						<div id="deliveryListTable" class="table-responsive helpHotspot"
+							data-helptext="In dieser Tabelle werden alle vorhandenen Lieferlisten angezeigt. 
+							Abgeschlossene Lieferlisten k&ouml;nnen mithilfe der Checkbox 'Abgeschlossene Eintr&auml;ge' angezeigt werden. 
+							Die Checkbox in der letzten Spalte jedes Eintrags signalisiert den Status (Abgeschlossen / nicht Abgeschlossen).">
 							<table class="table table-hover table-striped header-fixed" id="TableHead">
 								<thead class="TableHead">
 									<tr>
@@ -215,7 +223,8 @@
 		
 		<div class="row" id="footer">
 			<div class="col-md-3">
-				<button type="button" id="btn_details" class="btn btn-default pull-left centered">
+				<button type="button" id="btn_details" class="btn btn-default pull-left centered helpHotspot"
+					data-helptext="Eine detaillierte &Uuml;bersicht zur ausgew&auml;hlten Lieferliste anzeigen.">
 							<span class="glyphicon glyphicon-list"></span> Details
 				</button>
 			</div>
@@ -229,7 +238,7 @@
 							<span class="glyphicon glyphicon-trash"></span> L&ouml;schen
 						</button>
 						<a id="href_export" href="">
-							<button type="button" id="btn_export" class="btn btn-primary">
+							<button type="button" id="btn_export" class="btn btn-primary helpHotspot" data-helptext="Die gew&auml;hlte Lieferliste als Word-Dokument exportieren.">
 								<span class="glyphicon glyphicon-share"></span> Exportieren
 							</button>
 						</a>
@@ -237,7 +246,10 @@
 				</form>
 			</div>
 			<div class="col-md-3">
-				<button type="button" value="" id="btn_archive" class="btn btn-default pull-right centered">
+				<button type="button" value="" id="btn_archive" class="btn btn-default pull-right centered helpHotspot"
+					data-helptext="Die gew&auml;hlte Lieferliste abschließen. Abgeschlossene Lieferlisten 
+					k&ouml;nnen mithilfe der Checkbox 'Abgeschlossene Eintr&auml;ge' wieder angezeigt werden. 
+					Der Status kann bei erneutem Klick wieder r&uuml;ckg&auml;ngig gemacht werden.">
 							<span class="glyphicon glyphicon-folder-close"></span> Abschließen</button>
 			</div>
 		</div>
@@ -257,7 +269,9 @@
 	<!-- Load javascript File -->
 	<script src="../js/header.js" type="text/javascript"></script>
 	<!-- include global scripts here -->
+	<script src="../js/jquery.cookie.js" type="text/javascript"></script>
 	<script src="../js/globalFunctions.js" type="text/javascript"></script>
+	<script src="../js/hilfe.js" type="text/javascript"></script>
 	<script src="../js/warenverwaltung_lieferlisten.js" type="text/javascript"></script>
 </body>
 </html>

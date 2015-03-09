@@ -90,3 +90,15 @@ body{
 /* 	border: 2px solid black; */
 /* 	border-radius: 6px; */
 }
+
+.myAlert {
+	position: absolute;
+	left: 50%;
+	top: 60px;
+	width: 220px;
+	margin-left: -110px;
+	margin-top: 5px;
+	z-index: 10;
+	text-align: center;
+	padding-top:10px;
+}

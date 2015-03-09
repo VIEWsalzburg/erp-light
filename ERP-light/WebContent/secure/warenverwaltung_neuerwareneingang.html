@@ -28,12 +28,20 @@
 				
 				<!-- Tabs -->
 				<ul class="nav nav-tabs">
-					<li role="presentation" id="incomingdelivery"><a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
-					<li role="presentation"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
-					<li role="presentation"><a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
-					<li role="presentation" class="active" id="newincomingdelivery"><a href="javascript:;" id="newincomingdeliverylink"><span id="tabtext">Bearbeite Wareneingang</span><button onclick="location.href='warenverwaltung_wareneingang.html'" class='close closeTab' id='btn_close' type='button' style="margin-left: 5px;">×</button></a></li>
-					<li role="presentation" class="hidden"><a href="warenverwaltung_neuedisposition.html">Neuer Warenausgang</a></li>
-					<li role="presentation" class="hidden"><a href="warenverwaltung_neuelieferliste.html">Neue Lieferliste</a></li>
+					<li role="presentation" class="helpHotspot" data-helptext="&Uuml;bersicht aller Wareneing&auml;nge">
+						<a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
+					<li role="presentation" class="helpHotspot" data-helptext="&Uuml;bersicht aller Warenausg&auml;nge">
+						<a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
+					<li role="presentation" class="helpHotspot" data-helptext="&Uuml;bersicht aller Lieferlisten">
+						<a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
+					<li role="presentation" class="active">
+						<a href="javascript:;"><span id="tabtext">Bearbeite Wareneingang</span>
+							<button onclick="location.href='warenverwaltung_wareneingang.html'" class='close closeTab' id='btn_close' type='button' style="margin-left: 5px;">×</button>
+						</a></li>
+					<li role="presentation" class="hidden">
+						<a href="warenverwaltung_neuedisposition.html">Neuer Warenausgang</a></li>
+					<li role="presentation" class="hidden">
+						<a href="warenverwaltung_neuelieferliste.html">Neue Lieferliste</a></li>
 				</ul>
 				
 			</div>		  
@@ -50,20 +58,19 @@
 							<div class="col-md-12">
 									<div class="col-md-5">
 										<form class="form-inline">
-  										<div class="form-group">
+  										<div class="form-group helpHotspot" data-helptext="Hier kann ein Lieferant f&uuml;r den Wareneingang gew&auml;hlt werden.">
 											<label id="label_lieferant">Lieferant</label>
 											<span id="tbx_deliverer_popover" data-html="true" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
 												<input type="text" class="form-control" id="tbx_deliverer" placeholder="Lieferant" style="width: 330px;" disabled>
 												<input type="hidden" id="tbx_orgId">
 											</span>
+											<button type="button" class="btn btn-default" id="btn_addDeliverer" ><span class="glyphicon glyphicon-search"></span></button>
 										</div>
-										<button type="button" class="btn btn-default" id="btn_addDeliverer" ><span class="glyphicon glyphicon-search"></span></button>				
 										</form>
-									
 									</div>
-									<div class="col-md-2">
+									<div class="col-md-2 helpHotspot">
 										<form class="form-inline">
-  										<div class="form-group">
+  										<div class="form-group helpHotspot" data-helptext="Das Datum, an dem die Lieferung durchgef&uuml;hrt wurde.">
 											<label id="label_lieferant">Datum</label>
 											<input type="text" class="form-control datepicker" id="tbx_date" placeholder="dd.mm.yyyy" style="width: 100px;">
 										</div>
@@ -71,7 +78,7 @@
 									</div>
 									<div class="col-md-5">
 										<form class="form-inline">
-  										<div class="form-group">
+  										<div class="form-group helpHotspot" data-helptext="Eine Bemerkung zu der Lieferung. Zum Beispiel: 1. von 2 Teillieferungen, ...">
 											<label id="label_lieferant">Bemerkung</label>
 											<span id="tbx_comment_popover" data-html="true" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
 												<input type="text" class="form-control" id="tbx_comment" placeholder="Bemerkung" style="width: 360px;" maxlength="1000">
@@ -84,7 +91,9 @@
 						</div>
 						
 											
-						<button type="button" id="btn_new" class="btn btn-primary newposition" data-toggle="modal" data-target="#new"><span class="glyphicon glyphicon-plus"></span> Neue Position</button>							
+						<button type="button" id="btn_new" class="btn btn-primary newposition helpHotspot" data-toggle="modal" data-target="#new"
+							data-helptext="Eine neue Position zum Wareneingang hinzuf&uuml;gen.">
+							<span class="glyphicon glyphicon-plus"></span> Neue Position</button>							
 						
 						<!-- Table -->
 						<div class="table-responsive" id="newIncomingDeliveryTable">
@@ -138,7 +147,8 @@
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group">
-													<div class="form-control searchable ModalDivContainer" id="delivererDiv">
+													<div class="form-control searchable ModalDivContainer helpHotspot" id="delivererDiv"
+														data-helptext="Den gew&uuml;nschten Lieferanten mittels Klick auf die Checkbox w&auml;hlen und auf 'Speichern' klicken.">
 															<!-- deliverers are inserted by script -->
 													</div>
 												</div>
@@ -319,7 +329,8 @@
 				</form>
 			</div>
 			<div class="col-md-3">
-				<button type="button" id="btn_submittodepot" class="btn btn-primary pull-right centered" data-toggle="modal" data-target="#submitModal">
+				<button type="button" id="btn_submittodepot" class="btn btn-primary pull-right centered helpHotspot" data-toggle="modal" data-target="#submitModal"
+					data-helptext="Hiermit werden alle Wareneing&auml;nge zum Depot hinzugef&uuml;gt und k&ouml;nnen anschließend disponiert werden.">
 					<span class="glyphicon glyphicon-plus"></span> Alles zum Depot hinzufügen
 				</button>
 			</div>
@@ -344,7 +355,9 @@
 	<!-- Load javascript File -->
 	<script src="../js/header.js" type="text/javascript"></script>
 	<!-- include global scripts here -->
+	<script src="../js/jquery.cookie.js" type="text/javascript"></script>
 	<script src="../js/globalFunctions.js" type="text/javascript"></script>
+	<script src="../js/hilfe.js" type="text/javascript"></script>
 	<script src="../js/warenverwaltung_neuerwareneingang.js" type="text/javascript"></script>
 </body>
 </html>

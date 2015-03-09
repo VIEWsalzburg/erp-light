@@ -32,9 +32,12 @@
 				
 				<!-- Tabs -->
 				<ul class="nav nav-tabs">
-					<li role="presentation"><a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
-					<li role="presentation"><a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
-					<li role="presentation"><a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
+					<li role="presentation" class="helpHotspot" data-helptext="&Uuml;bersicht aller Wareneing&auml;nge">
+						<a href="warenverwaltung_wareneingang.html">Wareneingang</a></li>
+					<li role="presentation" class="helpHotspot" data-helptext="&Uuml;bersicht aller Warenausg&auml;nge">
+						<a href="warenverwaltung_warenausgang.html">Warenausgang</a></li>
+					<li role="presentation" class="helpHotspot" data-helptext="&Uuml;bersicht aller Lieferlisten">
+						<a href="warenverwaltung_lieferlisten.html">Lieferlisten</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuerwareneingang.html">Neuer Wareneingang</a></li>
 					<li role="presentation" class="hidden"><a href="warenverwaltung_neuedisposition.html">Neuer Warenausgang</a></li>
 					<li role="presentation" class="active" id="newoutgoingdeliverylist"><a href="javascript:;" id="newoutgoingdeliverylistlink"><span id="tabtext">Bearbeite Lieferliste</span><button onclick="location.href='warenverwaltung_lieferlisten.html'" class='close closeTab' id='btn_close' type='button' style="margin-left: 5px;">×</button></a></li>
@@ -57,21 +60,21 @@
 							
 									<div class="col-md-5">
 										<form class="form-inline">
-	  										<div class="form-group">
+	  										<div class="form-group helpHotspot" data-helptext="Hier k&ouml;nnen Fahrer und Beifahrer f&uuml;r die Lieferliste eingetragen werden.">
 												<label id="label_drivercodriver">Fahrer/Beifahrer</label>
 												<span id="tbx_driver_popover" data-container="body" data-html="true" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
 													<input type="text" class="form-control" id="tbx_driver" placeholder="Fahrer" style="width: 276px;" disabled>
 													<input type="hidden" id="tbx_driver_hidden">
 													<input type="hidden" id="tbx_codriver_hidden">
 												</span>
+												<button type="button" class="btn btn-default" id="btn_addDriver" data-toggle="modal" data-target="#chooseDriverModal"><span class="glyphicon glyphicon-search"></span></button>
 											</div>
-												<button type="button" class="btn btn-default" id="btn_addDriver" data-toggle="modal" data-target="#chooseDriverModal"><span class="glyphicon glyphicon-search"></span></button>				
 										</form>
 									
 									</div>
 									<div class="col-md-2">
 										<form class="form-inline">
-	  										<div class="form-group">
+	  										<div class="form-group helpHotspot" data-helptext="Das Datum, an dem die Lieferung erfolgt.">
 												<label id="label_lieferant">Datum</label>
 												<input type="text" class="form-control datepicker" id="tbx_date" placeholder="dd.mm.yyyy" style="width: 100px;">
 											</div>
@@ -79,7 +82,7 @@
 									</div>
 									<div class="col-md-5">
 										<form class="form-inline">
-	  										<div class="form-group">
+	  										<div class="form-group helpHotspot" data-helptext="Eine Bemerkung zu der Lieferliste. Zum Beispiel: Bei Kunde ... Herrn / Frau ... anrufen um Bescheid zu sagen.">
 												<label id="label_lieferant">Bemerkung</label>
 												<span id="tbx_comment_popover" data-container="body" data-html="true" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
 													<input type="text" class="form-control" id="tbx_comment" placeholder="Bemerkung" style="width: 360px;" maxlength="1000">
@@ -105,7 +108,7 @@
 						<div class="row">
 							<div class="col-md-5">
 								<!-- Table -->
-								<div class="table-responsive newOutgoingDeliveryTable">
+								<div class="table-responsive newOutgoingDeliveryTable helpHotspot" data-helptext="Hier werden alle verf&uuml;gbaren Warenausg&auml;nge aufgelistet.">
 									<table class="table table-hover table-striped header-fixed" id="TableHeadOutgoingDelivery">
 										<thead class="TableHead">
 											<tr>
@@ -125,18 +128,18 @@
 							
 							</div>
 							
-							<div class="col-md-2">
-							<div class="row">
-								<button type="button" class="btn btn-primary dispositionButton" id="btn_addtodeliverylist" style="margin-top: 60px;">
-									<span class="glyphicon glyphicon-plus"></span> Hinzuf&uuml;gen
-								</button>
-							</div>
-								
-							<div class="row">
-								<button type="button" class="btn btn-danger dispositionButton" id="btn_removefromdeliverylist">
-									<span class="glyphicon glyphicon-minus"></span> Entfernen
-								</button>
-							</div>
+							<div class="col-md-2 helpHotspot" data-helptext="Hiermit können der Lieferliste Warenausg&auml;nge zugeordnet werden.">
+								<div class="row">
+									<button type="button" class="btn btn-primary dispositionButton" id="btn_addtodeliverylist" style="margin-top: 60px;">
+										<span class="glyphicon glyphicon-plus"></span> Hinzuf&uuml;gen
+									</button>
+								</div>
+									
+								<div class="row">
+									<button type="button" class="btn btn-danger dispositionButton" id="btn_removefromdeliverylist">
+										<span class="glyphicon glyphicon-minus"></span> Entfernen
+									</button>
+								</div>
 							</div>
 							
 							
@@ -151,7 +154,7 @@
 
 							<div class="col-md-5">
 								<!-- Table -->
-								<div class="table-responsive newOutgoingDeliveryTable">
+								<div class="table-responsive newOutgoingDeliveryTable helpHotspot" data-helptext="Hier werden die Warenausg&auml;nge angezeigt, die der aktuellen Lieferliste zugeordnet sind.">
 									<table class="table table-hover table-striped header-fixed" id="TableHeadDeliveryList">
 										<thead class="TableHead">
 											<tr>
@@ -241,7 +244,8 @@
 				<button type="button" id="btn_down" class="btn btn-default pull-left centered">
 							<span class="glyphicon glyphicon-arrow-down"></span> Hinab
 				</button>
-				<button type="button" id="btn_savedeliverylist" class="btn btn-primary pull-right centered" data-toggle="modal" data-target="#submitModal">
+				<button type="button" id="btn_savedeliverylist" class="btn btn-primary pull-right centered helpHotspot" data-toggle="modal" data-target="#submitModal"
+					data-helptext="Hiermit wird die Lieferliste im System gespeichert und kann exportiert werden.">
 					<span class="glyphicon glyphicon-floppy-save"></span> Speichern
 				</button>
 			</div>
@@ -264,7 +268,9 @@
 	<!-- Load javascript File -->
 	<script src="../js/header.js" type="text/javascript"></script>
 	<!-- include global scripts here -->
+	<script src="../js/jquery.cookie.js" type="text/javascript"></script>
 	<script src="../js/globalFunctions.js" type="text/javascript"></script>
+	<script src="../js/hilfe.js" type="text/javascript"></script>
 	<script src="../js/warenverwaltung_neuelieferliste.js" type="text/javascript"></script>
 </body>
 </html>
