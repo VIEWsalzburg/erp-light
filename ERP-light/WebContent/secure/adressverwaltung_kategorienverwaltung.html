@@ -27,9 +27,12 @@
 				
 				<!-- Tabs -->
 				<ul class="nav nav-tabs">
-					<li role="presentation"><a href="adressverwaltung_personen.html">Personen</a></li>
-					<li role="presentation"><a href="adressverwaltung_organisationen.html">Organisationen</a></li>
-					<li role="presentation" class="active"><a href="adressverwaltung_kategorienverwaltung.html">Kategorienverwaltung</a></li>
+					<li role="presentation" class="helpHotspot" data-helptext="Personen verwalten">
+						<a href="adressverwaltung_personen.html">Personen</a></li>
+					<li role="presentation" class="helpHotspot" data-helptext="Organisationen verwalten">
+						<a href="adressverwaltung_organisationen.html">Organisationen</a></li>
+					<li role="presentation" class="active helpHotspot" data-helptext="Kategorien verwalten">
+						<a href="adressverwaltung_kategorienverwaltung.html">Kategorienverwaltung</a></li>
 				</ul>
 				
 			</div>		  
@@ -44,27 +47,29 @@
 						
 						<form role="form" class="form-inline">
 							<div class="form-group">							
-								<button type="button" id="btn_new" class="btn btn-primary" data-toggle="modal" data-target="#new"><span class="glyphicon glyphicon-plus"></span> Neu anlegen</button>							
+								<button type="button" id="btn_new" class="btn btn-primary helpHotspot" data-toggle="modal" data-target="#new"
+									data-helptext="Eine neue Kategorie im System anlegen."><span class="glyphicon glyphicon-plus"></span> Neu anlegen</button>							
 								
-									<div class="input-group suchfilter"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> Filter</span>
+									<div class="input-group suchfilter">
+										<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> Filter</span>
 										<input id="filter" type="text" class="form-control" placeholder="Filterbegriff eingeben...">
-									</div>													
+									</div>
 							</div>
 						</form>
 						<!-- Table -->
-						<div class="table-responsive">
-						<table class="table table-hover table-striped header-fixed" id="TableHead">
-						<thead class="TableHead">
-							<tr>
-								<th style="width: 3%" class="hidden">#</th>								
-								<th style="width: 20%">Name</th>
-								<th style="width: 77%">Beschreibung</th>															
-							</tr>
-						</thead>	
-						<tbody id="categoryTableBody" class="searchable">
-							<!-- table rows -->
-						</tbody>
-						</table>
+						<div class="table-responsive helpHotspot" data-helptext="In dieser Tabelle werden alle Kategorien angezeigt, die sich im System befinden.">
+							<table class="table table-hover table-striped header-fixed" id="TableHead">
+								<thead class="TableHead">
+									<tr>
+										<th style="width: 3%" class="hidden">#</th>								
+										<th style="width: 20%">Name</th>
+										<th style="width: 77%">Beschreibung</th>															
+									</tr>
+								</thead>	
+								<tbody id="categoryTableBody" class="searchable">
+									<!-- table rows -->
+								</tbody>
+							</table>
 						</div>
 						<!-- Table end -->
 						
@@ -213,7 +218,9 @@
 	<!-- Load javascript File -->
 	<script src="../js/header.js" type="text/javascript"></script>
 	<!-- include global scripts here -->
+	<script src="../js/jquery.cookie.js" type="text/javascript"></script>
 	<script src="../js/globalFunctions.js" type="text/javascript"></script>
+	<script src="../js/hilfe.js" type="text/javascript"></script>
 	<script src="../js/adressverwaltung_kategorienverwaltung.js" type="text/javascript"></script>
 </body>
 </html>

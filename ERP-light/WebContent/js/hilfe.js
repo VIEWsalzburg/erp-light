@@ -1,7 +1,7 @@
 
 $(document).mousemove(function(event) {
 	
-	if ($.cookie('globalHelp')=='false')
+	if ($.cookie('globalHelp')=='false' || $.cookie('globalHelp')==null)
 	{
 		$('#helpHover').hide();
 		return;
@@ -30,7 +30,7 @@ $(document).mousemove(function(event) {
 		$('#helpHover').show();
 	}
 	
-	$('#helpHover').text(helpText);
+	$('#helpHover').html(helpText);
 	
 	var helpWidth = $('#helpHover').width();
 	var helpHeight = $('#helpHover').height();
@@ -69,13 +69,15 @@ $(document).ready(function(){
 	var helpTextElement = "<div id='helpHover' class='popover'>	Ich bin ein Hilfetext! </div>";
 	$('body').append(helpTextElement);
 	
+	console.log($.cookie('globalHelp'));
+	
 	if ($.cookie('globalHelp')=='true')
 	{
-		$('#btn_activeHoverHelp').text(" Globale Hilfe deaktivieren");
+		$('#btn_activeHoverHelp').html("<span class='glyphicon glyphicon-question-sign'></span> Interaktive Hilfe aktivieren");
 	}
 	else
 	{
-		$('#btn_activeHoverHelp').text(" Globale Hilfe aktivieren");
+		$('#btn_activeHoverHelp').html("<span class='glyphicon glyphicon-question-sign'></span> Interaktive Hilfe deaktivieren");
 	}
 	
 	$('#btn_activeHoverHelp').click(function(){
@@ -84,13 +86,13 @@ $(document).ready(function(){
 		
 		if ($.cookie('globalHelp')=='true')
 		{
-			$.cookie('globalHelp', 'false');
-			$('#btn_activeHoverHelp').text(" Globale Hilfe aktivieren");
+			$.cookie('globalHelp', 'false', {expires: 30});
+			$('#btn_activeHoverHelp').html("<span class='glyphicon glyphicon-question-sign'></span> Interaktive Hilfe aktivieren");
 		}
 		else
 		{
-			$.cookie('globalHelp', 'true');
-			$('#btn_activeHoverHelp').text(" Globale Hilfe deaktivieren");
+			$.cookie('globalHelp', 'true', {expires: 30});
+			$('#btn_activeHoverHelp').html("<span class='glyphicon glyphicon-question-sign'></span> Interaktive Hilfe deaktivieren");
 		}
 		
 		
