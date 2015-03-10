@@ -73,11 +73,11 @@ $(document).ready(function(){
 	
 	if ($.cookie('globalHelp')=='true')
 	{
-		$('#btn_activeHoverHelp').html("<span class='glyphicon glyphicon-question-sign'></span> Interaktive Hilfe aktivieren");
+		$('#btn_activeHoverHelp').html("<span class='glyphicon glyphicon-question-sign'></span> Interaktive Hilfe deaktivieren");
 	}
 	else
 	{
-		$('#btn_activeHoverHelp').html("<span class='glyphicon glyphicon-question-sign'></span> Interaktive Hilfe deaktivieren");
+		$('#btn_activeHoverHelp').html("<span class='glyphicon glyphicon-question-sign'></span> Interaktive Hilfe aktivieren");
 	}
 	
 	$('#btn_activeHoverHelp').click(function(){

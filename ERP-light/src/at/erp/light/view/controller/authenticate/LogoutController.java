@@ -28,12 +28,16 @@ public class LogoutController {
 	public void postListener(HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		int id = (int) request.getSession().getAttribute("id");
-		Platformuser platformuser = dataBaseService.getPlatformuserById(id);
+		try {
+			int id = (int) request.getSession().getAttribute("id");
+			Platformuser platformuser = dataBaseService.getPlatformuserById(id);
+			
+			log.info("Performing logout for user with Id: "+id);
+			dataBaseService.insertLogging("[INFO] "+platformuser.getLoginEmail()+" hat sich abgemeldet", platformuser.getPersonId());
+		} catch (Exception e) {
+			log.info("Didn't find session for user");
+		}
 		
-		log.info("Performing logout for user with Id: "+id);
-		dataBaseService.insertLogging("[INFO] "+platformuser.getLoginEmail()+" hat sich abgemeldet", platformuser.getPersonId());
-
 		try {
 			response.sendRedirect("/ERP-light");
 		} catch (IOException e) {
