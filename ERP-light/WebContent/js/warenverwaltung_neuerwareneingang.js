@@ -503,16 +503,18 @@ $("#btn_savearticle").click(function() {
 	}
 	// Ende - Einzelgewicht
 	
-	
-	var date = $("#tbx_mdd").val();
-	var regEx = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/;
-	var dateArray = date.match(regEx);
-	
-	if (dateArray == null)
+	if ($("#tbx_mdd").val().length != 0)
 	{
-		$(".alert").text("MDD ist kein gültiges Datumsformat!");
-		$("#newAlertForm").show();
-		return;
+		var date = $("#tbx_mdd").val();
+		var regEx = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/;
+		var dateArray = date.match(regEx);
+		
+		if (dateArray == null)
+		{
+			$(".alert").text("MDD ist kein gültiges Datumsformat!");
+			$("#newAlertForm").show();
+			return;
+		}
 	}
 	
 	
