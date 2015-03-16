@@ -32,7 +32,7 @@
 			</div>		  
 		</div>
 		
-		<div class="row" id="body">
+		<div class="row" id="body" style="overflow: auto;">
 		
 			<!-- Column for navigation -->
 			<div class="col-sm-3 col-md-2">
@@ -50,7 +50,10 @@
 						<li role="presentation"><a href="#hilfe_warenausgang">Warenausgang</a></li>
 						<li role="presentation"><a href="#hilfe_lieferlisten">Lieferlisten</a></li>
 						<li > <div class="divider-horizontal"></div></li>
-						
+						<li role="presentation"><a href="#hilfe_reportingwaren">Reporting: Warenverwaltung</a></li>
+						<li role="presentation"><a href="#hilfe_reportingadress">Reporting: Adressverwaltung</a></li>
+						<li > <div class="divider-horizontal"></div></li>
+						<li role="presentation"><a href="#hilfe_hilfe">Hilfe</a></li>
 					</ul>
 				</div>
 			</div>
@@ -98,8 +101,14 @@
 								<h4>Reporting</h4>
 							</div>
 							<div class="panel-body">
-								<p>Das Reporting kann mithilfe des Reiters "Warenverwaltung" erreicht werden.<br/>
-								Es dient dazu Reports über eingegangene Waren, ausgegangene Waren und Personen zu generieren.</p>
+								<p>Das Reporting kann mithilfe des Reiters "Warenverwaltung" erreicht werden.</p>
+								Es besteht aus zwei Bereichen:
+								<ul>
+									<li>Reporting: Warenverwaltung</li>
+									<li>Reporting: Adressverwaltung</li>
+								</ul>
+								In diesen beiden Bereichen können Reports über bewegte Waren und Reports der Adressdaten
+								erstellt und exportiert werden.
 							</div>
 						</div>
 					</div>
@@ -752,7 +761,7 @@
 				</div>
 			
 			
-				<!-- Hilfe zu VE-Verteilung bearbeiten -->
+				<!-- Hilfe zu Lieferlisten bearbeiten -->
 				<div id="hilfe_lieferlisten" class="row">
 					<div class="col-md-12">
 						<div class="panel panel-default">
@@ -885,6 +894,172 @@
 						</div>
 					</div>
 				</div>
+				
+				
+				<!-- Hilfe zu Waren-Reporting bearbeiten -->
+				<div id="hilfe_reportingwaren" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4>Reporting: Warenverwaltung</h4>
+							</div>
+							<div class="panel-body">
+								
+								Folgende Reports sind für die Warenverwaltung verfügbar:<br/>
+								<ul>
+									<li>Wareneingang: Gesamtgewicht und Gesamtpreis für einen Lieferanten</li>
+									<li>Warenausgang: Gesamtgewicht und Gesamtpreis für einen Kunden</li>
+									<li>Wareneingang: Gesamtgewichte und Gesamtpreise für alle Organisationen</li>
+									<li>Warenausgang: Gesamtgewichte und Gesamtpreise für alle Organisationen</li>
+									<li>Wareneingang: Gesamtgewicht und Gesamtpreis aller Waren</li>
+									<li>Warenausgang: Gesamtgewicht und Gesamtpreis aller Waren</li>
+									<li>Verteilungsreport</li>
+								</ul>
+								<br/>
+								
+								
+								<b>Wareneingang: Gesamtgewicht und Gesamtpreis für einen Lieferanten</b><br/>
+								<p>Dieser Report liefert das Gesamtgewicht und den Gesamtpreis der gelieferten Waren für den
+									ausgewählten Lieferanten. Weiters kann der berücksichtigte Zeitraum der Wareneingänge
+									festegelegt werden. Das Ergebnis wird direkt beim Reportaufruf angezeigt.</p>
+								<br/>
+								
+								
+								<b>Warenausgang: Gesamtgewicht und Gesamtpreis für einen Kunden</b><br/>
+								<p>Dieser Report liefert das Gesamtgewicht und den Gesamtpreis der erhaltenen Waren für den
+									ausgewählten Kunden. Weiters kann der berücksichtigte Zeitraum der Warenausgänge
+									festgelegt werden. Das Ergebnis wird direkt beim Reportaufruf angezeigt.</p>
+								<br/>
+								
+								
+								<b>Wareneingang: Gesamtgewichte und Gesamtpreise für alle Organisationen</b><br/>
+								<p>Dieser Report generiert eine Liste aller Organisationen mit den Gesamtgewichten und den
+									Gesamtpreisen der gelieferten Waren. Weiters kann der berücksichtigte Zeitraum der
+									Wareneingänge festgelegt werden. Das Ergebnis des Reports wird als CSV-Datei ausgegeben.</p>
+								<br/>
+								
+								
+								<b>Warenausgang: Gesamtgewichte und Gesamtpreise für alle Organisationen</b><br/>
+								<p>Dieser Report generiert eine Liste aller Organisationen mit den Gesamtgewichten und den
+									Gesamtpreisen der erhaltenen Waren. Weiters kann der berücksichtigte Zeitraum der
+									Warenausgänge festgelegt werden. Das Ergebnis des Reports wird als CSV-Datei ausgegeben.</p>
+								<br/>
+								
+								
+								<b>Wareneingang: Gesamtgewicht und Gesamtpreis aller Waren</b><br/>
+								<p>Dieser Report liefert das Gesamtgewicht und den Gesamtpreis aller eingehenden Waren.
+									Weiters kann der berücksichtigte Zeitraum der Wareneingänge festgelegt werden. Das Ergebnis
+									wird direkt beim Reportaufruf angezeigt.</p>
+								<br/>
+								
+								
+								<b>Warenausgang: Gesamtgewicht und Gesamtpreis aller Waren</b><br/>
+								<p>Dieser Report liefert das Gesamtgewicht und den Gesamtpreis aller ausgehenden Waren.
+									Weiters kann der berücksichtigte Zeitraum der Warenausgänge festgelegt werden. Das
+									Ergebnis wird direkt beim Reportaufruf angezeigt.</p>
+								<br/>
+								
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Waren-Reporting -->
+				
+				<!-- Hilfe zu Adress-Reporting bearbeiten -->
+				<div id="hilfe_reportingadress" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4>Reporting: Adressverwaltung</h4>
+							</div>
+							<div class="panel-body">
+								
+								Folgende Reports sind für die Adressverwaltung verfügbar:<br/>
+								<ul>
+									<li>Adress-Report für alle Personen und Organisationen</li>
+									<li>Email-Report für alle Personen</li>
+									<li>Alle Personen exportieren</li>
+									<li>Alle Organisationen exportieren</li>
+								</ul>
+								<br/>
+								
+								
+								<b>Adress-Report für alle Personen und Organisationen</b><br/>
+								<p>Dieser Report exportiert eine CSV-Liste mit folgenden Daten:</p>
+									<ul>
+										<li>Kontaktpersonen mit ihrer privaten Adresse und der Adresse der Organisation</li>
+										<li>Privatpersonen mit ihrer privaten Adresse</li>
+										<li>Organisationen ohne Kontaktperson mit ihrer Firmenadresse</li>
+									</ul>
+								<br/>
+								
+								
+								<b>Email-Report für alle Personen</b><br/>
+								<p>Dieser Report liefert eine CSV-Liste aller Personen mit ihren Email-Adressen. Bei
+									Kontaktpersonen wird ebenfalls die Organisation aufgelistet. Hat eine Person mehrere Email-
+									Adressen zugewiesen, gibt es pro Email-Adresse einen einzelnen Eintrag.</p>
+								<br/>
+								
+								
+								<b>Alle Personen exportieren</b><br/>
+								<p>Dieser Report liefert eine CSV-Liste mit allen Informationen zu den im System befindlichen
+									Personen. Der Aufruf dieses Reports kann ebenso in der Adressverwaltung erfolgen.</p>
+								<br/>
+								
+								
+								<b>Alle Organisationen exportieren</b><br/>
+								<p>Dieser Report liefert eine CSV-Liste mit allen Informationen zu den im System befindlichen
+									Organisationen. Der Aufruf dieses Reports kann ebenso in der Adressverwaltung erfolgen.</p>
+								<br/>
+								
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Adress-Reporting -->
+				
+				
+				
+				<!-- Hilfe zu Hilfe bearbeiten -->
+				<div id="hilfe_hilfe" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4>Hilfe</h4>
+							</div>
+							<div class="panel-body">
+								
+								<p>Die Online-Hilfe soll als Bedienhilfe und Schnell-Nachschlageverzeichnis dienen, wenn bei der
+									Bedienung von ERP-light Unklarheiten aufkommen.</p>
+								
+								
+								<p>Auf der linken Seite befindet sich eine Übersicht der dokumentierten Applikationsbereiche.
+									Daneben befindet sich pro Applikationsbereich ein Textfeld mit der entsprechenden
+									Beschreibung.</p>
+								
+								
+								<b>interaktive Hilfe</b><br/>
+								<p>Die interaktive Hilfe kann mittels Button links unten aktiviert werden. Durch Klick darauf wird ein
+									Popup Fenster aktiv, das bei wichtigen Elementen einen Hilfstext anzeigt. Hiermit kann
+									gleichzeitig in der Applikaiton navigiert werden und Gebrauch von der Hilfe gemacht werden. 
+									Die Hilfsfunktion lässt sich bei erneutem Klick wieder deaktivieren.</p>
+								
+								
+								<b>ERP-light Dokumentation:</b><br>
+								<p>Mithilfe des Buttons „ERP-light Dokumentation“ kann diese Hilfs-Dokumentation
+									heruntergeladen werden. Es sind alle Bereiche der Applikation dokumentiert und hilfreiche Use-
+									Cases erklärt.<br/>
+								
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Hilfe -->
+				
+				
 			
 			</div>
 			

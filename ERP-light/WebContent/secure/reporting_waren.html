@@ -62,12 +62,12 @@
 								</div>
 									
 								<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-4 col-lg-5">
 									<form class="form-inline">
  										<div class="form-group">
 										<label>Lieferant</label>
 										<span class="tbx_organisation_popover" data-html="true" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
-											<input type="text" class="form-control tbx_organisation" placeholder="Lieferant" style="width: 400px;" disabled>
+											<input type="text" class="form-control tbx_organisation" placeholder="Lieferant" style="width: 300px;" disabled>
 											<input type="hidden" class="tbx_orgId">
 										</span>
 									</div>
@@ -75,7 +75,7 @@
 									</form>
 								</div>
 								
-								<div class="col-md-5">
+								<div class="col-md-6 col-lg-5">
 									<form class="form-inline">
   										<div class="form-group" id="inputDateGroup0">
 											<label>im Zeitraum vom</label>
@@ -86,7 +86,7 @@
 									</form>
 								</div>
 								
-								<div class="col-md-1">
+								<div class="col-md-2 col-lg-2">
 									<button type="button" class="btn btn-primary pull-right" id="btn_generateIncomingReportByOrg"><span class="glyphicon glyphicon-file"></span> Report erstellen</button>	
 								</div>
 								</div>
@@ -95,7 +95,7 @@
 								</div>
 								
 								<div class="row">
-									<div class="col-md-6">
+									<div class="col-md-7">
 										<form class="form-inline">
 	  										
 	  										<div class="form-group">
@@ -107,7 +107,7 @@
 											</div>
 										</form>
 									</div>
-									<div class="col-md-5">
+									<div class="col-md-4">
 										<form class="form-inline">
 	  										<div class="form-group">
 												<label>Gesamtpreis</label>
@@ -141,12 +141,12 @@
 								</div>
 									
 								<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-4 col-lg-5">
 									<form class="form-inline">
  										<div class="form-group">
 										<label>Kunde</label>
 										<span class="tbx_organisation_popover" data-html="true" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="">
-											<input type="text" class="form-control tbx_organisation" placeholder="Kunde" style="width: 400px;" disabled>
+											<input type="text" class="form-control tbx_organisation" placeholder="Kunde" style="width: 300px;" disabled>
 											<input type="hidden" class="tbx_orgId">
 										</span>
 									</div>
@@ -154,7 +154,7 @@
 									</form>
 								</div>
 								
-								<div class="col-md-5">
+								<div class="col-md-6 col-lg-5">
 									<form class="form-inline">
   										<div class="form-group" id="inputDateGroup2">
 											<label>im Zeitraum vom</label>
@@ -165,7 +165,7 @@
 									</form>
 								</div>
 								
-								<div class="col-md-1">
+								<div class="col-md-2 col-lg-2">
 									<button type="button" class="btn btn-primary pull-right" id="btn_generateOutgoingReportByOrg"><span class="glyphicon glyphicon-file"></span> Report erstellen</button>	
 								</div>
 								</div>
@@ -174,7 +174,7 @@
 								</div>
 								
 								<div class="row">
-									<div class="col-md-6">
+									<div class="col-md-7">
 										<form class="form-inline">
 	  										
 	  										<div class="form-group">
@@ -186,7 +186,7 @@
 											</div>
 										</form>
 									</div>
-									<div class="col-md-5">
+									<div class="col-md-4">
 										<form class="form-inline">
 	  										<div class="form-group">
 												<label>Gesamtpreis</label>
@@ -214,7 +214,7 @@
 						      </h4>
 						</div>
 						<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-								<div class="panel-body">
+							<div class="panel-body">
 								
 								<h5>Dieser Report ermittelt das Gesamtgewicht und den Gesamtpreis der Wareneingänge für jede Organisation im gewünschten Zeitraum.</h5>
 								<div class="row divider-horizontal">
@@ -222,52 +222,23 @@
 									
 								<div class="row">
 								
-								<div class="col-md-11">
-									<form class="form-inline">
-  										<div class="form-group" id="inputDateGroup1">
-											<label>Alle Organisationen im Zeitraum vom</label>
-											<input type="text" class="form-control tbx_datefrom datepicker" placeholder="dd.mm.yyyy" style="width: 100px;">
-											<label>bis zum</label>
-											<input type="text" class="form-control tbx_dateto datepicker" placeholder="dd.mm.yyyy" style="width: 100px;">
-										</div>
-									</form>
+									<div class="col-md-11">
+										<form class="form-inline">
+	  										<div class="form-group" id="inputDateGroup1">
+												<label>Alle Organisationen im Zeitraum vom</label>
+												<input type="text" class="form-control tbx_datefrom datepicker" placeholder="dd.mm.yyyy" style="width: 100px;">
+												<label>bis zum</label>
+												<input type="text" class="form-control tbx_dateto datepicker" placeholder="dd.mm.yyyy" style="width: 100px;">
+											</div>
+										</form>
+									</div>
+								
+									<div class="col-md-1">
+										<button type="button" id="btn_exportIncomingReportForAllOrg" class="btn btn-primary pull-right btn_exportAll"><span class="glyphicon glyphicon-share"></span> Exportieren</button>	
+									</div>
 								</div>
 								
-								<div class="col-md-1">
-									<button type="button" id="btn_exportIncomingReportForAllOrg" class="btn btn-primary pull-right btn_exportAll"><span class="glyphicon glyphicon-share"></span> Exportieren</button>	
-								</div>
-								</div>
-								
-<!-- 											<div class="row divider-horizontal" style="margin-top: 15px;"> -->
-<!-- 											</div> -->
-								
-<!-- 											<div class="row"> -->
-<!-- 												<div class="col-md-6"> -->
-<!-- 													<form class="form-inline"> -->
-	  										
-<!-- 				  										<div class="form-group"> -->
-<!-- 				  											<label style="margin-right: 165px;">Ergebnis des Reports:</label> -->
-	  											
-<!-- 															<label>Gesamtgewicht</label> -->
-<!-- 															<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled> -->
-												
-<!-- 														</div> -->
-<!-- 													</form> -->
-<!-- 												</div> -->
-<!-- 												<div class="col-md-5"> -->
-<!-- 													<form class="form-inline"> -->
-<!-- 				  										<div class="form-group"> -->
-<!-- 															<label>Gesamtpreis</label> -->
-<!-- 															<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled> -->
-<!-- 														</div> -->
-<!-- 													</form> -->
-<!-- 												</div> -->
-<!-- 												<div class="col-md-1"> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-								
-								
-								</div>
+							</div>
 						</div>
 					</div>
 <!-- 					Ende Report Panel 3 -->
@@ -283,60 +254,31 @@
 						      </h4>
 						</div>
 						<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-								<div class="panel-body">
+							<div class="panel-body">
 								
 								<h5>Dieser Report ermittelt das Gesamtgewicht und den Gesamtpreis der Warenausgänge für jede Organisation im gewünschten Zeitraum.</h5>
 								<div class="row divider-horizontal">
 								</div>
-									
+								
 								<div class="row">
 								
-								<div class="col-md-11">
-									<form class="form-inline">
-  										<div class="form-group" id="inputDateGroup3">
-											<label>Alle Organisationen im Zeitraum vom</label>
-											<input type="text" class="form-control tbx_datefrom datepicker" placeholder="dd.mm.yyyy" style="width: 100px;">
-											<label>bis zum</label>
-											<input type="text" class="form-control tbx_dateto datepicker" placeholder="dd.mm.yyyy" style="width: 100px;">
-										</div>
-									</form>
+									<div class="col-md-11">
+										<form class="form-inline">
+	  										<div class="form-group" id="inputDateGroup3">
+												<label>Alle Organisationen im Zeitraum vom</label>
+												<input type="text" class="form-control tbx_datefrom datepicker" placeholder="dd.mm.yyyy" style="width: 100px;">
+												<label>bis zum</label>
+												<input type="text" class="form-control tbx_dateto datepicker" placeholder="dd.mm.yyyy" style="width: 100px;">
+											</div>
+										</form>
+									</div>
+								
+									<div class="col-md-1">
+										<button type="button" id="btn_exportOutgoingReportForAllOrg" class="btn btn-primary pull-right btn_exportAll"><span class="glyphicon glyphicon-share"></span> Exportieren</button>	
+									</div>
 								</div>
 								
-								<div class="col-md-1">
-									<button type="button" id="btn_exportOutgoingReportForAllOrg" class="btn btn-primary pull-right btn_exportAll"><span class="glyphicon glyphicon-share"></span> Exportieren</button>	
-								</div>
-								</div>
-								
-<!-- 											<div class="row divider-horizontal" style="margin-top: 15px;"> -->
-<!-- 											</div> -->
-								
-<!-- 											<div class="row"> -->
-<!-- 												<div class="col-md-6"> -->
-<!-- 													<form class="form-inline"> -->
-	  										
-<!-- 				  										<div class="form-group"> -->
-<!-- 				  											<label style="margin-right: 165px;">Ergebnis des Reports:</label> -->
-	  											
-<!-- 															<label>Gesamtgewicht</label> -->
-<!-- 															<input type="text" class="form-control tbx_totalweight" placeholder="kg" style="width: 100px;" disabled> -->
-												
-<!-- 														</div> -->
-<!-- 													</form> -->
-<!-- 												</div> -->
-<!-- 												<div class="col-md-5"> -->
-<!-- 													<form class="form-inline"> -->
-<!-- 				  										<div class="form-group"> -->
-<!-- 															<label>Gesamtpreis</label> -->
-<!-- 															<input type="text" class="form-control tbx_totalprice" placeholder="€" style="width: 100px;" disabled> -->
-<!-- 														</div> -->
-<!-- 													</form> -->
-<!-- 												</div> -->
-<!-- 												<div class="col-md-1"> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-								
-								
-								</div>
+							</div>
 						</div>
 					</div>
 <!-- 					Ende Report Panel 4 -->
@@ -380,7 +322,7 @@
 								</div>
 								
 								<div class="row">
-									<div class="col-md-6">
+									<div class="col-md-7">
 										<form class="form-inline">
 	  										
 	  										<div class="form-group">
@@ -392,7 +334,7 @@
 											</div>
 										</form>
 									</div>
-									<div class="col-md-5">
+									<div class="col-md-4">
 										<form class="form-inline">
 	  										<div class="form-group">
 												<label>Gesamtpreis</label>
@@ -448,7 +390,7 @@
 								</div>
 								
 								<div class="row">
-									<div class="col-md-6">
+									<div class="col-md-7">
 										<form class="form-inline">
 	  										
 	  										<div class="form-group">
@@ -460,7 +402,7 @@
 											</div>
 										</form>
 									</div>
-									<div class="col-md-5">
+									<div class="col-md-4">
 										<form class="form-inline">
 	  										<div class="form-group">
 												<label>Gesamtpreis</label>
