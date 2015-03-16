@@ -34,3 +34,8 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+#help_container h4 {
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
