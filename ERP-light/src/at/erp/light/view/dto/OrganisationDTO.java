@@ -2,6 +2,12 @@ package at.erp.light.view.dto;
 
 import java.util.List;
 
+/**
+ * This class is a DTO representation of the entity Organisation.<br/>
+ * It is mainly used to transmit data between the frontend and backend.
+ * @author Matthias Schnöll
+ *
+ */
 public class OrganisationDTO {
 	private List<String> types;
 	private String name;

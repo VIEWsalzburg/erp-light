@@ -473,7 +473,7 @@ public class ReportController {
 	/**
 	 * Generates a distribution report for the given delivery Id<br/>
 	 * The csv file is directly written two the response stream.
-	 * @param id of the requested delivery list
+	 * @param id Id of the requested delivery list
 	 * @param request
 	 * @param response
 	 * @throws IOException

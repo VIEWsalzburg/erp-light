@@ -1,6 +1,11 @@
 package at.erp.light.view.dto;
 
-
+/**
+ * This class is a DTO representation of the view availarticleindepot.<br/>
+ * It is mainly used to transmit data to the frontend.
+ * @author Matthias Schnöll
+ *
+ */
 public class AvailableArticleDTO {
 	
 	private int articleId;

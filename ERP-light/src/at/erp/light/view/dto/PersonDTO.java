@@ -2,6 +2,12 @@ package at.erp.light.view.dto;
 
 import java.util.List;
 
+/**
+ * This class is a DTO representation of the entity Person.<br/>
+ * It is mainly used to transmit data between the frontend and backend.
+ * @author Matthias Schnöll
+ *
+ */
 public class PersonDTO {
 
 	private int personId;

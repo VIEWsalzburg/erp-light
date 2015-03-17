@@ -1,0 +1,13 @@
+at.erp.light.view.authenticate
+at.erp.light.view.controller.adressmanagement
+at.erp.light.view.controller.article
+at.erp.light.view.controller.authenticate
+at.erp.light.view.controller.logging
+at.erp.light.view.controller.testing
+at.erp.light.view.dto
+at.erp.light.view.filter
+at.erp.light.view.generation
+at.erp.light.view.mapper
+at.erp.light.view.model
+at.erp.light.view.services
+at.erp.light.view.state

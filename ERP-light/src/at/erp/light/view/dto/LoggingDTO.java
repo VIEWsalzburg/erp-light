@@ -1,5 +1,11 @@
 package at.erp.light.view.dto;
 
+/**
+ * This class is a DTO representation of the entity Logging.<br/>
+ * It is mainly used to transmit data between the frontend and backend.
+ * @author Matthias Schnöll
+ *
+ */
 public class LoggingDTO {
 
 	String loggingText;

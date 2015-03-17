@@ -1,5 +1,11 @@
 package at.erp.light.view.dto;
 
+/**
+ * This class is a DTO representation of the entity Telephone.<br/>
+ * It is mainly used to transmit data between the frontend and backend.
+ * @author Matthias Schnöll
+ *
+ */
 public class TelephoneDTO {
 	private String telephone;
 	private String type;

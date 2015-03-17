@@ -101,7 +101,7 @@ public class PersonController {
 	 * Following data is not included: systemUser, comment, 
 	 * updateTimestamp, address, city, zip, country, loginEmail, 
 	 * permission, lastEditor, types, emails, telephones
-	 * @return
+	 * @return list with all persons
 	 */
 	@RequestMapping(value = "secure/person/reducedData/getAllActive")
 	public List<PersonDTO> getAllActivePersonsReducedData() {

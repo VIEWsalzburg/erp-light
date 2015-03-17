@@ -259,7 +259,7 @@ public interface IDataBase {
 	 * @return list of all outgoingDeliveries with the given archivedStatus
 	 * @throws HibernateException
 	 */
-	public List<OutgoingDelivery> getAllOutgoingDeliveries(int archviedStatus) throws HibernateException;
+	public List<OutgoingDelivery> getAllOutgoingDeliveries(int archivedStatus) throws HibernateException;
 	
 	/**
 	 * returns all available OutgoingDeliveries
@@ -272,7 +272,7 @@ public interface IDataBase {
 	/**
 	 * returns a List with all Incoming and Outgoing Articles for a specific ArticleId
 	 * this function is used for comparing and updating the PUs of the Incoming, Outgoing and Depot Articles
-	 * @param id of the Article which the PUs should be updated for
+	 * @param articleId of the Article which the PUs should be updated for
 	 * @return a List with the requested PU-distribution
 	 * @throws Exception
 	 */
@@ -288,7 +288,7 @@ public interface IDataBase {
 	
 	/**
 	 * deletes an Article with the given ID from all incomingDeliveries and all outgoingDeliveries
-	 * @param id
+	 * @param articleId
 	 * @return
 	 * @throws Exception
 	 */

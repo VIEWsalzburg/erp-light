@@ -31,7 +31,7 @@ public class HashGenerator {
 	 * Compares a plain password with the provided hashed version from the DB.
 	 * @param plain Password in plain text
 	 * @param hash Password in hashed form
-	 * @return
+	 * @return true on compare match
 	 */
 	public static boolean comparePasswordWithHash(String plain, String hash)
 	{

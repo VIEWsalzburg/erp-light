@@ -3,6 +3,12 @@ package at.erp.light.view.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class is a DTO representation of the entity IncomingDelivery.<br/>
+ * It is mainly used to transmit data between the frontend and backend.
+ * @author Matthias Schnöll
+ *
+ */
 public class IncomingDeliveryDTO {
 	private int incomingDeliveryId;
 	private int organisationId;
