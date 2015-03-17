@@ -26,7 +26,15 @@ import at.erp.light.view.model.Person;
 import at.erp.light.view.services.IDataBase;
 
 public class DeliveryWordGenerator {
-	 
+	
+	/**
+	 * Generates a word file for the given deliveryList.<br/>
+	 * @param deliveryList Delivery list which should be exported
+	 * @param doneBy name of the lastEditor of the deliveryList
+	 * @param dataBase dataBaseService class for getting data from the DB
+	 * @return File which contains the generated word file
+	 * @throws Exception
+	 */
 	public static File generateDeliveryExport(DeliveryList deliveryList, String doneBy, IDataBase dataBase) throws Exception {
 	        XWPFDocument doc = new XWPFDocument();
 
@@ -107,8 +115,7 @@ public class DeliveryWordGenerator {
 	        // get all OutgoingArticles and combine them according to their ArticleId and calculate the Sum of total articles in this deliveryList
 	        // get Organisation according to the ArticleId and write them combined into the incoming Section
 	        
-	        
-	        
+
 	        // get all OutgoingDeliveries
 	        List<OutgoingDelivery> outgoingDeliveries = new ArrayList<OutgoingDelivery>(deliveryList.getOutgoingDeliveries());
 	        
@@ -138,8 +145,7 @@ public class DeliveryWordGenerator {
 	        	
 	        }
 	        
-	        
-	        
+
 	        // combine Articles by delivererId
 	        Map<Integer, Map<Integer, Integer> > organisationArticleSumMap = new HashMap<Integer, Map<Integer,Integer>>();
 	        
@@ -165,8 +171,7 @@ public class DeliveryWordGenerator {
 	        }
 	        // this results in a map combining organisations with their delivered amount of articles
 	        
-	        
-	        
+
 	        // write the infos to the file
 	        XWPFParagraph delivererParagraph = doc.createParagraph();
 	        
@@ -218,23 +223,16 @@ public class DeliveryWordGenerator {
 	        
 	        }
 	        
-	        
 //	        Abholen [END]
-	        
-	        
 	        
 
 //			Lieferstationen
-	        
 	        XWPFParagraph p6 = doc.createParagraph();
 	        XWPFRun r10 = p6.createRun();
 	        r10.setText("Lieferstationen:");
 	        setBoldUnderlined(r10);
 	        r10.setFontSize(16);
 	        r10.addBreak();
-	        
-
-	        
 	        
 	        
 	        // sort OutgoingDeliveries
@@ -302,7 +300,6 @@ public class DeliveryWordGenerator {
 	        endRun.setBold(true);
 	        endRun.setText("Gute Fahrt!");	        
 	        
-	        
 	        File file = new File("generated.docx");
 	        FileOutputStream out = new FileOutputStream(file);
 	        doc.write(out);
@@ -310,12 +307,20 @@ public class DeliveryWordGenerator {
 	        return file;
 	}
 
+	/**
+	 * set the given run bold and underlined
+	 * @param r4 XWPFRun which should be formatted
+	 */
 	private static void setBoldUnderlined(XWPFRun r4) {
 		setArial12(r4);
 		r4.setBold(true);
 		r4.setUnderline(UnderlinePatterns.SINGLE);
 	}
 
+	/**
+	 * set the given run Arial12
+	 * @param r4 XWPFRun which should be formatted
+	 */
 	private static void setArial12(XWPFRun r4) {
 		r4.setFontFamily("Arial");
 		r4.setFontSize(12);

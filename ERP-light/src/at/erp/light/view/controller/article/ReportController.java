@@ -480,7 +480,7 @@ public class ReportController {
 	 * @throws ParseException
 	 */
 	@RequestMapping(value = "secure/reports/articles/generateDistributionReportByIncomingDeliveryId/{id}")
-	public void generateAddressReport(@PathVariable int id,
+	public void generateDistributionReport(@PathVariable int id,
 			HttpServletRequest request,	HttpServletResponse response) throws IOException, ParseException {
 
 		// get incomingDelivery with the given id

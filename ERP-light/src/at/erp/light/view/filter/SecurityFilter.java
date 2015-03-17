@@ -11,13 +11,27 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * This class acts as request filter.<br/>
+ * Every request targeting /rest/secure/* is processed by this filter.<br/>
+ * If the user is not logged into the system, a redirect to the login page is sent.<br/>
+ * @author Matthias Schnöll
+ *
+ */
 public class SecurityFilter implements Filter {
 
+	/**
+	 * destroy method of the filter
+	 */
 	@Override
 	public void destroy() {
 
 	}
 
+	/**
+	 * Checks if the user is logged into the system.<br/>
+	 * If the user is not logged in, the system sends a redirect to the login page.
+	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain filterChain) throws IOException, ServletException {
@@ -71,6 +85,9 @@ public class SecurityFilter implements Filter {
 
 	}
 
+	/**
+	 * init method of the filter.
+	 */
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 	}

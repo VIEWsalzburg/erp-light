@@ -12,95 +12,110 @@ import at.erp.light.view.dto.IncomingDeliveryDTO;
 import at.erp.light.view.model.IncomingArticle;
 import at.erp.light.view.model.IncomingDelivery;
 
-
+/**
+ * This class acts as mapper class between entity IncomingDelivery and DTO IncomingDeliveryDTO.
+ * @author Matthias Schnöll
+ *
+ */
 public class IncomingDeliveryMapper {
 	private static DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 
+	/**
+	 * Maps the given entity to a DTO.
+	 * @param entity Entity from the DB
+	 * @return DTO object
+	 */
 	public static IncomingDeliveryDTO mapToDTO(IncomingDelivery entity) {
-			if(entity==null)
-			{
-				return null;
-			}
-		
-				IncomingDeliveryDTO dto = new IncomingDeliveryDTO();
-			
-				dto.setIncomingDeliveryId(entity.getIncomingDeliveryId());
-				dto.setDeliveryNr(entity.getDeliveryNr());
-				dto.setOrganisationId(entity.getOrganisation().getOrganisationId());
-				dto.setLastEditorId(entity.getLastEditor().getPersonId());
-				dto.setDeliveryNr(entity.getDeliveryNr());
-				dto.setDate(df.format(entity.getDate()));
-				dto.setComment(entity.getComment());
-				dto.setUpdateTimestamp(df.format(entity.getUpdateTimestamp()));
-				dto.setBooked(entity.getBooked());
-				dto.setArchived(entity.getArchived());
-				
-				Set<IncomingArticleDTO> incomingArticleDTOs = new HashSet<IncomingArticleDTO>();
-				for(IncomingArticle incomingArticle : entity.getIncomingArticles())
-				{
-					incomingArticleDTOs.add(IncomingArticleMapper.mapToDTO(incomingArticle));
-				}
-				
-				dto.setIncomingArticleDTOs(incomingArticleDTOs);
-				
+		if(entity==null)
+		{
+			return null;
+		}
+
+		IncomingDeliveryDTO dto = new IncomingDeliveryDTO();
+
+		dto.setIncomingDeliveryId(entity.getIncomingDeliveryId());
+		dto.setDeliveryNr(entity.getDeliveryNr());
+		dto.setOrganisationId(entity.getOrganisation().getOrganisationId());
+		dto.setLastEditorId(entity.getLastEditor().getPersonId());
+		dto.setDeliveryNr(entity.getDeliveryNr());
+		dto.setDate(df.format(entity.getDate()));
+		dto.setComment(entity.getComment());
+		dto.setUpdateTimestamp(df.format(entity.getUpdateTimestamp()));
+		dto.setBooked(entity.getBooked());
+		dto.setArchived(entity.getArchived());
+
+		Set<IncomingArticleDTO> incomingArticleDTOs = new HashSet<IncomingArticleDTO>();
+		for(IncomingArticle incomingArticle : entity.getIncomingArticles())
+		{
+			incomingArticleDTOs.add(IncomingArticleMapper.mapToDTO(incomingArticle));
+		}
+
+		dto.setIncomingArticleDTOs(incomingArticleDTOs);
+
 		return dto;
 	}
 
 
+	/**
+	 * Maps the given DTO to an entity.
+	 * @param dto DTO object from the frontend
+	 * @return entity
+	 * @throws Exception
+	 */
 	public static IncomingDelivery mapToEntity(IncomingDeliveryDTO dto) throws Exception {
-		
+
 		if(dto==null)
 		{
 			return null;
 		}
 		IncomingDelivery entity = new IncomingDelivery();
 
-		
-			entity.setIncomingDeliveryId(dto.getIncomingDeliveryId());
-			entity.setDeliveryNr(dto.getDeliveryNr());
-			
-			// organisation must be set outside of the mapper (the static functions require a static dataBaseService which is not supported and permanently return null)
-			// lastEditor must be set outside of the mapper (the static functions require a static dataBaseService which is not supported and permanently return null)
-			
-			entity.setDeliveryNr(dto.getDeliveryNr());
-			
+
+		entity.setIncomingDeliveryId(dto.getIncomingDeliveryId());
+		entity.setDeliveryNr(dto.getDeliveryNr());
+
+		// organisation must be set outside of the mapper (the static functions require a static dataBaseService which is not supported and permanently return null)
+		// lastEditor must be set outside of the mapper (the static functions require a static dataBaseService which is not supported and permanently return null)
+
+		entity.setDeliveryNr(dto.getDeliveryNr());
+
+		try {
+			entity.setDate(df.parse(dto.getDate()));
+		} catch (ParseException e) {
+			// set current Date if parsing fails
+			entity.setDate(new Date(System.currentTimeMillis()));
+			e.printStackTrace();
+		}
+
+		// updateTimestamp does not have to be delivered by the frontend
+		if (dto.getUpdateTimestamp() != null)
+		{
 			try {
-				entity.setDate(df.parse(dto.getDate()));
+				entity.setUpdateTimestamp(df.parse(dto.getUpdateTimestamp()));
 			} catch (ParseException e) {
 				// set current Date if parsing fails
-				entity.setDate(new Date(System.currentTimeMillis()));
+				entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 				e.printStackTrace();
 			}
-			
-			// updateTimestamp does not have to be delivered by the frontend
-			if (dto.getUpdateTimestamp() != null)
-			{
-				try {
-					entity.setUpdateTimestamp(df.parse(dto.getUpdateTimestamp()));
-				} catch (ParseException e) {
-					// set current Date if parsing fails
-					entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
-					e.printStackTrace();
-				}
-			}
-			
-			entity.setComment(dto.getComment());
-			
-			// set archived Flag only by function, not by object
-			// entity.setArchived(dto.getArchived());
-			// booked status does not have to be set, because it is generated by Hibernate when getting the entity
-			
-			Set<IncomingArticle> incomingArticles = new HashSet<IncomingArticle>();
-			for(IncomingArticleDTO incomingArticleDTO : dto.getIncomingArticleDTOs())
-			{
-				incomingArticles.add(IncomingArticleMapper.mapToEntity(incomingArticleDTO));
-			}
-			
-			entity.setIncomingArticles(incomingArticles);
-			
-			return entity;
-		
+		}
+
+		entity.setComment(dto.getComment());
+
+		// set archived Flag only by function, not by object
+		// entity.setArchived(dto.getArchived());
+		// booked status does not have to be set, because it is generated by Hibernate when getting the entity
+
+		Set<IncomingArticle> incomingArticles = new HashSet<IncomingArticle>();
+		for(IncomingArticleDTO incomingArticleDTO : dto.getIncomingArticleDTOs())
+		{
+			incomingArticles.add(IncomingArticleMapper.mapToEntity(incomingArticleDTO));
+		}
+
+		entity.setIncomingArticles(incomingArticles);
+
+		return entity;
+
 	}
-	
-	
+
+
 }

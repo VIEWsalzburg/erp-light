@@ -9,10 +9,20 @@ import java.util.Date;
 import at.erp.light.view.dto.ArticleDTO;
 import at.erp.light.view.model.Article;
 
+/**
+ * This class acts as mapper class between entity Article and DTO ArticleDTO.
+ * @author Matthias Schnöll
+ *
+ */
 public class ArticleMapper {
 
 	private static DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 	
+	/**
+	 * Maps the given entity to a DTO.
+	 * @param entity Entity from the DB
+	 * @return DTO object
+	 */
 	public static ArticleDTO mapToDTO(Article entity) {
 		if(entity == null)
 		{
@@ -20,7 +30,6 @@ public class ArticleMapper {
 		}
 		
 		ArticleDTO dto = new ArticleDTO();
-		
 		
 		dto.setArticleId(entity.getArticleId());
 		dto.setDescription(entity.getDescription());
@@ -33,6 +42,11 @@ public class ArticleMapper {
 		return dto;
 	}
 
+	/**
+	 * Maps the given DTO to an entity.
+	 * @param dto DTO object from the frontend
+	 * @return entity
+	 */
 	public static Article mapToEntity(ArticleDTO dto) {
 		if(dto == null)
 		{

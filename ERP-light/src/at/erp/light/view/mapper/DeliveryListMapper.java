@@ -14,13 +14,24 @@ import at.erp.light.view.model.DeliveryList;
 import at.erp.light.view.model.OutgoingDelivery;
 import at.erp.light.view.services.IDataBase;
 
+/**
+ * This class acts as mapper class between entity DeliveryList and DTO DeliveryListDTO.
+ * @author Matthias Schnöll
+ *
+ */
 public class DeliveryListMapper {
 	
 	private static DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 	
+
 	private static final Logger log = Logger.getLogger(DeliveryListMapper.class
 			.getName());
 	
+	/**
+	 * Maps the given entity to a DTO.
+	 * @param entity Entity from the DB
+	 * @return DTO object
+	 */
 	public static DeliveryListDTO mapToDTO(DeliveryList entity) {
 		if(entity == null)
 		{
@@ -48,6 +59,12 @@ public class DeliveryListMapper {
 		return dto;
 	}
 
+	/**
+	 * Maps the given DTO to an entity.
+	 * @param dto DTO object from the frontend
+	 * @param dataBase DataBaseService class for getting data, needed for the mapping
+	 * @return entity
+	 */
 	public static DeliveryList mapToEntity(DeliveryListDTO dto, IDataBase dataBase) {
 		
 		if(dto == null)

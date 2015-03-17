@@ -20,10 +20,20 @@ import at.erp.light.view.model.Person;
 import at.erp.light.view.model.Type;
 import at.erp.light.view.services.IDataBase;
 
+/**
+ * This class acts as mapper class between entity Organisation and DTO OrganisationDTO.
+ * @author Matthias Schnöll
+ *
+ */
 public class OrganisationMapper {
 
 	private static DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 
+	/**
+	 * Maps the given entity to a DTO.
+	 * @param organisation Entity from the DB
+	 * @return DTO object
+	 */
 	public static OrganisationDTO mapToDTO(Organisation organisation) {
 		OrganisationDTO dto = new OrganisationDTO();
 
@@ -93,6 +103,12 @@ public class OrganisationMapper {
 		return dto;
 	}
 
+	/**
+	 * Maps the given DTO to an entity.
+	 * @param dto DTO object from the frontend
+	 * @param dataBaseService DataBaseService class for getting data, needed for the mapping
+	 * @return entity
+	 */
 	public static Organisation mapToEntity(OrganisationDTO dto, IDataBase dataBaseService) {
 		Organisation entity = new Organisation();
 

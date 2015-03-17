@@ -14,11 +14,21 @@ import at.erp.light.view.model.OutgoingArticle;
 import at.erp.light.view.model.OutgoingDelivery;
 import at.erp.light.view.services.IDataBase;
 
+/**
+ * This class acts as mapper class between entity OutgoingDelivery and DTO OutgoingDeliveryDTO.
+ * @author Matthias Schnöll
+ *
+ */
 public class OutgoingDeliveryMapper {
 	private static DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 	private static final Logger log = Logger
 			.getLogger(OutgoingDeliveryMapper.class.getName());
 
+	/**
+	 * Maps the given entity to a DTO.
+	 * @param entity Entity from the DB
+	 * @return DTO object
+	 */
 	public static OutgoingDeliveryDTO mapToDTO(OutgoingDelivery entity) {
 		if (entity == null) {
 			return null;
@@ -48,6 +58,12 @@ public class OutgoingDeliveryMapper {
 		return dto;
 	}
 
+	/**
+	 * Maps the given DTO to an entity.
+	 * @param dto DTO object from the frontend
+	 * @param dataBaseService DataBaseService class for getting data, needed for the mapping
+	 * @return entity
+	 */
 	public static OutgoingDelivery mapToEntity(OutgoingDeliveryDTO dto,
 			IDataBase dataBaseService) {
 

@@ -23,10 +23,20 @@ import at.erp.light.view.model.Platformuser;
 import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
 
+/**
+ * This class acts as mapper class between entity Person and DTO PersonDTO.
+ * @author Matthias Schnöll
+ *
+ */
 public class PersonMapper {
 
 	private static DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 
+	/**
+	 * Maps the given entity to a DTO.
+	 * @param person Entity from the DB
+	 * @return DTO object
+	 */
 	public static PersonDTO mapToDTO(Person person) {
 		Assert.notNull(person);
 		List<EmailDTO> emails = new ArrayList<EmailDTO>();
@@ -103,6 +113,11 @@ public class PersonMapper {
 		return mPerson;
 	}
 
+	/**
+	 * Maps the given DTO to an entity.
+	 * @param dto DTO object from the frontend
+	 * @return entity
+	 */
 	public static Person mapToEntity(PersonDTO dto) {
 		Person entity = new Person();
 		entity.setPersonId(dto.getPersonId());
