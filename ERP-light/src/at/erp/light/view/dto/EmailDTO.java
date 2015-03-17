@@ -17,7 +17,7 @@ public class EmailDTO {
 	}
 
 	/**
-	 * Construcotr
+	 * Constructor
 	 * @param mail Email address
 	 * @param type type of the email address
 	 */
@@ -29,7 +29,7 @@ public class EmailDTO {
 
 	/**
 	 * get the email address
-	 * @return
+	 * @return email address
 	 */
 	public String getMail() {
 		return mail;
@@ -45,7 +45,7 @@ public class EmailDTO {
 
 	/**
 	 * get the type of the email
-	 * @return
+	 * @return type
 	 */
 	public String getType() {
 		return type;
