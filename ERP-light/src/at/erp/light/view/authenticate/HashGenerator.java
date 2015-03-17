@@ -5,18 +5,18 @@ import java.security.SecureRandom;
 
 import org.apache.commons.codec.binary.Base64;
 
+/**
+ * This class creates salted hashes for passwords 
+ * to save them hashed in the DB.
+ * @author Matthias Schnöll
+ *
+ */
+
 public class HashGenerator {
 
 	/**
 	 * generated Hex Hash for password "default"
 	 * MqPIAmlF4i2dSb0oR-JzwxG9yZidfKtK-n4AgMspQgpJbfJ3RC6Sg
-	 */
-	
-	/**
-	 * Compare plain password with hash 
-	 * @param plain text
-	 * @param hash .
-	 * @return if they match
 	 */
 	
 	public static void main(String ...args)
@@ -27,7 +27,12 @@ public class HashGenerator {
 		System.out.println(hashed + " compared successful: " + comparePasswordWithHash(password, hashed));
 	}
 	
-	
+	/**
+	 * Compares a plain password with the provided hashed version from the DB.
+	 * @param plain Password in plain text
+	 * @param hash Password in hashed form
+	 * @return
+	 */
 	public static boolean comparePasswordWithHash(String plain, String hash)
 	{
 		String salt = hash.substring(0, 10);
@@ -59,9 +64,9 @@ public class HashGenerator {
 	
 	
 	/**
-	 * Generates hash
-	 * @param text given string to hash
-	 * @return the hashed value
+	 * Generates a salted hash for the given plain password
+	 * @param text plain password to hash
+	 * @return hashed password with salt
 	 */
 	public static String hashPasswordWithSalt(String text) {
 		byte[] digest = null;

@@ -23,6 +23,12 @@ import at.erp.light.view.model.Organisation;
 import at.erp.light.view.services.IDataBase;
 import at.erp.light.view.state.ControllerMessage;
 
+/**
+ * This class is a RestController.<br/>
+ * It manages calls concerning Categories.
+ * @author Matthias Schnöll
+ *
+ */
 @RestController
 public class CategoryController {
 	private static final Logger log = Logger.getLogger(CategoryController.class
@@ -31,6 +37,10 @@ public class CategoryController {
 	@Autowired
 	private IDataBase dataBaseService;
 
+	/**
+	 * Returns a list with all categories of the system
+	 * @return list of all categories
+	 */
 	@RequestMapping(value = "secure/category/getAllCategories")
 	public List<CategoryDTO> getAllCategories() {
 		List<CategoryDTO> catDTOList = new ArrayList<CategoryDTO>();
@@ -50,6 +60,12 @@ public class CategoryController {
 		
 	}
 	
+	/**
+	 * Saves a new category in the system.<br/>
+	 * @param category DTO object of the category; comes from the frontend
+	 * @param request
+	 * @return ControllerMessage showing the success of the call
+	 */
 	@RequestMapping(value = "secure/category/setCategory")
 	public ControllerMessage setCategory(@RequestBody CategoryDTO category, HttpServletRequest request) {
 		Category entity = CategoryMapper.mapToEntity(category);
@@ -74,7 +90,11 @@ public class CategoryController {
 		return new ControllerMessage(true, "Speichern erfoglreich!");
 	}
 	
-	
+	/**
+	 * Gets a category with the given id
+	 * @param id Id of the requested category
+	 * @return CategoryDTO object or null, if Id not found
+	 */
 	@RequestMapping(value = "secure/category/getCategoryById/{id}")
 	public CategoryDTO getCategoryById(@PathVariable int id) {
 		
@@ -91,9 +111,14 @@ public class CategoryController {
 		}
 		
 		return null;
-
 	}
 
+	/**
+	 * Deletes a category with the given Id
+	 * @param id Id of the category which should be deleted
+	 * @param request
+	 * @return ControllerMessage showing the success of the call
+	 */
 	@RequestMapping(value = "secure/category/deleteCategoryById/{id}")
 	public ControllerMessage deleteCategoryById(@PathVariable int id, HttpServletRequest request) {
 
@@ -118,6 +143,11 @@ public class CategoryController {
 
 	}
 	
+	/**
+	 * Returns a list of organisations, which are assigned with the given category.
+	 * @param id Id of the category
+	 * @return List of OrganisationDTO objects
+	 */
 	@RequestMapping(value = "secure/category/getOrganisationsByCategoryId/{id}")
 	public List<OrganisationDTO> getOrganisationsByCategory(@PathVariable int id) {
 		
@@ -137,8 +167,6 @@ public class CategoryController {
 		}
 		
 		return null;
-		
 	}
-	
 	
 }

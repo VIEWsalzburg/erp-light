@@ -22,6 +22,13 @@ import at.erp.light.view.dto.PersonAddressReportDataDTO;
 import at.erp.light.view.dto.PersonEmailReportDataDTO;
 import at.erp.light.view.services.IDataBase;
 
+
+/**
+ * This class is a RestController<br/>
+ * It manages calls concerning the address reporting
+ * @author Matthias Schnöll
+ *
+ */
 @RestController
 public class AddressReportController {
 	private static final Logger log = Logger.getLogger(AddressReportController.class
@@ -30,13 +37,18 @@ public class AddressReportController {
 	@Autowired
 	private IDataBase dataBaseService;
 	
-	
-	
+	/**
+	 * Generates an addressreport for all persons and organisations.<br/>
+	 * The csv file is returned by writing directly to the response stream.
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "secure/reports/address/generateAddressReport")
 	public void generateAddressReport(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ParseException {
 
-		
 		log.info("Generate Address Report for all Persons and Organisations");
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -63,10 +75,8 @@ public class AddressReportController {
 		
 		csvWriter.writeHeader("");
 
-		
 		List<PersonAddressReportDataDTO> reportDataList = null;
 
-		
 		csvWriter.writeHeader("Alle Personen und Organisationen");
 		try{
 			reportDataList =  dataBaseService.getPersonAddressReport();
@@ -79,6 +89,14 @@ public class AddressReportController {
 		csvWriter.close();
 	}
 
+	
+	/**
+	 * This function writes a List of PersonAddressReportDataDTOs to the given CsvBeanWriter.<br/>
+	 * Column headers are written above the data fields.
+	 * @param csvWriter Writer where the data should be written to
+	 * @param reportDataDTOList list of objects which should be written
+	 * @throws IOException
+	 */
 	private void writeListData(CsvBeanWriter csvWriter,
 			List<PersonAddressReportDataDTO> reportDataDTOList) throws IOException {
 		
@@ -91,7 +109,6 @@ public class AddressReportController {
 		String[] objectHeader = {"salutation", "title", "lastName", "firstName", "privateAddress",
 				"privateZip", "privateCity", "privateCountry", "orgName", "orgType", "orgAddress", "orgZip", "orgCity", "orgCountry"};
 		
-		
 		for(PersonAddressReportDataDTO dataDTO : reportDataDTOList)
 		{
 			csvWriter.write(dataDTO, objectHeader);
@@ -100,12 +117,19 @@ public class AddressReportController {
 	}
 
 	
-	
+	/**
+	 * Generates a email report for all persons.<br/>
+	 * Also includes persons without email address.<br/>
+	 * The csv file is returned by writing directly to the response stream.
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "secure/reports/address/generateEmailReport")
 	public void generateEmailReport(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ParseException {
 
-		
 		log.info("Generate Email Report for all Persons");
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -129,12 +153,9 @@ public class AddressReportController {
 		csvWriter.writeHeader("");
 		
 		csvWriter.writeHeader("Erstelldatum: ",simpleDateFormat.format(new Date()));
-		
 		csvWriter.writeHeader("");
-
 		
 		List<PersonEmailReportDataDTO> reportDataList = null;
-
 		
 		csvWriter.writeHeader("Alle Personen");
 		try{
@@ -149,12 +170,13 @@ public class AddressReportController {
 			String[] objectHeader = {"personId", "salutation", "title", "lastName", "firstName", "comment", "email",
 					"emailType", "organisationName"};
 			
-			
 			for(PersonEmailReportDataDTO dataDTO : reportDataList)
 			{
 				csvWriter.write(dataDTO, objectHeader);
 			}
+			
 			csvWriter.writeHeader("");
+			
 		}catch(Exception e){
 			log.severe(e.getMessage());
 			e.printStackTrace();
@@ -162,6 +184,5 @@ public class AddressReportController {
 		
 		csvWriter.close();
 	}
-
 	
 }

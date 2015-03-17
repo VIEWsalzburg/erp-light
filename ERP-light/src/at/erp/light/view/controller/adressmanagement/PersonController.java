@@ -33,6 +33,12 @@ import at.erp.light.view.model.Platformuser;
 import at.erp.light.view.services.IDataBase;
 import at.erp.light.view.state.ControllerMessage;
 
+/**
+ * This class is a RestController.<br/>
+ * It manages calls concerning persons.
+ * @author Matthias Schnöll
+ *
+ */
 @RestController
 public class PersonController {
 	private static final Logger log = Logger.getLogger(PersonController.class
@@ -45,6 +51,11 @@ public class PersonController {
 		super();
 	}
 
+	/**
+	 * Returns a list with all persons in the system.<br/>
+	 * Also includes all inactive persons.
+	 * @return list with all persons
+	 */
 	@RequestMapping(value = "secure/person/getAll")
 	public List<PersonDTO> getAllPersons() {
 		List<PersonDTO> list = new ArrayList<PersonDTO>();
@@ -58,6 +69,12 @@ public class PersonController {
 		return list;
 	}
 	
+	
+	/**
+	 * Returns a list with all active persons in the system.<br/>
+	 * persons which are marked as inactive are not included.
+	 * @return list with all active persons
+	 */
 	@RequestMapping(value = "secure/person/getAllActive")
 	public List<PersonDTO> getAllActivePersons() {
 		
@@ -76,6 +93,16 @@ public class PersonController {
 		return list;
 	}
 	
+	
+	/**
+	 * Returns a list with all persons in the system.<br/>
+	 * Inactive persons are also included.<br/>
+	 * The list only contains basic data to reduce transfer data.<br/>
+	 * Following data is not included: systemUser, comment, 
+	 * updateTimestamp, address, city, zip, country, loginEmail, 
+	 * permission, lastEditor, types, emails, telephones
+	 * @return
+	 */
 	@RequestMapping(value = "secure/person/reducedData/getAllActive")
 	public List<PersonDTO> getAllActivePersonsReducedData() {
 		
@@ -86,6 +113,11 @@ public class PersonController {
 		return list;
 	}
 
+	/**
+	 * Returns the person with the given Id.
+	 * @param id Id of the requested person
+	 * @return PersonDTO object
+	 */
 	@RequestMapping(value = "secure/person/getPersonById/{id}")
 	public PersonDTO getPersonById(@PathVariable int id) {
 
@@ -97,6 +129,12 @@ public class PersonController {
 		
 	}
 
+	/**
+	 * Returns the person object for the current user, which is logged on to the system.
+	 * @param request
+	 * @param response
+	 * @return PersonDTO object
+	 */
 	@RequestMapping(value = "secure/person/getCurrentUser")
 	public PersonDTO getCurrentUser(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -112,6 +150,14 @@ public class PersonController {
 
 	}
 
+	
+	/**
+	 * Updates data of person, which is logged on to the system.<br/>
+	 * Is used to change own data, like address, email, etc.
+	 * @param person
+	 * @param request
+	 * @return ControllerMessage showing the success of the call
+	 */
 	@RequestMapping(value = "/secure/person/changeMyData")
 	ControllerMessage changeMyData(@RequestBody PersonDTO person, HttpServletRequest request) {
 		
@@ -153,6 +199,14 @@ public class PersonController {
 	}
 	
 	
+	/**
+	 * Saves of updates a person in the system.
+	 * @param person filled person object, comes from the frontend
+	 * @param request
+	 * @return ControllerMessage showing the success of the call
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping(value = "/secure/person/setPerson")
 	ControllerMessage setPerson(@RequestBody PersonDTO person, HttpServletRequest request) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		try {
@@ -207,8 +261,7 @@ public class PersonController {
 			dataBaseService.insertLogging("[INFO] Person mit der id "+entity.getPersonId()+" gespeichert", lastEditorId);
 			
 			return new ControllerMessage(true, "Speichern erfolgreich!");
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			log.severe("failed saving person");
 			return new ControllerMessage(false, "Speichern fehlgeschlagen!");
@@ -216,6 +269,15 @@ public class PersonController {
 	
 	}
 
+	
+	/**
+	 * Deletes the person with the given Id.<br/>
+	 * The person is marked as inactive in the system.<br/>
+	 * Existing contactPerson entries are removed for the given person
+	 * @param id Id of the person which should be deleted
+	 * @param request
+	 * @return ControllerMessage showing the success of the call
+	 */
 	@RequestMapping(value = "secure/person/deletePersonById/{id}")
 	public ControllerMessage deletePersonById(@PathVariable int id, HttpServletRequest request) {
 
@@ -242,6 +304,15 @@ public class PersonController {
 		
 	}
 
+	
+	/**
+	 * Reset the password for the person with the given Id.
+	 * @param id Id of the Person which the password should be reset for
+	 * @param request
+	 * @return ControllerMessage showing the success of the call
+	 * @throws IOException
+	 * @throws NoSuchAlgorithmException
+	 */
 	@RequestMapping(value = "secure/person/resetPasswordForId/{id}")
 	public ControllerMessage resetPasswordForId(@PathVariable int id, HttpServletRequest request)
 			throws IOException, NoSuchAlgorithmException {
@@ -268,6 +339,14 @@ public class PersonController {
 		}
 	}
 
+	
+	/**
+	 * Changes the password for the current user.
+	 * @param httpServletRequest
+	 * @param changePasswordObject password object from the frontend
+	 * @return ControllerMessage showing the success of the call
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "secure/person/changeCurrentUserPassword")
 	public ControllerMessage changeCurrentUserPassword(
 			HttpServletRequest httpServletRequest,
@@ -305,6 +384,14 @@ public class PersonController {
 		}
 	}
 
+	
+	/**
+	 * Generates a csv file containing all persons.<br/>
+	 * Inactive persons are also included in the csv file.<br/>
+	 * The file is returned by writing directly to the response stream.
+	 * @param response
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "secure/person/getAllPersonsAsCSV")
 	public void downloadCSV(HttpServletResponse response) throws IOException {
 

@@ -31,6 +31,12 @@ import at.erp.light.view.model.Person;
 import at.erp.light.view.services.IDataBase;
 import at.erp.light.view.state.ControllerMessage;
 
+/**
+ * This class is a RestController<br/>
+ * It manages calls concerning organisations.
+ * @author Matthias Schnöll
+ *
+ */
 @RestController
 public class OrganisationController {
 	private static final Logger log = Logger.getLogger(OrganisationController.class
@@ -39,6 +45,11 @@ public class OrganisationController {
 	@Autowired
 	private IDataBase dataBaseService;
 	
+	/**
+	 * Returns a list with all Organisations in the system.<br/>
+	 * Also includes inactive organisations.
+	 * @return list with OrganisationDTO objects
+	 */
 	@RequestMapping(value = "secure/organisation/getAllOrganisations")
 	public List<OrganisationDTO> getAllOrganisations() {
 		
@@ -53,6 +64,13 @@ public class OrganisationController {
 		return list;
 	}
 	
+	
+	/**
+	 * Returns a list with all Organisations in the system.<br/>
+	 * ContactPersons are not delivered to save data transfer.<br/>
+	 * Also includes inactive organisations.
+	 * @return list with reduced dataset of all organisations
+	 */
 	@RequestMapping(value = "secure/organisation/reducedData/getAllOrganisations")
 	public List<OrganisationDTO> getAllOrganisationsWithoutContactPersons() {
 		
@@ -67,6 +85,12 @@ public class OrganisationController {
 		return list;
 	}
 	
+	
+	/**
+	 * Returns list with all active organisations in the system.<br/>
+	 * Only organisations which are marked as active are returned.
+	 * @return list with all active organisations
+	 */
 	@RequestMapping(value = "secure/organisation/getAllActiveOrganisations")
 	public List<OrganisationDTO> getAllActiveOrganisations() {
 		
@@ -81,6 +105,13 @@ public class OrganisationController {
 		return list;
 	}
 	
+	
+	/**
+	 * Returns list with all active organisations in the system.<br/>
+	 * Only active organisations are returned.<br/>
+	 * ContactPersons are not included to reduce data transfer
+	 * @return list with reduced dataset of all active organisations
+	 */
 	@RequestMapping(value = "secure/organisation/reducedData/getAllActiveOrganisations")
 	public List<OrganisationDTO> getAllActiveOrganisationsWithoutContactPersons() {
 		
@@ -95,6 +126,13 @@ public class OrganisationController {
 		return list;
 	}
 	
+	
+	/**
+	 * Saves or updates a organisations in the system.
+	 * @param organisation OrganisationDTO object comes from the frontend
+	 * @param request
+	 * @return ControllerMessage showing the success of the call
+	 */
 	@RequestMapping(value = "/secure/organisation/setOrganisation")
 	public ControllerMessage setOrganisation(@RequestBody OrganisationDTO organisation, HttpServletRequest request) {
 		
@@ -121,6 +159,12 @@ public class OrganisationController {
 		}
 	}
 	
+	
+	/**
+	 * Returns the organisation with the given Id 
+	 * @param id Id of the requested organisation
+	 * @return OrganisationDTO object with the given Id
+	 */
 	@RequestMapping(value = "secure/organisation/getOrganisationById/{id}")
 	public OrganisationDTO getOrganisationById(@PathVariable int id) {
 		Organisation o = dataBaseService.getOrganisationById(id);
@@ -129,6 +173,15 @@ public class OrganisationController {
 		return organisation;
 	}
 
+	
+	/**
+	 * Deletes the organisation with the given Id<br/>
+	 * Deleted organisations are makred as inactive in the DB.<br/>
+	 * The connection to all contactPersons is removed. 
+	 * @param id Id of the organisation which should be deleted
+	 * @param request
+	 * @return ControllerMessage showing the success of the call
+	 */
 	@RequestMapping(value = "secure/organisation/deleteOrganisationById/{id}")
 	public ControllerMessage deleteOrganisationById(@PathVariable int id, HttpServletRequest request) {
 
@@ -155,7 +208,12 @@ public class OrganisationController {
 	}
 	
 	
-	
+	/**
+	 * Returns a csv file including all organisations.<br/>
+	 * The file is returned by writing directly to the response stream.
+	 * @param response
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "secure/organisation/getAllOrganisationsAsCSV")
 	public void downloadCSV(HttpServletResponse response) throws IOException {
 

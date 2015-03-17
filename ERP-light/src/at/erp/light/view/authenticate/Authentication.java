@@ -1,5 +1,12 @@
 package at.erp.light.view.authenticate;
 
+/**
+ * The class represents an authentication object for 
+ * transferring authentication data from the frontend to the backend
+ * @author Matthias Schnöll
+ *
+ */
+
 public class Authentication {
 	private int id;
 	private String loginEmail;
