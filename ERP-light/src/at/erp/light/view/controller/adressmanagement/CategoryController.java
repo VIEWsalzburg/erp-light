@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import at.erp.light.view.controller.article.DeliveryController;
 import at.erp.light.view.dto.CategoryDTO;
 import at.erp.light.view.dto.OrganisationDTO;
 import at.erp.light.view.mapper.CategoryMapper;

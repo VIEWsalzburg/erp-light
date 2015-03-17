@@ -1,6 +1,10 @@
 package at.erp.light.view.controller.article;
 
-
+/**
+ * This class acts as transmission container for requesting a specific report
+ * @author Matthias Schnöll
+ *
+ */
 public class ReportCommand {
 	private Integer organisationId;
 	

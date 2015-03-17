@@ -1,10 +1,7 @@
 package at.erp.light.view.services;
 
 import java.io.File;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.HibernateException;
 
@@ -20,14 +17,12 @@ import at.erp.light.view.model.Category;
 import at.erp.light.view.model.DeliveryList;
 import at.erp.light.view.model.IncomingArticle;
 import at.erp.light.view.model.IncomingDelivery;
-import at.erp.light.view.model.Logging;
 import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.OutgoingArticle;
 import at.erp.light.view.model.OutgoingDelivery;
 import at.erp.light.view.model.Permission;
 import at.erp.light.view.model.Person;
 import at.erp.light.view.model.Platformuser;
-import at.erp.light.view.model.Telephone;
 import at.erp.light.view.model.Type;
 
 

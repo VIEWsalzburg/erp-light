@@ -1,51 +1,27 @@
 package at.erp.light.view.controller.article;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.supercsv.io.CsvListWriter;
-import org.supercsv.prefs.CsvPreference;
 
-import at.erp.light.view.dto.AvailableArticleDTO;
-import at.erp.light.view.dto.DeliveryListDTO;
 import at.erp.light.view.dto.InOutArticlePUDTO;
-import at.erp.light.view.dto.IncomingArticleDTO;
-import at.erp.light.view.dto.IncomingDeliveryDTO;
-import at.erp.light.view.dto.OutgoingArticleDTO;
-import at.erp.light.view.dto.OutgoingDeliveryDTO;
-import at.erp.light.view.generation.DeliveryWordGenerator;
-import at.erp.light.view.mapper.AvailableArticleMapper;
-import at.erp.light.view.mapper.DeliveryListMapper;
-import at.erp.light.view.mapper.IncomingDeliveryMapper;
-import at.erp.light.view.mapper.OutgoingDeliveryMapper;
-import at.erp.light.view.model.AvailArticleInDepot;
-import at.erp.light.view.model.DeliveryList;
-import at.erp.light.view.model.IncomingDelivery;
-import at.erp.light.view.model.OutgoingDelivery;
-import at.erp.light.view.model.Person;
 import at.erp.light.view.services.IDataBase;
 import at.erp.light.view.state.ControllerMessage;
 
+/**
+ * This class is a RestController.<br/>
+ * It manages calls concerning the article distribution for incoming and outgoing deliveries.
+ * @author Matthias Schnöll
+ *
+ */
 @RestController
 public class DistributionController {
 	private static final Logger log = Logger.getLogger(DistributionController.class
@@ -56,6 +32,14 @@ public class DistributionController {
 	
 	/***** [START] updateNumberOfPUs for Incoming and OutgoingArticles "Buchhalterfunktion" *****/
 	
+	
+	/**
+	 * Returns a list of objects representing the distribution for the given article Id.<br/>
+	 * The list contains objects contianing the number of articles PUs for 
+	 * incomingArticles, outgoingArticles and the depot.
+	 * @param articleId
+	 * @return list with the distribution objects
+	 */
 	@RequestMapping(value = "secure/articlePUDistribution/getListByArticleId/{articleId}")
 	public List<InOutArticlePUDTO> getArticlePUDistributionListByArticleId(@PathVariable int articleId)
 	{
@@ -70,6 +54,14 @@ public class DistributionController {
 		return distributionList;
 	}
 	
+	
+	/**
+	 * Updates the article distribution in the DB with the given distribution.<br/>
+	 * @param distributionList new distribution for the article; the elements contain the 
+	 * Id of the incomingArticle, outgoingArticle or the depot and the number of PUs
+	 * @param request
+	 * @return ControllerMessage showing the success of the call
+	 */
 	@RequestMapping(value = "secure/articlePUDistribution/updateDistributionList")
 	public ControllerMessage updateArticlePUDistributionList(@RequestBody List<InOutArticlePUDTO> distributionList,
 			HttpServletRequest request)
@@ -104,7 +96,14 @@ public class DistributionController {
 	}
 	
 	
-	
+	/**
+	 * Deletes all incomingArticle, outoingArticle and depot entries with the given ArticleId.<br/>
+	 * This function can be used to completely remove an Article from the DB.<br/>
+	 * For example, if the article was not delivered by the deliverer.
+	 * @param articleId of the Article which should be removed form all incomingArticles, outoingArticles and depot
+	 * @param request
+	 * @return ControllerMessage showing the success of the call
+	 */
 	@RequestMapping(value = "secure/articlePUDistribution/deleteArticleById/{articleId}")
 	public ControllerMessage deleteArticleAndDistribution(@PathVariable int articleId, HttpServletRequest request)
 	{
@@ -125,6 +124,5 @@ public class DistributionController {
 			return new ControllerMessage(false, "Löschen nicht erfolgreich: "+e.getMessage());
 		}
 	}
-	
 	
 }

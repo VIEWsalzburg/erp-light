@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.el.stream.Stream;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +20,8 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
-import at.erp.light.view.controller.article.DeliveryController;
 import at.erp.light.view.dto.OrganisationDTO;
 import at.erp.light.view.mapper.OrganisationMapper;
-import at.erp.light.view.mapper.PersonMapper;
 import at.erp.light.view.model.Category;
 import at.erp.light.view.model.Organisation;
 import at.erp.light.view.model.Person;

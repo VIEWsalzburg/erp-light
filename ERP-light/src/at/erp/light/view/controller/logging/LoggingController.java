@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import at.erp.light.view.dto.LoggingDTO;
 import at.erp.light.view.services.IDataBase;
 
+/**
+ * This class is a RestController.<br/>
+ * It manages the calls concerning system logs.
+ * @author Matthias Schnöll
+ *
+ */
 @RestController
 public class LoggingController {
 	private static final Logger log = Logger.getLogger(LoggingController.class
@@ -21,6 +27,11 @@ public class LoggingController {
 	@Autowired
 	private IDataBase dataBaseService;
 
+	/**
+	 * Returns latest system logs
+	 * @param count number of logs which should be retrieved
+	 * @return list with logging objects from the DB
+	 */
 	@RequestMapping(value = "secure/logging/getLatestLogs/{count}")
 	public List<LoggingDTO> getLatestLogs(@PathVariable int count) {
 		

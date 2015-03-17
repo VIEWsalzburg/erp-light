@@ -10,11 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ibm.rcm.resource.config.PlatformConstraint;
-
 import at.erp.light.view.model.Platformuser;
 import at.erp.light.view.services.IDataBase;
 
+/**
+ * This class is a RestController.<br/>
+ * It manages the logout process for the system.
+ * @author Matthias Schnöll
+ *
+ */
 @RestController
 public class LogoutController {
 
@@ -24,6 +28,12 @@ public class LogoutController {
 	@Autowired
 	private IDataBase dataBaseService;
 	
+	/**
+	 * Performs the logout for the current user.<br/>
+	 * This function redirects the user to the login page and destroys the session.
+	 * @param request
+	 * @param response
+	 */
 	@RequestMapping(value = "/logout")
 	public void postListener(HttpServletRequest request,
 			HttpServletResponse response) {

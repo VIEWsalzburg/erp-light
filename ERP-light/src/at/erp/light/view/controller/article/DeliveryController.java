@@ -1,19 +1,12 @@
 package at.erp.light.view.controller.article;
 
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,17 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.supercsv.io.CsvListWriter;
-import org.supercsv.prefs.CsvPreference;
 
 import at.erp.light.view.dto.AvailableArticleDTO;
 import at.erp.light.view.dto.DeliveryListDTO;
-import at.erp.light.view.dto.InOutArticlePUDTO;
-import at.erp.light.view.dto.IncomingArticleDTO;
 import at.erp.light.view.dto.IncomingDeliveryDTO;
-import at.erp.light.view.dto.OutgoingArticleDTO;
 import at.erp.light.view.dto.OutgoingDeliveryDTO;
-import at.erp.light.view.generation.DeliveryWordGenerator;
 import at.erp.light.view.mapper.AvailableArticleMapper;
 import at.erp.light.view.mapper.DeliveryListMapper;
 import at.erp.light.view.mapper.IncomingDeliveryMapper;
@@ -46,6 +33,12 @@ import at.erp.light.view.model.Person;
 import at.erp.light.view.services.IDataBase;
 import at.erp.light.view.state.ControllerMessage;
 
+/**
+ * This class is a RestController.<br/>
+ * It manages all calls concerning all sorts of deliveries.
+ * @author Matthias Schnöll
+ *
+ */
 @RestController
 public class DeliveryController {
 	private static final Logger log = Logger.getLogger(DeliveryController.class
@@ -57,8 +50,9 @@ public class DeliveryController {
 	/***** [START] incoming Deliveries *****/
 
 	/**
-	 * Get all incoming deliveries.
-	 * @return a dto representation for displaying them
+	 * Returns a list with all incoming deliveries.<br/>
+	 * Archived incoming deliveries are also included.
+	 * @return list with all incoming deliveries
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/getAll")
 	public List<IncomingDeliveryDTO> getAllIncomingDeliveries() {
@@ -88,8 +82,8 @@ public class DeliveryController {
 	}
 
 	/**
-	 * Get all unarchived incoming deliveries.
-	 * @return a dto representation for displaying them
+	 * Returns all unarchived incoming deliveries.
+	 * @return list with all unarchived incoming deliveries 
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/getAllUnarchived")
 	public List<IncomingDeliveryDTO> getAllunarchivedIncomingDeliveries() {
@@ -119,9 +113,9 @@ public class DeliveryController {
 	}
 
 	/**
-	 * Get an incoming delivery by id.
-	 * @param id of the requested delivery
-	 * @return a dto representation of the requested delivery
+	 * Returns the incoming delivery with the given Id.
+	 * @param id Id of the requested incoming delivery
+	 * @return dto representation of the requested incoming delivery
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/getById/{id}")
 	public IncomingDeliveryDTO getIncomingDeliveryById(@PathVariable int id) {
@@ -142,8 +136,8 @@ public class DeliveryController {
 	/**
 	 * Set incoming delivery to archived state via id
 	 * @param id of the requested delivery
-	 * @param state 0/1 un/archived
-	 * @return MessageOb
+	 * @param state 0=unarchived; 1=archived
+	 * @return ControllerMessage showing the success of the call
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/setArchivedState/{id}/{state}")
 	public ControllerMessage setIncomingDeliveryState(@PathVariable int id,
@@ -170,8 +164,8 @@ public class DeliveryController {
 	/**
 	 * Set outgoing delivery to archived via id
 	 * @param id of the requested delivery
-	 * @param state 0/1 un/archived
-	 * @return MessageObject with state
+	 * @param state 0=unarchived; 1=archived
+	 * @return ControllerMessage showing the success of the call
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/setArchivedState/{id}/{state}")
 	public ControllerMessage setOutgoingDeliveryState(@PathVariable int id,
@@ -197,10 +191,10 @@ public class DeliveryController {
 	}
 
 	/**
-	 * Set a delivery. Sets also last editor via the logged in id.
-	 * @param dto to save
+	 * Saves or updates an incoming delivery.
+	 * @param dto incomingDelivery from the frontend
 	 * @param request to determine the editor
-	 * @return a message which contains a state for successful or not and a textual description
+	 * @return ControllerMessage showing the success of the call
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/set")
 	public ControllerMessage setIncomingDelivery(
@@ -250,9 +244,9 @@ public class DeliveryController {
 	}
 
 	/**
-	 * Deletes an incomingDelivery by the specified id.
+	 * Deletes the incomingDelivery with the given Id.
 	 * @param id to delete
-	 * @return a message with a state if successful or not and a textual description
+	 * @return ControllerMessage showing the success of the call
 	 */
 	@RequestMapping(value = "secure/incomingDelivery/deleteById/{id}")
 	public ControllerMessage deleteIncomingDeliveryById(@PathVariable int id, HttpServletRequest request) {
@@ -282,8 +276,9 @@ public class DeliveryController {
 	/***** [START] outgoing Deliveries *****/
 
 	/**
-	 * Gets all outgoing deliveries.
-	 * @return a dto representation
+	 * Returns a list with all outgoingDeliveries in the system.<br/>
+	 * Archived outgoingDeliveries are also included.
+	 * @return list with all outgoingDeliveries
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/getAll")
 	public List<OutgoingDeliveryDTO> getAllOutgoingDeliveries() {
@@ -308,8 +303,8 @@ public class DeliveryController {
 	}
 
 	/**
-	 * Gets all unarchived outgoing deliveries.
-	 * @return a dto representation
+	 * Returns a list with all unarchived outgoingDeliveries in the system.
+	 * @return list with all unarchived outgoingDeliveries
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/getAllUnarchived")
 	public List<OutgoingDeliveryDTO> getAllUnarchivedOutgoingDeliveries() {
@@ -335,7 +330,7 @@ public class DeliveryController {
 
 	/**
 	 * Gets all outgoing deliveries, which are not booked (available).
-	 * @return a dto representation
+	 * @return List with available outgoingDeliveries
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/getAllAvailables")
 	public List<OutgoingDeliveryDTO> getAllAvailableOutgoingDeliveries() {
@@ -359,10 +354,11 @@ public class DeliveryController {
 		}
 	}
 
+	
 	/**
-	 * Gets only the requested outgoing delivery.
-	 * @param id of the requested outgoing delivery id
-	 * @return a dto representation of the delivery
+	 * Returns the outgoingDelivery with the given Id.
+	 * @param id Id of the requested outgoingDelivery
+	 * @return outgoingDelivery with the given Id
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/getById/{id}")
 	public OutgoingDeliveryDTO getOutgoingDeliveryById(@PathVariable int id) {
@@ -381,10 +377,10 @@ public class DeliveryController {
 	}
 
 	/**
-	 * Sets an outgoing delivery dto.
-	 * @param dto to save
+	 * Saves or updates a outgoingDelivery in the system
+	 * @param dto to save, comes from the frontend
 	 * @param request to determine the last editor
-	 * @return a message with a state and a textual description
+	 * @return ControllerMessage showing the success of the call
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/set")
 	public ControllerMessage setOutgoingDelivery(
@@ -440,9 +436,9 @@ public class DeliveryController {
 	}
 
 	/**
-	 * Deletes an outgoing delivery.
-	 * @param id of object to delete
-	 * @return a message with a state and textual description
+	 * Deletes the outgoing delivery with the given Id.
+	 * @param id of the object to delete
+	 * @return ControllerMessage showing the success of the call
 	 */
 	@RequestMapping(value = "secure/outgoingDelivery/deleteById/{id}")
 	public ControllerMessage deleteOutgoingDeliveryById(@PathVariable int id, HttpServletRequest request) {
@@ -476,8 +472,8 @@ public class DeliveryController {
 	/***** [START] availableArticles *****/
 
 	/**
-	 * To determine all available articles in the storage.
-	 * @return a dto representation
+	 * Returns a list with all available articles in the virtual depot.
+	 * @return list with availabe articles
 	 */
 	@RequestMapping(value = "secure/articles/getAvailableArticles")
 	public List<AvailableArticleDTO> getAvailableArticles() {
@@ -501,8 +497,8 @@ public class DeliveryController {
 	/***** [START] Delivery list *****/
 
 	/**
-	 * Get all unarchived delivery lists.
-	 * @return dto representation
+	 * Returns a list with all unarchived delivery lists in the system
+	 * @return list with all unarchived delivery lists
 	 */
 	@RequestMapping(value = "secure/deliveryList/getAllUnarchived")
 	public List<DeliveryListDTO> getAllUnarchivedDeliveryLists() {
@@ -526,8 +522,8 @@ public class DeliveryController {
 	/**
 	 * Set DeliveryList to archived via id
 	 * @param id of the requested delivery
-	 * @param state 0/1 un/archived
-	 * @return MessageObject with state
+	 * @param state 0=unarchived; 1=archived
+	 * @return ControllerMessage showing the success of the call
 	 */
 	@RequestMapping(value = "secure/deliveryList/setArchivedState/{id}/{state}")
 	public ControllerMessage setDeliveryListState(@PathVariable int id,
@@ -554,8 +550,9 @@ public class DeliveryController {
 	}
 	
 	/**
-	 * Get all delivery lists.
-	 * @return dto representation
+	 * Returns list with all delivery lists in the system.<br/>
+	 * Archived delivery lists are also included.
+	 * @return list with all delivery lists
 	 */
 	@RequestMapping(value = "secure/deliveryList/getAll")
 	public List<DeliveryListDTO> getAllDeliveryLists() {
@@ -579,7 +576,7 @@ public class DeliveryController {
 	/**
 	 * Returns the requested delivery list.
 	 * @param id of the requested list
-	 * @return a dto representation
+	 * @return delivery lists object
 	 */
 	@RequestMapping(value = "secure/deliveryList/getById/{id}")
 	public DeliveryListDTO getDeliverListById(@PathVariable int id) {
@@ -597,10 +594,10 @@ public class DeliveryController {
 	}
 
 	/**
-	 * Sets a deliveryList.
-	 * @param dto to set
+	 * Saves or updates the given delivery list in the system.
+	 * @param dto to save, comes from the frontend
 	 * @param request to determine the last editor
-	 * @return a message with a state and a textual description
+	 * @return ControllerMessage showing the success of the call
 	 */
 	@RequestMapping(value = "secure/deliveryList/set")
 	public ControllerMessage setDeliveryList(@RequestBody DeliveryListDTO dto,
@@ -634,9 +631,9 @@ public class DeliveryController {
 	}
 
 	/**
-	 * Deletes a delivery list
-	 * @param id of object to delete
-	 * @return a message with a state and textual description
+	 * Deletes the delivery list witht the given Id.
+	 * @param id of the delivery list which should be deleted
+	 * @return ControllerMessage showing the success of the call
 	 */
 	@RequestMapping(value = "secure/deliveryList/deleteById/{id}")
 	public ControllerMessage deleteDeliveryListById(@PathVariable int id, HttpServletRequest request) {
@@ -662,10 +659,13 @@ public class DeliveryController {
 					+ e.getMessage());
 		}
 	}
-
+	
+	
 	/**
-	 * Exports a deliveryList as Word file
-	 * Delivers word file as outputstream
+	 * Exports the deliverList with the given Id as word file.<br/>
+	 * The word file is returned by writing the File object to the response stream.
+	 * @param id Id of the delivery list
+	 * @param httpServletResponse
 	 */
 	@RequestMapping(value = "secure/deliveryList/exportAsWord/{id}")
 	public void generateDeliveryListById(@PathVariable int id,
@@ -683,7 +683,6 @@ public class DeliveryController {
 			FileInputStream wordFile = new FileInputStream(dataBaseService.generateDeliveryExport(id, lastEditor));
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-			SimpleDateFormat sdfDTO = new SimpleDateFormat("dd.MM.yyyy");
 			String filename = "Lieferliste_"+sdf.format(deliveryList.getDate())+".docx";
 			httpServletResponse.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", filename));
 			

@@ -1,7 +1,6 @@
 package at.erp.light.view.controller.article;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -24,20 +23,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.supercsv.cellprocessor.FmtNumber;
-import org.supercsv.cellprocessor.ParseDouble;
-import org.supercsv.cellprocessor.StrReplace;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 import at.erp.light.view.dto.InOutArticlePUDTO;
-import at.erp.light.view.dto.PersonAddressReportDataDTO;
 import at.erp.light.view.dto.ReportDataDTO;
 import at.erp.light.view.model.IncomingArticle;
 import at.erp.light.view.model.IncomingDelivery;
 import at.erp.light.view.model.Organisation;
 import at.erp.light.view.services.IDataBase;
 
+/**
+ * This class is a RestController.<br/>
+ * It manages the generation of reports concerning article management.
+ * @author Matthias Schnöll
+ *
+ */
 @RestController
 public class ReportController {
 	private static final Logger log = Logger.getLogger(ReportController.class
@@ -48,10 +50,12 @@ public class ReportController {
 
 	DecimalFormat csvDecimalFormat = (DecimalFormat)NumberFormat.getNumberInstance(new Locale("de", "AT"));
 
-
-	/***** [END] Delivery list 
-	 * @throws ParseException *****/
-	
+	/**
+	 * Requests a report for a single element which can then be displayed in the frontend.
+	 * @param reportCommand tells which report should be carried out
+	 * @return a signle report data object
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "secure/reports/articles/getSingleData")
 	public ReportDataDTO getSingleData(@RequestBody ReportCommand reportCommand) throws IOException 
 	{
@@ -95,6 +99,13 @@ public class ReportController {
 	}
 	
 	
+	/**
+	 * Generates a list with multiple elements
+	 * @param reportCommand tells which report should be carried out
+	 * @return a list with multiple report data elements
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "secure/reports/articles/getListData")
 	public List<ReportDataDTO> getListData(@RequestBody ReportCommand reportCommand) throws IOException, ParseException 
 	{
@@ -128,6 +139,13 @@ public class ReportController {
 	}
 	
 	
+	/**
+	 * Generates a csv report file with multiple report data objects
+	 * @param request contains the given report parameters
+	 * @param response is used to write the csv file to the frontend
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "secure/reports/articles/generateCSVReport")
 	public void downloadCSV(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ParseException {
@@ -141,7 +159,6 @@ public class ReportController {
 		String outgoingReportForAllOrganisationsParameter = request.getParameter("outgoingReportForAllOrganisations");
 		String totalSumOfAllIncomingDeliveriesParameter = request.getParameter("totalSumOfAllIncomingDeliveries");
 		String totalSumOfAllOutgoingDeliveriesParameter = request.getParameter("totalSumOfAllOutgoingDeliveries");
-
 		
 		Assert.notNull(organisationId);
 		Assert.notNull(dateFromParameter);
@@ -152,10 +169,8 @@ public class ReportController {
 		Assert.notNull(outgoingReportForAllOrganisationsParameter);
 		Assert.notNull(totalSumOfAllIncomingDeliveriesParameter);
 		Assert.notNull(totalSumOfAllOutgoingDeliveriesParameter);
-
 		
 		ReportCommand reportCommand = new ReportCommand();
-		
 		
 		reportCommand.setOrganisationId(Integer.valueOf(organisationId));
 		reportCommand.setDateFrom(dateFromParameter);
@@ -184,10 +199,8 @@ public class ReportController {
 
 		response.setHeader(headerKey, headerValue);
 
-		
 		CsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
 				CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
-
 		
 		String reportTitle = "Report";
 		
@@ -311,6 +324,12 @@ public class ReportController {
 	}
 
 
+	/**
+	 * Writes a single report data object to the given CsvBeanWriter
+	 * @param csvWriter where the data should be written to
+	 * @param reportDataDTO data which should be written
+	 * @throws IOException
+	 */
 	private void writeSingleData(CsvBeanWriter csvWriter,
 			ReportDataDTO reportDataDTO) throws IOException {
 		String[] reportHeader = getReportHeader(reportDataDTO);
@@ -340,6 +359,12 @@ public class ReportController {
 	}
 
 
+	/**
+	 * Write multiple Report data objects to the given CsvBeanWriter
+	 * @param csvWriter where the list of data should be written to
+	 * @param reportDataDTOList which should be written
+	 * @throws IOException
+	 */
 	private void writeListData(CsvBeanWriter csvWriter,
 			List<ReportDataDTO> reportDataDTOList) throws IOException {
 		
@@ -380,6 +405,11 @@ public class ReportController {
 	}
 
 
+	/**
+	 * Extracts the headers for the given reportDataDTO
+	 * @param reportDataDTO
+	 * @return String array including the headers
+	 */
 	private String[] getReportHeader(ReportDataDTO reportDataDTO) {
 		List<String> header = new ArrayList<String>();
 		
@@ -406,6 +436,12 @@ public class ReportController {
 		return stockArr;
 	}
 	
+	
+	/**
+	 * Extracts the names of the object fields as string array
+	 * @param reportDataDTO
+	 * @return string array with the names of the object fields
+	 */
 	private String[] getReportObjectHeader(ReportDataDTO reportDataDTO) {
 		List<String> header = new ArrayList<String>();
 		
@@ -432,10 +468,17 @@ public class ReportController {
 	
 	
 	
-	
-	
 	/***** ArticleDistributionReport *****/
 	
+	/**
+	 * Generates a distribution report for the given delivery Id<br/>
+	 * The csv file is directly written two the response stream.
+	 * @param id of the requested delivery list
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "secure/reports/articles/generateDistributionReportByIncomingDeliveryId/{id}")
 	public void generateAddressReport(@PathVariable int id,
 			HttpServletRequest request,	HttpServletResponse response) throws IOException, ParseException {
@@ -629,12 +672,6 @@ public class ReportController {
 		}
 		
 	}
-
-	
-	
-	
-	
-	
 	
 	
 }
