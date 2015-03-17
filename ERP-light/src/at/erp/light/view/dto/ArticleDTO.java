@@ -52,7 +52,7 @@ public class ArticleDTO {
 
 	/**
 	 * set the articleId
-	 * @param articleId
+	 * @param articleId articleId
 	 */
 	public void setArticleId(int articleId) {
 		this.articleId = articleId;
@@ -68,7 +68,7 @@ public class ArticleDTO {
 
 	/**
 	 * set the description
-	 * @param description
+	 * @param description description
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -84,7 +84,7 @@ public class ArticleDTO {
 
 	/**
 	 * set the packagingUnit
-	 * @param packagingUnit
+	 * @param packagingUnit packagingUnit
 	 */
 	public void setPackagingUnit(String packagingUnit) {
 		this.packagingUnit = packagingUnit;
@@ -100,7 +100,7 @@ public class ArticleDTO {
 
 	/**
 	 * set the weightpu
-	 * @param weightpu
+	 * @param weightpu weightpu
 	 */
 	public void setWeightpu(double weightpu) {
 		this.weightpu = weightpu;
@@ -116,7 +116,7 @@ public class ArticleDTO {
 
 	/**
 	 * set the mdd
-	 * @param mdd
+	 * @param mdd mdd
 	 */
 	public void setMdd(String mdd) {
 		this.mdd = mdd;
@@ -132,7 +132,7 @@ public class ArticleDTO {
 
 	/**
 	 * set the pricepu
-	 * @param pricepu
+	 * @param pricepu pricepu
 	 */
 	public void setPricepu(double pricepu) {
 		this.pricepu = pricepu;
@@ -148,7 +148,7 @@ public class ArticleDTO {
 
 	/**
 	 * set the delivererId
-	 * @param delivererId
+	 * @param delivererId delivererId
 	 */
 	public void setDelivererId(int delivererId) {
 		this.delivererId = delivererId;

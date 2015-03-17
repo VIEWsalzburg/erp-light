@@ -12,9 +12,18 @@ public class AvailableArticleDTO {
 	private ArticleDTO articleDTO;
 	private Integer availNumberOfPUs;
 	
+	/**
+	 * Constructor
+	 */
 	public AvailableArticleDTO() {
 	}
 	
+	/**
+	 * Constructor
+	 * @param articleId articleId
+	 * @param articleDTO articleDTO
+	 * @param availNumberOfPUs available number of PU for this article
+	 */
 	public AvailableArticleDTO(int articleId, ArticleDTO articleDTO,
 			Integer availNumberOfPUs) {
 		super();
@@ -23,26 +32,50 @@ public class AvailableArticleDTO {
 		this.availNumberOfPUs = availNumberOfPUs;
 	}
 
+	/**
+	 * get the articleId
+	 * @return articleId
+	 */
 	public int getArticleId() {
 		return articleId;
 	}
 
+	/**
+	 * set the articleId
+	 * @param articleId articleId
+	 */
 	public void setArticleId(int articleId) {
 		this.articleId = articleId;
 	}
 
+	/**
+	 * get the articleDTO
+	 * @return articleDTO
+	 */
 	public ArticleDTO getArticleDTO() {
 		return articleDTO;
 	}
 
+	/**
+	 * set the articleDTO
+	 * @param articleDTO articleDTO
+	 */
 	public void setArticleDTO(ArticleDTO articleDTO) {
 		this.articleDTO = articleDTO;
 	}
 
+	/**
+	 * get the available number of PUs for the article
+	 * @return available number of PUs
+	 */
 	public Integer getAvailNumberOfPUs() {
 		return availNumberOfPUs;
 	}
 
+	/**
+	 * set the available number of PUs for the article
+	 * @param availNumberOfPUs available number of PUs
+	 */
 	public void setAvailNumberOfPUs(Integer availNumberOfPUs) {
 		this.availNumberOfPUs = availNumberOfPUs;
 	}

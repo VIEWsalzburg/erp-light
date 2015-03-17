@@ -10,27 +10,51 @@ public class EmailDTO {
 	private String mail;
 	private String type;
 
+	/**
+	 * Constructor
+	 */
 	public EmailDTO() {
 	}
 
+	/**
+	 * Construcotr
+	 * @param mail Email address
+	 * @param type type of the email address
+	 */
 	public EmailDTO(String mail, String type) {
 		super();
 		this.mail = mail;
 		this.type = type;
 	}
 
+	/**
+	 * get the email address
+	 * @return
+	 */
 	public String getMail() {
 		return mail;
 	}
 
+	/**
+	 * set the email address
+	 * @param mail email address
+	 */
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
 
+	/**
+	 * get the type of the email
+	 * @return
+	 */
 	public String getType() {
 		return type;
 	}
 
+	/**
+	 * set the type of the email
+	 * @param type type
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}
