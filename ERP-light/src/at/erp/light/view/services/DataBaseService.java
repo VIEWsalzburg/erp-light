@@ -48,16 +48,25 @@ import at.erp.light.view.model.Type;
 //TODO rollbackFor=[Exceptions] => check and create custom annotation if needed
 // http://stackoverflow.com/questions/3701376/rollback-on-every-checked-exception-whenever-i-say-transactional
 
+/**
+ * This class is used to access the DB and interact with the data.
+ * @author Matthias Schnöll
+ *
+ */
 @Transactional(propagation=Propagation.REQUIRED)
 public class DataBaseService implements IDataBase {
 
 	private SessionFactory sessionFactory;
-		
+	
+	/**
+	 * Constructor, sessionFactory is created and injected by Spring
+	 * @param sessionFactory
+	 */
 	public DataBaseService(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
-		
+	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Person getPersonById(int id) throws HibernateException {				
@@ -283,7 +292,6 @@ public class DataBaseService implements IDataBase {
 		sessionFactory.getCurrentSession().saveOrUpdate(existingPerson);
 		
 		return existingPerson.getPersonId();
-		
 	}
 	
 	@Override
@@ -730,59 +738,6 @@ public class DataBaseService implements IDataBase {
 		return -1;	// should not happen
 		
 	}
-	
-	
-	@Override
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public int deleteArticleWithDistributionByArticleId(int articleId) throws Exception {
-		
-		// get all incomingArticles and all outgoingArticles which are linked to the Article with the given ArticleId
-		
-		List<IncomingArticle> incomingArticles = this.getIncomingArticlesByArticleId(articleId);
-		List<OutgoingArticle> outgoingArticles = this.getOutgoingArticlesByArticleId(articleId);
-		
-		// perform for every IncomingArticle
-		for (IncomingArticle iA : incomingArticles)
-		{
-			// get IncomingDelivery for IncomingArticle
-			IncomingDelivery incomingDelivery = iA.getIncomingDelivery();
-			// remove IncomingArticle from IncomingDelivery
-			incomingDelivery.getIncomingArticles().remove(iA);
-			// update modified IncomingDelivery
-			this.sessionFactory.getCurrentSession().update(incomingDelivery);
-			// delete IncomingArticle
-			this.sessionFactory.getCurrentSession().delete(iA);
-		}
-		
-		// perform for every OutgoingArticle
-		for (OutgoingArticle oA : outgoingArticles)
-		{
-			// get OutgoingDelivery for OutgoingArticle
-			OutgoingDelivery outgoingDelivery = oA.getOutgoingDelivery();
-			// remove OutgoingArticle from OutgoingDelivery
-			outgoingDelivery.getOutgoingArticles().remove(oA);
-			// update modified OutgoingDelivery
-			this.sessionFactory.getCurrentSession().update(outgoingDelivery);
-			// delete OutgoingArticle
-			this.sessionFactory.getCurrentSession().delete(oA);
-		}
-		
-		// update DB changes
-		this.sessionFactory.getCurrentSession().flush();
-		
-		// delete Article from DB
-		this.sessionFactory.getCurrentSession().delete(this.getArticleById(articleId));
-		
-		// perform consistency check
-		if (checkInAndOutArticlePUs() == false)
-			throw new ERPLightException("Number of PUs for incoming and outgoing articles are not valid.");
-		
-		return 0;
-	}
-	
-	
-	
-	
 	
 	
 	@Override
@@ -1410,7 +1365,53 @@ public class DataBaseService implements IDataBase {
 		return 0;
 	}
 	
-	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int deleteArticleWithDistributionByArticleId(int articleId) throws Exception {
+		
+		// get all incomingArticles and all outgoingArticles which are linked to the Article with the given ArticleId
+		
+		List<IncomingArticle> incomingArticles = this.getIncomingArticlesByArticleId(articleId);
+		List<OutgoingArticle> outgoingArticles = this.getOutgoingArticlesByArticleId(articleId);
+		
+		// perform for every IncomingArticle
+		for (IncomingArticle iA : incomingArticles)
+		{
+			// get IncomingDelivery for IncomingArticle
+			IncomingDelivery incomingDelivery = iA.getIncomingDelivery();
+			// remove IncomingArticle from IncomingDelivery
+			incomingDelivery.getIncomingArticles().remove(iA);
+			// update modified IncomingDelivery
+			this.sessionFactory.getCurrentSession().update(incomingDelivery);
+			// delete IncomingArticle
+			this.sessionFactory.getCurrentSession().delete(iA);
+		}
+		
+		// perform for every OutgoingArticle
+		for (OutgoingArticle oA : outgoingArticles)
+		{
+			// get OutgoingDelivery for OutgoingArticle
+			OutgoingDelivery outgoingDelivery = oA.getOutgoingDelivery();
+			// remove OutgoingArticle from OutgoingDelivery
+			outgoingDelivery.getOutgoingArticles().remove(oA);
+			// update modified OutgoingDelivery
+			this.sessionFactory.getCurrentSession().update(outgoingDelivery);
+			// delete OutgoingArticle
+			this.sessionFactory.getCurrentSession().delete(oA);
+		}
+		
+		// update DB changes
+		this.sessionFactory.getCurrentSession().flush();
+		
+		// delete Article from DB
+		this.sessionFactory.getCurrentSession().delete(this.getArticleById(articleId));
+		
+		// perform consistency check
+		if (checkInAndOutArticlePUs() == false)
+			throw new ERPLightException("Number of PUs for incoming and outgoing articles are not valid.");
+		
+		return 0;
+	}
 	
 	/***** [END] "Buchhalterfunktion" *****/
 	

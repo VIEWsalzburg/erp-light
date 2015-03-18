@@ -22,8 +22,24 @@ public class IncomingDeliveryDTO {
 	private Set<IncomingArticleDTO> incomingArticleDTOs = new HashSet<IncomingArticleDTO>(
 			0);
 	
+	/**
+	 * Constructor
+	 */
 	public IncomingDeliveryDTO(){}
 	
+	/**
+	 * Constructor
+	 * @param incomingDeliveryId Id of the incoming delivery
+	 * @param organisationId Id of the delivering organisation
+	 * @param lastEditorId Id of the last editor
+	 * @param deliveryNr Order number of the incoming delivery; not used
+	 * @param date Delivering date of the incoming delivery
+	 * @param comment Comment
+	 * @param incomingArticleDTOs IncomingArticles within the incoming delivery
+	 * @param updateTimestamp UpdateTimestamp of the incoming delivery
+	 * @param archived Archived status of the incoming delivery (0=unarchived, 1=archived)
+	 * @param booked Booked status of the incoming delivery (0=not booked, 1=booked)
+	 */
 	public IncomingDeliveryDTO(int incomingDeliveryId,
 			int organisationId, int lastEditorId,
 			int deliveryNr, String date, String comment,
@@ -42,82 +58,162 @@ public class IncomingDeliveryDTO {
 		this.archived = archived;
 	}
 
+	/**
+	 * get the Id of the incoming delivery
+	 * @return Id
+	 */
 	public int getIncomingDeliveryId() {
 		return incomingDeliveryId;
 	}
 
+	/**
+	 * set the Id for the incoming delivery
+	 * @param incomingDeliveryId Id
+	 */
 	public void setIncomingDeliveryId(int incomingDeliveryId) {
 		this.incomingDeliveryId = incomingDeliveryId;
 	}
 
+	/**
+	 * get the deliverer Id of the incoming delivery
+	 * @return Id
+	 */
 	public int getOrganisationId() {
 		return organisationId;
 	}
 
+	/**
+	 * set the deliverer Id for the incoming delivery
+	 * @param organisationId Id
+	 */
 	public void setOrganisationId(int organisationId) {
 		this.organisationId = organisationId;
 	}
 
+	/**
+	 * get the Id of the last editor
+	 * @return Id
+	 */
 	public int getLastEditorId() {
 		return lastEditorId;
 	}
 
+	/**
+	 * set last editor Id for the incoming delivery
+	 * @param lastEditorId Id
+	 */
 	public void setLastEditorId(int lastEditorId) {
 		this.lastEditorId = lastEditorId;
 	}
 
+	/**
+	 * get the order number
+	 * @return order number
+	 */
 	public int getDeliveryNr() {
 		return deliveryNr;
 	}
 
+	/**
+	 * set the order number
+	 * @param deliveryNr order number
+	 */
 	public void setDeliveryNr(int deliveryNr) {
 		this.deliveryNr = deliveryNr;
 	}
 
+	/**
+	 * get the delivering date
+	 * @return delivering date
+	 */
 	public String getDate() {
 		return date;
 	}
 
+	/**
+	 * set the delivering date
+	 * @param date delivering date
+	 */
 	public void setDate(String date) {
 		this.date = date;
 	}
 
+	/**
+	 * get the comment of the incoming delivery
+	 * @return comment
+	 */
 	public String getComment() {
 		return comment;
 	}
 
+	/**
+	 * set the comment for the incoming delivery
+	 * @param comment comment
+	 */
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
 
+	/**
+	 * get all associated incomingArticles
+	 * @return associated incomingArticles
+	 */
 	public Set<IncomingArticleDTO> getIncomingArticleDTOs() {
 		return incomingArticleDTOs;
 	}
 
+	/**
+	 * set the associated incomingArticles
+	 * @param incomingArticleDTOs associated incomingArticles
+	 */
 	public void setIncomingArticleDTOs(Set<IncomingArticleDTO> incomingArticleDTOs) {
 		this.incomingArticleDTOs = incomingArticleDTOs;
 	}
 
+	/**
+	 * get the UpdateTimestamp
+	 * @return UpdateTimestamp
+	 */
 	public String getUpdateTimestamp() {
 		return updateTimestamp;
 	}
 
+	/**
+	 * set the UpdateTimestamp
+	 * @param updateTimestamp UpdateTimestamp
+	 */
 	public void setUpdateTimestamp(String updateTimestamp) {
 		this.updateTimestamp = updateTimestamp;
 	}
 
+	/**
+	 * get the booked status of the incomingDelivery
+	 * @return booked status
+	 */
 	public int getBooked() {
 		return booked;
 	}
 
+	/**
+	 * set the booked status for the incomingDelivery
+	 * @param booked booked status
+	 */
 	public void setBooked(int booked) {
 		this.booked = booked;
 	}
 
+	/**
+	 * get the archived status for the incomingDelivery
+	 * @return archived status
+	 */
 	public int getArchived() {
 		return archived;
 	}
 
+	/**
+	 * set the archived status for the incomingDelivery
+	 * @param archived archived status
+	 */
 	public void setArchived(int archived) {
 		this.archived = archived;
 	}
