@@ -801,7 +801,11 @@ $(document).ready(function() {
 			var rex = new RegExp($(this).val(), 'i');
 			$('.searchable tr').hide();
 			$('.searchable tr').filter(function() {
-				return rex.test($(this).text());
+				var text = $(this).children().map(function(i,opt) {
+					return $(opt).text();
+				}).toArray().join(',');
+				
+				return rex.test(text);
 			}).show();
 			
 			// update organisation count label

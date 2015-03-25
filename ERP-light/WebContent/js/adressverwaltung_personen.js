@@ -711,7 +711,12 @@ $(document).ready(function() {
 			$('.searchable tr').hide();
 			// show all Persons, which contain the given text
 			$('.searchable tr').filter(function() {
-				return rex.test($(this).text());
+				
+				var text = $(this).children().map(function(i,opt) {
+					return $(opt).text();
+				}).toArray().join(',');
+				
+				return rex.test(text);
 			}).show();
 			
 			// update person count label
