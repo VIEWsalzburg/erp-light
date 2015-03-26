@@ -458,7 +458,7 @@ $("#pageheader").load("../partials/header.html", function() {
 			var p = data;	// already JSON 
 			currentUserRights = p.permission;
 			
-			if( (currentUserRights != "ReadWrite") || (currentUserRights != "Admin") ){
+			if( (currentUserRights != "ReadWrite") && (currentUserRights != "Admin") ){
 				$("#warenverwaltung_nav").attr("class", "disabled");
 				$("#warenverwaltung_nav_a").attr("href", "#");
 			}
