@@ -446,21 +446,25 @@ $("#pageheader").load("../partials/header.html", function() {
 		});
 		return false;
 	});
+	
+	
+	//disable warenverwaltung href, if user has not the permission
+	var currentUserRights = "";
+	$(document).ready(function() {
+		$.ajax({
+			type : "POST",
+			url : "../rest/secure/person/getCurrentUser"
+		}).done(function(data) {
+			var p = data;	// already JSON 
+			currentUserRights = p.permission;
+			
+			if( (currentUserRights != "ReadWrite") || (currentUserRights != "Admin") ){
+				$("#warenverwaltung_nav").attr("class", "disabled");
+				$("#warenverwaltung_nav_a").attr("href", "#");
+			}
+		});
+	});
+	
 });
 
-//disable warenverwaltung href, if user has not the permission
-var currentUserRights = "";
-$(document).ready(function() {
-	$.ajax({
-		type : "POST",
-		url : "../rest/secure/person/getCurrentUser"
-	}).done(function(data) {
-		var p = data;	// already JSON 
-		currentUserRights = p.permission;
-		
-		if( (currentUserRights != "ReadWrite") || (currentUserRights != "Admin") ){
-			$("#warenverwaltung_nav").attr("class", "disabled");
-			$("#warenverwaltung_nav_a").attr("href", "#");
-		}
-	});
-});
+
