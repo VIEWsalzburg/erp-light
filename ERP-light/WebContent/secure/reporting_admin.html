@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reporting</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+	<!-- Stylesheet -->
+	<link href="../css/reporting.css" rel="stylesheet">
+	<link href="../css/globalStyles.css" rel="stylesheet">
+	<link rel='shortcut icon' type='image/x-icon' href='../images/favicon.ico'>
+</head>
+<body>
+	<header id="pageheader">
+	</header>
+	
+	<div class="container-fluid">
+		<div class="row" id="top"></div>
+	
+		<div class="row" id="header">
+			<div class="col-md-12">			
+				<h2>Reporting</h2>
+				
+				<!-- Tabs -->
+				<ul class="nav nav-tabs">
+					<li role="presentation"><a href="reporting_waren.html">Reporting: Warenverwaltung</a></li>
+					<li role="presentation"><a href="reporting_adressen.html">Reporting: Adressverwaltung</a></li>
+					<li role="presentation" class="active"><a href="reporting_admin.html">Reporting: Administration</a></li>
+				</ul>
+				
+			</div>		  
+		</div>
+		
+		<div class="row" id="body">
+			<div class="col-md-12">				
+				
+				<div class="panel-group spacingTop" id="accordionAddressReports" role="tablist" aria-multiselectable="true">
+				
+					<!-- Adressen-Report für alle Personen -->
+					<div class="panel panel-default">
+						<div class="panel-heading" role="tab" id="headingOne">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordionAddressReports" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+									Datenbankgröße ermitteln
+								</a>
+							</h4>
+						</div>
+						
+						<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-sm-5">
+										<p>Hiermit kann die aktuelle Größe der Datenbank ermittelt werden.</p>
+									</div>
+									<div class="col-sm-4">
+										
+										<form class="form-inline">
+											<div class="form-group">
+												<label>Größe: </label>
+												<input id="input_dbSize" class="form-control" disabled="disabled" />
+											</div>
+										</form>
+										
+									</div>
+									<div class="col-sm-3">
+										<button class="btn btn-primary pull-right" type="submit" id="btn_getDatabaseSize">
+											<span class="glyphicon glyphicon-hdd"></span>
+											 Datenbankgröße ermitteln</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row" id="footer">
+			<div class="col-md-4">
+			</div>
+			<div class="col-md-4">
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+	</div>	
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="../js/jquery-1.11.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.min.js"></script>
+	<!-- Load javascript File -->
+	<script src="../js/header.js" type="text/javascript"></script>
+	<!-- include global scripts here -->
+	<script src="../js/globalFunctions.js" type="text/javascript"></script>
+	<script src="../js/reporting_admin.js" type="text/javascript"></script>
+</body>
+</html>
