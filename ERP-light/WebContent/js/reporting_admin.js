@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	
+	// get data base size
 	$('#btn_getDatabaseSize').click(function(){
 		
 		$.ajax({
@@ -10,5 +11,30 @@ $(document).ready(function(){
 		});
 		
 	});
+	
+	
+	// get transfer time
+	$('#btn_getTransferTime').click(function(){
+		
+		// show loading spinner
+		showLoadingSpinner(true);
+		
+		var startTime = new Date().getTime();
+		$.ajax({
+			type : "POST",
+			url : "../rest/secure/person/getAllActive"
+		}).done( function(data){
+			var stopTime = new Date().getTime()-startTime;
+			
+			 $('#input_transferTime').val(stopTime+" ms");
+			 
+			// hide loading spinner
+			showLoadingSpinner(false);
+			 
+		});
+		
+	});
+	
+	
 	
 });

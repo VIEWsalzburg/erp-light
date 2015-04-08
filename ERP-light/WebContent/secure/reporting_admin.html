@@ -11,6 +11,7 @@
 	<!-- Stylesheet -->
 	<link href="../css/reporting.css" rel="stylesheet">
 	<link href="../css/globalStyles.css" rel="stylesheet">
+	<link href="../css/loadingspinner.css" rel="stylesheet">
 	<link rel='shortcut icon' type='image/x-icon' href='../images/favicon.ico'>
 </head>
 <body>
@@ -39,7 +40,7 @@
 				
 				<div class="panel-group spacingTop" id="accordionAddressReports" role="tablist" aria-multiselectable="true">
 				
-					<!-- Adressen-Report für alle Personen -->
+					<!-- Datenbankgröße ermitteln -->
 					<div class="panel panel-default">
 						<div class="panel-heading" role="tab" id="headingOne">
 							<h4 class="panel-title">
@@ -76,6 +77,44 @@
 					</div>
 					
 					
+					
+					<!-- Übertragungsdauer messen -->
+					<div class="panel panel-default">
+						<div class="panel-heading" role="tab" id="headingTwo">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordionAddressReports" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+									Übertragungsdauer messen
+								</a>
+							</h4>
+						</div>
+						
+						<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-sm-5">
+										<p>Hiermit kann die Dauer gemessen werden, die notwendig ist um alle Personeninformationen zu übertragen.</p>
+									</div>
+									<div class="col-sm-4">
+										
+										<form class="form-inline">
+											<div class="form-group">
+												<label>Übertragungsdauer: </label>
+												<input id="input_transferTime" class="form-control" disabled="disabled" />
+											</div>
+										</form>
+										
+									</div>
+									<div class="col-sm-3">
+										<button class="btn btn-primary pull-right" type="submit" id="btn_getTransferTime">
+											<span class="glyphicon glyphicon-time"></span>
+											 Übertragungsdauer ermitteln</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
 				</div>
 				
 			</div>
@@ -89,7 +128,16 @@
 			<div class="col-md-4">
 			</div>
 		</div>
-	</div>	
+	</div>
+	
+	
+	<!-- 	div for showing loading activity -->
+	<div class="spinner-container">
+		<div class="spinner">
+			<div class="circle"></div>
+		</div>
+	</div>
+	
 	
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="../js/jquery-1.11.1.min.js"></script>
