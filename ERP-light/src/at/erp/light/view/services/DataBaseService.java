@@ -1843,7 +1843,7 @@ public class DataBaseService implements IDataBase {
 	@Override
 	public String getDatabaseSize() {
 		
-		String sqlString = "select pg_size_pretty(pg_database_size(current_database()));";
+		String sqlString = "select pg_database_size(current_database())/1024 || ' KB';";
 		
 		String sizeStr = this.sessionFactory.getCurrentSession().createSQLQuery(sqlString).uniqueResult().toString();
 		

@@ -3,6 +3,7 @@ package at.erp.light.view.controller.administration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import at.erp.light.view.services.IDataBase;
 
 /**
@@ -27,6 +28,7 @@ public class AdminController {
 		try {
 			return ""+dataBaseService.getDatabaseSize();
 		} catch(Exception e) {
+			e.printStackTrace();
 			return "Error";
 		}
 	}
