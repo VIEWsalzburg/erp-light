@@ -594,6 +594,13 @@ public interface IDataBase {
 	 */
 	public List<PersonEmailReportDataDTO> getPersonEmailReport() throws Exception;
 	
+	
+	/**
+	 * Returns the size of the database in Bytes.
+	 * @return database size in String
+	 */
+	public String getDatabaseSize() throws Exception;
+	
 	/***** Logging *****/
 	/**
 	 * saves a log message in the DB

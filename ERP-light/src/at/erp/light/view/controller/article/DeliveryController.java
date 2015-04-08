@@ -93,23 +93,25 @@ public class DeliveryController {
 
 		try {
 			entityList = dataBaseService.getAllIncomingDeliveries(0);
+		
+			if (entityList.size() > 0) {
+				for (IncomingDelivery id : entityList) {
+					list.add(IncomingDeliveryMapper.mapToDTO(id));
+				}
+				log.info("returning all unarchived incoming deliveries");
+	
+				return list;
+			} else {
+				log.severe("no incoming deliveries found");
+	
+				return null;
+			}
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-
-		if (entityList.size() > 0) {
-			for (IncomingDelivery id : entityList) {
-				list.add(IncomingDeliveryMapper.mapToDTO(id));
-			}
-			log.info("returning all unarchived incoming deliveries");
-
-			return list;
-		} else {
-			log.severe("no incoming deliveries found");
-
-			return null;
-		}
+		
 	}
 
 	/**

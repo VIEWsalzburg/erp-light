@@ -1838,6 +1838,17 @@ public class DataBaseService implements IDataBase {
 		
 		return loggingDTOList;
 	}
+
+
+	@Override
+	public String getDatabaseSize() {
+		
+		String sqlString = "select pg_size_pretty(pg_database_size(current_database()));";
+		
+		String sizeStr = this.sessionFactory.getCurrentSession().createSQLQuery(sqlString).uniqueResult().toString();
+		
+		return sizeStr;
+	}
 	
 	/***** [END logging] *****/
 	
