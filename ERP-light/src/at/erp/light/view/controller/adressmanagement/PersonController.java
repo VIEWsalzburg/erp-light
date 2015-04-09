@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
@@ -51,6 +52,19 @@ public class PersonController {
 		super();
 	}
 
+	
+	@RequestMapping(value="secure/person/countActive")
+	public int getCountActivePersons() {
+		try {
+			int count = dataBaseService.getCountActivePersons();
+			return count;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	
 	/**
 	 * Returns a list with all persons in the system.<br/>
 	 * Also includes all inactive persons.
@@ -89,6 +103,33 @@ public class PersonController {
 		}
 		
 		log.info("returning all active Persons");
+			
+		return list;
+	}
+	
+	
+	/**
+	 * Returns a list with a defined number of active persons in the system.<br/>
+	 * persons which are marked as inactive are not included.
+	 * @param count amount of persons, which should be read
+	 * @param offset offset for loading pagewise
+	 * @return list with all active persons
+	 */
+	@RequestMapping(value = "secure/person/getActive")
+	public List<PersonDTO> getAllActivePersons(@RequestParam(value="count") int count, 
+			@RequestParam(value="offset") int offset) {
+		
+		List<PersonDTO> list = new ArrayList<PersonDTO>();
+
+		List<Person> personList = dataBaseService.getActivePersons(count, offset);
+		
+		for (Person p : personList) {
+			
+			list.add(PersonMapper.mapToDTO(p));
+			
+		}
+		
+		log.info("returning active Persons "+offset+" to "+(offset+count) );
 			
 		return list;
 	}

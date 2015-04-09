@@ -65,7 +65,6 @@ public class DataBaseService implements IDataBase {
 	public DataBaseService(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -77,10 +76,16 @@ public class DataBaseService implements IDataBase {
 	}
 	
 	@Override
+	public int getCountActivePersons() {
+		int count = Integer.parseInt(this.sessionFactory.getCurrentSession().createSQLQuery("Select count(*) from person where active = 1;").uniqueResult().toString());
+		return count;
+	}
+	
+	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Person> getAllPersons() throws HibernateException {
 		@SuppressWarnings("unchecked")
-		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor ORDER BY p.lastName").list();
+		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor ORDER BY p.lastName, p.firstName").list();
 		return persons;
 	}
 
@@ -88,7 +93,16 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Person> getAllActivePersons() throws HibernateException {
 		@SuppressWarnings("unchecked")
-		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor WHERE p.active=1 ORDER BY p.lastName").list();
+		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor WHERE p.active=1 ORDER BY p.lastName, p.firstName").list();
+		return persons;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<Person> getActivePersons(int count, int offset) throws HibernateException {
+		@SuppressWarnings("unchecked")
+		List<Person> persons = sessionFactory.getCurrentSession().createQuery("FROM Person p left join fetch p.lastEditor WHERE p.active=1 ORDER BY p.lastName, p.firstName")
+			.setFirstResult(offset).setMaxResults(count).list();
 		return persons;
 	}
 	
@@ -96,7 +110,7 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<PersonDTO> getAllActivePersonsReducedData() throws HibernateException {
 		String query = "Select person_id as \"personId\", salutation, title, first_name as \"firstName\", last_name as \"lastName\", active "
-				+ "from person where active = 1 order by last_name";
+				+ "from person where active = 1 order by last_name, first_name";
 		
 		@SuppressWarnings("unchecked")
 		List<PersonDTO> persons = this.sessionFactory.getCurrentSession()

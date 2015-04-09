@@ -42,6 +42,12 @@ public interface IDataBase {
 	public Person getPersonById(int id) throws HibernateException;
 	
 	/**
+	 * Returns the number of active persons in the system. Used for pagewise loading.
+	 * @return number of active persons
+	 */
+	public int getCountActivePersons() throws Exception;
+	
+	/**
 	 * This function returns all Persons from the DB.
 	 * @return a Set with all Persons. 
 	 */
@@ -52,6 +58,15 @@ public interface IDataBase {
 	 * @return a Set with all Persons. 
 	 */
 	public List<Person> getAllActivePersons() throws HibernateException;
+	
+	/**
+	 * This function returns a defined number of active (non deleted) Persons from the DB.
+	 * @param count amount of Persons which should be loaded
+	 * @param offset offset for loading pagewise
+	 * @return List of Persons
+	 * @throws HibernateException
+	 */
+	public List<Person> getActivePersons(int count, int offset) throws HibernateException;
 	
 	/**
 	 * This function returns a minified set of data for all persons.<br/>

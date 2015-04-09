@@ -10,11 +10,14 @@ var currentUserRights = "";
 var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div id='ErrorAlertMessage' class='alert alert-danger custom-alert' style='text-align: left;'>Leere Felder vorhanden!</div> </div>  </div>"
 	$("#newAlertForm").append(pwdError);
 
+
 var p;
 function loadTableContent() {
 	
 	// show loading spinner
 	showLoadingSpinner(true);
+	
+	$('#personTableBody').empty();
 	
 	// check all Checkboxes
 	$('#mitarbeiter_cbx').prop('checked', true);
@@ -22,78 +25,127 @@ function loadTableContent() {
 	$('#mitglieder_cbx').prop('checked', true);
 	$('#gaeste_cbx').prop('checked', true);
 	
-	$.ajax({
-		type : "POST",
-		url : "../rest/secure/person/getAllActive"
-	}).done(
-			function(data) {
-				p = data;	// already JSON
-				
-				for (var e in p) {
-					var emailString = "";
-					var phoneString = "";
-					var typeString = "";
+	// personList for appending the persons
+	var personList;
+	
+	// determine the loading option
+	
+	var selectedPage = $('#select_page').val();
+	
+	
+	if (selectedPage == "Alle")
+	{
+		// load all Persons
+		$.ajax({
+			type : "POST",
+			async: false,
+			url : "../rest/secure/person/getAllActive"
+		}).done(
+				function(data) {
+					personList = data;	// already JSON
+		});
+	}
+	
+	if (isNaN(selectedPage)==false)
+	{
+		var count = 200;
+		var offset = (selectedPage-1)*200;
+		// load Persons
+		$.ajax({
+			type : "POST",
+			async: false,
+			url : "../rest/secure/person/getActive?count="+count+"&offset="+offset
+		}).done(
+				function(data) {
+					personList = data;	// already JSON
+		});
+	}
+	
+	
+	
+	// insert Persons
+	{
+		p = personList;
+		
+		for (var e in p) {
+			var emailString = "";
+			var phoneString = "";
+			var typeString = "";
 
-					var types = p[e].types;
-					var emails = p[e].emails;
-					var phoneNumbers = p[e].telephones;
-					
-					for (var i = 0; i < emails.length; i++) {
-						emailString = emailString + emails[i].type.substring(0,1).toLowerCase()+": "+ emails[i].mail;
-						if (i < emails.length - 1) {
-							emailString = emailString + "," + "<br/>";
-						}
-					}
-					for (var j = 0; j < phoneNumbers.length; j++) {
-						phoneString = phoneString + phoneNumbers[j].type.substring(0,1).toLowerCase()+": "+phoneNumbers[j].telephone;
-						if (j < phoneNumbers.length - 1) {
-							phoneString = phoneString + "," + "<br/>";
-						}
-					}
-					for (var k = 0; k < types.length; k++) {
-						typeString = typeString + types[k];
-						if (k < types.length - 1) {
-							typeString = typeString + "," + "<br/>";
-						}
-					}
-					
-					// create addressString according to available address variables
-					var addressString = "";
-					if (p[e].address.length > 0)
-						addressString += p[e].address;
-					if (p[e].city.length > 0)
-					{
-						if (addressString.length > 0)
-							addressString += ", ";
-						addressString += p[e].zip + " " + p[e].city;
-					}
-					if (p[e].country.length > 0)
-					{
-						if (addressString.length > 0)
-							addressString += ", ";
-						addressString += p[e].country;
-					}
-					
-					var tableRow = "<tr>" +
-							"<td class='hidden'>" + p[e].personId + "</td>" +
-							"<td>" + p[e].salutation + " " + p[e].title + " " + p[e].lastName + " " + p[e].firstName + "</td>" +
-							"<td>" + addressString + "</td>" +
-							"<td>" + phoneString + "</td>" +
-							"<td>" + emailString + "</td>" +
-							"<td>" + typeString + "</td>" +
-							"<td>" + p[e].comment + "</td>" +
-							"</tr>";
-					
-					$("#personTableBody").append(tableRow);
+			var types = p[e].types;
+			var emails = p[e].emails;
+			var phoneNumbers = p[e].telephones;
+			
+			for (var i = 0; i < emails.length; i++) {
+				emailString = emailString + emails[i].type.substring(0,1).toLowerCase()+": "+ emails[i].mail;
+				if (i < emails.length - 1) {
+					emailString = emailString + "," + "<br/>";
 				}
-				
-				// hide loading spinner
-				showLoadingSpinner(false);
-				
-				// update person count label
-				updatePersonCountLabel();
-				
-			});
+			}
+			for (var j = 0; j < phoneNumbers.length; j++) {
+				phoneString = phoneString + phoneNumbers[j].type.substring(0,1).toLowerCase()+": "+phoneNumbers[j].telephone;
+				if (j < phoneNumbers.length - 1) {
+					phoneString = phoneString + "," + "<br/>";
+				}
+			}
+			for (var k = 0; k < types.length; k++) {
+				typeString = typeString + types[k];
+				if (k < types.length - 1) {
+					typeString = typeString + "," + "<br/>";
+				}
+			}
+			
+			// create addressString according to available address variables
+			var addressString = "";
+			if (p[e].address.length > 0)
+				addressString += p[e].address;
+			if (p[e].city.length > 0)
+			{
+				if (addressString.length > 0)
+					addressString += ", ";
+				addressString += p[e].zip + " " + p[e].city;
+			}
+			if (p[e].country.length > 0)
+			{
+				if (addressString.length > 0)
+					addressString += ", ";
+				addressString += p[e].country;
+			}
+			
+			var tableRow = "<tr>" +
+					"<td class='hidden'>" + p[e].personId + "</td>" +
+					"<td>" + p[e].salutation + " " + p[e].title + " " + p[e].lastName + " " + p[e].firstName + "</td>" +
+					"<td>" + addressString + "</td>" +
+					"<td>" + phoneString + "</td>" +
+					"<td>" + emailString + "</td>" +
+					"<td>" + typeString + "</td>" +
+					"<td>" + p[e].comment + "</td>" +
+					"</tr>";
+			
+			$("#personTableBody").append(tableRow);
+		}
+		
+		// hide loading spinner
+		showLoadingSpinner(false);
+		
+		// update person count label
+		updatePersonCountLabel();
+		
+	}
+	
+	
+	
+//	// load all Persons
+//	$.ajax({
+//		type : "POST",
+//		url : "../rest/secure/person/getAllActive"
+//	}).done(
+//			function(data) {
+//				p = data;	// already JSON
+//				
+//				
+//				
+//			});
 
 };
 
@@ -838,7 +890,39 @@ $(document).ready(function() {
 });
 
 //Get all Persons and load into table
-$(document).ready(function(){loadTableContent();});
+$(document).ready(
+		function(){
+			
+			// determine number of active persons in the system
+			var countActive = -1;
+			
+			$.ajax({
+				type : "POST",
+				async: false,
+				url : "../rest/secure/person/countActive"
+			}).done(function(data) {
+				countActive = data;
+			});
+			
+			if(countActive != -1)
+			{
+				// maximum number per page = 200
+				var numberPages = Math.ceil(countActive/200);
+				
+				for (var i=0; i<numberPages; i++)
+				{
+					// add options to select box
+					$('#select_page').append("<option>"+(i+1)+"</option>");
+				}
+			}
+			
+			$('#select_page').append("<option>Alle</option>");
+			$('#select_page :nth-child(0)').prop('selected',true);
+			
+			loadTableContent();
+			
+			$('#select_page').change(loadTableContent);
+	});
 
 //this function is used to get the selected row
 //the function is called when a button is pressed and the selected entry has to be determined
