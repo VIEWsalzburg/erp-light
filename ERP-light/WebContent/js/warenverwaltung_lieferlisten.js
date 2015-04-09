@@ -218,7 +218,13 @@ $("#btn_details").click(function() {
 	$("#label_description_details").text(list.comment);
 	$("#label_dateofdeliverylist_details").text(list.date);
 	
-	//load outgoingArticleDTOs
+	//load outgoingDeliveryDTOs
+	
+	// sort outgoingDeliveryDTOs by deliveryNr
+	list.outgoingDeliveryDTOs.sort(function(a,b){
+		return a.deliveryNr - b.deliveryNr;
+	});
+	
 	for (var i = 0; i < list.outgoingDeliveryDTOs.length; i++) {
 		var template = "<div class='panel-group details' id='accordion_deliverylist"+ i +"' role='tablist' aria-multiselectable='true'>" +
 						"<div class='panel panel-default'><div class='panel-heading' role='tab' id='heading"+ i +"'><h4 class='panel-title'>" +
