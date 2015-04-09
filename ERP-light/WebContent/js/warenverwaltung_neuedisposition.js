@@ -206,9 +206,16 @@ function loadTableContent(id){
 	
 	//set comment popover
 	$("#tbx_comment_popover").attr("data-content", $("#tbx_comment").val());
-					
+	
+	
 	//get articles (disposition)
 	var oArticles = out.outgoingArticleDTOs;
+	
+	// sort articles by article_nr
+	oArticles.sort(function(a, b){
+		return a.articleNr - b.articleNr;
+	});
+	
 	for(var i=0; i < oArticles.length; i++){
 		var article = oArticles[i].articleDTO;
 		var articleId = article.articleId;
@@ -244,6 +251,9 @@ function loadTableContent(id){
 		$("#rightDepotTableBody").append(tableRow);
 	}
 	
+	
+	
+	// get available articles and place them into
 	var availArticles;
 	$.ajax({
 		type : "POST",
