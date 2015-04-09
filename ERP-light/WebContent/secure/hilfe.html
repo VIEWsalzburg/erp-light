@@ -47,6 +47,7 @@
 						<li > <div class="divider-horizontal"></div></li>
 						<li role="presentation"><a href="#hilfe_reportingwaren">Reporting: Warenverwaltung</a></li>
 						<li role="presentation"><a href="#hilfe_reportingadress">Reporting: Adressverwaltung</a></li>
+						<li role="presentation"><a href="#hilfe_reportingadministration">Reporting: Administration</a></li>
 						<li > <div class="divider-horizontal"></div></li>
 						<li role="presentation"><a href="#hilfe_hilfe">Hilfe</a></li>
 					</ul>
@@ -97,13 +98,14 @@
 							</div>
 							<div class="panel-body">
 								<p>Das Reporting kann mithilfe des Reiters "Warenverwaltung" erreicht werden.</p>
-								Es besteht aus zwei Bereichen:
+								Es besteht aus drei Bereichen:
 								<ul>
 									<li>Reporting: Warenverwaltung</li>
 									<li>Reporting: Adressverwaltung</li>
+									<li>Reporting: Administration</li>
 								</ul>
-								In diesen beiden Bereichen können Reports über bewegte Waren und Reports der Adressdaten
-								erstellt und exportiert werden.
+								In den ersten beiden Bereichen können Reports über bewegte Waren und Reports der Adressdaten 
+								erstellt und exportiert werden. Der Bereich Administration dient zur Systemüberwachung.
 							</div>
 						</div>
 					</div>
@@ -137,10 +139,11 @@
 										<ol>
 											<li>Der Nachname ist das einzige Pflichtfeld das bei einer Person ausgefüllt werden
 											muss.</li>
+											<li>Das Bemerkungsfeld kann genutzt werden, um allgemeine Informationen für eine Person zu hinterlegen.</li>
 											<li>Telefonnummern und Email-Adressen können mithilfe der Buttons "Telefonnr.
 											hinzufügen" und "Email hinzufügen" hinzugefügt werden. Nicht benötigte
 											Telefonnummern bzw. Email-Adressen können wieder entfernt werden.</li>
-											<li>Soll die Person Zugriff auf das System erhlaten, muss die Checkbox
+											<li>Soll die Person Zugriff auf das System erhalten, muss die Checkbox
 											"Systembenutzer" angewählt werden. Dadurch erscheint je ein Auswahlfeld für die
 											Login-Email und die Systemrechte. Als Login-Email können nur zuvor hinzugefügte
 											Email-Adressen ausgewählt werden.</li>
@@ -236,7 +239,7 @@
 								werden. Es handelt sich in beiden Fällen um die selben Daten.<br/><br/>
 								<ul>
 									<li>Export in Adressverwaltung:<br/>
-										Button "Exportieren" wählen. Es wird eine CSV-Liste generiert, die allen
+										Button "Exportieren" wählen. Es wird eine CSV-Liste generiert, die alle
 										Informationen zu den im System befindlichen Personen enthält.<br/><br/>
 									</li>
 									<li>Export in Reporting:
@@ -290,8 +293,8 @@
 												Die Adressfelder können bei Bedarf leer gelassen werden.</li>
 											<li>Kontakpersonen können mithilfe der Auswahlbox gewählt werden. Hierzu muss bei
 												der gewünschten Person die Checkbox rechts neben dem Namen angehakt werden.
-												Selektierte Personen werden automatisch ganz am Anfang der Liste angezeigt. Die
-												Person kann auch bei Bedarf anhand ihres Names gesucht werden. Dies ist
+												Selektierte Personen werden automatisch ganz am Anfang der Liste angezeigt. Die 
+												gewünschte Person kann auch anhand ihres Namens gesucht werden. Dies ist
 												besonders effektiv, wenn viele Personen im System verfügbar sind. Kontaktpersonen
 												müssen bereits im System angelegt sein, damit sie einer Organisation zugeordnet
 												werden können.</li>
@@ -302,7 +305,7 @@
 												eine schnellere Zuordnung bei vielen verfügbaren Kategorien. Neue Kategorien
 												müssen zuerst im System angelegt werden.</li>
 											<li>Im Bemerkungsfeld kann ein beliebiger Text eingetragen werden. Dieser dient dazu
-												allgemeine Anmerkungen zu Organisationen zu hinterlegen.</li>
+												allgemeine Anmerkungen für Organisationen zu hinterlegen.</li>
 											<li>
 												Die Typzuweisung einer Organisation ist nicht zwingend. Sie wirkt sich jedoch darauf
 												aus, ob eine Organisation bei der Warenverwaltung als Lieferant oder Kunde wählbar ist.
@@ -384,7 +387,7 @@
 								werden. Es handelt sich in beiden Fällen um die selben Daten.<br/><br/>
 								<ul>
 									<li>Export in Adressverwaltung:<br/>
-										Button "Exportieren" wählen. Es wird eine CSV-Liste generiert, die allen
+										Button "Exportieren" wählen. Es wird eine CSV-Liste generiert, die alle 
 										Informationen zu den im System befindlichen Organisationen enthält.<br/><br/>
 									</li>
 									<li>Export in Reporting:
@@ -522,9 +525,9 @@
 								
 								<b>Einen Wareneingang abschließen:</b><br/>
 								<p>Mithilfe des Buttons „Abschließen“ kann der ausgewählte Wareneingang
-									als abgeschlossen markiert werden. Bei erneutem Klick darauf kann die
-									Markierung wieder entfernt werden.</p>
-								
+									als abgeschlossen markiert werden. Für bereits abgeschlossene Wareneingänge
+									ist es möglich die Markierung wieder zu entfernen.</p>
+								<br/>
 								
 								<b>Einen neuen Wareneingang erstellen</b><br/>
 								<ol>
@@ -583,7 +586,7 @@
 										<ul>
 											<li>Falls es sich um einen Wareneingang handelt, der noch nicht
 												verbucht wurde, können die Daten des Wareneingangs beliebig
-												geändert werden. Es können außerdem neue Warenposten
+												geändert werden. Es können außerdem bestehende Warenposten
 												entfernt und neue Warenposten hinzugefügt werden.</li>
 											<li>Falls es sich jedoch um einen Wareneingang handelt, der
 												bereits verbucht wurde (grau hinterlegt in der Übersichtstabelle),
@@ -591,11 +594,15 @@
 												<ul>
 													<li>Der Lieferant des Wareneingangs kann nicht mehr geändert werden.</li>
 													<li>Es können keine Warenposten hinzugefügt oder gelöscht werden.</li>
+													<li>Für bestehnde Warenposten können nur das Mindeshaltbarkeitsdatum 
+													und der Einzelpreis geändert werden.</li>
 												</ul>
 											</li>
-											<li>Die Verteilung eines Warenpostens kann nachträglich geändert
-												werden, indem der gewünschte Warenposten gewählt wird und
-												der Button „VE-Verteilung Bearbeiten“ gewählt wrid.</li>
+											<li>Die Korrektur der Verteilung und der erhaltenen Verpackungseinheiten eines 
+												Warenpostens kann nachträglich durchgeführt werden. Hierzu muss der gewünschte 
+												Warenposten ausgewählt werden und der Button „VE-Verteilung Bearbeiten“ gewählt werden. 
+												Damit ist es möglich eine Diskrepanz zwischen angekündigter und tatsächlich gelieferter 
+												Warenmenge zu korrigieren.</li>
 										</ul>
 									</li>
 									<li>Mit dem Button „Alles zum Depot hinzufügen“ kann der geänderte
@@ -655,10 +662,10 @@
 								
 								
 								<b>Einen Warenausgang abschließen:</b><br/>
-								<p>Mithilfe des Buttons „Abschließen“ kann der ausgewählte Wareneingang
-									als abgeschlossen markiert werden. Bei erneutem Klick darauf kann die
-									Markierung wieder entfernt werden.</p>
-								
+								<p>Mithilfe des Buttons „Abschließen“ kann der ausgewählte Warenausgang
+									als abgeschlossen markiert werden. Für bereits abgeschlossene Warenausgänge 
+									ist es möglich die Markierung wieder zu entfernen.</p>
+								<br/>
 								
 								<b>Einen neuen Warenausgang erstellen</b><br/>
 								<ol>
@@ -724,8 +731,8 @@
 												Lieferliste hinzugefügt worden ist, lassen sich alle Informationen
 												im Nachhinein ändern.<br/>
 												<span style="white-space:pre">&#9;</span><b>Hinweis: </b>
-												Wenn die Anzahl der Waren im Warenausgang
-												geändert wird, ändert sich die Anzahl ebenfalls in den Lieferlisten.
+												Wenn die Anzahl der Waren im Warenausgang geändert wird, 
+												ändert sich die Anzahl ebenfalls in der damit verknüpften Lieferliste.
 											</li>
 										</ul>
 									</li>
@@ -785,11 +792,11 @@
 								
 								<b>Einen Lieferliste abschließen:</b><br/>
 								<p>Mithilfe des Buttons „Abschließen“ kann die ausgewählte Lieferliste
-									als abgeschlossen markiert werden. Bei erneutem Klick darauf kann die
-									Markierung wieder entfernt werden.</p>
+									als abgeschlossen markiert werden. Für bereits abgeschlossene Lieferlisten 
+									ist es möglich die Markierung wieder zu entfernen.</p>
 								
 								
-								<b>Einen neue Lieferliste erstellen</b><br/>
+								<b>Eine neue Lieferliste erstellen</b><br/>
 								<ol>
 									<li>Klick auf Button „Neue Lieferliste“</li>
 									<li>Es öffnet sich ein neuer Tab „Neue Lieferliste“
@@ -870,14 +877,13 @@
 									<li>Klick auf Button „Exportieren“
 										<ul>
 											<li>Die gewählte Lieferliste kann im Wordformat heruntergeladen
-												werden. Das Wordformat macht nachträgliche Änderungen in der
-												Lieferliste möglich.<br/>
+												werden. Dadruch sind nachträgliche Änderungen vor dem Ausdrucken möglich.<br/>
 												<b>Hinweis: </b>Änderungen in Warenausgängen wirken sich ebenfalls
 												auf die zugeordneten Lieferlisten aus. Wird nachträglich die Anzahl
 												der Verpackungseinheiten geändert, so wird diese neue Menge
 												ebenfalls in der Lieferliste des Systems aktualisiert.<br/>
-												Änderungen in der exportierten Lieferliste haben keine
-												Auswirkungen auf das System.
+												Änderungen in der exportierten Lieferliste haben keine 
+												Auswirkungen auf die jeweiligen Daten im System.
 												</li>
 										</ul>
 									</li>
@@ -915,43 +921,43 @@
 								
 								<b>Wareneingang: Gesamtgewicht und Gesamtpreis für einen Lieferanten</b><br/>
 								<p>Dieser Report liefert das Gesamtgewicht und den Gesamtpreis der gelieferten Waren für den
-									ausgewählten Lieferanten. Weiters kann der berücksichtigte Zeitraum der Wareneingänge
-									festegelegt werden. Das Ergebnis wird direkt beim Reportaufruf angezeigt.</p>
+									ausgewählten Lieferanten. Weiters kann der zu berücksichtigende Zeitraum der Wareneingänge
+									festegelegt werden. Das Reportergebnis wird in der Weboberfläche angezeigt.</p>
 								<br/>
 								
 								
 								<b>Warenausgang: Gesamtgewicht und Gesamtpreis für einen Kunden</b><br/>
 								<p>Dieser Report liefert das Gesamtgewicht und den Gesamtpreis der erhaltenen Waren für den
-									ausgewählten Kunden. Weiters kann der berücksichtigte Zeitraum der Warenausgänge
-									festgelegt werden. Das Ergebnis wird direkt beim Reportaufruf angezeigt.</p>
+									ausgewählten Kunden. Weiters kann der zu berücksichtigende Zeitraum der Warenausgänge
+									festgelegt werden. Das Reportergebnis wird in der Weboberfläche angezeigt.</p>
 								<br/>
 								
 								
 								<b>Wareneingang: Gesamtgewichte und Gesamtpreise für alle Organisationen</b><br/>
 								<p>Dieser Report generiert eine Liste aller Organisationen mit den Gesamtgewichten und den
-									Gesamtpreisen der gelieferten Waren. Weiters kann der berücksichtigte Zeitraum der
+									Gesamtpreisen der von ihnen gelieferten Waren. Weiters kann der zu berücksichtigende Zeitraum der
 									Wareneingänge festgelegt werden. Das Ergebnis des Reports wird als CSV-Datei ausgegeben.</p>
 								<br/>
 								
 								
 								<b>Warenausgang: Gesamtgewichte und Gesamtpreise für alle Organisationen</b><br/>
 								<p>Dieser Report generiert eine Liste aller Organisationen mit den Gesamtgewichten und den
-									Gesamtpreisen der erhaltenen Waren. Weiters kann der berücksichtigte Zeitraum der
+									Gesamtpreisen der von ihnen erhaltenen Waren. Weiters kann der berücksichtigte Zeitraum der
 									Warenausgänge festgelegt werden. Das Ergebnis des Reports wird als CSV-Datei ausgegeben.</p>
 								<br/>
 								
 								
 								<b>Wareneingang: Gesamtgewicht und Gesamtpreis aller Waren</b><br/>
-								<p>Dieser Report liefert das Gesamtgewicht und den Gesamtpreis aller eingehenden Waren.
-									Weiters kann der berücksichtigte Zeitraum der Wareneingänge festgelegt werden. Das Ergebnis
-									wird direkt beim Reportaufruf angezeigt.</p>
+								<p>Dieser Report liefert das Gesamtgewicht und den Gesamtpreis aller von den Lieferanten 
+									gelieferten Waren. Weiters kann der zu berücksichtigende Zeitraum der Wareneingänge 
+									festgelegt werden. Das Reportergebnis wird in der Weboberfläche angezeigt.</p>
 								<br/>
 								
 								
 								<b>Warenausgang: Gesamtgewicht und Gesamtpreis aller Waren</b><br/>
-								<p>Dieser Report liefert das Gesamtgewicht und den Gesamtpreis aller ausgehenden Waren.
-									Weiters kann der berücksichtigte Zeitraum der Warenausgänge festgelegt werden. Das
-									Ergebnis wird direkt beim Reportaufruf angezeigt.</p>
+								<p>Dieser Report liefert das Gesamtgewicht und den Gesamtpreis aller von den Kunden 
+									erhaltenen Waren. Weiters kann der zu berücksichtigende Zeitraum der Warenausgänge 
+									festgelegt werden. Das Reportergebnis wird in der Weboberfläche angezeigt.</p>
 								<br/>
 								
 								
@@ -1017,6 +1023,42 @@
 				
 				
 				
+				<!-- Hilfe zu Administrations-Reporting bearbeiten -->
+				<div id="hilfe_reportingadministration" class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4>Reporting: Administration</h4>
+							</div>
+							<div class="panel-body">
+								
+								Folgende Reports sind verfügbar:<br/>
+								<ul>
+									<li>Datenbankgröße ermitteln</li>
+									<li>Übertragungsdauer messen</li>
+								</ul>
+								<br/>
+								
+								
+								<b>Datenbankgröße ermitteln</b><br/>
+								<p>Dieser Report dient dazu die aktuelle Datenbankgröße zu ermitteln. 
+									Das Ergebnis wird in der Größeneinheit Kilobyte (KB) angezeigt.</p>
+								<br/>
+								
+								
+								<b>Übertragungsdauer messen</b><br/>
+								<p>Dieser Report dient dazu die Performance des Systems zu messen. Dazu wird 
+									die Übertragungsdauer ermittelt, die nötig ist um alle Personendaten zu übertragen. 
+									Das ermittelte Ergebnis wird in der Größeneinheit Millisekunden (ms) angezeigt.</p>
+								<br/>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Administrations-Reporting -->
+				
+				
 				<!-- Hilfe zu Hilfe bearbeiten -->
 				<div id="hilfe_hilfe" class="row">
 					<div class="col-md-12">
@@ -1031,19 +1073,19 @@
 								
 								
 								<p>Auf der linken Seite befindet sich eine Übersicht der dokumentierten Applikationsbereiche.
-									Daneben befindet sich pro Applikationsbereich ein Textfeld mit der entsprechenden
-									Beschreibung.</p>
+									Daneben befindet sich pro Applikationsbereich die entsprechende Beschreibung.</p>
 								
 								
 								<b>interaktive Hilfe</b><br/>
-								<p>Die interaktive Hilfe kann mittels Button links unten aktiviert werden. Durch Klick darauf wird ein
-									Popup Fenster aktiv, das bei wichtigen Elementen einen Hilfstext anzeigt. Hiermit kann
-									gleichzeitig in der Applikaiton navigiert werden und Gebrauch von der Hilfe gemacht werden. 
-									Die Hilfsfunktion lässt sich bei erneutem Klick wieder deaktivieren.</p>
+								<p>Die interaktive Hilfe kann mithilfe des Buttons „Interaktive Hilfe aktivieren“ 
+									eingeschaltet werden. Dies aktiviert ein Popup-Fenster, das beim Überfahren von 
+									wichtigen Elementen erscheint und einen entsprechenden Hilfetext anzeigt. Somit 
+									kann gleichzeitig in der Applikaiton navigiert werden und Gebrauch von der Hilfe 
+									gemacht werden. Die Hilfsfunktion lässt sich bei erneutem Klick wieder deaktivieren.</p>
 								
 								
 								<b>ERP-light Dokumentation:</b><br>
-								<p>Mithilfe des Buttons „ERP-light Dokumentation“ kann diese Hilfs-Dokumentation
+								<p>Mithilfe des Buttons „ERP-light Dokumentation“ kann die Hilfs-Dokumentation als PDF-Dokument
 									heruntergeladen werden. Es sind alle Bereiche der Applikation dokumentiert und hilfreiche Use-
 									Cases erklärt.<br/>
 								

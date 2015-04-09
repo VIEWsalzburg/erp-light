@@ -903,25 +903,26 @@ $('#TableHeadRightDepot').on('click','tbody tr', function(event) {
 	
 	// only when user has admin rights
 	if ( currentUserRights == "Admin" || currentUserRights == "ReadWrite" ) {
-		// enable buttons: 'up, down, to disposition, from disposition'
+		
+		// disable 'button to disposition'
+		$('#btn_addtodisposition').prop('disabled', true);
+		// enable 'button from disposition'
+		$('#btn_removefromdisposition').prop('disabled', false);
+		// set the maximum packaging units for the selected article
+		$('#tbx_packagingunit').val(parseFloat(tableData[2]));
+		
+		// enable buttons up, down
 		$('#btn_up').prop('disabled', false);
 		$('#btn_down').prop('disabled', false);
 		
-		if(isBooked == false){
-			$('#btn_addtodisposition').prop('disabled', true);
-			$('#btn_removefromdisposition').prop('disabled', false);
-			// set the maximum packaging units for the selected article
-			$('#tbx_packagingunit').val(parseFloat(tableData[2]));
-		}
-	} 
-	else {
+	} else {
+		// disable buttons
+		$('#btn_addtodisposition').prop('disabled', true);
+		$('#btn_removefromdisposition').prop('disabled', true);
+		
 		$('#btn_up').prop('disabled', true);
 		$('#btn_down').prop('disabled', true);
-		
-		if(isBooked == false){
-			$('#btn_addtodisposition').prop('disabled', true);
-			$('#btn_removefromdisposition').prop('disabled', true);
-		}
 	}
+	
 });
 
