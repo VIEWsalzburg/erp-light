@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
@@ -282,8 +283,20 @@ public class DeliveryWordGenerator {
 		        commentRun.addBreak();
 		        
 		        
+		        List<OutgoingArticle> articleList = new ArrayList<OutgoingArticle>();
+		        articleList.addAll(delivery.getOutgoingArticles());
+		        
+		        // sort outgoingArticles by articleNr
+		        Collections.sort(articleList, new Comparator<OutgoingArticle>() {
+					@Override
+					public int compare(OutgoingArticle o1, OutgoingArticle o2) {
+						return o1.getArticleNr() - o2.getArticleNr();
+					}
+				});
+		        
+		        
 		        // write each outgoingArticle to this paragraph
-	        	for(OutgoingArticle outgoingArticle : delivery.getOutgoingArticles())
+	        	for(OutgoingArticle outgoingArticle : articleList)
 	        	{
 			        XWPFRun innerRun = p.createRun();
 			        setArial12(innerRun);
