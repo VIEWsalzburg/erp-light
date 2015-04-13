@@ -315,21 +315,26 @@ public class DataBaseService implements IDataBase {
 		p.setActive(0);	// set active flag to inactive (0)
 		
 		// remove person as contactperson from all organisations
+		// this list only has organisations linked with the given contactPerson
+		// example: organisation has 3 contactpersons, but with this query it only has 1 contactperson result afterwards
+		// therefore refresh each organisation afterwards to load all contactPersons
 		@SuppressWarnings("unchecked")
 		List<Organisation> organisations = sessionFactory.getCurrentSession()
 				.createQuery("Select o from Organisation o join fetch o.contactPersons cp where cp.personId = :id")
 				.setParameter("id", p.getPersonId())
 				.list();
 		
-		System.out.println("number: "+organisations.size());
-		
 		for (Organisation o : organisations)
 		{
+			// refresh organisation to re-initialize all fields and retrieve all contactPersons from the DB
+			this.sessionFactory.getCurrentSession().refresh(o);	
+			
 			o.getContactPersons().remove(p);
 		}
 		
 		// remove platformuser for contactperson
 		this.removePlatformuserById(p.getPersonId());
+		p.setUpdateTimestamp(new Date());
 		
 		return 0;
 	}
@@ -556,6 +561,7 @@ public class DataBaseService implements IDataBase {
 	public int deleteOrganisationById(int id) throws HibernateException {
 		Organisation o = this.getOrganisationById(id);
 		o.setActive(0);	// set active flag to inactive (0)
+		o.setUpdateTimestamp(new Date());
 		
 		// remove all contactPersons for this organisation
 		o.getContactPersons().clear();

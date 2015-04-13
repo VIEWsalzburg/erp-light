@@ -893,6 +893,8 @@ $(document).ready(function() {
 $(document).ready(
 		function(){
 			
+			$('#select_page').append("<option>Alle</option>");
+			
 			// determine number of active persons in the system
 			var countActive = -1;
 			
@@ -916,7 +918,7 @@ $(document).ready(
 				}
 			}
 			
-			$('#select_page').append("<option>Alle</option>");
+			// select option Alle
 			$('#select_page :nth-child(0)').prop('selected',true);
 			
 			loadTableContent();
