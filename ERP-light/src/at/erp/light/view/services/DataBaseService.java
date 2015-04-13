@@ -546,6 +546,7 @@ public class DataBaseService implements IDataBase {
 			contactPersons.add(this.getPersonById(p.getPersonId()));
 		}
 		organisation.setContactPersons(contactPersons);
+		organisation.setUpdateTimestamp(new Date());
 
 
 		// final update all in DB
