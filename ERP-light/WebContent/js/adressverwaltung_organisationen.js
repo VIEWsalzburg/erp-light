@@ -1096,3 +1096,43 @@ $("#btn_deleteOrganisation").click(function() {
 		 loadTableContent();
 	});
 });
+
+
+//export current view as CSV
+$('#btn_exportCurrentView').click(function(){
+	
+	var tableData = [];
+	
+	var headerString = $('#TableHead .TableHead tr').children().map(
+			function(){
+				return $(this).text();
+			}).get().join(';');
+	tableData.push(headerString);
+	
+	// only visible rows
+	// concat columns with separator ';' for each row and push it into tableData
+	$('#organisationTableBody tr:visible').each(function(){
+		var string = $(this).children().map(function(){
+				var text = $(this).text();
+				text = text.replace(/\;/g,',');
+				text = text.replace(/(\r\n|\n|\r)/g,' ');
+				return text;
+			}).get().join(';');
+		
+		tableData.push(string);
+	});
+	
+	// merge rows
+	var csvString = tableData.join('\n');
+	
+	var csvContent = encodeURIComponent(csvString);
+	
+	var csvFile = "data:application/csv;charset=utf-8,"+csvContent;
+	
+	$('body').append($('<a id="csvTableDownload" href="'+csvFile+'" target="_blank" download="Organisations-Export.csv"/>'));
+	$('#csvTableDownload').ready(function(){
+		$('#csvTableDownload').get(0).click();
+		$('#csvTableDownload').remove();
+	});
+	
+});

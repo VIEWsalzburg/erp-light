@@ -84,7 +84,7 @@
 							<table class="table table-hover table-striped header-fixed" id="TableHead">
 								<thead class="TableHead">
 									<tr>
-										<th style="width: 3%" class="hidden">#</th>
+										<th style="width: 3%" class="hidden">Organisations-ID</th>
 										<th style="width: 15%">Name</th>
 										<th style="width: 15%">Ansprechperson</th>
 										<th style="width: 20%">Anschrift</th>
@@ -503,12 +503,25 @@
 				</form>
 			</div>
 			<div class="col-md-4">
-				<a href="../rest/secure/organisation/getAllOrganisationsAsCSV">
-				<button type="button" id="btn_export" class="btn btn-primary pull-right centered helpHotspot"
-					data-helptext="Eine Liste aller Organisationen als CSV-Datei exportieren." data-toggle="modal" data-target="#exportModal">
-					<span class="glyphicon glyphicon-share"></span> Exportieren
-				</button>
-				</a>
+			
+				<form role="form" class="form-inline">
+					<div class="form-group bottom pull-right">
+					
+						<button type="button" id="btn_exportCurrentView" class="btn btn-primary">
+							<span class="glyphicon glyphicon-share"></span> Ansicht exportieren
+						</button>
+				
+						<a href="../rest/secure/organisation/getAllOrganisationsAsCSV">
+							<button type="button" id="btn_export" class="btn btn-primary helpHotspot"
+								data-helptext="Eine Liste aller Organisationen als CSV-Datei exportieren." data-toggle="modal" data-target="#exportModal">
+								<span class="glyphicon glyphicon-share"></span> Exportieren
+							</button>
+						</a>
+					
+					</div>
+				
+				</form>
+			
 			</div>
 		</div>
 	</div>

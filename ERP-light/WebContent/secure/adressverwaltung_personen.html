@@ -90,7 +90,7 @@
 							<table class="table table-hover table-striped header-fixed" id="TableHead">
 								<thead class="TableHead">
 									<tr>
-										<th style="width: 3%" class="hidden">#</th>
+										<th style="width: 3%" class="hidden">Personen-ID</th>
 										<th style="width: 15%">Name</th>
 										<th style="width: 18%">Anschrift</th>
 										<th style="width: 15%">Telefonnummer</th>
@@ -615,12 +615,22 @@
 				</form>
 			</div>
 			<div class="col-md-4">
-				<a href="../rest/secure/person/getAllPersonsAsCSV">
-						<button type="button" id="btn_export" class="btn btn-primary pull-right centered helpHotspot" data-toggle="modal" data-target="#exportModal"
-							data-helptext="Eine Liste aller Personen als CSV-Datei exportieren.">
-							<span class="glyphicon glyphicon-share"></span> Exportieren
+			
+				<form role="form" class="form-inline">
+					<div class="form-group bottom pull-right">
+						<button type="button" id="btn_exportCurrentView" class="btn btn-primary">
+							<span class="glyphicon glyphicon-share"></span> Ansicht exportieren
 						</button>
-				</a>
+					
+						<a href="../rest/secure/person/getAllPersonsAsCSV">
+							<button type="button" id="btn_export" class="btn btn-primary helpHotspot" data-toggle="modal" data-target="#exportModal"
+								data-helptext="Eine Liste aller Personen als CSV-Datei exportieren.">
+								<span class="glyphicon glyphicon-share"></span> Alle exportieren
+							</button>
+						</a>
+					</div>
+				</form>
+				
 			</div>
 		</div>
 	</div>
