@@ -33,5 +33,9 @@
 	   <url-pattern>/secure/*</url-pattern>
 	   <url-pattern>/rest/secure/*</url-pattern>
 	</filter-mapping>
+	
+	<listener>
+		<listener-class>at.erp.light.view.listener.HttpSessionCollector</listener-class>
+	</listener>
  
 </web-app>
