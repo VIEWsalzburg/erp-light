@@ -92,7 +92,7 @@ public class DeliveryWordGenerator {
 	        XWPFParagraph commentParagraph = doc.createParagraph();
 	        XWPFRun descriptionRun = commentParagraph.createRun();
 	        descriptionRun.addBreak();
-	        descriptionRun.setText("Beschreibung:");
+	        descriptionRun.setText("Notiz / Kontakt:");
 	        setBoldUnderlined(descriptionRun);
 	        descriptionRun.setFontSize(14);
 
@@ -185,26 +185,52 @@ public class DeliveryWordGenerator {
 	        	
 	        	// get all ContactPersons for the Organisation
 	        	// iterate over all ContactPersons
-	        	String contactString = "";
-	        	for (Person p : organisation.getContactPersons())
-	        	{
-	        		contactString += p.getLastName() + " " + p.getFirstName() + ", ";
-	        	}
-	        	// remove comma after appending all Names, if names have been added
-	        	if (contactString.length() > 2)
-	        		contactString = contactString.substring(0, contactString.length()-2);
+//	        	String contactString = "";
+//	        	for (Person p : organisation.getContactPersons())
+//	        	{
+//	        		contactString += p.getLastName() + " " + p.getFirstName() + ", ";
+//	        	}
+//	        	// remove comma after appending all Names, if names have been added
+//	        	if (contactString.length() > 2)
+//	        		contactString = contactString.substring(0, contactString.length()-2);
 	        	
 	        	XWPFRun orgRun = delivererParagraph.createRun();
 	 	        setArial12(orgRun);
 	 	        orgRun.setBold(true);
 	 	        orgRun.addBreak();
-	 	        orgRun.setText(organisation.getName() + ", " + organisation.getCity().getCity());
+	 	        
+	 	        // print address
+		        StringBuilder address = new StringBuilder();
+		        
+		        if (organisation.getAddress() != null)
+		        {
+		        	address.append(organisation.getAddress().getAddress());
+		        }
+		        
+		        if (organisation.getCity() != null)
+		        {
+		        	if (address.length() > 0)
+		        		address.append(", ");
+		        	address.append(organisation.getCity().getCity());
+		        }
+		        
+		        if (organisation.getCountry() != null)
+		        {
+		        	if (address.length() > 0)
+		        		address.append(", ");
+		        	address.append(organisation.getCountry().getCountry());
+		        }
+	 	        
+	 	        orgRun.setText(organisation.getName() + ", " + address.toString());
+	 	        
+	 	        
+	 	        
 	 	        orgRun.addBreak();
 	 	        
-	 	        XWPFRun contactRun = delivererParagraph.createRun();
-	 	        contactRun.setFontFamily("Arial");
-	 	        contactRun.setText("Ansprechperson(en): "+contactString);
-	 	        contactRun.addBreak();
+//	 	        XWPFRun contactRun = delivererParagraph.createRun();
+//	 	        contactRun.setFontFamily("Arial");
+//	 	        contactRun.setText("Ansprechperson(en): "+contactString);
+//	 	        contactRun.addBreak();
 	        
 	 	        
 	 	        XWPFRun articleRun = delivererParagraph.createRun();
@@ -257,29 +283,53 @@ public class DeliveryWordGenerator {
 	        	i++;
 		        XWPFParagraph p = doc.createParagraph();
 		        XWPFRun orgRun = p.createRun();
-		        orgRun.setText(i +". Lieferstation: " + org.getName() + ", " + org.getCity().getCity());
+		        
+		        // print Address
+		        StringBuilder address = new StringBuilder();
+		        
+		        if (org.getAddress() != null)
+		        {
+		        	address.append(org.getAddress().getAddress());
+		        }
+		        
+		        if (org.getCity() != null)
+		        {
+		        	if (address.length() > 0)
+		        		address.append(", ");
+		        	address.append(org.getCity().getCity());
+		        }
+		        
+		        if (org.getCountry() != null)
+		        {
+		        	if (address.length() > 0)
+		        		address.append(", ");
+		        	address.append(org.getCountry().getCountry());
+		        }
+		        
+		        orgRun.setText(i +". Lieferstation: " + org.getName() + ", " + address.toString());
+		        
 		        setArial12(orgRun);
 		        orgRun.setBold(true);
 		        orgRun.addBreak();
 		        
 		        // get contactPersons for current Organisation
-		        String contactString = "";
-	        	for (Person person : org.getContactPersons())
-	        	{
-	        		contactString += person.getLastName() + " " + person.getFirstName() + ", ";
-	        	}
-	        	// remove comma after appending all Names, if names have been added
-	        	if (contactString.length() > 2)
-	        		contactString = contactString.substring(0, contactString.length()-2);
+//		        String contactString = "";
+//	        	for (Person person : org.getContactPersons())
+//	        	{
+//	        		contactString += person.getLastName() + " " + person.getFirstName() + ", ";
+//	        	}
+//	        	// remove comma after appending all Names, if names have been added
+//	        	if (contactString.length() > 2)
+//	        		contactString = contactString.substring(0, contactString.length()-2);
 		        
-		        XWPFRun contactPersonRun = p.createRun();
-		        contactPersonRun.setFontFamily("Arial");
-		        contactPersonRun.setText("Ansprechperson(en): "+contactString);
-		        contactPersonRun.addBreak();
+//		        XWPFRun contactPersonRun = p.createRun();
+//		        contactPersonRun.setFontFamily("Arial");
+//		        contactPersonRun.setText("Ansprechperson(en): "+contactString);
+//		        contactPersonRun.addBreak();
 		        
 		        XWPFRun commentRun = p.createRun();
 		        commentRun.setFontFamily("Arial");
-		        commentRun.setText("Anmerkung: "+delivery.getComment());
+		        commentRun.setText("Bemerkung: "+delivery.getComment());
 		        commentRun.addBreak();
 		        
 		        
