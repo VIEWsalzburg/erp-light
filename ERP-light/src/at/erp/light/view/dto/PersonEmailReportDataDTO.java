@@ -8,6 +8,7 @@ public class PersonEmailReportDataDTO {
 	String lastName;
 	String firstName;
 	String comment;
+	String persType;
 	String email;
 	String emailType;
 	String organisationName;
@@ -17,7 +18,7 @@ public class PersonEmailReportDataDTO {
 	}
 
 	public PersonEmailReportDataDTO(int personId, String salutation,
-			String title, String lastName, String firstName, String comment,
+			String title, String lastName, String firstName, String comment, String persType,
 			String email, String emailType, String organisationName) {
 		super();
 		this.personId = personId;
@@ -26,6 +27,7 @@ public class PersonEmailReportDataDTO {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.comment = comment;
+		this.persType = persType;
 		this.email = email;
 		this.emailType = emailType;
 		this.organisationName = organisationName;
@@ -77,6 +79,14 @@ public class PersonEmailReportDataDTO {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	
+	public String getPersType() {
+		return persType;
+	}
+
+	public void setPersType(String persType) {
+		this.persType = persType;
 	}
 	
 	public String getEmail() {

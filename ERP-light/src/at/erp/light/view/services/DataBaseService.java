@@ -1797,6 +1797,7 @@ public class DataBaseService implements IDataBase {
 			.addScalar("lastName", StandardBasicTypes.STRING)
 			.addScalar("firstName", StandardBasicTypes.STRING)
 			.addScalar("comment", StandardBasicTypes.STRING)
+			.addScalar("persType", StandardBasicTypes.STRING)
 			.addScalar("email", StandardBasicTypes.STRING)
 			.addScalar("emailType", StandardBasicTypes.STRING)
 			.addScalar("organisationName", StandardBasicTypes.STRING)
