@@ -1810,6 +1810,11 @@ public class DataBaseService implements IDataBase {
 	@Transactional
 	public int insertLogging(String text, int personId)
 	{
+		if (text.length() >= 1000)
+		{
+			text = text.substring(0, 999);
+		}
+		
 		Logging logging = new Logging(0, new Timestamp(System.currentTimeMillis()), text, personId);
 		this.sessionFactory.getCurrentSession().save(logging);
 		return logging.getLoggingId();

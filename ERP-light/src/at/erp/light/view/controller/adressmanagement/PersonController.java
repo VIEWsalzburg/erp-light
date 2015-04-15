@@ -298,8 +298,8 @@ public class PersonController {
 				dataBaseService.removePlatformuserById(person.getPersonId());
 				log.info("no platformUser");
 			}
-	
-			dataBaseService.insertLogging("[INFO] Person mit der id "+entity.getPersonId()+" gespeichert", lastEditorId);
+			
+			dataBaseService.insertLogging("[INFO] Person mit der id "+entity.getPersonId()+" gespeichert. "+entity.toString(), lastEditorId);
 			
 			return new ControllerMessage(true, "Speichern erfolgreich!");
 		} catch (Exception e) {

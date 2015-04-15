@@ -240,15 +240,55 @@ public class Person implements java.io.Serializable {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Id: ").append(personId);
-		sb.append(", Salutation: ").append(salutation);
-		sb.append(", Title: ").append(title);
-		sb.append(", FirstName: ").append(firstName);
-		sb.append(", LastName: ").append(lastName);
-		sb.append(", Comment: ").append(comment);
-		sb.append(", UpdateTimeStamp: ").append(updateTimestamp);
+		sb.append("personId: ").append(personId);
+		sb.append(", salutation: ").append(salutation);
+		sb.append(", title: ").append(title);
+		sb.append(", firstName: ").append(firstName);
+		sb.append(", lastName: ").append(lastName);
+		sb.append(", comment: ").append(comment);
+		sb.append(", updateTimeStamp: ").append(updateTimestamp);
 		sb.append(", active: ").append(active);
+		
+//		if (address != null)
+//			sb.append(", address: ").append(address);
+//		
+//		if (city != null) {
+//			sb.append(", city: ").append(city.getCity());
+//			sb.append(", zip: ").append(city.getZip());
+//		}
+//		
+//		if (country != null)
+//			sb.append(", country: ").append(country);
+//		
+//		if (lastEditor != null)
+//			sb.append(", lastEditor: ").append(lastEditor.getLastName()+" "+lastEditor.getFirstName());
+//		
+//		if (platformuser != null)
+//		{
+//			sb.append(", loginEmail: ").append(platformuser.getLoginEmail());
+//			sb.append(", permission: ").append(platformuser.getPermission().getPermission());
+//		}
+//		
+//		sb.append(", types: ");
+//		for (Type type : types)
+//		{
+//			sb.append(type.getName()+" ");
+//		}
+//		
+//		sb.append(", emails: ");
+//		for (Email email : emails)
+//		{
+//			sb.append(email.getEmail()+" ");
+//		}
+//		
+//		sb.append(", telephones: ");
+//		for (Telephone telephone : telephones)
+//		{
+//			sb.append(telephone.getTelephone()+" ");
+//		}
+		
 		return sb.toString();
+		
 	}
 
 }
