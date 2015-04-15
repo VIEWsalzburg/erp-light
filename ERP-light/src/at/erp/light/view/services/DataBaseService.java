@@ -1766,6 +1766,7 @@ public class DataBaseService implements IDataBase {
 			.addScalar("title", StandardBasicTypes.STRING)
 			.addScalar("lastName", StandardBasicTypes.STRING)
 			.addScalar("firstName", StandardBasicTypes.STRING)
+			.addScalar("persType", StandardBasicTypes.STRING)
 			.addScalar("privateAddress", StandardBasicTypes.STRING)
 			.addScalar("privateZip", StandardBasicTypes.STRING)
 			.addScalar("privateCity", StandardBasicTypes.STRING)
@@ -1853,7 +1854,6 @@ public class DataBaseService implements IDataBase {
 				+ "coalesce((last_name || ' ' || first_name),'Unknown') as \"personName\""
 				+ "from logging l left join person using (person_id)"
 				+ "order by l.timestamp desc;";
-		// space after ":count" is very important, so that named parameter can be found and set
 		
 		@SuppressWarnings("unchecked")
 		List<LoggingDTO> loggingDTOList = (List<LoggingDTO>) this.sessionFactory.getCurrentSession().createSQLQuery(sqlString)

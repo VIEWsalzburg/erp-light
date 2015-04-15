@@ -6,6 +6,7 @@ public class PersonAddressReportDataDTO {
 	String title;
 	String lastName;
 	String firstName;
+	String persType;
 	String privateAddress;
 	String privateZip;
 	String privateCity;
@@ -22,7 +23,7 @@ public class PersonAddressReportDataDTO {
 	}
 
 	public PersonAddressReportDataDTO(String salutation, String title,
-			String lastName, String firstName, String privateAddress,
+			String lastName, String firstName, String persType, String privateAddress,
 			String privateZip, String privateCity, String privateCountry, String orgName,
 			String orgType, String orgAddress, String orgZip, String orgCity,
 			String orgCountry) {
@@ -31,6 +32,7 @@ public class PersonAddressReportDataDTO {
 		this.title = title;
 		this.lastName = lastName;
 		this.firstName = firstName;
+		this.persType = persType;
 		this.privateAddress = privateAddress;
 		this.privateZip = privateZip;
 		this.privateCity = privateCity;
@@ -73,6 +75,14 @@ public class PersonAddressReportDataDTO {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+	
+	public String getPersType() {
+		return persType;
+	}
+
+	public void setPersType(String persType) {
+		this.persType = persType;
 	}
 
 	public String getPrivateAddress() {

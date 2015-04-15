@@ -100,13 +100,13 @@ public class AddressReportController {
 	private void writeListData(CsvBeanWriter csvWriter,
 			List<PersonAddressReportDataDTO> reportDataDTOList) throws IOException {
 		
-		String[] reportHeader = {"Titel","Anrede","Nachname","Vorname","Straﬂe (privat)",
+		String[] reportHeader = {"Titel","Anrede","Nachname","Vorname", "Personentyp","Straﬂe (privat)",
 				"PLZ (privat)", "Stadt (privat)", "Land (privat)", "Kontaktperson f¸r", "Organisationstyp",
 				"Straﬂe (gesch.)", "PLZ (gesch.)", "Stadt (gesch.)", "Land (gesch.)"};
 				
 		csvWriter.writeHeader(reportHeader);
 		
-		String[] objectHeader = {"salutation", "title", "lastName", "firstName", "privateAddress",
+		String[] objectHeader = {"salutation", "title", "lastName", "firstName", "persType", "privateAddress",
 				"privateZip", "privateCity", "privateCountry", "orgName", "orgType", "orgAddress", "orgZip", "orgCity", "orgCountry"};
 		
 		for(PersonAddressReportDataDTO dataDTO : reportDataDTOList)
