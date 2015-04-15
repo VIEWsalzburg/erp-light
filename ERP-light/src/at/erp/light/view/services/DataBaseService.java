@@ -834,7 +834,8 @@ public class DataBaseService implements IDataBase {
 		// Test VIEW AvailArticleInDepot
 	
 		@SuppressWarnings("unchecked")
-		List<AvailArticleInDepot> availArticleInDepots = sessionFactory.getCurrentSession().createQuery("From AvailArticleInDepot Where availNumberOfPUs != 0").list();
+		List<AvailArticleInDepot> availArticleInDepots = sessionFactory.getCurrentSession()
+			.createQuery("Select a From AvailArticleInDepot a Where a.availNumberOfPUs != 0 Order By a.article.delivererId, a.articleId").list();
 	
 		return availArticleInDepots;
 	}
