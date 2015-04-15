@@ -234,7 +234,7 @@ public class OrganisationController {
 		csvWriter.writeHeader("");
 		
 		String[] header = { "Organisation ID", "Name", "Ansprechperson(en)", "Anschrift",
-				"PLZ", "Stadt", "Land", "Typen", "Kategorien", "Bemerkung", "Aktiv (1 = aktiv / 2 = gelöscht)" };
+				"PLZ", "Stadt", "Land", "Typen", "Kategorien", "Bemerkung", "Aktiv (1 = aktiv / 0 = gelöscht)" };
 
 		csvWriter.writeHeader(header);
 
