@@ -43,7 +43,7 @@ public class GenericReportController {
 	public void exportCustomQuery(HttpServletRequest request,	HttpServletResponse response) {
 		try {
 			
-			String sqlQuery = "Select * from person;";
+			String sqlQuery = "Select * from examplereport;";
 			
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
