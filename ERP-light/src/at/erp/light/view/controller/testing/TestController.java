@@ -1,28 +1,14 @@
 package at.erp.light.view.controller.testing;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import javax.persistence.QueryHint;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.supercsv.io.CsvBeanWriter;
-import org.supercsv.prefs.CsvPreference;
 
 import at.erp.light.view.authenticate.HashGenerator;
-import at.erp.light.view.dto.PersonEmailReportDataDTO;
 import at.erp.light.view.model.Address;
 import at.erp.light.view.model.Article;
 import at.erp.light.view.model.Category;
@@ -149,8 +135,6 @@ public class TestController {
 			}
 			
 		}
-		
-		
 		
 		return "Inserted Waren "+offset+" to "+(offset+count);
 	}

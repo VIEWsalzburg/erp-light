@@ -1,47 +1,24 @@
 package at.erp.light.view.controller.reporting;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-import javax.persistence.QueryHint;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
-import at.erp.light.view.authenticate.HashGenerator;
-import at.erp.light.view.dto.PersonEmailReportDataDTO;
-import at.erp.light.view.model.Address;
-import at.erp.light.view.model.Article;
-import at.erp.light.view.model.Category;
-import at.erp.light.view.model.City;
-import at.erp.light.view.model.Country;
-import at.erp.light.view.model.Email;
-import at.erp.light.view.model.IncomingArticle;
-import at.erp.light.view.model.IncomingDelivery;
-import at.erp.light.view.model.Organisation;
-import at.erp.light.view.model.OutgoingArticle;
-import at.erp.light.view.model.OutgoingDelivery;
-import at.erp.light.view.model.Person;
-import at.erp.light.view.model.Telephone;
-import at.erp.light.view.model.Type;
 import at.erp.light.view.services.IDataBase;
 
 /**
  * This class is a RestController.<br/>
- * It is used for testing purposes of single functionalities.
+ * It is used for executing custom Reports and return the data as csv-file.
  * @author Matthias Schnöll
  *
  */
@@ -57,11 +34,16 @@ public class GenericReportController {
 	}
 	
 	
-	
+	/**
+	 * This function returns the result set from the SQL Query as csv file
+	 * @param request
+	 * @param response
+	 */
 	@RequestMapping(value = "secure/reporting/runSQLQuery")
-	public void exportCustomQuery(@RequestParam(value="sqlquery") String sqlQuery,
-			HttpServletRequest request,	HttpServletResponse response) {
+	public void exportCustomQuery(HttpServletRequest request,	HttpServletResponse response) {
 		try {
+			
+			String sqlQuery = "Select * from person;";
 			
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
