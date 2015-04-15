@@ -146,7 +146,7 @@ public class Article implements java.io.Serializable {
 		this.incomingArticles = incomingArticles;
 	}
 	
-	@Formula("(select o.organisation_id from organisation o JOIN incoming_delivery id ON (o.organisation_id = id.organisation_id) JOIN incoming_article ia ON (id.incoming_delivery_id = ia.incoming_delivery_id) WHERE ia.article_id = article_id)")
+	@Formula("(select distinct o.organisation_id from organisation o JOIN incoming_delivery id ON (o.organisation_id = id.organisation_id) JOIN incoming_article ia ON (id.incoming_delivery_id = ia.incoming_delivery_id) WHERE ia.article_id = article_id limit 1)")
 	public int getDelivererId()	{
 		return this.delivererId;
 	}
