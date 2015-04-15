@@ -638,4 +638,10 @@ public interface IDataBase {
 	 */
 	public List<LoggingDTO> getAllLoggings();
 	
+	/**
+	 * This function is used to call sql queries and get the results from the DB
+	 * @return List with resulting rows in form of an Object array
+	 */
+	public List<Object[]> runSQLQuery(String sqlQuery);
+	
 }

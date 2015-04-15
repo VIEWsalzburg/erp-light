@@ -1,4 +1,4 @@
-package at.erp.light.view.controller.article;
+package at.erp.light.view.controller.reporting;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -41,8 +41,8 @@ import at.erp.light.view.services.IDataBase;
  *
  */
 @RestController
-public class ReportController {
-	private static final Logger log = Logger.getLogger(ReportController.class
+public class ArticleReportController {
+	private static final Logger log = Logger.getLogger(ArticleReportController.class
 			.getName());
 
 	@Autowired

@@ -1,4 +1,4 @@
-package at.erp.light.view.controller.article;
+package at.erp.light.view.controller.reporting;
 
 /**
  * This class acts as transmission container for requesting a specific report

@@ -1,4 +1,4 @@
-package at.erp.light.view.controller.adressmanagement;
+package at.erp.light.view.controller.reporting;
 
 import java.io.IOException;
 import java.text.NumberFormat;

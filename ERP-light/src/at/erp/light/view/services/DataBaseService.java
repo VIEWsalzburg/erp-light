@@ -1878,6 +1878,19 @@ public class DataBaseService implements IDataBase {
 		return sizeStr;
 	}
 	
+	
+	@Override
+	public List<Object[]> runSQLQuery(String sqlQuery) {
+		
+		@SuppressWarnings("unchecked")
+		List<Object[]> list = (List<Object[]>)this.sessionFactory.getCurrentSession().createSQLQuery(sqlQuery).list();
+		
+		return list;
+		
+	}
+	
+	
+	
 	/***** [END logging] *****/
 	
 }
