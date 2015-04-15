@@ -1826,7 +1826,7 @@ public class DataBaseService implements IDataBase {
 	public List<LoggingDTO> getLatestLoggings(int count)
 	{
 		String sqlString = "select l.loggingtext as \"loggingText\","
-				+ "to_char(l.timestamp at time zone 'MET','DD.MM.YYYY HH24:MI:SS') as \"timestamp\","
+				+ "to_char(l.timestamp at time zone 'METDST','DD.MM.YYYY HH24:MI:SS') as \"timestamp\","
 				+ "coalesce((last_name || ' ' || first_name),'Unknown') as \"personName\""
 				+ "from logging l left join person using (person_id)"
 				+ "order by l.timestamp desc limit :count ;";
@@ -1849,7 +1849,7 @@ public class DataBaseService implements IDataBase {
 	public List<LoggingDTO> getAllLoggings()
 	{
 		String sqlString = "select l.loggingtext as \"loggingText\","
-				+ "to_char(l.timestamp at time zone 'MET','DD.MM.YYYY HH24:MI:SS') as \"timestamp\","
+				+ "to_char(l.timestamp at time zone 'METDST','DD.MM.YYYY HH24:MI:SS') as \"timestamp\","
 				+ "coalesce((last_name || ' ' || first_name),'Unknown') as \"personName\""
 				+ "from logging l left join person using (person_id)"
 				+ "order by l.timestamp desc;";
