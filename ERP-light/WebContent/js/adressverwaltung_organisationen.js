@@ -272,6 +272,7 @@ function loadTableContent() {
 	$('#lieferanten_cbx').prop('checked', true);
 	$('#kunden_cbx').prop('checked', true);
 	$('#sponsoren_cbx').prop('checked', true);
+	$('#keinTyp_cbx').prop('checked', true);
 	
 	// load all Categories
 	var category;
@@ -797,6 +798,7 @@ $(document).ready(function() {
 			$('#lieferanten_cbx').prop('checked', true);
 			$('#kunden_cbx').prop('checked', true);
 			$('#sponsoren_cbx').prop('checked', true);
+			$('#keinTyp_cbx').prop('checked', true);
 			
 			var rex = new RegExp($(this).val(), 'i');
 			$('.searchable tr').hide();
@@ -865,6 +867,7 @@ function updateTableTypeFilter() {
 	var lieferantenChecked = $('#lieferanten_cbx').prop('checked');
 	var kundenChecked = $('#kunden_cbx').prop('checked'); 
 	var sponsorenChecked = $('#sponsoren_cbx').prop('checked');
+	var keinTypChecked = $('#keinTyp_cbx').prop('checked');
 	
 	$('.searchable tr').each( function() {
 		
@@ -896,9 +899,10 @@ function updateTableTypeFilter() {
 		}
 		
 		// show all empty types
-		if (typeText == '')
+		if (keinTypChecked)
 		{
-			show = true;
+			if (typeText == '')
+				show = true;
 		}
 		
 		if (show) {
@@ -923,11 +927,13 @@ $(document).ready(function() {
 	$('#lieferanten_cbx').prop('checked', true);
 	$('#kunden_cbx').prop('checked', true);
 	$('#sponsoren_cbx').prop('checked', true);
+	$('#keinTyp_cbx').prop('checked', true);
 
 	// call function updateTableTypeFilter when checkbox states are changed
 	$('#lieferanten_cbx').on('change', updateTableTypeFilter);
 	$('#kunden_cbx').on('change', updateTableTypeFilter);
 	$('#sponsoren_cbx').on('change', updateTableTypeFilter);
+	$('#keinTyp_cbx').on('change', updateTableTypeFilter);
 });
 
 

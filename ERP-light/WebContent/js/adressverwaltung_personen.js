@@ -757,6 +757,7 @@ $(document).ready(function() {
 			$('#unterstuetzer_cbx').prop('checked', true);
 			$('#mitglieder_cbx').prop('checked', true);
 			$('#gaeste_cbx').prop('checked', true);
+			$('#keinTyp_cbx').prop('checked', true);
 			
 			var rex = new RegExp($(this).val(), 'i');
 			// hide all Persons
@@ -789,6 +790,7 @@ function updateTableTypeFilter() {
 	var unterstuetzerChecked = $('#unterstuetzer_cbx').prop('checked');
 	var mitgliederChecked = $('#mitglieder_cbx').prop('checked');
 	var gaesteChecked = $('#gaeste_cbx').prop('checked');
+	var keinTypChecked = $('#keinTyp_cbx').prop('checked');
 	
 	$('.searchable tr').each( function() {
 		
@@ -827,9 +829,10 @@ function updateTableTypeFilter() {
 		}
 		
 		// show all empty types
-		if (typeText == '')
+		if (keinTypChecked)
 		{
-			show = true;
+			if (typeText == '')
+				show = true;
 		}
 		
 		if (show) {
@@ -851,11 +854,13 @@ $(document).ready(function() {
 	$('#unterstuetzer_cbx').prop('checked', true);
 	$('#mitglieder_cbx').prop('checked', true);
 	$('#gaeste_cbx').prop('checked', true);
+	$('#keinTyp_cbx').prop('checked', true);
 
 	$('#mitarbeiter_cbx').on('change', updateTableTypeFilter);
 	$('#unterstuetzer_cbx').on('change', updateTableTypeFilter);
 	$('#mitglieder_cbx').on('change', updateTableTypeFilter);
 	$('#gaeste_cbx').on('change', updateTableTypeFilter);
+	$('#keinTyp_cbx').on('change', updateTableTypeFilter);
 });
 
 //disable new, edit, delete and details buttons
