@@ -87,6 +87,8 @@ function loadTableContent(loadArchivedEntries){
 						// hide loading spinner
 						showLoadingSpinner(false);
 						
+						// update item count label
+						updateItemCountLabel();
 			});
 };
 
@@ -341,6 +343,14 @@ function createArticleTemplate(name, value){
 	return template;
 }
 
+//function for updating the item count label right above the table
+function updateItemCountLabel()
+{
+	var count = $('#outgoingDeliveryTableBody').children(':visible').length;
+	
+	$('#lbl_item_count').text(count+" Warenausgänge");
+}
+
 // search filter
 $(document).ready(function() {
 	(function($) {
@@ -351,6 +361,8 @@ $(document).ready(function() {
 			$('.searchable tr').filter(function() {
 				return rex.test($(this).text());
 			}).show();
+			
+			updateItemCountLabel();
 		})
 	}(jQuery));
 });

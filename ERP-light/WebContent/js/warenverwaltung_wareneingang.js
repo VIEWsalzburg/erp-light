@@ -83,6 +83,9 @@ function loadTableContent(loadArchivedEntries){
 		
 		// hide loading spinner
 		showLoadingSpinner(false);
+		
+		// update item count label
+		updateItemCountLabel();
 	});
 	
 };
@@ -352,7 +355,13 @@ $('#btn_distributionReport').click(function() {
 	
 });
 
-
+//function for updating the item count label right above the table
+function updateItemCountLabel()
+{
+	var count = $('#incomingDeliveryTableBody').children(':visible').length;
+	
+	$('#lbl_item_count').text(count+" Wareneingänge");
+}
 
 // search filter
 $(document).ready(function() {
@@ -364,6 +373,8 @@ $(document).ready(function() {
 			$('.searchable tr').filter(function() {
 				return rex.test($(this).text());
 			}).show();
+			
+			updateItemCountLabel();
 		})
 	}(jQuery));
 });

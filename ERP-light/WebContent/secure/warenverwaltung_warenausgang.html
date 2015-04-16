@@ -53,7 +53,7 @@
 						<h3><span class="label label-default">Liste aller Warenausg&auml;nge</span></h3>
 							
 						<form role="form" class="form-inline">
-							<div class="form-group">							
+							<div class="form-group col-md-9">							
 								<button type="button" id="btn_new" class="btn btn-primary helpHotspot" data-helptext="Einen neuen Warenausgang im System erstellen.">
 									<span class="glyphicon glyphicon-plus"></span> Neuer Warenausgang</button>							
 								
@@ -64,6 +64,12 @@
 									<label class="helpHotspot" data-helptext="Mithilfe dieser Checkbox k&ouml;nnen ebenfalls alle bereits abgeschlossenen Eintr&auml;ge angezeigt werden.">
 										<input type="checkbox" id="cbx_archive"	value=""> Abgeschlossene Einträge</label>												
 							</div>
+							
+							<div class="form-group col-md-3 pull-right" style="height: 44px; padding-top: 5px;">
+								<label id="lbl_item_count" class="pull-right helpHotspot" style="margin-top: 6px; margin-bottom: 6px;" 
+									data-helptext="Anzahl der Warenausgänge die aktuell angezeigt werden.">Warenausgänge</label>
+							</div>
+							
 						</form>
 						
 						<!-- Table -->
