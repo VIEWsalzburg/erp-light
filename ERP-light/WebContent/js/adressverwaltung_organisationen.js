@@ -1131,14 +1131,23 @@ $('#btn_exportCurrentView').click(function(){
 	// merge rows
 	var csvString = tableData.join('\n');
 	
-	var csvContent = encodeURIComponent(csvString);
-	
-	var csvFile = "data:application/csv;charset=utf-8,"+csvContent;
-	
-	$('body').append($('<a id="csvTableDownload" href="'+csvFile+'" target="_blank" download="Organisations-Export.csv"/>'));
-	$('#csvTableDownload').ready(function(){
-		$('#csvTableDownload').get(0).click();
-		$('#csvTableDownload').remove();
-	});
+	// MS IE option
+	if (window.navigator.userAgent.indexOf('MSIE ') != -1)
+	{
+		var blob = new Blob([csvString]);
+		window.navigator.msSaveOrOpenBlob(blob, 'Organisations-Export.csv');
+	}
+	else	// other browsers
+	{
+		var csvContent = encodeURIComponent(csvString);
+		
+		var csvFile = "data:application/csv;charset=utf-8,"+csvContent;
+		
+		$('body').append($('<a id="csvTableDownload" href="'+csvFile+'" target="_blank" download="Organisations-Export.csv"/>'));
+		$('#csvTableDownload').ready(function(){
+			$('#csvTableDownload').get(0).click();
+			$('#csvTableDownload').remove();
+		});
+	}
 	
 });
