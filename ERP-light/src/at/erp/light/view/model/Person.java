@@ -246,7 +246,7 @@ public class Person implements java.io.Serializable {
 		sb.append(", firstName: ").append(firstName);
 		sb.append(", lastName: ").append(lastName);
 		sb.append(", comment: ").append(comment);
-		sb.append(", updateTimeStamp: ").append(updateTimestamp);
+		sb.append(", updateTimestamp: ").append(updateTimestamp);
 		sb.append(", active: ").append(active);
 		
 //		if (address != null)

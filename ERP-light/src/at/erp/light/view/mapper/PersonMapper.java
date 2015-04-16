@@ -126,7 +126,7 @@ public class PersonMapper {
 		entity.setFirstName(dto.getFirstName());
 		entity.setLastName(dto.getLastName());
 		entity.setComment(dto.getComment());
-		entity.setUpdateTimestamp(new Date(System.currentTimeMillis()));
+		entity.setUpdateTimestamp(new Date());
 		entity.setActive(dto.getActive());
 
 		entity.setAddress(new Address(0, dto.getAddress()));

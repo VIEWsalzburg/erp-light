@@ -228,6 +228,8 @@ public class PersonController {
 			platformuser.setLoginEmail(person.getLoginEmail());
 			dataBaseService.setPlatformuser(platformuser);
 
+			dataBaseService.insertLogging("[INFO] Person mit der id "+myPerson.getPersonId()+" gespeichert. "+myPerson.toString(), personId);
+			
 			log.info("Changing MyData successful");
 			return new ControllerMessage(true, "Speichern erfolgreich!");
 		}
@@ -263,6 +265,7 @@ public class PersonController {
 			
 			Person entity = PersonMapper.mapToEntity(person);
 			entity.setLastEditor(dataBaseService.getPersonById(lastEditorId));
+			entity.setUpdateTimestamp(new Date());
 	
 			// persist Person to DB and get personId (to get the persisted Id if new Person with personId = 0 is saved)
 			int personId = dataBaseService.setPerson(entity);
@@ -371,6 +374,7 @@ public class PersonController {
 			
 			dataBaseService.setPlatformuser(platformuser);
 			log.info("reset password for user with id "+id);
+			dataBaseService.insertLogging("[INFO] Passwort für Person mit Id "+id+" zurückgesetzt.", lastEditorId);
 			return new ControllerMessage(true, "Zurücksetzen erfolgreich!");
 		} catch (Exception e)
 		{
@@ -415,6 +419,7 @@ public class PersonController {
 				platformuser.setPassword(HashGenerator.hashPasswordWithSalt(changePasswordObject.getNewPassword()));
 				dataBaseService.setPlatformuser(platformuser);
 				log.info("changed password successfully");
+				dataBaseService.insertLogging("[INFO] Passwort für Person mit Id "+(int)currentId+" geändert.", (int)currentId);
 				return new ControllerMessage(true, "Ändern erfolgreich!");
 			} catch (Exception e)
 			{
@@ -434,120 +439,129 @@ public class PersonController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "secure/person/getAllPersonsAsCSV")
-	public void downloadCSV(HttpServletResponse response) throws IOException {
+	public void downloadCSV(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-		String currentDateString = sdf.format(new Date());
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+			String currentDateString = sdf.format(new Date());
+			
+			String csvFileName = "Alle Personen_"+currentDateString+".csv";
+			response.setContentType("text/csv");
+			// creates mock data
+			String headerKey = "Content-Disposition";
+			String headerValue = String.format("attachment; filename=\"%s\"", csvFileName);
+	
+			response.setHeader(headerKey, headerValue);
+			List<Person> listPersons = dataBaseService.getAllPersons();
+			// uses the Super CSV API to generate CSV data from the model data
+			ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
+					CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
+	
+			csvWriter.writeHeader("Liste aller Personen:");
+			csvWriter.writeHeader("Erstellungsdatum:", currentDateString);
+			csvWriter.writeHeader("");
+			
+			String[] header = { "Personen ID", "Anrede", "Titel", "Nachname",
+					"Vorname", "Anschrift", "PLZ", "Stadt", "Land", "Telefonnummern", "Email Adressen",
+					"Typen", "Bemerkung", "Login", "Berechtigung", "Letzte Änderung", "Aktiv" };
+	
+			csvWriter.writeHeader(header);
+	
+			for (Person p : listPersons) {
+				PersonDTO dto = PersonMapper.mapToDTO(p);
+				
+				String[] data = new String[17];
+				
+				// insert Person ID
+				data[0] = ""+dto.getPersonId();
+				
+				// insert salutation
+				data[1] = dto.getSalutation();
+				
+				// insert title
+				data[2] = dto.getTitle();
+				
+				// insert lastName
+				data[3] = dto.getLastName();
+				
+				// insert firstName
+				data[4] = dto.getFirstName();
+				
+				// insert address
+				data[5] = dto.getAddress();
+				
+				// insert zip
+				data[6] = dto.getZip();
+				
+				// insert city
+				data[7] = dto.getCity();
+				
+				// insert country
+				data[8] = dto.getCountry();
+				
+				// insert telephones
+				String telephones = "";
+				for (int i=0; i<dto.getTelephones().size(); i++)
+				{
+					TelephoneDTO teldto = dto.getTelephones().get(i);
+					telephones += teldto.getType().substring(0, 1)+": ";
+					telephones += teldto.getTelephone();
+					if (i < (dto.getTelephones().size() - 1))
+						telephones += ", ";
+				}
+				data[9] = telephones;
+				
+				// insert emails
+				String emails = "";
+				for (int i=0; i<dto.getEmails().size(); i++)
+				{
+					EmailDTO emaildto = dto.getEmails().get(i);
+					emails += emaildto.getType().substring(0, 1)+": ";
+					emails += emaildto.getMail();
+					if (i < (dto.getEmails().size() - 1))
+						emails += ", ";
+				}
+				data[10] = emails;
+				
+				// insert types
+				String types = "";
+				for (int i=0; i<dto.getTypes().size(); i++)
+				{
+					types += dto.getTypes().get(i);
+					if (i < (dto.getTypes().size()-1) )
+						types += ", ";
+				}
+				data[11] = types;
+				
+				// insert comment
+				data[12] = dto.getComment();
+				
+				// insert login
+				data[13] = dto.getLoginEmail();
+				
+				// insert permission
+				data[14] = dto.getPermission();
+				
+				// insert last change
+				data[15] = dto.getUpdateTimestamp();
+				
+				// insert active
+				data[16] = ""+dto.getActive();
+				
+				csvWriter.writeHeader(data);
+			}
+	
+			log.info("returning CSV Export of Persons");
+			
+			int id = (int)request.getSession().getAttribute("id");
+			dataBaseService.insertLogging("[INFO] Alle Personen als CSV exportiert.", id);
+			
+			csvWriter.close();
 		
-		String csvFileName = "Alle Personen_"+currentDateString+".csv";
-		response.setContentType("text/csv");
-		// creates mock data
-		String headerKey = "Content-Disposition";
-		String headerValue = String.format("attachment; filename=\"%s\"", csvFileName);
-
-		response.setHeader(headerKey, headerValue);
-		List<Person> listPersons = dataBaseService.getAllPersons();
-		// uses the Super CSV API to generate CSV data from the model data
-		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
-				CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
-
-		csvWriter.writeHeader("Liste aller Personen:");
-		csvWriter.writeHeader("Erstellungsdatum:", currentDateString);
-		csvWriter.writeHeader("");
-		
-		String[] header = { "Personen ID", "Anrede", "Titel", "Nachname",
-				"Vorname", "Anschrift", "PLZ", "Stadt", "Land", "Telefonnummern", "Email Adressen",
-				"Typen", "Bemerkung", "Login", "Berechtigung", "Letzte Änderung", "Aktiv" };
-
-		csvWriter.writeHeader(header);
-
-		for (Person p : listPersons) {
-			PersonDTO dto = PersonMapper.mapToDTO(p);
-			
-			String[] data = new String[17];
-			
-			// insert Person ID
-			data[0] = ""+dto.getPersonId();
-			
-			// insert salutation
-			data[1] = dto.getSalutation();
-			
-			// insert title
-			data[2] = dto.getTitle();
-			
-			// insert lastName
-			data[3] = dto.getLastName();
-			
-			// insert firstName
-			data[4] = dto.getFirstName();
-			
-			// insert address
-			data[5] = dto.getAddress();
-			
-			// insert zip
-			data[6] = dto.getZip();
-			
-			// insert city
-			data[7] = dto.getCity();
-			
-			// insert country
-			data[8] = dto.getCountry();
-			
-			// insert telephones
-			String telephones = "";
-			for (int i=0; i<dto.getTelephones().size(); i++)
-			{
-				TelephoneDTO teldto = dto.getTelephones().get(i);
-				telephones += teldto.getType().substring(0, 1)+": ";
-				telephones += teldto.getTelephone();
-				if (i < (dto.getTelephones().size() - 1))
-					telephones += ", ";
-			}
-			data[9] = telephones;
-			
-			// insert emails
-			String emails = "";
-			for (int i=0; i<dto.getEmails().size(); i++)
-			{
-				EmailDTO emaildto = dto.getEmails().get(i);
-				emails += emaildto.getType().substring(0, 1)+": ";
-				emails += emaildto.getMail();
-				if (i < (dto.getEmails().size() - 1))
-					emails += ", ";
-			}
-			data[10] = emails;
-			
-			// insert types
-			String types = "";
-			for (int i=0; i<dto.getTypes().size(); i++)
-			{
-				types += dto.getTypes().get(i);
-				if (i < (dto.getTypes().size()-1) )
-					types += ", ";
-			}
-			data[11] = types;
-			
-			// insert comment
-			data[12] = dto.getComment();
-			
-			// insert login
-			data[13] = dto.getLoginEmail();
-			
-			// insert permission
-			data[14] = dto.getPermission();
-			
-			// insert last change
-			data[15] = dto.getUpdateTimestamp();
-			
-			// insert active
-			data[16] = ""+dto.getActive();
-			
-			csvWriter.writeHeader(data);
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-
-		log.info("returning CSV Export of Persons");
 		
-		csvWriter.close();
 	}
 
 }

@@ -147,7 +147,7 @@ public class OrganisationController {
 			dataBaseService.setOrganisation(entity);
 		
 			log.info("saved organisation with id "+entity.getOrganisationId());
-			dataBaseService.insertLogging("[INFO] Organisation mit der id "+entity.getOrganisationId()+" gespeichert", lastEditorId);
+			dataBaseService.insertLogging("[INFO] Organisation mit der id "+entity.getOrganisationId()+" gespeichert. "+entity.toString(), lastEditorId);
 			return new ControllerMessage(true, "Speichern erfoglreich!");
 			
 		} catch (Exception e) {

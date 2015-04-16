@@ -137,8 +137,6 @@ public class OrganisationMapper {
 			categories.add(dataBaseService.getCategoryById(categoryId));
 		}
 		entity.setCategories(categories);
-		
-		entity.setUpdateTimestamp(new Date());
 
 		Set<Type> types = new HashSet<Type>();
 		for (String typeStr : dto.getTypes()) {
