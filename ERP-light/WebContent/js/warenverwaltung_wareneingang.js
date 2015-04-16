@@ -52,7 +52,8 @@ function loadTableContent(loadArchivedEntries){
 			} );
 			
 			for(var i=0; i < articles.length; i++){
-				articleString = articleString + articles[i].articleDTO.description;
+				articleString = articleString + articles[i].numberpu + " " + 
+					articles[i].articleDTO.packagingUnit + " " + articles[i].articleDTO.description;
 				
 				if(i < articles.length - 1){
 					articleString = articleString + ", ";
