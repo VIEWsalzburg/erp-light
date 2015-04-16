@@ -74,7 +74,7 @@
 							<table class="table table-hover table-striped header-fixed" id="TableHead">
 								<thead class="TableHead">
 									<tr>
-										<th class="hidden" style="width: 3%">#</th>
+										<th class="hidden" style="width: 3%">Wareneingangs-Id</th>
 										<th style="width: 20%">Lieferant</th>
 										<th style="width: 7%">Lieferdatum</th>
 										<th style="width: 35%">Waren</th>
@@ -310,11 +310,22 @@
 				</form>
 			</div>
 			<div class="col-md-4">
-				<button type="button" value="" id="btn_archive" class="btn btn-default pull-right centered helpHotspot"
-					data-helptext="Den gew&auml;hlten Wareneingang abschließen. Abgeschlossene Wareneing&auml;nge 
-					k&ouml;nnen mithilfe der Checkbox 'Abgeschlossene Eintr&auml;ge' wieder angezeigt werden. 
-					Der Status kann bei erneutem Klick wieder r&uuml;ckg&auml;ngig gemacht werden.">
-							<span class="glyphicon glyphicon-folder-close"></span> Abschließen</button>
+								
+				<form role="form" class="form-inline">
+					<div class="form-group bottom pull-right">
+						
+						<button type="button" value="" id="btn_archive" class="btn btn-default helpHotspot"
+							data-helptext="Den gew&auml;hlten Wareneingang abschließen. Abgeschlossene Wareneing&auml;nge 
+							k&ouml;nnen mithilfe der Checkbox 'Abgeschlossene Eintr&auml;ge' wieder angezeigt werden. 
+							Der Status kann bei erneutem Klick wieder r&uuml;ckg&auml;ngig gemacht werden.">
+									<span class="glyphicon glyphicon-folder-close"></span> Abschließen</button>
+					
+						<button type="button" id="btn_exportCurrentView" class="btn btn-primary">
+							<span class="glyphicon glyphicon-share"></span> Auswahl exportieren
+						</button>
+					</div>
+				</form>			
+				
 			</div>
 		</div>
 	</div>	

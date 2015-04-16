@@ -77,7 +77,7 @@
 							<table class="table table-hover table-striped header-fixed" id="TableHead">
 								<thead class="TableHead">
 									<tr>
-										<th class="hidden" style="width: 3%">#</th>								
+										<th class="hidden" style="width: 3%">Lieferlisten-Id</th>								
 										<th style="width: 9%">Datum</th>
 										<th style="width: 29%">Lieferanten</th>
 										<th style="width: 29%">Kunden</th>
@@ -228,7 +228,7 @@
 							<span class="glyphicon glyphicon-list"></span> Details
 				</button>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-5">
 				<form role="form" class="form-inline col-sm-offset-2">
 					<div class="form-group bottom">
 						<button type="button" id="btn_edit" class="btn btn-warning" style="margin: auto;">
@@ -245,12 +245,22 @@
 					</div>
 				</form>
 			</div>
-			<div class="col-md-3">
-				<button type="button" value="" id="btn_archive" class="btn btn-default pull-right centered helpHotspot"
-					data-helptext="Die gew&auml;hlte Lieferliste abschließen. Abgeschlossene Lieferlisten 
-					k&ouml;nnen mithilfe der Checkbox 'Abgeschlossene Eintr&auml;ge' wieder angezeigt werden. 
-					Der Status kann bei erneutem Klick wieder r&uuml;ckg&auml;ngig gemacht werden.">
-							<span class="glyphicon glyphicon-folder-close"></span> Abschließen</button>
+			<div class="col-md-4">
+			
+				<form role="form" class="form-inline">
+						<div class="form-group bottom pull-right">
+							<button type="button" value="" id="btn_archive" class="btn btn-default helpHotspot"
+								data-helptext="Die gew&auml;hlte Lieferliste abschließen. Abgeschlossene Lieferlisten 
+								k&ouml;nnen mithilfe der Checkbox 'Abgeschlossene Eintr&auml;ge' wieder angezeigt werden. 
+								Der Status kann bei erneutem Klick wieder r&uuml;ckg&auml;ngig gemacht werden.">
+										<span class="glyphicon glyphicon-folder-close"></span> Abschließen</button>
+						
+							<button type="button" id="btn_exportCurrentView" class="btn btn-primary">
+								<span class="glyphicon glyphicon-share"></span> Auswahl exportieren
+							</button>
+						</div>
+				</form>
+				
 			</div>
 		</div>
 	</div>	
