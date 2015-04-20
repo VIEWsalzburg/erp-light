@@ -617,20 +617,22 @@
 			</div>
 			<div class="col-md-4">
 			
-				<form role="form" class="form-inline">
+				<div role="form" class="form-inline">
 					<div class="form-group bottom pull-right">
 						<button type="button" id="btn_exportCurrentView" class="btn btn-primary">
 							<span class="glyphicon glyphicon-share"></span> Auswahl exportieren
 						</button>
 					
-						<a href="../rest/secure/person/getAllPersonsAsCSV">
-							<button type="button" id="btn_export" class="btn btn-primary helpHotspot" data-toggle="modal" data-target="#exportModal"
+							<button type="button" id="btn_export" class="btn btn-primary helpHotspot"
 								data-helptext="Eine Liste aller Personen als CSV-Datei exportieren.">
 								<span class="glyphicon glyphicon-share"></span> Alle exportieren
 							</button>
-						</a>
+						
+						<!-- Form for downloading all persons -->
+						<form id="formPersonExport" action="../rest/secure/person/getAllPersonsAsCSV"></form>
+						
 					</div>
-				</form>
+				</div>
 				
 			</div>
 		</div>

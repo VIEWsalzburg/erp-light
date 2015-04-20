@@ -1024,6 +1024,14 @@ $("#btn_deletePerson").click(function() {
 });
 
 
+// export all persons as csv
+$('#btn_export').click(function(){
+	// submit form on click
+	$('#formPersonExport').submit();
+});
+
+
+
 // export current view as CSV
 $('#btn_exportCurrentView').click(function(){
 	

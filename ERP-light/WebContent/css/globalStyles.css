@@ -67,6 +67,7 @@ body{
 	background-color: #333333;
 	color: #FFF;
 	padding-bottom: 5px;
+	min-height: 45px;
 }
 
 .custom-alert {
