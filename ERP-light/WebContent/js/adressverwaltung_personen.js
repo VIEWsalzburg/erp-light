@@ -1051,23 +1051,19 @@ $('#btn_exportCurrentView').click(function(){
 	// merge rows
 	var csvString = tableData.join('\n');
 	
-	// MS IE option
-	if (window.navigator.userAgent.indexOf('MSIE ') != -1)
-	{
-		var blob = new Blob([csvString]);
-		window.navigator.msSaveOrOpenBlob(blob, 'Personen-Export.csv');
-	}
-	else	// other browsers
-	{
-		var csvContent = encodeURIComponent(csvString);
-		
-		var csvFile = "data:application/csv;charset=utf-8,"+csvContent;
-		
-		$('body').append($('<a id="csvTableDownload" href="'+csvFile+'" target="_blank" download="Personen-Export.csv"/>'));
-		$('#csvTableDownload').ready(function(){
-			$('#csvTableDownload').get(0).click();
-			$('#csvTableDownload').remove();
-		});
-	}
 	
+	// start encoding and download
+	// code by https://github.com/b4stien/js-csv-encoding
+	var csvContent = csvString,
+    	textEncoder = new CustomTextEncoder('windows-1252', {NONSTANDARD_allowLegacyEncoding: true}),
+    	fileName = 'Personen-Export.csv';
+
+	// encode
+	var csvContentEncoded = textEncoder.encode([csvContent]);
+	// start download
+	var blob = new Blob([csvContentEncoded], {type: 'text/csv;charset=windows-1252;'});
+	saveAs(blob, fileName);
+	
+	// end download
+		
 });
