@@ -196,11 +196,12 @@ function loadDeliveryList(id){
 }
 
 //load driver modal
-$("#btn_addDriver").click(function() {
+$("#btn_addDriver,#tbx_driver_popover").click(function() {
 	$("#tbx_driver_modal").val("");
 	$("#tbx_codriver_modal").val("");
 	
 	$("#newAlertFormDriver").hide();
+	$('#chooseDriverModal').modal('show');
 });
 
 //save driver to textbox

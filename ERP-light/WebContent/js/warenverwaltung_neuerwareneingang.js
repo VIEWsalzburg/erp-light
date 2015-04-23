@@ -784,6 +784,7 @@ $(document).ready(function() {
 				// disable the button and the delivery selection
 				$("#btn_new").prop('disabled', true);
 				$('#btn_addDeliverer').prop('disabled', true);
+				$('#tbx_deliverer_popover').attr('disabled', '');
 			}
 			
 			$('#btn_edit').show();
