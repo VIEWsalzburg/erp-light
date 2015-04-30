@@ -502,6 +502,11 @@ function getSelectedRow(){
 	return currentRow;
 }
 
+// call form for exporting current delivery list when btn_export is clicked
+$('#btn_export').click(function(){
+	$('#form_exportDeliveryList').submit();
+});
+
 
 $('#TableHead').on('click','tbody tr', function(event) {
 	var rowData = $(this).children("td").map(function() {
@@ -512,7 +517,7 @@ $('#TableHead').on('click','tbody tr', function(event) {
 
 	// set link to word generation of the current selected deliveryList
 	var hrefString = "../rest/secure/deliveryList/exportAsWord/" + rowData[0];
-	$("#href_export").attr("href", hrefString);
+	$("#form_exportDeliveryList").attr("action", hrefString);
 	
 	// only when user has admin rights
 	if (currentUserRights == "Admin" || currentUserRights == "ReadWrite") {
