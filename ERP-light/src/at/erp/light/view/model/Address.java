@@ -18,6 +18,8 @@ import javax.persistence.Table;
 public class Address implements java.io.Serializable {
 
 	private int addressId;
+	
+	@Column(unique = true)
 	private String address;
 
 	public Address() {
