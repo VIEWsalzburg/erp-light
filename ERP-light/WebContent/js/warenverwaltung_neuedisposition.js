@@ -424,7 +424,20 @@ $("#btn_addReceiver,#tbx_receiver_popover").click(function() {
 	loadAllReceivers();
 	
 	$('#chooseReceiverModal').modal('show');
+	
+	// set focus when modal is loaded
+	$('#chooseReceiverModal').on('shown.bs.modal', function(){
+		$('#filter_modal').focus();
+	});
 });
+
+
+//select receiver if row is clicked
+$(document).on("click", ".boxElement_receiver", function(){
+	// select radio button
+	$(this).find('input:radio[name=receiverRadio]').prop('checked', true);
+});
+
 
 
 //save receiver to textbox

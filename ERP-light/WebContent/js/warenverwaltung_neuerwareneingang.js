@@ -252,6 +252,19 @@ $("#btn_addDeliverer,#tbx_deliverer_popover").click(function() {
 	loadAllDeliverers();
 	
 	$('#chooseDelivererModal').modal('show');
+
+	// set focus when modal is loaded
+	$('#chooseDelivererModal').on('shown.bs.modal', function(){
+		$('#filter_modal').focus();
+	});
+ 
+});
+
+
+// select deliverer if row is clicked
+$(document).on("click", ".boxElement_deliverer", function(){
+	// select radio button
+	$(this).find('input:radio[name=delivererRadio]').prop('checked', true);
 });
 
 

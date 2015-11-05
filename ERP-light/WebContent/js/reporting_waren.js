@@ -140,6 +140,11 @@ $(".btn_addLieferanten,#collapseOne .tbx_organisation_popover").click(function()
 	$('#chooseOrganisationModal .modal-title').text("Lieferant auswählen");
 	
 	$('#chooseOrganisationModal').modal('show');
+	
+	// set focus when modal is loaded
+	$('#chooseOrganisationModal').on('shown.bs.modal', function(){
+		$('#filter_modal').focus();
+	});
 });
 
 //load organisation modal with kunden
@@ -152,7 +157,21 @@ $(".btn_addKunden,#collapseTwo .tbx_organisation_popover").click(function() {
 	$('#chooseOrganisationModal .modal-title').text("Kunde auswählen");
 	
 	$('#chooseOrganisationModal').modal('show');
+	
+	// set focus when modal is loaded
+	$('#chooseOrganisationModal').on('shown.bs.modal', function(){
+		$('#filter_modal').focus();
+	});
 });
+
+
+//select organisation if row is clicked
+$(document).on("click", ".boxElement_organisation", function(){
+	// select radio button
+	$(this).find('input:radio[name=organisationRadio]').prop('checked', true);
+});
+
+
 
 //save organisation to textbox
 $("#btn_saveOrganisation").click(function() {
