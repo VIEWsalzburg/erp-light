@@ -131,6 +131,9 @@ function loadTableContent() {
 		// update person count label
 		updatePersonCountLabel();
 		
+		// apply search filter if present
+		updateSearchFilter();
+		
 	}
 	
 	
@@ -748,35 +751,35 @@ function updatePersonCountLabel()
 
 
 //search filter
-$(document).ready(function() {
-	(function($) {
-		$('#filter').keyup(function() {
-
-			// check all Checkboxes
-			$('#mitarbeiter_cbx').prop('checked', true);
-			$('#unterstuetzer_cbx').prop('checked', true);
-			$('#mitglieder_cbx').prop('checked', true);
-			$('#gaeste_cbx').prop('checked', true);
-			$('#keinTyp_cbx').prop('checked', true);
-			
-			var rex = new RegExp($(this).val(), 'i');
-			// hide all Persons
-			$('.searchable tr').hide();
-			// show all Persons, which contain the given text
-			$('.searchable tr').filter(function() {
-				
-				var text = $(this).children().map(function(i,opt) {
-					return $(opt).text();
-				}).toArray().join(',');
-				
-				return rex.test(text);
-			}).show();
-			
-			// update person count label
-			updatePersonCountLabel();
-		})
-	}(jQuery));
+$('#filter').keyup(function() {
+	updateSearchFilter();
 });
+
+// function wich updates the table according to the search filter input box
+function updateSearchFilter() {
+	// check all Checkboxes
+	$('#mitarbeiter_cbx').prop('checked', true);
+	$('#unterstuetzer_cbx').prop('checked', true);
+	$('#mitglieder_cbx').prop('checked', true);
+	$('#gaeste_cbx').prop('checked', true);
+	$('#keinTyp_cbx').prop('checked', true);
+	
+	var rex = new RegExp($('#filter').val(), 'i');
+	// hide all Persons
+	$('.searchable tr').hide();
+	// show all Persons, which contain the given text
+	$('.searchable tr').filter(function() {
+		
+		var text = $(this).children().map(function(i,opt) {
+			return $(opt).text();
+		}).toArray().join(',');
+		
+		return rex.test(text);
+	}).show();
+	
+	// update person count label
+	updatePersonCountLabel();
+}
 
 
 // show/hide Persons by Types

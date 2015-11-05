@@ -397,6 +397,9 @@ function loadTableContent() {
 				
 				// update organisation count label
 				updateOrganisationCountLabel();
+				
+				// apply search filter if present
+				updateSearchFilter();
 			});
 };
 
@@ -790,31 +793,30 @@ function updateOrganisationCountLabel()
 /**
  * search filter for the table of all organisations
  */
-$(document).ready(function() {
-	(function($) {
-		$('#filter').keyup(function() {
-
-			// check all checkboxes
-			$('#lieferanten_cbx').prop('checked', true);
-			$('#kunden_cbx').prop('checked', true);
-			$('#sponsoren_cbx').prop('checked', true);
-			$('#keinTyp_cbx').prop('checked', true);
-			
-			var rex = new RegExp($(this).val(), 'i');
-			$('.searchable tr').hide();
-			$('.searchable tr').filter(function() {
-				var text = $(this).children().map(function(i,opt) {
-					return $(opt).text();
-				}).toArray().join(',');
-				
-				return rex.test(text);
-			}).show();
-			
-			// update organisation count label
-			updateOrganisationCountLabel();
-		})
-	}(jQuery));
+$('#filter').keyup(function() {
+	updateSearchFilter();
 });
+
+function updateSearchFilter() {
+	// check all checkboxes
+	$('#lieferanten_cbx').prop('checked', true);
+	$('#kunden_cbx').prop('checked', true);
+	$('#sponsoren_cbx').prop('checked', true);
+	$('#keinTyp_cbx').prop('checked', true);
+	
+	var rex = new RegExp($('#filter').val(), 'i');
+	$('.searchable tr').hide();
+	$('.searchable tr').filter(function() {
+		var text = $(this).children().map(function(i,opt) {
+			return $(opt).text();
+		}).toArray().join(',');
+		
+		return rex.test(text);
+	}).show();
+	
+	// update organisation count label
+	updateOrganisationCountLabel();
+}
 
 
 
@@ -990,7 +992,9 @@ $(document).ready(function() {
 
 
 //Get all organisations and load into table
-$(document).ready(function(){loadTableContent();});
+$(document).ready(function(){
+	loadTableContent();
+});
 
 
 
