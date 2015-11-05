@@ -108,7 +108,7 @@ public class Article implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "mdd", nullable = false, length = 13)
+	@Column(name = "mdd", nullable = true, length = 13)
 	public Date getMdd() {
 		return this.mdd;
 	}

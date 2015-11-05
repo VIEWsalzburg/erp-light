@@ -33,7 +33,15 @@ public class ArticleMapper {
 		
 		dto.setArticleId(entity.getArticleId());
 		dto.setDescription(entity.getDescription());
-		dto.setMdd(df.format(entity.getMdd()));
+		
+		// set mdd
+		if(entity.getMdd() != null)
+		{
+			dto.setMdd(df.format(entity.getMdd()));
+		} else {
+			dto.setMdd("");		// no date
+		}
+		
 		dto.setPackagingUnit(entity.getPackagingUnit());
 		dto.setPricepu(entity.getPricepu().doubleValue());
 		dto.setWeightpu(entity.getWeightpu());
@@ -58,12 +66,22 @@ public class ArticleMapper {
 		
 		entity.setArticleId(dto.getArticleId());
 		entity.setDescription(dto.getDescription());
-		try {
-			entity.setMdd(df.parse(dto.getMdd()));
-		} catch (ParseException e) {
-			e.printStackTrace();
-			entity.setMdd(new Date(System.currentTimeMillis()));
+		
+		// set mdd
+		if (dto.getMdd().length() == 0)
+		{
+			entity.setMdd(null);	// no date
+		} else {
+			// try to get date from string
+			try {
+				entity.setMdd(df.parse(dto.getMdd()));
+			} catch (ParseException e) {
+				// if not successful => no date
+				entity.setMdd(null);
+			}
 		}
+		
+		
 		entity.setPackagingUnit(dto.getPackagingUnit());
 		entity.setPricepu(BigDecimal.valueOf(dto.getPricepu()));
 		entity.setWeightpu(dto.getWeightpu());
