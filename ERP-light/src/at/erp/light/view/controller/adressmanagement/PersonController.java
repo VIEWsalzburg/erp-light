@@ -463,14 +463,21 @@ public class PersonController {
 			
 			String[] header = { "Personen ID", "Anrede", "Titel", "Nachname",
 					"Vorname", "Anschrift", "PLZ", "Stadt", "Land", "Telefonnummern", "Email Adressen",
-					"Typen", "Bemerkung", "Login", "Berechtigung", "Letzte Änderung", "Aktiv" };
+					"Typen", "Bemerkung", "Login", "Berechtigung", "Letzte Änderung"};
 	
 			csvWriter.writeHeader(header);
 	
 			for (Person p : listPersons) {
+				
+				// skip all persons, which are not acitve anymore
+				if (p.getActive() != 1)
+				{
+					continue;
+				}
+				
 				PersonDTO dto = PersonMapper.mapToDTO(p);
 				
-				String[] data = new String[17];
+				String[] data = new String[16];
 				
 				// insert Person ID
 				data[0] = ""+dto.getPersonId();
@@ -544,9 +551,6 @@ public class PersonController {
 				
 				// insert last change
 				data[15] = dto.getUpdateTimestamp();
-				
-				// insert active
-				data[16] = ""+dto.getActive();
 				
 				csvWriter.writeHeader(data);
 			}

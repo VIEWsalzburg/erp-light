@@ -236,16 +236,23 @@ public class OrganisationController {
 			csvWriter.writeHeader("");
 			
 			String[] header = { "Organisation ID", "Name", "Ansprechperson(en)", "Anschrift",
-					"PLZ", "Stadt", "Land", "Typen", "Kategorien", "Bemerkung", "Aktiv (1 = aktiv / 0 = gelöscht)" };
+					"PLZ", "Stadt", "Land", "Typen", "Kategorien", "Bemerkung" };
 	
 			csvWriter.writeHeader(header);
 	
 			
 			// write Data to CSV
 			for (Organisation o : listOrganisations) {
+				
+				// skip inactive organisations
+				if (o.getActive() != 1)
+				{
+					continue;
+				}
+				
 				OrganisationDTO dto = OrganisationMapper.mapToDTO(o);
 				
-				String[] data = new String[11];
+				String[] data = new String[10];
 				
 				// insert ID
 				data[0] = ""+dto.getId();
@@ -299,9 +306,6 @@ public class OrganisationController {
 				
 				// insert comment
 				data[9] = dto.getComment();
-				
-				// insert aktive flag
-				data[10] = ""+o.getActive();
 				
 				csvWriter.writeHeader(data);
 				
