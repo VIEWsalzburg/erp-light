@@ -49,7 +49,7 @@ public class LogoutController {
 		}
 		
 		try {
-			response.sendRedirect("/ERP-light");
+			response.sendRedirect("/");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
