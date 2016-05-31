@@ -75,7 +75,7 @@ public class SecurityFilter implements Filter {
 					//If authentication unsuccessful
 					
 					httpServletResponse.setContentType("text/html");
-					httpServletResponse.sendRedirect("/ERP-light");
+					httpServletResponse.sendRedirect("/");
 					return;
 				}
 			}
