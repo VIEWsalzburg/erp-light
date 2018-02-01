@@ -25,18 +25,15 @@
 	
 		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" >
 			<property name="driverClass" value="org.postgresql.Driver"></property>
-			<property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/ERP_light"></property>
+			<property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/erp"></property>
 			<property name="user" value="postgres"></property>
-			<property name="password" value="root"></property>
-			
-<!-- 			http://syntx.io/configuring-c3p0-connection-pooling-with-spring-and-hibernate/ -->
+			<property name="password" value="postgres"></property>
 			
 			<property name="acquireIncrement" value="1" />
         	<property name="minPoolSize" value="0" />
         	<property name="maxPoolSize" value="2" />
         	<property name="maxIdleTime" value="0" />
         	<property name="initialPoolSize" value="2" />
-			
 		</bean>
 		
 	    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
