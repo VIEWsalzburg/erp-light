@@ -80,6 +80,37 @@ public class DeliveryController {
 			return null;
 		}
 	}
+	
+	/**
+	 * Returns a list with incoming deliveries from the given year.<br/>
+	 * @param year Year where the incoming deliveries arrived
+	 * @return list with incoming deliveries in the given year
+	 */
+	@RequestMapping(value = "secure/incomingDelivery/getAllByYear/{year}")
+	public List<IncomingDeliveryDTO> getArchievedByYearIncomingDeliveries(@PathVariable int year) {
+
+		List<IncomingDeliveryDTO> list = new ArrayList<IncomingDeliveryDTO>();
+		List<IncomingDelivery> entityList = null;
+		try {
+			entityList = dataBaseService.getAllByYearIncomingDeliveries(year);			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (entityList.size() > 0) {
+			for (IncomingDelivery id : entityList) {
+				list.add(IncomingDeliveryMapper.mapToDTO(id));
+			}
+			log.info("returning incoming deliveries from year " + year);
+
+			return list;
+		} else {
+			log.severe("no incoming deliveries found");
+
+			return null;
+		}
+	}
 
 	/**
 	 * Returns all unarchived incoming deliveries.
@@ -299,6 +330,38 @@ public class DeliveryController {
 			return list;
 		} else {
 			log.severe("no outgoingDeliveries found");
+
+			return null;
+		}
+	}
+	
+	/**
+	 * Returns a list with incoming deliveries from the given year.<br/>
+	 * @param year Year where the incoming deliveries arrived
+	 * @return list with incoming deliveries in the given year
+	 */
+	@RequestMapping(value = "secure/outgoingDelivery/getAllByYear/{year}")
+	public List<OutgoingDeliveryDTO> getArchievedByYearOutgoingDeliveries(@PathVariable int year) {
+
+		List<OutgoingDeliveryDTO> list = new ArrayList<OutgoingDeliveryDTO>();
+		List<OutgoingDelivery> entityList = null;
+
+		try {
+			entityList = dataBaseService.getAllByYearOutgoingDeliveries(year);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (entityList.size() > 0) {
+			for (OutgoingDelivery id : entityList) {
+				list.add(OutgoingDeliveryMapper.mapToDTO(id));
+			}
+			log.info("returning outgoing deliveries from year " + year);
+
+			return list;
+		} else {
+			log.severe("no outgoing deliveries found");
 
 			return null;
 		}

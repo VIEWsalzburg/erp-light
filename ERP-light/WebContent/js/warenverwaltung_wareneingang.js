@@ -16,7 +16,17 @@ function loadTableContent(loadArchivedEntries){
 	
 	//check if only non archived entries should be loaded to table
 	if(loadArchivedEntries == 1){
-		loadArchivedEntries = "";
+		
+		var y = $( "#sel_year option:selected" ).text();
+		console.log(y);
+		//load all incoming deliveries
+		if(y == 'Alle'){			
+			loadArchivedEntries = "";
+		}
+		//load incoming deliveries from a specific year
+		else{
+			loadArchivedEntries = "ByYear/" + y;
+		}
 	}
 	else{
 		loadArchivedEntries = "Unarchived";
@@ -90,8 +100,26 @@ function loadTableContent(loadArchivedEntries){
 	
 };
 
+//fill the select-option-values for archieved entries
+function fillSelectArchive(){
+	
+	//add date to select-field for archived entries
+	//get date
+	var d = new Date();
+	//get year
+    var y = d.getFullYear();
+    //first entries appears in 2014
+    var start = 2014;    
+    while(y >= start){
+    	$('#sel_year').append($('<option>', {
+    		value: y,
+    		text: y--
+    	}));
+    }
+}
+
 //Get all non archived incoming deliveries and load into table
-$(document).ready(loadTableContent(loadArchivedEntries));
+$(document).ready(loadTableContent(loadArchivedEntries),fillSelectArchive());
 
 //init collapse
 //$(function () {
@@ -396,6 +424,15 @@ $("#cbx_archive").on('change', function(){
 		$('#incomingDeliveryTableBody').empty();
 		loadTableContent(loadArchivedEntries);
 	}
+});
+
+//change-eventhandler for select-years for finished deliveries
+$("#sel_year").on('change', function() {
+	if($("#cbx_archive").prop('checked')){
+		loadArchivedEntries = 1;
+		$('#incomingDeliveryTableBody').empty();
+		loadTableContent(loadArchivedEntries);
+	}	  
 });
 
 //set entry archived or non archived depending on button value

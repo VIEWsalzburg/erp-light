@@ -822,6 +822,23 @@ public class DataBaseService implements IDataBase {
 		return incomingDeliveries;
 	}
 	
+	//an alternate query for comparing year with date:
+	//"From IncomingDelivery i Where extract(year from i.date) = :givenYear order by i.date DESC"
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<IncomingDelivery> getAllByYearIncomingDeliveries(int year) throws HibernateException {
+		//create start and end-dates
+		String start = "'" + year + "-01-01'";
+		String end = "'" + year + "-12-31'";
+		
+		@SuppressWarnings("unchecked")
+		List<IncomingDelivery> incomingDeliveries = sessionFactory.getCurrentSession()
+			.createQuery("From IncomingDelivery i Where i.date >= " + start + " AND i.date <= " + end + " order by i.date DESC")
+			//.setParameter("givenYear", year)
+			.list();
+		return incomingDeliveries;
+	}
+	
 	/***** [END] incoming deliveries *****/
 	
 	
@@ -1030,6 +1047,21 @@ public class DataBaseService implements IDataBase {
 			.createQuery("From OutgoingDelivery o Where o.archived = :archivedStatus order by o.date DESC")
 			.setParameter("archivedStatus", archivedStatus)
 			.list();
+		return outgoingDeliveries;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<OutgoingDelivery> getAllByYearOutgoingDeliveries(int year) throws HibernateException {
+		//create start and end-dates
+		String start = "'" + year + "-01-01'";
+		String end = "'" + year + "-12-31'";
+		
+		@SuppressWarnings("unchecked")
+		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession()
+			.createQuery("From OutgoingDelivery i Where i.date >= " + start + " AND i.date <= " + end + " order by i.date DESC")
+			.list();		
+		
 		return outgoingDeliveries;
 	}
 

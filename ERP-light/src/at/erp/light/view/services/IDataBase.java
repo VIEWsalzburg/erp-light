@@ -202,6 +202,15 @@ public interface IDataBase {
 	
 	
 	/**
+	 * return a list of incomingDeliveries depending by given year
+	 * @param year of the deliveries, which should be returned
+	 * @return list of all incomingDeliveries from the given year
+	 * @throws HibernateException
+	 */
+	public List<IncomingDelivery> getAllByYearIncomingDeliveries(int year) throws HibernateException;
+	
+	
+	/**
 	 * returns the IncomingArticle with the specified Id
 	 * @param id Id
 	 * @return IncomingArticle Object
@@ -298,13 +307,21 @@ public interface IDataBase {
 	public List<OutgoingDelivery> getAllOutgoingDeliveries(int archivedStatus) throws HibernateException;
 	
 	/**
+	 * return a list of OutgoingDeliveries depending by given year
+	 * @param year of the deliveries, which should be returned
+	 * @return list of all OutgoingDeliveries from the given year
+	 * @throws HibernateException
+	 */
+	public List<OutgoingDelivery> getAllByYearOutgoingDeliveries(int year) throws HibernateException;
+	
+	/**
 	 * returns all available OutgoingDeliveries
 	 * @return list with all outgoingDeliveries which are not booked
 	 * @throws HibernateException
 	 */
 	public List<OutgoingDelivery> getAvailableOutgoingDeliveries() throws HibernateException;
 	
-	
+		
 	/**
 	 * returns a List with all Incoming and Outgoing Articles for a specific ArticleId
 	 * this function is used for comparing and updating the PUs of the Incoming, Outgoing and Depot Articles
