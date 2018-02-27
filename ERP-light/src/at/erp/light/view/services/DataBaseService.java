@@ -826,15 +826,15 @@ public class DataBaseService implements IDataBase {
 	//"From IncomingDelivery i Where extract(year from i.date) = :givenYear order by i.date DESC"
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<IncomingDelivery> getAllByYearIncomingDeliveries(int year) throws HibernateException {
+	public List<IncomingDelivery> getAllByYearArchievedIncomingDeliveries(int year) throws HibernateException {
 		//create start and end-dates
 		String start = "'" + year + "-01-01'";
 		String end = "'" + year + "-12-31'";
 		
 		@SuppressWarnings("unchecked")
 		List<IncomingDelivery> incomingDeliveries = sessionFactory.getCurrentSession()
-			.createQuery("From IncomingDelivery i Where i.date >= " + start + " AND i.date <= " + end + " order by i.date DESC")
-			//.setParameter("givenYear", year)
+			.createQuery("From IncomingDelivery i Where i.archived = :archivedStatus And i.date >= " + start + " AND i.date <= " + end + " order by i.date DESC")
+			.setParameter("archivedStatus", 1)
 			.list();
 		return incomingDeliveries;
 	}
@@ -1052,14 +1052,15 @@ public class DataBaseService implements IDataBase {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<OutgoingDelivery> getAllByYearOutgoingDeliveries(int year) throws HibernateException {
+	public List<OutgoingDelivery> getAllByYearArchievedOutgoingDeliveries(int year) throws HibernateException {
 		//create start and end-dates
 		String start = "'" + year + "-01-01'";
 		String end = "'" + year + "-12-31'";
 		
 		@SuppressWarnings("unchecked")
 		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession()
-			.createQuery("From OutgoingDelivery i Where i.date >= " + start + " AND i.date <= " + end + " order by i.date DESC")
+			.createQuery("From OutgoingDelivery i Where i.archived = :archivedStatus And i.date >= " + start + " AND i.date <= " + end + " order by i.date DESC")
+			.setParameter("archivedStatus", 1)
 			.list();		
 		
 		return outgoingDeliveries;

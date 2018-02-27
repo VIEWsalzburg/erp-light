@@ -82,17 +82,17 @@ public class DeliveryController {
 	}
 	
 	/**
-	 * Returns a list with incoming deliveries from the given year.<br/>
-	 * @param year Year where the incoming deliveries arrived
-	 * @return list with incoming deliveries in the given year
+	 * Returns a list with finished incoming deliveries from the given year.<br/>
+	 * @param year Selected Year for the finished incoming deliveries
+	 * @return list with finished incoming deliveries in the given year
 	 */
-	@RequestMapping(value = "secure/incomingDelivery/getAllByYear/{year}")
+	@RequestMapping(value = "secure/incomingDelivery/getAllByYearArchieved/{year}")
 	public List<IncomingDeliveryDTO> getArchievedByYearIncomingDeliveries(@PathVariable int year) {
 
 		List<IncomingDeliveryDTO> list = new ArrayList<IncomingDeliveryDTO>();
 		List<IncomingDelivery> entityList = null;
 		try {
-			entityList = dataBaseService.getAllByYearIncomingDeliveries(year);			
+			entityList = dataBaseService.getAllByYearArchievedIncomingDeliveries(year);			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -102,11 +102,11 @@ public class DeliveryController {
 			for (IncomingDelivery id : entityList) {
 				list.add(IncomingDeliveryMapper.mapToDTO(id));
 			}
-			log.info("returning incoming deliveries from year " + year);
+			log.info("returning archieved incoming deliveries from year " + year);
 
 			return list;
 		} else {
-			log.severe("no incoming deliveries found");
+			log.severe("no archieved incoming deliveries found");
 
 			return null;
 		}
@@ -336,18 +336,18 @@ public class DeliveryController {
 	}
 	
 	/**
-	 * Returns a list with incoming deliveries from the given year.<br/>
-	 * @param year Year where the incoming deliveries arrived
-	 * @return list with incoming deliveries in the given year
+	 * Returns a list with finished outgoing deliveries from the given year.<br/>
+	 * @param year Selected year for the finished outgoing deliveries
+	 * @return list with finished outgoing deliveries in the given year
 	 */
-	@RequestMapping(value = "secure/outgoingDelivery/getAllByYear/{year}")
+	@RequestMapping(value = "secure/outgoingDelivery/getAllByYearArchieved/{year}")
 	public List<OutgoingDeliveryDTO> getArchievedByYearOutgoingDeliveries(@PathVariable int year) {
 
 		List<OutgoingDeliveryDTO> list = new ArrayList<OutgoingDeliveryDTO>();
 		List<OutgoingDelivery> entityList = null;
 
 		try {
-			entityList = dataBaseService.getAllByYearOutgoingDeliveries(year);
+			entityList = dataBaseService.getAllByYearArchievedOutgoingDeliveries(year);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -357,11 +357,11 @@ public class DeliveryController {
 			for (OutgoingDelivery id : entityList) {
 				list.add(OutgoingDeliveryMapper.mapToDTO(id));
 			}
-			log.info("returning outgoing deliveries from year " + year);
+			log.info("returning archieved outgoing deliveries from year " + year);
 
 			return list;
 		} else {
-			log.severe("no outgoing deliveries found");
+			log.severe("no archieved outgoing deliveries found");
 
 			return null;
 		}

@@ -18,14 +18,14 @@ function loadTableContent(loadArchivedEntries){
 	if(loadArchivedEntries == 1){
 		
 		var y = $( "#sel_year option:selected" ).text();
-		console.log(y);
+		
 		//load all incoming deliveries
 		if(y == 'Alle'){			
 			loadArchivedEntries = "";
 		}
 		//load incoming deliveries from a specific year
 		else{
-			loadArchivedEntries = "ByYear/" + y;
+			loadArchivedEntries = "ByYearArchieved/" + y;
 		}
 	}
 	else{

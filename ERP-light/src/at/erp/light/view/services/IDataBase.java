@@ -202,12 +202,12 @@ public interface IDataBase {
 	
 	
 	/**
-	 * return a list of incomingDeliveries depending by given year
-	 * @param year of the deliveries, which should be returned
-	 * @return list of all incomingDeliveries from the given year
+	 * return a list of archived incomingDeliveries from the given year
+	 * @param year of the archived deliveries, which should be returned
+	 * @return list of all archived incomingDeliveries from the given year
 	 * @throws HibernateException
 	 */
-	public List<IncomingDelivery> getAllByYearIncomingDeliveries(int year) throws HibernateException;
+	public List<IncomingDelivery> getAllByYearArchievedIncomingDeliveries(int year) throws HibernateException;
 	
 	
 	/**
@@ -307,12 +307,12 @@ public interface IDataBase {
 	public List<OutgoingDelivery> getAllOutgoingDeliveries(int archivedStatus) throws HibernateException;
 	
 	/**
-	 * return a list of OutgoingDeliveries depending by given year
-	 * @param year of the deliveries, which should be returned
-	 * @return list of all OutgoingDeliveries from the given year
+	 * return a list of archived OutgoingDeliveries depending by given year
+	 * @param year of the archived deliveries, which should be returned
+	 * @return list of all archived OutgoingDeliveries from the given year
 	 * @throws HibernateException
 	 */
-	public List<OutgoingDelivery> getAllByYearOutgoingDeliveries(int year) throws HibernateException;
+	public List<OutgoingDelivery> getAllByYearArchievedOutgoingDeliveries(int year) throws HibernateException;
 	
 	/**
 	 * returns all available OutgoingDeliveries
