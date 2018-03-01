@@ -101,11 +101,11 @@ public class DeliveryController {
 			for (IncomingDelivery id : entityList) {
 				list.add(IncomingDeliveryMapper.mapToDTO(id));
 			}
-			log.info("returning all incoming deliveries" + (archieved == 1 ? "archieved":"unarchieved"));
+			log.info("returning all incoming deliveries " + (archieved == 1 ? "archieved":"unarchieved"));
 
 			return list;
 		} else {
-			log.severe("no incoming deliveries found" + (archieved == 1 ? "archieved":"unarchieved"));
+			log.severe("no incoming deliveries found " + (archieved == 1 ? "archieved":"unarchieved"));
 
 			return null;
 		}
@@ -354,11 +354,11 @@ public class DeliveryController {
 			for (OutgoingDelivery od : entityList) {
 				list.add(OutgoingDeliveryMapper.mapToDTO(od));
 			}
-			log.info("returning all outgoingDeliveries");
+			log.info("returning all outgoing deliveries");
 
 			return list;
 		} else {
-			log.severe("no outgoingDeliveries found");
+			log.severe("no outgoing deliveries found");
 
 			return null;
 		}
@@ -379,11 +379,11 @@ public class DeliveryController {
 			for (OutgoingDelivery od : entityList) {
 				list.add(OutgoingDeliveryMapper.mapToDTO(od));
 			}
-			log.info("returning all outgoingDeliveries" + (archieved == 1 ? "archieved":"unarchieved"));
+			log.info("returning all outgoing deliveries " + (archieved == 1 ? "archieved":"unarchieved"));
 
 			return list;
 		} else {
-			log.severe("no outgoingDeliveries found" + (archieved == 1 ? "archieved":"unarchieved"));
+			log.severe("no outgoing deliveries found " + (archieved == 1 ? "archieved":"unarchieved"));
 
 			return null;
 		}
@@ -438,7 +438,7 @@ public class DeliveryController {
 			for (OutgoingDelivery od : entityList) {
 				list.add(OutgoingDeliveryMapper.mapToDTO(od));
 			}
-			log.info("returning all unarchived outgoingDeliveries");
+			log.info("returning all unarchived outgoing deliveries");
 
 			return list;
 		} else {
@@ -529,14 +529,14 @@ public class DeliveryController {
 			if (outgoingDelivery.getOutgoingDeliveryId()==0)
 			{
 				dataBaseService.setNewOutgoingDelivery(outgoingDelivery);
-				log.info("saved outgoingDelivery with id "
+				log.info("saved outgoing delivery with id "
 						+ outgoingDelivery.getOutgoingDeliveryId());
 			}
 			// second scenario outgoingDeliveryId != 0 => update existing entry in DB
 			else
 			{
 				dataBaseService.updateOutgoingDelivery(outgoingDelivery);
-				log.info("updated outgoingDelivery with id "
+				log.info("updated outgoing delivery with id "
 						+ outgoingDelivery.getOutgoingDeliveryId());
 			}
 			
