@@ -80,6 +80,36 @@ public class DeliveryController {
 			return null;
 		}
 	}
+	/**
+	 * Returns a list with all incoming deliveries depending on the archived-flag.<br/>
+	 * @return list with all incoming deliveries depending on the archived-flag
+	 */
+	@RequestMapping(value = "secure/incomingDelivery/getAll/{archieved}")
+	public List<IncomingDeliveryDTO> getAllIncomingDeliveries(@PathVariable int archieved) {
+
+		List<IncomingDeliveryDTO> list = new ArrayList<IncomingDeliveryDTO>();
+		List<IncomingDelivery> entityList = null;
+
+		try {
+			entityList = dataBaseService.getAllIncomingDeliveries(archieved);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (entityList.size() > 0) {
+			for (IncomingDelivery id : entityList) {
+				list.add(IncomingDeliveryMapper.mapToDTO(id));
+			}
+			log.info("returning all incoming deliveries" + (archieved == 1 ? "archieved":"unarchieved"));
+
+			return list;
+		} else {
+			log.severe("no incoming deliveries found" + (archieved == 1 ? "archieved":"unarchieved"));
+
+			return null;
+		}
+	}
 	
 	/**
 	 * Returns a list with finished incoming deliveries from the given year.<br/>
@@ -318,8 +348,7 @@ public class DeliveryController {
 
 		List<OutgoingDeliveryDTO> list = new ArrayList<OutgoingDeliveryDTO>();
 
-		List<OutgoingDelivery> entityList = dataBaseService
-				.getAllOutgoingDeliveries();
+		List<OutgoingDelivery> entityList = dataBaseService.getAllOutgoingDeliveries();
 
 		if (entityList != null && entityList.size() > 0) {
 			for (OutgoingDelivery od : entityList) {
@@ -334,6 +363,32 @@ public class DeliveryController {
 			return null;
 		}
 	}
+	
+	/**
+	 * Returns a list with all outgoing deliveries depending on the archived-flag.<br/>
+	 * @return list with all outgoing deliveries depending on the archived-flag
+	 */
+	@RequestMapping(value = "secure/outgoingDelivery/getAll/{archieved}")
+	public List<OutgoingDeliveryDTO> getAllOutgoingDeliveries(@PathVariable int archieved) {
+
+		List<OutgoingDeliveryDTO> list = new ArrayList<OutgoingDeliveryDTO>();
+
+		List<OutgoingDelivery> entityList = dataBaseService.getAllOutgoingDeliveries(archieved);
+
+		if (entityList != null && entityList.size() > 0) {
+			for (OutgoingDelivery od : entityList) {
+				list.add(OutgoingDeliveryMapper.mapToDTO(od));
+			}
+			log.info("returning all outgoingDeliveries" + (archieved == 1 ? "archieved":"unarchieved"));
+
+			return list;
+		} else {
+			log.severe("no outgoingDeliveries found" + (archieved == 1 ? "archieved":"unarchieved"));
+
+			return null;
+		}
+	}
+	
 	
 	/**
 	 * Returns a list with finished outgoing deliveries from the given year.<br/>

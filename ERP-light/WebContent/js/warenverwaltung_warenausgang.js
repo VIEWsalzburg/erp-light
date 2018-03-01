@@ -23,15 +23,16 @@ function loadTableContent(loadArchivedEntries){
 				
 				var y = $( "#sel_year option:selected" ).text();
 				
-				//load all outgoing deliveries
+				//load all archieved outgoing deliveries
 				if(y == 'Alle'){			
-					loadArchivedEntries = "";
+					loadArchivedEntries = "/" + 1;
 				}
 				//load outgoing deliveries from a specific year
 				else{
 					loadArchivedEntries = "ByYearArchieved/" + y;
 				}
 			}
+			//load all unarchieved outgoing deliveries
 			else{
 				loadArchivedEntries = "Unarchived";
 			}

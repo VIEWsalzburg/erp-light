@@ -185,9 +185,9 @@ public interface IDataBase {
 	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException;
 	
 	/**
-	 * return a list of all incomingDeliveries with the given archivedStatus
-	 * @param archivedStatus of the deliveries, which should be returned
-	 * @return list of all incomingDeliveries with the given archivedStatus
+	 * return a list of all incoming deliveries depending on the given archivedStatus
+	 * @param archivedStatus 0 or 1 of the deliveries
+	 * @return list of all incoming deliveries depending on the given archivedStatus
 	 * @throws HibernateException
 	 */
 	public List<IncomingDelivery> getAllIncomingDeliveries(int archivedStatus) throws HibernateException;
@@ -299,17 +299,17 @@ public interface IDataBase {
 	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException;
 	
 	/**
-	 * return a list of all outgoingDeliveries with the given archivedStatus
-	 * @param archivedStatus of the deliveries, which should be returned
-	 * @return list of all outgoingDeliveries with the given archivedStatus
+	 * return a list of all outgoing deliveries depending on the given archivedStatus
+	 * @param archivedStatus 0 or 1 of the deliveries
+	 * @return list of all outgoing deliveries depending on the given archivedStatus
 	 * @throws HibernateException
 	 */
 	public List<OutgoingDelivery> getAllOutgoingDeliveries(int archivedStatus) throws HibernateException;
 	
 	/**
-	 * return a list of archived OutgoingDeliveries depending by given year
+	 * return a list of archived outgoing deliveries depending by given year
 	 * @param year of the archived deliveries, which should be returned
-	 * @return list of all archived OutgoingDeliveries from the given year
+	 * @return list of all archived outgoing deliveries from the given year
 	 * @throws HibernateException
 	 */
 	public List<OutgoingDelivery> getAllByYearArchievedOutgoingDeliveries(int year) throws HibernateException;

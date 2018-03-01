@@ -1025,7 +1025,8 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public OutgoingDelivery getOutgoingDeliveryById(int id) throws HibernateException {
 		
-		OutgoingDelivery outgoingDelivery = (OutgoingDelivery)sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery o Where o.outgoingDeliveryId = :id")
+		OutgoingDelivery outgoingDelivery = (OutgoingDelivery)sessionFactory.getCurrentSession()
+				.createQuery("From OutgoingDelivery o Where o.outgoingDeliveryId = :id")
 				.setParameter("id", id).uniqueResult();
 		
 		return outgoingDelivery;
@@ -1035,7 +1036,9 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException {
 		@SuppressWarnings("unchecked")
-		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery o order by o.date DESC").list();
+		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession()
+		.createQuery("From OutgoingDelivery o order by o.date DESC")
+		.list();
 		return outgoingDeliveries;
 	}
 	
