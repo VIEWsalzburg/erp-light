@@ -593,7 +593,7 @@ public class DeliveryController {
 
 	/**
 	 * Returns a list with all available articles in the virtual depot.
-	 * @return list with availabe articles
+	 * @return list with available articles
 	 */
 	@RequestMapping(value = "secure/articles/getAvailableArticles")
 	public List<AvailableArticleDTO> getAvailableArticles() {

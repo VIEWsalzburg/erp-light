@@ -17,6 +17,10 @@ import javax.persistence.TemporalType;
 @Table(name = "reporting", schema = "public")
 public class Reporting implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1590732989956831617L;
 	private int reportId;
 	private Date date;
 	private String description;

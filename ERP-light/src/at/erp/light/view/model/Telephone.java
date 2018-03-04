@@ -20,6 +20,10 @@ import javax.persistence.Table;
 @Table(name = "telephone", schema = "public")
 public class Telephone implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6291602797114207566L;
 	private int telephoneId;
 	// private Person person;
 	private Type type;

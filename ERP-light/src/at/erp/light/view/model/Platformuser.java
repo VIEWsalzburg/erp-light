@@ -22,6 +22,10 @@ import org.hibernate.annotations.Parameter;
 @Table(name = "platformuser", schema = "public")
 public class Platformuser implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1558313783688023600L;
 	private int personId;
 	private Permission permission;
 	private Person person;

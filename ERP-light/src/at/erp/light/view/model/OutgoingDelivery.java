@@ -31,6 +31,10 @@ import org.hibernate.annotations.Formula;
 @Table(name = "outgoing_delivery", schema = "public")
 public class OutgoingDelivery implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4942266322920567868L;
 	private int outgoingDeliveryId;
 	private Organisation organisation;
 	private Person lastEditor;

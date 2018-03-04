@@ -33,6 +33,10 @@ import org.hibernate.annotations.CascadeType;
 @Table(name = "person", schema = "public")
 public class Person implements java.io.Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8180372144029904367L;
 	private int personId;
 	private Address address;
 	private City city;

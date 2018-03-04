@@ -17,6 +17,11 @@ import javax.persistence.Table;
 @Table(name = "address", schema = "public")
 public class Address implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6000110441334422576L;
+
 	private int addressId;
 	
 	@Column(unique = true) 

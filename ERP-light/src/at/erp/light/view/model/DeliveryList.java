@@ -27,6 +27,10 @@ import javax.persistence.TemporalType;
 @Table(name = "delivery_list", schema = "public")
 public class DeliveryList implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6572505480465292743L;
 	private int deliveryListId;
 	private Person lastEditor;
 	private String name;

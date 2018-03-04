@@ -28,6 +28,10 @@ import org.hibernate.annotations.Formula;
 @Table(name = "article", schema = "public")
 public class Article implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5554360397096815290L;
 	private int articleId;
 	private String description;
 	private String packagingUnit;

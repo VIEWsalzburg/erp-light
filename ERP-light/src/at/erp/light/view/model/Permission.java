@@ -2,13 +2,9 @@ package at.erp.light.view.model;
 
 // Generated 22.11.2014 18:02:50 by Hibernate Tools 3.4.0.CR1
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,12 +14,13 @@ import javax.persistence.Table;
 @Table(name = "permission", schema = "public")
 public class Permission implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1046312663440017806L;
 	public static int ADMIN = 1;
 	public static int READWRITE = 2;
-	public static int READ = 3;
-	
-	
-	
+	public static int READ = 3;	
 	
 	private int permissionId;
 	private String permission;

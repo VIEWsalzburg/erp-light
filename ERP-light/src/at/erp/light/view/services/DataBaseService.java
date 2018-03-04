@@ -852,7 +852,8 @@ public class DataBaseService implements IDataBase {
 	
 		@SuppressWarnings("unchecked")
 		List<AvailArticleInDepot> availArticleInDepots = sessionFactory.getCurrentSession()
-			.createQuery("Select a From AvailArticleInDepot a Where a.availNumberOfPUs != 0 Order By a.article.delivererId, a.articleId").list();
+			.createQuery("Select a From AvailArticleInDepot a Where a.availNumberOfPUs != 0 Order By a.article.delivererId, a.articleId")
+			.list();
 	
 		return availArticleInDepots;
 	}
@@ -860,7 +861,9 @@ public class DataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Article getArticleById(int id) throws HibernateException {
-		Article article = (Article)sessionFactory.getCurrentSession().createQuery("From Article a Where a.articleId = :id").setParameter("id", id).uniqueResult();
+		Article article = (Article)sessionFactory.getCurrentSession().createQuery("From Article a Where a.articleId = :id")
+				.setParameter("id", id)
+				.uniqueResult();
 		return article;
 	}
 	
@@ -1269,6 +1272,7 @@ public class DataBaseService implements IDataBase {
 		
 		
 		/***** Articles in depot *****/
+		
 		List<AvailArticleInDepot> availArticleInDepots = this.getAvailableArticlesInDepot();
 		// find AvailArticleInDepot for current ArticleId
 		AvailArticleInDepot availArticleInDepot = null;

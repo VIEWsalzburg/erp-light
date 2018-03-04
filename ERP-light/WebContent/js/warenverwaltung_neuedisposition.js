@@ -142,7 +142,9 @@ function loadAllAvailableArticlesInDepot(){
 					{
 						deliverer = gOrganisations[o].name;
 						if (deliverer.length > 15)
-						{ deliverer = deliverer.substr(0, 15)+"...";	}
+						{ 
+							deliverer = deliverer.substr(0, 15)+"...";	
+						}
 					}
 				}
 				
@@ -156,6 +158,7 @@ function loadAllAvailableArticlesInDepot(){
 					+ "</tr>";
 				
 				$("#leftDepotTableBody").append(tableRow);
+				
 			}
 			
 			// hide loading spinner
