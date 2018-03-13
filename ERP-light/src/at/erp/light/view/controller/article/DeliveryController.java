@@ -195,6 +195,28 @@ public class DeliveryController {
 			return null;
 		}
 	}
+	
+	
+	/**
+	 * Returns the incoming delivery with the given article_id in the virtual depot.
+	 * @param article_id, which is part of an incoming_delivery
+	 * @return the incoming_delivery for the given article_id in the virtual depot.
+	 */
+	@RequestMapping(value = "secure/incomingDelivery/getByArticleId/{article_id}")
+	public IncomingDeliveryDTO getIncomingDeliveryByArticleId(@PathVariable int article_id) {
+		try {
+			IncomingDelivery incomingDelivery = dataBaseService
+					.getIncomingDeliveryByArticleId(article_id);
+			if (incomingDelivery == null)
+				throw new Exception();
+			log.info("returning incomingDelivery with including article_id: " + article_id);
+			return IncomingDeliveryMapper.mapToDTO(incomingDelivery);
+
+		} catch (Exception e) {
+			log.severe("no incomingDelivery with including article_id " + article_id + " found");
+			return null;
+		}
+	}
 
 	/**
 	 * Set incoming delivery to archived state via id

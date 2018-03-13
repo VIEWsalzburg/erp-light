@@ -898,6 +898,25 @@ $('#TableHeadLeftDepot').on('click','tbody tr', function(event) {
 			$('#btn_removefromdisposition').prop('disabled', true);
 			// set the maximum packaging units for the selected article
 			$('#tbx_packagingunit').val(parseFloat(tableData[2]));
+			
+			//tableData[0] contains the article_id, which help to find out the 
+			//corresponding inconing_delivery for showing the date and comment of the IncomingDelivery in the virtual depot
+			console.log(tableData[0]);
+			$.ajax({
+				type : "POST",
+				async : false,
+				url : "../rest/secure/incomingDelivery/getByArticleId/" + tableData[0]
+			}).done(function(data) {
+					var incomingDelivery = data;					
+					
+					var keys = Object.keys(incomingDelivery);	
+					console.log(keys);
+					for(i in incomingDelivery)
+					{
+						console.log(keys[i] + ":" + incomingDelivery[i]);						
+					}					
+					
+			});
 		} 
 		else {
 			$('#btn_addtodisposition').prop('disabled', true);

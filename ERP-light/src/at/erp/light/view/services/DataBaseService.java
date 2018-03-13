@@ -772,6 +772,18 @@ public class DataBaseService implements IDataBase {
 	}
 	
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public IncomingDelivery getIncomingDeliveryByArticleId(int article_id) throws HibernateException {
+		
+		IncomingDelivery incomingDelivery = (IncomingDelivery) sessionFactory.getCurrentSession().
+				createQuery("From IncomingDelivery i Where i.incomingDeliveryId = (Select ia.incomingDelivery.incomingDeliveryId From IncomingArticle ia Join ia.article a Where a.articleId = :article_id)")
+				.setParameter("article_id", article_id)
+				.uniqueResult();
+		
+		return incomingDelivery;
+	}
+	
+	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public boolean deleteIncomingDeliveryById(int id) throws Exception {
 		

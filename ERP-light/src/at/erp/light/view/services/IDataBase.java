@@ -200,6 +200,13 @@ public interface IDataBase {
 	 */
 	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException;
 	
+	/**
+	 * returns the incoming delivery with the given article_id in the virtual depot.
+	 * @param article_id, which is part of an incoming_delivery
+	 * @return the incoming_delivery for the given article_id in the virtual depot.
+	 */
+	public IncomingDelivery getIncomingDeliveryByArticleId(int article_id) throws HibernateException;	
+	
 	
 	/**
 	 * return a list of archived incomingDeliveries from the given year
