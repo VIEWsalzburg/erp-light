@@ -75,7 +75,7 @@
 
 /* displays a tr as xxx if all articles of an incoming-delivery has been already booked to outgoing deliveries*/
 .table-striped tbody tr.booked-all td {
-	background-color: #66ff33;
+	background-color: #00cc00;
 	color: #808080;
 }
 
