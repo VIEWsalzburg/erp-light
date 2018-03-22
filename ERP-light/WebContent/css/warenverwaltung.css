@@ -73,6 +73,12 @@
 	color: #808080;
 }
 
+/* displays a tr as xxx if all articles of an incoming-delivery has been already booked to outgoing deliveries*/
+.table-striped tbody tr.booked-all td {
+	background-color: #66ff33;
+	color: #808080;
+}
+
 .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
   background-color: #45A12B;
   color: #FFF;

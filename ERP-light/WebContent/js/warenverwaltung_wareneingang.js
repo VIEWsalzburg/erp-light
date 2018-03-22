@@ -72,8 +72,17 @@ function loadTableContent(loadArchivedEntries){
 			}
 			
 			var bookedClass = "";
-			if (inc[e].booked > 0)
+			
+			//check if all articles of this incoming delivery are already booked to outgoing articles
+			if (inc[e].bookedAll == 0)
+				bookedClass = "booked-all";	// set the class to display as bookedAll
+			else if (inc[e].booked > 0)
 				bookedClass = "booked-entry";	// set the class to display as booked
+			
+			
+			console.log("Anzahl: "+ inc[e].bookedAll);
+			console.log("ID: " + inc[e].incomingDeliveryId);
+			console.log("class: "+ bookedClass);
 			
 			//check archived flag
 			var archivedCheckboxState = "";

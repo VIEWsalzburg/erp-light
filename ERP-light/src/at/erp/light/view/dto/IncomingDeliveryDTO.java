@@ -18,9 +18,9 @@ public class IncomingDeliveryDTO {
 	private String comment;
 	private String updateTimestamp;
 	private int booked;		// indicates, if at least one article from this delivery has been booked
+	private int bookedAll;	// number to show how many of the articles of a given incoming_delivery are already booked to outgoing_deliveries (all articles booked: 0, already unbooked articles: > 0)
 	private int archived;	// indicates the archived Status (0: not archived, 1: archived)
-	private Set<IncomingArticleDTO> incomingArticleDTOs = new HashSet<IncomingArticleDTO>(
-			0);
+	private Set<IncomingArticleDTO> incomingArticleDTOs = new HashSet<IncomingArticleDTO>(0);
 	
 	/**
 	 * Constructor
@@ -39,12 +39,13 @@ public class IncomingDeliveryDTO {
 	 * @param updateTimestamp UpdateTimestamp of the incoming delivery
 	 * @param archived Archived status of the incoming delivery (0=unarchived, 1=archived)
 	 * @param booked Booked status of the incoming delivery (0=not booked, 1=booked)
+	 * @param bookedAll difference of unbooked Articles between a given incoming_delivery and outgoing_deliveries (0= all articles are booked, > 0 = there are unbooked articles)
 	 */
 	public IncomingDeliveryDTO(int incomingDeliveryId,
 			int organisationId, int lastEditorId,
 			int deliveryNr, String date, String comment,
 			Set<IncomingArticleDTO> incomingArticleDTOs,
-			String updateTimestamp, int archived, int booked) {
+			String updateTimestamp, int archived, int booked,int bookedAll) {
 		super();
 		this.incomingDeliveryId = incomingDeliveryId;
 		this.organisationId = organisationId;
@@ -55,6 +56,7 @@ public class IncomingDeliveryDTO {
 		this.incomingArticleDTOs = incomingArticleDTOs;
 		this.updateTimestamp = updateTimestamp;
 		this.booked = booked;
+		this.bookedAll = bookedAll;
 		this.archived = archived;
 	}
 
@@ -200,6 +202,22 @@ public class IncomingDeliveryDTO {
 	 */
 	public void setBooked(int booked) {
 		this.booked = booked;
+	}
+	
+	/**
+	 * get the status if all of the articles of the corresponding incoming_delivery are already booked (all articles booked: 0, already unbooked articles: > 0)
+	 * @return number of unbooked articles
+	 */
+	public int getBookedAll() {
+		return bookedAll;
+	}
+
+	/**
+	 * set the status if all of the articles of the corresponding incoming_delivery are already booked (all articles booked: 1, still unbooked articles: 0)
+	 * @param bookedAll status of unbooked articles inside the incoming_delivery
+	 */
+	public void setBookedAll(int bookedAll) {
+		this.bookedAll = bookedAll;
 	}
 
 	/**
