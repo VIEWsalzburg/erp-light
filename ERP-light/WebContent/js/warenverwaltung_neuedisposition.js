@@ -31,7 +31,7 @@ $(document).ready(function() {
 	showLoadingSpinner(true);
 	
 	// load all organisations into global variable to search them for the deliverer property of each article
-	loadAllOrganisations();		// first load all organisaitons synchron to use the global variable when loading the articles
+	loadAllOrganisations();		// first load all organisations synchron to use the global variable when loading the articles
 	
 	
 	if(mode == "new"){
@@ -340,15 +340,14 @@ function loadAllReceivers() {
 					for(var i=0; i< o[e].types.length; i++){
 						if(o[e].types[i] == "Kunde"){
 							
-							var nameString = "";
-							
+							var nameString = o[e].name;
+							/*
 							if(o[e].name.length > 22){
 								nameString = o[e].name.substring(0, 22) + "...";
-							}
-							else{
-								nameString = o[e].name;
-							}
+							}							
+							*/
 							
+							nameString = o[e].name;
 							var categoryString = "";
 							
 							var categoryIds = o[e].categoryIds;
@@ -366,16 +365,18 @@ function loadAllReceivers() {
 									categoryString = categoryString + ", ";
 							}
 							
+							console.log(categoryString);
+							
 							var o_divRow = "<div class='boxElement_receiver'>" +
 												"<div class='row'>" +
 													"<div class='col-sm-4'>" +
 														"<input type='hidden' value="+ o[e].id +">" +
 														"<span>" + nameString + "</span>"+
 													"</div>" +
-													"<div class='col-sm-2'>" +
+													"<div class='col-sm-3'>" +
 														"<span>" + o[e].city + "</span>" +
 													"</div>" +
-													"<div class='col-sm-5'>" +
+													"<div class='col-sm-3'>" +
 														"<span>" + categoryString + "</span>" +
 													"</div>" +
 													"<div class='col-sm-1'>" +
