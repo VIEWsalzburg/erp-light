@@ -174,7 +174,7 @@ public class IncomingDelivery implements java.io.Serializable {
 	//So i take this more complicated query to calculate the difference between the incoming- and outgoing articles for a given incoming_delivery_id
 	@Formula(value="((select sum(ia.numberpu) from incoming_delivery id join incoming_article ia " 
 			+ "on (id.incoming_delivery_id = ia.incoming_delivery_id) where id.incoming_delivery_id = incoming_delivery_id ) - "
-			+ "(select coalesce(sum(oa.numberpu),0)  from incoming_delivery id join incoming_article ia "
+			+ "(select coalesce(sum(oa.numberpu),0) from incoming_delivery id join incoming_article ia "
 			+ "on (id.incoming_delivery_id = ia.incoming_delivery_id) join outgoing_article oa on (ia.article_id = oa.article_id) "
 			+ "where id.incoming_delivery_id = incoming_delivery_id ) )")		
 	public int getBookedAll() {		
