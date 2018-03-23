@@ -212,7 +212,7 @@ function loadAllDeliverers() {
 							
 							var o_divRow = "<div class='boxElement_deliverer'>" +
 												"<div class='row'>" +
-													"<div class='col-sm-4'>" +
+													"<div class='col-sm-5'>" +
 														"<input type='hidden' value="+ o[e].id +">" +
 														"<span>" + nameString + "</span>"+
 													"</div>" +
