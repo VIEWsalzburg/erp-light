@@ -1261,6 +1261,9 @@ public class DataBaseService implements IDataBase {
 			numberPUsIncoming += ia.getNumberpu();
 		}
 		
+		System.out.println(articleDTO.getWeightpu());
+		System.out.println(articleDTO.getPricepu());
+		
 		
 		/***** OutgoingArticles *****/
 		List<OutgoingArticle> outgoingArticles = this.getOutgoingArticlesByArticleId(articleId);
