@@ -73,16 +73,12 @@ function loadTableContent(loadArchivedEntries){
 			
 			var bookedClass = "";
 			
-			//check if all articles of this incoming delivery are already booked to outgoing articles
+			//check if all articles of this incoming delivery are already booked to outgoing deliveries
 			if (inc[e].bookedAll == 0)
 				bookedClass = "booked-all";	// set the class to display as bookedAll
+			//elsewhere check if at least one article of the incoming delivery is already booked to an outgoing deliveriy
 			else if (inc[e].booked > 0)
-				bookedClass = "booked-entry";	// set the class to display as booked
-			
-			
-			console.log("Anzahl: "+ inc[e].bookedAll);
-			console.log("ID: " + inc[e].incomingDeliveryId);
-			console.log("class: "+ bookedClass);
+				bookedClass = "booked-entry";	// set the class to display as booked			
 			
 			//check archived flag
 			var archivedCheckboxState = "";
