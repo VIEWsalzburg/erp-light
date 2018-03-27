@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import at.erp.light.view.dto.ArticleDTO;
+import at.erp.light.view.dto.InOutArticleExtendedPUDTO;
 import at.erp.light.view.dto.InOutArticlePUDTO;
 import at.erp.light.view.dto.LoggingDTO;
 import at.erp.light.view.dto.PersonAddressReportDataDTO;
@@ -1261,8 +1262,6 @@ public class DataBaseService implements IDataBase {
 			numberPUsIncoming += ia.getNumberpu();
 		}
 		
-		System.out.println(articleDTO.getWeightpu());
-		System.out.println(articleDTO.getPricepu());
 		
 		
 		/***** OutgoingArticles *****/
@@ -1279,11 +1278,13 @@ public class DataBaseService implements IDataBase {
 					oa.getOutgoingArticleId(), oa.getNumberpu(), articleDTO, 1));
 			// get organisationId via IncomingDelivery
 			// tpye 1 for OutgoingArticle
+			System.out.println(articleDTO.getDescription());
+			System.out.println(oa.getOutgoingDelivery().getDate());
 			
 			// calc total outgoingPUs
 			numberPUsOutgoing += oa.getNumberpu();
 		}
-		
+				
 		
 		
 		/***** Articles in depot *****/
@@ -1329,9 +1330,115 @@ public class DataBaseService implements IDataBase {
 			throw new ERPLightException("number of IncomingArticles compared to Outgoing and DepotArticle does not match");
 		}
 		
-		
 		return distributionList;
 	}
+	
+	//Does the same job as getArticleDistributionByArticleId but also added outgoing delivery date
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<InOutArticleExtendedPUDTO> getArticleDistributionExtendedByArticleId(int articleId) throws Exception
+	{
+		// get articleInfo from DB
+		Article article = this.getArticleById(articleId);
+		if (article == null)
+		{
+			throw new ERPLightException("An article with the given id "+ articleId +" does not exist in the DB");
+		}
+		
+		// create articleDTO for all InOutArticleExtendedPUDTOs
+		ArticleDTO articleDTO = ArticleMapper.mapToDTO(article);
+		
+		// list for all InOutArticlePUDTOs
+		List<InOutArticleExtendedPUDTO> distributionList = new ArrayList<InOutArticleExtendedPUDTO>();  
+		
+		
+		/***** IncomingArticles *****/
+		List<IncomingArticle> incomingArticles = this.getIncomingArticlesByArticleId(articleId);
+		int numberPUsIncoming = 0;
+		if (incomingArticles.size()==0)
+		{
+			throw new ERPLightException("no IncomingArticle exists for articleId "+articleId);
+		}
+		// add objects to distributionList
+		for (IncomingArticle ia : incomingArticles)
+		{
+			distributionList.add(new InOutArticleExtendedPUDTO(ia.getIncomingDelivery().getOrganisation().getOrganisationId(),"",
+					ia.getIncomingArticleId(), ia.getNumberpu(), articleDTO, 0));
+			// get organisationId via incomingDelivery
+			// tpye 0 for IncomingArticle
+			
+			// calc total incomingPUs
+			numberPUsIncoming += ia.getNumberpu();
+		}
+		
+		
+		
+		/***** OutgoingArticles *****/
+		List<OutgoingArticle> outgoingArticles = this.getOutgoingArticlesByArticleId(articleId);
+		int numberPUsOutgoing = 0;
+		if (outgoingArticles.size()==0)
+		{
+			// an keine Organisation verteilt
+		}
+		// add objects to distributionList
+		for (OutgoingArticle oa : outgoingArticles)
+		{
+			distributionList.add(new InOutArticleExtendedPUDTO(oa.getOutgoingDelivery().getOrganisation().getOrganisationId(),
+					oa.getOutgoingDelivery().getDate().toString(),
+					oa.getOutgoingArticleId(), oa.getNumberpu(), articleDTO, 1));
+			// get organisationId via IncomingDelivery
+			// tpye 1 for OutgoingArticle		
+			
+			// calc total outgoingPUs
+			numberPUsOutgoing += oa.getNumberpu();
+		}
+				
+		
+		
+		/***** Articles in depot *****/
+		
+		List<AvailArticleInDepot> availArticleInDepots = this.getAvailableArticlesInDepot();
+		// find AvailArticleInDepot for current ArticleId
+		AvailArticleInDepot availArticleInDepot = null;
+		int numberPUsDepot = 0;
+		for (AvailArticleInDepot depotArticle : availArticleInDepots)
+		{
+			if (depotArticle.getArticleId() == articleId)
+			{
+				availArticleInDepot = depotArticle;
+			}
+		}
+		// if not found => create InOutArticlePUDTO for depot with number PU 0
+		if (availArticleInDepot == null)
+		{
+			distributionList.add(new InOutArticleExtendedPUDTO(-1,"", -1, 0, articleDTO, 2));
+			// organisationId ... -1 for depot
+			// InOutArticleId ... -1 for depot
+			// numberPU ... 0 (nothing in the depot)
+			// type ... 2 for depot
+			
+			numberPUsDepot = 0;
+		}
+		else
+		{
+			distributionList.add(new InOutArticleExtendedPUDTO(-1,"", -1, availArticleInDepot.getAvailNumberOfPUs(), articleDTO, 2));
+			// organisationId ... -1 for depot
+			// InOutArticleId ... -1 for depot
+			// numberPU ... availableNumberPUs in depot
+			// type ... 2 for depot
+			
+			numberPUsDepot = availArticleInDepot.getAvailNumberOfPUs();
+		}		
+		
+		// check number of PUs for consistency		
+		if ( (numberPUsOutgoing+numberPUsDepot) != numberPUsIncoming)
+		{
+			throw new ERPLightException("number of IncomingArticles compared to Outgoing and DepotArticle does not match");
+		}		
+		return distributionList;
+	}
+	
+	
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
+import at.erp.light.view.dto.InOutArticleExtendedPUDTO;
 import at.erp.light.view.dto.InOutArticlePUDTO;
 import at.erp.light.view.dto.LoggingDTO;
 import at.erp.light.view.dto.PersonAddressReportDataDTO;
@@ -339,6 +340,16 @@ public interface IDataBase {
 	public List<InOutArticlePUDTO> getArticleDistributionByArticleId(int articleId) throws Exception;
 	
 	/**
+	 * This Method extends getArticleDistributionByArticleId by including outgoing delivery date
+	 * returns a List with all Incoming and Outgoing Articles for a specific ArticleId
+	 * this function is used for comparing and updating the PUs of the Incoming, Outgoing and Depot Articles
+	 * @param articleId of the Article which the PUs should be updated for
+	 * @return a List with the requested PU-distribution
+	 * @throws Exception
+	 */
+	public List<InOutArticleExtendedPUDTO> getArticleDistributionExtendedByArticleId(int articleId) throws Exception;
+	
+	/**
 	 * updates the new article distribution in the DB
 	 * @param list of the new distribution
 	 * @return 0 on success
@@ -667,5 +678,7 @@ public interface IDataBase {
 	 * @return List with resulting rows in form of an Object array
 	 */
 	public List<Object[]> runSQLQuery(String sqlQuery);
+
+	
 	
 }

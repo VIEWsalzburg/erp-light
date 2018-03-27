@@ -4,8 +4,8 @@ public class InOutArticlePUDTO {
 
 	int organisationId;		// only used for representation in frontend
 	int InOutArticleId;		// used to update the new amount of PUs
-	int numberPUs;			// numer of PUs
-	int type;				// specifies the type of the IncomingOrOutgoingArticle (0: Incoming, 1: Outgoing, 3: Depot)
+	int numberPUs;			// number of PUs
+	int type;				// specifies the type of the IncomingOrOutgoingArticle (0: Incoming, 1: Outgoing, 2: Depot)
 	ArticleDTO articleDTO;	// only used for representation in frontend
 	
 	public InOutArticlePUDTO(){}
