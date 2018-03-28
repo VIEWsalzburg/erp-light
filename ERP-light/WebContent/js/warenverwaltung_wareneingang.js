@@ -521,7 +521,7 @@ function getSelectedRow(){
 	var currentRow = $('#TableHead').find('tr.highlight').first().children("td").map(function() {
 		return $(this).text();
 	}).get();
-	
+	//console.log($)
 	return currentRow;
 }
 
