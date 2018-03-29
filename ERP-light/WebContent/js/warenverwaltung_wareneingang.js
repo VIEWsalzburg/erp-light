@@ -432,7 +432,7 @@ $("#cbx_archive").on('change', function(){
 	}
 });
 
-//change-eventhandler for select-years for finished deliveries
+//change-eventhandler for select-years for archieved deliveries
 $("#sel_year").on('change', function() {
 	if($("#cbx_archive").prop('checked')){
 		loadArchivedEntries = 1;
@@ -444,7 +444,12 @@ $("#sel_year").on('change', function() {
 //set entry archived or non archived depending on button value
 $("#btn_archive").click(function() {
 	
-	var rowData = getSelectedRow();
+	//var rowData = getSelectedRow();
+	
+	var test = getAllSelectedIDs();
+	rowData = test[0];
+	console.log(rowData);
+	
 	if (rowData.length == 0)
 	{
 		showAlertElement(false, "Kein Wareneingang auswählt!", 2500);
@@ -525,6 +530,28 @@ function getSelectedRow(){
 	return currentRow;
 }
 
+//return the incoming delivery id's of all highlighted rows
+function getAllSelectedIDs(){
+	var cat = "";
+	var allIds = $('#TableHead').find('tr.highlight').children("td").each(function(){
+	    //$(this).find('td').each(function(){
+			console.log($(this).eq(0).text());
+	        return $(this).eq(0).text();
+	    })
+	//})
+	    console.log()
+	
+	/*
+	// find selected tr in the table and map it to the variable
+	var allRows = $('#TableHead').find('tr.highlight').children("td").map(function() {
+		return $(this).text();
+	}).get();
+	//console.log($)
+	*/
+	//console.log(allRows.join(','));
+	return allIds;
+}
+
 
 var isBooked;
 $('#TableHead').on('click','tbody tr', function(event) {
@@ -532,7 +559,8 @@ $('#TableHead').on('click','tbody tr', function(event) {
 //		return $(this).text();
 //	}).get();
 
-	$(this).addClass('highlight').siblings().removeClass('highlight');
+	$(this).toggleClass('highlight');
+	//$(this).addClass('highlight').siblings().removeClass('highlight');
 	
 	// only when user has admin rights
 	if (currentUserRights != "Read" && currentUserRights != "") {

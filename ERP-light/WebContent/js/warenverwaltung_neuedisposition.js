@@ -365,7 +365,7 @@ function loadAllReceivers() {
 									categoryString = categoryString + ", ";
 							}
 							
-							console.log(categoryString);
+							
 							
 							var o_divRow = "<div class='boxElement_receiver'>" +
 												"<div class='row'>" +
@@ -902,7 +902,6 @@ $('#TableHeadLeftDepot').on('click','tbody tr', function(event) {
 			
 			//tableData[0] contains the article_id to find out the 
 			//corresponding inconing_delivery for showing the date and comment of the IncomingDelivery in the virtual depot
-			console.log(tableData[0]);
 			$.ajax({
 				type : "POST",
 				async : false,
