@@ -441,44 +441,52 @@ $("#sel_year").on('change', function() {
 	}	  
 });
 
+function setArchivedState(id,val) {
+	
+	 return $.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/incomingDelivery/setArchivedState/"+ id + "/" + val
+	});
+}
+
 //set entry archived or non archived depending on button value
 $("#btn_archive").click(function() {
 	
 	//var rowData = getSelectedRow();
 	
-	var test = getAllSelectedIDs();
-	rowData = test[0];
-	console.log(rowData);
+	var allIDs = getAllSelectedIDs();
+	var promises= [];
 	
-	if (rowData.length == 0)
+	if (allIDs.length == 0)
 	{
-		showAlertElement(false, "Kein Wareneingang auswählt!", 2500);
-		return;
+		showAlertElement(false, "Keinen Wareneingang auswählt!", 2500);		
 	}
-	
-	var id = rowData[0];
-	
-	if($(this).val() == "archive"){
-		//set entry archived
-		$.ajax({
-			type : "POST",
-			async : false,
-			url : "../rest/secure/incomingDelivery/setArchivedState/"+ id +"/1"
-		}).done(function(data) {
+	else
+	{
+		//iterate through all id's
+		for (var i = 0; i < allIDs.length; i++)
+		{	
+			var id = allIDs[i];		
+			//set entry archived
+			if($(this).val() == "archive"){
+				promise = setArchivedState(id,1);
+				promises.push(promise);
+			}
+			else if($(this).val() == "dearchive"){
+				promise = setArchivedState(id,0);
+				promises.push(promise);
+			}
+		}
+		//when all promises have been successfully ended
+		$.when.apply($,promises).done(function(){
+			var responses = arguments;
+	        for(i in responses){
+	        	console.log(responses[i]);
+	        }
 			$('#incomingDeliveryTableBody').empty();
 			loadTableContent(loadArchivedEntries);
-		});
-	}
-	else if($(this).val() == "dearchive"){
-		//set entry non archived
-		$.ajax({
-			type : "POST",
-			async : false,
-			url : "../rest/secure/incomingDelivery/setArchivedState/"+ id +"/0"
-		}).done(function(data) {
-			$('#incomingDeliveryTableBody').empty();
-			loadTableContent(loadArchivedEntries);
-		});
+		});		
 	}
 });
 
@@ -532,24 +540,13 @@ function getSelectedRow(){
 
 //return the incoming delivery id's of all highlighted rows
 function getAllSelectedIDs(){
-	var cat = "";
-	var allIds = $('#TableHead').find('tr.highlight').children("td").each(function(){
-	    //$(this).find('td').each(function(){
-			console.log($(this).eq(0).text());
-	        return $(this).eq(0).text();
+	var ids = [];
+	$('#TableHead').find('tr.highlight').each(function(){
+	    	console.log($(this).find("td:first").text());
+	        ids.push($(this).find("td:first").text());
 	    })
-	//})
-	    console.log()
 	
-	/*
-	// find selected tr in the table and map it to the variable
-	var allRows = $('#TableHead').find('tr.highlight').children("td").map(function() {
-		return $(this).text();
-	}).get();
-	//console.log($)
-	*/
-	//console.log(allRows.join(','));
-	return allIds;
+	return ids;
 }
 
 
@@ -565,7 +562,8 @@ $('#TableHead').on('click','tbody tr', function(event) {
 	// only when user has admin rights
 	if (currentUserRights != "Read" && currentUserRights != "") {
 		//deleteModal disabled=false only if not booked 
-		if($(this).closest("tr").hasClass("booked-entry") == true){
+		if($(this).closest("tr").hasClass("booked-entry") == true || 
+				$(this).closest("tr").hasClass("booked-all") == true){
 			$('#btn_edit').prop('disabled', false);
 			$('#btn_deleteModal').prop('disabled', true);
 			isBooked = true;
