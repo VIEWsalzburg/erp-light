@@ -643,7 +643,7 @@ public class ArticleReportController {
 					Organisation org = dataBaseService.getOrganisationById(orgId);
 					organisationName = org.getName();
 					csvWriter.writeHeader("Organisation:", organisationName);
-					csvWriter.writeHeader("Warenausgansdatum:", list.get(0).getOutgoingDate());
+					csvWriter.writeHeader("Warenausgangsdatum:", list.get(0).getOutgoingDate());
 				}
 				else if (orgId == -1)
 				{
