@@ -3,3 +3,4 @@
 .settings/
 .classpath/
 target/
+WebContent/WEB-INF/erp-light-servlet.xml
