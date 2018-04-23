@@ -12,18 +12,20 @@ var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div id='ErrorAl
 
 
 var p;
-function loadTableContent() {
+function loadTableContent(all) {
 	
 	// show loading spinner
 	showLoadingSpinner(true);
 	
 	$('#personTableBody').empty();
 	
-	// check all Checkboxes
-	$('#mitarbeiter_cbx').prop('checked', true);
-	$('#unterstuetzer_cbx').prop('checked', true);
-	$('#mitglieder_cbx').prop('checked', true);
-	$('#gaeste_cbx').prop('checked', true);
+	if(all)	{
+		// check all Checkboxes		
+		$('#mitarbeiter_cbx').prop('checked', true);
+		$('#unterstuetzer_cbx').prop('checked', true);
+		$('#mitglieder_cbx').prop('checked', true);
+		$('#gaeste_cbx').prop('checked', true);
+	}	
 	
 	// personList for appending the persons
 	var personList;
@@ -131,8 +133,10 @@ function loadTableContent() {
 		// update person count label
 		updatePersonCountLabel();
 		
+		if(all){
 		// apply search filter if present
 		updateSearchFilter();
+		}
 		
 	}
 	
@@ -335,7 +339,9 @@ $("#btn_saveperson").click(function() {
 				showAlertElement(2, data.message, 5000);
 			}
 			
-			loadTableContent();
+			loadTableContent(false);
+			updateTableTypeFilter();			
+			
 		} else {
 			alert("Verbindungsproblem mit dem Server");
 		}
@@ -795,6 +801,7 @@ function updateTableTypeFilter() {
 	var gaesteChecked = $('#gaeste_cbx').prop('checked');
 	var keinTypChecked = $('#keinTyp_cbx').prop('checked');
 	
+			
 	$('.searchable tr').each( function() {
 		
 		// hide all by default
@@ -803,32 +810,38 @@ function updateTableTypeFilter() {
 		// get typeText
 		var typeText = $(this).find('td').eq(5).text();
 		
+		
+		
 		// show all Mitarbeiter
 		if (mitarbeiterChecked)
 		{
-			if (typeText.indexOf('Mitarbeiter')!=-1)
+			if (typeText.indexOf('Mitarbeiter') != -1){
 				show = true;
+			}
 		}
 		
 		// show all Unterstützer
 		if (unterstuetzerChecked)
 		{
-			if (typeText.indexOf('Unterstützer')!=-1)
+			if (typeText.indexOf('Unterstützer') != -1){
 				show = true;
+			}
 		}
 		
 		// show all Mitglieder
 		if (mitgliederChecked)
 		{
-			if (typeText.indexOf('Mitglied')!=-1)
+			if (typeText.indexOf('Mitglied') != -1){
 				show = true;
+			}
 		}
 		
 		// show all Gäste
 		if (gaesteChecked)
 		{
-			if (typeText.indexOf('Gast')!=-1)
+			if (typeText.indexOf('Gast') != -1){
 				show = true;
+			}
 		}
 		
 		// show all empty types
@@ -853,6 +866,7 @@ function updateTableTypeFilter() {
 
 // assign typefilter to checkboxes
 $(document).ready(function() {
+	
 	$('#mitarbeiter_cbx').prop('checked', true);
 	$('#unterstuetzer_cbx').prop('checked', true);
 	$('#mitglieder_cbx').prop('checked', true);
@@ -875,6 +889,7 @@ $('#btn_details').prop('disabled', true);
 
 //get current user rights
 $(document).ready(function() {
+	
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/person/getCurrentUser"
@@ -929,9 +944,11 @@ $(document).ready(
 			// select option Alle
 			$('#select_page :nth-child(0)').prop('selected',true);
 			
-			loadTableContent();
+			loadTableContent(true);
 			
-			$('#select_page').change(loadTableContent);
+			$('#select_page').change(function(event){
+				loadTableContent(true);
+			});
 	});
 
 //this function is used to get the selected row
@@ -1022,7 +1039,7 @@ $("#btn_deletePerson").click(function() {
 			showAlertElement(2, data.message, 5000);
 		}
 		
-		loadTableContent();
+		loadTableContent(true);
 	});
 });
 

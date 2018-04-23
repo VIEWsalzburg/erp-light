@@ -264,15 +264,17 @@ function loadContactPerson(id) {
 //load organisation table
 var o;
 var c;
-function loadTableContent() {
+function loadTableContent(all) {
 	
 	// show loading spinner
 	showLoadingSpinner(true);
 	
-	$('#lieferanten_cbx').prop('checked', true);
-	$('#kunden_cbx').prop('checked', true);
-	$('#sponsoren_cbx').prop('checked', true);
-	$('#keinTyp_cbx').prop('checked', true);
+	if(all){
+		$('#lieferanten_cbx').prop('checked', true);
+		$('#kunden_cbx').prop('checked', true);
+		$('#sponsoren_cbx').prop('checked', true);
+		$('#keinTyp_cbx').prop('checked', true);
+	}
 	
 	// load all Categories
 	var category;
@@ -397,9 +399,10 @@ function loadTableContent() {
 				
 				// update organisation count label
 				updateOrganisationCountLabel();
-				
+				if(all){
 				// apply search filter if present
 				updateSearchFilter();
+				}
 			});
 };
 
@@ -496,7 +499,8 @@ $("#btn_saveorganisation").click(function() {
 			}
 			
 			// reload Table content
-			loadTableContent();
+			loadTableContent(false);
+			updateTableTypeFilter();
 		} else {
 			alert("Verbindungsproblem mit dem Server");
 		}
@@ -993,7 +997,7 @@ $(document).ready(function() {
 
 //Get all organisations and load into table
 $(document).ready(function(){
-	loadTableContent();
+	loadTableContent(true);
 });
 
 
@@ -1103,7 +1107,7 @@ $("#btn_deleteOrganisation").click(function() {
 			showAlertElement(2, data.message, 5000);
 		}
 		 
-		 loadTableContent();
+		 loadTableContent(true);
 	});
 });
 
