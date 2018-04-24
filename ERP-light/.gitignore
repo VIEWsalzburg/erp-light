@@ -5,3 +5,4 @@ erp-light-servlet.xml
 
 target/
 .classpath
+/.apt_generated/
