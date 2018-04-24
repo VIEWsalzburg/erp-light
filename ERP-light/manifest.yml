@@ -1,0 +1,6 @@
+applications:
+ - name: ERP-light
+   random-route: true
+   path: target/ERP-light.war
+   memory: 512M
+   instances: 1

@@ -2,3 +2,4 @@
 /build/
 erp-light-servlet.xml
 .settings/
+target/
