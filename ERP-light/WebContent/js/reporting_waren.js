@@ -243,10 +243,8 @@ $("#btn_exportOutgoingReportForAllOrg").click(function() {
 });
 
 
-//generate export report for all outgoing deliveries for a chosen lieferant and a chosen timeslot
+//generate export report for all outgoing deliveries for a given deliverer in a given timeslot
 $("#btn_exportDeliveryReportByOrg").click(function() {
-	//reportCommand_global = generateReport(6, false, false, false, false, false, false,true);
-	//generateReportExport();
 	
 	//check if date and deliverer is correctly applied 
 	if (validateInputFields(8))
@@ -256,16 +254,14 @@ $("#btn_exportDeliveryReportByOrg").click(function() {
 		var begin = $("#inputDateGroup8").find('.tbx_datefrom').val();
 		var end = $("#inputDateGroup8").find('.tbx_dateto').val();		
 		
+		//change from 04.07.2017 to 2017-07-04
 		var parts = begin.split('.');
 		begin = parts[2] + '-' + parts[1] + '-' + parts[0];
 		
 		parts = end.split('.');
 		end = parts[2] + '-' + parts[1] + '-' + parts[0];
 		
-		console.log(org_id);
-		console.log(begin);
-		console.log(end);
-		
+		//generate Report
 		window.location.href = "../rest/secure/reports/articles/generateDistributionReportByOrganisation/"+ 
 		org_id + "/" + begin + "/" + end;
 	}

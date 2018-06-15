@@ -698,9 +698,7 @@ public class ArticleReportController {
 		
 		log.info(org_id + " : " + begin + " : " + end);
 
-		CsvBeanWriter csvWriter = null;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-		Date date = new Date();		
 		String csvFileName = "Warenverteilungs-Report Organisations-ID: " + org_id + " von " + begin + " bis " + end + ".csv";
 		response.setContentType("text/csv");
 		// creates mock data
@@ -711,7 +709,7 @@ public class ArticleReportController {
 		NumberFormat nf_out = NumberFormat.getNumberInstance(Locale.GERMANY);
 		nf_out.setMaximumFractionDigits(2);
 
-		csvWriter = new CsvBeanWriter(response.getWriter(),	CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
+		CsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),	CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
 		csvWriter.writeHeader("Warenverteilungs-Report Organisations-ID: " + org_id + " von " + begin + " bis " + end);
 		csvWriter.writeHeader("Erstelldatum des Reports:",simpleDateFormat.format(new Date()));
 		csvWriter.writeHeader("");
@@ -753,10 +751,8 @@ public class ArticleReportController {
 				{
 					List<InOutArticleExtendedPUDTO> tempList = 
 							dataBaseService.getArticleDistributionExtendedByArticleId(articleId);
-					distributionList.addAll(tempList);	
-					
-				}
-				
+					distributionList.addAll(tempList);					
+				}				
 				
 				// group by incoming and outgoing
 				List<InOutArticleExtendedPUDTO> incomingDistribution = new ArrayList<InOutArticleExtendedPUDTO>();
@@ -826,7 +822,6 @@ public class ArticleReportController {
 				
 				for (Entry<Integer, List<InOutArticleExtendedPUDTO>> entry : incomingOrganisationDistributionMap.entrySet())
 				{
-					int orgId = entry.getKey();
 					List<InOutArticleExtendedPUDTO> list = entry.getValue();
 					
 					// get Organisation by Key
