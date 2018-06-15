@@ -236,6 +236,16 @@ public interface IDataBase {
 	
 	
 	/**
+	 * returns the IncomingArticle from a given organisation in a given timespan
+	 * @param org_id ID of the organisation as int
+	 * @param begin Begin-Date as String
+	 * @param end End-Date as String	 
+	 * @return list of IncomingArticle Objects from the given deliverer in this given timespan
+	 * @throws HibernateException
+	 */
+	public List<IncomingDelivery> getByYearAndOrganisationIncomingDeliveries(int org_id,String begin, String end) throws HibernateException;
+	
+	/**
 	 * returns the OutgoingArticle with the specified Id
 	 * @param id Id
 	 * @return OutgoingArticle Object
@@ -678,6 +688,8 @@ public interface IDataBase {
 	 * @return List with resulting rows in form of an Object array
 	 */
 	public List<Object[]> runSQLQuery(String sqlQuery);
+
+	
 
 	
 	

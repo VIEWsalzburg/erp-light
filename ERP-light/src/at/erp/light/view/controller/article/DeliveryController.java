@@ -141,6 +141,42 @@ public class DeliveryController {
 			return null;
 		}
 	}
+	
+	
+	/**
+	 * Returns a list with finished incoming deliveries from the given year.<br/>
+	 * @param org_id ID of the organisation as int
+	 * @param begin Begin-Date as String
+	 * @param end End-Date as String	 
+	 * @return list with finished incoming deliveries in the given year for the given organisation
+	 */
+	@RequestMapping(value = "secure/incomingDelivery/getByYearAndOrganisation/{org_id}/{begin}/{end}")
+	public List<IncomingDeliveryDTO> getByYearAndOrganisationIncomingDeliveries(@PathVariable int org_id,@PathVariable String begin,
+			@PathVariable String end) {
+
+			
+		List<IncomingDeliveryDTO> list = new ArrayList<IncomingDeliveryDTO>();
+		List<IncomingDelivery> entityList = null;
+		try {
+			entityList = dataBaseService.getByYearAndOrganisationIncomingDeliveries(org_id,begin,end);			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (entityList.size() > 0) {
+			for (IncomingDelivery id : entityList) {
+				list.add(IncomingDeliveryMapper.mapToDTO(id));
+			}
+			log.info("returning incoming deliveries!");
+
+			return list;
+		} else {
+			log.severe("no incoming deliveries found");
+
+			return null;
+		}
+	}
 
 	/**
 	 * Returns all unarchived incoming deliveries.

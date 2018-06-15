@@ -852,6 +852,19 @@ public class DataBaseService implements IDataBase {
 		return incomingDeliveries;
 	}
 	
+	
+	@Override
+	public List<IncomingDelivery> getByYearAndOrganisationIncomingDeliveries(int org_id,String begin, String end)
+			throws HibernateException {
+		begin = "'" + begin + "'";
+		end = "'" + end + "'";
+		@SuppressWarnings("unchecked")
+		List<IncomingDelivery> incomingDeliveries = sessionFactory.getCurrentSession()
+			.createQuery("From IncomingDelivery i Where i.organisation.organisationId = " + org_id + " AND i.date >= " + begin + " AND i.date <= " + end + " order by i.date DESC")
+			.list();
+		return incomingDeliveries;
+	}
+	
 	/***** [END] incoming deliveries *****/
 	
 	
@@ -2050,6 +2063,8 @@ public class DataBaseService implements IDataBase {
 		return list;
 		
 	}
+
+	
 	
 	
 	
