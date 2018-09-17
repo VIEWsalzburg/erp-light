@@ -1061,15 +1061,39 @@ $('#btn_exportCurrentView').click(function(){
 			function(){
 				return $(this).text();
 			}).get().join(';');
+	//NEW!!!
+	headerString = headerString.replace(/Telefonnummer;/g,"Telefonnummer Mobil;Telefonnummer Festnetz;")
 	tableData.push(headerString);
 	
 	// only visible rows
 	// concat columns with separator ';' for each row and push it into tableData
 	$('#personTableBody tr:visible').each(function(){
 		var string = $(this).children().map(function(){
+			
 				var text = $(this).text();
 				text = text.replace(/\;/g,',');
 				text = text.replace(/(\r\n|\n|\r)/g,' ');
+				
+				//NEW!!!
+				//removes p: and g: from the string
+				text = text.replace(/p:/g,'');
+				text = text.replace(/g:/g,'');
+				//remove leading and trailing blanks
+				text = text.trim();
+				console.log(text);console.log("!!!!");
+				//split Phonenumbers in separate columns
+				if(text.substr(0,1) == "0")
+				{
+					if(text.includes(","))
+					{
+						text = text.replace(/,/g,';')
+					}
+					else
+					{
+						text += ";";
+					}
+				}				
+				
 				return text;
 			}).get().join(';');
 		
