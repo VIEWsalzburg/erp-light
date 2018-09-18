@@ -1061,6 +1061,52 @@ $('#btn_exportCurrentView').click(function(){
 			function(){
 				return $(this).text();
 			}).get().join(';');
+	
+	// only visible rows
+	// concat columns with separator ';' for each row and push it into tableData
+	$('#personTableBody tr:visible').each(function(){
+		var string = $(this).children().map(function(){
+			
+				var text = $(this).text();
+				text = text.replace(/\;/g,',');
+				text = text.replace(/(\r\n|\n|\r)/g,' ');			
+				
+				return text;
+			}).get().join(';');
+		
+		tableData.push(string);
+	});
+	
+	// merge rows
+	var csvString = tableData.join('\n');
+	
+	
+	// start encoding and download
+	// code by https://github.com/b4stien/js-csv-encoding
+	var csvContent = csvString,
+    	textEncoder = new CustomTextEncoder('windows-1252', {NONSTANDARD_allowLegacyEncoding: true}),
+    	fileName = 'Personen-Export.csv';
+
+	// encode
+	var csvContentEncoded = textEncoder.encode([csvContent]);
+	// start download
+	var blob = new Blob([csvContentEncoded], {type: 'text/csv;charset=windows-1252;'});
+	saveAs(blob, fileName);
+	
+	// end download
+		
+});
+
+
+//export current view as CSV without p: and g: and phone numbers in separate columns
+$('#btn_exportCurrentViewNew').click(function(){
+	
+	var tableData = [];
+	
+	var headerString = $('#TableHead .TableHead tr').children().map(
+			function(){
+				return $(this).text();
+			}).get().join(';');
 	//NEW!!!
 	headerString = headerString.replace(/Telefonnummer;/g,"Telefonnummer Mobil;Telefonnummer Festnetz;")
 	tableData.push(headerString);
@@ -1080,7 +1126,7 @@ $('#btn_exportCurrentView').click(function(){
 				text = text.replace(/g:/g,'');
 				//remove leading and trailing blanks
 				text = text.trim();
-				console.log(text);console.log("!!!!");
+				
 				//split Phonenumbers in separate columns
 				if(text.substr(0,1) == "0")
 				{
@@ -1108,7 +1154,7 @@ $('#btn_exportCurrentView').click(function(){
 	// code by https://github.com/b4stien/js-csv-encoding
 	var csvContent = csvString,
     	textEncoder = new CustomTextEncoder('windows-1252', {NONSTANDARD_allowLegacyEncoding: true}),
-    	fileName = 'Personen-Export.csv';
+    	fileName = 'Personen-Export-Neu.csv';
 
 	// encode
 	var csvContentEncoded = textEncoder.encode([csvContent]);
