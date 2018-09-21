@@ -1101,46 +1101,68 @@ $('#btn_exportCurrentView').click(function(){
 //export current view as CSV without p: and g: and phone numbers in separate columns
 $('#btn_exportCurrentViewNew').click(function(){
 	
-	var tableData = [];
+	var tableData = [];	
 	
 	var headerString = $('#TableHead .TableHead tr').children().map(
 			function(){
 				return $(this).text();
 			}).get().join(';');
-	//NEW!!!
+	
+	//split Phone Numbers in mobile and festnetz
 	headerString = headerString.replace(/Telefonnummer;/g,"Telefonnummer Mobil;Telefonnummer Festnetz;")
+	//remove Personen-ID, Anschrift, Typ, Bemerkung
+	headerString = headerString.replace(/Personen-ID;/g,'');
+	headerString = headerString.replace(/Anschrift;/g,'');
+	headerString = headerString.replace(/Typ;/g,'');
+	headerString = headerString.replace(/Bemerkung/g,'');
+	
 	tableData.push(headerString);
 	
 	// only visible rows
 	// concat columns with separator ';' for each row and push it into tableData
 	$('#personTableBody tr:visible').each(function(){
-		var string = $(this).children().map(function(){
+		var count = 0;
+		var string = $(this).children().map(function(){			
 			
+			if(count == 1 || (count >= 3 && count <= 4))
+			{
 				var text = $(this).text();
 				text = text.replace(/\;/g,',');
 				text = text.replace(/(\r\n|\n|\r)/g,' ');
 				
-				//NEW!!!
 				//removes p: and g: from the string
 				text = text.replace(/p:/g,'');
 				text = text.replace(/g:/g,'');
+								
+				//remove titles from name
+				if(count == 1)
+				{
+					text = text.replace(/Herr /g,'');
+					text = text.replace(/Frau /g,'');
+					text = text.replace(/DI /g,'');
+					text = text.replace(/Mag. /g,'');
+					text = text.replace(/Dr. /g,'');
+				}
 				//remove leading and trailing blanks
 				text = text.trim();
 				
-				//split Phonenumbers in separate columns
-				if(text.substr(0,1) == "0")
+				//split phonenumbers in separate columns
+				if(text.substr(0,1) == "0" || text.substr(0,1) == "+")
 				{
 					if(text.includes(","))
 					{
 						text = text.replace(/,/g,';')
 					}
+					//if only mobile number is available
 					else
 					{
 						text += ";";
 					}
-				}				
-				
-				return text;
+				}
+			}			
+			count++;
+			return text;
+			
 			}).get().join(';');
 		
 		tableData.push(string);
