@@ -1135,52 +1135,79 @@ $('#btn_exportCurrentViewNew').click(function(){
 				//removes p: and g: from the string
 				text = text.replace(/p:/g,'');
 				text = text.replace(/g:/g,'');
-				//replace +43 with 0
+				
+				//replace +43 with 0 at phone numbers
 				text = text.replace(/\+43/g,"0");
-								
-				text = text.replace(/Herr /g,'');
-				text = text.replace(/Frau /g,'');
+				text = text.replace(/0043/g,"0");
+				text = text.replace(/\+49/g,"00");
+				
+				//replace titles
+				text = text.replace(/\(FH\)/g,'');
+				text = text.replace(/Herr\ /g,'');
+				text = text.replace(/Frau\ /g,'');
 				text = text.replace(/DI /g,'');
-				text = text.replace(/Mag. /g,'');
-				text = text.replace(/Dr. /g,'');
-				text = text.replace(/Dipl.-Ing. /g,'');
-				text = text.replace(/Dipl.Ing. /g,'');
+				text = text.replace(/Mag\./g,'');
+				text = text.replace(/Dr\./g,'');
+				text = text.replace(/Dipl\.\-Ing\./g,'');
+				text = text.replace(/Dipl\.Ing\./g,'');
+				text = text.replace(/Ing\./g,'');
+				text = text.replace(/Dir\./g,'');
+				text = text.replace(/Dkfm\./g,'');
+				text = text.replace(/Prof\./g,'');				
 				
 				//remove leading and trailing blanks
-				text = text.trim();
+				text = text.trim();				
 				
 				//split phonenumbers in separate columns
-				if(text.substr(0,1) == "0")
-				{					
-					//console.log(text);
+				if(count == 3)
+				{
 					//more than one number
 					if(text.includes(","))
 					{
 						var sep = text.split(",");
 						//remove leading and trailing blanks
 						sep[0] = sep[0].trim();
-						sep[1] = sep[1].trim();						
-						
+						sep[1] = sep[1].trim();	
+												
 						//check if the first number is mobile
 						if(searchMobilePrecall(sep[0].substr(0,4),mobileprecalls))
 						{
-							//swap both numbers
 							text = sep[0] + ';' + sep[1];
 						}
 						//check if the second number is mobile
 						else if(searchMobilePrecall(sep[1].substr(0,4),mobileprecalls))
 						{									
 							//swap both numbers
-							text = sep[1] + ';' + sep[0];
-							console.log("6:" + text);
-						}							
+							text = sep[1] + ';' + sep[0];							
+						}
+						//no mobile number
+						else
+						{
+							text = ";" + sep[0] + ", " + sep[1];
+						}
 						
 					}					
-					//if only number is available-> use it as mobile, no further check done
+					//if only one or no number is available					
 					else
 					{
-						text += ";";
-					}
+						//if no number
+						if(text == '' || text == " ")
+						{
+							text += ";";							
+						}
+						//if one number
+						else
+						{
+							if(searchMobilePrecall(text.substr(0,4),mobileprecalls))
+							{
+								text += ";";								
+							}
+							else
+							{
+								text = ";" + text;
+							}
+						}						
+					}					
 				}				
 				
 			}			
@@ -1195,11 +1222,10 @@ $('#btn_exportCurrentViewNew').click(function(){
 	// merge rows
 	var csvString = tableData.join('\n');
 	
-	
 	// start encoding and download
-	// code by https://github.com/b4stien/js-csv-encoding
+	// code by https://github.com/b4stien/js-csv-encoding //windows-1252
 	var csvContent = csvString,
-    	textEncoder = new CustomTextEncoder('windows-1252', {NONSTANDARD_allowLegacyEncoding: true}),
+    	textEncoder = new CustomTextEncoder('utf-16', {NONSTANDARD_allowLegacyEncoding: true}),
     	fileName = 'Personen-Export-Neu.csv';
 
 	// encode
