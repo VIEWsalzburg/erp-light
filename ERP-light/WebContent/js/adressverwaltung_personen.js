@@ -1180,7 +1180,7 @@ $('#btn_exportCurrentViewNew').click(function(){
 							//swap both numbers
 							text = sep[1] + ';' + sep[0];							
 						}
-						//no mobile number
+						//no mobile number available
 						else
 						{
 							text = ";" + sep[0] + ", " + sep[1];
@@ -1198,10 +1198,12 @@ $('#btn_exportCurrentViewNew').click(function(){
 						//if one number
 						else
 						{
+							//if mobile number
 							if(searchMobilePrecall(text.substr(0,4),mobileprecalls))
 							{
 								text += ";";								
 							}
+							//if no mobile number
 							else
 							{
 								text = ";" + text;
