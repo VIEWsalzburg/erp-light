@@ -501,8 +501,9 @@ public class ArticleReportController {
 					csvFileName);
 			response.setHeader(headerKey, headerValue);
 			
-			NumberFormat nf_out = NumberFormat.getNumberInstance(Locale.GERMANY);
-			nf_out.setMaximumFractionDigits(2);
+			//the danish locale use comma for decimal separation-> is important for exporting to csv
+			NumberFormat nf_out = NumberFormat.getInstance(new Locale("da","DK"));
+			
 
 			CsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
 					CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
@@ -619,7 +620,9 @@ public class ArticleReportController {
 				{
 					csvWriter.writeHeader(article.getArticleDTO().getDescription(),
 							""+article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),
-							""+article.getArticleDTO().getWeightpu(), ""+article.getArticleDTO().getPricepu());
+							"" + nf_out.format(article.getArticleDTO().getWeightpu()), 
+							"" + nf_out.format(article.getArticleDTO().getPricepu()));							
+						
 				}
 				
 				csvWriter.writeHeader("");				
@@ -662,8 +665,9 @@ public class ArticleReportController {
 				for (InOutArticleExtendedPUDTO article : list)
 				{
 					csvWriter.writeHeader(article.getArticleDTO().getDescription(),
-							""+article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),
-							""+article.getArticleDTO().getWeightpu(), ""+article.getArticleDTO().getPricepu());
+							""+article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),							
+							"" + nf_out.format(article.getArticleDTO().getWeightpu()), 
+							"" + nf_out.format(article.getArticleDTO().getPricepu()));
 				}				
 				csvWriter.writeHeader("");				
 			}
@@ -706,10 +710,10 @@ public class ArticleReportController {
 		String headerValue = String.format("attachment; filename=\"%s\"",csvFileName);
 		response.setHeader(headerKey, headerValue);
 		
-		NumberFormat nf_out = NumberFormat.getNumberInstance(Locale.GERMANY);
-		nf_out.setMaximumFractionDigits(2);
-
-		CsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),	CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
+		//the danish locale use comma for decimal separation-> is important for exporting to csv
+		NumberFormat nf_out = NumberFormat.getInstance(new Locale("da","DK"));		
+		
+		CsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
 		csvWriter.writeHeader("Warenverteilungs-Report Organisations-ID: " + org_id + " von " + begin + " bis " + end);
 		csvWriter.writeHeader("Erstelldatum des Reports:",simpleDateFormat.format(new Date()));
 		csvWriter.writeHeader("");
@@ -836,8 +840,9 @@ public class ArticleReportController {
 					for (InOutArticleExtendedPUDTO article : list)
 					{
 						csvWriter.writeHeader(article.getArticleDTO().getDescription(),
-								""+article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),
-								""+article.getArticleDTO().getWeightpu(), ""+article.getArticleDTO().getPricepu());
+								"" + article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),
+								"" + nf_out.format(article.getArticleDTO().getWeightpu()), 
+								"" + nf_out.format(article.getArticleDTO().getPricepu()));
 					}
 					
 					csvWriter.writeHeader("");				
@@ -878,8 +883,9 @@ public class ArticleReportController {
 					for (InOutArticleExtendedPUDTO article : list)
 					{
 						csvWriter.writeHeader(article.getArticleDTO().getDescription(),
-								""+article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),
-								""+article.getArticleDTO().getWeightpu(), ""+article.getArticleDTO().getPricepu());
+								"" + article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),
+								"" + nf_out.format(article.getArticleDTO().getWeightpu()), 
+								"" + nf_out.format(article.getArticleDTO().getPricepu()));
 					}
 					csvWriter.writeHeader("");
 									
