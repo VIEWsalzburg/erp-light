@@ -1110,8 +1110,10 @@ $('#btn_exportCurrentViewNew').click(function(){
 				return $(this).text();
 			}).get().join(';');
 	
+	//split Name in Vorname and Nachname
+	headerString = headerString.replace(/Name;/g,"Vorname;Nachname;")
 	//split Phone Numbers in mobile and festnetz
-	headerString = headerString.replace(/Telefonnummer;/g,"Telefonnummer Mobil;Telefonnummer Festnetz;")
+	headerString = headerString.replace(/Telefonnummer;/g,"Mobil;Festnetz;")
 	//remove Personen-ID, Anschrift, Typ, Bemerkung
 	headerString = headerString.replace(/Personen-ID;/g,'');
 	headerString = headerString.replace(/Anschrift;/g,'');
@@ -1141,7 +1143,7 @@ $('#btn_exportCurrentViewNew').click(function(){
 				text = text.replace(/0043/g,"0");
 				text = text.replace(/\+49/g,"00");
 				
-				//replace titles
+				//remove titles
 				text = text.replace(/\(FH\)/g,'');
 				text = text.replace(/Herr\ /g,'');
 				text = text.replace(/Frau\ /g,'');
@@ -1156,7 +1158,18 @@ $('#btn_exportCurrentViewNew').click(function(){
 				text = text.replace(/Prof\./g,'');				
 				
 				//remove leading and trailing blanks
-				text = text.trim();				
+				text = text.trim();
+				
+				//split name in first and second part
+				if(count == 1)
+				{
+					var splitname = text.split(" ");
+					//remove leading and trailing blanks
+					splitname[0] = splitname[0].trim();
+					splitname[1] = splitname[1].trim();
+					//change order
+					text = splitname[1] + ';' + splitname[0];					
+				}
 				
 				//split phonenumbers in separate columns
 				if(count == 3)
@@ -1210,7 +1223,37 @@ $('#btn_exportCurrentViewNew').click(function(){
 							}
 						}						
 					}					
-				}				
+				}
+				//if more than 1 mail address available, search for the view mail
+				if(count == 4)
+				{
+					var sep = text.split(",");
+					var found = false;
+					
+					if(sep.length > 1)
+					{
+						//remove leading and trailing blanks
+						for(var i = 0;i < sep.length;i++)
+						{
+							sep[i] = sep[i].trim();
+							//search for the view mail address
+							if(sep[i].search("view-salzburg") != -1)
+							{
+								text = sep[i];
+								found = true;
+								break;
+							}
+						}
+						//if no view address found, use the first one
+						if(!found)
+						{
+							text = sep[0];
+						}
+						
+					}
+								
+					
+				}
 				
 			}			
 			count++;
