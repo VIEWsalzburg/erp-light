@@ -613,15 +613,15 @@ public class ArticleReportController {
 				csvWriter.writeHeader("Organisation:", org.getName());				
 				
 				// write Objects
-				String[] header = {"Artikel", "Anzahl VE", "VE", "Gewicht", "Preis"};
+				String[] header = {"Artikel", "Anzahl VE", "VE", "Gewicht x Anzahl VE (in kg)", "Preis x Anzahl VE (in Euro)"};
 				csvWriter.writeHeader(header);
 				
 				for (InOutArticleExtendedPUDTO article : list)
 				{
 					csvWriter.writeHeader(article.getArticleDTO().getDescription(),
-							""+article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),
-							"" + nf_out.format(article.getArticleDTO().getWeightpu()), 
-							"" + nf_out.format(article.getArticleDTO().getPricepu()));							
+							"" + article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),
+							"" + nf_out.format(article.getArticleDTO().getWeightpu()*article.getNumberPUs()), 
+							"" + nf_out.format(article.getArticleDTO().getPricepu()*article.getNumberPUs()));							
 						
 				}
 				
@@ -659,15 +659,15 @@ public class ArticleReportController {
 				
 				
 				// write Objects
-				String[] header = {"Artikel", "Anzahl VE", "VE", "Gewicht", "Preis"};
+				String[] header = {"Artikel", "Anzahl VE", "VE", "Gewicht x Anzahl VE (in kg)", "Preis x Anzahl VE (in Euro)"};
 				csvWriter.writeHeader(header);
 				
 				for (InOutArticleExtendedPUDTO article : list)
 				{
 					csvWriter.writeHeader(article.getArticleDTO().getDescription(),
-							""+article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),							
-							"" + nf_out.format(article.getArticleDTO().getWeightpu()), 
-							"" + nf_out.format(article.getArticleDTO().getPricepu()));
+							"" + article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),							
+							"" + nf_out.format(article.getArticleDTO().getWeightpu()*article.getNumberPUs()), 
+							"" + nf_out.format(article.getArticleDTO().getPricepu()*article.getNumberPUs()));
 				}				
 				csvWriter.writeHeader("");				
 			}
@@ -834,15 +834,15 @@ public class ArticleReportController {
 					//csvWriter.writeHeader("Organisation:", org.getName());				
 					
 					// write Objects
-					String[] header = {"Artikel", "Anzahl VE", "VE", "Gewicht", "Preis"};
+					String[] header = {"Artikel", "Anzahl VE", "VE", "Gewicht x Anzahl VE (in kg)", "Preis x Anzahl VE (in Euro)"};
 					csvWriter.writeHeader(header);
 					
 					for (InOutArticleExtendedPUDTO article : list)
 					{
 						csvWriter.writeHeader(article.getArticleDTO().getDescription(),
 								"" + article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),
-								"" + nf_out.format(article.getArticleDTO().getWeightpu()), 
-								"" + nf_out.format(article.getArticleDTO().getPricepu()));
+								"" + nf_out.format(article.getArticleDTO().getWeightpu()*article.getNumberPUs()), 
+								"" + nf_out.format(article.getArticleDTO().getPricepu()*article.getNumberPUs()));
 					}
 					
 					csvWriter.writeHeader("");				
@@ -877,15 +877,15 @@ public class ArticleReportController {
 					
 					
 					// write Objects
-					String[] header = {"Artikel", "Anzahl VE", "VE", "Gewicht", "Preis"};
+					String[] header = {"Artikel", "Anzahl VE", "VE", "Gewicht x Anzahl VE (in kg)", "Preis x Anzahl VE (in Euro)"};
 					csvWriter.writeHeader(header);
 					
 					for (InOutArticleExtendedPUDTO article : list)
 					{
 						csvWriter.writeHeader(article.getArticleDTO().getDescription(),
 								"" + article.getNumberPUs(), article.getArticleDTO().getPackagingUnit(),
-								"" + nf_out.format(article.getArticleDTO().getWeightpu()), 
-								"" + nf_out.format(article.getArticleDTO().getPricepu()));
+								"" + nf_out.format(article.getArticleDTO().getWeightpu()*article.getNumberPUs()), 
+								"" + nf_out.format(article.getArticleDTO().getPricepu()*article.getNumberPUs()));
 					}
 					csvWriter.writeHeader("");
 									

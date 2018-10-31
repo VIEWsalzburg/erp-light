@@ -1147,15 +1147,20 @@ $('#btn_exportCurrentViewNew').click(function(){
 				text = text.replace(/\(FH\)/g,'');
 				text = text.replace(/Herr\ /g,'');
 				text = text.replace(/Frau\ /g,'');
+				text = text.replace(/Ass\.\-\./g,'');
+				text = text.replace(/Bürgermeister/g,'');
+				text = text.replace(/Präsident/g,'');
 				text = text.replace(/DI /g,'');
 				text = text.replace(/Mag\./g,'');
+				text = text.replace(/Mag\.a/g,'');
+				text = text.replace(/Prof\./g,'');
 				text = text.replace(/Dr\./g,'');
 				text = text.replace(/Dipl\.\-Ing\./g,'');
 				text = text.replace(/Dipl\.Ing\./g,'');
 				text = text.replace(/Ing\./g,'');
 				text = text.replace(/Dir\./g,'');
 				text = text.replace(/Dkfm\./g,'');
-				text = text.replace(/Prof\./g,'');				
+								
 				
 				//remove leading and trailing blanks
 				text = text.trim();
@@ -1165,10 +1170,22 @@ $('#btn_exportCurrentViewNew').click(function(){
 				{
 					var splitname = text.split(" ");
 					//remove leading and trailing blanks
-					splitname[0] = splitname[0].trim();
-					splitname[1] = splitname[1].trim();
-					//change order
-					text = splitname[1] + ';' + splitname[0];					
+					for(var i = 0; i < splitname.length;i++)
+					{
+						splitname[i] = splitname[i].trim();
+					}
+					//firstname + secondname
+					if(splitname.length >=2)
+					{						
+						text = splitname[1] + ';' + splitname[0];								
+					}
+					//only secondname available
+					else
+					{
+						text = ';' + text;
+					}
+								
+								
 				}
 				
 				//split phonenumbers in separate columns
