@@ -373,7 +373,7 @@ $("#btn_submittodepot").click(function() {
 	incomingDelivery.lastEditorId = 0;
 	incomingDelivery.deliveryNr = 0;
 	incomingDelivery.date = date;
-	incomingDelivery.comment = comment;
+	incomingDelivery.comment = comment;	
 	
 	var incomingArticleDTOs = [];
 	for (e in articles)
@@ -793,7 +793,9 @@ $(document).ready(function() {
 			else{	// else if delivery is booked
 				// disable the button and the delivery selection
 				$("#btn_new").prop('disabled', true);
-				$('#btn_addDeliverer').prop('disabled', true);
+				
+				//To enable changing the organisation when delivery is already booked 
+				$('#btn_addDeliverer').prop('disabled', false);				
 				$('#tbx_deliverer_popover').attr('disabled', '');
 			}
 			

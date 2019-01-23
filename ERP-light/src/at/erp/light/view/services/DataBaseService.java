@@ -631,9 +631,7 @@ public class DataBaseService implements IDataBase {
 		{
 			// if Id != 0 => throw Exception
 			throw new Exception("Id of new IncomingDelivery is not 0");
-		}
-		
-		
+		}		
 	}
 	
 	// TODO: this function needs accurate testing
@@ -663,7 +661,7 @@ public class DataBaseService implements IDataBase {
 		
 		// first option: update infos of booked delivery
 		if (existingEntity.getBooked() == 1)
-		{
+		{			
 			// first update all Article infos
 			// check if number of IncomingArticles is the same for existing and updated
 			if (existingEntity.getIncomingArticles().size() != incomingDelivery.getIncomingArticles().size())
@@ -695,6 +693,8 @@ public class DataBaseService implements IDataBase {
 			// update infos for IncomingDelivery - only update Comment and Date
 			existingEntity.setComment(incomingDelivery.getComment());
 			existingEntity.setDate(incomingDelivery.getDate());
+			//To enable changing the organisation when delivery is already booked 
+			existingEntity.setOrganisation(incomingDelivery.getOrganisation());
 			existingEntity.setLastEditor(incomingDelivery.getLastEditor());
 			existingEntity.setUpdateTimestamp(incomingDelivery.getUpdateTimestamp());
 			this.sessionFactory.getCurrentSession().update(existingEntity);		// persist change

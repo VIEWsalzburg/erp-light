@@ -345,8 +345,10 @@ public class DeliveryController {
 				dataBaseService.setNewIncomingDelivery(entity); // set NewIncomingDelivery
 			} else // second scenario: if incomingDeliveryId != 0 => update existing IncomingDelivery
 			{
+				log.info(entity.getOrganisation().toString());
 				dataBaseService.updateIncomingDelivery(entity);
 			}
+			
 
 			// if no exception occurs
 			log.info("set incomingDelivery with id "+entity.getIncomingDeliveryId()+" successful");
