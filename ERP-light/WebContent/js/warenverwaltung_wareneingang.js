@@ -53,6 +53,7 @@ function loadTableContent(loadArchivedEntries){
 				}
 			}
 			
+			//console.log(org);
 			//get articles
 			var articleString = "";
 			var articles = inc[e].incomingArticleDTOs;

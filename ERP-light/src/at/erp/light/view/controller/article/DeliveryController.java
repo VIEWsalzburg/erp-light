@@ -89,11 +89,13 @@ public class DeliveryController {
 
 		List<IncomingDeliveryDTO> list = new ArrayList<IncomingDeliveryDTO>();
 		List<IncomingDelivery> entityList = null;
+		
 
 		try {
 			entityList = dataBaseService.getAllIncomingDeliveries(archieved);
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.info("DA");
 			return null;
 		}
 

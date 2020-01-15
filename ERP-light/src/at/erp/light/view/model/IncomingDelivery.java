@@ -60,7 +60,7 @@ public class IncomingDelivery implements java.io.Serializable {
 		this.date = date;
 		this.comment = comment;
 		this.updateTimestamp = updateTimestamp;
-		this.archived = archived;
+		this.archived = archived;		
 	}
 
 	public IncomingDelivery(int incomingDeliveryId, Organisation organisation,
@@ -75,7 +75,7 @@ public class IncomingDelivery implements java.io.Serializable {
 		this.comment = comment;
 		this.incomingArticles = incomingArticles;
 		this.updateTimestamp = updateTimestamp;
-		this.archived = archived;
+		this.archived = archived;		
 	}
 
 	@Id
@@ -160,23 +160,36 @@ public class IncomingDelivery implements java.io.Serializable {
 
 	public void setBooked(int booked) {
 		this.booked = booked;
-	}
+	}	
 	
-				
-	/*			
+	
+	
+	/*		
 	//this works with postgres but not with formula, i don't know why?
 	@Formula("(select sum(sub.tmp) from (SELECT (min(ia.numberpu)  - coalesce(sum(oa.numberpu),0)) as tmp " 	
 			+ "FROM incoming_delivery id JOIN incoming_article ia "
 			+ "ON (id.incoming_delivery_id = ia.incoming_delivery_id) "
 			+ "JOIN outgoing_article oa ON (ia.article_id = oa.article_id) "
-			+ "WHERE id.incoming_delivery_id = incoming_delivery_id group by ia.article_id) as sub")
-		*/	
+			+ "WHERE id.incoming_delivery_id = incoming_delivery_id group by ia.article_id) as sub")	
+			*/
+	
+	
+
+	/*
+	 * ((select sum(ia.numberpu) from incoming_delivery id join incoming_article ia " 
+	+ "on (id.incoming_delivery_id = ia.incoming_delivery_id) where id.incoming_delivery_id = incoming_delivery_id ))- 
+	+ "(select coalesce(sum(oa.numberpu),0) from incoming_delivery id join incoming_article ia "
+	+ "on (id.incoming_delivery_id = ia.incoming_delivery_id) join outgoing_article oa on (ia.article_id = oa.article_id) "
+	+ "where id.incoming_delivery_id = incoming_delivery_id))")	
+	*/	
+	
+	
 	//So i take this more complicated query to calculate the difference between the incoming- and outgoing articles for a given incoming_delivery_id
-	@Formula(value="((select sum(ia.numberpu) from incoming_delivery id join incoming_article ia " 
-			+ "on (id.incoming_delivery_id = ia.incoming_delivery_id) where id.incoming_delivery_id = incoming_delivery_id ) - "
-			+ "(select coalesce(sum(oa.numberpu),0) from incoming_delivery id join incoming_article ia "
-			+ "on (id.incoming_delivery_id = ia.incoming_delivery_id) join outgoing_article oa on (ia.article_id = oa.article_id) "
-			+ "where id.incoming_delivery_id = incoming_delivery_id ) )")		
+		@Formula(value="((select sum(ia.numberpu) from incoming_delivery id join incoming_article ia " 
+				+ "on (id.incoming_delivery_id = ia.incoming_delivery_id) where id.incoming_delivery_id = incoming_delivery_id ) - "
+				+ "(select coalesce(sum(oa.numberpu),0) from incoming_delivery id join incoming_article ia "
+				+ "on (id.incoming_delivery_id = ia.incoming_delivery_id) join outgoing_article oa on (ia.article_id = oa.article_id) "
+				+ "where id.incoming_delivery_id = incoming_delivery_id ) )")	
 	public int getBookedAll() {		
 		return bookedAll;
 	}
