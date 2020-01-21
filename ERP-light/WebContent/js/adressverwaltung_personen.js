@@ -1103,10 +1103,10 @@ $('#btn_exportCurrentViewNew').click(function(){
 	
 	var tableData = [];	
 	//conatins mobile pre calls from 24.09.2018-> must maybe adapted in future, when numbers change 
-	var mobileprecalls =  ["0664", "0680", "0681","0699","0688","0660","0665","0670","0663","0678","0676","0677","0650","0688"];
+	var mobileprecalls =  ["0664", "0680", "0681","0699","0688","0660",
+		"0665","0670","0663","0678","0676","0677","0650","0688"];
 	
-	var headerString = $('#TableHead .TableHead tr').children().map(
-			function(){
+	var headerString = $('#TableHead .TableHead tr').children().map(function(){
 				return $(this).text();
 			}).get().join(';');
 	
@@ -1115,10 +1115,8 @@ $('#btn_exportCurrentViewNew').click(function(){
 	//split Phone Numbers in mobile and festnetz
 	headerString = headerString.replace(/Telefonnummer;/g,"Mobil;Festnetz;")
 	//remove Personen-ID, Anschrift, Typ, Bemerkung
-	headerString = headerString.replace(/Personen-ID;/g,'');
-	headerString = headerString.replace(/Anschrift;/g,'');
-	headerString = headerString.replace(/Typ;/g,'');
-	headerString = headerString.replace(/Bemerkung/g,'');
+	headerString = headerString.replace(/Personen-ID;|Anschrift;|Typ;|Bemerkung/g,"");
+	
 	
 	tableData.push(headerString);
 	
@@ -1126,41 +1124,19 @@ $('#btn_exportCurrentViewNew').click(function(){
 	// concat columns with separator ';' for each row and push it into tableData
 	$('#personTableBody tr:visible').each(function(){
 		var count = 0;
-		var string = $(this).children().map(function(){			
+		var string = $(this).children().map(function(){	
+			
+			//console.log($(this).text());
 			//only use name[1], phonenumber[3] and mail-address[4]
 			if( count == 1 || (count >= 3 && count <= 4) )
 			{
 				var text = $(this).text();
+				
 				text = text.replace(/\;/g,',');
 				text = text.replace(/(\r\n|\n|\r)/g,' ');
 				
 				//removes p: and g: from the string
-				text = text.replace(/p:/g,'');
-				text = text.replace(/g:/g,'');
-				
-				//replace +43 with 0 at phone numbers
-				text = text.replace(/\+43/g,"0");
-				text = text.replace(/0043/g,"0");
-				text = text.replace(/\+49/g,"00");
-				
-				//remove titles
-				text = text.replace(/\(FH\)/g,'');
-				text = text.replace(/Herr\ /g,'');
-				text = text.replace(/Frau\ /g,'');
-				text = text.replace(/Ass\.\-\./g,'');
-				text = text.replace(/Bürgermeister/g,'');
-				text = text.replace(/Präsident/g,'');
-				text = text.replace(/DI /g,'');
-				text = text.replace(/Mag\./g,'');
-				text = text.replace(/Mag\.a/g,'');
-				text = text.replace(/Prof\./g,'');
-				text = text.replace(/Dr\./g,'');
-				text = text.replace(/Dipl\.\-Ing\./g,'');
-				text = text.replace(/Dipl\.Ing\./g,'');
-				text = text.replace(/Ing\./g,'');
-				text = text.replace(/Dir\./g,'');
-				text = text.replace(/Dkfm\./g,'');
-								
+				text = text.replace(/p:|g:/g,"");				
 				
 				//remove leading and trailing blanks
 				text = text.trim();
@@ -1168,110 +1144,79 @@ $('#btn_exportCurrentViewNew').click(function(){
 				//split name in first and second part
 				if(count == 1)
 				{
-					var splitname = text.split(" ");
-					//remove leading and trailing blanks
-					for(var i = 0; i < splitname.length;i++)
+					//names must be longer than two characters
+					//and trim each string
+					var splitname = text.split(" ").filter(x => x.length > 2).map(x => x.trim());
+										
+					//only use the last two items -> firstname + secondname
+					if(splitname.length > 2)
 					{
-						splitname[i] = splitname[i].trim();
+						text = splitname[splitname.length-1] + 
+						';' + 
+						splitname[splitname.length-2];	
+						//console.log(text);
 					}
-					//firstname + secondname
-					if(splitname.length >=2)
-					{						
-						text = splitname[1] + ';' + splitname[0];								
-					}
-					//only secondname available
-					else
+					else if(splitname.length == 2)
 					{
-						text = ';' + text;
-					}
-								
-								
+						text = splitname[0] + 
+						';' + 
+						splitname[1];						
+					}		
 				}
 				
 				//split phonenumbers in separate columns
 				if(count == 3)
-				{
-					//more than one number
-					if(text.includes(","))
+				{	
+					//remove ()-
+					text = text.replace(/\(|\)|\-/g,"");					
+					//replace +43 with 0 at phone numbers
+					text = text.replace(/\+43|0043/g,"0");
+					//convert german precall
+					text = text.replace(/\+49/g,"0049");					
+					
+					//split in separate numbers and remove leading and trailing blanks
+					var sep = text.split(",").map(x => x.trim()).filter(x => x.length > 4);
+					var mobile = "";
+					var festnetz = "";
+					
+					for(var j = 0; j < sep.length;j++)
 					{
-						var sep = text.split(",");
-						//remove leading and trailing blanks
-						sep[0] = sep[0].trim();
-						sep[1] = sep[1].trim();	
-												
-						//check if the first number is mobile
-						if(searchMobilePrecall(sep[0].substr(0,4),mobileprecalls))
+						if(searchMobilePrecall(sep[j].substring(0,4),mobileprecalls))
 						{
-							text = sep[0] + ';' + sep[1];
-						}
-						//check if the second number is mobile
-						else if(searchMobilePrecall(sep[1].substr(0,4),mobileprecalls))
-						{									
-							//swap both numbers
-							text = sep[1] + ';' + sep[0];							
-						}
-						//no mobile number available
-						else
-						{
-							text = ";" + sep[0] + ", " + sep[1];
-						}
-						
-					}					
-					//if only one or no number is available					
-					else
-					{
-						//if no number
-						if(text == '' || text == " ")
-						{
-							text += ";";							
-						}
-						//if one number
-						else
-						{
-							//if mobile number
-							if(searchMobilePrecall(text.substr(0,4),mobileprecalls))
+							//if not included -> insert a slash
+							if(sep[j].includes("/") == false)
 							{
-								text += ";";								
+								mobile = 
+									sep[j].substring(0,4) + 
+									"/" +  
+									sep[j].substring(4,sep[j].length);
 							}
-							//if no mobile number
 							else
 							{
-								text = ";" + text;
+								mobile =  sep[j];	
 							}
-						}						
-					}					
+						}
+						else
+						{
+							festnetz = sep[j];							
+						}
+					}
+					text = mobile + ";" + festnetz;										
 				}
 				//if more than 1 mail address available, search for the view mail
 				if(count == 4)
-				{
-					var sep = text.split(",");
-					var found = false;
-					
-					if(sep.length > 1)
+				{					
+					var sep = text.split(",").map(x => x.trim()).filter(x => x.length > 5);
+					//more than one address
+					if(sep.length >= 1)
 					{
-						//remove leading and trailing blanks
-						for(var i = 0;i < sep.length;i++)
-						{
-							sep[i] = sep[i].trim();
-							//search for the view mail address
-							if(sep[i].search("view-salzburg") != -1)
-							{
-								text = sep[i];
-								found = true;
-								break;
-							}
-						}
-						//if no view address found, use the first one
-						if(!found)
+						text = sep.filter(x => x.includes("view-salzburg"));
+						if(text == false)
 						{
 							text = sep[0];
 						}
-						
 					}
-								
-					
 				}
-				
 			}			
 			count++;
 			return text;						

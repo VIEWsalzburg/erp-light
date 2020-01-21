@@ -11,18 +11,11 @@ $(document).mousemove(function(event) {
 	
 	var elem = $(elem).closest('.helpHotspot');
 	
-//	var id = $(elem).attr('id');
-//	
-//	var helpText = id;
-	
-	// var helpText = helpData[id];
-	
 	var helpText = $(elem).data('helptext');
 	
 	if (helpText == null || helpText.length=="")
 	{
-		$('#helpHover').hide();
-		console.log("hide: "+helpText);
+		$('#helpHover').hide();		
 		return;
 	}
 	else
@@ -68,9 +61,7 @@ $(document).ready(function(){
 	// append helpHover to document
 	var helpTextElement = "<div id='helpHover' class='popover'>	Ich bin ein Hilfetext! </div>";
 	$('body').append(helpTextElement);
-	
-	console.log($.cookie('globalHelp'));
-	
+		
 	if ($.cookie('globalHelp')=='true')
 	{
 		$('#btn_activeHoverHelp').html("<span class='glyphicon glyphicon-question-sign'></span> Interaktive Hilfe deaktivieren");
@@ -81,8 +72,6 @@ $(document).ready(function(){
 	}
 	
 	$('#btn_activeHoverHelp').click(function(){
-		
-		console.log($.cookie('globalHelp'));
 		
 		if ($.cookie('globalHelp')=='true')
 		{
