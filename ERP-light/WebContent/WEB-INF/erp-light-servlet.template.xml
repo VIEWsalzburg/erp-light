@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/beans     
+  	http://www.springframework.org/schema/beans/spring-beans.xsd
+   	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd"   >
+
+	<context:component-scan base-package="at.erp.light.view" />
+	<mvc:annotation-driven/>
+
+	<!-- 	Database Access Config -->
+	<!-- TODO: use Connection Pool C3PO -->
+	<beans profile="LocalDB">
+	
+		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" >
+			<property name="driverClass" value="org.postgresql.Driver"></property>
+			<property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/erp"></property>
+			<property name="user" value="postgres"></property>
+			<property name="password" value="postgres"></property>
+			
+			<property name="acquireIncrement" value="1" />
+        	<property name="minPoolSize" value="0" />
+        	<property name="maxPoolSize" value="2" />
+        	<property name="maxIdleTime" value="0" />
+        	<property name="initialPoolSize" value="2" />
+		</bean>
+		
+	    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	        <property name="dataSource" ref="dataSource" />
+			<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+	    </bean>
+	
+		<tx:annotation-driven/>
+		<bean id="transactionManager"
+			class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+			<property name="sessionFactory" ref="sessionFactory"></property>
+		</bean>
+		
+		<bean id="dataBaseService" class="at.erp.light.view.services.DataBaseService">
+			<constructor-arg>
+				<ref bean="sessionFactory" />
+			</constructor-arg>
+		</bean>
+		
+	</beans>
+	
+	<!-- 	Database Access Config -->
+	<!-- TODO: use Connection Pool C3PO -->
+	<beans profile="cloud">
+		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" >
+			<property name="driverClass" value="org.postgresql.Driver"></property>
+			<property name="jdbcUrl" value="jdbc:postgresql://host.db.elephantsql.com:5432/user"></property>
+			<property name="user" value=""></property>
+			<property name="password" value=""></property>
+			
+			<property name="acquireIncrement" value="1" />
+        	<property name="minPoolSize" value="0" />
+        	<property name="maxPoolSize" value="2" />
+        	<property name="maxIdleTime" value="0" />
+        	<property name="initialPoolSize" value="2" />
+		</bean>
+		
+	    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	        <property name="dataSource" ref="dataSource" />
+			<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+	    </bean>
+	
+		<tx:annotation-driven/>
+		<bean id="transactionManager"
+			class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+			<property name="sessionFactory" ref="sessionFactory"></property>
+		</bean>
+		
+		<bean id="dataBaseService" class="at.erp.light.view.services.DataBaseService">
+			<constructor-arg>
+				<ref bean="sessionFactory" />
+			</constructor-arg>
+		</bean>
+		
+	</beans>
+	
+<!-- 	<beans profile="MockedDB"> -->
+<!-- 		<bean id="dataBaseService" class="at.erp.light.view.services.MockedDataBaseService"> -->
+
+<!-- 		</bean> -->
+<!-- 	</beans> -->
+
+
+
+</beans>

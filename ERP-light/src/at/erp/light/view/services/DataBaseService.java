@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import at.erp.light.view.dto.ArticleDTO;
+import at.erp.light.view.dto.InOutArticleExtendedPUDTO;
 import at.erp.light.view.dto.InOutArticlePUDTO;
 import at.erp.light.view.dto.LoggingDTO;
 import at.erp.light.view.dto.PersonAddressReportDataDTO;
@@ -630,9 +631,7 @@ public class DataBaseService implements IDataBase {
 		{
 			// if Id != 0 => throw Exception
 			throw new Exception("Id of new IncomingDelivery is not 0");
-		}
-		
-		
+		}		
 	}
 	
 	// TODO: this function needs accurate testing
@@ -662,7 +661,7 @@ public class DataBaseService implements IDataBase {
 		
 		// first option: update infos of booked delivery
 		if (existingEntity.getBooked() == 1)
-		{
+		{			
 			// first update all Article infos
 			// check if number of IncomingArticles is the same for existing and updated
 			if (existingEntity.getIncomingArticles().size() != incomingDelivery.getIncomingArticles().size())
@@ -694,6 +693,8 @@ public class DataBaseService implements IDataBase {
 			// update infos for IncomingDelivery - only update Comment and Date
 			existingEntity.setComment(incomingDelivery.getComment());
 			existingEntity.setDate(incomingDelivery.getDate());
+			//To enable changing the organisation when delivery is already booked 
+			existingEntity.setOrganisation(incomingDelivery.getOrganisation());
 			existingEntity.setLastEditor(incomingDelivery.getLastEditor());
 			existingEntity.setUpdateTimestamp(incomingDelivery.getUpdateTimestamp());
 			this.sessionFactory.getCurrentSession().update(existingEntity);		// persist change
@@ -772,6 +773,18 @@ public class DataBaseService implements IDataBase {
 	}
 	
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public IncomingDelivery getIncomingDeliveryByArticleId(int article_id) throws HibernateException {
+		
+		IncomingDelivery incomingDelivery = (IncomingDelivery) sessionFactory.getCurrentSession().
+				createQuery("From IncomingDelivery i Where i.incomingDeliveryId = (Select ia.incomingDelivery.incomingDeliveryId From IncomingArticle ia Join ia.article a Where a.articleId = :article_id)")
+				.setParameter("article_id", article_id)
+				.uniqueResult();
+		
+		return incomingDelivery;
+	}
+	
+	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public boolean deleteIncomingDeliveryById(int id) throws Exception {
 		
@@ -822,6 +835,38 @@ public class DataBaseService implements IDataBase {
 		return incomingDeliveries;
 	}
 	
+	//an alternate query for comparing year with date:
+	//"From IncomingDelivery i Where extract(year from i.date) = :givenYear order by i.date DESC"
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<IncomingDelivery> getAllByYearArchievedIncomingDeliveries(int year) throws HibernateException {
+		//create start and end-dates
+		String start = "'" + year + "-01-01'";
+		String end = "'" + year + "-12-31'";
+		
+		@SuppressWarnings("unchecked")
+		List<IncomingDelivery> incomingDeliveries = sessionFactory.getCurrentSession()
+			.createQuery("From IncomingDelivery i Where i.archived = :archivedStatus And i.date >= " + start + " AND i.date <= " + end + " order by i.date DESC")
+			.setParameter("archivedStatus", 1)
+			.list();
+		return incomingDeliveries;
+	}
+	
+	
+	@Override
+	public List<IncomingDelivery> getByYearAndOrganisationIncomingDeliveries(int org_id,String begin, String end)
+			throws HibernateException {
+		
+		begin = "'" + begin + "'";
+		end = "'" + end + "'";
+		
+		@SuppressWarnings("unchecked")
+		List<IncomingDelivery> incomingDeliveries = sessionFactory.getCurrentSession()
+			.createQuery("From IncomingDelivery i Where i.organisation.organisationId = " + org_id + " AND i.date >= " + begin + " AND i.date <= " + end + " order by i.date DESC")
+			.list();
+		return incomingDeliveries;
+	}
+	
 	/***** [END] incoming deliveries *****/
 	
 	
@@ -835,7 +880,8 @@ public class DataBaseService implements IDataBase {
 	
 		@SuppressWarnings("unchecked")
 		List<AvailArticleInDepot> availArticleInDepots = sessionFactory.getCurrentSession()
-			.createQuery("Select a From AvailArticleInDepot a Where a.availNumberOfPUs != 0 Order By a.article.delivererId, a.articleId").list();
+			.createQuery("Select a From AvailArticleInDepot a Where a.availNumberOfPUs != 0 Order By a.article.delivererId, a.articleId")
+			.list();
 	
 		return availArticleInDepots;
 	}
@@ -843,7 +889,9 @@ public class DataBaseService implements IDataBase {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Article getArticleById(int id) throws HibernateException {
-		Article article = (Article)sessionFactory.getCurrentSession().createQuery("From Article a Where a.articleId = :id").setParameter("id", id).uniqueResult();
+		Article article = (Article)sessionFactory.getCurrentSession().createQuery("From Article a Where a.articleId = :id")
+				.setParameter("id", id)
+				.uniqueResult();
 		return article;
 	}
 	
@@ -1008,7 +1056,8 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public OutgoingDelivery getOutgoingDeliveryById(int id) throws HibernateException {
 		
-		OutgoingDelivery outgoingDelivery = (OutgoingDelivery)sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery o Where o.outgoingDeliveryId = :id")
+		OutgoingDelivery outgoingDelivery = (OutgoingDelivery)sessionFactory.getCurrentSession()
+				.createQuery("From OutgoingDelivery o Where o.outgoingDeliveryId = :id")
 				.setParameter("id", id).uniqueResult();
 		
 		return outgoingDelivery;
@@ -1018,7 +1067,9 @@ public class DataBaseService implements IDataBase {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException {
 		@SuppressWarnings("unchecked")
-		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession().createQuery("From OutgoingDelivery o order by o.date DESC").list();
+		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession()
+		.createQuery("From OutgoingDelivery o order by o.date DESC")
+		.list();
 		return outgoingDeliveries;
 	}
 	
@@ -1030,6 +1081,22 @@ public class DataBaseService implements IDataBase {
 			.createQuery("From OutgoingDelivery o Where o.archived = :archivedStatus order by o.date DESC")
 			.setParameter("archivedStatus", archivedStatus)
 			.list();
+		return outgoingDeliveries;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<OutgoingDelivery> getAllByYearArchievedOutgoingDeliveries(int year) throws HibernateException {
+		//create start and end-dates
+		String start = "'" + year + "-01-01'";
+		String end = "'" + year + "-12-31'";
+		
+		@SuppressWarnings("unchecked")
+		List<OutgoingDelivery> outgoingDeliveries = sessionFactory.getCurrentSession()
+			.createQuery("From OutgoingDelivery i Where i.archived = :archivedStatus And i.date >= " + start + " AND i.date <= " + end + " order by i.date DESC")
+			.setParameter("archivedStatus", 1)
+			.list();		
+		
 		return outgoingDeliveries;
 	}
 
@@ -1211,6 +1278,7 @@ public class DataBaseService implements IDataBase {
 		}
 		
 		
+		
 		/***** OutgoingArticles *****/
 		List<OutgoingArticle> outgoingArticles = this.getOutgoingArticlesByArticleId(articleId);
 		int numberPUsOutgoing = 0;
@@ -1225,14 +1293,17 @@ public class DataBaseService implements IDataBase {
 					oa.getOutgoingArticleId(), oa.getNumberpu(), articleDTO, 1));
 			// get organisationId via IncomingDelivery
 			// tpye 1 for OutgoingArticle
+			System.out.println(articleDTO.getDescription());
+			System.out.println(oa.getOutgoingDelivery().getDate());
 			
 			// calc total outgoingPUs
 			numberPUsOutgoing += oa.getNumberpu();
 		}
-		
+				
 		
 		
 		/***** Articles in depot *****/
+		
 		List<AvailArticleInDepot> availArticleInDepots = this.getAvailableArticlesInDepot();
 		// find AvailArticleInDepot for current ArticleId
 		AvailArticleInDepot availArticleInDepot = null;
@@ -1274,9 +1345,115 @@ public class DataBaseService implements IDataBase {
 			throw new ERPLightException("number of IncomingArticles compared to Outgoing and DepotArticle does not match");
 		}
 		
-		
 		return distributionList;
 	}
+	
+	//Does the same job as getArticleDistributionByArticleId but also added outgoing delivery date
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<InOutArticleExtendedPUDTO> getArticleDistributionExtendedByArticleId(int articleId) throws Exception
+	{
+		// get articleInfo from DB
+		Article article = this.getArticleById(articleId);
+		if (article == null)
+		{
+			throw new ERPLightException("An article with the given id "+ articleId +" does not exist in the DB");
+		}
+		
+		// create articleDTO for all InOutArticleExtendedPUDTOs
+		ArticleDTO articleDTO = ArticleMapper.mapToDTO(article);
+		
+		// list for all InOutArticlePUDTOs
+		List<InOutArticleExtendedPUDTO> distributionList = new ArrayList<InOutArticleExtendedPUDTO>();  
+		
+		
+		/***** IncomingArticles *****/
+		List<IncomingArticle> incomingArticles = this.getIncomingArticlesByArticleId(articleId);
+		int numberPUsIncoming = 0;
+		if (incomingArticles.size()==0)
+		{
+			throw new ERPLightException("no IncomingArticle exists for articleId "+articleId);
+		}
+		// add objects to distributionList
+		for (IncomingArticle ia : incomingArticles)
+		{
+			distributionList.add(new InOutArticleExtendedPUDTO(ia.getIncomingDelivery().getOrganisation().getOrganisationId(),"",
+					ia.getIncomingArticleId(), ia.getNumberpu(), articleDTO, 0));
+			// get organisationId via incomingDelivery
+			// tpye 0 for IncomingArticle
+			
+			// calc total incomingPUs
+			numberPUsIncoming += ia.getNumberpu();
+		}
+		
+		
+		
+		/***** OutgoingArticles *****/
+		List<OutgoingArticle> outgoingArticles = this.getOutgoingArticlesByArticleId(articleId);
+		int numberPUsOutgoing = 0;
+		if (outgoingArticles.size()==0)
+		{
+			// an keine Organisation verteilt
+		}
+		// add objects to distributionList
+		for (OutgoingArticle oa : outgoingArticles)
+		{
+			distributionList.add(new InOutArticleExtendedPUDTO(oa.getOutgoingDelivery().getOrganisation().getOrganisationId(),
+					oa.getOutgoingDelivery().getDate().toString(),
+					oa.getOutgoingArticleId(), oa.getNumberpu(), articleDTO, 1));
+			// get organisationId via IncomingDelivery
+			// tpye 1 for OutgoingArticle		
+			
+			// calc total outgoingPUs
+			numberPUsOutgoing += oa.getNumberpu();
+		}
+				
+		
+		
+		/***** Articles in depot *****/
+		
+		List<AvailArticleInDepot> availArticleInDepots = this.getAvailableArticlesInDepot();
+		// find AvailArticleInDepot for current ArticleId
+		AvailArticleInDepot availArticleInDepot = null;
+		int numberPUsDepot = 0;
+		for (AvailArticleInDepot depotArticle : availArticleInDepots)
+		{
+			if (depotArticle.getArticleId() == articleId)
+			{
+				availArticleInDepot = depotArticle;
+			}
+		}
+		// if not found => create InOutArticlePUDTO for depot with number PU 0
+		if (availArticleInDepot == null)
+		{
+			distributionList.add(new InOutArticleExtendedPUDTO(-1,"", -1, 0, articleDTO, 2));
+			// organisationId ... -1 for depot
+			// InOutArticleId ... -1 for depot
+			// numberPU ... 0 (nothing in the depot)
+			// type ... 2 for depot
+			
+			numberPUsDepot = 0;
+		}
+		else
+		{
+			distributionList.add(new InOutArticleExtendedPUDTO(-1,"", -1, availArticleInDepot.getAvailNumberOfPUs(), articleDTO, 2));
+			// organisationId ... -1 for depot
+			// InOutArticleId ... -1 for depot
+			// numberPU ... availableNumberPUs in depot
+			// type ... 2 for depot
+			
+			numberPUsDepot = availArticleInDepot.getAvailNumberOfPUs();
+		}		
+		
+		// check number of PUs for consistency		
+		if ( (numberPUsOutgoing+numberPUsDepot) != numberPUsIncoming)
+		{
+			throw new ERPLightException("number of IncomingArticles compared to Outgoing and DepotArticle does not match");
+		}		
+		return distributionList;
+	}
+	
+	
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
@@ -1888,6 +2065,8 @@ public class DataBaseService implements IDataBase {
 		return list;
 		
 	}
+
+	
 	
 	
 	

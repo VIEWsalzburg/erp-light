@@ -12,18 +12,20 @@ var pwdError = "<div id='pwdErrorAlert'> <div class='col-sm-4'> <div id='ErrorAl
 
 
 var p;
-function loadTableContent() {
+function loadTableContent(all) {
 	
 	// show loading spinner
 	showLoadingSpinner(true);
 	
 	$('#personTableBody').empty();
 	
-	// check all Checkboxes
-	$('#mitarbeiter_cbx').prop('checked', true);
-	$('#unterstuetzer_cbx').prop('checked', true);
-	$('#mitglieder_cbx').prop('checked', true);
-	$('#gaeste_cbx').prop('checked', true);
+	if(all)	{
+		// check all Checkboxes		
+		$('#mitarbeiter_cbx').prop('checked', true);
+		$('#unterstuetzer_cbx').prop('checked', true);
+		$('#mitglieder_cbx').prop('checked', true);
+		$('#gaeste_cbx').prop('checked', true);
+	}	
 	
 	// personList for appending the persons
 	var personList;
@@ -131,8 +133,10 @@ function loadTableContent() {
 		// update person count label
 		updatePersonCountLabel();
 		
+		if(all){
 		// apply search filter if present
 		updateSearchFilter();
+		}
 		
 	}
 	
@@ -335,7 +339,9 @@ $("#btn_saveperson").click(function() {
 				showAlertElement(2, data.message, 5000);
 			}
 			
-			loadTableContent();
+			loadTableContent(false);
+			updateTableTypeFilter();			
+			
 		} else {
 			alert("Verbindungsproblem mit dem Server");
 		}
@@ -795,6 +801,7 @@ function updateTableTypeFilter() {
 	var gaesteChecked = $('#gaeste_cbx').prop('checked');
 	var keinTypChecked = $('#keinTyp_cbx').prop('checked');
 	
+			
 	$('.searchable tr').each( function() {
 		
 		// hide all by default
@@ -803,32 +810,38 @@ function updateTableTypeFilter() {
 		// get typeText
 		var typeText = $(this).find('td').eq(5).text();
 		
+		
+		
 		// show all Mitarbeiter
 		if (mitarbeiterChecked)
 		{
-			if (typeText.indexOf('Mitarbeiter')!=-1)
+			if (typeText.indexOf('Mitarbeiter') != -1){
 				show = true;
+			}
 		}
 		
 		// show all Unterstützer
 		if (unterstuetzerChecked)
 		{
-			if (typeText.indexOf('Unterstützer')!=-1)
+			if (typeText.indexOf('Unterstützer') != -1){
 				show = true;
+			}
 		}
 		
 		// show all Mitglieder
 		if (mitgliederChecked)
 		{
-			if (typeText.indexOf('Mitglied')!=-1)
+			if (typeText.indexOf('Mitglied') != -1){
 				show = true;
+			}
 		}
 		
 		// show all Gäste
 		if (gaesteChecked)
 		{
-			if (typeText.indexOf('Gast')!=-1)
+			if (typeText.indexOf('Gast') != -1){
 				show = true;
+			}
 		}
 		
 		// show all empty types
@@ -853,6 +866,7 @@ function updateTableTypeFilter() {
 
 // assign typefilter to checkboxes
 $(document).ready(function() {
+	
 	$('#mitarbeiter_cbx').prop('checked', true);
 	$('#unterstuetzer_cbx').prop('checked', true);
 	$('#mitglieder_cbx').prop('checked', true);
@@ -875,6 +889,7 @@ $('#btn_details').prop('disabled', true);
 
 //get current user rights
 $(document).ready(function() {
+	
 	$.ajax({
 		type : "POST",
 		url : "../rest/secure/person/getCurrentUser"
@@ -929,9 +944,11 @@ $(document).ready(
 			// select option Alle
 			$('#select_page :nth-child(0)').prop('selected',true);
 			
-			loadTableContent();
+			loadTableContent(true);
 			
-			$('#select_page').change(loadTableContent);
+			$('#select_page').change(function(event){
+				loadTableContent(true);
+			});
 	});
 
 //this function is used to get the selected row
@@ -1022,7 +1039,7 @@ $("#btn_deletePerson").click(function() {
 			showAlertElement(2, data.message, 5000);
 		}
 		
-		loadTableContent();
+		loadTableContent(true);
 	});
 });
 
@@ -1044,15 +1061,16 @@ $('#btn_exportCurrentView').click(function(){
 			function(){
 				return $(this).text();
 			}).get().join(';');
-	tableData.push(headerString);
 	
 	// only visible rows
 	// concat columns with separator ';' for each row and push it into tableData
 	$('#personTableBody tr:visible').each(function(){
 		var string = $(this).children().map(function(){
+			
 				var text = $(this).text();
 				text = text.replace(/\;/g,',');
-				text = text.replace(/(\r\n|\n|\r)/g,' ');
+				text = text.replace(/(\r\n|\n|\r)/g,' ');			
+				
 				return text;
 			}).get().join(';');
 		
@@ -1078,3 +1096,164 @@ $('#btn_exportCurrentView').click(function(){
 	// end download
 		
 });
+
+
+//export current view as CSV without p: and g: and phone numbers in separate columns
+$('#btn_exportCurrentViewNew').click(function(){
+	
+	var tableData = [];	
+	//conatins mobile pre calls from 24.09.2018-> must maybe adapted in future, when numbers change 
+	var mobileprecalls =  ["0664", "0680", "0681","0699","0688","0660",
+		"0665","0670","0663","0678","0676","0677","0650","0688"];
+	
+	var headerString = $('#TableHead .TableHead tr').children().map(function(){
+				return $(this).text();
+			}).get().join(';');
+	
+	//split Name in Vorname and Nachname
+	headerString = headerString.replace(/Name;/g,"Vorname;Nachname;")
+	//split Phone Numbers in mobile and festnetz
+	headerString = headerString.replace(/Telefonnummer;/g,"Mobil;Festnetz;")
+	//remove Personen-ID, Anschrift, Typ, Bemerkung
+	headerString = headerString.replace(/Personen-ID;|Anschrift;|Typ;|Bemerkung/g,"");
+	
+	
+	tableData.push(headerString);
+	
+	// only visible rows
+	// concat columns with separator ';' for each row and push it into tableData
+	$('#personTableBody tr:visible').each(function(){
+		var count = 0;
+		var string = $(this).children().map(function(){	
+			
+			//console.log($(this).text());
+			//only use name[1], phonenumber[3] and mail-address[4]
+			if( count == 1 || (count >= 3 && count <= 4) )
+			{
+				var text = $(this).text();
+				
+				text = text.replace(/\;/g,',');
+				text = text.replace(/(\r\n|\n|\r)/g,' ');
+				
+				//removes p: and g: from the string
+				text = text.replace(/p:|g:/g,"");				
+				
+				//remove leading and trailing blanks
+				text = text.trim();
+				
+				//split name in first and second part
+				if(count == 1)
+				{
+					//names must be longer than two characters
+					//and trim each string
+					var splitname = text.split(" ").filter(x => x.length > 2).map(x => x.trim());
+										
+					//only use the last two items -> firstname + secondname
+					if(splitname.length > 2)
+					{
+						text = splitname[splitname.length-1] + 
+						';' + 
+						splitname[splitname.length-2];	
+						//console.log(text);
+					}
+					else if(splitname.length == 2)
+					{
+						text = splitname[0] + 
+						';' + 
+						splitname[1];						
+					}		
+				}
+				
+				//split phonenumbers in separate columns
+				if(count == 3)
+				{	
+					//remove ()-
+					text = text.replace(/\(|\)|\-/g,"");					
+					//replace +43 with 0 at phone numbers
+					text = text.replace(/\+43|0043/g,"0");
+					//convert german precall
+					text = text.replace(/\+49/g,"0049");					
+					
+					//split in separate numbers and remove leading and trailing blanks
+					var sep = text.split(",").map(x => x.trim()).filter(x => x.length > 4);
+					var mobile = "";
+					var festnetz = "";
+					
+					for(var j = 0; j < sep.length;j++)
+					{
+						if(searchMobilePrecall(sep[j].substring(0,4),mobileprecalls))
+						{
+							//if not included -> insert a slash
+							if(sep[j].includes("/") == false)
+							{
+								mobile = 
+									sep[j].substring(0,4) + 
+									"/" +  
+									sep[j].substring(4,sep[j].length);
+							}
+							else
+							{
+								mobile =  sep[j];	
+							}
+						}
+						else
+						{
+							festnetz = sep[j];							
+						}
+					}
+					text = mobile + ";" + festnetz;										
+				}
+				//if more than 1 mail address available, search for the view mail
+				if(count == 4)
+				{					
+					var sep = text.split(",").map(x => x.trim()).filter(x => x.length > 5);
+					//more than one address
+					if(sep.length >= 1)
+					{
+						text = sep.filter(x => x.includes("view-salzburg"));
+						if(text == false)
+						{
+							text = sep[0];
+						}
+					}
+				}
+			}			
+			count++;
+			return text;						
+			
+			}).get().join(';');
+		
+		tableData.push(string);
+	});
+	
+	// merge rows
+	var csvString = tableData.join('\n');
+	
+	// start encoding and download
+	// code by https://github.com/b4stien/js-csv-encoding //windows-1252
+	var csvContent = csvString,
+    	textEncoder = new CustomTextEncoder('utf-16', {NONSTANDARD_allowLegacyEncoding: true}),
+    	fileName = 'Personen-Export-Neu.csv';
+
+	// encode
+	var csvContentEncoded = textEncoder.encode([csvContent]);
+	// start download
+	var blob = new Blob([csvContentEncoded], {type: 'text/csv;charset=windows-1252;'});
+	saveAs(blob, fileName);
+	
+	// end download
+		
+});
+
+
+function searchMobilePrecall (str, strArray) 
+{
+    for (var j=0; j<strArray.length; j++) 
+    {
+        if (strArray[j].match(str))
+        {
+        	return true;
+        }
+    }
+    return false;
+}

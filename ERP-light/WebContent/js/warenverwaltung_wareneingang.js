@@ -16,8 +16,19 @@ function loadTableContent(loadArchivedEntries){
 	
 	//check if only non archived entries should be loaded to table
 	if(loadArchivedEntries == 1){
-		loadArchivedEntries = "";
+		
+		var y = $( "#sel_year option:selected" ).text();
+		
+		//load all archieved incoming deliveries
+		if(y == 'Alle'){			
+			loadArchivedEntries = "/" + 1;
+		}
+		//load incoming deliveries from a specific year
+		else{
+			loadArchivedEntries = "ByYearArchieved/" + y;
+		}
 	}
+	//load all unarchieved incoming deliveries
 	else{
 		loadArchivedEntries = "Unarchived";
 	}
@@ -42,6 +53,7 @@ function loadTableContent(loadArchivedEntries){
 				}
 			}
 			
+			//console.log(org);
 			//get articles
 			var articleString = "";
 			var articles = inc[e].incomingArticleDTOs;
@@ -61,8 +73,13 @@ function loadTableContent(loadArchivedEntries){
 			}
 			
 			var bookedClass = "";
-			if (inc[e].booked > 0)
-				bookedClass = "booked-entry";	// set the class to display as booked
+			
+			//check if all articles of this incoming delivery are already booked to outgoing deliveries
+			if (inc[e].bookedAll == 0)
+				bookedClass = "booked-all";	// set the class to display as bookedAll
+			//elsewhere check if at least one article of the incoming delivery is already booked to an outgoing deliveriy
+			else if (inc[e].booked > 0)
+				bookedClass = "booked-entry";	// set the class to display as booked			
 			
 			//check archived flag
 			var archivedCheckboxState = "";
@@ -90,8 +107,26 @@ function loadTableContent(loadArchivedEntries){
 	
 };
 
+//fill the select-option-values for archieved entries
+function fillSelectArchive(){
+	
+	//add date to select-field for archived entries
+	//get date
+	var d = new Date();
+	//get year
+    var y = d.getFullYear();
+    //first entries appears in 2014
+    var start = 2014;    
+    while(y >= start){
+    	$('#sel_year').append($('<option>', {
+    		value: y,
+    		text: y--
+    	}));
+    }
+}
+
 //Get all non archived incoming deliveries and load into table
-$(document).ready(loadTableContent(loadArchivedEntries));
+$(document).ready(loadTableContent(loadArchivedEntries),fillSelectArchive());
 
 //init collapse
 //$(function () {
@@ -398,39 +433,61 @@ $("#cbx_archive").on('change', function(){
 	}
 });
 
+//change-eventhandler for select-years for archieved deliveries
+$("#sel_year").on('change', function() {
+	if($("#cbx_archive").prop('checked')){
+		loadArchivedEntries = 1;
+		$('#incomingDeliveryTableBody').empty();
+		loadTableContent(loadArchivedEntries);
+	}	  
+});
+
+function setArchivedState(id,val) {
+	
+	 return $.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/incomingDelivery/setArchivedState/"+ id + "/" + val
+	});
+}
+
 //set entry archived or non archived depending on button value
 $("#btn_archive").click(function() {
 	
-	var rowData = getSelectedRow();
-	if (rowData.length == 0)
+	//var rowData = getSelectedRow();
+	
+	var allIDs = getAllSelectedIDs();
+	var promises= [];
+	
+	if (allIDs.length == 0)
 	{
-		showAlertElement(false, "Kein Wareneingang auswählt!", 2500);
-		return;
+		showAlertElement(false, "Keinen Wareneingang auswählt!", 2500);		
 	}
-	
-	var id = rowData[0];
-	
-	if($(this).val() == "archive"){
-		//set entry archived
-		$.ajax({
-			type : "POST",
-			async : false,
-			url : "../rest/secure/incomingDelivery/setArchivedState/"+ id +"/1"
-		}).done(function(data) {
+	else
+	{
+		//iterate through all id's
+		for (var i = 0; i < allIDs.length; i++)
+		{	
+			var id = allIDs[i];		
+			//set entry archived
+			if($(this).val() == "archive"){
+				promise = setArchivedState(id,1);
+				promises.push(promise);
+			}
+			else if($(this).val() == "dearchive"){
+				promise = setArchivedState(id,0);
+				promises.push(promise);
+			}
+		}
+		//when all promises have been successfully ended
+		$.when.apply($,promises).done(function(){
+			var responses = arguments;
+	        for(i in responses){
+	        	console.log(responses[i]);
+	        }
 			$('#incomingDeliveryTableBody').empty();
 			loadTableContent(loadArchivedEntries);
-		});
-	}
-	else if($(this).val() == "dearchive"){
-		//set entry non archived
-		$.ajax({
-			type : "POST",
-			async : false,
-			url : "../rest/secure/incomingDelivery/setArchivedState/"+ id +"/0"
-		}).done(function(data) {
-			$('#incomingDeliveryTableBody').empty();
-			loadTableContent(loadArchivedEntries);
-		});
+		});		
 	}
 });
 
@@ -478,8 +535,19 @@ function getSelectedRow(){
 	var currentRow = $('#TableHead').find('tr.highlight').first().children("td").map(function() {
 		return $(this).text();
 	}).get();
-	
+	//console.log($)
 	return currentRow;
+}
+
+//return the incoming delivery id's of all highlighted rows
+function getAllSelectedIDs(){
+	var ids = [];
+	$('#TableHead').find('tr.highlight').each(function(){
+	    	console.log($(this).find("td:first").text());
+	        ids.push($(this).find("td:first").text());
+	    })
+	
+	return ids;
 }
 
 
@@ -489,12 +557,14 @@ $('#TableHead').on('click','tbody tr', function(event) {
 //		return $(this).text();
 //	}).get();
 
-	$(this).addClass('highlight').siblings().removeClass('highlight');
+	$(this).toggleClass('highlight');
+	//$(this).addClass('highlight').siblings().removeClass('highlight');
 	
 	// only when user has admin rights
 	if (currentUserRights != "Read" && currentUserRights != "") {
 		//deleteModal disabled=false only if not booked 
-		if($(this).closest("tr").hasClass("booked-entry") == true){
+		if($(this).closest("tr").hasClass("booked-entry") == true || 
+				$(this).closest("tr").hasClass("booked-all") == true){
 			$('#btn_edit').prop('disabled', false);
 			$('#btn_deleteModal').prop('disabled', true);
 			isBooked = true;

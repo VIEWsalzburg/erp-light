@@ -187,15 +187,12 @@ function loadAllDeliverers() {
 					for(var i=0; i< o[e].types.length; i++){
 						if(o[e].types[i] == "Lieferant"){
 							
-							var nameString = "";
-							
+							var nameString = o[e].name;
+							/*
 							if(o[e].name.length > 22){
 								nameString = o[e].name.substring(0, 22) + "...";
-							}
-							else{
-								nameString = o[e].name;
-							}
-							
+							}							
+							*/							
 							var categoryString = "";
 							
 							var categoryIds = o[e].categoryIds;
@@ -215,14 +212,14 @@ function loadAllDeliverers() {
 							
 							var o_divRow = "<div class='boxElement_deliverer'>" +
 												"<div class='row'>" +
-													"<div class='col-sm-4'>" +
+													"<div class='col-sm-5'>" +
 														"<input type='hidden' value="+ o[e].id +">" +
 														"<span>" + nameString + "</span>"+
 													"</div>" +
-													"<div class='col-sm-2'>" +
+													"<div class='col-sm-3'>" +
 														"<span>" + o[e].city + "</span>" +
 													"</div>" +
-													"<div class='col-sm-5'>" +
+													"<div class='col-sm-3'>" +
 														"<span>" + categoryString + "</span>" +
 													"</div>" +
 													"<div class='col-sm-1'>" +
@@ -376,7 +373,7 @@ $("#btn_submittodepot").click(function() {
 	incomingDelivery.lastEditorId = 0;
 	incomingDelivery.deliveryNr = 0;
 	incomingDelivery.date = date;
-	incomingDelivery.comment = comment;
+	incomingDelivery.comment = comment;	
 	
 	var incomingArticleDTOs = [];
 	for (e in articles)
@@ -796,7 +793,9 @@ $(document).ready(function() {
 			else{	// else if delivery is booked
 				// disable the button and the delivery selection
 				$("#btn_new").prop('disabled', true);
-				$('#btn_addDeliverer').prop('disabled', true);
+				
+				//To enable changing the organisation when delivery is already booked 
+				$('#btn_addDeliverer').prop('disabled', false);				
 				$('#tbx_deliverer_popover').attr('disabled', '');
 			}
 			

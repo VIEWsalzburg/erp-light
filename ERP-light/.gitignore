@@ -1,6 +1,6 @@
 /bin/
 /build/
+erp-light-servlet.xml
 .settings/
-.classpath/
 target/
-WebContent/WEB-INF/erp-light-servlet.xml
+/.metadata/

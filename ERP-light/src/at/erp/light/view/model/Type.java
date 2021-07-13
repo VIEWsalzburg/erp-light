@@ -2,16 +2,9 @@ package at.erp.light.view.model;
 
 // Generated 22.11.2014 18:02:50 by Hibernate Tools 3.4.0.CR1
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -20,7 +13,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "type", schema = "public")
 public class Type implements java.io.Serializable {
-
+	
+	private static final long serialVersionUID = 1948448404504737969L;
 	public static int MITARBEITER = 1;
 	public static int UNTERSTÜTZER = 2;
 	public static int MITGLIED = 3;

@@ -22,6 +22,10 @@ import javax.persistence.Table;
 @Table(name = "country", schema = "public")
 public class Country implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6916586488281582023L;
 	private int countryId;
 	private String country;
 	private Set<Organisation> organisations = new HashSet<Organisation>(0);

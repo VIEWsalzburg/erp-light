@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
+import at.erp.light.view.dto.InOutArticleExtendedPUDTO;
 import at.erp.light.view.dto.InOutArticlePUDTO;
 import at.erp.light.view.dto.LoggingDTO;
 import at.erp.light.view.dto.PersonAddressReportDataDTO;
@@ -185,9 +186,9 @@ public interface IDataBase {
 	public List<IncomingDelivery> getAllIncomingDeliveries() throws HibernateException;
 	
 	/**
-	 * return a list of all incomingDeliveries with the given archivedStatus
-	 * @param archivedStatus of the deliveries, which should be returned
-	 * @return list of all incomingDeliveries with the given archivedStatus
+	 * return a list of all incoming deliveries depending on the given archivedStatus
+	 * @param archivedStatus 0 or 1 of the deliveries
+	 * @return list of all incoming deliveries depending on the given archivedStatus
 	 * @throws HibernateException
 	 */
 	public List<IncomingDelivery> getAllIncomingDeliveries(int archivedStatus) throws HibernateException;
@@ -199,6 +200,22 @@ public interface IDataBase {
 	 * @throws HibernateException
 	 */
 	public IncomingDelivery getIncomingDeliveryById(int id) throws HibernateException;
+	
+	/**
+	 * returns the incoming delivery with the given article_id in the virtual depot.
+	 * @param article_id, which is part of an incoming_delivery
+	 * @return the incoming_delivery for the given article_id in the virtual depot.
+	 */
+	public IncomingDelivery getIncomingDeliveryByArticleId(int article_id) throws HibernateException;	
+	
+	
+	/**
+	 * return a list of archived incomingDeliveries from the given year
+	 * @param year of the archived deliveries, which should be returned
+	 * @return list of all archived incomingDeliveries from the given year
+	 * @throws HibernateException
+	 */
+	public List<IncomingDelivery> getAllByYearArchievedIncomingDeliveries(int year) throws HibernateException;
 	
 	
 	/**
@@ -217,6 +234,16 @@ public interface IDataBase {
 	 */
 	public List<IncomingArticle> getIncomingArticlesByArticleId(int id) throws HibernateException;
 	
+	
+	/**
+	 * returns the IncomingArticle from a given organisation in a given timespan
+	 * @param org_id ID of the organisation as int
+	 * @param begin Begin-Date as String
+	 * @param end End-Date as String	 
+	 * @return list of IncomingArticle Objects from the given deliverer in this given timespan
+	 * @throws HibernateException
+	 */
+	public List<IncomingDelivery> getByYearAndOrganisationIncomingDeliveries(int org_id,String begin, String end) throws HibernateException;
 	
 	/**
 	 * returns the OutgoingArticle with the specified Id
@@ -290,12 +317,20 @@ public interface IDataBase {
 	public List<OutgoingDelivery> getAllOutgoingDeliveries() throws HibernateException;
 	
 	/**
-	 * return a list of all outgoingDeliveries with the given archivedStatus
-	 * @param archivedStatus of the deliveries, which should be returned
-	 * @return list of all outgoingDeliveries with the given archivedStatus
+	 * return a list of all outgoing deliveries depending on the given archivedStatus
+	 * @param archivedStatus 0 or 1 of the deliveries
+	 * @return list of all outgoing deliveries depending on the given archivedStatus
 	 * @throws HibernateException
 	 */
 	public List<OutgoingDelivery> getAllOutgoingDeliveries(int archivedStatus) throws HibernateException;
+	
+	/**
+	 * return a list of archived outgoing deliveries depending by given year
+	 * @param year of the archived deliveries, which should be returned
+	 * @return list of all archived outgoing deliveries from the given year
+	 * @throws HibernateException
+	 */
+	public List<OutgoingDelivery> getAllByYearArchievedOutgoingDeliveries(int year) throws HibernateException;
 	
 	/**
 	 * returns all available OutgoingDeliveries
@@ -304,7 +339,7 @@ public interface IDataBase {
 	 */
 	public List<OutgoingDelivery> getAvailableOutgoingDeliveries() throws HibernateException;
 	
-	
+		
 	/**
 	 * returns a List with all Incoming and Outgoing Articles for a specific ArticleId
 	 * this function is used for comparing and updating the PUs of the Incoming, Outgoing and Depot Articles
@@ -313,6 +348,16 @@ public interface IDataBase {
 	 * @throws Exception
 	 */
 	public List<InOutArticlePUDTO> getArticleDistributionByArticleId(int articleId) throws Exception;
+	
+	/**
+	 * This Method extends getArticleDistributionByArticleId by including outgoing delivery date
+	 * returns a List with all Incoming and Outgoing Articles for a specific ArticleId
+	 * this function is used for comparing and updating the PUs of the Incoming, Outgoing and Depot Articles
+	 * @param articleId of the Article which the PUs should be updated for
+	 * @return a List with the requested PU-distribution
+	 * @throws Exception
+	 */
+	public List<InOutArticleExtendedPUDTO> getArticleDistributionExtendedByArticleId(int articleId) throws Exception;
 	
 	/**
 	 * updates the new article distribution in the DB
@@ -643,5 +688,9 @@ public interface IDataBase {
 	 * @return List with resulting rows in form of an Object array
 	 */
 	public List<Object[]> runSQLQuery(String sqlQuery);
+
+	
+
+	
 	
 }

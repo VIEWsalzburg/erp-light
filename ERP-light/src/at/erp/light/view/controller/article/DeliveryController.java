@@ -80,6 +80,105 @@ public class DeliveryController {
 			return null;
 		}
 	}
+	/**
+	 * Returns a list with all incoming deliveries depending on the archived-flag.<br/>
+	 * @return list with all incoming deliveries depending on the archived-flag
+	 */
+	@RequestMapping(value = "secure/incomingDelivery/getAll/{archieved}")
+	public List<IncomingDeliveryDTO> getAllIncomingDeliveries(@PathVariable int archieved) {
+
+		List<IncomingDeliveryDTO> list = new ArrayList<IncomingDeliveryDTO>();
+		List<IncomingDelivery> entityList = null;
+		
+
+		try {
+			entityList = dataBaseService.getAllIncomingDeliveries(archieved);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("DA");
+			return null;
+		}
+
+		if (entityList.size() > 0) {
+			for (IncomingDelivery id : entityList) {
+				list.add(IncomingDeliveryMapper.mapToDTO(id));
+			}
+			log.info("returning all incoming deliveries " + (archieved == 1 ? "archieved":"unarchieved"));
+
+			return list;
+		} else {
+			log.severe("no incoming deliveries found " + (archieved == 1 ? "archieved":"unarchieved"));
+
+			return null;
+		}
+	}
+	
+	/**
+	 * Returns a list with finished incoming deliveries from the given year.<br/>
+	 * @param year Selected Year for the finished incoming deliveries
+	 * @return list with finished incoming deliveries in the given year
+	 */
+	@RequestMapping(value = "secure/incomingDelivery/getAllByYearArchieved/{year}")
+	public List<IncomingDeliveryDTO> getArchievedByYearIncomingDeliveries(@PathVariable int year) {
+
+		List<IncomingDeliveryDTO> list = new ArrayList<IncomingDeliveryDTO>();
+		List<IncomingDelivery> entityList = null;
+		try {
+			entityList = dataBaseService.getAllByYearArchievedIncomingDeliveries(year);			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (entityList.size() > 0) {
+			for (IncomingDelivery id : entityList) {
+				list.add(IncomingDeliveryMapper.mapToDTO(id));
+			}
+			log.info("returning archieved incoming deliveries from year " + year);
+
+			return list;
+		} else {
+			log.severe("no archieved incoming deliveries found");
+
+			return null;
+		}
+	}
+	
+	
+	/**
+	 * Returns a list with finished incoming deliveries from the given year.<br/>
+	 * @param org_id ID of the organisation as int
+	 * @param begin Begin-Date as String
+	 * @param end End-Date as String	 
+	 * @return list with finished incoming deliveries in the given year for the given organisation
+	 */
+	@RequestMapping(value = "secure/incomingDelivery/getByYearAndOrganisation/{org_id}/{begin}/{end}")
+	public List<IncomingDeliveryDTO> getByYearAndOrganisationIncomingDeliveries(@PathVariable int org_id,@PathVariable String begin,
+			@PathVariable String end) {
+
+			
+		List<IncomingDeliveryDTO> list = new ArrayList<IncomingDeliveryDTO>();
+		List<IncomingDelivery> entityList = null;
+		try {
+			entityList = dataBaseService.getByYearAndOrganisationIncomingDeliveries(org_id,begin,end);			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (entityList.size() > 0) {
+			for (IncomingDelivery id : entityList) {
+				list.add(IncomingDeliveryMapper.mapToDTO(id));
+			}
+			log.info("returning incoming deliveries!");
+
+			return list;
+		} else {
+			log.severe("no incoming deliveries found");
+
+			return null;
+		}
+	}
 
 	/**
 	 * Returns all unarchived incoming deliveries.
@@ -131,6 +230,28 @@ public class DeliveryController {
 
 		} catch (Exception e) {
 			log.severe("no incomingDelivery with id " + id + " found");
+			return null;
+		}
+	}
+	
+	
+	/**
+	 * Returns the incoming delivery with the given article_id in the virtual depot.
+	 * @param article_id, which is part of an incoming_delivery
+	 * @return the incoming_delivery for the given article_id in the virtual depot.
+	 */
+	@RequestMapping(value = "secure/incomingDelivery/getByArticleId/{article_id}")
+	public IncomingDeliveryDTO getIncomingDeliveryByArticleId(@PathVariable int article_id) {
+		try {
+			IncomingDelivery incomingDelivery = dataBaseService
+					.getIncomingDeliveryByArticleId(article_id);
+			if (incomingDelivery == null)
+				throw new Exception();
+			log.info("returning incomingDelivery with including article_id: " + article_id);
+			return IncomingDeliveryMapper.mapToDTO(incomingDelivery);
+
+		} catch (Exception e) {
+			log.severe("no incomingDelivery with including article_id " + article_id + " found");
 			return null;
 		}
 	}
@@ -226,8 +347,10 @@ public class DeliveryController {
 				dataBaseService.setNewIncomingDelivery(entity); // set NewIncomingDelivery
 			} else // second scenario: if incomingDeliveryId != 0 => update existing IncomingDelivery
 			{
+				log.info(entity.getOrganisation().toString());
 				dataBaseService.updateIncomingDelivery(entity);
 			}
+			
 
 			// if no exception occurs
 			log.info("set incomingDelivery with id "+entity.getIncomingDeliveryId()+" successful");
@@ -287,18 +410,75 @@ public class DeliveryController {
 
 		List<OutgoingDeliveryDTO> list = new ArrayList<OutgoingDeliveryDTO>();
 
-		List<OutgoingDelivery> entityList = dataBaseService
-				.getAllOutgoingDeliveries();
+		List<OutgoingDelivery> entityList = dataBaseService.getAllOutgoingDeliveries();
 
 		if (entityList != null && entityList.size() > 0) {
 			for (OutgoingDelivery od : entityList) {
 				list.add(OutgoingDeliveryMapper.mapToDTO(od));
 			}
-			log.info("returning all outgoingDeliveries");
+			log.info("returning all outgoing deliveries");
 
 			return list;
 		} else {
-			log.severe("no outgoingDeliveries found");
+			log.severe("no outgoing deliveries found");
+
+			return null;
+		}
+	}
+	
+	/**
+	 * Returns a list with all outgoing deliveries depending on the archived-flag.<br/>
+	 * @return list with all outgoing deliveries depending on the archived-flag
+	 */
+	@RequestMapping(value = "secure/outgoingDelivery/getAll/{archieved}")
+	public List<OutgoingDeliveryDTO> getAllOutgoingDeliveries(@PathVariable int archieved) {
+
+		List<OutgoingDeliveryDTO> list = new ArrayList<OutgoingDeliveryDTO>();
+
+		List<OutgoingDelivery> entityList = dataBaseService.getAllOutgoingDeliveries(archieved);
+
+		if (entityList != null && entityList.size() > 0) {
+			for (OutgoingDelivery od : entityList) {
+				list.add(OutgoingDeliveryMapper.mapToDTO(od));
+			}
+			log.info("returning all outgoing deliveries " + (archieved == 1 ? "archieved":"unarchieved"));
+
+			return list;
+		} else {
+			log.severe("no outgoing deliveries found " + (archieved == 1 ? "archieved":"unarchieved"));
+
+			return null;
+		}
+	}
+	
+	
+	/**
+	 * Returns a list with finished outgoing deliveries from the given year.<br/>
+	 * @param year Selected year for the finished outgoing deliveries
+	 * @return list with finished outgoing deliveries in the given year
+	 */
+	@RequestMapping(value = "secure/outgoingDelivery/getAllByYearArchieved/{year}")
+	public List<OutgoingDeliveryDTO> getArchievedByYearOutgoingDeliveries(@PathVariable int year) {
+
+		List<OutgoingDeliveryDTO> list = new ArrayList<OutgoingDeliveryDTO>();
+		List<OutgoingDelivery> entityList = null;
+
+		try {
+			entityList = dataBaseService.getAllByYearArchievedOutgoingDeliveries(year);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		if (entityList.size() > 0) {
+			for (OutgoingDelivery id : entityList) {
+				list.add(OutgoingDeliveryMapper.mapToDTO(id));
+			}
+			log.info("returning archieved outgoing deliveries from year " + year);
+
+			return list;
+		} else {
+			log.severe("no archieved outgoing deliveries found");
 
 			return null;
 		}
@@ -320,7 +500,7 @@ public class DeliveryController {
 			for (OutgoingDelivery od : entityList) {
 				list.add(OutgoingDeliveryMapper.mapToDTO(od));
 			}
-			log.info("returning all unarchived outgoingDeliveries");
+			log.info("returning all unarchived outgoing deliveries");
 
 			return list;
 		} else {
@@ -411,14 +591,14 @@ public class DeliveryController {
 			if (outgoingDelivery.getOutgoingDeliveryId()==0)
 			{
 				dataBaseService.setNewOutgoingDelivery(outgoingDelivery);
-				log.info("saved outgoingDelivery with id "
+				log.info("saved outgoing delivery with id "
 						+ outgoingDelivery.getOutgoingDeliveryId());
 			}
 			// second scenario outgoingDeliveryId != 0 => update existing entry in DB
 			else
 			{
 				dataBaseService.updateOutgoingDelivery(outgoingDelivery);
-				log.info("updated outgoingDelivery with id "
+				log.info("updated outgoing delivery with id "
 						+ outgoingDelivery.getOutgoingDeliveryId());
 			}
 			
@@ -475,7 +655,7 @@ public class DeliveryController {
 
 	/**
 	 * Returns a list with all available articles in the virtual depot.
-	 * @return list with availabe articles
+	 * @return list with available articles
 	 */
 	@RequestMapping(value = "secure/articles/getAvailableArticles")
 	public List<AvailableArticleDTO> getAvailableArticles() {

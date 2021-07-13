@@ -77,14 +77,14 @@ function loadAllOrganisations(type) {
 						continue;
 					}
 					
-					nameString = "";
+					nameString = o[e].name;
 				
+					/*
 					if(o[e].name.length > 22){
 						nameString = o[e].name.substring(0, 22) + "...";
 					}
-					else{
-						nameString = o[e].name;
-					}
+					*/
+					
 					
 					var categoryString = "";
 					
@@ -105,14 +105,14 @@ function loadAllOrganisations(type) {
 					
 					var o_divRow = "<div class='boxElement_organisation'>" +
 										"<div class='row'>" +
-											"<div class='col-sm-4'>" +
+											"<div class='col-sm-5'>" +
 												"<input type='hidden' value="+ o[e].id +">" +
 												"<span>" + nameString + "</span>"+
 											"</div>" +
-											"<div class='col-sm-2'>" +
+											"<div class='col-sm-3'>" +
 												"<span>" + o[e].city + "</span>" +
 											"</div>" +
-											"<div class='col-sm-5'>" +
+											"<div class='col-sm-3'>" +
 												"<span>" + categoryString + "</span>" +
 											"</div>" +
 											"<div class='col-sm-1'>" +
@@ -242,13 +242,40 @@ $("#btn_exportOutgoingReportForAllOrg").click(function() {
 	generateReportExport();
 });
 
+
+//generate export report for all outgoing deliveries for a given deliverer in a given timeslot
+$("#btn_exportDeliveryReportByOrg").click(function() {
+	
+	//check if date and deliverer is correctly applied 
+	if (validateInputFields(8))
+	{
+		//fetch org_id and begin and end-date
+		var org_id = $('.tbx_orgId').val();
+		var begin = $("#inputDateGroup8").find('.tbx_datefrom').val();
+		var end = $("#inputDateGroup8").find('.tbx_dateto').val();		
+		
+		//change from 04.07.2017 to 2017-07-04
+		var parts = begin.split('.');
+		begin = parts[2] + '-' + parts[1] + '-' + parts[0];
+		
+		parts = end.split('.');
+		end = parts[2] + '-' + parts[1] + '-' + parts[0];
+		
+		//generate Report
+		window.location.href = "../rest/secure/reports/articles/generateDistributionReportByOrganisation/"+ 
+		org_id + "/" + begin + "/" + end;
+	}
+});
+
+
+
 function validateInputFields(mode){
 	var orgId = $('.tbx_orgId').val();
 	var dateFrom = $("#inputDateGroup" + mode).find('.tbx_datefrom').val();
 	var dateTo = $("#inputDateGroup" + mode).find('.tbx_dateto').val();
 	
 	// check if all Fields are filled
-	if(mode == 0 || mode == 2){
+	if(mode == 0 || mode == 2 || mode == 8){
 		if (orgId == 0)
 		{
 			showAlertElement(2, "Leere Felder vorhanden!", 5000);
@@ -279,7 +306,7 @@ function validateInputFields(mode){
 
 //generate report
 var reportCommand_global;
-function generateReport(mode, incomingReportByOrg, incomingReportForAllOrg, outgoingReportByOrg, outgoingReportForAllOrg, totalSumOfAllIncomingDeliveries, totalSumOfAllOutgoingDeliveries){
+function generateReport(mode, incomingReportByOrg, incomingReportForAllOrg, outgoingReportByOrg, outgoingReportForAllOrg, totalSumOfAllIncomingDeliveries, totalSumOfAllOutgoingDeliveries,outgoingDeliveriesReportByOrg){
 	//validate input fields
 	if(validateInputFields(mode) == null){
 			return;
@@ -289,7 +316,7 @@ function generateReport(mode, incomingReportByOrg, incomingReportForAllOrg, outg
 	var reportCommand = new Object();
 	
 	//check if organisation id is necessary for report
-	if(incomingReportByOrg == true || outgoingReportByOrg == true){
+	if(incomingReportByOrg == true || outgoingReportByOrg == true || outgoingDeliveriesReportByOrg == true){
 		reportCommand.organisationId = $('.tbx_orgId').val(); 
 	}
 	else{
@@ -302,11 +329,14 @@ function generateReport(mode, incomingReportByOrg, incomingReportForAllOrg, outg
 	reportCommand.incomingReportByOrganisationId = incomingReportByOrg;
 	reportCommand.incomingReportForAllOrganisations = incomingReportForAllOrg;
 	
-	reportCommand.outgoingReportByOrganisationId = outgoingReportByOrg;
+	reportCommand.outgoingReportByOrganisationId = outgoingReportByOrg;	
 	reportCommand.outgoingReportForAllOrganisations = outgoingReportForAllOrg; 
 	
-	reportCommand.totalSumOfAllIncomingDeliveries = totalSumOfAllIncomingDeliveries;
+	reportCommand.totalSumOfAllIncomingDeliveries = totalSumOfAllIncomingDeliveries;	
 	reportCommand.totalSumOfAllOutgoingDeliveries = totalSumOfAllOutgoingDeliveries;
+	
+	//todos
+	reportCommand.outgoingDeliveryReportByOrg = outgoingDeliveriesReportByOrg;
 	
 	var urlString;
 	if(mode == 1 || mode == 3){

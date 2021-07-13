@@ -12,6 +12,10 @@ import javax.persistence.Table;
 @Table(name = "availarticleindepot", schema = "public")
 public class AvailArticleInDepot implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1101429371718535277L;
 	private int articleId;
 	private Article article;
 	private Integer availNumberOfPUs;

@@ -42,6 +42,7 @@ public class IncomingDeliveryMapper {
 		dto.setComment(entity.getComment());
 		dto.setUpdateTimestamp(df.format(entity.getUpdateTimestamp()));
 		dto.setBooked(entity.getBooked());
+		dto.setBookedAll(entity.getBookedAll());
 		dto.setArchived(entity.getArchived());
 
 		Set<IncomingArticleDTO> incomingArticleDTOs = new HashSet<IncomingArticleDTO>();

@@ -20,8 +20,19 @@ function loadTableContent(loadArchivedEntries){
 	
 			//check if only non archived entries should be loaded to table
 			if(loadArchivedEntries == 1){
-				loadArchivedEntries = "";
+				
+				var y = $( "#sel_year option:selected" ).text();
+				
+				//load all archieved outgoing deliveries
+				if(y == 'Alle'){			
+					loadArchivedEntries = "/" + 1;
+				}
+				//load outgoing deliveries from a specific year
+				else{
+					loadArchivedEntries = "ByYearArchieved/" + y;
+				}
 			}
+			//load all unarchieved outgoing deliveries
 			else{
 				loadArchivedEntries = "Unarchived";
 			}
@@ -92,8 +103,26 @@ function loadTableContent(loadArchivedEntries){
 			});
 };
 
+//fill the select-option-values for archieved entries
+function fillSelectArchive(){
+	
+	//add date to select-field for archived entries
+	//get date
+	var d = new Date();
+	//get year
+    var y = d.getFullYear();
+    //first entries appears in 2014
+    var start = 2014;    
+    while(y >= start){
+    	$('#sel_year').append($('<option>', {
+    		value: y,
+    		text: y--
+    	}));
+    }
+}
+
 //Get all outgoing deliveries and load into table
-$(document).ready(loadTableContent(loadArchivedEntries));
+$(document).ready(loadTableContent(loadArchivedEntries),fillSelectArchive());
 
 //init collapse
 $(function () {
@@ -386,39 +415,62 @@ $("#cbx_archive").on('change', function(){
 	}
 });
 
+//change-eventhandler for select-years for finished deliveries
+$("#sel_year").on('change', function() {
+	if($("#cbx_archive").prop('checked')){
+		loadArchivedEntries = 1;
+		$('#outgoingDeliveryTableBody').empty();
+		loadTableContent(loadArchivedEntries);
+	}	  
+});
+
+function setArchivedState(id,val) {
+	
+	 return $.ajax({
+		type : "POST",
+		async : false,
+		url : "../rest/secure/outgoingDelivery/setArchivedState/"+ id + "/" + val
+	});
+}
+
 //set entry archived or non archived depending on button value
 $("#btn_archive").click(function() {
 	
-	var rowData = getSelectedRow();
-	if (rowData.length == 0)
+	//var rowData = getSelectedRow();	
+	
+	//get the outgoing delivery id's for all selected rows 
+	var allIDs = getAllSelectedIDs();
+	var promises= [];
+	
+	if (allIDs.length == 0)
 	{
-		showAlertElement(false, "Keinen Warenausgang auswählt!", 2500);
-		return;
+		showAlertElement(false, "Keinen Warenausgang auswählt!", 2500);		
 	}
-	
-	var id = rowData[0];
-	
-	if($(this).val() == "archive"){
-		//set entry archived
-		$.ajax({
-			type : "POST",
-			async : false,
-			url : "../rest/secure/outgoingDelivery/setArchivedState/"+ id +"/1"
-		}).done(function(data) {
+	else
+	{
+		//iterate through all id's
+		for (var i = 0; i < allIDs.length; i++)
+		{	
+			var id = allIDs[i];		
+			//set entry archived
+			if($(this).val() == "archive"){
+				promise = setArchivedState(id,1);
+				promises.push(promise);
+			}
+			else if($(this).val() == "dearchive"){
+				promise = setArchivedState(id,0);
+				promises.push(promise);
+			}
+		}
+		//when all promises have been successfully ended
+		$.when.apply($,promises).done(function(){
+			var responses = arguments;
+	        for(i in responses){
+	        	console.log(responses[i]);
+	        }
 			$('#outgoingDeliveryTableBody').empty();
 			loadTableContent(loadArchivedEntries);
-		});
-	}
-	else if($(this).val() == "dearchive"){
-		//set entry non archived
-		$.ajax({
-			type : "POST",
-			async : false,
-			url : "../rest/secure/outgoingDelivery/setArchivedState/"+ id +"/0"
-		}).done(function(data) {
-			$('#outgoingDeliveryTableBody').empty();
-			loadTableContent(loadArchivedEntries);
-		});
+		});		
 	}
 });
 
@@ -468,11 +520,23 @@ function getSelectedRow(){
 	return currentRow;
 }
 
+//return the outgoing delivery id's of all highlighted rows
+function getAllSelectedIDs(){
+	var ids = [];
+	$('#TableHead').find('tr.highlight').each(function(){
+	    	console.log($(this).find("td:first").text());
+	        ids.push($(this).find("td:first").text());
+	    })
+	
+	return ids;
+}
+
 
 var isBooked;
 $('#TableHead').on('click','tbody tr', function(event) {
 
-			$(this).addClass('highlight').siblings().removeClass('highlight');
+	$(this).toggleClass('highlight');
+	//$(this).addClass('highlight').siblings().removeClass('highlight');
 
 			// only when user has admin rights
 			if (currentUserRights != "Read" && currentUserRights != "") {

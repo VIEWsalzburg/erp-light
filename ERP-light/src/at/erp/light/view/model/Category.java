@@ -2,16 +2,11 @@ package at.erp.light.view.model;
 
 // Generated 22.11.2014 18:02:50 by Hibernate Tools 3.4.0.CR1
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -22,6 +17,10 @@ import javax.persistence.Table;
 @Table(name = "category", schema = "public")
 public class Category implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1730408850433611110L;
 	private int categoryId;
 	private String category;
 	private String description;

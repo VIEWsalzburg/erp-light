@@ -20,6 +20,10 @@ import javax.persistence.Table;
 @Table(name = "outgoing_article", schema = "public")
 public class OutgoingArticle implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2855986654211213257L;
 	private int outgoingArticleId;
 	private OutgoingDelivery outgoingDelivery;
 	private Article article;

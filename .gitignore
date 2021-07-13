@@ -1,0 +1,5 @@
+/.metadata/
+/.recommenders/
+erp-light-servlet.xml
+.settings/
+target/
